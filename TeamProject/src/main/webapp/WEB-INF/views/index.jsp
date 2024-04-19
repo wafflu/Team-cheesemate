@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title2asdasd</title>
+    <title>Title2asdasd231231313</title>
 </head>
 <body>
 
