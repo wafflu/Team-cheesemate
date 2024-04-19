@@ -118,6 +118,8 @@
             <version>1.9.7</version>
         </dependency>
 
+        <dependency>
+        </dependency>
 
         <!-- Logging -->
         <dependency>
