@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-<!--        <typeAlias alias="BoardDao" type="com.fastcampus.ch2.dao.BoardDao"/>-->
+        <typeAlias alias="BoardDao" type="com.fastcampus.ch2.dao.BoardDao"/>
     </typeAliases>
 </configuration>

@@ -254,6 +254,7 @@
                 </configuration>
             </plugin>
         </plugins>
+        asd
 
         <finalName>sp_legacy</finalName>
     </build>
