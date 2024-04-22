@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package team.cheesemate;
 
 import org.springframework.stereotype.Controller;
@@ -20,3 +21,18 @@ public class HomeController {
     }
 >>>>>>> Stashed changes
 }
+=======
+package team.cheesemate;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+public class HomeController {
+    @RequestMapping("/")
+    public String index(){
+        return "index";
+
+    }
+}
+>>>>>>> d6f5a05d1c49a9095f3aa2efb837ce60dafd6e47
