@@ -4,6 +4,10 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
+<<<<<<< HEAD
         <typeAlias alias="eventDto" type="team.cheese.Domain.Event.eventDto"/>
+=======
+<!--        <typeAlias alias="BoardDao" type="com.fastcampus.ch2.dao.BoardDao"/>-->
+>>>>>>> 14b0cdf831e0b1e29f6cdf86ca7ca2072a208101
     </typeAliases>
 </configuration>
