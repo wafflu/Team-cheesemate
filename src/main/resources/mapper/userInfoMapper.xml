@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.Dao.MyPage.UserInfoDao">
+    <sql id="selectUserInfo">
+        select ur_id,
+               nick,
+               img_no,
+               contents,
+               view_cnt,
+               complete_cnt,
+               rv_cmt_cnt,
+               like_cnt,
+               hate_cnt,
+               rpt_cnt,
+               r_date,
+               m_date,
+               first_r_date,
+               first_idno,
+               last_r_date,
+               last_idno
+        from user_info
+    </sql>
+    <select id="count" resultType="int">
+        select count(*)
+        from user_info
+    </select>
+    <select id="select"  parameterType="String" resultType="UserInfoDto">
+        <include refid="selectUserInfo"/>
+        where ur_id = #{ur_id}
+    </select>
+    <insert id="insert" parameterType="UserInfoDto">
+        insert into user_info (ur_id, nick, contents)
+        select id,nick,#{contents}
+        from user
+        where id = #{ur_id}
+    </insert>
+    <update id="update" parameterType="UserInfoDto">
+        update user_info
+        set contents = #{contents}
+          , m_date = now()
+        where ur_id = #{ur_id}
+    </update>
+    <update id="incrementViewCnt" parameterType="String">
+        update user_info
+        set view_cnt = view_cnt+1
+        where ur_id = #{ur_id}
+    </update>
+    <update id="incrementCompleteCnt" parameterType="String">
+        update user_info
+        set complete_cnt = complete_cnt+1
+        where ur_id = #{ur_id}
+    </update>
+    <update id="updateRvCmtCnt" parameterType="map">
+         update user_info
+         set rv_cmt_cnt = rv_cmt_cnt+ #{cnt}
+         where ur_id = #{ur_id}
+    </update>
+    <update id="incrementLikeCnt" parameterType="String">
+        update user_info
+        set like_cnt = like_cnt+1
+        where ur_id = #{ur_id}
+    </update>
+    <update id="incrementHateCnt" parameterType="String">
+        update user_info
+        set hate_cnt = hate_cnt+1
+        where ur_id = #{ur_id}
+    </update>
+    <update id="incrementRptCnt" parameterType="String">
+        update user_info
+        set rpt_cnt = rpt_cnt+1
+        where ur_id = #{ur_id}
+    </update>
+    <delete id="delete" parameterType="String">
+        delete from user_info
+        where ur_id = #{ur_id}
+    </delete>
+    <delete id="deleteAll">
+        delete from user_info
+    </delete>
+</mapper>

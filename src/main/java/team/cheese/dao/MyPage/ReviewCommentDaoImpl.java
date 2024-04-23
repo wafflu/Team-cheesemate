@@ -1,9 +1,9 @@
-package team.cheese.dao;
+package team.cheese.Dao.MyPage;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import team.cheese.domain.ReviewCommentDTO;
+import team.cheese.Domain.MyPage.ReviewCommentDTO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class ReviewCommentDaoImpl {
     @Autowired
     private SqlSession sqlSession;
-    private static String namespace ="team.cheese.dao.ReviewCommentDao.";
+    private static String namespace ="team.cheese.Dao.MyPage.ReviewCommentDao.";
 
     public int count(String sal_id) throws Exception {
         return sqlSession.selectOne(namespace+"count",sal_id);

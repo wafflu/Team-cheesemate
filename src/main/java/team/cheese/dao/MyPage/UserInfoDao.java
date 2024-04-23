@@ -1,6 +1,6 @@
-package team.cheese.Dao;
+package team.cheese.Dao.MyPage;
 
-import team.cheese.domain.UserInfoDTO;
+import team.cheese.Domain.MyPage.UserInfoDTO;
 
 public interface UserInfoDao {
     int count() throws Exception;

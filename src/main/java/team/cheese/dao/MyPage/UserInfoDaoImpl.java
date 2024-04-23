@@ -1,10 +1,10 @@
-package team.cheese.Dao;
+package team.cheese.Dao.MyPage;
 
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import team.cheese.domain.UserInfoDTO;
+import team.cheese.Domain.MyPage.UserInfoDTO;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
 public class UserInfoDaoImpl implements UserInfoDao {
     @Autowired
     private SqlSession sqlSession;
-    private static String namespace ="team.cheese.dao.UserInfoDao.";
+    private static String namespace ="team.cheese.Dao.MyPage.UserInfoDao.";
 
     @Override
     public int count() throws Exception {

@@ -1,4 +1,4 @@
-package team.cheese.domain;
+package team.cheese.Domain.MyPage;
 
 import java.sql.Timestamp;
 import java.util.Objects;
