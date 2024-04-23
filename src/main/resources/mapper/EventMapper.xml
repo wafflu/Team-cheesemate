@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.event">
+    <select id="count" resultType="int">
+        SELECT count(*) FROM event
+    </select>
+    <select id="selectAll" resultType="eventDto">
+        select * from event
+        order by evt_no desc
+    </select>
+    <select id="selectPage" parameterType = "int" resultType = "eventDto">
+        Select * from event
+        order by evt_no desc
+            limit 20 offset #{startbno}
+
+    </select>
+    <select id="selectContent" parameterType = "int" resultType = "eventDto">
+        select * from event where evt_no = #{evt_no}
+    </select>
+    <insert id="insert" parameterType="eventDto">
+        insert into event.event (evt_no, evt_cd, title, contents, s_date, e_date, r_date, evt_img_sn, active_s_cd, m_date,
+                                 prize, ad_id, first_idno, last_idno)
+        values ( #{evt_cd}, #{title}, #{contents}, #{s_date}, #{e_date}, #{r_date}, #{evt_img_sn}, #{active_s_cd}, #{m_date},
+                   #{prize}, #{ad_id},#{first_idno}, #{last_idno});
+    </insert>
+</mapper>
