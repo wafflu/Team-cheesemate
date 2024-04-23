@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.BoardDao">
+<!--전체 카테고리 게시글 수-->
+    <select id="countAll" resultType="int">
+        SELECT count(*) FROM post
+    </select>
+<!-- 전체 카테고리별 게시글 수   -->
+    <select id="countAllCategory" resultType="int">
+        SELECT count(*)
+        FROM post
+        WHERE (commu_cd) = ('#{commu_cd}')
+    </select>
+</mapper>
