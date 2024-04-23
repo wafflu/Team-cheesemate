@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias alias="Sale" type="team.cheese.Domain.Sale.SaleDto"/>
+        <typeAlias alias="SaleDto" type="team.cheese.Domain.Sale.SaleDto"/>
     </typeAliases>
 </configuration>

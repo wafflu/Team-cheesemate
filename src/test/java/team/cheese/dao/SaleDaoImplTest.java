@@ -5,8 +5,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import team.cheese.Domain.Sale.Sale;
-import team.cheese.dao.Sale.SaleDao;
+import team.cheese.Dao.Sale.SaleDao;
+import team.cheese.Domain.Sale.SaleDto;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class SaleDaoImplTest {
     @Autowired
     SaleDao saledao;
 
-    private static String namespace = "team.cheese.dao.SaleMapper.";
+    private static String namespace = "team.cheese.Dao.Sale.SaleMapper.";
 
     @Test
     public void count() throws Exception {
@@ -26,7 +26,7 @@ public class SaleDaoImplTest {
     @Test
     public void testSelectAll() throws Exception {
         System.out.println("selectAll : " + saledao.selectAll());
-        List<Sale> list = saledao.selectAll();
+        List<SaleDto> list = saledao.selectAll();
         System.out.println(list.get(1).getSeller_id());
     }
 }

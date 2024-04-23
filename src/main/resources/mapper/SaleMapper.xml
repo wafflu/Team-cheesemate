@@ -5,29 +5,29 @@
 <mapper namespace="team.cheese.Dao.Sale.SaleMapper">
     <sql id="selectFromSale">
         SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state
-        FROM saleDto
+        FROM sale
     </sql>
 
     <select id="count" resultType="int">
         SELECT count(*)
-        FROM saleDto
+        FROM sale
     </select>
 
     <!-- CRUD  -->
     <!--  R : 전체 게시글 선택  -->
-    <select id="selectAll" resultType="Sale">
+    <select id="selectAll" resultType="SaleDto">
         <include refid="selectFromSale"/>
         ORDER BY no DESC
     </select>
 
-    <!--  R : 게시글 하나 선택  -->
-    <select id="select" resultType="Sale">
+<!--   R : 게시글 하나 선택    -->
+<!--  no를 변경해 줘야 됨  -->
+    <select id="select" resultType="SaleDto">
         <include refid="selectFromSale"/>
         where 1=1
-        and no = 1;
+        and no = 1
     </select>
 
     <!-- U : 사용자 입력값 삽입하기 -->
-
 
 </mapper>
