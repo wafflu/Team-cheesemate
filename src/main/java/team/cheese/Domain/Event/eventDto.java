@@ -1,10 +1,7 @@
-package team.cheese.dto;
-
-import com.ctc.wstx.shaded.msv.relaxng_datatype.Datatype;
+package team.cheese.Domain.Event;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class eventDto {

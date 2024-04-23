@@ -1,4 +1,4 @@
-package team.cheese.dto;
+package team.cheese.Domain.Event;
 
 public class eventrecordDto {
     int evt_no;

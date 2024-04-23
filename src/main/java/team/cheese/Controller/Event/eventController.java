@@ -1,13 +1,13 @@
-package team.cheese.Controller;
+package team.cheese.Controller.Event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import team.cheese.Service.eventService;
-import team.cheese.dto.eventDto;
-import team.cheese.Domain.PageHanddler;
+import team.cheese.Service.Event.eventService;
+import team.cheese.Domain.Event.eventDto;
+
 import java.util.ArrayList;
 
 @Controller

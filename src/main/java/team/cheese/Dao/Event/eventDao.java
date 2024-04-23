@@ -1,9 +1,9 @@
-package team.cheese.Dao;
+package team.cheese.Dao.Event;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import team.cheese.dto.eventDto;
+import team.cheese.Domain.Event.eventDto;
 
 import java.util.ArrayList;
 

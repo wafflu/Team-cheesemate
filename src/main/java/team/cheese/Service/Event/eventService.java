@@ -1,12 +1,10 @@
-package team.cheese.Service;
+package team.cheese.Service.Event;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.cheese.Dao.eventDao;
-import team.cheese.dto.eventDto;
+import team.cheese.Dao.Event.eventDao;
+import team.cheese.Domain.Event.eventDto;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Service

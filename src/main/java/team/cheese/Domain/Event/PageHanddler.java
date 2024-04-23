@@ -1,4 +1,4 @@
-package team.cheese.Domain;
+package team.cheese.Domain.Event;
 
 
 public class PageHanddler {
