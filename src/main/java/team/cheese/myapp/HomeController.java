@@ -1,4 +1,4 @@
-package team.cheese;
+package team.cheese.myapp;
 
 import java.text.DateFormat;
 import java.util.Date;
