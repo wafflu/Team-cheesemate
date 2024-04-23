@@ -21,7 +21,7 @@ public class UserInfoDTO {
     private String last_id;
 
     public UserInfoDTO() {}
-    public UserInfoDTO(String ur_id, String nick, String contents) {
+    public UserInfoDTO(String ur_id, String contents) {
         this.ur_id = ur_id;
         this.nick = nick;
         this.contents = contents;
