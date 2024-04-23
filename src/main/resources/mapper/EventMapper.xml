@@ -20,9 +20,14 @@
         select * from event where evt_no = #{evt_no}
     </select>
     <insert id="insert" parameterType="eventDto">
-        insert into event.event (evt_no, evt_cd, title, contents, s_date, e_date, r_date, evt_img_sn, active_s_cd, m_date,
+        insert into event (evt_no, evt_cd, title, contents, s_date, e_date, r_date, evt_img_sn, active_s_cd, m_date,
                                  prize, ad_id, first_idno, last_idno)
         values ( #{evt_cd}, #{title}, #{contents}, #{s_date}, #{e_date}, #{r_date}, #{evt_img_sn}, #{active_s_cd}, #{m_date},
                    #{prize}, #{ad_id},#{first_idno}, #{last_idno});
     </insert>
+    <update id="updateState" parameterType="eventDto">
+        update event
+        set active_s_cd = #{active_s_cd}
+        where evt_no = #{evt_no}
+    </update>
 </mapper>

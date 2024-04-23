@@ -24,17 +24,7 @@ public class EventDaoTest {
     eventService service;
 
     @Test
-<<<<<<< HEAD
     public void countTest() throws Exception {
-=======
-    public void jdbcConnectionTest() throws Exception {
-//        ApplicationContext ac = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/**/root-context.xml");
-//        DataSource ds = a
-//        c.getBean(DataSource.class);
-//        System.out.println(ac);
-        System.out.println("ds = " + ds);
->>>>>>> master
-
         System.out.println(Dao.count());
     }
 

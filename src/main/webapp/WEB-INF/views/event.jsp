@@ -14,7 +14,7 @@
 <body>
 
 <tbody>
-
+    <table border="1" cellspacing="0">
     <c:forEach items="${eventarr}" var="event">
         <tr>
             <td>${event.evt_no}</td>
@@ -27,6 +27,7 @@
             <td>${event.e_date}</td>
         </tr>
     </c:forEach>
+    </table>
 </tbody>
 </body>
 </html>

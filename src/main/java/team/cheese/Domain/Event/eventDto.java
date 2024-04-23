@@ -2,6 +2,8 @@ package team.cheese.Domain.Event;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class eventDto {
@@ -9,8 +11,8 @@ public class eventDto {
     String evt_cd;
     String title;
     String contents;
-    Date s_date;
-    Date e_date;
+    LocalDate s_date;
+    LocalDate e_date;
     Timestamp r_date;
     int evt_img_sn;
     String active_s_cd;
@@ -22,7 +24,7 @@ public class eventDto {
     Timestamp last_r_date;
     String last_idno;
     SimpleDateFormat transFormat = new SimpleDateFormat("yyyyMMdd");
-    public eventDto(Long evt_no, String evt_cd, String title, String contents, Date s_date, Date e_date, Timestamp r_date, int evt_img_sn, String active_s_cd, Timestamp m_date, String prize, String ad_id, Timestamp first_r_date, String first_idno, Timestamp last_r_date, String last_idno) {
+    public eventDto(Long evt_no, String evt_cd, String title, String contents, LocalDate s_date, LocalDate e_date, Timestamp r_date, int evt_img_sn, String active_s_cd, Timestamp m_date, String prize, String ad_id, Timestamp first_r_date, String first_idno, Timestamp last_r_date, String last_idno) {
         this.evt_no = evt_no;
         this.evt_cd = evt_cd;
         this.title = title;
@@ -73,21 +75,23 @@ public class eventDto {
         this.contents = contents;
     }
 
-    public String getS_date() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 mm월 dd일");
-        return formatter.format(this.s_date);
+    public LocalDate getS_date() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy MM dd");
+
+        // 형식에 맞게 날짜를 문자열로 변환
+        String formattedDate = s_date.format(formatter);
+        return this.s_date;
     }
 
-    public void setS_date(Date s_date) {
+    public void setS_date(LocalDate s_date) {
         this.s_date = s_date;
     }
 
-    public String getE_date() {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy년 mm월 dd일");
-        return formatter.format(this.s_date);
+    public LocalDate getE_date() {
+        return this.e_date;
     }
 
-    public void setE_date(Date e_date) {
+    public void setE_date(LocalDate e_date) {
         this.e_date = e_date;
     }
 
