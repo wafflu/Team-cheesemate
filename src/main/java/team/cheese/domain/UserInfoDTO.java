@@ -15,18 +15,16 @@ public class UserInfoDTO {
     private int hate_cnt;
     private int rpt_cnt;
     private Timestamp r_date;
-    private Timestamp first_r_date;
-    private String first_idno;
-    private Timestamp last_r_date;
-    private String last_idno;
+    private Timestamp first_date;
+    private String first_id;
+    private Timestamp last_date;
+    private String last_id;
 
     public UserInfoDTO() {}
-    public UserInfoDTO(String ur_id, String nick, String contents,String first_idno,String last_idno) {
+    public UserInfoDTO(String ur_id, String nick, String contents) {
         this.ur_id = ur_id;
         this.nick = nick;
         this.contents = contents;
-        this.first_idno = first_idno;
-        this.last_idno = last_idno;
     }
 
     @Override
@@ -34,12 +32,12 @@ public class UserInfoDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserInfoDTO that = (UserInfoDTO) o;
-        return img_no == that.img_no && view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && like_cnt == that.like_cnt && hate_cnt == that.hate_cnt && rpt_cnt == that.rpt_cnt && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(first_r_date, that.first_r_date) && Objects.equals(first_idno, that.first_idno) && Objects.equals(last_r_date, that.last_r_date) && Objects.equals(last_idno, that.last_idno);
+        return img_no == that.img_no && view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && like_cnt == that.like_cnt && hate_cnt == that.hate_cnt && rpt_cnt == that.rpt_cnt && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(first_date, that.first_date) && Objects.equals(first_id, that.first_id) && Objects.equals(last_date, that.last_date) && Objects.equals(last_id, that.last_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ur_id, nick, img_no, contents, view_cnt, complete_cnt, rv_cmt_cnt, like_cnt, hate_cnt, rpt_cnt, r_date, first_r_date, first_idno, last_r_date, last_idno);
+        return Objects.hash(ur_id, nick, img_no, contents, view_cnt, complete_cnt, rv_cmt_cnt, like_cnt, hate_cnt, rpt_cnt, r_date, first_date, first_id, last_date, last_id);
     }
 
     @Override
@@ -56,10 +54,10 @@ public class UserInfoDTO {
                 ", hate_cnt=" + hate_cnt +
                 ", rpt_cnt=" + rpt_cnt +
                 ", r_date=" + r_date +
-                ", first_r_date=" + first_r_date +
-                ", first_idno='" + first_idno + '\'' +
-                ", last_r_date=" + last_r_date +
-                ", last_idno='" + last_idno + '\'' +
+                ", first_r_date=" + first_date +
+                ", first_idno='" + first_id + '\'' +
+                ", last_r_date=" + last_date +
+                ", last_idno='" + last_id + '\'' +
                 '}';
     }
 
@@ -151,35 +149,35 @@ public class UserInfoDTO {
         this.r_date = r_date;
     }
 
-    public Timestamp getFirst_r_date() {
-        return first_r_date;
+    public Timestamp getFirst_date() {
+        return first_date;
     }
 
-    public void setFirst_r_date(Timestamp first_r_date) {
-        this.first_r_date = first_r_date;
+    public void setFirst_date(Timestamp first_date) {
+        this.first_date = first_date;
     }
 
-    public String getFirst_idno() {
-        return first_idno;
+    public String getFirst_id() {
+        return first_id;
     }
 
-    public void setFirst_idno(String first_idno) {
-        this.first_idno = first_idno;
+    public void setFirst_id(String first_id) {
+        this.first_id = first_id;
     }
 
-    public Timestamp getLast_r_date() {
-        return last_r_date;
+    public Timestamp getLast_date() {
+        return last_date;
     }
 
-    public void setLast_r_date(Timestamp last_r_date) {
-        this.last_r_date = last_r_date;
+    public void setLast_date(Timestamp last_date) {
+        this.last_date = last_date;
     }
 
-    public String getLast_idno() {
-        return last_idno;
+    public String getLast_id() {
+        return last_id;
     }
 
-    public void setLast_idno(String last_idno) {
-        this.last_idno = last_idno;
+    public void setLast_id(String last_id) {
+        this.last_id = last_id;
     }
 }

@@ -26,7 +26,7 @@ public class testdb {
 //        DataSource ds = ac.getBean(DataSource.class);
 //        System.out.println(ac);
         System.out.println("ds = " + ds);
-
+        System.out.println(sf);
         Connection conn = ds.getConnection(); // 데이터베이스의 연결을 얻는다.
 
         System.out.println("conn = " + conn);

@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class ReviewCommentDTO {
-    private Long sn;
+    private Integer no;
     private String sal_id;
     private String buy_id;
     private String buy_nick;
@@ -15,19 +15,17 @@ public class ReviewCommentDTO {
 
     private char ur_state;
     private char ad_state;
-    private Timestamp first_r_date;
-    private String first_idno;
-    private Timestamp last_r_date;
-    private String last_idno;
+    private Timestamp first_date;
+    private String first_id;
+    private Timestamp last_date;
+    private String last_id;
     public ReviewCommentDTO() {}
 
-    public ReviewCommentDTO(String sal_id, String buy_id, String buy_nick, String contents,String first_idno,String last_idno) {
+    public ReviewCommentDTO(String sal_id, String buy_id, String buy_nick, String contents) {
         this.sal_id = sal_id;
         this.buy_id = buy_id;
         this.buy_nick = buy_nick;
         this.contents = contents;
-        this.first_idno = first_idno;
-        this.last_idno = last_idno;
     }
 
     @Override
@@ -35,18 +33,18 @@ public class ReviewCommentDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReviewCommentDTO that = (ReviewCommentDTO) o;
-        return like_cnt == that.like_cnt && ur_state == that.ur_state && ad_state == that.ad_state && Objects.equals(sn, that.sn) && Objects.equals(sal_id, that.sal_id) && Objects.equals(buy_id, that.buy_id) && Objects.equals(buy_nick, that.buy_nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(m_date, that.m_date) && Objects.equals(first_r_date, that.first_r_date) && Objects.equals(first_idno, that.first_idno) && Objects.equals(last_r_date, that.last_r_date) && Objects.equals(last_idno, that.last_idno);
+        return like_cnt == that.like_cnt && ur_state == that.ur_state && ad_state == that.ad_state && Objects.equals(no, that.no) && Objects.equals(sal_id, that.sal_id) && Objects.equals(buy_id, that.buy_id) && Objects.equals(buy_nick, that.buy_nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(m_date, that.m_date) && Objects.equals(first_date, that.first_date) && Objects.equals(first_id, that.first_id) && Objects.equals(last_date, that.last_date) && Objects.equals(last_id, that.last_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sn, sal_id, buy_id, buy_nick, contents, like_cnt, r_date, m_date, ur_state, ad_state, first_r_date, first_idno, last_r_date, last_idno);
+        return Objects.hash(no, sal_id, buy_id, buy_nick, contents, like_cnt, r_date, m_date, ur_state, ad_state, first_date, first_id, last_date, last_id);
     }
 
     @Override
     public String toString() {
         return "ReviewCommentDTO{" +
-                "sn=" + sn +
+                "sn=" + no +
                 ", sal_id='" + sal_id + '\'' +
                 ", buy_id='" + buy_id + '\'' +
                 ", buy_nick='" + buy_nick + '\'' +
@@ -56,19 +54,19 @@ public class ReviewCommentDTO {
                 ", m_date=" + m_date +
                 ", ur_state=" + ur_state +
                 ", ad_state=" + ad_state +
-                ", first_r_date=" + first_r_date +
-                ", first_idno='" + first_idno + '\'' +
-                ", last_r_date=" + last_r_date +
-                ", last_idno='" + last_idno + '\'' +
+                ", first_r_date=" + first_date +
+                ", first_idno='" + first_id + '\'' +
+                ", last_r_date=" + last_date +
+                ", last_idno='" + last_id + '\'' +
                 '}';
     }
 
-    public Long getSn() {
-        return sn;
+    public Integer getNo() {
+        return no;
     }
 
-    public void setSn(Long sn) {
-        this.sn = sn;
+    public void setNo(Integer no) {
+        this.no = no;
     }
 
     public String getSal_id() {
@@ -143,35 +141,35 @@ public class ReviewCommentDTO {
         this.ad_state = ad_state;
     }
 
-    public Timestamp getFirst_r_date() {
-        return first_r_date;
+    public Timestamp getFirst_date() {
+        return first_date;
     }
 
-    public void setFirst_r_date(Timestamp first_r_date) {
-        this.first_r_date = first_r_date;
+    public void setFirst_date(Timestamp first_date) {
+        this.first_date = first_date;
     }
 
-    public String getFirst_idno() {
-        return first_idno;
+    public String getFirst_id() {
+        return first_id;
     }
 
-    public void setFirst_idno(String first_idno) {
-        this.first_idno = first_idno;
+    public void setFirst_id(String first_id) {
+        this.first_id = first_id;
     }
 
-    public Timestamp getLast_r_date() {
-        return last_r_date;
+    public Timestamp getLast_date() {
+        return last_date;
     }
 
-    public void setLast_r_date(Timestamp last_r_date) {
-        this.last_r_date = last_r_date;
+    public void setLast_date(Timestamp last_date) {
+        this.last_date = last_date;
     }
 
-    public String getLast_idno() {
-        return last_idno;
+    public String getLast_id() {
+        return last_id;
     }
 
-    public void setLast_idno(String last_idno) {
-        this.last_idno = last_idno;
+    public void setLast_id(String last_id) {
+        this.last_id = last_id;
     }
 }
