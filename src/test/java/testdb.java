@@ -1,12 +1,13 @@
+import team.cheese.Dao.eventDao;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import team.cheese.Service.eventService;
+import team.cheese.dto.eventDto;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
+import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertTrue;
 
@@ -15,22 +16,26 @@ import static junit.framework.TestCase.assertTrue;
 
 public class testdb {
     @Autowired
-    DataSource ds;
+    eventDao Dao;
 
     @Autowired
-    SqlSessionFactoryBean sf;
+    eventService service;
 
     @Test
-    public void jdbcConnectionTest() throws Exception {
-//        ApplicationContext ac = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/**/root-context.xml");
-//        DataSource ds = ac.getBean(DataSource.class);
-//        System.out.println(ac);
-        System.out.println("ds = " + ds);
+    public void countTest() throws Exception {
 
-        Connection conn = ds.getConnection(); // 데이터베이스의 연결을 얻는다.
+        System.out.println(Dao.count());
+    }
 
-        System.out.println("conn = " + conn);
-        assertTrue(conn!=null);
+    @Test
+    public void selectTest() throws Exception {
+        ArrayList<eventDto> arr= service.getDtolist();
+        for(eventDto i : arr) {
+            System.out.println(i.getEvt_no());
+            System.out.println(i.getContents());
+            System.out.println(i.getPrize());
+
+        }
     }
 
 }
