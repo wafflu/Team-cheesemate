@@ -1,11 +1,10 @@
-package team.cheese.dao;
+package team.cheese.dao.Sale;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import team.cheese.myapp.Sale;
+import team.cheese.Domain.Sale.Sale;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
