@@ -3,6 +3,7 @@ package team.cheese.Dao.Sale;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import team.cheese.Dao.Sale.SaleDao;
 import team.cheese.Domain.Sale.SaleDto;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class SaleDaoImpl implements SaleDao {
     @Autowired
     private SqlSession session;
-    private static String namespace = "team.cheese.Dao.Sale.SaleMapper.";
+    private static String namespace = "team.cheese.Dao.Sale.SaleDao.";
 
     @Override
     public int count() throws Exception {
