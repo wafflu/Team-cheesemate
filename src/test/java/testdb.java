@@ -23,7 +23,8 @@ public class testdb {
     @Test
     public void jdbcConnectionTest() throws Exception {
 //        ApplicationContext ac = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/**/root-context.xml");
-//        DataSource ds = ac.getBean(DataSource.class);
+//        DataSource ds = a
+//        c.getBean(DataSource.class);
 //        System.out.println(ac);
         System.out.println("ds = " + ds);
 
