@@ -1,4 +1,4 @@
-package team.cheese.Controller.imgController;
+package team.cheese.controller.imgcontroller;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -10,8 +10,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import team.cheese.Domain.img.ImgVO;
+import team.cheese.domain.img.ImgVO;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

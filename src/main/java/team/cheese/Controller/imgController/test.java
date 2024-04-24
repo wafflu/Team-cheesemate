@@ -1,4 +1,4 @@
-package team.cheese.Controller.imgController;
+package team.cheese.controller.imgcontroller;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import team.cheese.Domain.img.ImgVO;
+import team.cheese.domain.img.ImgVO;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
