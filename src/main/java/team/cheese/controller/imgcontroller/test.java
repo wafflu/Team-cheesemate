@@ -25,6 +25,11 @@ import java.util.UUID;
 public class test {
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgVO>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
+        ServletContext servletContext = request.getServletContext();
+        String realPath = servletContext.getRealPath("/");
+
+        String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
+
         /* 이미지 파일 체크 */
         for(MultipartFile multipartFile: uploadFiles) {
 
@@ -45,12 +50,7 @@ public class test {
 
         }
 
-//        ServletContext servletContext = request.getServletContext();
-//        String relativePath = "/resources/img";
-//        String path = servletContext.getRealPath(relativePath);
-//        System.out.println("path : "+path);
-        String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img";
-
+//        String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img";
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -65,6 +65,7 @@ public class test {
         if(uploadPath.exists() == false) {
             uploadPath.mkdirs();
         }
+
         /* 이미저 정보 담는 객체 */
         List<ImgVO> list = new ArrayList();
 
@@ -74,72 +75,35 @@ public class test {
             ImgVO imgvo = new ImgVO();
 
             String uploadFileName = multipartFile.getOriginalFilename();
-//            imgvo.setFilert(folderPath+datePath);
             imgvo.setFilert(datePath);
+            //uuid이름 생성
             String uuid = UUID.randomUUID().toString();
             imgvo.setU_name(uuid);
             imgvo.setO_name(uploadFileName.substring(0, uploadFileName.indexOf(".")));
             imgvo.setE_name(uploadFileName.substring(uploadFileName.indexOf("."), uploadFileName.length()));
-
-//            vo.setFileName(uploadFileName);
-//            vo.setUploadPath(datePath);
-
-            /* uuid 적용 파일 이름 */
-
-//            vo.setUuid(uuid);
-
-//            uploadFileName = uuid + "_" + uploadFileName;
 
             /* 파일 위치, 파일 이름을 합친 File 객체 */
             File saveFile = new File(uploadPath, uploadFileName);
 
             /* 파일 저장 */
             try {
-                multipartFile.transferTo(saveFile); // 필수
+                multipartFile.transferTo(saveFile); // 원본이미지 저장
 
-//                File thumbnailFile = new File(uploadPath, "s_" + uploadFileName); // 썸네일
-//                File thumbnailFile2 = new File(uploadPath, "w_" + uploadFileName); // 본글 이미지
                 uploadFileName = uuid + "_" + uploadFileName;
                 File thumbnailFile3 = new File(uploadPath, "r_" + uploadFileName); // 미리보기이미지
 
                 // 이미지 크기 지정
-                int width = 292;
-                int height = 292;
-
-                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-//                if(change){
-//                    BufferedImage image = Thumbnails.of(multipartFile.getInputStream())
-//                            .size(width, height)
-//                            .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-//                            .asBufferedImage();
-//
-//                    Thumbnails.of(image)
-//                            .size(width, height)
-//                            .outputQuality(1.0)  // 품질 유지
-//                            .toFile(thumbnailFile);
-//                    change = false;
-//                }
-//
-//                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-//                BufferedImage image2 = Thumbnails.of(multipartFile.getInputStream())
-//                        .size(856, 856)
-//                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-//                        .asBufferedImage();
-//
-//                Thumbnails.of(image2)
-//                        .size(856, 856)
-//                        .outputQuality(1.0)  // 품질 유지
-//                        .toFile(thumbnailFile2);
-
+                int width = 78;
+                int height = 78;
 
                 // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
                 BufferedImage image3 = Thumbnails.of(multipartFile.getInputStream())
-                        .size(78, 78)
+                        .size(width, height)
                         .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
                         .asBufferedImage();
 
                 Thumbnails.of(image3)
-                        .size(78, 78)
+                        .size(width, height)
                         .outputQuality(1.0)  // 품질 유지
                         .toFile(thumbnailFile3);
 

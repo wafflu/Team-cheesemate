@@ -30,21 +30,22 @@ public class HomeController {
 
 	@Autowired
 	private ResourceLoader resourceLoader;
-
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpServletRequest request) throws IOException {
-//		ServletContext servletContext = request.getServletContext();
-//		String relativePath = "/resources/img";
-//		String realPath = servletContext.getRealPath(relativePath);
 
-		Resource resource = resourceLoader.getResource("file:/resources/**");
+		ServletContext servletContext = request.getServletContext();
+		String realPath = servletContext.getRealPath("/");
+		System.out.println("realPath : "+realPath.substring(0, realPath.indexOf("target")));
 
-		System.out.println("resource : "+resource);
+		String currentDirectory = System.getProperty("user.home");
+		// 파일을 생성할 상대 경로를 지정합니다.
+		String folderPath = "src/main/resources/img";
 
-		String resourcePath = "classpath:/";
-		String absolutePath = resourceLoader.getResource(resourcePath).getURL().getPath();
+		System.out.println("path : "+currentDirectory+"|"+folderPath);
 
-		System.out.println(absolutePath);
+		String rootPath = request.getSession().getServletContext().getContext("/resources").getRealPath("") ;
+		System.out.println("Current directory: " + rootPath);
+
 		return "home";
 	}
 }

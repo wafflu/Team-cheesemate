@@ -17,6 +17,7 @@ import team.cheese.Domain.img.ImgVO;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +31,19 @@ import java.util.UUID;
 @Controller
 public class test2 {
 
-    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img"; // 절대 경로 테스트 삼아 지정
+//    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img"; // 절대 경로 테스트 삼아 지정
+
+    // 현재 작업 디렉토리를 가져옵니다.
+//    String currentDirectory = System.getProperty("user.dir");
+//    // 파일을 생성할 상대 경로를 지정합니다.
+//    String folderPath = "src/main/resources/img";
+    public String path(HttpServletRequest request){
+        ServletContext servletContext = request.getServletContext();
+        String realPath = servletContext.getRealPath("/");
+
+        String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
+        return folderPath;
+    }
 
     @GetMapping("/test")
     public String ajax() {
@@ -39,8 +52,9 @@ public class test2 {
 
     //이미지 보여주기용
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getImage(String fileName){
+    public ResponseEntity<byte[]> getImage(String fileName, HttpServletRequest request){
 
+        String folderPath = path(request);
 
         File file = new File(folderPath+"/"+ fileName);
 
@@ -63,7 +77,8 @@ public class test2 {
 
     /* 이미지 파일 삭제 */
     @PostMapping("/deleteFile")
-    public ResponseEntity<String> deleteFile(String fileName){
+    public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request){
+        String folderPath = path(request);
 
 //        System.out.println("delete : "+fileName);
 
@@ -87,7 +102,9 @@ public class test2 {
     }
 
     @PostMapping("/reg_image")
-    public String reg_img(@RequestBody ArrayList<ImgVO> imgvo){
+    public String reg_img(@RequestBody ArrayList<ImgVO> imgvo, HttpServletRequest request){
+        String folderPath = path(request);
+
         boolean change = true;
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -96,31 +113,23 @@ public class test2 {
 
         String datePath = str.replaceAll("-", "_");
 
-        /* 파일 저장 폴더 이름 (오늘 날짜별로 폴더 생성) */
+        /* 파일 저장 폴더 이름 */
         File uploadPath = new File(folderPath, datePath);
 
         for (ImgVO img : imgvo) {
             try {
                 String fname = folderPath+"/"+img.getFilert()+"/"+img.getO_name()+img.getE_name();
-                // 이미지 파일을 읽어와 BufferedImage 객체로 변환
-//                System.out.println(fname);
-                File imageFile = new File(fname);
-                BufferedImage image = ImageIO.read(imageFile);
 
-                // 이미지를 성공적으로 읽었다면 해당 이미지를 이용하여 원하는 작업 수행
-                // 예: 이미지를 화면에 출력하거나 다른 처리를 수행
+                File imageFile = new File(fname);
 
                 // 예: 이미지 크기 출력
-                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-                File thumbnailFile = new File(folderPath, img.getFilert()+"/"+img.getO_name()+img.getE_name()); // 썸네일
-//                File thumbnailFile2 = new File(folderPath, "w_" + img.getFilert()+"/"+img.getO_name()+img.getE_name()); // 본글 이미지
-
                 String uuid = UUID.randomUUID().toString();
                 String uploadFileName = uuid+"_"+img.getO_name()+img.getE_name();
 
                 File simg_name = new File(uploadPath, "s_" + uploadFileName); // 미리보기이미지
                 File wimg_name = new File(uploadPath, "w_" + uploadFileName); // 미리보기이미지
 
+                //썸네일 이미지 만들기
                 if(change){
                     BufferedImage image1 = Thumbnails.of(imageFile)
                             .size(292, 292)
@@ -134,7 +143,7 @@ public class test2 {
                     change = false;
                 }
 
-                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+                // 본문이미지
                 BufferedImage image2 = Thumbnails.of(imageFile)
                         .size(856, 856)
                         .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
