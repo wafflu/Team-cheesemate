@@ -1,4 +1,4 @@
-package team.cheese.Domain.Sale;
+package team.cheese.domain.sale;
 
 import java.sql.Timestamp;
 import java.util.Objects;

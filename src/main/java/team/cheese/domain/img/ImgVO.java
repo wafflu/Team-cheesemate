@@ -1,4 +1,4 @@
-package team.cheese.Domain.img;
+package team.cheese.domain.img;
 
 public class ImgVO {
     private int sn;
