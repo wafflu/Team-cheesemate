@@ -1,22 +1,20 @@
-package team.cheese.dao;
+package team.cheese.domain;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import team.cheese.Dao.Sale.SaleDao;
-import team.cheese.Domain.Sale.SaleDto;
 
-import java.util.List;
+import team.cheese.dao.SaleDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/root-context.xml" })
 public class SaleDaoImplTest {
     @Autowired
     SaleDao saledao;
-
-    private static String namespace = "team.cheese.Dao.Sale.SaleMapper.";
 
     @Test
     public void count() throws Exception {
