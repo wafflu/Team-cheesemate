@@ -12,7 +12,7 @@ public class CommuDaoImpl implements CommuDao {
 
     @Autowired
     private SqlSession session;
-    private static String namespace = "team.cheese.dao.CommuMapper.";
+    private static String namespace = "team.cheese.dao.Commu.CommuMapper.";
 
     @Override
     public int count() throws Exception {

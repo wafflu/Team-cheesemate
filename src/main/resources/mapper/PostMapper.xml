@@ -2,15 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="team.cheese.dao.BoardDao">
-<!--전체 카테고리 게시글 수-->
-    <select id="countAll" resultType="int">
-        SELECT count(*) FROM post
+<mapper namespace="team.cheese.dao.Post.PostMapper">
+<!--각 구별로 총 몇 개의 글이 있는지-->
+    <select id = "count" resultType="int">
+        select count(*) from post;
     </select>
-<!-- 전체 카테고리별 게시글 수   -->
-    <select id="countAllCategory" resultType="int">
-        SELECT count(*)
-        FROM post
-        WHERE (commu_cd) = ('#{commu_cd}')
+
+    <insert id="insert" parameterType="PostDto">
+        insert into post(ur_id,addr_cd,no,commu_cd,addr_name,title,contents, nick)
+        values (#{urId},#{addrCd},#{no},#{commuCd},#{addrName},#{title},#{contents},#{nick})
+    </insert>
+
+    <select id = "selectAll" resultType="PostDto">
+        select * from post;
     </select>
+
 </mapper>

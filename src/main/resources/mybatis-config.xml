@@ -6,5 +6,6 @@
     <typeAliases>
 <!--        <typeAlias alias="BoardDao" type="com.fastcampus.ch2.dao.BoardDao"/>-->
         <typeAlias alias="CommuDto" type="team.cheese.Domain.Commu.CommuDto"/>
+        <typeAlias alias="PostDto" type="team.cheese.Domain.Post.PostDto"/>
     </typeAliases>
 </configuration>

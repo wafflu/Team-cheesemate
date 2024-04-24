@@ -1,15 +1,16 @@
 package team.cheese.Domain.Commu;
 
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+
 
 public class CommuDto {
 
     private String commuCd;
     private String name;
-    private LocalDateTime firstDate;
+    private Timestamp firstDate;
     private String firstId;
-    private LocalDateTime lastDate;
+    private Timestamp lastDate;
     private String lastId;
 
 
@@ -20,7 +21,7 @@ public class CommuDto {
         this.name = name;
         this.firstId = firstId;
     }
-    public CommuDto(String commuCd, String name, LocalDateTime firstDate, String firstId, LocalDateTime lastDate, String lastId) {
+    public CommuDto(String commuCd, String name, Timestamp firstDate, String firstId, Timestamp lastDate, String lastId) {
         this.commuCd = commuCd;
         this.name = name;
         this.firstDate = firstDate;
@@ -46,11 +47,11 @@ public class CommuDto {
         this.name = name;
     }
 
-    public LocalDateTime getFirstDate() {
+    public Timestamp getFirstDate() {
         return firstDate;
     }
 
-    public void setFirstDate(LocalDateTime firstDate) {
+    public void setFirstDate(Timestamp firstDate) {
         this.firstDate = firstDate;
     }
 
@@ -62,11 +63,11 @@ public class CommuDto {
         this.firstId = firstId;
     }
 
-    public LocalDateTime getLastDate() {
+    public Timestamp getLastDate() {
         return lastDate;
     }
 
-    public void setLastDate(LocalDateTime lastDate) {
+    public void setLastDate(Timestamp lastDate) {
         this.lastDate = lastDate;
     }
 

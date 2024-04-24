@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="team.cheese.dao.CommuMapper">
+<mapper namespace="team.cheese.dao.Commu.CommuMapper">
 <!--    커뮤 게시판 카테고리 전체 count-->
     <select id="count" resultType="int">
         SELECT count(*) FROM commu

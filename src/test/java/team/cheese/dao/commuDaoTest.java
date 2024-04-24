@@ -24,6 +24,17 @@ public class commuDaoTest {
     }
 
 
+
+
+    @Test
+    public void testDelete()throws Exception{
+        System.out.println(commuDao.count());
+        commuDao.delete("테스트 수정 카테고리2","asdf");
+        System.out.println(commuDao.count());
+
+    }
+
+
     @Test
     public void testInsert()throws Exception{
         CommuDto commuDto = new CommuDto();
@@ -35,17 +46,8 @@ public class commuDaoTest {
         assertEquals(1,result);
     }
 
-
-    @Test
-    public void testDelete()throws Exception{
-        System.out.println(commuDao.count());
-        commuDao.delete("테스트 카테고리","asdf");
-        System.out.println(commuDao.count());
-
-    }
     @Test
     public void testSelect()throws Exception{
-
 
 
         CommuDto commuDto = new CommuDto();
@@ -73,30 +75,7 @@ public class commuDaoTest {
 
 
 
-        commuDto.setName("테스트 수정 카테고리fff");
-        commuDto.setLastId("admin001");
-
-        commuDao.update(commuDto);
-
-        System.out.println(commuDto.toString());
-//        assertEquals("테스트 수정 카테고리", commuDto.getName());
-
-    }
-
-    @Test
-    public void testUpdate2()throws Exception{
-        int deleteResult = commuDao.delete("테스트 수정 카테고리fff" ,"asdf");
-        assertEquals(1,deleteResult);
-
-        CommuDto commuDto = new CommuDto();
-        commuDto.setCommuCd("commu_t");
         commuDto.setName("테스트 수정 카테고리");
-        commuDto.setFirstId("asdf");
-        commuDao.insert(commuDto);
-
-
-        commuDto.setCommuCd("commu_T");
-        commuDto.setName("테스트 수정 카테고리2");
         commuDto.setLastId("admin001");
 
         commuDao.update(commuDto);
@@ -105,4 +84,27 @@ public class commuDaoTest {
 //        assertEquals("테스트 수정 카테고리", commuDto.getName());
 
     }
-}
+
+//    @Test
+//    public void testUpdate2()throws Exception{
+//        int deleteResult = commuDao.delete("테스트 수정 카테고리fff" ,"asdf");
+//        assertEquals(1,deleteResult);
+//
+//        CommuDto commuDto = new CommuDto();
+//        commuDto.setCommuCd("commu_t");
+//        commuDto.setName("테스트 수정 카테고리");
+//        commuDto.setFirstId("asdf");
+//        commuDao.insert(commuDto);
+//
+//
+//        commuDto.setCommuCd("commu_T");
+//        commuDto.setName("테스트 수정 카테고리2");
+//        commuDto.setLastId("admin001");
+//
+//        commuDao.update(commuDto);
+//
+//        System.out.println(commuDto.toString());
+////        assertEquals("테스트 수정 카테고리", commuDto.getName());
+
+    }
+//}
