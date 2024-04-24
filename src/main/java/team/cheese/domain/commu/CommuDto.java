@@ -1,4 +1,4 @@
-package team.cheese.domain.commu;
+package team.cheese.Domain.Commu;
 
 
 import java.time.LocalDateTime;

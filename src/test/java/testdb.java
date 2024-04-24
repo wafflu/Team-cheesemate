@@ -1,4 +1,3 @@
-import org.apache.ibatis.session.SqlSession;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -20,8 +19,7 @@ public class testdb {
 
     @Autowired
     SqlSessionFactoryBean sf;
-    @Autowired
-    SqlSession session;
+
     @Test
     public void jdbcConnectionTest() throws Exception {
 //        ApplicationContext ac = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/**/root-context.xml");
@@ -29,8 +27,7 @@ public class testdb {
 //        c.getBean(DataSource.class);
 //        System.out.println(ac);
         System.out.println("ds = " + ds);
-        System.out.println(sf);
-        System.out.println(session);
+
         Connection conn = ds.getConnection(); // 데이터베이스의 연결을 얻는다.
 
         System.out.println("conn = " + conn);

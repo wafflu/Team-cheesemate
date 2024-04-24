@@ -1,6 +1,6 @@
-package team.cheese.dao.sale;
+package team.cheese.dao.Sale;
 
-import team.cheese.domain.sale.Sale;
+import team.cheese.Domain.Sale.Sale;
 
 import java.util.List;
 

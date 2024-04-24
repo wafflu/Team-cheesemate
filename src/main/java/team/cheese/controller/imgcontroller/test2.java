@@ -1,7 +1,8 @@
-package team.cheese.controller.imgcontroller;
+package team.cheese.Controller.imgController;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +11,12 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import team.cheese.domain.img.ImgVO;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.ServletContextAware;
+import team.cheese.Domain.img.ImgVO;
 
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +29,8 @@ import java.util.UUID;
 
 @Controller
 public class test2 {
-    String folderPath = "/Users/jehyeon/Desktop/학원/Spring/sp_legacy/src/main/webapp/WEB-INF/uploads"; // 절대 경로 테스트 삼아 지정
+
+    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img"; // 절대 경로 테스트 삼아 지정
 
     @GetMapping("/test")
     public String ajax() {

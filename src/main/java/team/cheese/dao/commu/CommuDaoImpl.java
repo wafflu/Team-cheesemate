@@ -3,7 +3,7 @@ package team.cheese.dao.Commu;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import team.cheese.domain.commu.CommuDto;
+import team.cheese.Domain.Commu.CommuDto;
 
 import java.util.HashMap;
 

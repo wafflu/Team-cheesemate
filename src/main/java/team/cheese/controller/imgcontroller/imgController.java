@@ -1,4 +1,4 @@
-package team.cheese.controller.imgcontroller;
+package team.cheese.Controller.imgController;
 
 public class imgController {
 }
