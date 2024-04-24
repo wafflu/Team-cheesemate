@@ -43,8 +43,6 @@
     <p>관리자 관리상태 : ${Sale.ad_state}</p>
 </div>
 <div>
-<%--  글쓰기 누르면 글쓰기로 넘어가도록 해야됨  --%>
-    <button type="submit">글쓰기</button>
 </div>
 </body>
 </html>

@@ -9,10 +9,10 @@
 </head>
 <body>
 <div>
-    <p>sale : ${Sale.no}</p>
-    <p>행정동 코드 : ${Sale.addr_cd}</p>
-    <p>주소명 : ${Sale.addr_name}</p>
-    <p>판매자id : ${Sale.seller_id}</p>
+<%--    <p>sale : ${Sale.no}</p>--%>
+    <p>행정동 코드 : ${Sale.addr_cd}</p> <input type="text">
+    <p>주소명 : ${Sale.addr_name}</p> <input type="text">
+    <p>판매자id : ${Sale.seller_id}</p> <input type="text">
     <p>판매자닉네임 : ${Sale.seller_nick}</p>
     <p>판매 카테고리 : ${Sale.sal_i_cd}</p>
     <p>판매 카테고리명 : ${Sale.sal_name}</p>
@@ -41,10 +41,6 @@
     <p>가격제안/나눔신청 인원수 : ${Sale.bid_cnt}</p>
     <p>판매글 노출여부 : ${Sale.ur_state}</p>
     <p>관리자 관리상태 : ${Sale.ad_state}</p>
-</div>
-<div>
-<%--  글쓰기 누르면 글쓰기로 넘어가도록 해야됨  --%>
-    <button type="submit">글쓰기</button>
 </div>
 </body>
 </html>

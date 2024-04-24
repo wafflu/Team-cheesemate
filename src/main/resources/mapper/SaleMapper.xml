@@ -20,14 +20,74 @@
         ORDER BY no DESC
     </select>
 
-<!--   R : 게시글 하나 선택    -->
-<!--  no를 변경해 줘야 됨  -->
-<!--     <select id="select" resultType="SaleDto">
+    <!--   R : 게시글 하나 선택    -->
+    <!--  no를 변경해 줘야 됨  -->
+    <select id="select" resultType="SaleDto">
         <include refid="selectFromSale"/>
         where 1=1
-        and no = 1
-    </select> -->
+        and no = #{no}
+    </select>
 
-    <!-- U : 사용자 입력값 삽입하기 -->
+    <!-- U : 사용자 입력값 삽입하기 (판매일 경우) -->
+    <insert id="insertSale" parameterType="SaleDto">
+        INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd,
+                          trade_s_cd_1, trade_s_cd_2, price,
+                          sal_s_cd, title, contents, biding, pickup_addr_cd, pickup_addr_name, detail_addr, brand)
+        SELECT a.addr_cd,                                                 -- 주소 코드 선택
+               a.addr_name,                                               -- 주소 이름 선택
+               #{seller_id},                                              -- 판매자 ID
+               (SELECT nick FROM user WHERE id = #{seller_id}),           -- 판매자 닉네임 선택
+               #{sal_i_cd},                                               -- 판매 카테고리 코드(어떤 물품을 판매하는지)
+               (SELECT name FROM sale_category WHERE sal_cd = #{sal_cd}), -- 판매 카테고리 이름
+               #{pro_s_cd},                                               -- 상품 상태 코드 (새상품/사용감없음/사용감적음/사용감많음/고장파손)
+               #{tx_s_cd},                                                -- 거래 방식 코드 (판매/나눔)
+               #{trade_s_cd_1},                                           -- 거래 형태 코드 (온라인/직거래/택배)
+               #{trade_s_cd_2},                                           -- 거래 형태 코드 (온라인/직거래/택배)
+               #{price},                                                  -- 판매할 가격
+               #{sal_s_cd},                                               -- 판매 상태 코드 (판매중/예약중/거래완료)
+               #{title},                                                  -- 판매글 제목
+               #{content},                                                -- 판매 상품 설명
+               #{biding},                                                 -- 가격제시/나눔 여부
+               #{pickup_addr_cd},                                         -- 거래희망장소 코드
+               (select addr_name as pickup_addr_cd
+                from administrative
+                where 1 = 1 and addr_cd = #{pickup_addr_cd}),             -- 거래희망장소 주소명
+               #{detail_addr},                                            -- 거래희망장소 상세장소(위치)
+               #{brand},                                                  -- 상품 브랜드
+        FROM addr_cd a
+        WHERE a.ur_id = #{seller_id} LIMIT 1
+        OFFSET #{check_addr_cd} -- 사용자가 선택한 주소에 해당하는 행 선택(첫밴째일 경우 OFFSET 0, 두번째일 경우 OFFSET 1)
+    </insert>
+
+    <!-- U : 사용자 입력값 삽입하기 (나눔일 경우) -->
+    <insert id="insertFree" parameterType="SaleDto">
+        INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd,
+                          trade_s_cd_1, trade_s_cd_2,
+                          sal_s_cd, title, contents, biding, pickup_addr_cd, pickup_addr_name, detail_addr, brand)
+        SELECT a.addr_cd,                                                 -- 주소 코드 선택
+               a.addr_name,                                               -- 주소 이름 선택
+               #{seller_id},                                              -- 판매자 ID
+               (SELECT nick FROM user WHERE id = #{seller_id}),           -- 판매자 닉네임 선택
+               #{sal_i_cd},                                               -- 판매 카테고리 코드(어떤 물품을 판매하는지)
+               (SELECT name FROM sale_category WHERE sal_cd = #{sal_cd}), -- 판매 카테고리 이름
+               #{pro_s_cd},                                               -- 상품 상태 코드 (새상품/사용감없음/사용감적음/사용감많음/고장파손)
+               #{tx_s_cd},                                                -- 거래 방식 코드 (판매/나눔)
+               #{trade_s_cd_1},                                           -- 거래 형태 코드 (온라인/직거래/택배)
+               #{trade_s_cd_2},                                           -- 거래 형태 코드 (온라인/직거래/택배)
+               #{sal_s_cd},                                               -- 판매 상태 코드 (판매중/예약중/거래완료)
+               #{title},                                                  -- 판매글 제목
+               #{content},                                                -- 판매 상품 설명
+               #{biding},                                                 -- 가격제시/나눔 여부
+               #{pickup_addr_cd},                                         -- 거래희망장소 코드
+               (select addr_name as pickup_addr_cd
+                from administrative
+                where 1 = 1
+                  and addr_cd = #{pickup_addr_cd}),                       -- 거래희망장소 주소명
+               #{detail_addr},                                            -- 거래희망장소 상세장소(위치)
+               #{brand},                                                  -- 상품 브랜드
+        FROM addr_cd a
+        WHERE a.ur_id = #{seller_id} LIMIT 1
+        OFFSET #{check_addr_cd} -- 사용자가 선택한 주소에 해당하는 행 선택(첫밴째일 경우 OFFSET 0, 두번째일 경우 OFFSET 1)
+    </insert>
 
 </mapper>
