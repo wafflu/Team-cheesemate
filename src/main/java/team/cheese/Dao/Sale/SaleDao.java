@@ -1,4 +1,4 @@
-package team.cheese.dao.Sale;
+package team.cheese.Dao.Sale;
 
 import team.cheese.Domain.Sale.Sale;
 

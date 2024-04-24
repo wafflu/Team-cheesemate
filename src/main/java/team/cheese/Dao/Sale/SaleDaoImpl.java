@@ -1,4 +1,4 @@
-package team.cheese.dao.Sale;
+package team.cheese.Dao.Sale;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
