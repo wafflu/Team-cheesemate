@@ -30,17 +30,17 @@
     <c:forEach var="postDto" items="${list}">
         <tr>
             <td>${postDto.sn}</td>
-            <td>${postDto.urId}</td>
-            <td>${postDto.addrCd}</td>
+            <td>${postDto.ur_id}</td>
+            <td>${postDto.addr_cd}</td>
             <td>${postDto.no}</td>
-            <td>${postDto.commuCd}</td>
-            <td>${postDto.addrName}</td>
+            <td>${postDto.commu_cd}</td>
+            <td>${postDto.addr_name}</td>
             <td>${postDto.title}</td>
             <td>${postDto.contents}</td>
             <td>${postDto.nick}</td>
             <td>${postDto.r_date}</td>
-            <td>${postDto.likeCnt}</td>
-            <td>${postDto.viewCnt}</td>
+            <td>${postDto.like_cnt}</td>
+            <td>${postDto.view_cnt}</td>
         </tr>
     </c:forEach>
     </tbody>
@@ -48,7 +48,7 @@
 
 <form action="${pageContext.request.contextPath}/communityHome" method="get">
     <P>  게시글 목록 </P>
-    <input type="submit" value="글쓰기">
+    <input type="button" value="글쓰기" onclick="location.href='<c:url value="/write"/>'">
 </form>
 
 </body>

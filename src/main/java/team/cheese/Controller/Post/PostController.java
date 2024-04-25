@@ -23,4 +23,30 @@ public class PostController {
         return "/PostHome";
     }
 
+
+
+    @RequestMapping(value = "/write", method = RequestMethod.GET)
+    public String Post()throws Exception{
+        //만약 user123이라면
+        //만약 아이디가 없다면
+        return "/Post";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String Post(PostDto postDto, Model m)throws Exception{
+
+        postDto.setur_id("user123");
+        postDto.setaddr_cd("11010720");
+        postDto.setNo(2);
+        postDto.setcommu_cd("commu_B");
+        postDto.setaddr_name("서울특별시 종로구 사직동");
+        postDto.setNick("skyLee");
+
+        postService.write(postDto);
+        m.addAttribute("postDto",postDto);
+        return "/Post";
+
+    }
+
+
 }

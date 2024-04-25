@@ -24,8 +24,40 @@ public class PostDaoImpl implements PostDao {
         return session.insert(namespace + "insert", postDto);
     }
 
+
+
     @Override
     public List<PostDto> selectAll() throws Exception {
         return session.selectList(namespace +"selectAll");
+    }
+
+    @Override
+    public PostDto select(Integer sn) throws Exception {
+        return session.selectOne(namespace + "select", sn);
+    }
+
+    @Override
+    public int update(PostDto postDto) throws Exception {
+        return session.update(namespace + "update", postDto);
+    }
+
+    @Override
+    public int delete(Integer sn) throws Exception {
+        return session.delete(namespace + "delete", sn);
+    }
+
+    @Override
+    public int deleteAll() throws Exception {
+        return session.delete(namespace +"deleteAll");
+    }
+
+    @Override
+    public int increaseViewCnt(Integer sn) throws Exception {
+        return session.update(namespace+"increaseViewCnt", sn);
+    }
+
+    @Override
+    public int increaselike_cnt(Integer sn) throws Exception {
+        return session.update(namespace+"increaselike_cnt", sn);
     }
 }

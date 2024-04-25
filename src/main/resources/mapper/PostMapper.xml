@@ -10,11 +10,40 @@
 
     <insert id="insert" parameterType="PostDto">
         insert into post(ur_id,addr_cd,no,commu_cd,addr_name,title,contents, nick)
-        values (#{urId},#{addrCd},#{no},#{commuCd},#{addrName},#{title},#{contents},#{nick})
+        values (#{ur_id},#{addr_cd},#{no},#{commu_cd},#{addr_name},#{title},#{contents},#{nick})
     </insert>
+
+
+
 
     <select id = "selectAll" resultType="PostDto">
         select * from post;
     </select>
 
+    <select id = "select" resultType="PostDto">
+        select * from post where sn = #{sn}
+    </select>
+
+
+    <update id = "update" parameterType="PostDto">
+        update post set title = #{title} , contents = #{contents},m_date = #{m_date}
+        where sn = #{sn}
+        </update>
+
+    <delete id = "delete" parameterType="Integer">
+        delete from post where sn = #{sn}
+    </delete>
+    <delete id = "deleteAll" parameterType="Integer">
+        delete from post
+    </delete>
+    <update id = "increaseViewCnt" parameterType="Integer">
+        update post set view_cnt = view_cnt+1
+        where sn=#{sn}
+    </update>
+
+
+    <update id = "increaselike_cnt" parameterType="Integer">
+        update post set like_cnt = like_cnt+1
+        where sn=#{sn}
+    </update>
 </mapper>

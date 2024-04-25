@@ -38,9 +38,9 @@ public class commuDaoTest {
     @Test
     public void testInsert()throws Exception{
         CommuDto commuDto = new CommuDto();
-        commuDto.setCommuCd("commu_T");
+        commuDto.setcommu_cd("commu_T");
         commuDto.setName("테스트 카테고리");
-        commuDto.setFirstId("asdf");
+        commuDto.setfirst_id("asdf");
 
         int result = commuDao.insert(commuDto);
         assertEquals(1,result);
@@ -53,9 +53,9 @@ public class commuDaoTest {
         CommuDto commuDto = new CommuDto();
 
 
-        commuDto.setCommuCd("commu_T");
+        commuDto.setcommu_cd("commu_T");
         commuDto.setName("테스트 카테고리");
-        commuDto.setFirstId("asdf");
+        commuDto.setfirst_id("asdf");
         commuDao.insert(commuDto);
 
         commuDao.select("commu_T",commuDto);
@@ -68,15 +68,15 @@ public class commuDaoTest {
         assertEquals(1,deleteResult);
 
         CommuDto commuDto = new CommuDto();
-        commuDto.setCommuCd("commu_T");
+        commuDto.setcommu_cd("commu_T");
         commuDto.setName("테스트 카테고리");
-        commuDto.setFirstId("asdf");
+        commuDto.setfirst_id("asdf");
         commuDao.insert(commuDto);
 
 
 
         commuDto.setName("테스트 수정 카테고리");
-        commuDto.setLastId("admin001");
+        commuDto.setlast_id("admin001");
 
         commuDao.update(commuDto);
 
@@ -91,15 +91,15 @@ public class commuDaoTest {
 //        assertEquals(1,deleteResult);
 //
 //        CommuDto commuDto = new CommuDto();
-//        commuDto.setCommuCd("commu_t");
+//        commuDto.setcommu_cd("commu_t");
 //        commuDto.setName("테스트 수정 카테고리");
-//        commuDto.setFirstId("asdf");
+//        commuDto.setfirst_id("asdf");
 //        commuDao.insert(commuDto);
 //
 //
-//        commuDto.setCommuCd("commu_T");
+//        commuDto.setcommu_cd("commu_T");
 //        commuDto.setName("테스트 수정 카테고리2");
-//        commuDto.setLastId("admin001");
+//        commuDto.setlast_id("admin001");
 //
 //        commuDao.update(commuDto);
 //

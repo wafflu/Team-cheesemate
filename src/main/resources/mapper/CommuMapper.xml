@@ -11,18 +11,18 @@
     <insert id="insert" parameterType="CommuDto">
         INSERT INTO commu
             (commu_cd,name,first_id)
-        values(#{commuCd},#{name},#{firstId});
+        values(#{commu_cd},#{name},#{first_id});
     </insert>
 
     <select id = 'select' parameterType="string" resultType="CommuDto">
-        SELECT * from commu where commu_cd = #{commuCd};
+        SELECT * from commu where commu_cd = #{commu_cd};
     </select>
 
     <update id="update" parameterType="CommuDto">
-        UPDATE commu SET commu_cd = #{commuCd}, name = #{name} ,last_id = #{lastId} where commu_cd = #{commuCd};
+        UPDATE commu SET commu_cd = #{commu_cd}, name = #{name} ,last_id = #{last_id} where commu_cd = #{commu_cd};
     </update>
 
     <delete id="delete" parameterType="map">
-        DELETE FROM commu where name=#{name} and first_id = #{firstId};
+        DELETE FROM commu where name=#{name} and first_id = #{first_id};
     </delete>
 </mapper>

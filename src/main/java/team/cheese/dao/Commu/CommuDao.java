@@ -8,9 +8,9 @@ public interface CommuDao {
 
     int insert(CommuDto commuDto)throws Exception;
 
-    CommuDto select(String commuCd,CommuDto commuDto)throws Exception;
+    CommuDto select(String commu_cd,CommuDto commuDto)throws Exception;
 
     int update(CommuDto commuDto)throws Exception;
 
-    int delete(String name, String firstId)throws Exception;
+    int delete(String name, String first_id)throws Exception;
 }

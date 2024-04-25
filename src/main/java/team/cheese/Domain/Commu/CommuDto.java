@@ -6,37 +6,37 @@ import java.sql.Timestamp;
 
 public class CommuDto {
 
-    private String commuCd;
+    private String commu_cd;
     private String name;
-    private Timestamp firstDate;
-    private String firstId;
-    private Timestamp lastDate;
-    private String lastId;
+    private Timestamp first_date;
+    private String first_id;
+    private Timestamp last_date;
+    private String last_id;
 
 
 
     public CommuDto(){};
-    public CommuDto(String commuCd, String name, String firstId){
-        this.commuCd = commuCd;
+    public CommuDto(String commu_cd, String name, String first_id){
+        this.commu_cd = commu_cd;
         this.name = name;
-        this.firstId = firstId;
+        this.first_id = first_id;
     }
-    public CommuDto(String commuCd, String name, Timestamp firstDate, String firstId, Timestamp lastDate, String lastId) {
-        this.commuCd = commuCd;
+    public CommuDto(String commu_cd, String name, Timestamp first_date, String first_id, Timestamp last_date, String last_id) {
+        this.commu_cd = commu_cd;
         this.name = name;
-        this.firstDate = firstDate;
-        this.firstId = firstId;
-        this.lastDate = lastDate;
-        this.lastId = lastId;
+        this.first_date = first_date;
+        this.first_id = first_id;
+        this.last_date = last_date;
+        this.last_id = last_id;
     }
 
 
-    public String getCommuCd() {
-        return commuCd;
+    public String getcommu_cd() {
+        return commu_cd;
     }
 
-    public void setCommuCd(String commuCd) {
-        this.commuCd = commuCd;
+    public void setcommu_cd(String commu_cd) {
+        this.commu_cd = commu_cd;
     }
 
     public String getName() {
@@ -47,48 +47,48 @@ public class CommuDto {
         this.name = name;
     }
 
-    public Timestamp getFirstDate() {
-        return firstDate;
+    public Timestamp getfirst_date() {
+        return first_date;
     }
 
-    public void setFirstDate(Timestamp firstDate) {
-        this.firstDate = firstDate;
+    public void setfirst_date(Timestamp first_date) {
+        this.first_date = first_date;
     }
 
-    public String getFirstId() {
-        return firstId;
+    public String getfirst_id() {
+        return first_id;
     }
 
-    public void setFirstId(String firstId) {
-        this.firstId = firstId;
+    public void setfirst_id(String first_id) {
+        this.first_id = first_id;
     }
 
-    public Timestamp getLastDate() {
-        return lastDate;
+    public Timestamp getlast_date() {
+        return last_date;
     }
 
-    public void setLastDate(Timestamp lastDate) {
-        this.lastDate = lastDate;
+    public void setlast_date(Timestamp last_date) {
+        this.last_date = last_date;
     }
 
-    public String getLastId() {
-        return lastId;
+    public String getlast_id() {
+        return last_id;
     }
 
-    public void setLastId(String lastId) {
-        this.lastId = lastId;
+    public void setlast_id(String last_id) {
+        this.last_id = last_id;
     }
 
 
     @Override
     public String toString() {
         return "CommuDto{" +
-                "commuCd='" + commuCd + '\'' +
+                "commu_cd='" + commu_cd + '\'' +
                 ", name='" + name + '\'' +
-                ", firstDate=" + firstDate +
-                ", firstId='" + firstId + '\'' +
-                ", lastDate=" + lastDate +
-                ", lastId='" + lastId + '\'' +
+                ", first_date=" + first_date +
+                ", first_id='" + first_id + '\'' +
+                ", last_date=" + last_date +
+                ", last_id='" + last_id + '\'' +
                 '}';
     }
 }

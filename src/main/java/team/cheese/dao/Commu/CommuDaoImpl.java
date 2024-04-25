@@ -26,7 +26,7 @@ public class CommuDaoImpl implements CommuDao {
 
 
     @Override
-    public CommuDto select(String commuCd,CommuDto commuDto) throws Exception {
+    public CommuDto select(String commu_cd,CommuDto commuDto) throws Exception {
         return session.selectOne(namespace + "select", commuDto);
     }
 
@@ -36,10 +36,10 @@ public class CommuDaoImpl implements CommuDao {
     }
 
     @Override
-    public int delete(String name, String firstId) throws Exception {
+    public int delete(String name, String first_id) throws Exception {
         HashMap<String,String> map = new HashMap<>();
         map.put("name",name);
-        map.put("firstId",firstId);
+        map.put("first_id",first_id);
         return session.delete(namespace + "delete", map);
     }
 }

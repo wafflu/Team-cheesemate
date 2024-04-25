@@ -10,4 +10,13 @@ public interface PostDao {
     int insert(PostDto postDto)throws Exception;
 
     List<PostDto> selectAll()throws Exception;
+
+    PostDto select(Integer sn)throws Exception;
+
+    int update(PostDto postDto)throws Exception;
+
+    int delete(Integer sn)throws Exception;
+    int deleteAll()throws Exception;
+    int increaseViewCnt(Integer sn)throws Exception;
+    int increaselike_cnt(Integer  sn)throws Exception;
 }
