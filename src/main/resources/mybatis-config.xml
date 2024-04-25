@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-<!--        <typeAlias alias="BoardDao" type="com.fastcampus.ch2.dao.BoardDao"/>-->
+        <typeAlias alias="ImgVO" type="team.cheese.domain.ImgVO"/>
+        <typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
     </typeAliases>
 </configuration>

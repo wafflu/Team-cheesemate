@@ -2,6 +2,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -12,19 +13,17 @@ import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
-
-public class testdb {
+public class dbtest {
     @Autowired
-    DataSource ds;
+    DataSource ds; // 컨테이너로부터 자동 주입받는다.
 
     @Autowired
-    SqlSessionFactoryBean sf;
+    SqlSessionFactoryBean sf; // 컨테이너로부터 자동 주입받는다.
 
     @Test
     public void jdbcConnectionTest() throws Exception {
 //        ApplicationContext ac = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/**/root-context.xml");
-//        DataSource ds = a
-//        c.getBean(DataSource.class);
+//        DataSource ds = ac.getBean(DataSource.class);
 //        System.out.println(ac);
         System.out.println("ds = " + ds);
 
