@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import team.cheese.dao.ImgDao;
 import team.cheese.domain.ImgDto;
 
+import java.util.HashMap;
+
 @Service
 public class ImgService {
     @Autowired
@@ -14,8 +16,8 @@ public class ImgService {
         return imgDao.insert_img(imgDto);
     }
 
-    public int view_img(ImgDto imgDto){
-        return imgDao.insert_img(imgDto);
+    public int view_img(HashMap map){
+        return imgDao.insert_sale_img(map);
     }
 
 }

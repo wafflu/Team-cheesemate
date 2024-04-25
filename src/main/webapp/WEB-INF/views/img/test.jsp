@@ -158,20 +158,20 @@
   }
 
   $(document).ready(
-          $.ajax({
-            url: '/loadThumbnailImage',
-            type : 'POST',
-            processData : false,
-            contentType : false,
-            dataType : 'json',
-            data : JSON.stringify(imginfo),
-            success : function(result){
-              showThumbnailImage(result);
-            },
-            error : function(result){
-              alert("로딩 오류");
-            }
-          })
+          // $.ajax({
+          //   url: '/loadThumbnailImage',
+          //   type : 'POST',
+          //   processData : false,
+          //   contentType : false,
+          //   dataType : 'json',
+          //   data : JSON.stringify(imginfo),
+          //   success : function(result){
+          //     showThumbnailImage(result);
+          //   },
+          //   error : function(result){
+          //     alert("로딩 오류");
+          //   }
+          // })
   );
 
   function showThumbnailImage(uploadResultArr){

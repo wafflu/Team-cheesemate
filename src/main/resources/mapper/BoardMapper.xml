@@ -4,7 +4,14 @@
 
 <mapper namespace="team.cheese.dao.BoardDao">
 
-    <select id="count" resultType="int">
-        SELECT count(*) FROM board
-    </select>
+    <update id="StateChange" parameterType="map">
+        update ${tablename}
+        <if test="state=='N'">
+            set state = 'Y'
+        </if>
+        <if test="state=='Y'">
+            set state = 'N'
+        </if>
+        where no = #{no}
+    </update>
 </mapper>

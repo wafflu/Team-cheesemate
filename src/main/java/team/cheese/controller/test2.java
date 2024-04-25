@@ -11,7 +11,9 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
+import team.cheese.domain.SaleDto;
 import team.cheese.service.ImgService;
 
 import javax.servlet.ServletContext;
@@ -24,6 +26,7 @@ import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 @Controller
@@ -31,6 +34,9 @@ public class test2 {
 
     @Autowired
     ImgService imgService;
+
+    @Autowired
+    SaleDao saleDao;
 
 //    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img"; // 절대 경로 테스트 삼아 지정
 
@@ -113,7 +119,29 @@ public class test2 {
         /* 파일 저장 폴더 이름 */
         File uploadPath = new File(folderPath, datePath);
 
+        //게시글 임의로 넣어둠 테스트를 위해서
+        SaleDto saledto = new SaleDto();
+        saledto.setSeller_id("user123");
+        saledto.setSal_i_cd("016001005");
+        saledto.setPro_s_cd('C');
+        saledto.setTx_s_cd('S');
+        // 거래방법 1개만 작성
+        saledto.setTrade_s_cd_1('F');
+        saledto.setTrade_s_cd_2('F');
+        saledto.setPrice(28000);
+        saledto.setSal_s_cd('S');
+        saledto.setTitle("자바의 정석");
+        saledto.setContents("자바의 정석 2판 팔아요.");
+        saledto.setBid_cd('N');
+        saledto.setPickup_addr_cd("11060710");
+        saledto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saledto.setBrand("자바의 정석");
+        saledto.setReg_price(30000);
+        saledto.setCheck_addr_cd(0);
+        saleDao.insert_sale(saledto);
+
         for (ImgDto img : imgvo) {
+            System.out.println("횟수 체크용123");
             try {
                 String fname = folderPath+"/"+img.getFilert()+"/"+img.getO_name()+img.getE_name();
 
@@ -131,9 +159,11 @@ public class test2 {
 
                 int w_wid = 856;
                 int w_hig = 856;
-
+                System.out.println("횟수 체크용1");
                 //썸네일 이미지 만들기
                 ImgDto imginfo = new ImgDto();
+                imginfo.setTb_no(saledto.getNo());
+                System.out.println("글번호 : "+saledto.getNo());
                 if(change){
                     BufferedImage image1 = Thumbnails.of(imageFile)
                             .size(s_wid, s_hig)
@@ -144,19 +174,32 @@ public class test2 {
                             .size(s_wid, s_hig)
                             .outputQuality(1.0)  // 품질 유지
                             .toFile(simg_name);
-                    change = false;
-                    imginfo.setTb_name("board");
-                    imginfo.setTb_no(1);
+                    imginfo.setTb_name("sale");
                     imginfo.setFilert(folderPath+"/"+img.getFilert());
                     imginfo.setU_name("s_"+uuid+"_");
                     imginfo.setO_name(img.getO_name());
                     imginfo.setE_name(img.getE_name());
                     imginfo.setW_size(s_wid);
                     imginfo.setH_size(s_hig);
+                    change = false;
+                    //썸네일 이미지 디비에 저장
+                    imgService.reg_img(imginfo);
                 }
-                //썸네일 이미지 디비에 저장
+
+                System.out.println("횟수 체크용2");
+                //게시글 작성번호
+
+
+                //본문 이미지 작성
+                imginfo.setTb_name("sale");
+                imginfo.setFilert(folderPath+"/"+img.getFilert());
+                imginfo.setU_name("w_"+uuid+"_");
+                imginfo.setO_name(img.getO_name());
+                imginfo.setE_name(img.getE_name());
+                imginfo.setW_size(w_wid);
+                imginfo.setH_size(w_hig);
                 imgService.reg_img(imginfo);
-                // 글번호 가지고 있는 상태에서
+                System.out.println("횟수 체크용3");
 
                 // 본문이미지
                 BufferedImage image2 = Thumbnails.of(imageFile)
@@ -168,13 +211,20 @@ public class test2 {
                         .size(w_wid, w_hig)
                         .outputQuality(1.0)  // 품질 유지
                         .toFile(wimg_name);
-
+                System.out.println("횟수 체크용3");
 
             } catch (IOException e) {
+                System.out.println("걸림");
                 e.printStackTrace();
             }
             // 여기서 필요한 작업 수행
         }
+
+        //교차테이블 작성
+        HashMap map = new HashMap();
+        map.put("no", saledto.getNo());
+        map.put("cross_tb", "sale");
+        imgService.view_img(map);
 
         return "/test";
     }
