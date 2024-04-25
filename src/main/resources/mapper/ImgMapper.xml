@@ -4,7 +4,44 @@
 
 <mapper namespace="team.cheese.dao.ImgDao">
 
-    <select id="count" resultType="int">
-        SELECT count(*) FROM board
+    <insert id="insert_img" parameterType="ImgVO">
+        insert into img (tb_name, tb_no, file_rt, u_name, o_name, e_name, w_size, h_size)
+        values (#{tb_name}, #{tb_no}, #{filert}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size});
+    </insert>
+
+    <select id="select_img" resultType="ImgVO">
+        select * from img;
     </select>
+
+    <select id="select_simg_view" parameterType="map" resultType="ImgVO">
+        SELECT *
+        FROM img
+        WHERE state = 'Y'
+        and tb_name = #{tb_name}
+        and no IN (SELECT img_no FROM ${cross_tb} WHERE sal_no = #{sal_no});
+    </select>
+
+    <update id="state_change_img" parameterType="map">
+        update img set state = #{state} where no = #{no};
+    </update>
+
+    <insert id="insert_cross" parameterType="map">
+        INSERT INTO sale_img (sal_no, img_no)
+        SELECT s.no AS sale_no, i.no AS img_no
+        FROM ${cross_tb} s, img i
+        where s.no = #{no} and i.tb_name = #{cross_tb} and i.tb_no = #{no};
+    </insert>
+
+    <select id="select_sale_img" resultType="ImgVO">
+        select * from img;
+    </select>
+
+    <delete id="delete_sale_img_all" parameterType="int">
+        delete from sale_img;
+    </delete>
+
+    <delete id="delete_img_all" parameterType="int">
+        delete from img;
+    </delete>
+
 </mapper>

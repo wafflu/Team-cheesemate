@@ -2,6 +2,7 @@ package team.cheese.controller;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +11,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import team.cheese.domain.ImgVO;
+import team.cheese.domain.ImgDto;
+import team.cheese.service.ImgService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -27,8 +29,8 @@ import java.util.UUID;
 @Controller
 public class test2 {
 
-//    @Autowired
-//    ImgService imgService;
+    @Autowired
+    ImgService imgService;
 
 //    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img"; // 절대 경로 테스트 삼아 지정
 
@@ -97,7 +99,7 @@ public class test2 {
     }
 
     @PostMapping("/reg_image")
-    public String reg_img(@RequestBody ArrayList<ImgVO> imgvo, HttpServletRequest request){
+    public String reg_img(@RequestBody ArrayList<ImgDto> imgvo, HttpServletRequest request){
         String folderPath = path(request);
 
         boolean change = true;
@@ -111,7 +113,7 @@ public class test2 {
         /* 파일 저장 폴더 이름 */
         File uploadPath = new File(folderPath, datePath);
 
-        for (ImgVO img : imgvo) {
+        for (ImgDto img : imgvo) {
             try {
                 String fname = folderPath+"/"+img.getFilert()+"/"+img.getO_name()+img.getE_name();
 
@@ -131,7 +133,7 @@ public class test2 {
                 int w_hig = 856;
 
                 //썸네일 이미지 만들기
-//                ImgVO imginfo = new ImgVO();
+                ImgDto imginfo = new ImgDto();
                 if(change){
                     BufferedImage image1 = Thumbnails.of(imageFile)
                             .size(s_wid, s_hig)
@@ -143,16 +145,18 @@ public class test2 {
                             .outputQuality(1.0)  // 품질 유지
                             .toFile(simg_name);
                     change = false;
-//                    imginfo.setTb_name("board");
-//                    imginfo.setFilert(folderPath+"/"+imginfo.getFilert());
-//                    imginfo.setU_name("s_"+uploadFileName+"_");
-//                    imginfo.setO_name(imginfo.getO_name());
-//                    imginfo.setE_name(imginfo.getE_name());
-//                    imginfo.setW_size(s_wid);
-//                    imginfo.setH_size(s_hig);
+                    imginfo.setTb_name("board");
+                    imginfo.setTb_no(1);
+                    imginfo.setFilert(folderPath+"/"+img.getFilert());
+                    imginfo.setU_name("s_"+uuid+"_");
+                    imginfo.setO_name(img.getO_name());
+                    imginfo.setE_name(img.getE_name());
+                    imginfo.setW_size(s_wid);
+                    imginfo.setH_size(s_hig);
                 }
-
-//                imgService.reg_img(imginfo);
+                //썸네일 이미지 디비에 저장
+                imgService.reg_img(imginfo);
+                // 글번호 가지고 있는 상태에서
 
                 // 본문이미지
                 BufferedImage image2 = Thumbnails.of(imageFile)
@@ -171,7 +175,6 @@ public class test2 {
             }
             // 여기서 필요한 작업 수행
         }
-
 
         return "/test";
     }

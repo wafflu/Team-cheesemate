@@ -3,7 +3,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import team.cheese.domain.ImgVO;
+import team.cheese.domain.ImgDto;
 import team.cheese.service.ImgService;
 
 import static junit.framework.TestCase.assertTrue;
@@ -17,7 +17,7 @@ public class ImgServiceTest {
 
     @Test
     public void reg_img(){
-        ImgVO img = new ImgVO();
+        ImgDto img = new ImgDto();
         img.setTb_name("board");
         img.setFilert("/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img");
         img.setU_name("s_52932408-4685-4136-b20a-cacfa1fd478a_");

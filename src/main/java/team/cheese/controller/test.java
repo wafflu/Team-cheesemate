@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import team.cheese.domain.ImgVO;
+import team.cheese.domain.ImgDto;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ import java.util.UUID;
 @RestController
 public class test {
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<ImgVO>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
+    public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
         ServletContext servletContext = request.getServletContext();
         String realPath = servletContext.getRealPath("/");
 
@@ -49,7 +49,7 @@ public class test {
             }
 
             if(!type.startsWith("image")) {
-                List<ImgVO> list = null;
+                List<ImgDto> list = null;
                 return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
             }
 
@@ -72,10 +72,10 @@ public class test {
         }
 
         /* 이미저 정보 담는 객체 */
-        List<ImgVO> list = new ArrayList();
+        List<ImgDto> list = new ArrayList();
 
         for(MultipartFile multipartFile : uploadFiles) {
-            ImgVO imgvo = new ImgVO();
+            ImgDto imgvo = new ImgDto();
 
             String uploadFileName = multipartFile.getOriginalFilename();
             imgvo.setFilert(datePath);
@@ -120,7 +120,7 @@ public class test {
 //            System.out.println("파일 타입 : " + multipartFile.getContentType());
 //            System.out.println("파일 크기 : " + multipartFile.getSize());
         }
-        ResponseEntity<List<ImgVO>> result = new ResponseEntity<>(list, HttpStatus.OK);
+        ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
         return result;
     }
 

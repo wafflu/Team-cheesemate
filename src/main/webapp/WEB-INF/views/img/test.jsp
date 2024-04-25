@@ -78,7 +78,6 @@
 
   /* 이미지 출력 */
   function showUploadImage(uploadResultArr){
-
     /* 전달받은 데이터 검증 */
     if(!uploadResultArr || uploadResultArr.length == 0){return}
 
@@ -129,9 +128,7 @@
       data : JSON.stringify(imginfo)
     });
   })
-  function imgreg(){
 
-  }
 
   /* 파일 삭제 메서드 */
   function deleteFile(){
@@ -158,6 +155,44 @@
         alert("파일을 삭제하지 못하였습니다.")
       }
     });
+  }
+
+  $(document).ready(
+          $.ajax({
+            url: '/loadThumbnailImage',
+            type : 'POST',
+            processData : false,
+            contentType : false,
+            dataType : 'json',
+            data : JSON.stringify(imginfo),
+            success : function(result){
+              showThumbnailImage(result);
+            },
+            error : function(result){
+              alert("로딩 오류");
+            }
+          })
+  );
+
+  function showThumbnailImage(uploadResultArr){
+
+    /* 전달받은 데이터 검증 */
+    if(!uploadResultArr || uploadResultArr.length == 0){return}
+
+    let uploadResult = $("#uploadResult");
+    let str = "";
+
+    for(let i = 0; i<uploadResultArr.length; i++){
+      let obj = uploadResultArr[i];
+
+      let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
+
+      str += "<div id='result_card'>";
+      str += "<img src='/display?fileName=" + fileCallPath +"'>";
+      str += "</div>";
+    }
+
+    uploadResult.append(str);
   }
 
 </script>

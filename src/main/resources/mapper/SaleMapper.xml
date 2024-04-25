@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.SaleDao">
+    <select id="select_sale_last_insert" resultType="int">
+        SELECT LAST_INSERT_ID() from sale LIMIT 1;
+    </select>
+
+    <insert id="insert_sale" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd,
+                          trade_s_cd_1, trade_s_cd_2, price,
+                          sal_s_cd, title, contents, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand,
+                          reg_price)
+        SELECT a.addr_cd,
+               a.addr_name,
+               #{seller_id},
+               (SELECT nick FROM user WHERE id = #{seller_id}),
+               #{sal_i_cd},
+               (SELECT name FROM sale_category WHERE sal_cd = #{sal_i_cd}),
+               #{pro_s_cd},
+               #{tx_s_cd},
+               #{trade_s_cd_1},
+               #{trade_s_cd_2},
+               #{price},
+               #{sal_s_cd},
+               #{title},
+               #{contents},
+               #{bid_cd},
+               #{pickup_addr_cd},
+               (select addr_name as pickup_addr_cd from administrative where addr_cd = #{pickup_addr_cd}),
+               #{detail_addr},
+               #{brand},
+               #{reg_price}
+        FROM addr_cd a
+        WHERE a.ur_id = #{seller_id}
+            LIMIT #{check_addr_cd}, 1
+    </insert>
+</mapper>

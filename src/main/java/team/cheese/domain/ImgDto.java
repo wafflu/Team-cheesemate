@@ -1,7 +1,8 @@
 package team.cheese.domain;
 
-public class ImgVO {
-    private int no;
+public class ImgDto {
+    private Integer no;
+    private Integer tb_no;
     private String tb_name;
     private String filert;
     private String u_name;
@@ -10,11 +11,11 @@ public class ImgVO {
     private int w_size;
     private int h_size;
     private String r_date;
-    private String st;
+    private String state;
 
-    public ImgVO(){}
+    public ImgDto(){}
 
-    public ImgVO(String u_name, String o_name, String e_name){
+    public ImgDto(String u_name, String o_name, String e_name){
 
     }
 
@@ -22,6 +23,7 @@ public class ImgVO {
     public String toString() {
         return "ImgVO{" +
                 "no=" + no +
+                "tb_no=" + tb_no +
                 ", tb_name=" + tb_name +
                 ", filert='" + filert + '\'' +
                 ", u_name='" + u_name + '\'' +
@@ -30,11 +32,11 @@ public class ImgVO {
                 ", w_size=" + w_size +
                 ", h_size=" + h_size +
                 ", r_date='" + r_date + '\'' +
-                ", st='" + st + '\'' +
+                ", state='" + state + '\'' +
                 '}';
     }
 
-    public int getNo() {
+    public Integer getNo() {
         return no;
     }
 
@@ -106,11 +108,19 @@ public class ImgVO {
         this.r_date = r_date;
     }
 
-    public String getSt() {
-        return st;
+    public Integer getTb_no() {
+        return tb_no;
     }
 
-    public void setSt(String st) {
-        this.st = st;
+    public void setTb_no(int tb_no) {
+        this.tb_no = tb_no;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
