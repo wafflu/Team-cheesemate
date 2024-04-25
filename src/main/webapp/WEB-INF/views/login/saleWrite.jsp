@@ -12,11 +12,11 @@
 <%--    <p>sale : ${Sale.no}</p>--%>
     <p>행정동 코드 : ${Sale.addr_cd}</p> <input type="text">
     <p>주소명 : ${Sale.addr_name}</p> <input type="text">
-    <p>판매자id : ${Sale.seller_id}</p> <input type="text">
+    <p>판매자id : ${Sale.seller_id}</p>
     <p>판매자닉네임 : ${Sale.seller_nick}</p>
-    <p>판매 카테고리 : ${Sale.sal_i_cd}</p>
+    <p>판매 카테고리 : ${Sale.sal_i_cd}</p>  <input type="text">
     <p>판매 카테고리명 : ${Sale.sal_name}</p>
-    <p>사용상태 : ${Sale.pro_s_cd}</p>
+    <p>사용상태 : ${Sale.pro_s_cd}</p> <input type="text">
     <p>판매/나눔 : ${Sale.tx_s_cd}</p>
     <p>거래방식1 : ${Sale.trade_s_cd_2}</p>
     <p>거래방식2 : ${Sale.trade_s_cd_2}</p>

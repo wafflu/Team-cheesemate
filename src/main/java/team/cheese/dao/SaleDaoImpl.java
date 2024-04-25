@@ -33,11 +33,46 @@ public class SaleDaoImpl implements SaleDao {
     public int insert(SaleDto saleDto) throws Exception {
         char tx_s_cd = saleDto.getTx_s_cd();
 
-        if(tx_s_cd == 'S') {    // 판매하려는 경우
-            return session.insert(namespace + "insertSale", saleDto);
-        }
-        // 나눔하려는 경우
-        return session.insert(namespace + "insertFree", saleDto);
+        return session.insert(namespace + "insert", saleDto);
     }
+
+    @Override
+    public int update(SaleDto saleDto) throws Exception {
+        int no = saleDto.getNo();
+
+        return session.update(namespace + "update", saleDto);
+    }
+
+    @Override
+    public int delete(SaleDto saleDto) throws Exception {
+        int no = saleDto.getNo();
+
+        return session.update(namespace + "delete", saleDto);
+    }
+
+    @Override
+    public int deleteAdmin(SaleDto saleDto) throws Exception {
+        int no = saleDto.getNo();
+
+        return session.update(namespace + "deleteAdmin", saleDto);
+    }
+
+//    @Override
+//    public int insert(SaleDto saleDto) throws Exception {
+//        char tx_s_cd = saleDto.getTx_s_cd();
+//
+//        if(tx_s_cd == 'S') {    // 판매하려는 경우
+//            int num = session.insert(namespace + "insertSale", saleDto);
+//            if(num > 0 ) {
+//                return saleDto.getNo();
+//            }
+//        }
+//        // 나눔하려는 경우
+//        int num = session.insert(namespace + "insertFree", saleDto);
+//        if(num > 0 ) {
+//            return saleDto.getNo();
+//        }
+//        return 0;
+//    }
 
 }

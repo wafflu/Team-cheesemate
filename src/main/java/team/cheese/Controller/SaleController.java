@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.SaleDto;
 
@@ -19,13 +20,15 @@ public class SaleController {
     SaleDao saleDao;
 
     @RequestMapping("/list")
-    public String read(Model model, HttpSession session) throws Exception {
+    public String read(@RequestParam(defaultValue = "0") int check_addr_cd, Model model, HttpSession session) throws Exception {
+        // check_addr_cd : 사용자의 첫번째 주소값(기본), 사용자의 선택에 따라서 값이 바뀜
         List<SaleDto> list = saleDao.selectAll();
         SaleDto sale = list.get(0); // 화면에 전체를 뿌려줄때 get으로 고정시켜 둔거 삭제하기
 
         System.out.println("sale.jsp로 전달");
         System.out.println("판매자 아이디 : " + sale.getSeller_id());
 
+        model.addAttribute("check_addr_cd", check_addr_cd);
         model.addAttribute("Sale", sale);
 
 //		return "redirect:/board/write";

@@ -42,6 +42,8 @@ public class SaleDto {
     private Timestamp last_date;
     private String last_id;
 
+    private int check_addr_cd;
+
     public Integer getNo() {
         return no;
     }
@@ -330,22 +332,31 @@ public class SaleDto {
         this.last_id = last_id;
     }
 
+
+    public int getCheck_addr_cd() {
+        return check_addr_cd;
+    }
+
+    public void setCheck_addr_cd(int check_addr_cd) {
+        this.check_addr_cd = check_addr_cd;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SaleDto sale = (SaleDto) o;
-        return pro_s_cd == sale.pro_s_cd && tx_s_cd == sale.tx_s_cd && trade_s_cd_1 == sale.trade_s_cd_1 && trade_s_cd_2 == sale.trade_s_cd_2 && sal_s_cd == sale.sal_s_cd && price == sale.price && bid_cd == sale.bid_cd && reg_price == sale.reg_price && like_cnt == sale.like_cnt && view_cnt == sale.view_cnt && hoist_cnt == sale.hoist_cnt && bid_cnt == sale.bid_cnt && ur_state == sale.ur_state && ad_state == sale.ad_state && Objects.equals(no, sale.no) && Objects.equals(addr_cd, sale.addr_cd) && Objects.equals(addr_name, sale.addr_name) && Objects.equals(seller_id, sale.seller_id) && Objects.equals(seller_nick, sale.seller_nick) && Objects.equals(sal_i_cd, sale.sal_i_cd) && Objects.equals(sal_name, sale.sal_name) && Objects.equals(title, sale.title) && Objects.equals(contents, sale.contents) && Objects.equals(pickup_addr_cd, sale.pickup_addr_cd) && Objects.equals(pickup_addr_name, sale.pickup_addr_name) && Objects.equals(detail_addr, sale.detail_addr) && Objects.equals(brand, sale.brand) && Objects.equals(buyer_id, sale.buyer_id) && Objects.equals(buyer_nick, sale.buyer_nick) && Objects.equals(r_date, sale.r_date) && Objects.equals(m_date, sale.m_date) && Objects.equals(h_date, sale.h_date) && Objects.equals(first_date, sale.first_date) && Objects.equals(first_id, sale.first_id) && Objects.equals(last_date, sale.last_date) && Objects.equals(last_id, sale.last_id);
+        SaleDto saleDto = (SaleDto) o;
+        return pro_s_cd == saleDto.pro_s_cd && tx_s_cd == saleDto.tx_s_cd && trade_s_cd_1 == saleDto.trade_s_cd_1 && trade_s_cd_2 == saleDto.trade_s_cd_2 && sal_s_cd == saleDto.sal_s_cd && price == saleDto.price && bid_cd == saleDto.bid_cd && reg_price == saleDto.reg_price && like_cnt == saleDto.like_cnt && view_cnt == saleDto.view_cnt && hoist_cnt == saleDto.hoist_cnt && bid_cnt == saleDto.bid_cnt && ur_state == saleDto.ur_state && ad_state == saleDto.ad_state && check_addr_cd == saleDto.check_addr_cd && Objects.equals(no, saleDto.no) && Objects.equals(addr_cd, saleDto.addr_cd) && Objects.equals(addr_name, saleDto.addr_name) && Objects.equals(seller_id, saleDto.seller_id) && Objects.equals(seller_nick, saleDto.seller_nick) && Objects.equals(sal_i_cd, saleDto.sal_i_cd) && Objects.equals(sal_name, saleDto.sal_name) && Objects.equals(title, saleDto.title) && Objects.equals(contents, saleDto.contents) && Objects.equals(pickup_addr_cd, saleDto.pickup_addr_cd) && Objects.equals(pickup_addr_name, saleDto.pickup_addr_name) && Objects.equals(detail_addr, saleDto.detail_addr) && Objects.equals(brand, saleDto.brand) && Objects.equals(buyer_id, saleDto.buyer_id) && Objects.equals(buyer_nick, saleDto.buyer_nick) && Objects.equals(r_date, saleDto.r_date) && Objects.equals(m_date, saleDto.m_date) && Objects.equals(h_date, saleDto.h_date) && Objects.equals(first_date, saleDto.first_date) && Objects.equals(first_id, saleDto.first_id) && Objects.equals(last_date, saleDto.last_date) && Objects.equals(last_id, saleDto.last_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state, first_date, first_id, last_date, last_id);
+        return Objects.hash(no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state, first_date, first_id, last_date, last_id, check_addr_cd);
     }
 
     @Override
     public String toString() {
-        return "Sale{" +
+        return "SaleDto{" +
                 "no=" + no +
                 ", addr_cd='" + addr_cd + '\'' +
                 ", addr_name='" + addr_name + '\'' +
@@ -382,6 +393,7 @@ public class SaleDto {
                 ", first_id='" + first_id + '\'' +
                 ", last_date=" + last_date +
                 ", last_id='" + last_id + '\'' +
+                ", check_addr_cd=" + check_addr_cd +
                 '}';
     }
 }

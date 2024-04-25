@@ -28,66 +28,86 @@
         and no = #{no}
     </select>
 
-    <!-- U : 사용자 입력값 삽입하기 (판매일 경우) -->
-    <insert id="insertSale" parameterType="SaleDto">
+    <!-- C : 판매글 작성 : 사용자 입력값 삽입하기 -->
+    <insert id="insert" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd,
                           trade_s_cd_1, trade_s_cd_2, price,
-                          sal_s_cd, title, contents, biding, pickup_addr_cd, pickup_addr_name, detail_addr, brand)
-        SELECT a.addr_cd,                                                 -- 주소 코드 선택
-               a.addr_name,                                               -- 주소 이름 선택
-               #{seller_id},                                              -- 판매자 ID
-               (SELECT nick FROM user WHERE id = #{seller_id}),           -- 판매자 닉네임 선택
-               #{sal_i_cd},                                               -- 판매 카테고리 코드(어떤 물품을 판매하는지)
-               (SELECT name FROM sale_category WHERE sal_cd = #{sal_cd}), -- 판매 카테고리 이름
-               #{pro_s_cd},                                               -- 상품 상태 코드 (새상품/사용감없음/사용감적음/사용감많음/고장파손)
-               #{tx_s_cd},                                                -- 거래 방식 코드 (판매/나눔)
-               #{trade_s_cd_1},                                           -- 거래 형태 코드 (온라인/직거래/택배)
-               #{trade_s_cd_2},                                           -- 거래 형태 코드 (온라인/직거래/택배)
-               #{price},                                                  -- 판매할 가격
-               #{sal_s_cd},                                               -- 판매 상태 코드 (판매중/예약중/거래완료)
-               #{title},                                                  -- 판매글 제목
-               #{content},                                                -- 판매 상품 설명
-               #{biding},                                                 -- 가격제시/나눔 여부
-               #{pickup_addr_cd},                                         -- 거래희망장소 코드
-               (select addr_name as pickup_addr_cd
-                from administrative
-                where 1 = 1 and addr_cd = #{pickup_addr_cd}),             -- 거래희망장소 주소명
-               #{detail_addr},                                            -- 거래희망장소 상세장소(위치)
-               #{brand},                                                  -- 상품 브랜드
+                          sal_s_cd, title, contents, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand,
+                          reg_price)
+        SELECT a.addr_cd,
+               a.addr_name,
+               #{seller_id},
+               (SELECT nick FROM user WHERE id = #{seller_id}),
+               #{sal_i_cd},
+               (SELECT name FROM sale_category WHERE sal_cd = #{sal_i_cd}),
+               #{pro_s_cd},
+               #{tx_s_cd},
+               #{trade_s_cd_1},
+               #{trade_s_cd_2},
+               #{price},
+               #{sal_s_cd},
+               #{title},
+               #{contents},
+               #{bid_cd},
+               #{pickup_addr_cd},
+               (select addr_name as pickup_addr_cd from administrative where addr_cd = #{pickup_addr_cd}),
+               #{detail_addr},
+               #{brand},
+               #{reg_price}
         FROM addr_cd a
-        WHERE a.ur_id = #{seller_id} LIMIT 1
-        OFFSET #{check_addr_cd} -- 사용자가 선택한 주소에 해당하는 행 선택(첫밴째일 경우 OFFSET 0, 두번째일 경우 OFFSET 1)
+        WHERE a.ur_id = #{seller_id}
+        LIMIT #{check_addr_cd}, 1
     </insert>
 
-    <!-- U : 사용자 입력값 삽입하기 (나눔일 경우) -->
-    <insert id="insertFree" parameterType="SaleDto">
-        INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd,
-                          trade_s_cd_1, trade_s_cd_2,
-                          sal_s_cd, title, contents, biding, pickup_addr_cd, pickup_addr_name, detail_addr, brand)
-        SELECT a.addr_cd,                                                 -- 주소 코드 선택
-               a.addr_name,                                               -- 주소 이름 선택
-               #{seller_id},                                              -- 판매자 ID
-               (SELECT nick FROM user WHERE id = #{seller_id}),           -- 판매자 닉네임 선택
-               #{sal_i_cd},                                               -- 판매 카테고리 코드(어떤 물품을 판매하는지)
-               (SELECT name FROM sale_category WHERE sal_cd = #{sal_cd}), -- 판매 카테고리 이름
-               #{pro_s_cd},                                               -- 상품 상태 코드 (새상품/사용감없음/사용감적음/사용감많음/고장파손)
-               #{tx_s_cd},                                                -- 거래 방식 코드 (판매/나눔)
-               #{trade_s_cd_1},                                           -- 거래 형태 코드 (온라인/직거래/택배)
-               #{trade_s_cd_2},                                           -- 거래 형태 코드 (온라인/직거래/택배)
-               #{sal_s_cd},                                               -- 판매 상태 코드 (판매중/예약중/거래완료)
-               #{title},                                                  -- 판매글 제목
-               #{content},                                                -- 판매 상품 설명
-               #{biding},                                                 -- 가격제시/나눔 여부
-               #{pickup_addr_cd},                                         -- 거래희망장소 코드
-               (select addr_name as pickup_addr_cd
-                from administrative
-                where 1 = 1
-                  and addr_cd = #{pickup_addr_cd}),                       -- 거래희망장소 주소명
-               #{detail_addr},                                            -- 거래희망장소 상세장소(위치)
-               #{brand},                                                  -- 상품 브랜드
-        FROM addr_cd a
-        WHERE a.ur_id = #{seller_id} LIMIT 1
-        OFFSET #{check_addr_cd} -- 사용자가 선택한 주소에 해당하는 행 선택(첫밴째일 경우 OFFSET 0, 두번째일 경우 OFFSET 1)
-    </insert>
+    <!-- U : 판매글 수정하는 경우  -->
+    <update id="update" parameterType="SaleDto">
+        UPDATE sale
+        SET addr_cd          = #{addr_cd},                                                               -- 주소 코드
+            addr_name        = #{addr_name},                                                             -- 주소 이름
+            seller_id        = #{seller_id},                                                             -- 판매자 ID
+            seller_nick      = (SELECT nick FROM user WHERE id = #{seller_id}),                          -- 판매자 닉네임
+            sal_i_cd         = #{sal_i_cd},                                                              -- 판매 카테고리 코드
+            sal_name         = (SELECT name FROM sale_category WHERE sal_cd = #{sal_cd}),                -- 판매 카테고리 이름
+            pro_s_cd         = #{pro_s_cd},                                                              -- 상품 상태 코드
+            tx_s_cd          = #{tx_s_cd},                                                               -- 거래 방식 코드
+            trade_s_cd_1     = #{trade_s_cd_1},                                                          -- 거래 방법1 코드
+            trade_s_cd_2     = #{trade_s_cd_2},                                                          -- 거래 방법2 코드
+            price            = #{price},                                                                 -- 상품 가격
+            sal_s_cd         = #{sal_s_cd},                                                              -- 판매 상태 코드
+            title            = #{title},                                                                 -- 판매글 제목
+            contents         = #{contents},                                                              -- 판매 상품 설명
+            bid_cd           = #{bid_cd},                                                                -- 가격제시/나눔 여부
+            pickup_addr_cd   = #{pickup_addr_cd},                                                        -- 거래희망장소 코드
+            pickup_addr_name = (SELECT addr_name FROM administrative WHERE addr_cd = #{pickup_addr_cd}), -- 거래희망장소 주소명
+            detail_addr      = #{detail_addr},                                                           -- 거래희망장소 상세장소(위치)
+            brand            = #{brand},                                                                 -- 상품 브랜드
+            reg_price        = #{reg_price},                                                             -- 상품 정가
+            m_date           = NOW(),                                                                    -- 수정 날짜
+            ur_state         = 'N'                                                                       -- 사용자 상태
+        WHERE bno = #{bno} -- 판매글 번호
+    </update>
+
+    <!--  D : 판매글 작성자가 판매글 삭제하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌  -->
+    <update id="delete" parameterType="SaleDto">
+        UPDATE sale
+        SET m_date   = now(),
+            ur_state = 'N'
+        WHERE 1 = 1
+          AND bno = #{bno}
+    </update>
+
+    <!--  D : 관리자가 판매글 삭제하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌  -->
+    <update id="deleteAdmin" parameterType="SaleDto">
+        UPDATE sale
+        SET m_date   = now(),
+            ad_state = 'N'
+        WHERE 1 = 1
+          AND bno = #{bno}
+    </update>
+
+    <!--  D : 게시글 전체 작세하기  -->
+    <!--    <delete id="deleteTB" parameterType="">-->
+
+    <!--    </delete>-->
 
 </mapper>

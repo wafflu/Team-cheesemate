@@ -15,4 +15,16 @@ public interface SaleDao {
 
     // 판매글 작성하는 경우
     int insert(SaleDto saleDto) throws  Exception;
+
+    // 판매글 수정하는 경우
+    int update(SaleDto saleDto) throws Exception;
+
+    // 판매글 사용자가 삭제하는 경우
+    int delete(SaleDto saleDto) throws Exception;
+
+    // 판매글 관리자가 삭제하는 경우
+    int deleteAdmin(SaleDto saleDto) throws  Exception;
+
+
+
 }
