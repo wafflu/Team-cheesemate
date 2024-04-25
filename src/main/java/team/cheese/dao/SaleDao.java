@@ -23,7 +23,7 @@ public interface SaleDao {
     int delete(SaleDto saleDto) throws Exception;
 
     // 판매글 관리자가 삭제하는 경우
-    int deleteAdmin(SaleDto saleDto) throws  Exception;
+    int adminState(SaleDto saleDto) throws  Exception;
 
 
 

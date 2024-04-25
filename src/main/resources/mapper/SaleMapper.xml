@@ -11,6 +11,7 @@
     <select id="count" resultType="int">
         SELECT count(*)
         FROM sale
+        WHERE ur_state = 'Y'
     </select>
 
     <!-- CRUD  -->
@@ -93,21 +94,21 @@
         SET m_date   = now(),
             ur_state = 'N'
         WHERE 1 = 1
-          AND bno = #{bno}
+          AND no = #{no}
     </update>
 
-    <!--  D : 관리자가 판매글 삭제하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌  -->
-    <update id="deleteAdmin" parameterType="SaleDto">
+    <!--  D : 관리자가 판매글에 관여하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌  -->
+    <update id="adminState" parameterType="SaleDto">
         UPDATE sale
-        SET m_date   = now(),
+        SET m_date = now(),
+        <if test="ad_state == 'Y'">
             ad_state = 'N'
+        </if>
+        <if test="ad_state == 'N'">
+            ad_state = 'Y'
+        </if>
         WHERE 1 = 1
-          AND bno = #{bno}
+        AND no = #{no}
     </update>
-
-    <!--  D : 게시글 전체 작세하기  -->
-    <!--    <delete id="deleteTB" parameterType="">-->
-
-    <!--    </delete>-->
 
 </mapper>

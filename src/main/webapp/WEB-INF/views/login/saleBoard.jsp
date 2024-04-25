@@ -30,17 +30,17 @@
     <p>희망거래장소 : ${Sale.detail_addr}</p>
     <p>브랜드 : ${Sale.brand}</p>
     <p>정가 : ${Sale.reg_price}</p>
-    <p>구매자id : ${Sale.buyer_id}</p>
-    <p>구매자 닉네임 : ${Sale.buyer_nick}</p>
+<%--    <p>구매자id : ${Sale.buyer_id}</p>--%>
+<%--    <p>구매자 닉네임 : ${Sale.buyer_nick}</p>--%>
     <p>찜횟수 : ${Sale.like_cnt}</p>
     <p>조회수 : ${Sale.view_cnt}</p>
     <p>판매글 등록일 : ${Sale.r_date}</p>
-    <p>판매글 수정일 : ${Sale.m_date}</p>
-    <p>끌올횟수 : ${Sale.up_cnt}</p>
-    <p>끌어올리기일 : ${Sale.hoisting}</p>
+<%--    <p>판매글 수정일 : ${Sale.m_date}</p>--%>
+<%--    <p>끌올횟수 : ${Sale.up_cnt}</p>--%>
+<%--    <p>끌어올리기일 : ${Sale.hoisting}</p>--%>
     <p>가격제안/나눔신청 인원수 : ${Sale.bid_cnt}</p>
-    <p>판매글 노출여부 : ${Sale.ur_state}</p>
-    <p>관리자 관리상태 : ${Sale.ad_state}</p>
+<%--    <p>판매글 노출여부 : ${Sale.ur_state}</p>--%>
+<%--    <p>관리자 관리상태 : ${Sale.ad_state}</p>--%>
 </div>
 <div>
 </div>

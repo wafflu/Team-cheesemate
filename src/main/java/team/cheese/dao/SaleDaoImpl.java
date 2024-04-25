@@ -51,28 +51,9 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
-    public int deleteAdmin(SaleDto saleDto) throws Exception {
-        int no = saleDto.getNo();
+    public int adminState(SaleDto saleDto) throws Exception {
 
-        return session.update(namespace + "deleteAdmin", saleDto);
+        return session.update(namespace + "adminState", saleDto);
     }
-
-//    @Override
-//    public int insert(SaleDto saleDto) throws Exception {
-//        char tx_s_cd = saleDto.getTx_s_cd();
-//
-//        if(tx_s_cd == 'S') {    // 판매하려는 경우
-//            int num = session.insert(namespace + "insertSale", saleDto);
-//            if(num > 0 ) {
-//                return saleDto.getNo();
-//            }
-//        }
-//        // 나눔하려는 경우
-//        int num = session.insert(namespace + "insertFree", saleDto);
-//        if(num > 0 ) {
-//            return saleDto.getNo();
-//        }
-//        return 0;
-//    }
 
 }

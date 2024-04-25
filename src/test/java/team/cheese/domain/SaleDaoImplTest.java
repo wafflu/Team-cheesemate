@@ -78,4 +78,26 @@ public class SaleDaoImplTest {
         int cnt = saledao.count();
 //        assertTrue(cnt == 10);
     }
+
+    @Test
+    public void testAdminState() throws Exception {
+        // 관리자가 선택한 판매글의 번호의 상태에 개입할 때 상태를 바꿔주기
+        SaleDto saleDto = saledao.select(3);
+        System.out.println(saleDto.getNo());
+        saledao.adminState(saleDto);
+        System.out.println(saleDto.getAd_state());
+//        assertTrue(saleDto.getAd_state() == 'N');
+    }
+
+    @Test
+    public void testSaleState() throws Exception {
+        // 판매자가 판매글글을 삭제하였을 때 상태를 바꿔주기
+        SaleDto saleDto = saledao.select(10);
+        System.out.println(saleDto.getNo());
+        saledao.delete(saleDto);
+        System.out.println(saleDto.getAd_state());
+        assertTrue(saleDto.getAd_state() == 'N');
+    }
+
+
 }
