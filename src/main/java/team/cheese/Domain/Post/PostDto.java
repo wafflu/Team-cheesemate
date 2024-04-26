@@ -1,6 +1,5 @@
 package team.cheese.Domain.Post;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 
 
@@ -145,7 +144,7 @@ public class PostDto {
         return m_date;
     }
 
-    public void setM_date(Timestamp m_date) {
+    public void setM_date() {
         this.m_date = m_date;
     }
 

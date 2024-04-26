@@ -35,7 +35,10 @@
             <td>${postDto.no}</td>
             <td>${postDto.commu_cd}</td>
             <td>${postDto.addr_name}</td>
-            <td>${postDto.title}</td>
+            <td>
+                <a href = "${pageContext.request.contextPath}/read?sn=${postDto.sn}">${postDto.title}
+                </a>
+            </td>
             <td>${postDto.contents}</td>
             <td>${postDto.nick}</td>
             <td>${postDto.r_date}</td>

@@ -1,10 +1,12 @@
 package team.cheese.service.Post;
 
+import net.bytebuddy.description.type.TypeList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.web.servlet.support.JstlUtils;
 import team.cheese.Domain.Post.PostDto;
 import team.cheese.dao.Post.PostDao;
 
@@ -75,7 +77,7 @@ public class PostServiceImplTest {
         int beforeCnt =  postService.getCount();
 
 
-        postDto.setSn(61);
+        postDto.setSn(32);
         postDto.setTitle("라이트수정테스트");
         postDto.setContents("라이트 수정 테스트");
         postService.modify(postDto);
@@ -85,6 +87,35 @@ public class PostServiceImplTest {
         int afterCnt =  postService.getCount();
         assertEquals(beforeCnt, afterCnt);
 
+
+    }
+
+@Test
+    public void read()throws Exception{
+
+
+        // 테스트 데이터
+        PostDto postDto = new PostDto();
+        postDto.setur_id("user123");
+        postDto.setaddr_cd("11010720");
+        postDto.setNo(1);
+        postDto.setcommu_cd("commu_L");
+        postDto.setaddr_name("서울특별시 종로구 사직동");
+        postDto.setTitle("라이트 테스트");
+        postDto.setContents("라이트 테스트");
+        postDto.setNick("skyLee");
+
+        // 게시물 작성
+        int writeResult = postService.write(postDto);
+
+        // 게시물 작성이 성공했는지 확인
+        assertEquals(1, writeResult);
+
+
+        // 게시물 읽기
+        postService.read(65);
+
+        assertTrue(postService.read(65).getview_cnt() > 0);
 
     }
 

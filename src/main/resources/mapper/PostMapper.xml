@@ -14,8 +14,6 @@
     </insert>
 
 
-
-
     <select id = "selectAll" resultType="PostDto">
         select * from post;
     </select>
