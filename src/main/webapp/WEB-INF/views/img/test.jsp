@@ -117,7 +117,11 @@
   // $(".imgDeletBtn").click(function(){
   //     deleteFile();
   // });
-
+let imginfo = [
+  {name : '김경식',
+    age : '123'
+  }
+];
   $("#reg_img").on('click',function (){
     alert("asdasdasd");
     $.ajax({

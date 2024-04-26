@@ -28,34 +28,18 @@ import java.util.UUID;
 public class test {
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
+
         ServletContext servletContext = request.getServletContext();
         String realPath = servletContext.getRealPath("/");
-
         String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
 
-//        System.out.println("asdasdas");
-
-        /* 이미지 파일 체크 */
-        for(MultipartFile multipartFile: uploadFiles) {
-
-            File checkfile = new File(multipartFile.getOriginalFilename());
-            String type = null;
-
-            try {
-                type = Files.probeContentType(checkfile.toPath());
-//                System.out.println("MIME TYPE : " + type);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if(!type.startsWith("image")) {
-                List<ImgDto> list = null;
-                return new ResponseEntity<>(list, HttpStatus.BAD_REQUEST);
-            }
-
-        }
 
 //        String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img";
+
+        if(!CheckImg(uploadFiles)){
+            System.out.println("너 벤");
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
@@ -80,7 +64,7 @@ public class test {
             String uploadFileName = multipartFile.getOriginalFilename();
             imgvo.setFilert(datePath);
             //uuid이름 생성
-            String uuid = UUID.randomUUID().toString();
+            String uuid = datePath;//UUID.randomUUID().toString();
             imgvo.setU_name(uuid);
             imgvo.setO_name(uploadFileName.substring(0, uploadFileName.indexOf(".")));
             imgvo.setE_name(uploadFileName.substring(uploadFileName.indexOf("."), uploadFileName.length()));
@@ -124,8 +108,24 @@ public class test {
         return result;
     }
 
-    @RequestMapping("/reg_data")
-    public void regdate(){
+    private boolean CheckImg(MultipartFile[] uploadFiles){
+        /* 이미지 파일 체크 */
+        for(MultipartFile multipartFile: uploadFiles) {
 
+            File checkfile = new File(multipartFile.getOriginalFilename());
+            String type = null;
+
+            try {
+                type = Files.probeContentType(checkfile.toPath());
+//                System.out.println("MIME TYPE : " + type);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(!type.startsWith("image")) {
+//                List<ImgDto> list = null;
+                return false;
+            }
+        }
+        return true;
     }
 }

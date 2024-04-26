@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias alias="ImgVO" type="team.cheese.domain.ImgDto"/>
+        <typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
         <typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
         <typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
         <typeAlias alias="SaleDao" type="team.cheese.dao.SaleDao"/>

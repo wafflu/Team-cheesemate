@@ -25,21 +25,21 @@ public class SaleDaoTest {
 
 
     @Test
-    public void testInsert() throws Exception {
+    public void saleTest() throws Exception {
         // 글 작성하기 테스트
         SaleDto saledto = new SaleDto();
         saledto.setSeller_id("user123");
         saledto.setSal_i_cd("016001005");
-        saledto.setPro_s_cd('C');
-        saledto.setTx_s_cd('S');
+        saledto.setPro_s_cd("C");
+        saledto.setTx_s_cd("S");
         // 거래방법 1개만 작성
-        saledto.setTrade_s_cd_1('F');
-        saledto.setTrade_s_cd_2('F');
+        saledto.setTrade_s_cd_1("F");
+        saledto.setTrade_s_cd_2("F");
         saledto.setPrice(28000);
-        saledto.setSal_s_cd('S');
+        saledto.setSal_s_cd("S");
         saledto.setTitle("자바의 정석 팔아요");
         saledto.setContents("자바의 정석 2판 팔아요.");
-        saledto.setBid_cd('N');
+        saledto.setBid_cd("N");
         saledto.setPickup_addr_cd("11060710");
         saledto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
         saledto.setBrand("자바의 정석");
@@ -51,19 +51,22 @@ public class SaleDaoTest {
         System.out.println("성공(1)실패(0) : " + no);
 
         // 위에 판매글 겨우 작성함
-        assertTrue(imgDao.delete_sale_img_all() != 0);
-
-        assertTrue(imgDao.delete_img_all() != 0);
+//        assertTrue(imgDao.delete_cross_all("sale_img") != 0);
+//
+//        assertTrue(imgDao.delete_img_all() != 0);
 
         ImgDto img = new ImgDto();
+
         img.setTb_name("sale");
         img.setTb_no(saledto.getNo());
+        img.setImgtype("s");
         img.setFilert("/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img");
         img.setU_name("s_52932408-4685-4136-b20a-cacfa1fd478a_");
         img.setO_name("아보카도");
         img.setE_name(".png");
         img.setW_size(292);
         img.setH_size(292);
+
         for(int i = 0; i<5; i++){
             imgDao.insert_img(img);
         }
@@ -80,9 +83,15 @@ public class SaleDaoTest {
         }
 
         HashMap map = new HashMap();
+
         map.put("no", saledto.getNo());
-        map.put("cross_tb", "sale");
-        int change = imgDao.insert_sale_img(map);
+        map.put("col_name", "sal_no");
+        map.put("no_name", "no");
+        map.put("cross_tb_name", "sale");
+        map.put("tb_name", "sale_img");
+
+        int change = imgDao.insert_img(map);
         assertTrue(change > 1);
     }
+
 }

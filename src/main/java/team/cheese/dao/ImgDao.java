@@ -30,15 +30,19 @@ public class ImgDao {
         return session.update(namespace+"state_change_img", map);
     }
 
-    public int insert_sale_img(HashMap map){
+    public int insert_img(HashMap map){
         return session.update(namespace+"insert_cross", map);
     }
 
-    public int delete_sale_img_all(){
-        return session.delete(namespace+"delete_sale_img_all");
+    public int delete_cross_all(String tb_name){
+        return session.delete(namespace+"delete_cross_all", tb_name);
     }
 
     public int delete_img_all(){
         return session.delete(namespace+"delete_img_all");
+    }
+
+    public List<ImgDto> select_s_imglist(){
+        return session.selectList(namespace+"select_s_imglist");
     }
 }

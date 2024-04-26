@@ -7,10 +7,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
 import team.cheese.domain.SaleDto;
@@ -24,10 +26,7 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class test2 {
@@ -37,6 +36,9 @@ public class test2 {
 
     @Autowired
     SaleDao saleDao;
+
+    @Autowired
+    ImgDao imgDao;
 
 //    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img"; // 절대 경로 테스트 삼아 지정
 
@@ -58,19 +60,13 @@ public class test2 {
     public ResponseEntity<byte[]> getImage(String fileName, HttpServletRequest request){
 
         String folderPath = path(request);
-
         File file = new File(folderPath+"/"+ fileName);
-
         ResponseEntity<byte[]> result = null;
 
         try {
-
             HttpHeaders header = new HttpHeaders();
-
             header.add("Content-type", Files.probeContentType(file.toPath()));
-
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-
         }catch (IOException e) {
             e.printStackTrace();
         }
@@ -104,6 +100,15 @@ public class test2 {
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
+    @GetMapping("/testview")
+    public String viewtest(Model model){
+        List<ImgDto> list = imgDao.select_s_imglist();
+        System.out.println(list);
+        model.addAttribute("list", list);
+
+        return "img/testview";
+    }
+
     @PostMapping("/reg_image")
     public String reg_img(@RequestBody ArrayList<ImgDto> imgvo, HttpServletRequest request){
         String folderPath = path(request);
@@ -123,16 +128,16 @@ public class test2 {
         SaleDto saledto = new SaleDto();
         saledto.setSeller_id("user123");
         saledto.setSal_i_cd("016001005");
-        saledto.setPro_s_cd('C');
-        saledto.setTx_s_cd('S');
+        saledto.setPro_s_cd("C");
+        saledto.setTx_s_cd("S");
         // 거래방법 1개만 작성
-        saledto.setTrade_s_cd_1('F');
-        saledto.setTrade_s_cd_2('F');
+        saledto.setTrade_s_cd_1("F");
+        saledto.setTrade_s_cd_2("F");
         saledto.setPrice(28000);
-        saledto.setSal_s_cd('S');
+        saledto.setSal_s_cd("S");
         saledto.setTitle("자바의 정석");
         saledto.setContents("자바의 정석 2판 팔아요.");
-        saledto.setBid_cd('N');
+        saledto.setBid_cd("N");
         saledto.setPickup_addr_cd("11060710");
         saledto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
         saledto.setBrand("자바의 정석");
@@ -148,7 +153,7 @@ public class test2 {
                 File imageFile = new File(fname);
 
                 // 예: 이미지 크기 출력
-                String uuid = UUID.randomUUID().toString();
+                String uuid = datePath;//UUID.randomUUID().toString();
                 String uploadFileName = uuid+"_"+img.getO_name()+img.getE_name();
 
                 File simg_name = new File(uploadPath, "s_" + uploadFileName); // 미리보기이미지
@@ -175,7 +180,9 @@ public class test2 {
                             .outputQuality(1.0)  // 품질 유지
                             .toFile(simg_name);
                     imginfo.setTb_name("sale");
-                    imginfo.setFilert(folderPath+"/"+img.getFilert());
+                    imginfo.setTb_no(saledto.getNo());
+                    imginfo.setImgtype("s");
+                    imginfo.setFilert(datePath);
                     imginfo.setU_name("s_"+uuid+"_");
                     imginfo.setO_name(img.getO_name());
                     imginfo.setE_name(img.getE_name());
@@ -192,7 +199,9 @@ public class test2 {
 
                 //본문 이미지 작성
                 imginfo.setTb_name("sale");
-                imginfo.setFilert(folderPath+"/"+img.getFilert());
+                imginfo.setTb_no(saledto.getNo());
+                imginfo.setImgtype("w");
+                imginfo.setFilert(datePath);
                 imginfo.setU_name("w_"+uuid+"_");
                 imginfo.setO_name(img.getO_name());
                 imginfo.setE_name(img.getE_name());
@@ -222,10 +231,18 @@ public class test2 {
 
         //교차테이블 작성
         HashMap map = new HashMap();
+//        map.put("no", saledto.getNo());
+//        map.put("cross_tb", "sale");
+
         map.put("no", saledto.getNo());
-        map.put("cross_tb", "sale");
+        map.put("col_name", "sal_no");
+        map.put("no_name", "no");
+        map.put("cross_tb_name", "sale");
+        map.put("tb_name", "sale_img");
         imgService.view_img(map);
 
-        return "/test";
+        //위에가 작성 완료
+
+        return "redirect:/testview";
     }
 }

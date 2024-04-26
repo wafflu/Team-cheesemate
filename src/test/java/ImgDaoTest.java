@@ -22,8 +22,9 @@ public class ImgDaoTest {
     @Test
     public void insertImg(){
         ImgDto img = new ImgDto();
-        img.setTb_name("board");
-        img.setTb_no(1);
+        img.setTb_name("post");
+        img.setTb_no(3);
+        img.setImgtype("s");
         img.setFilert("/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img");
         img.setU_name("s_52932408-4685-4136-b20a-cacfa1fd478a_");
         img.setO_name("아보카도");
@@ -72,23 +73,26 @@ public class ImgDaoTest {
 
     @Test
     public void sale_img_test(){
-        assertTrue(imgDao.delete_sale_img_all() != 0);
+        //교차테이블 작성 테스트
+        //assertTrue(imgDao.delete_cross_all("community_img") != 0);
         HashMap map = new HashMap();
-        map.put("no", 1);
-        map.put("cross_tb", "sale");
-        int change = imgDao.insert_sale_img(map);
+        map.put("no", 3);
+        map.put("col_name", "post_no");
+        map.put("no_name", "sn");
+        map.put("cross_tb_name", "post");
+        map.put("tb_name", "community_img");
+        int change = imgDao.insert_img(map);
         assertTrue(change > 1);
     }
 
     @Test
     public void img_test(){
-        assertTrue(imgDao.delete_sale_img_all() != 0);
-
-        assertTrue(imgDao.delete_img_all() != 0);
+//        assertTrue(imgDao.delete_sale_img_all("community_img") != 0);
 
         ImgDto img = new ImgDto();
-        img.setTb_name("sale");
-        img.setTb_no(1);
+        img.setTb_name("post");
+        img.setTb_no(3);
+        img.setImgtype("s");
         img.setFilert("/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img");
         img.setU_name("s_52932408-4685-4136-b20a-cacfa1fd478a_");
         img.setO_name("아보카도");
@@ -109,10 +113,25 @@ public class ImgDaoTest {
         }
 
         HashMap map = new HashMap();
-        map.put("no", 1);
-        map.put("cross_tb", "sale");
-        int change = imgDao.insert_sale_img(map);
+        map.put("no", 3);
+        map.put("col_name", "post_no");
+        map.put("no_name", "sn");
+        map.put("cross_tb_name", "post");
+        map.put("tb_name", "community_img");
+        int change = imgDao.insert_img(map);
         assertTrue(change > 1);
+    }
+
+    @Test
+    public void SimgList(){
+        List<ImgDto> list = imgDao.select_s_imglist();
+        assertTrue(list != null);
+        Iterator it = list.iterator();
+
+        while (it.hasNext()){
+            System.out.println(it.next());
+        }
+
     }
 
 }

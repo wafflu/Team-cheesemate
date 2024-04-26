@@ -4,16 +4,16 @@
 
 <mapper namespace="team.cheese.dao.ImgDao">
 
-    <insert id="insert_img" parameterType="ImgVO">
-        insert into img (tb_name, tb_no, file_rt, u_name, o_name, e_name, w_size, h_size)
-        values (#{tb_name}, #{tb_no}, #{filert}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size});
+    <insert id="insert_img" parameterType="ImgDto">
+        insert into img (tb_name, tb_no, imgtype, file_rt, u_name, o_name, e_name, w_size, h_size)
+        values (#{tb_name}, #{tb_no}, #{imgtype}, #{filert}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size});
     </insert>
 
-    <select id="select_img" resultType="ImgVO">
+    <select id="select_img" resultType="ImgDto">
         select * from img;
     </select>
 
-    <select id="select_simg_view" parameterType="map" resultType="ImgVO">
+    <select id="select_simg_view" parameterType="map" resultType="ImgDto">
         SELECT *
         FROM img
         WHERE state = 'Y'
@@ -25,23 +25,37 @@
         update img set state = #{state} where no = #{no};
     </update>
 
+<!--    <insert id="insert_cross" parameterType="map">-->
+<!--        INSERT INTO sale_img (sal_no, img_no)-->
+<!--        SELECT s.no AS sale_no, i.no AS img_no-->
+<!--        FROM ${cross_tb} s, img i-->
+<!--        where s.no = #{no} and i.tb_name = #{cross_tb} and i.tb_no = #{no};-->
+<!--    </insert>-->
+
+    <!-- 이미지 교차 테이블 작성 -->
     <insert id="insert_cross" parameterType="map">
-        INSERT INTO sale_img (sal_no, img_no)
-        SELECT s.no AS sale_no, i.no AS img_no
-        FROM ${cross_tb} s, img i
-        where s.no = #{no} and i.tb_name = #{cross_tb} and i.tb_no = #{no};
+        INSERT INTO ${tb_name} (${col_name}, img_no)
+        SELECT s.${no_name} AS ${col_name}, i.no AS img_no
+        FROM ${cross_tb_name} s, img i
+        where s.${no_name} = #{no} and i.tb_name = #{cross_tb_name} and i.tb_no = #{no};
     </insert>
 
-    <select id="select_sale_img" resultType="ImgVO">
+    <select id="select_sale_img" resultType="ImgDto">
         select * from img;
     </select>
 
-    <delete id="delete_sale_img_all" parameterType="int">
-        delete from sale_img;
+    <delete id="delete_cross_all" parameterType="string">
+        delete from ${tb_name};
     </delete>
 
     <delete id="delete_img_all" parameterType="int">
         delete from img;
     </delete>
+
+    <select id="select_s_imglist" resultType="ImgDto">
+        select s.no as s_no, i.imgtype, s.title as s_title, s.price as s_price, s.r_date as s_r_date, i.file_rt, i.u_name, i.o_name, i.e_name
+        from img i, sale s, sale_img si
+        where si.sal_no = s.no and si.img_no = i.no and i.imgtype = 's';
+    </select>
 
 </mapper>
