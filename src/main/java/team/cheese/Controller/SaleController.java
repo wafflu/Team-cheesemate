@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import team.cheese.dao.SaleCategoryDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.SaleDto;
 
@@ -18,6 +19,8 @@ import team.cheese.domain.SaleDto;
 public class SaleController {
     @Autowired
     SaleDao saleDao;
+    @Autowired
+    SaleCategoryDao saleCategoryDao;
 
     @RequestMapping("/list")
     public String read(@RequestParam(defaultValue = "0") int check_addr_cd, Model model, HttpSession session) throws Exception {
@@ -54,7 +57,7 @@ public class SaleController {
 
     @RequestMapping("/write")
     public String write(Model model, HttpSession session) throws Exception {
-
+        model.addAttribute("categories", saleCategoryDao.selectAll());
         return "/login/saleWrite";
     }
 }

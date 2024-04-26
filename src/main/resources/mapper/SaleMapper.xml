@@ -11,6 +11,11 @@
     <select id="count" resultType="int">
         SELECT count(*)
         FROM sale
+    </select>
+
+    <select id="countUse" resultType="int">
+        SELECT count(*)
+        FROM sale
         WHERE ur_state = 'Y'
     </select>
 
@@ -68,7 +73,7 @@
             seller_id        = #{seller_id},                                                             -- 판매자 ID
             seller_nick      = (SELECT nick FROM user WHERE id = #{seller_id}),                          -- 판매자 닉네임
             sal_i_cd         = #{sal_i_cd},                                                              -- 판매 카테고리 코드
-            sal_name         = (SELECT name FROM sale_category WHERE sal_cd = #{sal_cd}),                -- 판매 카테고리 이름
+            sal_name         = (SELECT name FROM sale_category WHERE sal_cd = #{sal_i_cd}),                -- 판매 카테고리 이름
             pro_s_cd         = #{pro_s_cd},                                                              -- 상품 상태 코드
             tx_s_cd          = #{tx_s_cd},                                                               -- 거래 방식 코드
             trade_s_cd_1     = #{trade_s_cd_1},                                                          -- 거래 방법1 코드
@@ -85,7 +90,7 @@
             reg_price        = #{reg_price},                                                             -- 상품 정가
             m_date           = NOW(),                                                                    -- 수정 날짜
             ur_state         = 'N'                                                                       -- 사용자 상태
-        WHERE bno = #{bno} -- 판매글 번호
+        WHERE no = #{no} -- 판매글 번호
     </update>
 
     <!--  D : 판매글 작성자가 판매글 삭제하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌  -->

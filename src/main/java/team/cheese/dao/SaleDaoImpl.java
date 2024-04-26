@@ -20,6 +20,11 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
+    public int countUse() throws Exception {
+        return session.selectOne(namespace + "countUse");
+    }
+
+    @Override
     public List<SaleDto> selectAll() throws Exception {
         return session.selectList(namespace+"selectAll");
     }
@@ -31,7 +36,7 @@ public class SaleDaoImpl implements SaleDao {
 
     @Override
     public int insert(SaleDto saleDto) throws Exception {
-        char tx_s_cd = saleDto.getTx_s_cd();
+        String tx_s_cd = saleDto.getTx_s_cd();
 
         return session.insert(namespace + "insert", saleDto);
     }

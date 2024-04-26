@@ -12,15 +12,15 @@ public class SaleDto {
     private String sal_i_cd;
 
     private String sal_name;
-    private char pro_s_cd;
-    private char tx_s_cd;
-    private char trade_s_cd_1;
-    private char trade_s_cd_2;
-    private char sal_s_cd;
+    private String pro_s_cd;
+    private String tx_s_cd;
+    private String trade_s_cd_1;
+    private String trade_s_cd_2;
+    private String sal_s_cd;
     private String title;
     private String contents;
     private int price;
-    private char bid_cd;
+    private String bid_cd;
     private String pickup_addr_cd;
     private String pickup_addr_name;
     private String detail_addr;
@@ -100,43 +100,43 @@ public class SaleDto {
         this.sal_name = sal_name;
     }
 
-    public char getPro_s_cd() {
+    public String getPro_s_cd() {
         return pro_s_cd;
     }
 
-    public void setPro_s_cd(char pro_s_cd) {
+    public void setPro_s_cd(String pro_s_cd) {
         this.pro_s_cd = pro_s_cd;
     }
 
-    public char getTx_s_cd() {
+    public String getTx_s_cd() {
         return tx_s_cd;
     }
 
-    public void setTx_s_cd(char tx_s_cd) {
+    public void setTx_s_cd(String tx_s_cd) {
         this.tx_s_cd = tx_s_cd;
     }
 
-    public char getTrade_s_cd_1() {
+    public String getTrade_s_cd_1() {
         return trade_s_cd_1;
     }
 
-    public void setTrade_s_cd_1(char trade_s_cd_1) {
+    public void setTrade_s_cd_1(String trade_s_cd_1) {
         this.trade_s_cd_1 = trade_s_cd_1;
     }
 
-    public char getTrade_s_cd_2() {
+    public String getTrade_s_cd_2() {
         return trade_s_cd_2;
     }
 
-    public void setTrade_s_cd_2(char trade_s_cd_2) {
+    public void setTrade_s_cd_2(String trade_s_cd_2) {
         this.trade_s_cd_2 = trade_s_cd_2;
     }
 
-    public char getSal_s_cd() {
+    public String getSal_s_cd() {
         return sal_s_cd;
     }
 
-    public void setSal_s_cd(char sal_s_cd) {
+    public void setSal_s_cd(String sal_s_cd) {
         this.sal_s_cd = sal_s_cd;
     }
 
@@ -164,11 +164,11 @@ public class SaleDto {
         this.price = price;
     }
 
-    public char getBid_cd() {
+    public String getBid_cd() {
         return bid_cd;
     }
 
-    public void setBid_cd(char bid_cd) {
+    public void setBid_cd(String bid_cd) {
         this.bid_cd = bid_cd;
     }
 
