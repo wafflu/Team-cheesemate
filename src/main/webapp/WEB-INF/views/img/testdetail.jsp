@@ -10,18 +10,26 @@
 <html>
 <head>
     <title>Title</title>
+
+    <style>
+        #resizable {
+            width: 200px;
+            height: 200px;
+            padding: 0.5em;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <c:forEach items="${list}" var="img">
-        <img src="/display?fileName=${img.filert}/${img.u_name}${img.o_name}${img.e_name}">
-        <a href="/testdetail?no=${img.s_no}">
-        <p>${img.s_title}</p>
-        <p>${img.s_price}</p>
-        <p>${img.s_r_date}</p>
-        </a>
-    </c:forEach>
 
+    <c:forEach items="${list}" var="img">
+        <img src="/display?fileName=${img.filert}/${img.u_name}${img.o_name}${img.e_name}" id = "resizable"><br>
+    </c:forEach>
 
 <script>
 
@@ -32,7 +40,7 @@
         let uploadResult = $("#uploadResult");
         let str = "";
         let obj = imgDto;
-        let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
+        let fileCallPath = encodeURIComponent(obj.filert + "/w_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
         str += "<img src='/display?fileName=" + fileCallPath +"'>";
 
         uploadResult.append(str);

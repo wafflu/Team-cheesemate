@@ -10,11 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
@@ -26,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -98,16 +97,18 @@ public class test2 {
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
 
-    @GetMapping("/testview")
+    @RequestMapping("/testview")
     public String viewtest(Model model){
+        System.out.println("여기옴?");
         List<ImgDto> list = imgDao.select_s_imglist();
-        System.out.println(list);
+//        System.out.println(list);
         model.addAttribute("list", list);
 
         return "img/testview";
     }
 
     @PostMapping("/reg_image")
+    @ResponseBody
     public String reg_img(@RequestBody ArrayList<ImgDto> imglist, HttpServletRequest request){
         String folderPath = path(request);
 
@@ -149,42 +150,24 @@ public class test2 {
                 String uuid = datePath;//UUID.randomUUID().toString();
                 String uploadFileName = uuid+"_"+img.getO_name()+img.getE_name();
 
-                File simg_name = new File(uploadPath, "s_" + uploadFileName); // 미리보기이미지
-                File wimg_name = new File(uploadPath, "w_" + uploadFileName); // 미리보기이미지
-
-                int s_wid = 292;
-                int s_hig = 292;
-
-                int w_wid = 856;
-                int w_hig = 856;
-
-                //썸네일 이미지 만들기
                 ImgDto imginfo = new ImgDto();
                 imginfo.setTb_no(saledto.getNo());
-
                 if(change){
-                    BufferedImage image1 = Thumbnails.of(imageFile)
-                            .size(s_wid, s_hig)
-                            .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                            .asBufferedImage();
-
-                    Thumbnails.of(image1)
-                            .size(s_wid, s_hig)
-                            .outputQuality(1.0)  // 품질 유지
-                            .toFile(simg_name);
+                    Makeimg2(imageFile, uploadPath, "s_" + uploadFileName, 292, 292);
                     imginfo.setTb_name("sale");
                     imginfo.setImgtype("s");
                     imginfo.setFilert(datePath);
                     imginfo.setU_name("s_"+uuid+"_");
                     imginfo.setO_name(img.getO_name());
                     imginfo.setE_name(img.getE_name());
-                    imginfo.setW_size(s_wid);
-                    imginfo.setH_size(s_hig);
+                    imginfo.setW_size(292);
+                    imginfo.setH_size(292);
                     change = false;
                     //썸네일 이미지 디비에 저장
                     imgService.reg_img(imginfo);
                 }
 
+                Makeimg2(imageFile, uploadPath, "w_" + uploadFileName, 856, 856);
                 //본문 이미지 작성
                 imginfo.setTb_name("sale");
                 imginfo.setImgtype("w");
@@ -192,21 +175,10 @@ public class test2 {
                 imginfo.setU_name("w_"+uuid+"_");
                 imginfo.setO_name(img.getO_name());
                 imginfo.setE_name(img.getE_name());
-                imginfo.setW_size(w_wid);
-                imginfo.setH_size(w_hig);
+                imginfo.setW_size(856);
+                imginfo.setH_size(856);
                 imgService.reg_img(imginfo);
-                System.out.println("횟수 체크용3");
 
-                // 본문이미지
-                BufferedImage image2 = Thumbnails.of(imageFile)
-                        .size(w_wid, w_hig)
-                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                        .asBufferedImage();
-
-                Thumbnails.of(image2)
-                        .size(w_wid, w_hig)
-                        .outputQuality(1.0)  // 품질 유지
-                        .toFile(wimg_name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -221,7 +193,21 @@ public class test2 {
         map.put("tb_name", "sale_img");
         imgService.view_img(map);
 
-        return "redirect:/testview";
+        System.out.println("응답 전송 해줘");
+        return "/testview";
+    }
+
+    //테스트를 위해서 사용해보는 Ajax
+    @PostMapping("/reg_image2")
+    @ResponseBody
+    public String reg_img2(@RequestBody Map<String, Object> info){
+        System.out.println("get");
+
+        System.out.println(info.get("imglist"));
+        System.out.println(info.get("person"));
+        System.out.println("hello");
+        return "regimg";
+//        return "regimg";
     }
 
     //----------------test--------------
@@ -246,10 +232,21 @@ public class test2 {
             uploadPath.mkdirs();
         }
 
-        List<ImgDto> list = Makepreviewimg(uploadFiles, datePath, uploadPath);
+        List<ImgDto> list = new ArrayList();
+
+        for(MultipartFile multipartFile : uploadFiles) {
+            list.add(Makeimg(multipartFile, datePath, uploadPath, "r_",78, 78));
+        }
 
         ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
         return result;
+    }
+
+    public String Todaystr(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String str = sdf.format(date);
+        return str.replaceAll("-", "_");
     }
 
     private boolean CheckImg(MultipartFile[] uploadFiles){
@@ -273,64 +270,68 @@ public class test2 {
         return true;
     }
 
-    public List<ImgDto> Makepreviewimg(MultipartFile[] uploadFiles, String datePath, File uploadPath){
-        /* 이미저 정보 담는 객체 */
-        List<ImgDto> list = new ArrayList();
+    //사용 : 판매, 커뮤, 이벤트, 마이페이지, 미리보기용 이미지 생성?
+    public ImgDto Makeimg(MultipartFile multipartFile, String datePath, File uploadPath, String imgtype, int width, int height){
+        ImgDto imgdto = new ImgDto();
+        String uploadFileName = multipartFile.getOriginalFilename();
+        // 파일경로 저장
+        imgdto.setFilert(datePath);
+        //uuid이름 생성
+        String uuid = datePath;//UUID.randomUUID().toString();
+        imgdto.setU_name(uuid);
+        imgdto.setO_name(uploadFileName.substring(0, uploadFileName.indexOf(".")));
+        imgdto.setE_name(uploadFileName.substring(uploadFileName.indexOf("."), uploadFileName.length()));
 
-        for(MultipartFile multipartFile : uploadFiles) {
-            ImgDto imgvo = new ImgDto();
+        /* 파일 위치, 파일 이름을 합친 File 객체 */
+        File saveFile = new File(uploadPath, uploadFileName);
 
-            String uploadFileName = multipartFile.getOriginalFilename();
-            // 파일경로 저장
-            imgvo.setFilert(datePath);
-            //uuid이름 생성
-            String uuid = datePath;//UUID.randomUUID().toString();
-            imgvo.setU_name(uuid);
-            imgvo.setO_name(uploadFileName.substring(0, uploadFileName.indexOf(".")));
-            imgvo.setE_name(uploadFileName.substring(uploadFileName.indexOf("."), uploadFileName.length()));
+        /* 파일 저장 */
+        try {
+            multipartFile.transferTo(saveFile); // 원본이미지 저장
 
-            /* 파일 위치, 파일 이름을 합친 File 객체 */
-            File saveFile = new File(uploadPath, uploadFileName);
+            uploadFileName = uuid + "_" + uploadFileName;
 
-            /* 파일 저장 */
-            try {
-                multipartFile.transferTo(saveFile); // 원본이미지 저장
+            File thumbnailFile = new File(uploadPath, imgtype + uploadFileName); // 미리보기이미지
 
-                uploadFileName = uuid + "_" + uploadFileName;
-                File thumbnailFile = new File(uploadPath, "r_" + uploadFileName); // 미리보기이미지
+            // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+            BufferedImage Previewimage = Thumbnails.of(multipartFile.getInputStream())
+                    .size(width, height)
+                    .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                    .asBufferedImage();
 
-                //미리보기 이미지 크기 지정
-                int width = 78;
-                int height = 78;
+            Thumbnails.of(Previewimage)
+                    .size(width, height)
+                    .outputQuality(1.0)  // 품질 유지
+                    .toFile(thumbnailFile);
 
-                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-                BufferedImage Previewimage = Thumbnails.of(multipartFile.getInputStream())
-                        .size(width, height)
-                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                        .asBufferedImage();
-
-                Thumbnails.of(Previewimage)
-                        .size(width, height)
-                        .outputQuality(1.0)  // 품질 유지
-                        .toFile(thumbnailFile);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            list.add(imgvo);
-//            System.out.println("파일 이름 : " + multipartFile.getOriginalFilename());
-//            System.out.println("파일 타입 : " + multipartFile.getContentType());
-//            System.out.println("파일 크기 : " + multipartFile.getSize());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        return list;
+        return imgdto;
     }
 
-    public String Todaystr(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String str = sdf.format(date);
-        return str.replaceAll("-", "_");
+    //본문 이미지 생성
+    public void Makeimg2(File imageFile, File uploadPath, String uploadFileName, int width, int height) throws IOException {
+        File img_name = new File(uploadPath, uploadFileName);
+
+        BufferedImage image1 = Thumbnails.of(imageFile)
+                .size(width, height)
+                .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                .asBufferedImage();
+
+        Thumbnails.of(image1)
+                .size(width, height)
+                .outputQuality(1.0)  // 품질 유지
+                .toFile(img_name);
+    }
+
+    //------디테일 눌렀을때
+    @RequestMapping("/testdetail")
+    public String testdetail(int no, Model model){
+        List<ImgDto> list = imgDao.select_w_imglist(no);
+//        System.out.println(list);
+        model.addAttribute("list", list);
+
+        return "img/testdetail";
     }
 }

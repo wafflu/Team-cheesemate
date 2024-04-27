@@ -131,7 +131,16 @@ public class ImgDaoTest {
         while (it.hasNext()){
             System.out.println(it.next());
         }
+    }
+    @Test
+    public void WimgList(){
+        List<ImgDto> list = imgDao.select_w_imglist(85);
+        assertTrue(list != null);
+        Iterator it = list.iterator();
 
+        while (it.hasNext()){
+            System.out.println(it.next());
+        }
     }
 
 }

@@ -45,4 +45,8 @@ public class ImgDao {
     public List<ImgDto> select_s_imglist(){
         return session.selectList(namespace+"select_s_imglist");
     }
+
+    public List<ImgDto> select_w_imglist(int no){
+        return session.selectList(namespace+"select_w_imglist", no);
+    }
 }

@@ -100,14 +100,27 @@
   // });
 
   $("#reg_img").on('click',function (){
-    alert("asdasdasd");
+    let info = {
+      "imglist" : imginfo,
+      "person": { "name": "lee", "age": 24 }
+    }
+    // alert("asdasdasd");
     $.ajax({
       url: '/reg_image',
       type : 'POST',
       contentType : 'application/json',
-      dataType : 'json',
-      data : JSON.stringify(imginfo)
+      dataType : 'text',
+      data : JSON.stringify(imginfo),
+      async : "true",
+      success: function (result) {
+        location.replace(result);
+        alert("S : "+result)
+      },
+      error : function(result) {
+        alert("F : "+result)
+      }
     });
+    alert("asdasdasd");
   })
 
 
