@@ -26,7 +26,7 @@ import java.util.UUID;
 
 @RestController
 public class test {
-    @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(value="/uploadAjaxAction2", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
 
         ServletContext servletContext = request.getServletContext();
@@ -37,10 +37,10 @@ public class test {
 //        String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img";
 
         if(!CheckImg(uploadFiles)){
-            System.out.println("너 벤");
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
+        //날짜 계산
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String str = sdf.format(date);
@@ -55,55 +55,8 @@ public class test {
             uploadPath.mkdirs();
         }
 
-        /* 이미저 정보 담는 객체 */
-        List<ImgDto> list = new ArrayList();
+        List<ImgDto> list = Makepreviewimg(uploadFiles, datePath, uploadPath);
 
-        for(MultipartFile multipartFile : uploadFiles) {
-            ImgDto imgvo = new ImgDto();
-
-            String uploadFileName = multipartFile.getOriginalFilename();
-            imgvo.setFilert(datePath);
-            //uuid이름 생성
-            String uuid = datePath;//UUID.randomUUID().toString();
-            imgvo.setU_name(uuid);
-            imgvo.setO_name(uploadFileName.substring(0, uploadFileName.indexOf(".")));
-            imgvo.setE_name(uploadFileName.substring(uploadFileName.indexOf("."), uploadFileName.length()));
-
-            /* 파일 위치, 파일 이름을 합친 File 객체 */
-            File saveFile = new File(uploadPath, uploadFileName);
-
-            /* 파일 저장 */
-            try {
-                multipartFile.transferTo(saveFile); // 원본이미지 저장
-
-                uploadFileName = uuid + "_" + uploadFileName;
-                File thumbnailFile3 = new File(uploadPath, "r_" + uploadFileName); // 미리보기이미지
-
-                // 이미지 크기 지정
-                int width = 78;
-                int height = 78;
-
-                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-                BufferedImage image3 = Thumbnails.of(multipartFile.getInputStream())
-                        .size(width, height)
-                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                        .asBufferedImage();
-
-                Thumbnails.of(image3)
-                        .size(width, height)
-                        .outputQuality(1.0)  // 품질 유지
-                        .toFile(thumbnailFile3);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            list.add(imgvo);
-
-//            System.out.println("파일 이름 : " + multipartFile.getOriginalFilename());
-//            System.out.println("파일 타입 : " + multipartFile.getContentType());
-//            System.out.println("파일 크기 : " + multipartFile.getSize());
-        }
         ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
         return result;
     }
@@ -127,5 +80,59 @@ public class test {
             }
         }
         return true;
+    }
+
+    public List<ImgDto> Makepreviewimg(MultipartFile[] uploadFiles, String datePath, File uploadPath){
+        /* 이미저 정보 담는 객체 */
+        List<ImgDto> list = new ArrayList();
+
+        for(MultipartFile multipartFile : uploadFiles) {
+            ImgDto imgvo = new ImgDto();
+
+            String uploadFileName = multipartFile.getOriginalFilename();
+            // 파일경로 저장
+            imgvo.setFilert(datePath);
+            //uuid이름 생성
+            String uuid = datePath;//UUID.randomUUID().toString();
+            imgvo.setU_name(uuid);
+            imgvo.setO_name(uploadFileName.substring(0, uploadFileName.indexOf(".")));
+            imgvo.setE_name(uploadFileName.substring(uploadFileName.indexOf("."), uploadFileName.length()));
+
+            /* 파일 위치, 파일 이름을 합친 File 객체 */
+            File saveFile = new File(uploadPath, uploadFileName);
+
+            /* 파일 저장 */
+            try {
+                multipartFile.transferTo(saveFile); // 원본이미지 저장
+
+                uploadFileName = uuid + "_" + uploadFileName;
+                File thumbnailFile = new File(uploadPath, "r_" + uploadFileName); // 미리보기이미지
+
+                //미리보기 이미지 크기 지정
+                int width = 78;
+                int height = 78;
+
+                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+                BufferedImage Previewimage = Thumbnails.of(multipartFile.getInputStream())
+                        .size(width, height)
+                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                        .asBufferedImage();
+
+                Thumbnails.of(Previewimage)
+                        .size(width, height)
+                        .outputQuality(1.0)  // 품질 유지
+                        .toFile(thumbnailFile);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            list.add(imgvo);
+//            System.out.println("파일 이름 : " + multipartFile.getOriginalFilename());
+//            System.out.println("파일 타입 : " + multipartFile.getContentType());
+//            System.out.println("파일 크기 : " + multipartFile.getSize());
+        }
+
+        return list;
     }
 }

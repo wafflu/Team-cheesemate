@@ -5,6 +5,7 @@ import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,8 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
@@ -45,7 +48,6 @@ public class test2 {
     public String path(HttpServletRequest request){
         ServletContext servletContext = request.getServletContext();
         String realPath = servletContext.getRealPath("/");
-
         String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
         return folderPath;
     }
@@ -80,18 +82,14 @@ public class test2 {
         String folderPath = path(request);
 
 //        System.out.println("delete : "+fileName);
-
         File file = null;
-
         try {
             file = new File(folderPath+"/" + URLDecoder.decode(fileName, "UTF-8"));
             file.delete();
-
             /* 썸네일 파일 삭제 */
             String originFileName = file.getAbsolutePath().replace("s_", "");
             file = new File(originFileName);
             file.delete();
-
         } catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
@@ -110,16 +108,12 @@ public class test2 {
     }
 
     @PostMapping("/reg_image")
-    public String reg_img(@RequestBody ArrayList<ImgDto> imgvo, HttpServletRequest request){
+    public String reg_img(@RequestBody ArrayList<ImgDto> imglist, HttpServletRequest request){
         String folderPath = path(request);
 
         boolean change = true;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String str = sdf.format(date);
-
-        String datePath = str.replaceAll("-", "_");
+        String datePath = Todaystr();
 
         /* 파일 저장 폴더 이름 */
         File uploadPath = new File(folderPath, datePath);
@@ -145,8 +139,7 @@ public class test2 {
         saledto.setCheck_addr_cd(0);
         saleDao.insert_sale(saledto);
 
-        for (ImgDto img : imgvo) {
-            System.out.println("횟수 체크용123");
+        for (ImgDto img : imglist) {
             try {
                 String fname = folderPath+"/"+img.getFilert()+"/"+img.getO_name()+img.getE_name();
 
@@ -164,11 +157,11 @@ public class test2 {
 
                 int w_wid = 856;
                 int w_hig = 856;
-                System.out.println("횟수 체크용1");
+
                 //썸네일 이미지 만들기
                 ImgDto imginfo = new ImgDto();
                 imginfo.setTb_no(saledto.getNo());
-                System.out.println("글번호 : "+saledto.getNo());
+
                 if(change){
                     BufferedImage image1 = Thumbnails.of(imageFile)
                             .size(s_wid, s_hig)
@@ -180,7 +173,6 @@ public class test2 {
                             .outputQuality(1.0)  // 품질 유지
                             .toFile(simg_name);
                     imginfo.setTb_name("sale");
-                    imginfo.setTb_no(saledto.getNo());
                     imginfo.setImgtype("s");
                     imginfo.setFilert(datePath);
                     imginfo.setU_name("s_"+uuid+"_");
@@ -193,13 +185,8 @@ public class test2 {
                     imgService.reg_img(imginfo);
                 }
 
-                System.out.println("횟수 체크용2");
-                //게시글 작성번호
-
-
                 //본문 이미지 작성
                 imginfo.setTb_name("sale");
-                imginfo.setTb_no(saledto.getNo());
                 imginfo.setImgtype("w");
                 imginfo.setFilert(datePath);
                 imginfo.setU_name("w_"+uuid+"_");
@@ -220,20 +207,13 @@ public class test2 {
                         .size(w_wid, w_hig)
                         .outputQuality(1.0)  // 품질 유지
                         .toFile(wimg_name);
-                System.out.println("횟수 체크용3");
-
             } catch (IOException e) {
-                System.out.println("걸림");
                 e.printStackTrace();
             }
-            // 여기서 필요한 작업 수행
         }
 
         //교차테이블 작성
         HashMap map = new HashMap();
-//        map.put("no", saledto.getNo());
-//        map.put("cross_tb", "sale");
-
         map.put("no", saledto.getNo());
         map.put("col_name", "sal_no");
         map.put("no_name", "no");
@@ -241,8 +221,116 @@ public class test2 {
         map.put("tb_name", "sale_img");
         imgService.view_img(map);
 
-        //위에가 작성 완료
-
         return "redirect:/testview";
+    }
+
+    //----------------test--------------
+
+    @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
+        String folderPath = path(request);
+
+//        String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img";
+
+        if(!CheckImg(uploadFiles)){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        String datePath = Todaystr();
+
+        /* 파일 저장 폴더 이름 (오늘 날짜별로 폴더 생성) */
+        File uploadPath = new File(folderPath, datePath);
+
+        /* 오늘 날짜 폴더가 있을시 생성 x 없으면 생성 o */
+        if(uploadPath.exists() == false) {
+            uploadPath.mkdirs();
+        }
+
+        List<ImgDto> list = Makepreviewimg(uploadFiles, datePath, uploadPath);
+
+        ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
+        return result;
+    }
+
+    private boolean CheckImg(MultipartFile[] uploadFiles){
+        /* 이미지 파일 체크 */
+        for(MultipartFile multipartFile: uploadFiles) {
+
+            File checkfile = new File(multipartFile.getOriginalFilename());
+            String type = null;
+
+            try {
+                type = Files.probeContentType(checkfile.toPath());
+//                System.out.println("MIME TYPE : " + type);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(!type.startsWith("image")) {
+//                List<ImgDto> list = null;
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<ImgDto> Makepreviewimg(MultipartFile[] uploadFiles, String datePath, File uploadPath){
+        /* 이미저 정보 담는 객체 */
+        List<ImgDto> list = new ArrayList();
+
+        for(MultipartFile multipartFile : uploadFiles) {
+            ImgDto imgvo = new ImgDto();
+
+            String uploadFileName = multipartFile.getOriginalFilename();
+            // 파일경로 저장
+            imgvo.setFilert(datePath);
+            //uuid이름 생성
+            String uuid = datePath;//UUID.randomUUID().toString();
+            imgvo.setU_name(uuid);
+            imgvo.setO_name(uploadFileName.substring(0, uploadFileName.indexOf(".")));
+            imgvo.setE_name(uploadFileName.substring(uploadFileName.indexOf("."), uploadFileName.length()));
+
+            /* 파일 위치, 파일 이름을 합친 File 객체 */
+            File saveFile = new File(uploadPath, uploadFileName);
+
+            /* 파일 저장 */
+            try {
+                multipartFile.transferTo(saveFile); // 원본이미지 저장
+
+                uploadFileName = uuid + "_" + uploadFileName;
+                File thumbnailFile = new File(uploadPath, "r_" + uploadFileName); // 미리보기이미지
+
+                //미리보기 이미지 크기 지정
+                int width = 78;
+                int height = 78;
+
+                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+                BufferedImage Previewimage = Thumbnails.of(multipartFile.getInputStream())
+                        .size(width, height)
+                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                        .asBufferedImage();
+
+                Thumbnails.of(Previewimage)
+                        .size(width, height)
+                        .outputQuality(1.0)  // 품질 유지
+                        .toFile(thumbnailFile);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            list.add(imgvo);
+//            System.out.println("파일 이름 : " + multipartFile.getOriginalFilename());
+//            System.out.println("파일 타입 : " + multipartFile.getContentType());
+//            System.out.println("파일 크기 : " + multipartFile.getSize());
+        }
+
+        return list;
+    }
+
+    public String Todaystr(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String str = sdf.format(date);
+        return str.replaceAll("-", "_");
     }
 }
