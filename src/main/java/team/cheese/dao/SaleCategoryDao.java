@@ -12,7 +12,7 @@ public interface SaleCategoryDao {
 
     List<SaleCategoryDto> selectCategory1() throws Exception;
 
-    List<SaleCategoryDto> selectCategory2() throws Exception;
+    List<SaleCategoryDto> selectCategory2(String category1) throws Exception;
 
-    List<SaleCategoryDto> selectCategory3() throws Exception;
+    List<SaleCategoryDto> selectCategory3(String category2) throws Exception;
 }

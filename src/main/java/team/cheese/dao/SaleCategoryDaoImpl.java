@@ -29,12 +29,12 @@ public class SaleCategoryDaoImpl implements SaleCategoryDao{
     }
 
     @Override
-    public List<SaleCategoryDto> selectCategory2() throws Exception {
-        return session.selectList(namespace + "selectCategory2");
+    public List<SaleCategoryDto> selectCategory2(String category1) throws Exception {
+        return session.selectList(namespace + "selectCategory2", category1);
     }
 
     @Override
-    public List<SaleCategoryDto> selectCategory3() throws Exception {
-        return session.selectList(namespace + "selectCategory3");
+    public List<SaleCategoryDto> selectCategory3(String category2) throws Exception {
+        return session.selectList(namespace + "selectCategory3", category2);
     }
 }

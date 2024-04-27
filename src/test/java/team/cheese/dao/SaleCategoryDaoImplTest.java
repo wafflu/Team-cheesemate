@@ -32,36 +32,46 @@ public class SaleCategoryDaoImplTest extends TestCase {
         // 전체 카테고리를 받아오는지 테스트
         System.out.println("selectAll : " + salecategorydao.selectAll());
         List<SaleCategoryDto> list = salecategorydao.selectAll();
-//        System.out.println(list.size());
-        assertTrue(list.size() == 1370);
+        System.out.println(list.size());
+        assertTrue(list.size() == 763);
         System.out.println(list.get(0));
     }
 
     @Test
     public void testSelectCategory1() throws Exception {
-        // 대분류 카테고리를 받아오는지 테스트 (첫번째 카테고리 "의류")
+        // 대분류 카테고리를 받아오는지 테스트 (첫번째 카테고리 "여성의류")
         System.out.println("selectCategory1 : " + salecategorydao.selectCategory1());
         List<SaleCategoryDto> list = salecategorydao.selectCategory1();
-        assertTrue(list.get(0).getName().equals("의류"));
+        assertTrue(list.get(0).getName().equals("여성의류"));
     }
 
     @Test
     public void testSelectCategory1_6() throws Exception {
-        // 대분류 카테고리를 받아오는지 테스트 (여섯번째 카테고리 "패션 액세서리")
+        // 대분류 카테고리를 받아오는지 테스트 (여섯번째 카테고리 "쥬얼리")
         System.out.println("selectCategory1 : " + salecategorydao.selectCategory1());
         List<SaleCategoryDto> list = salecategorydao.selectCategory1();
         System.out.println(list.get(5).getName());
         System.out.println(list.get(5).getSal_cd());
-//        assertTrue(list.get(9).getName().equals("스포츠/레저"));
+        assertTrue(list.get(5).getName().equals("쥬얼리"));
     }
 
     @Test
     public void testSelectCategory1_8() throws Exception {
-        // 대분류 카테고리를 받아오는지 테스트 (열번째 카테고리 "패션 액세서리")
+//         대분류 카테고리를 받아오는지 테스트 (열번째 카테고리 "스포츠/레저")
         System.out.println("selectCategory1 : " + salecategorydao.selectCategory1());
         List<SaleCategoryDto> list = salecategorydao.selectCategory1();
-        System.out.println(list.get(5).getName());
-        System.out.println(list.get(5).getSal_cd());
-//        assertTrue(list.get(9).getName().equals("스포츠/레저"));
+        System.out.println(list.get(9).getName());
+        System.out.println(list.get(9).getSal_cd());
+        assertTrue(list.get(9).getName().equals("스포츠/레저"));
+    }
+
+    @Test
+    public void testSelectCategory1_last() throws Exception {
+//         대분류 카테고리를 받아오는지 테스트 (마지막 카테고리 "기타")
+        System.out.println("selectCategory1 : " + salecategorydao.selectCategory1());
+        List<SaleCategoryDto> list = salecategorydao.selectCategory1();
+        System.out.println(list.get(list.size()-1).getName());
+        System.out.println(list.get(list.size()-1).getSal_cd());
+        assertTrue(list.get(list.size()-1).getName().equals("기타"));
     }
 }

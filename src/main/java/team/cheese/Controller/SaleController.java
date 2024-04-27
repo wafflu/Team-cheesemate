@@ -1,18 +1,16 @@
 package team.cheese.controller;
 
-import java.util.List;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import team.cheese.dao.SaleCategoryDao;
 import team.cheese.dao.SaleDao;
+import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/sale")
@@ -57,7 +55,26 @@ public class SaleController {
 
     @RequestMapping("/write")
     public String write(Model model, HttpSession session) throws Exception {
-        model.addAttribute("categories", saleCategoryDao.selectAll());
+
+        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+//        model.addAttribute("saleCategoryMsg", "대분휴>중분류>소분류를 선택하세요.");
+
         return "/login/saleWrite";
+    }
+
+    @PostMapping("/saleCategory2")
+    @ResponseBody
+    public List<SaleCategoryDto> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
+        System.out.println("대분류 번호 : " + category1);
+        System.out.println(saleCategoryDao.selectCategory2(category1));
+        return saleCategoryDao.selectCategory2(category1);
+    }
+
+    @RequestMapping("/saleCategory3")
+    @ResponseBody
+    public List<SaleCategoryDto> getSaleCategory3(@RequestParam String category2, Model model) throws Exception {
+        System.out.println("중분류 번호 : " + category2);
+        System.out.println(saleCategoryDao.selectCategory3(category2));
+        return saleCategoryDao.selectCategory3(category2);
     }
 }
