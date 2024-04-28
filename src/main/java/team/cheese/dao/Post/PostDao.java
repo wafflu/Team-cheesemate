@@ -18,5 +18,6 @@ public interface PostDao {
     int delete(Integer sn)throws Exception;
     int deleteAll()throws Exception;
     int increaseViewCnt(Integer sn)throws Exception;
-    int increaselike_cnt(Integer  sn)throws Exception;
+
+    List<PostDto> getTopTen()throws Exception;
 }

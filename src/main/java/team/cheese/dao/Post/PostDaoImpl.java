@@ -57,7 +57,9 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public int increaselike_cnt(Integer sn) throws Exception {
-        return session.update(namespace+"increaselike_cnt", sn);
+    public List<PostDto> getTopTen() throws Exception {
+        return session.selectList(namespace + "getTopTen");
     }
+
+
 }

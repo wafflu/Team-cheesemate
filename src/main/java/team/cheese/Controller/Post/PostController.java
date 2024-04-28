@@ -19,11 +19,21 @@ public class PostController {
 
     @RequestMapping(value = "/communityHome", method = RequestMethod.GET)
     public String PostHome(PostDto postDto, Model m)throws Exception{
+        List<PostDto> getTopTen = postService.getTopTen();
         List<PostDto> list = postService.selectAll();
+
+        m.addAttribute("getTopTen",getTopTen);
         m.addAttribute("list",list);
-        return "/PostHome";
+        return "/CommunityHome";
     }
 
+    @RequestMapping(value="/communityList",method = RequestMethod.GET)
+    public String PostList(PostDto postDto, Model m)throws Exception{
+        List<PostDto> list = postService.selectAll();
+
+        m.addAttribute("list",list);
+        return "/CommunityList";
+    }
 
 
     @RequestMapping(value = "/write", method = RequestMethod.GET)

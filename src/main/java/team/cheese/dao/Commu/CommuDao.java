@@ -13,4 +13,5 @@ public interface CommuDao {
     int update(CommuDto commuDto)throws Exception;
 
     int delete(String name, String first_id)throws Exception;
+
 }

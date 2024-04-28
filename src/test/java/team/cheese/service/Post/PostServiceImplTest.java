@@ -120,4 +120,15 @@ public class PostServiceImplTest {
     }
 
 
+    @Test
+    public void getTopTen()throws Exception{
+        List<PostDto> getTopTen = postService.getTopTen();
+        Iterator it = getTopTen.iterator();
+        while (it.hasNext()) {
+            System.out.println(it.next().toString());
+        }
+
+    }
+
+
 }

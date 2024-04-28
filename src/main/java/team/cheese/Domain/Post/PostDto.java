@@ -24,6 +24,9 @@ public class PostDto {
     private Timestamp last_date;
     private String last_id;
 
+    //추가
+    private String name;
+
     public PostDto(){};
 
     public PostDto(Integer sn, String ur_id, String addr_cd, Integer no, String commu_cd, String addr_name, String title, String contents, String nick, Timestamp r_date, Timestamp m_date, int like_cnt, int view_cnt, char ur_state, char ad_state, Timestamp first_date, String first_id, Timestamp last_date, String last_id) {
@@ -48,11 +51,12 @@ public class PostDto {
         this.last_id = last_id;
     }
 
-    public PostDto(String ur_id,String addr_cd,Integer no, String commu_cd, String addr_name, String title, String contents, String nick){
+    public PostDto(String ur_id,String addr_cd,Integer no, String commu_cd, String name,String addr_name, String title, String contents, String nick){
         this.ur_id = ur_id;
         this.addr_cd = addr_cd;
         this.no = no;
         this.commu_cd = commu_cd;
+        this.name = name;
         this.addr_name = addr_name;
         this.title = title;
         this.contents = contents;
@@ -212,6 +216,14 @@ public class PostDto {
         this.last_id = last_id;
     }
 
+    //추가
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "PostDto{" +
@@ -220,6 +232,7 @@ public class PostDto {
                 ", addr_cd='" + addr_cd + '\'' +
                 ", no=" + no +
                 ", commu_cd='" + commu_cd + '\'' +
+                ", name='" + name + '\'' +
                 ", addr_name='" + addr_name + '\'' +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +

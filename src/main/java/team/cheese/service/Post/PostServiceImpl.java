@@ -43,4 +43,9 @@ public class PostServiceImpl implements PostService{
     public int getCount() throws Exception {
         return postDao.count();
     }
+
+    @Override
+    public List<PostDto> getTopTen() throws Exception {
+        return postDao.getTopTen();
+    }
 }

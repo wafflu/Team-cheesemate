@@ -15,7 +15,7 @@
 
 
     <select id = "selectAll" resultType="PostDto">
-        select * from post;
+        select * from post order by r_date desc;
     </select>
 
     <select id = "select" resultType="PostDto">
@@ -44,4 +44,13 @@
         update post set like_cnt = like_cnt+1
         where sn=#{sn}
     </update>
+
+
+    <select id = "getTopTen" resultType="PostDto">
+        select p.sn, c.name,p.title, p.nick, p.view_cnt, p.addr_name
+        from post p
+        join commu c on p.commu_cd = c.commu_cd
+        order by view_cnt desc
+        limit 10;
+    </select>
 </mapper>

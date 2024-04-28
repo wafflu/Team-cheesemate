@@ -165,4 +165,11 @@ public class PostDaoImplTest {
 //        assertEquals(2,postDto.getview_cnt());
     }
 
+    @Test
+    public void getTopTen()throws Exception{
+        List<PostDto>getTopTen = postDao.getTopTen();
+        getTopTen.forEach(System.out::println);
+
+
+    }
 }

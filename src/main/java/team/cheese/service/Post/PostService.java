@@ -16,4 +16,6 @@ public interface PostService {
     public PostDto read(Integer sn)throws Exception;
 
     public int getCount()throws Exception;
+
+    List<PostDto> getTopTen()throws Exception;
 }
