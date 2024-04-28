@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import team.cheese.dao.AdministrativeDao;
 import team.cheese.dao.SaleCategoryDao;
 import team.cheese.dao.SaleDao;
+import team.cheese.domain.AdministrativeDto;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
 
@@ -19,6 +21,8 @@ public class SaleController {
     SaleDao saleDao;
     @Autowired
     SaleCategoryDao saleCategoryDao;
+    @Autowired
+    AdministrativeDao administrativeDao;
 
     @RequestMapping("/list")
     public String read(@RequestParam(defaultValue = "0") int check_addr_cd, Model model, HttpSession session) throws Exception {
@@ -76,5 +80,14 @@ public class SaleController {
         System.out.println("중분류 번호 : " + category2);
         System.out.println(saleCategoryDao.selectCategory3(category2));
         return saleCategoryDao.selectCategory3(category2);
+    }
+
+    @RequestMapping("/searchLetter")
+    @ResponseBody
+    public List<AdministrativeDto> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
+        // 검색어를 이용하여 판매글을 검색
+        System.out.println("검색 내용 : " + searchLetter);
+        System.out.println(administrativeDao.searchLetter(searchLetter));
+        return administrativeDao.searchLetter(searchLetter);
     }
 }

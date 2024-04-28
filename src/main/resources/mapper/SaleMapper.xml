@@ -32,6 +32,7 @@
         <include refid="selectFromSale"/>
         where 1=1
         and no = #{no}
+        and ur_state = 'Y'
     </select>
 
     <!-- C : 판매글 작성 : 사용자 입력값 삽입하기 -->

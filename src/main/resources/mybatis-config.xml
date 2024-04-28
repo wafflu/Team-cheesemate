@@ -6,5 +6,6 @@
 	<typeAliases>
 		<typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
 		<typeAlias alias="SaleCategoryDto" type="team.cheese.domain.SaleCategoryDto"/>
+		<typeAlias alias="AdministrativeDto" type="team.cheese.domain.AdministrativeDto"/>
 	</typeAliases>
 </configuration>

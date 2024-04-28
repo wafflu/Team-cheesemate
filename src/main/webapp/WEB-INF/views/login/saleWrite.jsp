@@ -56,6 +56,50 @@
               top: 0px;
               border-radius: 10px;
               box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+              overflow-y: auto;
+              /* 세로 스크롤이 필요한 경우 스크롤 허용 */
+              max-height: 70%;
+              /* 모달 창의 최대 높이 설정 */
+            }
+
+            #closeModalBtn {
+              position: absolute;
+              top: 10px;
+              /* 원하는 위치로 조정 */
+              right: 10px;
+              /* 원하는 위치로 조정 */
+              background-color: transparent;
+              /* 배경색 설정 */
+              border: none;
+              /* 테두리 제거 */
+              cursor: pointer;
+              /* 마우스 커서를 포인터로 변경 */
+            }
+
+            .table-wrapper {
+              overflow-y: auto;
+              max-height: 200px;
+            }
+
+            tr:hover {
+              background-color: cornflowerblue;
+              cursor: pointer;
+            }
+
+
+            #searchInput {
+              /* 모달 창의 너비에 맞게 조정 */
+              width: 100%;
+              padding: 10px;
+              /* 내부 여백 설정 */
+              margin: 0 auto;
+              /* 가운데 정렬 */
+            }
+
+
+            #addrTable {
+              width: 100%;
+              /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
             }
 
             h1 {
@@ -64,6 +108,16 @@
 
             .hidden {
               display: none;
+            }
+
+            /* input text 및 textarea 너비 조절 */
+            input[type="text"],
+            textarea {
+              width: calc(100% - 20px);
+              /* 전체 너비에서 여백을 뺀 값으로 설정 */
+              padding: 5px;
+              /* 내부 여백 설정 */
+              margin-top: 10px;
             }
           </style>
         </head>
@@ -120,7 +174,7 @@
               <div id="hashtagContainer"></div>
               <input type="radio" name="tx_s_cd" value="sale" />판매
               <input type="radio" name="tx_s_cd" value="free" />나눔
-              <p style="color: red;" id="txMsg"></p>
+              <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
               <p>
                 상품가격
                 <input name="price" type="text" placeholder="판매할 가격을 입력해주세요." />
@@ -131,15 +185,27 @@
                 상품정가(선택)
                 <input type="text" placeholder="상품의 정가를 입력해주세요(선택)." />
               </p>
-              <p>거래장소 <button id="openModalBtn">거래희망 주소 검색</button></p>
+              <button id="openModalBtn">거래희망 주소 검색</button>
               <div id="openModal" class="modal hidden">
                 <div class="modal_overlay"> <!--모달창의 배경색--></div>
                 <div class="modal_content">
-                  <h1>주소 검색</h1>
-                  <input type="text" placeholder="동(읍/면/리)을 입력해주세요.">
                   <button id="closeModalBtn">x</button>
+                  <h1>주소 검색</h1>
+                  <input id="searchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
+                  <div class="table-wrapper">
+                    <table id="addrTable" class="table text-center">
+                      <thead>
+                        <tr>
+                          <th style="width:150px;">행정동코드</th>
+                          <th style="width:600px;">주소명</th>
+                        </tr>
+                      </thead>
+                      <tbody id="addrList"></tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
+              <p>거래장소 <input id="pickup_addr" type="text" disabled></p>
               <p>
                 거래희망장소(선택)
                 <input type="text" placeholder="거래를 희망하는 상세장소를 작성하세요." />
@@ -212,11 +278,9 @@
               $("input[name='price']").prop("disabled", true);
               $("input[name='price']").attr("placeholder", "나눔글입니다.");
               $("#txMsg").text(""); // 메시지 제거
-            } else {
-              // 둘 다 선택하지 않은 경우 메시지 표시
-              $("#txMsg").text("판매 또는 나눔 중 한 가지를 선택해 주세요.");
             }
           });
+
 
 
           document
@@ -273,8 +337,8 @@
             if (category1Value !== "") {
               $.ajax({
                 type: "POST",
-                url: "/sale/saleCategory2", // 적절한 백엔드 API의 URL로 수정
-                dataType: "json",
+                url: "/sale/saleCategory2",
+                dataType: "json", // 받을 값
                 data: { category1: category1Value },
                 success: function (data) {
                   // console.log(data); 
@@ -310,7 +374,7 @@
             if (category2Value !== "") {
               $.ajax({
                 type: "POST",
-                url: "/sale/saleCategory3", // 적절한 백엔드 API의 URL로 수정
+                url: "/sale/saleCategory3",
                 dataType: "json",
                 data: { category2: category2Value },
                 success: function (data) {
@@ -336,6 +400,11 @@
             }
           }
 
+          // 소분류 선택 시 메시지 제거
+          $("#category3").change(function () {
+            $("#salecategoryMsg").text("");
+          });
+
           document.getElementById('submitBtn').addEventListener('click', function () {
             // submit 버튼 클릭 시 form 제출
             document.getElementById('writeForm').submit();
@@ -356,6 +425,51 @@
           overlay.addEventListener("click", closeModal);
           closeModalBtn.addEventListener("click", closeModal);
           openModalBtn.addEventListener("click", openModal);
+
+
+          $(document).ready(function () {
+            $("#searchInput").on("input", function () {
+              let searchLetter = $(this).val();
+              $.ajax({
+                type: "POST",
+                url: "/sale/searchLetter",
+                data: { searchLetter: searchLetter },
+                dataType: "json",
+                success: function (data) {
+                  // 검색 결과를 처리하여 addrTable에 추가
+                  $("#addrList").empty(); // 기존 내용 초기화
+                  if (data.length > 0) {
+                    data.forEach(function (addr) {
+                      let row = $("<tr>");
+                      row.append($("<td>").text(addr.addr_cd)); // 예시: 주소 코드
+                      row.append($("<td>").text(addr.addr_name)); // 예시: 주소명
+                      $("#addrList").append(row);
+                    });
+                  } else {
+                    $("#zaddrList").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                  }
+                },
+                error: function (xhr, status, error) {
+                  console.error("Error: ", error);
+                }
+              });
+            });
+          });
+
+          $(document).ready(function () {
+            // 주소를 클릭했을 때의 이벤트 핸들러
+            $("#addrList").on("click", "tr", function () {
+              // 클릭한 행에서 주소 코드와 주소명을 가져옴
+              let addrCode = $(this).find("td:eq(0)").text(); // 첫 번째 td 열의 텍스트 (주소 코드)
+              let addrName = $(this).find("td:eq(1)").text(); // 두 번째 td 열의 텍스트 (주소명)
+
+              // pickup_addr input에 선택한 주소 정보를 추가
+              $("#pickup_addr").val(addrName);
+
+              // 모달 닫기
+              closeModal();
+            });
+          });
         </script>
 
         </html>
