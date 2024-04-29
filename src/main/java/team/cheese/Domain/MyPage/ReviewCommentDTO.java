@@ -21,10 +21,9 @@ public class ReviewCommentDTO {
     private String last_id;
     public ReviewCommentDTO() {}
 
-    public ReviewCommentDTO(String sal_id, String buy_id, String buy_nick, String contents) {
+    public ReviewCommentDTO(String sal_id, String buy_id, String contents) {
         this.sal_id = sal_id;
         this.buy_id = buy_id;
-        this.buy_nick = buy_nick;
         this.contents = contents;
     }
 
@@ -44,7 +43,7 @@ public class ReviewCommentDTO {
     @Override
     public String toString() {
         return "ReviewCommentDTO{" +
-                "sn=" + no +
+                "no=" + no +
                 ", sal_id='" + sal_id + '\'' +
                 ", buy_id='" + buy_id + '\'' +
                 ", buy_nick='" + buy_nick + '\'' +

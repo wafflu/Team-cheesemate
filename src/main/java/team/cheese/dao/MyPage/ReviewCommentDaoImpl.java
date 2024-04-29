@@ -45,13 +45,15 @@ public class ReviewCommentDaoImpl implements ReviewCommentDao {
         Map map = new HashMap();
         map.put("ur_state",reviewCommentDTO.getUr_state());
         map.put("no",reviewCommentDTO.getNo());
+        System.out.println(map);
         return sqlSession.update(namespace+"UserStateChange",map);
     }
     @Override
     public int AdminStateChange(ReviewCommentDTO reviewCommentDTO) throws Exception {
         Map map = new HashMap();
-        map.put("ur_state",reviewCommentDTO.getAd_state());
+        map.put("ad_state",reviewCommentDTO.getAd_state());
         map.put("no",reviewCommentDTO.getNo());
+        System.out.println(map);
         return sqlSession.update(namespace+"AdminStateChange",map);
     }
     @Override

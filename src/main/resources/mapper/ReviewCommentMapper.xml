@@ -16,10 +16,10 @@
             m_date,
             ur_state,
             ad_state,
-            first_r_date,
-            first_idno,
-            last_r_date,
-            last_idno
+            first_date,
+            first_id,
+            last_date,
+            last_id
         from review_comment
     </sql>
     <select id="count" parameterType="String" resultType="int">
@@ -62,21 +62,21 @@
     </update>
     <update id="UserStateChange" parameterType="map">
         update review_comment
-        <if test='ur_state=="Y"'>
+        <if test="ur_state=='Y'">
             set ur_state = 'N'
         </if>
-        <if test='ur_state=="N"'>
+        <if test="ur_state=='N'">
             set ur_state = 'Y'
         </if>
         where no = #{no}
     </update>
     <update id="AdminStateChange" parameterType="map">
         update review_comment
-        <if test='ad_state=="Y"'>
-            set ad_state = 'N'
-        </if>
-        <if test='ad_state=="N"'>
+        <if test="ad_state=='N'">
             set ad_state = 'Y'
+        </if>
+        <if test="ad_state=='Y'">
+            set ad_state = 'N'
         </if>
         where no = #{no}
     </update>

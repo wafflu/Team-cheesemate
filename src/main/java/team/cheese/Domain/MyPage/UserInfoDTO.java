@@ -15,6 +15,16 @@ public class UserInfoDTO {
     private int hate_cnt;
     private int rpt_cnt;
     private Timestamp r_date;
+    private Timestamp m_date;
+
+    public Timestamp getM_date() {
+        return m_date;
+    }
+
+    public void setM_date(Timestamp m_date) {
+        this.m_date = m_date;
+    }
+
     private Timestamp first_date;
     private String first_id;
     private Timestamp last_date;
