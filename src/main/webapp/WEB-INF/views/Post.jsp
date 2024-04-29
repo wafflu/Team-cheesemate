@@ -38,6 +38,9 @@
         </div>
         <div><input id = "title" type ="text" name = "title" value= "${postDto.title}"></div>
     </div>
+
+
+
     <div class="main">
         <textarea name = "contents">${postDto.contents}</textarea>
     </div>
@@ -47,15 +50,27 @@
     </div>
 </form>
 
+<form method="post" action = "${pageContext.request.contextPath}/register" enctype="multipart/form-data">
+<div class = "form-group" style = "height:150px; width:200px;">
+    <label>이미지 파일 첨부</label>
+    <input type="file" name="imgFile" onchange="readURL(this);"/>
+    <img id="preview" src="#" width = 200 height = 150 alt = "선택된 이미지가 있습니다" style="align-content: flex-end;">
+
+</div>
+</form>
 
 <script>
+
+
     $(document).ready(function(){
-        $('#register').on("click",function(){
+        $('#register').on("click",function (){
             let form = $('#form');
             form.attr("action","<c:url value='register'/>");
             form.attr("method","post");
             form.submit();
         })
+
+
 
 
         $('#modify').on("click",function(){
@@ -66,7 +81,26 @@
         })
 
 
+
+
+
     })
+
+
+
+    function readURL(input){
+        const file = input.files[0];
+        console.log(file)
+        if(file !== ''){
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function(e){
+                console.log(e.target)
+                console.log(e.target.result)
+                    $('#preview').attr('src',e.target.result);
+            }
+        }
+    }
 </script>
 </body>
 </html>

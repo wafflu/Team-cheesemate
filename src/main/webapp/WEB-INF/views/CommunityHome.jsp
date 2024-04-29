@@ -23,7 +23,7 @@
 <article>
 
     <h2>실시간 우리 지역 인기글</h2>
-    <p>더보기></p>
+    <p><a href = "${pageContext.request.contextPath}/communityList">더보기></a></p>
     <input type = "button" value = "글쓰기" onclick = "location.href='<c:url value="/write"/>'">
 
     <br>
