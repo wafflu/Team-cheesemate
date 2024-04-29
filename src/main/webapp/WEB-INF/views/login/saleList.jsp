@@ -2,11 +2,13 @@
          pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt"%>
+<%@ page session="false" %>
 <html>
 <head>
     <title>판매/나눔</title>
 </head>
 <body>
+<button type="button" formmethod="get" onclick="location.href='write'">글쓰기</button>
 <table>
     <tr>
         <th class="no">번호</th>
@@ -19,7 +21,7 @@
         <tr>
             <td>${Sale.no}</td>
                 <%-- <td>${Board.title}</td> --%>
-            <td class="title">${Sale.title}</td>
+            <td class="title"><a href="<c:url value='/sale/read?no=${Sale.no}'/>">${Sale.title}</a></td>
             <td>${Sale.seller_id}</td>
             <c:choose>
                 <c:when test="${Sale.r_date.time >= startOfToday}">

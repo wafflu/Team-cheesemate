@@ -93,7 +93,7 @@ public class SaleDaoImplTest {
     @Test
     public void testSaleState() throws Exception {
         // 판매자가 판매글글을 삭제하였을 때 상태를 바꿔주기
-        SaleDto saleDto = saledao.select(10);
+        SaleDto saleDto = saledao.select(8);
         System.out.println(saleDto.getNo());
         saledao.delete(saleDto);
         System.out.println(saleDto.getAd_state());

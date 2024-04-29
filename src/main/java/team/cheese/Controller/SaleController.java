@@ -10,9 +10,11 @@ import team.cheese.dao.SaleDao;
 import team.cheese.domain.AdministrativeDto;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
+import team.cheese.service.SaleService;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/sale")
@@ -24,48 +26,68 @@ public class SaleController {
     @Autowired
     AdministrativeDao administrativeDao;
 
-    @RequestMapping("/list")
-    public String read(@RequestParam(defaultValue = "0") int check_addr_cd, Model model, HttpSession session) throws Exception {
-        // check_addr_cd : 사용자의 첫번째 주소값(기본), 사용자의 선택에 따라서 값이 바뀜
-        List<SaleDto> saleList = saleDao.selectAll();
-//        SaleDto sale = list.get(0); // 화면에 전체를 뿌려줄때 get으로 고정시켜 둔거 삭제하기
+    @Autowired
+    SaleService saleService;
 
-        System.out.println("sale.jsp로 전달");
-//        System.out.println("판매자 아이디 : " + sale.getSeller_id());
+    // 전체 게시글을 보는 경우
+    @RequestMapping("/list")
+    public String getList(@RequestParam(defaultValue = "0") int check_addr_cd, Model model, HttpSession session) throws Exception {
+        List<SaleDto> saleList = saleService.getList();
+
         System.out.println(saleList.size());
 
         model.addAttribute("check_addr_cd", check_addr_cd);
         model.addAttribute("saleList", saleList);
 
-//		return "redirect:/board/write";
         return "/login/saleList";
     }
-
+    
+    // 게시글 리스트 중 하나를 클릭한 경우
     @RequestMapping("/read")
-    public String read(Integer bno, Model model, HttpSession session) throws Exception {
-//        List<SaleDto> list = saleDao.selectAll();
-//        SaleDto sale = list.get(0);
-
-        SaleDto sale = saleDao.select(1); // 판배글을 클릭했을 때 값을 담아줘야 됨(parameter값으로 받아올 것)
+    public String read(Integer no, Model model, HttpSession session) throws Exception {
+        SaleDto saleDto = saleService.read(no);
 
         System.out.println("sale.jsp로 전달");
-        System.out.println("판매자 아이디 : " + sale.getSeller_id());
+        System.out.println("판매자 아이디 : " + saleDto.getSeller_id());
 
-        model.addAttribute("Sale", sale); // model로 값 전달
+        model.addAttribute("Sale", saleDto); // model로 값 전달
 
-//		return "redirect:/board/write";
         return "/login/saleBoard";
     }
 
-    @RequestMapping("/write")
+    // 글쓰기 버튼 누른 경우
+    @GetMapping("/write")
     public String write(Model model, HttpSession session) throws Exception {
 
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-//        model.addAttribute("saleCategoryMsg", "대분휴>중분류>소분류를 선택하세요.");
 
         return "/login/saleWrite";
     }
+    
+    // 글쓰기 완료하고 글을 등록하는 경우
+    @PostMapping("/write")
+    @ResponseBody
+    public String write(@RequestBody SaleDto formData, Model model, HttpSession sesson) throws Exception {
+        // service 호출
+        // 서비스단 작성 필요함
+        System.out.println(formData);
+        
+//        Integer no = saleDto.getNo();
 
+        return "success";
+//        return "redirect:/sale/read?no=" + no;
+    }
+    
+    // 수정 버튼 누른 경우
+    @RequestMapping("/update")
+    public String update(SaleDto saleDto, Model model, HttpSession session) throws Exception {
+
+        saleService.modify(saleDto);
+
+        return "redirect:/board/read?no=" + saleDto.getNo();
+    }
+
+//  ajax 요청을 처리해주는 URL등
     @PostMapping("/saleCategory2")
     @ResponseBody
     public List<SaleCategoryDto> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
@@ -74,6 +96,7 @@ public class SaleController {
         return saleCategoryDao.selectCategory2(category1);
     }
 
+    // ajax 판매 카테고리 처리(중분류)
     @RequestMapping("/saleCategory3")
     @ResponseBody
     public List<SaleCategoryDto> getSaleCategory3(@RequestParam String category2, Model model) throws Exception {
@@ -82,6 +105,7 @@ public class SaleController {
         return saleCategoryDao.selectCategory3(category2);
     }
 
+    // ajax 판매 카테고리 처리(소분류)
     @RequestMapping("/searchLetter")
     @ResponseBody
     public List<AdministrativeDto> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {

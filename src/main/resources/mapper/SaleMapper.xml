@@ -23,6 +23,8 @@
     <!--  R : 전체 게시글 선택  -->
     <select id="selectAll" resultType="SaleDto">
         <include refid="selectFromSale"/>
+        where 1=1
+        and ur_state = 'Y'
         ORDER BY no DESC
     </select>
 

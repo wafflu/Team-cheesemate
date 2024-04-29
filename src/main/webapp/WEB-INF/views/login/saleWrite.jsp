@@ -124,8 +124,7 @@
 
         <body>
           <div>
-            <form id="writeForm" name="fileForm" method="POST" enctype="multipart/form-data">
-              <!-- action="fileupload01_process.jsp" -->
+            <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
               <p>상품 정보</p>
               <div class="division-line"></div>
               <div id="register_img">
@@ -135,27 +134,26 @@
                 </p>
               </div>
               <p>
-                제목 <input type="text" placeholder="판매/나눔글 제목을 입력하세요" />
+                제목 <input name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" />
               </p>
               <p>카테고리</p>
-              <select id="category1" onchange="loadCategory2()">
+              <select id="category1" name="sal_i_cd" onchange="loadCategory2()">
                 <option value="" disabled selected>대분류</option>
                 <c:forEach var="category" items="${saleCategory1}">
                   <option value="${category.sal_cd}">${category.name}</option>
                 </c:forEach>
               </select>
 
-              <select id="category2" onchange="loadCategory3()">
+              <select id="category2" name="sal_i_cd" onchange="loadCategory3()">
                 <option value="" disabled selected>중분류</option>
               </select>
 
-              <select id="category3">
+              <select id="category3" name="sal_i_cd">
                 <option value="" disabled selected>소분류</option>
               </select>
 
               <p style="color: red;" id="salecategoryMsg"></p>
 
-              </select>
               <p>상품상태</p>
               <input type="radio" name="pro_s_cd" />새상품(미사용) <br />
               <input type="radio" name="pro_s_cd" />사용감 없음 <br />
@@ -169,7 +167,7 @@
                 <input type="checkbox" class="trade_s_cd" /> 택배거래
               </p>
               <p>설명</p>
-              <textarea name="" id="" cols="30" rows="10"></textarea>
+              <textarea name="contents" id="" cols="30" rows="10"></textarea>
               <p>해시태그(선택) <input type="text" id="hashtagInput" /></p>
               <div id="hashtagContainer"></div>
               <input type="radio" name="tx_s_cd" value="sale" />판매
@@ -183,7 +181,7 @@
               <p id="trade" hidden><input type="radio" id="trade" /> 나눔신청받기</p>
               <p>
                 상품정가(선택)
-                <input type="text" placeholder="상품의 정가를 입력해주세요(선택)." />
+                <input type="text" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." />
               </p>
               <button id="openModalBtn">거래희망 주소 검색</button>
               <div id="openModal" class="modal hidden">
@@ -205,16 +203,16 @@
                   </div>
                 </div>
               </div>
-              <p>거래장소 <input id="pickup_addr" type="text" disabled></p>
+              <p>거래장소 <input id="pickup_addr" name="pickup_addr_name" type="text" disabled></p>
               <p>
                 거래희망장소(선택)
-                <input type="text" placeholder="거래를 희망하는 상세장소를 작성하세요." />
+                <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." />
               </p>
               <p>
                 브랜드(선택)
-                <input type="text" placeholder="브랜드를 작성하세요(선택)." />
+                <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." />
               </p>
-              <input type="submit" id="submitBtn" value="등록하기" />
+              <input type="button" id="submitBtn" value="등록하기" />
             </form>
           </div>
         </body>
@@ -222,10 +220,20 @@
           integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script>
+
+          // Enter키 누를 시 모달창 뜨는 것 방지
+          $(document).ready(function () {
+            $(document).on("keydown", function (event) {
+              if (event.keyCode === 13) {
+                event.preventDefault(); // Enter 키의 기본 동작 막기(input 창에서 Enter치면 모달창이 열리기 때문)
+              }
+            });
+          });
+
+          // 이미지 등록 개수 한도 정하기
           $(document).ready(function () {
             let img_count = 0;
             let max_images = 10;
-
             $("#imageBtn").change(function () {
               let files = this.files;
               if (img_count + files.length > max_images) {
@@ -248,6 +256,8 @@
               }
             });
 
+
+            // 이미지 삭제시 이미지 카운트 수 줄이기
             $(document).on("click", ".delete-icon", function () {
               $(this).closest(".preview-image").remove();
               img_count--;
@@ -255,6 +265,7 @@
             });
           });
 
+          // 거래방법 선택 최대 2개까지 한도 주기
           $(".trade_s_cd").change(function () {
             let checkedCount = $(".trade_s_cd:checked").length;
             if (checkedCount > 2) {
@@ -263,6 +274,7 @@
             }
           });
 
+          // 판매/나눔 선택
           $("input[name='tx_s_cd']").change(function () {
             if ($(this).val() === "sale") {
               $("#proposal").show();
@@ -282,7 +294,7 @@
           });
 
 
-
+          // 
           document
             .getElementById("hashtagInput")
             .addEventListener("input", function () {
@@ -296,6 +308,7 @@
               hashtags.forEach(function (tag) {
                 let input = document.createElement("input");
                 input.type = "text";
+                input.name = "tag";
                 input.value = "#" + tag; // 해시태그 앞에 #을 붙여서 표시
                 input.disabled = true; // 입력 불가능하도록 설정
                 container.appendChild(input);
@@ -437,16 +450,18 @@
                 dataType: "json",
                 success: function (data) {
                   // 검색 결과를 처리하여 addrTable에 추가
+                  console.log(data);
                   $("#addrList").empty(); // 기존 내용 초기화
                   if (data.length > 0) {
                     data.forEach(function (addr) {
+                      console.log("addr", addr);
                       let row = $("<tr>");
-                      row.append($("<td>").text(addr.addr_cd)); // 예시: 주소 코드
-                      row.append($("<td>").text(addr.addr_name)); // 예시: 주소명
+                      row.append($("<td>").text(addr.addr_cd)); // 행정구역 코드
+                      row.append($("<td>").text(addr.addr_name)); // 주소명
                       $("#addrList").append(row);
                     });
                   } else {
-                    $("#zaddrList").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                    $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
                   }
                 },
                 error: function (xhr, status, error) {
@@ -470,6 +485,56 @@
               closeModal();
             });
           });
+
+          // 등록하기 버튼 누르는 경우
+          // function write() {
+          //   // let queryString = $("form[name=writeForm]").serialize();
+          //   // let queryString = $("#writeForm").serialize();
+          //   // FormData 객체 생성
+          //   let formData = new FormData(document.getElementById("writeForm"));
+          //   console.log(queryString);
+          //   alert(queryString);
+          //   $.ajax({
+          //     type: 'POST',
+          //     url: '/sale/write',
+          //     contentType: 'multipart/form-data',
+          //     data: formData,
+          //     dataType: 'json',
+          //     success: function (data) {
+          //       alert(data);
+          //       location.reload();
+          //     },
+          //     error: function (xhr, status, error) {
+          //       alert(error);
+          //     }
+          //   });
+          // }
+
+          $("#submitBtn").on("click", function () {
+              alert("확인");
+                // let queryString = $("form[name=writeForm]").serialize();
+            // let queryString = $("#writeForm").serialize();
+            // FormData 객체 생성
+            let formData = new FormData(document.getElementById("writeForm"));
+            console.log(queryString);
+            alert(formData);
+            $.ajax({
+              type: 'POST',
+              url: '/sale/write',
+              contentType: 'multipart/form-data',
+              data: formData,
+              dataType: 'json',
+              success: function (data) {
+                alert(data);
+                location.reload();
+              },
+              error: function (xhr, status, error) {
+                alert(error);
+              }
+            });
+          });
+          
+
         </script>
 
         </html>
