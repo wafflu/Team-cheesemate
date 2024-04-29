@@ -13,18 +13,6 @@
         select * from img;
     </select>
 
-    <select id="select_simg_view" parameterType="map" resultType="ImgDto">
-        SELECT *
-        FROM img
-        WHERE state = 'Y'
-        and tb_name = #{tb_name}
-        and no IN (SELECT img_no FROM ${cross_tb} WHERE sal_no = #{sal_no});
-    </select>
-
-    <update id="state_change_img" parameterType="map">
-        update img set state = #{state} where no = #{no};
-    </update>
-
 <!--    <insert id="insert_cross" parameterType="map">-->
 <!--        INSERT INTO sale_img (sal_no, img_no)-->
 <!--        SELECT s.no AS sale_no, i.no AS img_no-->
@@ -33,11 +21,18 @@
 <!--    </insert>-->
 
     <!-- 이미지 교차 테이블 작성 -->
+<!--    <insert id="insert_cross" parameterType="map">-->
+<!--        INSERT INTO ${tb_name} (${col_name}, img_no)-->
+<!--        SELECT s.${no_name} AS ${col_name}, i.no AS img_no-->
+<!--        FROM ${cross_tb_name} s, img i-->
+<!--        where s.${no_name} = #{no} and i.tb_name = #{cross_tb_name} and i.tb_no = #{no};-->
+<!--    </insert>-->
+
     <insert id="insert_cross" parameterType="map">
         INSERT INTO ${tb_name} (${col_name}, img_no)
-        SELECT s.${no_name} AS ${col_name}, i.no AS img_no
+        SELECT s.no AS ${col_name}, i.no AS img_no
         FROM ${cross_tb_name} s, img i
-        where s.${no_name} = #{no} and i.tb_name = #{cross_tb_name} and i.tb_no = #{no};
+        where s.no = #{no} and i.tb_name = #{cross_tb_name} and i.tb_no = #{no};
     </insert>
 
     <select id="select_sale_img" resultType="ImgDto">
@@ -58,10 +53,74 @@
         where si.sal_no = s.no and si.img_no = i.no and i.imgtype = 's' and i.state = 'Y' order by s.r_date desc limit 10;
     </select>
 
-    <select id="select_w_imglist" parameterType="int" resultType="ImgDto">
+    <select id="select_s_imglist2" resultType="SaleDto">
+        <![CDATA[
+        SELECT *,
+               (
+                   SELECT GROUP_CONCAT(CONCAT(i.file_rt, '/', i.u_name, i.o_name, i.e_name))
+                   FROM img i, sale_img si
+                   WHERE si.sal_no = s.no
+                     AND si.img_no = i.no
+                     AND i.imgtype = 's'
+                     AND i.state = 'Y'
+               ) AS filert
+        FROM sale s;
+        ]]>
+    </select>
+
+    <select id="select_e_imglist2" resultType="team.cheese.domain.EventDto">
+        <![CDATA[
+        SELECT e.*,
+               CONCAT(i.file_rt, '/', i.u_name, i.o_name, i.e_name) AS filert
+                FROM event e LEFT JOIN img i ON e.img_no = i.no
+                WHERE i.state = 'Y';
+        ]]>
+    </select>
+
+    <select id="select_u_imglist2" parameterType="string" resultType="team.cheese.domain.UserInfoDTO">
+        <![CDATA[
+        SELECT e.*,
+               CONCAT(i.file_rt, '/', i.u_name, i.o_name, i.e_name) AS filert
+        FROM user_info e LEFT JOIN img i ON e.img_no = i.no
+        WHERE i.state = 'Y'and e.ur_id = #{user_id};
+        ]]>
+    </select>
+
+<!--    <select id="select_e_imglist2" parameterType=""-->
+
+
+    <!-- 추후 조회를 위해 변동사항 있을수 있음-->
+<!--    <select id="select_w_imglist" parameterType="int" resultType="ImgDto">-->
+<!--        select i.file_rt, i.u_name, i.o_name, i.e_name-->
+<!--        from img i, sale s, sale_img si-->
+<!--        where si.sal_no = s.no and si.img_no = i.no and i.imgtype = 'w' and i.state = 'Y' and s.no = #{no};-->
+<!--    </select>-->
+
+    <select id="select_w_imglist" parameterType="map" resultType="ImgDto">
+        select i.file_rt, i.u_name, i.o_name, i.e_name
+        from img i, ${tb_name} s, ${tb_name2} si
+        where si.${tb_colum} = s.no and si.img_no = i.no and i.imgtype = 'w' and i.state = 'Y' and s.no = #{no};
+    </select>
+
+
+    <select id="select_oneimg" parameterType="map" resultType="ImgDto">
+        select i.file_rt, i.u_name, i.o_name, i.e_name
+        from img i, ${tb_name} s
+        where s.img_no = i.no and i.state = 'Y' and i.imgtype = #{imgtype} and s.${tb_colum} = #{tb_value};
+    </select>
+
+    <update id="delete_img_state" parameterType="map">
+        <![CDATA[
+        update img
+        set state = if(state = 'Y', 'N', 'Y')
+        where tb_name=#{tb_name} and tb_no=#{tb_no} and o_name=#{filename}
+        ]]>
+    </update>
+
+    <select id="select_one_simg" parameterType="int" resultType="ImgDto">
         select i.file_rt, i.u_name, i.o_name, i.e_name
         from img i, sale s, sale_img si
-        where si.sal_no = s.no and si.img_no = i.no and i.imgtype = 'w' and i.state = 'Y' and s.no = #{no};
+        where si.sal_no = s.no and si.img_no = i.no and s.no = #{no} and i.imgtype = 's'and i.state = 'Y';
     </select>
 
 </mapper>

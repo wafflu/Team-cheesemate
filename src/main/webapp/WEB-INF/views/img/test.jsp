@@ -16,6 +16,8 @@
   <%--        <input type="submit" onclick="return imgreg()">--%>
 </form>
 
+<h1 id="h1">click</h1>
+
 
 <%--    <div id="imgboxtest">--%>
 <%--        <div class="imgDeleteBtn">x</div>--%>
@@ -75,6 +77,7 @@
       str += "<img src='/display?fileName=" + fileCallPath +"'>";
 
       imginfo.push(obj);
+
       str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
       // str += "<input type='hidden' name='imageList["+i+"].fileName' value='"+ obj.fileName +"'>";
       // str += "<input type='hidden' name='imageList["+i+"].uuid' value='"+ obj.uuid +"'>";
@@ -88,7 +91,7 @@
   /* 이미지 삭제 버튼 동작 */
   $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
     var index = $(".imgDeleteBtn").index(this);
-    console.log("index : "+index)
+    // console.log("index : "+index)
     imginfo.splice(index, 1);
     console.log(imginfo);
     deleteFile();
@@ -99,11 +102,31 @@
   //     deleteFile();
   // });
 
+  // $("#h1").click(function(){
+  //   let test =[1,2,3,4,5];
+  //
+  //   $.ajax({
+  //     url: '/reg_image2',
+  //     type: 'GET', // POST 요청으로 변경
+  //     // contentType: 'application/json',
+  //     // data: JSON.stringify(test), // JSON 형식으로 데이터 전송
+  //     dataType: 'json',
+  //     success: function(result) {
+  //       alert("S : " + result);
+  //     },
+  //     error: function(result) {
+  //       alert("F : " + result);
+  //     }
+  //   });
+  // })
+
+  let info = {
+    "imglist" : imginfo,
+    "person": { "name": "lee", "age": 24 }
+  }
+
+
   $("#reg_img").on('click',function (){
-    let info = {
-      "imglist" : imginfo,
-      "person": { "name": "lee", "age": 24 }
-    }
     // alert("asdasdasd");
     $.ajax({
       url: '/reg_image',
@@ -111,7 +134,6 @@
       contentType : 'application/json',
       dataType : 'text',
       data : JSON.stringify(imginfo),
-      async : "true",
       success: function (result) {
         location.replace(result);
         alert("S : "+result)
@@ -120,7 +142,7 @@
         alert("F : "+result)
       }
     });
-    alert("asdasdasd");
+    // alert("asdasdasd2222");
   })
 
 

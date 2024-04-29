@@ -80,6 +80,7 @@ public class test2 {
     public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request){
         String folderPath = path(request);
 
+        //DB내용만 상태변화 시키기
 //        System.out.println("delete : "+fileName);
         File file = null;
         try {
@@ -147,37 +148,52 @@ public class test2 {
                 File imageFile = new File(fname);
 
                 // 예: 이미지 크기 출력
-                String uuid = datePath;//UUID.randomUUID().toString();
-                String uploadFileName = uuid+"_"+img.getO_name()+img.getE_name();
+                //String uuid = UUID.randomUUID().toString();
+                String uploadFileName = datePath+"_"+img.getO_name()+img.getE_name();
 
-                ImgDto imginfo = new ImgDto();
-                imginfo.setTb_no(saledto.getNo());
+//                ImgDto imginfo = new ImgDto();
+//                imginfo.setTb_no(saledto.getNo());
+
+                //미리보기이미지 경로저장
+                saveDBimg(saledto.getNo(), "sale", "r", datePath, img, 78, 78);
+//                imginfo.setTb_name("sale");
+//                imginfo.setImgtype("r");
+//                imginfo.setFilert(datePath);
+//                imginfo.setU_name("r_"+uuid+"_");
+//                imginfo.setO_name(img.getO_name());
+//                imginfo.setE_name(img.getE_name());
+//                imginfo.setW_size(292);
+//                imginfo.setH_size(292);
+//                imgService.reg_img(imginfo);
+
                 if(change){
                     Makeimg2(imageFile, uploadPath, "s_" + uploadFileName, 292, 292);
-                    imginfo.setTb_name("sale");
-                    imginfo.setImgtype("s");
-                    imginfo.setFilert(datePath);
-                    imginfo.setU_name("s_"+uuid+"_");
-                    imginfo.setO_name(img.getO_name());
-                    imginfo.setE_name(img.getE_name());
-                    imginfo.setW_size(292);
-                    imginfo.setH_size(292);
+                    saveDBimg(saledto.getNo(), "sale", "s", datePath, img, 292, 292);
+//                    imginfo.setTb_name("sale");
+//                    imginfo.setImgtype("s");
+//                    imginfo.setFilert(datePath);
+//                    imginfo.setU_name("s_"+uuid+"_");
+//                    imginfo.setO_name(img.getO_name());
+//                    imginfo.setE_name(img.getE_name());
+//                    imginfo.setW_size(292);
+//                    imginfo.setH_size(292);
                     change = false;
                     //썸네일 이미지 디비에 저장
-                    imgService.reg_img(imginfo);
+//                    imgService.reg_img(imginfo);
                 }
 
                 Makeimg2(imageFile, uploadPath, "w_" + uploadFileName, 856, 856);
+                saveDBimg(saledto.getNo(), "sale", "w", datePath, img, 856, 856);
                 //본문 이미지 작성
-                imginfo.setTb_name("sale");
-                imginfo.setImgtype("w");
-                imginfo.setFilert(datePath);
-                imginfo.setU_name("w_"+uuid+"_");
-                imginfo.setO_name(img.getO_name());
-                imginfo.setE_name(img.getE_name());
-                imginfo.setW_size(856);
-                imginfo.setH_size(856);
-                imgService.reg_img(imginfo);
+//                imginfo.setTb_name("sale");
+//                imginfo.setImgtype("w");
+//                imginfo.setFilert(datePath);
+//                imginfo.setU_name("w_"+uuid+"_");
+//                imginfo.setO_name(img.getO_name());
+//                imginfo.setE_name(img.getE_name());
+//                imginfo.setW_size(856);
+//                imginfo.setH_size(856);
+//                imgService.reg_img(imginfo);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -192,26 +208,26 @@ public class test2 {
         map.put("cross_tb_name", "sale");
         map.put("tb_name", "sale_img");
         imgService.view_img(map);
-
-        System.out.println("응답 전송 해줘");
+        System.out.println("전송됨");
         return "/testview";
     }
 
     //테스트를 위해서 사용해보는 Ajax
-    @PostMapping("/reg_image2")
+    @RequestMapping("/reg_image2")
     @ResponseBody
-    public String reg_img2(@RequestBody Map<String, Object> info){
+//    public String reg_img2(@RequestBody Map<String, Object> info){
+    public List<ImgDto> reg_img2(){
         System.out.println("get");
-
-        System.out.println(info.get("imglist"));
-        System.out.println(info.get("person"));
+//        System.out.println(data);
+//        System.out.println(info.get("imglist"));
+//        System.out.println(info.get("person"));
+        List<ImgDto> list = imgDao.selectAll_img();
         System.out.println("hello");
-        return "regimg";
 //        return "regimg";
+        return list;
     }
 
     //----------------test--------------
-
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
         String folderPath = path(request);
@@ -325,13 +341,34 @@ public class test2 {
                 .toFile(img_name);
     }
 
+    public void saveDBimg(int tb_no, String tb_name, String imgType, String datePath, ImgDto img, int wsize, int hsize){
+        ImgDto imginfo = new ImgDto();
+        imginfo.setTb_no(tb_no);
+        imginfo.setTb_name(tb_name);
+        imginfo.setImgtype(imgType);
+        imginfo.setFilert(datePath);
+        imginfo.setU_name(imgType+"_"+datePath+"_");
+        imginfo.setO_name(img.getO_name());
+        imginfo.setE_name(img.getE_name());
+        imginfo.setW_size(wsize);
+        imginfo.setH_size(hsize);
+        imgService.reg_img(imginfo);
+    }
+
     //------디테일 눌렀을때
     @RequestMapping("/testdetail")
     public String testdetail(int no, Model model){
-        List<ImgDto> list = imgDao.select_w_imglist(no);
-//        System.out.println(list);
+        List<ImgDto> list = imgDao.select_w_imglist(getImglist("sale", "sale_img", "sal_no", no));
         model.addAttribute("list", list);
-
         return "img/testdetail";
+    }
+
+    public HashMap getImglist(String tb_name, String tb_name2, String tb_colum, int no){
+        HashMap map = new HashMap<>();
+        map.put("tb_name", tb_name);
+        map.put("tb_name2", tb_name2);
+        map.put("tb_colum", tb_colum);
+        map.put("no", no);
+        return map;
     }
 }

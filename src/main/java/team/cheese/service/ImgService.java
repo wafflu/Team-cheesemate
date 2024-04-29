@@ -17,7 +17,7 @@ public class ImgService {
     }
 
     public int view_img(HashMap map){
-        return imgDao.insert_img(map);
+        return imgDao.insert_cross(map);
     }
 
 }

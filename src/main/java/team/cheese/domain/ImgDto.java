@@ -23,8 +23,9 @@ public class ImgDto {
     public ImgDto(){}
 
     //이미지 작성시 아래 사용
-    public ImgDto(String tb_name, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size){
+    public ImgDto(String tb_name, int tb_no, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size){
         this.tb_name = tb_name;
+        this.tb_no = tb_no;
         this.imgtype = imgtype;
         this.file_rt = file_rt;
         this.u_name = u_name;

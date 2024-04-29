@@ -41,8 +41,8 @@ public class SaleDto {
     private String first_id;
     private Timestamp last_date;
     private String last_id;
-
     private int check_addr_cd;
+    private String filert;
 
     public Integer getNo() {
         return no;
@@ -339,6 +339,14 @@ public class SaleDto {
 
     public void setCheck_addr_cd(int check_addr_cd) {
         this.check_addr_cd = check_addr_cd;
+    }
+
+    public String getFilert() {
+        return filert;
+    }
+
+    public void setFilert(String filert) {
+        this.filert = filert;
     }
 
     @Override

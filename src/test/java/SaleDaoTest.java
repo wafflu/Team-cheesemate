@@ -90,7 +90,7 @@ public class SaleDaoTest {
         map.put("cross_tb_name", "sale");
         map.put("tb_name", "sale_img");
 
-        int change = imgDao.insert_img(map);
+        int change = imgDao.insert_cross(map);
         assertTrue(change > 1);
     }
 
