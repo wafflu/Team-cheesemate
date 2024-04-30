@@ -38,35 +38,35 @@
     <th>
     <br>
 
-    <c:forEach var="postDto" items="${getTopTen}" varStatus="loop">
+    <c:forEach var="CommunityBoardDto" items="${getTopTen}" varStatus="loop">
 
                 <tr>
                     <td>${loop.index + 1}</td>
-                    <td>${postDto.name}</td>
-                    <td> <a href="${pageContext.request.contextPath}/read?sn=${postDto.sn}">${postDto.title}</a></td>
-                    <td>${postDto.nick}</td>
-                    <td>${postDto.view_cnt}</td>
+                    <td>${CommunityBoardDto.name}</td>
+                    <td> <a href="${pageContext.request.contextPath}/read?no=${CommunityBoardDto.no}">${CommunityBoardDto.title}</a></td>
+                    <td>${CommunityBoardDto.nick}</td>
+                    <td>${CommunityBoardDto.view_cnt}</td>
                     <%-- 댓글수 필요--%>
-                    <td>${postDto.addr_name}</td>
+                    <td>${CommunityBoardDto.addr_name}</td>
                 <tr>
                 <br>
     </c:forEach>
 
 
 <h2>블라블라</h2>
-<c:forEach var = "postDto" items="${list}" varStatus="loop">
+<c:forEach var = "CommunityBoardDto" items="${list}" varStatus="loop">
     <c:if test ="${loop.index <= 5}">
-        <c:if test = "${postDto.commu_cd eq 'commu_B'}">
+        <c:if test = "${CommunityBoardDto.commu_cd eq 'commu_B'}">
             <tr>
-        <%--        <td>${postDto.commu_cd}</td>--%>
+        <%--        <td>${communityBoardDto.commu_cd}</td>--%>
 
-                <td>${postDto.name}</td>
-                <td> <a href="${pageContext.request.contextPath}/read?sn=${postDto.sn}">${postDto.title}</a></td>
-                <td>${postDto.nick}</td>
-                <td>${postDto.view_cnt}</td>
+                <td>${CommunityBoardDto.name}</td>
+                <td> <a href="${pageContext.request.contextPath}/read?no=${CommunityBoardDto.no}">${CommunityBoardDto.title}</a></td>
+                <td>${CommunityBoardDto.nick}</td>
+                <td>${CommunityBoardDto.view_cnt}</td>
                     <%-- 댓글수 필요--%>
-                <td>${postDto.addr_name}</td>
-                <td>${postDto.r_date}</td>
+                <td>${CommunityBoardDto.addr_name}</td>
+                <td>${CommunityBoardDto.r_date}</td>
 
             </tr>
             <br>

@@ -7,7 +7,7 @@
     <title>Home</title>
 </head>
 <body>
-<h1>PostHome</h1>
+<h1>communityBoardHome</h1>
 
 <table>
     <thead>
@@ -27,23 +27,23 @@
     </thead>
 
     <tbody>
-    <c:forEach var="postDto" items="${list}">
+    <c:forEach var="communityBoardDto" items="${list}">
         <tr>
-            <td>${postDto.sn}</td>
-            <td>${postDto.ur_id}</td>
-            <td>${postDto.addr_cd}</td>
-            <td>${postDto.no}</td>
-            <td>${postDto.commu_cd}</td>
-            <td>${postDto.addr_name}</td>
+            <td>${communityBoardDto.no}</td>
+            <td>${communityBoardDto.ur_id}</td>
+            <td>${communityBoardDto.addr_cd}</td>
+            <td>${communityBoardDto.addr_no}</td>
+            <td>${communityBoardDto.commu_cd}</td>
+            <td>${communityBoardDto.addr_name}</td>
             <td>
-                <a href = "${pageContext.request.contextPath}/read?sn=${postDto.sn}">${postDto.title}
+                <a href = "${pageContext.request.contextPath}/read?no=${communityBoardDto.no}">${communityBoardDto.title}
                 </a>
             </td>
-            <td>${postDto.contents}</td>
-            <td>${postDto.nick}</td>
-            <td>${postDto.r_date}</td>
-            <td>${postDto.like_cnt}</td>
-            <td>${postDto.view_cnt}</td>
+            <td>${communityBoardDto.contents}</td>
+            <td>${communityBoardDto.nick}</td>
+            <td>${communityBoardDto.r_date}</td>
+            <td>${communityBoardDto.like_cnt}</td>
+            <td>${communityBoardDto.view_cnt}</td>
         </tr>
     </c:forEach>
     </tbody>

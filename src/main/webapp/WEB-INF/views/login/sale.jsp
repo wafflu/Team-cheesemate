@@ -9,7 +9,7 @@
 </head>
 <body>
 <div>
-    <p>sale : ${Sale.no}</p>
+    <p>sale : ${Sale.addr_no}</p>
 <%--    <p>행정동 코드 : ${Sale.addr_cd}</p>--%>
 <%--    <p>주소명 : ${Sale.addr_name}</p>--%>
 <%--    <p>판매자id : ${Sale.seller_id}</p>--%>

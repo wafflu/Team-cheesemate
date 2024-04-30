@@ -9,9 +9,9 @@
 </head>
 <body>
 <h1>
-	PostHome
+	communityBoardHome
 </h1>
-<form action = "/PostHome" method = "get">
+<form action = "/communityBoardHome" method = "get">
 <P>  게시글 목록 </P>
 
 	<thead>
@@ -32,7 +32,7 @@
 			<th>관리자 상태</th>
 		</tr>
 	</thead>
-	<c:forEach var = "postDto" items="${list}">
+	<c:forEach var = "communityBoardDto" items="${list}">
 	<tbody>
 		<tr>
 			<td>${list.}</td>

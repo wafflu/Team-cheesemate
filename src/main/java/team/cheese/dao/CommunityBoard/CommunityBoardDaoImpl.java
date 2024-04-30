@@ -1,0 +1,76 @@
+package team.cheese.dao.CommunityBoard;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+
+import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+
+import java.util.List;
+
+
+
+@Repository
+public class CommunityBoardDaoImpl implements CommunityBoardDao {
+
+  @Autowired
+    private SqlSession session;
+    private static String namespace = "team.cheese.dao.CommunityBoard.CommunityBoardMapper.";
+    @Override
+    public int count() throws Exception {
+        return session.selectOne(namespace + "count");
+    }
+
+
+
+    @Override
+    public int insert(CommunityBoardDto communityBoardDto ) throws Exception {
+        return session.insert(namespace + "insert_community_board", communityBoardDto);
+    }
+
+
+
+    @Override
+    public List<CommunityBoardDto> selectAll() throws Exception {
+        return session.selectList(namespace +"selectAll");
+    }
+
+    @Override
+    public CommunityBoardDto select(Integer no) throws Exception {
+        return session.selectOne(namespace + "select", no);
+    }
+
+
+    @Override
+    public int update(CommunityBoardDto communityBoardDto) throws Exception {
+        return session.update(namespace + "update", communityBoardDto);
+    }
+
+    @Override
+    public int delete(Integer no) throws Exception {
+        return session.delete(namespace + "delete", no);
+    }
+
+    @Override
+    public int deleteAll() throws Exception {
+        return session.delete(namespace +"deleteAll");
+    }
+
+    @Override
+    public int increaseViewCnt(Integer no) throws Exception {
+        return session.update(namespace+"increaseViewCnt", no);
+    }
+
+    @Override
+    public List<CommunityBoardDto> getTopTen() throws Exception {
+        return session.selectList(namespace + "getTopTen");
+    }
+
+    @Override
+    public int userChangeState(CommunityBoardDto communityBoardDto) throws Exception {
+        return session.update(namespace + "userChangeState", communityBoardDto);
+    }
+
+
+}

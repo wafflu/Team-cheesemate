@@ -44,7 +44,7 @@
 <script>
     $(document).ready(function(){
         $("#all").click(function(){
-            <%--let allData = ${postDto.list};--%>
+            <%--let allData = ${communityBoardDto.list};--%>
 
 
             $.ajax({
@@ -57,8 +57,8 @@
                     for(let i = 0; i<result.length; i++){
                         console.log(result[i]);
                         s+="<tr>"
-                        s+="<td>" + result[i].sn+ "</td>"
-                        s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?sn="+result[i].sn+"'>" + result[i].title + "</a></td>"
+                        s+="<td>" + result[i].no+ "</td>"
+                        s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
                         s+="<td>" + result[i].nick+ "</td>"
                         s+="<td>" + result[i].view_cnt+ "</td>"
                         s+="<td>" + result[i].addr_name+ "</td>"
@@ -73,7 +73,7 @@
 
       $(document).ready(function(){
         $("#hot").click(function(){
-          <%--let allData = ${postDto.list};--%>
+          <%--let allData = ${communityBoardDto.list};--%>
 
 
           $.ajax({
@@ -90,8 +90,8 @@
               for(let i = 0; i<result.length; i++){
                 console.log(result[i]);
                 s+="<tr>"
-                s+="<td>" + result[i].sn+ "</td>"
-                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?sn="+result[i].sn+"'>" + result[i].title + "</a></td>"
+                s+="<td>" + result[i].no+ "</td>"
+                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
                 s+="<td>" + result[i].nick+ "</td>"
                 s+="<td>" + result[i].view_cnt+ "</td>"
                 s+="<td>" + result[i].addr_name+ "</td>"
@@ -120,9 +120,9 @@
                         if(result[i].commu_cd === 'commu_B'){
                             console.log(result[i])
                             s+="<tr>"
-                            s+="<td>" + result[i].sn+ "</td>"
+                            s+="<td>" + result[i].no+ "</td>"
                             s+="<td>" + result[i].addr_cd + "</td>"
-                            s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?sn="+result[i].sn+"'>" + result[i].title + "</a></td>"
+                            s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
                             s+="<td>" + result[i].nick+ "</td>"
                             s+="<td>" + result[i].view_cnt+ "</td>"
                             s+="<td>" + result[i].addr_name+ "</td>"
@@ -150,9 +150,9 @@
               if(result[i].commu_cd === 'commu_L'){
                 console.log(result[i])
                 s+="<tr>"
-                s+="<td>" + result[i].sn+ "</td>"
+                s+="<td>" + result[i].no+ "</td>"
                 s+="<td>" + result[i].addr_cd + "</td>"
-                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?sn="+result[i].sn+"'>" + result[i].title + "</a></td>"
+                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
                 s+="<td>" + result[i].nick+ "</td>"
                 s+="<td>" + result[i].view_cnt+ "</td>"
                 s+="<td>" + result[i].addr_name+ "</td>"
@@ -179,9 +179,9 @@
               if(result[i].commu_cd === 'commu_W'){
                 console.log(result[i])
                 s+="<tr>"
-                s+="<td>" + result[i].sn+ "</td>"
+                s+="<td>" + result[i].no+ "</td>"
                 s+="<td>" + result[i].addr_cd + "</td>"
-                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?sn="+result[i].sn+"'>" + result[i].title + "</a></td>"
+                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
                 s+="<td>" + result[i].nick+ "</td>"
                 s+="<td>" + result[i].view_cnt+ "</td>"
                 s+="<td>" + result[i].addr_name+ "</td>"

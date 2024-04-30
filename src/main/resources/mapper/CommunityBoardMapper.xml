@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.CommunityBoard.CommunityBoardMapper">
+
+
+<!--    <select id="select_community_board_last_insert" resultType="int">-->
+<!--        SELECT LAST_INSERT_ID() from sale LIMIT 1;-->
+<!--    </select>-->
+
+    <insert id="insert_community_board" parameterType="CommunityBoardDto" useGeneratedKeys="true" keyProperty="no">
+        insert into community_board(ur_id,addr_cd,addr_no,commu_cd,addr_name,title,contents, nick)
+        values (#{ur_id},#{addr_cd},#{addr_no},#{commu_cd},#{addr_name},#{title},#{contents},#{nick})
+    </insert>
+
+<!--각 구별로 총 몇 개의 글이 있는지-->
+    <select id = "count" resultType="int">
+        select count(*) from community_board;
+    </select>
+
+<!--    <insert id="insert" parameterType="CommunityBoardDto">-->
+<!--        insert into community_board(ur_id,addr_cd,addr_no,commu_cd,addr_name,title,contents, nick)-->
+<!--        values (#{ur_id},#{addr_cd},#{addr_no},#{commu_cd},#{addr_name},#{title},#{contents},#{nick})-->
+<!--    </insert>-->
+
+
+    <select id = "selectAll" resultType="CommunityBoardDto">
+        select * from community_board where ur_state = 'y' order by r_date desc;
+    </select>
+
+    <select id = "select" resultType="CommunityBoardDto">
+        select * from community_board where no = #{no}
+    </select>
+
+
+    <update id = "update" parameterType="CommunityBoardDto">
+        update community_board set title = #{title} , contents = #{contents},m_date = #{m_date}
+        where no = #{no}
+        </update>
+
+
+    <update id = "userChangeState" parameterType="CommunityBoardDto">
+        update community_board
+        set ur_state = #{ur_state}
+        where no = #{no};
+    </update>
+
+    <delete id = "delete" parameterType="Integer">
+        delete from community_board where no = #{no}
+    </delete>
+    <delete id = "deleteAll" parameterType="Integer">
+        delete from community_board
+    </delete>
+    <update id = "increaseViewCnt" parameterType="Integer">
+        update community_board set view_cnt = view_cnt+1
+        where no=#{no}
+    </update>
+
+
+    <update id = "increaselike_cnt" parameterType="Integer">
+        update community_board set like_cnt = like_cnt+1
+        where no=#{no}
+    </update>
+
+
+    <select id = "getTopTen" resultType="CommunityBoardDto">
+        select b.no, c.name,b.title, b.nick, b.view_cnt, b.addr_name
+        from community_board b
+        join commu c on b.commu_cd = c.commu_cd
+        order by view_cnt desc
+        limit 10;
+    </select>
+
+
+
+</mapper>

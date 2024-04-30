@@ -1,8 +1,10 @@
 package team.cheese.Controller.Sale;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import team.cheese.dao.Sale.SaleDao;
 import team.cheese.Domain.Sale.Sale;
@@ -17,7 +19,7 @@ public class SaleController {
     SaleDao saleDao;
 
     @RequestMapping("/read")
-    public String read(Integer bno, Model model, HttpSession session) throws Exception {
+    public String read(Integer baddr_no, Model model, HttpSession session) throws Exception {
         List<Sale> list = saleDao.selectAll();
         Sale sale = list.get(0);
         System.out.println("sale.jsp로 전달");

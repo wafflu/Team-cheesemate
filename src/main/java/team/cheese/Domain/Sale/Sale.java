@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Sale {
-    private Integer no;
+    private Integer addr_no;
     private String addr_cd;
     private String addr_name;
     private String seller_id;
@@ -42,12 +42,12 @@ public class Sale {
     private Timestamp last_date;
     private String last_id;
 
-    public Integer getNo() {
-        return no;
+    public Integer getaddr_no() {
+        return addr_no;
     }
 
-    public void setNo(Integer no) {
-        this.no = no;
+    public void setaddr_no(Integer addr_no) {
+        this.addr_no = addr_no;
     }
 
     public String getAddr_cd() {
@@ -335,18 +335,18 @@ public class Sale {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sale sale = (Sale) o;
-        return pro_s_cd == sale.pro_s_cd && tx_s_cd == sale.tx_s_cd && trade_s_cd_1 == sale.trade_s_cd_1 && trade_s_cd_2 == sale.trade_s_cd_2 && sal_s_cd == sale.sal_s_cd && price == sale.price && bid_cd == sale.bid_cd && reg_price == sale.reg_price && like_cnt == sale.like_cnt && view_cnt == sale.view_cnt && hoist_cnt == sale.hoist_cnt && bid_cnt == sale.bid_cnt && ur_state == sale.ur_state && ad_state == sale.ad_state && Objects.equals(no, sale.no) && Objects.equals(addr_cd, sale.addr_cd) && Objects.equals(addr_name, sale.addr_name) && Objects.equals(seller_id, sale.seller_id) && Objects.equals(seller_nick, sale.seller_nick) && Objects.equals(sal_i_cd, sale.sal_i_cd) && Objects.equals(sal_name, sale.sal_name) && Objects.equals(title, sale.title) && Objects.equals(contents, sale.contents) && Objects.equals(pickup_addr_cd, sale.pickup_addr_cd) && Objects.equals(pickup_addr_name, sale.pickup_addr_name) && Objects.equals(detail_addr, sale.detail_addr) && Objects.equals(brand, sale.brand) && Objects.equals(buyyer_id, sale.buyyer_id) && Objects.equals(buyer_nick, sale.buyer_nick) && Objects.equals(r_date, sale.r_date) && Objects.equals(m_date, sale.m_date) && Objects.equals(h_date, sale.h_date) && Objects.equals(first_date, sale.first_date) && Objects.equals(first_id, sale.first_id) && Objects.equals(last_date, sale.last_date) && Objects.equals(last_id, sale.last_id);
+        return pro_s_cd == sale.pro_s_cd && tx_s_cd == sale.tx_s_cd && trade_s_cd_1 == sale.trade_s_cd_1 && trade_s_cd_2 == sale.trade_s_cd_2 && sal_s_cd == sale.sal_s_cd && price == sale.price && bid_cd == sale.bid_cd && reg_price == sale.reg_price && like_cnt == sale.like_cnt && view_cnt == sale.view_cnt && hoist_cnt == sale.hoist_cnt && bid_cnt == sale.bid_cnt && ur_state == sale.ur_state && ad_state == sale.ad_state && Objects.equals(addr_no, sale.addr_no) && Objects.equals(addr_cd, sale.addr_cd) && Objects.equals(addr_name, sale.addr_name) && Objects.equals(seller_id, sale.seller_id) && Objects.equals(seller_nick, sale.seller_nick) && Objects.equals(sal_i_cd, sale.sal_i_cd) && Objects.equals(sal_name, sale.sal_name) && Objects.equals(title, sale.title) && Objects.equals(contents, sale.contents) && Objects.equals(pickup_addr_cd, sale.pickup_addr_cd) && Objects.equals(pickup_addr_name, sale.pickup_addr_name) && Objects.equals(detail_addr, sale.detail_addr) && Objects.equals(brand, sale.brand) && Objects.equals(buyyer_id, sale.buyyer_id) && Objects.equals(buyer_nick, sale.buyer_nick) && Objects.equals(r_date, sale.r_date) && Objects.equals(m_date, sale.m_date) && Objects.equals(h_date, sale.h_date) && Objects.equals(first_date, sale.first_date) && Objects.equals(first_id, sale.first_id) && Objects.equals(last_date, sale.last_date) && Objects.equals(last_id, sale.last_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state, first_date, first_id, last_date, last_id);
+        return Objects.hash(addr_no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state, first_date, first_id, last_date, last_id);
     }
 
     @Override
     public String toString() {
         return "Sale{" +
-                "no=" + no +
+                "addr_no=" + addr_no +
                 ", addr_cd='" + addr_cd + '\'' +
                 ", addr_name='" + addr_name + '\'' +
                 ", seller_id='" + seller_id + '\'' +
