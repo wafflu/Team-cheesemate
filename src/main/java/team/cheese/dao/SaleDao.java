@@ -27,6 +27,8 @@ public interface SaleDao {
     // 판매글 관리자가 삭제하는 경우
     int adminState(SaleDto saleDto) throws  Exception;
 
+    // 판매/나눔을 클릭 했을 때 사용자의 첫번째 주소로 조회되는 경우
+    List<SaleDto> selectStandardAddr(String ur_id, int check_addr_cd) throws Exception;
 
 
 }

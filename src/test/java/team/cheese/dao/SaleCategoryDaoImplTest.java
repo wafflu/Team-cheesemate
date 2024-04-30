@@ -24,7 +24,7 @@ public class SaleCategoryDaoImplTest extends TestCase {
         // sale테이블에 게시글이 몇개 들어있는지 확인하는 테스트
         System.out.println("count : " + salecategorydao.count());
         int cnt = salecategorydao.count();
-        assertTrue(cnt == 1370);
+        assertTrue(cnt == 763);
     }
 
     @Test

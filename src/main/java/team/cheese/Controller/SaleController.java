@@ -35,8 +35,11 @@ public class SaleController {
         List<SaleDto> saleList = saleService.getList();
 
         System.out.println(saleList.size());
-
+    
+        // 사용자의 기본 주소 첫번째
         model.addAttribute("check_addr_cd", check_addr_cd);
+        
+        // 불러온 게시글 리스트를 모델에 담음
         model.addAttribute("saleList", saleList);
 
         return "/login/saleList";
@@ -55,6 +58,7 @@ public class SaleController {
         return "/login/saleBoard";
     }
 
+    // 서비스로 분리
     // 글쓰기 버튼 누른 경우
     @GetMapping("/write")
     public String write(Model model, HttpSession session) throws Exception {
@@ -63,7 +67,8 @@ public class SaleController {
 
         return "/login/saleWrite";
     }
-    
+
+    // 서비스로 분리
     // 글쓰기 완료하고 글을 등록하는 경우
     @PostMapping("/write")
     @ResponseBody
@@ -71,13 +76,19 @@ public class SaleController {
         // service 호출
         // 서비스단 작성 필요함
         System.out.println(formData);
+
+        // 1. 사용자가 글작성
+        // 동시에 작성버튼 누르면?
+        // 작성 실패하면?
+        // 필수로 써야되는거 안썼으면? -> view에서 여기로 전송못하게하기
         
 //        Integer no = saleDto.getNo();
 
         return "success";
 //        return "redirect:/sale/read?no=" + no;
     }
-    
+
+    // 서비스로 분리
     // 수정 버튼 누른 경우
     @RequestMapping("/update")
     public String update(SaleDto saleDto, Model model, HttpSession session) throws Exception {

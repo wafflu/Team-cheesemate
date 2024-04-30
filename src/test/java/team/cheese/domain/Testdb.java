@@ -39,5 +39,4 @@ public class Testdb {
         System.out.println("conn = " + conn);
         assertTrue(conn!=null);
     }
-
 }

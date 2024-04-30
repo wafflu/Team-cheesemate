@@ -49,6 +49,8 @@ public class SaleDaoImplTest {
 
     @Test
     public void testInsert() throws Exception {
+        int cnt = saledao.count();
+        assertTrue(cnt == 9);
         // 글 작성하기 테스트
         SaleDto saledto = new SaleDto();
         saledto.setSeller_id("asdf");
@@ -60,8 +62,8 @@ public class SaleDaoImplTest {
 //        saledto.setTrade_s_cd_2('F');
         saledto.setPrice(28000);
         saledto.setSal_s_cd("S");
-        saledto.setTitle("자바의 정석 팔아요");
-        saledto.setContents("자바의 정석 2판 팔아요.");
+        saledto.setTitle("자바의 정석 2판 팔아요");
+        saledto.setContents("자바의 정석 2판 팔아요. 3판 구매해서 2판 팝니다.");
         saledto.setBid_cd("N");
         saledto.setPickup_addr_cd("11060710");
         saledto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
@@ -74,10 +76,10 @@ public class SaleDaoImplTest {
         int no = saledao.insert(saledto);
         System.out.println("확인 : " + saledto.getNo());
         System.out.println("성공(1)실패(0) : " + no);
-//        assertTrue(no == 1);
+        assertTrue(no == 1);
 
-        int cnt = saledao.count();
-//        assertTrue(cnt == 10);
+        cnt = saledao.count();
+        assertTrue(cnt == 8);
     }
 
     @Test
@@ -93,7 +95,7 @@ public class SaleDaoImplTest {
     @Test
     public void testSaleState() throws Exception {
         // 판매자가 판매글글을 삭제하였을 때 상태를 바꿔주기
-        SaleDto saleDto = saledao.select(8);
+        SaleDto saleDto = saledao.select(7);
         System.out.println(saleDto.getNo());
         saledao.delete(saleDto);
         System.out.println(saleDto.getAd_state());
@@ -103,7 +105,7 @@ public class SaleDaoImplTest {
     @Test
     public void testSaleModify() throws Exception {
         // 판매글 작성자(판매자)가 판매들을 수정하는 경우
-        SaleDto saleDto = saledao.select(5);
+        SaleDto saleDto = saledao.select(7);
         saleDto.setTitle("자바의 정석 기본편 나눔");
         saleDto.setContents("자바의 정석 기본편 나눔합니다.");
         saleDto.setDetail_addr("상록중학교 정문");

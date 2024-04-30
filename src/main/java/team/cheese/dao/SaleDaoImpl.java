@@ -1,12 +1,13 @@
 package team.cheese.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import team.cheese.domain.SaleDto;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class SaleDaoImpl implements SaleDao {
@@ -59,6 +60,14 @@ public class SaleDaoImpl implements SaleDao {
     public int adminState(SaleDto saleDto) throws Exception {
 
         return session.update(namespace + "adminState", saleDto);
+    }
+
+    @Override
+    public List<SaleDto> selectStandardAddr(String ur_id, int check_addr_cd) throws Exception {
+        Map map = new HashMap();
+		map.put("ur_id", ur_id);
+        map.put("check_addr_cd", check_addr_cd);
+        return session.selectList(namespace + "selectStandardAddr");
     }
 
 }
