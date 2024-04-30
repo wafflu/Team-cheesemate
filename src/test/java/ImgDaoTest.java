@@ -30,7 +30,7 @@ public class ImgDaoTest {
     SaleDao saleDao;
 
     @Test
-    public void Insert_img(){
+    public void imgTest(){
         //판매테이블 작성
         SaleDto saledto = new SaleDto();
         saledto.setSeller_id("user123");
@@ -68,6 +68,15 @@ public class ImgDaoTest {
         assertTrue(imgDao.insert_img(img) == 1);
         img = new ImgDto("sale", sno, "r", Todaystr(), "r_"+Todaystr()+"_", "아보카도", ".png", 50, 50);
         assertTrue(imgDao.insert_img(img) == 1);
+
+        List<ImgDto> imglist = imgDao.selectAll_img();
+
+        Iterator it = imglist.iterator();
+
+        while (it.hasNext()){
+            System.out.println(it.next());
+        }
+
         System.out.println("-- 이미지 작성완료 --");
 
         //교차테이블 작성
@@ -83,10 +92,10 @@ public class ImgDaoTest {
         //썸네일 리스트 보기
         List<ImgDto> list = imgDao.select_s_imglist();
         assertTrue(list != null);
-        Iterator it = list.iterator();
+        Iterator it3 = list.iterator();
 
-        while (it.hasNext()){
-            System.out.println(it.next());
+        while (it3.hasNext()){
+            System.out.println(it3.next());
         }
         System.out.println("--썸네일 이미지 리스트 보기 끝--");
 

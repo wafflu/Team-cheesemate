@@ -120,29 +120,61 @@
   //   });
   // })
 
-  let info = {
-    "imglist" : imginfo,
-    "person": { "name": "lee", "age": 24 }
-  }
+  // let info = {
+  //   "imglist" : imginfo,
+  //   "person": { "name": "lee", "age": 24 }
+  // }
 
 
-  $("#reg_img").on('click',function (){
-    // alert("asdasdasd");
+  //이미지 등록하기
+  $("#reg_img").click(function (){
+    // alert("asd")
+    let loc;
     $.ajax({
       url: '/reg_image',
       type : 'POST',
       contentType : 'application/json',
       dataType : 'text',
+      // async : false,
       data : JSON.stringify(imginfo),
       success: function (result) {
-        location.replace(result);
-        alert("S : "+result)
+        // alert("S : "+result)
+        loc = result;
+        location.replace(loc);
       },
-      error : function(result) {
-        alert("F : "+result)
+      error: function(result) {
+        alert("선택된 이미지가 없습니다.")
       }
-    });
-    // alert("asdasdasd2222");
+  });
+    alert("등록되었습니다.")
+
+    // alert("asd");
+  // $("#reg_img").click(function (){
+  //   // alert("asdasdasd");
+  //   if(imginfo.length == 0){
+  //     alert("등록된 이미지가 없습니다.");
+  //     return;
+  //   }
+  //   $.ajax({
+  //     url: '/reg_image',
+  //     type : 'POST',
+  //     contentType : 'application/json',
+  //     dataType : 'text',
+  //     data : JSON.stringify(imginfo),
+  //     success: function (result) {
+  //       alert("S : "+result)
+  //       // location.replace(result);
+  //     },
+  //     error: function(xhr, status, error) {
+  //       if (status === "timeout") {
+  //         // 요청이 타임아웃 되었을 때의 처리
+  //         alert("서버 응답 시간이 초과되었습니다.");
+  //       } else {
+  //         // 기타 오류 발생 시의 처리
+  //         alert("에러 발생: " + error);
+  //       }
+  //     }
+  //   });
   })
 
 
@@ -172,23 +204,6 @@
       }
     });
   }
-
-  $(document).ready(
-          // $.ajax({
-          //   url: '/loadThumbnailImage',
-          //   type : 'POST',
-          //   processData : false,
-          //   contentType : false,
-          //   dataType : 'json',
-          //   data : JSON.stringify(imginfo),
-          //   success : function(result){
-          //     showThumbnailImage(result);
-          //   },
-          //   error : function(result){
-          //     alert("로딩 오류");
-          //   }
-          // })
-  );
 
   function showThumbnailImage(uploadResultArr){
 

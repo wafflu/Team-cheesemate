@@ -28,6 +28,7 @@
 <!--        where s.${no_name} = #{no} and i.tb_name = #{cross_tb_name} and i.tb_no = #{no};-->
 <!--    </insert>-->
 
+    <!-- 이미지 교차 테이블 작성 -->
     <insert id="insert_cross" parameterType="map">
         INSERT INTO ${tb_name} (${col_name}, img_no)
         SELECT s.no AS ${col_name}, i.no AS img_no
@@ -38,14 +39,6 @@
     <select id="select_sale_img" resultType="ImgDto">
         select * from img;
     </select>
-
-    <delete id="delete_cross_all" parameterType="string">
-        delete from ${tb_name};
-    </delete>
-
-    <delete id="delete_img_all" parameterType="int">
-        delete from img;
-    </delete>
 
     <select id="select_s_imglist" resultType="ImgDto">
         select s.no as s_no, i.imgtype, s.title as s_title, s.price as s_price, s.r_date as s_r_date, i.file_rt, i.u_name, i.o_name, i.e_name
@@ -122,5 +115,13 @@
         from img i, sale s, sale_img si
         where si.sal_no = s.no and si.img_no = i.no and s.no = #{no} and i.imgtype = 's'and i.state = 'Y';
     </select>
+
+    <delete id="delete_cross_all" parameterType="string">
+        delete from ${tb_name};
+    </delete>
+
+    <delete id="delete_img_all" parameterType="int">
+        delete from img;
+    </delete>
 
 </mapper>
