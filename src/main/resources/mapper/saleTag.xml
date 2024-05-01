@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.TagMapper">
+    <sql id="selectFromTag">
+        SELECT sal_no, tag_no
+        FROM sale_tag
+    </sql>
+
+    <!--  R : 전체 테이블 읽어오기  -->
+    <select id="selectAll" resultType="SaleTagDto">
+        <include refid="selectFromTag"/>
+    </select>
+
+<!--    &lt;!&ndash;  R : 사용하는 행만 읽어오기  &ndash;&gt;-->
+<!--    <select id="selectUse" resultType="TagDto">-->
+<!--        <include refid="selectFromTag"/>-->
+<!--        WHERE-->
+<!--        state = 'Y'-->
+<!--    </select>-->
+
+<!--  R : 선택한 판매글의 해시태그 값을 읽어오기(join문)  -->
+    <select id="selectSaleTag" parameterType="int" resultMap="joinTag">
+        SELECT a.sal_no, a.tag_no, b.contents
+            FROM sal_tag a
+        LEFT JOIN tag b ON a.tag_no = b.no
+        WHERE a.sal_no = #{sal_no}
+    </select>
+
+    <resultMap id="joinTag" type="SaleTagDto">
+        <!-- 1 : 다 관계의 경우 데이터 매핑시켜준다.
+                association => 1 : 1 관계
+                collection => 1 : 다 관계 (하나의 판매글에 여러개의 태그)
+                일반 컬럼과 pk 구분 가능 (pk 칼럼에게는 result 아닌 id 사용)
+        -->
+        <id property="sal_no" column="sal_no"/>
+        <result property="tag_no" column="tag_no"/>
+        <collection property="tagDto" javaType="team.cheese.domain.TagDto">
+            <result property="contents" column="contents"/>
+        </collection>
+    </resultMap>
+
+    <!--  R : 태그명 조회하기(태그 번호만 반환)  -->
+    <select id="selectTagContents" parameterType="TagDto" resultType="SaleTagDto">
+        SELECT no
+        WHERE
+            state = 'Y'
+          and contents = #{contents}
+    </select>
+
+    <!--  U : 태그 존재하지 않을 때 삽입  -->
+    <insert id="insert" parameterType="SaleTagDto">
+        INSERT INTO sale_tag (contents, first_date, first_id, last_date, last_id)
+        values (#{contents}, now(), #{seller_id}, now(), #{seller_id})
+    </insert>
+
+    <!--  D : 데이터 전체 삭제  -->
+    <delete id="deleteAll">
+        DELETE FROM tag
+    </delete>
+
+
+</mapper>

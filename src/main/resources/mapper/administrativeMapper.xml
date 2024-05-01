@@ -16,14 +16,14 @@
 <!--  사용자가 선택하는거니까 select문 필요  -->
     <select id="selectAddrCd" resultType="AdministrativeDto">
         <include refid="selectFromAdministrative"/>
-        WHERE 1=1
-        AND addr_cd = #{addr_cd}
+        WHERE
+        addr_cd = #{addr_cd}
     </select>
 
     <select id="searchLetter" resultType="AdministrativeDto">
         <include refid="selectFromAdministrative"/>
-        WHERE 1=1
-        AND addr_name LIKE CONCAT('%', #{searchLetter}, '%')
+        WHERE
+        addr_name LIKE CONCAT('%', #{searchLetter}, '%')
         AND LENGTH(addr_cd) = 8
     </select>
 
@@ -31,13 +31,8 @@
 <!--  관리자가 행정동코드 사용미사용 정하는 경우 : state  -->
     <update id="update" parameterType="AdministrativeDto">
         UPDATE administrative
-        <if test="state == 'Y'">
-            SET state = 'N'
-        </if>
-        <if test="state == 'N'">
-            SET state = 'Y'
-        </if>
-        WHERE 1=1
-        AND addr_cd = #{addr_cd}
+            SET state = #{state}, last_id = #{last_id}, last_date = now()
+        WHERE
+            addr_cd = #{addr_cd}
     </update>
 </mapper>

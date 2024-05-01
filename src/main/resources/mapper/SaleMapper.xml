@@ -18,7 +18,8 @@
     <select id="countUse" resultType="int">
         SELECT count(*)
         FROM sale
-        WHERE ur_state = 'Y'
+        WHERE
+            ur_state = 'Y'
     </select>
 
     <!-- CRUD  -->
@@ -26,8 +27,8 @@
     <!--  유저의 주소를 기준으로 조회되어야 됨  -->
     <select id="selectAll" resultType="SaleDto">
         <include refid="selectFromSale"/>
-        where 1=1
-        and ur_state = 'Y'
+        where
+        ur_state = 'Y'
         ORDER BY no DESC
     </select>
 
@@ -37,8 +38,8 @@
         WHERE 1=1
           AND addr_cd = (
             SELECT addr_cd FROM addr_cd
-            WHERE 1=1
-              AND ur_id = #{ur_id}
+            WHERE
+            ur_id = #{ur_id}
             LIMIT 1 OFFSET #{check_addr_cd}
             )
     </select>
@@ -48,8 +49,8 @@
     <!--  no를 변경해 줘야 됨  -->
     <select id="select" resultType="SaleDto">
         <include refid="selectFromSale"/>
-        where 1=1
-        and no = #{no}
+        where
+        no = #{no}
         and ur_state = 'Y'
     </select>
 
@@ -117,24 +118,19 @@
         UPDATE sale
         SET m_date   = now(),
             ur_state = 'N',
-            last_id = #{누가했는가},
+            last_id = #{seller_id},
             last_date = now()
-        WHERE 1 = 1
-          AND no = #{no}
+        WHERE
+        no = #{no}
     </update>
 
     <!--  D : 관리자가 판매글에 관여하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌(너무길어요)  -->
     <update id="adminState" parameterType="SaleDto">
         UPDATE sale
         SET m_date = now(),
-        <if test="ad_state == 'Y'">
-            ad_state = 'N'
-        </if>
-        <if test="ad_state == 'N'">
-            ad_state = 'Y'
-        </if>
-        WHERE 1 = 1
-        AND no = #{no}
+            ad_state = #{ad_state}
+        WHERE
+        no = #{no}
     </update>
 
     <!--  검색 기능(추후 추가)   -->

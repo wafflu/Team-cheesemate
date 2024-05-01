@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.TagMapper">
+    <sql id="selectFromTag">
+        SELECT no, contents, state
+        FROM tag
+    </sql>
+
+<!--  R : 전체 테이블 읽어오기  -->
+    <select id="selectAll" resultType="TagDto">
+        <include refid="selectFromTag"/>
+    </select>
+
+<!--  R : 사용하는 행만 읽어오기  -->
+    <select id="selectUse" resultType="TagDto">
+        <include refid="selectFromTag"/>
+        WHERE
+        state = 'Y'
+    </select>
+
+<!--  R : 태그명 조회하기(태그 번호만 반환)  -->
+    <select id="selectTagContents" parameterType="TagDto" resultType="TagDto">
+        SELECT no
+        WHERE
+        state = 'Y'
+        and contents = #{contents}
+    </select>
+
+<!--  U : 태그 존재하지 않을 때 삽입  -->
+    <insert id="insert" parameterType="TagDto" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO tag (contents, first_date, first_id, last_date, last_id)
+        values (#{contents}, now(), #{seller_id}, now(), #{seller_id})
+    </insert>
+
+<!--  D : 데이터 전체 삭제  -->
+    <delete id="deleteAll">
+        DELETE FROM tag
+    </delete>
+
+
+</mapper>

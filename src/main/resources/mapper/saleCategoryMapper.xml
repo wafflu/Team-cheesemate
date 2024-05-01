@@ -26,22 +26,22 @@
   -->
     <select id="selectAll" resultType="SaleCategoryDto">
         <include refid="selectFromSaleCategory"/>
-        WHERE 1=1 -- 지우기
-        AND state = 'Y'
+        WHERE
+        state = 'Y'
     </select>
 
     <select id="selectCategory1" resultType="SaleCategoryDto">
         <include refid="selectFromSaleCategory"/>
-        WHERE 1=1
-        AND LENGTH(sal_cd) = 3
+        WHERE
+        LENGTH(sal_cd) = 3
         AND state='Y'
         ORDER BY sal_cd
     </select>
 
     <select id="selectCategory2" resultType="SaleCategoryDto">
         <include refid="selectFromSaleCategory"/>
-        WHERE 1=1
-        AND sal_cd LIKE CONCAT(#{category1}, '%')
+        WHERE
+        sal_cd LIKE CONCAT(#{category1}, '%')
         AND LENGTH(sal_cd) = 6
         AND state='Y'
         ORDER BY sal_cd
@@ -49,8 +49,8 @@
 
     <select id="selectCategory3" resultType="SaleCategoryDto">
         <include refid="selectFromSaleCategory"/>
-        WHERE 1=1
-        AND sal_cd LIKE CONCAT(#{category2}, '%')
+        WHERE
+        sal_cd LIKE CONCAT(#{category2}, '%')
         AND LENGTH(sal_cd) = 9
         AND state='Y'
         ORDER BY sal_cd
