@@ -13,17 +13,12 @@ public class ImgDto {
     private int h_size;
     private String r_date;
     private String state;
-
-    //판매꺼
-    private Integer s_no;
-    private String s_title;
-    private Integer s_price;
-    private String s_r_date;
+    private String img_full_rt;
 
     public ImgDto(){}
 
     //이미지 작성시 아래 사용
-    public ImgDto(String tb_name, int tb_no, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size){
+    public ImgDto(String tb_name, int tb_no, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size, String img_full_rt){
         this.tb_name = tb_name;
         this.tb_no = tb_no;
         this.imgtype = imgtype;
@@ -33,6 +28,7 @@ public class ImgDto {
         this.e_name = e_name;
         this.w_size = w_size;
         this.h_size = h_size;
+        this.img_full_rt = img_full_rt;
     }
 
     //
@@ -52,43 +48,24 @@ public class ImgDto {
                 ", h_size=" + h_size +
                 ", r_date='" + r_date + '\'' +
                 ", state='" + state + '\'' +
-                ", s_no=" + s_no +
-                ", s_title='" + s_title + '\'' +
-                ", s_price=" + s_price +
-                ", s_r_date='" + s_r_date + '\'' +
+                ", img_full_rt=" + img_full_rt +
                 '}';
     }
 
-    public String getS_title() {
-        return s_title;
+    public String getFile_rt() {
+        return file_rt;
     }
 
-    public void setS_title(String s_title) {
-        this.s_title = s_title;
+    public void setFile_rt(String file_rt) {
+        this.file_rt = file_rt;
     }
 
-    public Integer getS_price() {
-        return s_price;
+    public String getImg_full_rt() {
+        return img_full_rt;
     }
 
-    public void setS_price(Integer s_price) {
-        this.s_price = s_price;
-    }
-
-    public String getS_r_date() {
-        return s_r_date;
-    }
-
-    public void setS_r_date(String s_r_date) {
-        this.s_r_date = s_r_date;
-    }
-
-    public Integer getS_no() {
-        return s_no;
-    }
-
-    public void setS_no(Integer s_no) {
-        this.s_no = s_no;
+    public void setImg_full_rt(String img_full_rt) {
+        this.img_full_rt = img_full_rt;
     }
 
     public Integer getNo() {

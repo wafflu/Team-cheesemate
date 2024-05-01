@@ -18,7 +18,7 @@ public class EventDto {
     LocalDate s_date;
     LocalDate e_date;
     Timestamp r_date;
-    int evt_img_sn;
+    int img_no;
     String active_s_cd;
     Timestamp m_date;
     String prize;
@@ -31,7 +31,7 @@ public class EventDto {
 
     private String filert;
     public EventDto() {}
-    public EventDto(Long evt_no, String evt_cd, String title, String contents, LocalDate s_date, LocalDate e_date, Timestamp r_date, int evt_img_sn, String active_s_cd, Timestamp m_date, String prize, String ad_id, Timestamp first_r_date, String first_id, Timestamp last_r_date, String last_id) {
+    public EventDto(Long evt_no, String evt_cd, String title, String contents, LocalDate s_date, LocalDate e_date, Timestamp r_date, int img_no, String active_s_cd, Timestamp m_date, String prize, String ad_id, Timestamp first_r_date, String first_id, Timestamp last_r_date, String last_id) {
         this.evt_no = evt_no;
         this.evt_cd = evt_cd;
         this.title = title;
@@ -39,7 +39,7 @@ public class EventDto {
         this.s_date = s_date;
         this.e_date = e_date;
         this.r_date = r_date;
-        this.evt_img_sn = evt_img_sn;
+        this.img_no = img_no;
         this.active_s_cd = active_s_cd;
         this.m_date = m_date;
         this.prize = prize;
@@ -58,20 +58,20 @@ public class EventDto {
         this.evt_cd = evt_cd;
         this.prize = prize;
         this.active_s_cd = "P";
-        this.evt_img_sn = 1;
+        this.img_no = 1;
         this.ad_id = ad_id;
         this.first_id = "ghkdwjdgk";
         this.last_id = "ghkdwjdgk";
     }
 
-    public EventDto(String evt_cd, String active_s_cd, String title, String contents, LocalDate s_date, LocalDate e_date, int evt_img_sn, String prize, String ad_id, String first_id, String last_id) {
+    public EventDto(String evt_cd, String active_s_cd, String title, String contents, LocalDate s_date, LocalDate e_date, int img_no, String prize, String ad_id, String first_id, String last_id) {
         this.evt_cd = evt_cd;
         this.active_s_cd = active_s_cd;
         this.title = title;
         this.contents = contents;
         this.s_date = s_date;
         this.e_date = e_date;
-        this.evt_img_sn = evt_img_sn;
+        this.img_no = img_no;
         this.prize = prize;
         this.ad_id = ad_id;
         this.first_id = first_id;
@@ -133,12 +133,12 @@ public class EventDto {
         this.e_date = e_date;
     }
 
-    public int getEvt_img_sn() {
-        return evt_img_sn;
+    public int getImg_no() {
+        return img_no;
     }
 
-    public void setEvt_img_sn(int evt_img_sn) {
-        this.evt_img_sn = evt_img_sn;
+    public void setImg_no(int img_no) {
+        this.img_no = img_no;
     }
 
     public String getActive_s_cd() {
@@ -231,7 +231,7 @@ public class EventDto {
                 ", s_date=" + s_date +
                 ", e_date=" + e_date +
                 ", r_date=" + r_date +
-                ", evt_img_sn=" + evt_img_sn +
+                ", img_no=" + img_no +
                 ", active_s_cd='" + active_s_cd + '\'' +
                 ", m_date=" + m_date +
                 ", prize='" + prize + '\'' +

@@ -15,16 +15,4 @@ public class ImgServiceTest {
     @Autowired
     ImgService imgService;
 
-    @Test
-    public void reg_img(){
-        ImgDto img = new ImgDto();
-        img.setTb_name("board");
-        img.setFilert("/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img");
-        img.setU_name("s_52932408-4685-4136-b20a-cacfa1fd478a_");
-        img.setO_name("아보카도");
-        img.setE_name(".png");
-        img.setW_size(292);
-        img.setH_size(292);
-        assertTrue(imgService.reg_img(img) == 1);
-    }
 }

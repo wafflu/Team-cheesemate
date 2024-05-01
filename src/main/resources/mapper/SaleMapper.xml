@@ -10,7 +10,7 @@
     <insert id="insert_sale" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd,
                           trade_s_cd_1, trade_s_cd_2, price,
-                          sal_s_cd, title, contents, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand,
+                          sal_s_cd, title, contents, img_full_rt, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand,
                           reg_price)
         SELECT a.addr_cd,
                a.addr_name,
@@ -26,6 +26,7 @@
                #{sal_s_cd},
                #{title},
                #{contents},
+               #{img_full_rt},
                #{bid_cd},
                #{pickup_addr_cd},
                (select addr_name as pickup_addr_cd from administrative where addr_cd = #{pickup_addr_cd}),

@@ -32,11 +32,14 @@ public class UserInfoDTO {
     private Timestamp last_date;
     private String last_id;
 
+    private String img_full_rt;
+
     public UserInfoDTO() {}
-    public UserInfoDTO(String ur_id, String contents) {
+    public UserInfoDTO(String ur_id, String nick, String contents, String img_full_rt) {
         this.ur_id = ur_id;
         this.nick = nick;
         this.contents = contents;
+        this.img_full_rt = img_full_rt;
     }
 
     @Override
@@ -70,6 +73,7 @@ public class UserInfoDTO {
                 ", first_idno='" + first_id + '\'' +
                 ", last_r_date=" + last_date +
                 ", last_idno='" + last_id + '\'' +
+                ", img_full_rt='" + img_full_rt + '\'' +
                 '}';
     }
 

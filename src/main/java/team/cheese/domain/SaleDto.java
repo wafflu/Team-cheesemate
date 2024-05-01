@@ -42,7 +42,7 @@ public class SaleDto {
     private Timestamp last_date;
     private String last_id;
     private int check_addr_cd;
-    private String filert;
+    private String img_full_rt;
 
     public Integer getNo() {
         return no;
@@ -341,12 +341,12 @@ public class SaleDto {
         this.check_addr_cd = check_addr_cd;
     }
 
-    public String getFilert() {
-        return filert;
+    public String getImg_full_rt() {
+        return img_full_rt;
     }
 
-    public void setFilert(String filert) {
-        this.filert = filert;
+    public void setImg_full_rt(String img_full_rt) {
+        this.img_full_rt = img_full_rt;
     }
 
     @Override

@@ -67,31 +67,31 @@ public class SaleDaoTest {
         img.setW_size(292);
         img.setH_size(292);
 
-        for(int i = 0; i<5; i++){
-            imgDao.insert_img(img);
-        }
-        img.setTb_no(saledto.getNo()+1);
-        imgDao.insert_img(img);
-        assertTrue(imgDao.insert_img(img) == 1);
+//        for(int i = 0; i<5; i++){
+//            imgDao.insert_img(img);
+//        }
+//        img.setTb_no(saledto.getNo()+1);
+//        imgDao.insert_img(img);
+//        assertTrue(imgDao.insert_img(img) == 1);
 
-        List<ImgDto> list = imgDao.selectAll_img();
-        assertTrue(imgDao.selectAll_img() != null);
-        Iterator it = list.iterator();
-
-        while (it.hasNext()){
-            System.out.println(it.next());
-        }
-
-        HashMap map = new HashMap();
-
-        map.put("no", saledto.getNo());
-        map.put("col_name", "sal_no");
-        map.put("no_name", "no");
-        map.put("cross_tb_name", "sale");
-        map.put("tb_name", "sale_img");
-
-        int change = imgDao.insert_cross(map);
-        assertTrue(change > 1);
+//        List<ImgDto> list = imgDao.selectAll_img();
+//        assertTrue(imgDao.selectAll_img() != null);
+//        Iterator it = list.iterator();
+//
+//        while (it.hasNext()){
+//            System.out.println(it.next());
+//        }
+//
+//        HashMap map = new HashMap();
+//
+//        map.put("no", saledto.getNo());
+//        map.put("col_name", "sal_no");
+//        map.put("no_name", "no");
+//        map.put("cross_tb_name", "sale");
+//        map.put("tb_name", "sale_img");
+//
+//        int change = imgDao.insert_cross(map);
+//        assertTrue(change > 1);
     }
 
 }

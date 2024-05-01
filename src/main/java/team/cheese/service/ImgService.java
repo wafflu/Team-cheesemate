@@ -12,12 +12,4 @@ public class ImgService {
     @Autowired
     ImgDao imgDao;
 
-    public int reg_img(ImgDto imgDto){
-        return imgDao.insert_img(imgDto);
-    }
-
-    public int view_img(HashMap map){
-        return imgDao.insert_cross(map);
-    }
-
 }
