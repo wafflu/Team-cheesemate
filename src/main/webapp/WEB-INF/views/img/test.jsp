@@ -71,7 +71,7 @@
       let obj = uploadResultArr[i];
 
       // let fileCallPath = encodeURIComponent(obj.uploadPath + "/r_" + obj.uuid + "_" + obj.fileName);
-      let fileCallPath = encodeURIComponent(obj.filert + "/r_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
+      let fileCallPath = encodeURIComponent(obj.file_rt + "/r_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
 
       str += "<div id='result_card'>";
       str += "<img src='/display?fileName=" + fileCallPath +"'>";

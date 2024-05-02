@@ -1,102 +1,127 @@
-//package team.cheese.controller;
-//
-//import net.coobird.thumbnailator.Thumbnails;
-//import net.coobird.thumbnailator.geometry.Positions;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.MediaType;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.util.FileCopyUtils;
-//import org.springframework.web.bind.annotation.*;
-//import org.springframework.web.multipart.MultipartFile;
-//import org.springframework.web.servlet.ModelAndView;
-//import team.cheese.dao.ImgDao;
-//import team.cheese.dao.SaleDao;
-//import team.cheese.domain.ImgDto;
-//import team.cheese.domain.SaleDto;
-//import team.cheese.service.ImgService;
-//
-//import javax.servlet.ServletContext;
-//import javax.servlet.http.HttpServletRequest;
-//import java.awt.image.BufferedImage;
-//import java.io.File;
-//import java.io.IOException;
-//import java.io.InputStream;
-//import java.net.URLDecoder;
-//import java.nio.file.Files;
-//import java.text.SimpleDateFormat;
-//import java.util.*;
-//
-//@Controller
-//public class test2 {
-//
-//    @Autowired
-//    ImgService imgService;
-//
-//    @Autowired
-//    SaleDao saleDao;
-//
-//    @Autowired
-//    ImgDao imgDao;
-//
-////    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img"; // 절대 경로 테스트 삼아 지정
-//
-//    public String path(HttpServletRequest request){
-//        ServletContext servletContext = request.getServletContext();
-//        String realPath = servletContext.getRealPath("/");
-//        String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
-//        return folderPath;
-//    }
-//
-//    @GetMapping("/test")
-//    public String ajax() {
-//        return "img/test";
-//    }
-//
-//    //이미지 보여주기용
-//    @GetMapping("/display")
-//    public ResponseEntity<byte[]> getImage(String fileName, HttpServletRequest request){
-//
-//        String folderPath = path(request);
-//        File file = new File(folderPath+"/"+ fileName);
-//        ResponseEntity<byte[]> result = null;
-//
-//        try {
-//            HttpHeaders header = new HttpHeaders();
-//            header.add("Content-type", Files.probeContentType(file.toPath()));
-//            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-//        }catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return result;
-//    }
-//
-//    /* 이미지 파일 삭제 */
-//    @PostMapping("/deleteFile")
-//    public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request){
-//        String folderPath = path(request);
-//
-//        //DB내용만 상태변화 시키기
-////        System.out.println("delete : "+fileName);
-//        File file = null;
-//        try {
-//            file = new File(folderPath+"/" + URLDecoder.decode(fileName, "UTF-8"));
-//            file.delete();
-//            /* 썸네일 파일 삭제 */
-//            String originFileName = file.getAbsolutePath().replace("s_", "");
-//            file = new File(originFileName);
-//            file.delete();
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
-//
-//        }
-//        return new ResponseEntity<String>("success", HttpStatus.OK);
-//    }
+package team.cheese.controller;
+
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import team.cheese.ImgFactory;
+import team.cheese.dao.ImgDao;
+import team.cheese.dao.SaleDao;
+import team.cheese.domain.ImgDto;
+import team.cheese.domain.SaleDto;
+import team.cheese.service.ImgService;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+@Controller
+public class test2 {
+
+    @Autowired
+    ImgService imgService;
+
+    @Autowired
+    SaleDao saleDao;
+    @Autowired
+    ImgDao imgDao;
+    ImgFactory ifc;
+
+    //사용안함 일단 두기
+    public String path(HttpServletRequest request){
+        ServletContext servletContext = request.getServletContext();
+        String realPath = servletContext.getRealPath("/");
+        String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
+        return folderPath;
+    }
+
+    @GetMapping("/test")
+    public String ajax(HttpServletRequest request) {
+        ifc = imgService.path(request);
+        return "img/test";
+    }
+
+    //이미지 업로드 과정
+    @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
+//        String folderPath = ifc.getFolderPath();
+
+        if(!ifc.CheckImg(uploadFiles)){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        String datePath = ifc.todaystr();
+
+        ifc.Makefolder(datePath);
+
+        List<ImgDto> list = new ArrayList();
+
+        for(MultipartFile multipartFile : uploadFiles) {
+            ifc.Makeimg(multipartFile, "r_",78, 78);
+            ImgDto img = ifc.setImginfo(multipartFile, "r_",78, 78);
+            list.add(img);
+        }
+
+        ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
+        return result;
+    }
+
+    //이미지 보여주기용
+    @GetMapping("/display")
+    public ResponseEntity<byte[]> getImage(String fileName){
+        String folderPath = ifc.getFolderPath();
+        File file = new File(folderPath+"/"+ fileName);
+        ResponseEntity<byte[]> result = null;
+
+        try {
+            HttpHeaders header = new HttpHeaders();
+            header.add("Content-type", Files.probeContentType(file.toPath()));
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    /* 이미지 파일 삭제 */
+    @PostMapping("/deleteFile")
+    public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request){
+        String folderPath = ifc.todaystr();
+
+        //DB내용만 상태변화 시키기
+//        System.out.println("delete : "+fileName);
+        File file = null;
+        try {
+            file = new File(folderPath+"/" + URLDecoder.decode(fileName, "UTF-8"));
+            file.delete();
+            /* 썸네일 파일 삭제 */
+            String originFileName = file.getAbsolutePath().replace("s_", "");
+            file = new File(originFileName);
+            file.delete();
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+
+        }
+        return new ResponseEntity<String>("success", HttpStatus.OK);
+    }
 //
 //    @RequestMapping("/testview")
 //    public String viewtest(Model model){
@@ -402,4 +427,4 @@
 //        map.put("no", no);
 //        return map;
 //    }
-//}
+}

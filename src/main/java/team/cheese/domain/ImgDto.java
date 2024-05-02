@@ -1,26 +1,26 @@
 package team.cheese.domain;
 
+import java.util.Objects;
+
 public class ImgDto {
     private Integer no;
-    private Integer tb_no;
-    private String tb_name;
     private String imgtype;
     private String file_rt;
     private String u_name;
     private String o_name;
     private String e_name;
-    private int w_size;
-    private int h_size;
+    private Integer w_size;
+    private Integer h_size;
     private String r_date;
     private String state;
     private String img_full_rt;
+
+    private Integer group_no;
 
     public ImgDto(){}
 
     //이미지 작성시 아래 사용
     public ImgDto(String tb_name, int tb_no, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size, String img_full_rt){
-        this.tb_name = tb_name;
-        this.tb_no = tb_no;
         this.imgtype = imgtype;
         this.file_rt = file_rt;
         this.u_name = u_name;
@@ -31,41 +31,35 @@ public class ImgDto {
         this.img_full_rt = img_full_rt;
     }
 
-    //
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ImgDto imgDto = (ImgDto) o;
+        return Objects.equals(imgtype, imgDto.imgtype) && Objects.equals(file_rt, imgDto.file_rt) && Objects.equals(u_name, imgDto.u_name) && Objects.equals(o_name, imgDto.o_name) && Objects.equals(e_name, imgDto.e_name) && Objects.equals(w_size, imgDto.w_size) && Objects.equals(h_size, imgDto.h_size) && Objects.equals(img_full_rt, imgDto.img_full_rt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt);
+    }
 
     @Override
     public String toString() {
         return "ImgDto{" +
-                "no=" + no +
-                ", tb_no=" + tb_no +
-                ", tb_name='" + tb_name + '\'' +
+//                "no=" + no +
                 ", imgtype='" + imgtype + '\'' +
-                ", filert='" + file_rt + '\'' +
+                ", file_rt='" + file_rt + '\'' +
                 ", u_name='" + u_name + '\'' +
                 ", o_name='" + o_name + '\'' +
                 ", e_name='" + e_name + '\'' +
                 ", w_size=" + w_size +
                 ", h_size=" + h_size +
-                ", r_date='" + r_date + '\'' +
-                ", state='" + state + '\'' +
-                ", img_full_rt=" + img_full_rt +
+//                ", r_date='" + r_date + '\'' +
+//                ", state='" + state + '\'' +
+                ", img_full_rt='" + img_full_rt + '\'' +
+//                ", group_no=" + group_no +
                 '}';
-    }
-
-    public String getFile_rt() {
-        return file_rt;
-    }
-
-    public void setFile_rt(String file_rt) {
-        this.file_rt = file_rt;
-    }
-
-    public String getImg_full_rt() {
-        return img_full_rt;
-    }
-
-    public void setImg_full_rt(String img_full_rt) {
-        this.img_full_rt = img_full_rt;
     }
 
     public Integer getNo() {
@@ -76,19 +70,19 @@ public class ImgDto {
         this.no = no;
     }
 
-    public String getTb_name() {
-        return tb_name;
+    public String getImgtype() {
+        return imgtype;
     }
 
-    public void setTb_name(String tb_name) {
-        this.tb_name = tb_name;
+    public void setImgtype(String imgtype) {
+        this.imgtype = imgtype;
     }
 
-    public String getFilert() {
+    public String getFile_rt() {
         return file_rt;
     }
 
-    public void setFilert(String file_rt) {
+    public void setFile_rt(String file_rt) {
         this.file_rt = file_rt;
     }
 
@@ -116,19 +110,19 @@ public class ImgDto {
         this.e_name = e_name;
     }
 
-    public int getW_size() {
+    public Integer getW_size() {
         return w_size;
     }
 
-    public void setW_size(int w_size) {
+    public void setW_size(Integer w_size) {
         this.w_size = w_size;
     }
 
-    public int getH_size() {
+    public Integer getH_size() {
         return h_size;
     }
 
-    public void setH_size(int h_size) {
+    public void setH_size(Integer h_size) {
         this.h_size = h_size;
     }
 
@@ -140,14 +134,6 @@ public class ImgDto {
         this.r_date = r_date;
     }
 
-    public Integer getTb_no() {
-        return tb_no;
-    }
-
-    public void setTb_no(Integer tb_no) {
-        this.tb_no = tb_no;
-    }
-
     public String getState() {
         return state;
     }
@@ -156,11 +142,19 @@ public class ImgDto {
         this.state = state;
     }
 
-    public String getImgtype() {
-        return imgtype;
+    public String getImg_full_rt() {
+        return img_full_rt;
     }
 
-    public void setImgtype(String imgtype) {
-        this.imgtype = imgtype;
+    public void setImg_full_rt(String img_full_rt) {
+        this.img_full_rt = img_full_rt;
+    }
+
+    public Integer getGroup_no() {
+        return group_no;
+    }
+
+    public void setGroup_no(Integer group_no) {
+        this.group_no = group_no;
     }
 }

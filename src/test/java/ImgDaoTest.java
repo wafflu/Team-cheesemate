@@ -10,11 +10,9 @@ import team.cheese.domain.*;
 import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,43 +46,26 @@ public class ImgDaoTest {
             assertTrue(imgDao.delete("img") != 0);
             System.out.println("이미지 삭제완료");
         }
-
-//        System.out.println("판매 삭제전 카운트 : "+imgDao.count("sale"));
-//        assertTrue(imgDao.delete("sale") != 0);
-//        System.out.println("판매 삭제 카운트 : "+imgDao.count("sale"));
-//
-//        System.out.println("이벤트 삭제전 카운트 : "+imgDao.count("event"));
-//        assertTrue(imgDao.delete("event") != 0);
-//        System.out.println("이벤트 삭제 카운트 : "+imgDao.count("event"));
-//
-//        System.out.println("이벤트 삭제전 카운트 : "+imgDao.count("user_info"));
-//        assertTrue(imgDao.delete("user_info") != 0);
-//        System.out.println("이벤트 삭제 카운트 : "+imgDao.count("user_info"));
     }
+
 
     @Test
     public void img_insert(){
-        if(imgDao.count("img_group") != 0){
-            assertTrue(imgDao.delete("img_group") != 0);
-            System.out.println("이미지 그룹 삭제완료");
-        }
-
-        if(imgDao.count("img") != 0){
-            assertTrue(imgDao.delete("img") != 0);
-            System.out.println("이미지 삭제완료");
-        }
-
+        ArrayList<ImgDto> imglist = new ArrayList();
 
         for(int i = 1; i<=10; i++){
 //            int tb_no = makeSale(i);//판매 테이블 만들어지는곳
             int a = imgDao.select_group_max()+1;
-            System.out.println("a : "+a);
+//            System.out.println("a : "+a);
             HashMap map = new HashMap<>();
             map.put("group_no", a);
 
             ImgDto simg = makeImg(i, "s");
+            imglist.add(simg);
             ImgDto rimg = makeImg(i, "r");
+            imglist.add(rimg);
             ImgDto wimg = makeImg(i, "w");
+            imglist.add(wimg);
             assertTrue(imgDao.insert(simg) != 0);
             map.put("img_no", simg.getNo());
             assertTrue(imgDao.insert_group(map) != 0);
@@ -97,34 +78,39 @@ public class ImgDaoTest {
             map.put("img_no", wimg.getNo());
             assertTrue(imgDao.insert_group(map) != 0);
 
-            assertTrue(imgDao.insert(wimg) != 0);
-            map.put("img_no", wimg.getNo());
-            assertTrue(imgDao.insert_group(map) != 0);
+//            assertTrue(imgDao.insert(wimg) != 0);
+//            map.put("img_no", wimg.getNo());
+//            assertTrue(imgDao.insert_group(map) != 0);
+//
+//            assertTrue(imgDao.insert(wimg) != 0);
+//            map.put("img_no", wimg.getNo());
+//            assertTrue(imgDao.insert_group(map) != 0);
 
-            assertTrue(imgDao.insert(wimg) != 0);
-            map.put("img_no", wimg.getNo());
-            assertTrue(imgDao.insert_group(map) != 0);
-
-            System.out.println(i+"번 끝");
+//            System.out.println(i+"번 끝");
         }
+        select(imglist);
     }
 
-    //판매, 커뮤, 이벤트, 마이페이지 쓰는거 관련 생각해보기
 
     //전체 이미지 조회
-    @Test
-    public void select(){
-        List<ImgDto> list = imgDao.select_all_img();
+//    @Test
+    public void select(ArrayList<ImgDto> imglist){
+        ArrayList<ImgDto> list = imgDao.select_all_img();
         assertTrue(list != null);
 
         Iterator it = list.iterator();
 
+        int i = 0;
         while (it.hasNext()){
-            System.out.println(it.next());
+            assertEquals(it.next(), imglist.get(i));
+//            System.out.println(it.next() +"/"+ imglist.get(i)+"\n");
+            i++;
         }
         System.out.println("이미지 리스트 출력완료");
     }
 
+
+    //선택한 게시물에 대한 이미지 불러오기
     @Test
     public void select_img(){
         List<ImgDto> list = imgDao.select_img(1);
@@ -136,6 +122,35 @@ public class ImgDaoTest {
         while(it.hasNext()){
             System.out.println(it.next());
         }
+    }
+
+
+    @Test
+    public void update(){
+        //테스트시 판매테이블 데이터 필요
+        //조회
+        List<ImgDto> list = imgDao.select_img2(1);
+        assertTrue(list != null);
+
+        System.out.println(list.get(0).getNo());
+        System.out.println(list.get(0).getState());
+
+        int imgno = list.get(0).getNo();
+        String state = "Y";
+        if(list.get(0).getState().equals("Y")){
+            state = "N";
+        }
+
+        HashMap map = new HashMap();
+        map.put("state", state);
+        map.put("no",  imgno);
+        assertTrue(imgDao.update(map) == 1);
+
+        list = imgDao.select_img2(1);
+        assertTrue(list != null);
+
+        System.out.println(list.get(0).getNo());
+        System.out.println(list.get(0).getState());
     }
 
     public int makeSale(int num){
@@ -183,7 +198,7 @@ public class ImgDaoTest {
         String o_name = num+"번_아보카도";
         ImgDto img = new ImgDto();
         img.setImgtype(imgtype);
-        img.setFilert("2024_04_30");
+        img.setFile_rt("2024_04_30");
         img.setU_name(imgtype+"_2024_04_30_");
         img.setO_name(o_name);
         img.setE_name(".png");

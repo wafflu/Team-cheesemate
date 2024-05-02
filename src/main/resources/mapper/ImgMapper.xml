@@ -6,7 +6,7 @@
 
     <insert id="insert_img" parameterType="ImgDto" useGeneratedKeys="true" keyProperty="no">
         insert into img (imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt)
-        values (#{imgtype}, #{filert}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt});
+        values (#{imgtype}, #{file_rt}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt});
     </insert>
 
     <insert id="insert_group_img" parameterType="map">
@@ -21,8 +21,12 @@
     <select id="select_img" parameterType="map" resultType="ImgDto">
         select *
         from img i, sale gi
-        where gi.group_no = i.group_no and i.imgtype = 'w' and i.state = 'y' and i.group_no = #{no};
+        where gi.group_no = i.group_no and i.state = 'y' and i.group_no = #{no};
     </select>
+
+    <update id="update_img_state" parameterType="map">
+        update img set state = #{state} where no = #{no};
+    </update>
 
 
 
@@ -53,6 +57,12 @@
 
     <select id="count" parameterType="string" resultType="int">
         select count(*) from ${tb_name};
+    </select>
+
+    <select id="select_img2" parameterType="map" resultType="ImgDto">
+        select *
+        from img i, sale gi
+        where gi.group_no = i.group_no and i.group_no = #{no};
     </select>
 
     <delete id="delete_table" parameterType="string">
