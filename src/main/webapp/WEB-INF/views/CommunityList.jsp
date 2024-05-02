@@ -49,7 +49,7 @@
 
             $.ajax({
                 type:"GET",
-                url:'/test',
+                url:'/community/story',
                 dataType:"json",
                 success:function(result){
                     let s= " ";
@@ -78,7 +78,7 @@
 
           $.ajax({
             type:"GET",
-            url:'/test',
+            url:'/community/story',
             dataType:"json",
             success:function(result){
               let s= " ";
@@ -111,7 +111,7 @@
         $("#bla").click(function(){
             $.ajax({
                 type:"GET",
-                url:'/test',
+                url:'/community/story',
                 dataType: "json",
                 success: function(result){
                     let s = " ";
@@ -141,7 +141,7 @@
       $("#love").click(function(){
         $.ajax({
           type:"GET",
-          url:'/test',
+          url:'/community/story',
           dataType: "json",
           success: function(result){
             let s = " ";
@@ -170,7 +170,7 @@
       $("#worry").click(function(){
         $.ajax({
           type:"GET",
-          url:'/test',
+          url:'/community/story',
           dataType: "json",
           success: function(result){
             let s = " ";

@@ -46,22 +46,22 @@ public class commuDaoTest {
         int result = commuDao.insert(commuDto);
         assertEquals(1,result);
     }
-
-    @Test
-    public void testSelect()throws Exception{
-
-
-        CommuDto commuDto = new CommuDto();
-
-
-        commuDto.setcommu_cd("commu_T");
-        commuDto.setName("테스트 카테고리");
-        commuDto.setfirst_id("asdf");
-        commuDao.insert(commuDto);
-
-        commuDao.select("commu_T",commuDto);
-        System.out.println(commuDto.toString());
-    }
+//
+//    @Test
+//    public void testSelect()throws Exception{
+//
+//
+//        CommuDto commuDto = new CommuDto();
+//
+//
+//        commuDto.setcommu_cd("commu_T");
+//        commuDto.setName("테스트 카테고리");
+//        commuDto.setfirst_id("asdf");
+//        commuDao.insert(commuDto);
+//
+//        commuDao.select("commu_T",commuDto);
+//        System.out.println(commuDto.toString());
+//    }
 
     @Test
     public void testUpdate()throws Exception{

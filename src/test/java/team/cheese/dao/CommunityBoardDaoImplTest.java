@@ -103,11 +103,23 @@ public class CommunityBoardDaoImplTest {
         communityBoardDto.setNick("skyLee");
 
         communityBoardDao.insert(communityBoardDto);
-        assertEquals(1,communityBoardDao.selectAll().size());
-        List<CommunityBoardDto> list = communityBoardDao.selectAll();
 
+        List<CommunityBoardDto> list = communityBoardDao.selectAll('y');
+
+        assertEquals(1,communityBoardDao.count());
+        assertEquals(1,list.size());
         Iterator it = list.iterator();
-        System.out.println(communityBoardDao.selectAll());
+        while (it.hasNext()) {
+            System.out.println("before:" + it.next().toString());
+        }
+        communityBoardDto.setur_state('n');
+        communityBoardDao.userChangeState(communityBoardDto);
+        communityBoardDao.selectAll('y');
+        assertEquals(1,communityBoardDao.count());
+        assertEquals(0,communityBoardDao.selectAll('y').size());
+        System.out.println("after:" + communityBoardDto.toString());
+
+
     }
 
     @Test

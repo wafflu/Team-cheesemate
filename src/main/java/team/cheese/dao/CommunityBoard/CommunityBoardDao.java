@@ -9,7 +9,7 @@ public interface CommunityBoardDao {
 
     int insert(CommunityBoardDto communityBoardDto)throws Exception;
 
-    List<CommunityBoardDto> selectAll()throws Exception;
+    List<CommunityBoardDto> selectAll(Character ur_state)throws Exception;
 
     CommunityBoardDto select(Integer no)throws Exception;
 

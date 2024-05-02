@@ -16,7 +16,7 @@ public class CommunityBoardDaoImpl implements CommunityBoardDao {
 
   @Autowired
     private SqlSession session;
-    private static String namespace = "team.cheese.dao.CommunityBoard.CommunityBoardMapper.";
+    private static String namespace = "team.cheese.dao.CommunityBoard.BoardMapper.";
     @Override
     public int count() throws Exception {
         return session.selectOne(namespace + "count");
@@ -32,8 +32,8 @@ public class CommunityBoardDaoImpl implements CommunityBoardDao {
 
 
     @Override
-    public List<CommunityBoardDto> selectAll() throws Exception {
-        return session.selectList(namespace +"selectAll");
+    public List<CommunityBoardDto> selectAll(Character ur_state) throws Exception {
+        return session.selectList(namespace +"selectAll",ur_state);
     }
 
     @Override
