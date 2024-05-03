@@ -8,6 +8,7 @@ import team.cheese.dao.SaleDao;
 import team.cheese.domain.SaleDto;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -26,7 +27,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public int remove(Integer no, String writer) throws Exception {
+    public int remove(BigInteger no, String writer) throws Exception {
         // 현재 상태를 'N'으로 변경해주는거 여기서 처리
         return 0;
     }
@@ -47,7 +48,7 @@ public class SaleServiceImpl implements SaleService {
     }
 
     @Override
-    public SaleDto read(Integer no) throws Exception {
+    public SaleDto read(BigInteger no) throws Exception {
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         SaleDto saleDto = saleDao.select(no);
 

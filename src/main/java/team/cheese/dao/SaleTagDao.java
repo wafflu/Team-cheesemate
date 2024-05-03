@@ -10,13 +10,7 @@ public interface SaleTagDao {
     // 전체 개수
     int count() throws Exception;
 
-    // 전체 select 하기
-    List<SaleTagDto> selectAll() throws Exception;
+    int deleteAll() throws Exception;
 
-    //
-    List<SaleCategoryDto> selectCategory1() throws Exception;
-
-    List<SaleCategoryDto> selectCategory2(String category1) throws Exception;
-
-    List<SaleCategoryDto> selectCategory3(String category2) throws Exception;
+    int resetAutoIncrement() throws Exception;
 }

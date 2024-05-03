@@ -8,6 +8,11 @@
         FROM tag
     </sql>
 
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM tag
+    </select>
+
 <!--  R : 전체 테이블 읽어오기  -->
     <select id="selectAll" resultType="TagDto">
         <include refid="selectFromTag"/>
@@ -31,7 +36,7 @@
 <!--  U : 태그 존재하지 않을 때 삽입  -->
     <insert id="insert" parameterType="TagDto" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO tag (contents, first_date, first_id, last_date, last_id)
-        values (#{contents}, now(), #{seller_id}, now(), #{seller_id})
+        values (#{contents}, now(), #{first_id}, now(), #{last_id})
     </insert>
 
 <!--  D : 데이터 전체 삭제  -->
@@ -39,5 +44,7 @@
         DELETE FROM tag
     </delete>
 
-
+    <update id="resetAutoIncrement" parameterType="map">
+        alter table tag auto_increment = 1
+    </update>
 </mapper>

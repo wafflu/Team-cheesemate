@@ -13,8 +13,8 @@ import team.cheese.domain.SaleDto;
 import team.cheese.service.SaleService;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/sale")
@@ -47,7 +47,7 @@ public class SaleController {
     
     // 게시글 리스트 중 하나를 클릭한 경우
     @RequestMapping("/read")
-    public String read(Integer no, Model model, HttpSession session) throws Exception {
+    public String read(BigInteger no, Model model, HttpSession session) throws Exception {
         SaleDto saleDto = saleService.read(no);
 
         System.out.println("sale.jsp로 전달");

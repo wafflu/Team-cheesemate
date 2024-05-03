@@ -7,5 +7,12 @@
 		<typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
 		<typeAlias alias="SaleCategoryDto" type="team.cheese.domain.SaleCategoryDto"/>
 		<typeAlias alias="AdministrativeDto" type="team.cheese.domain.AdministrativeDto"/>
+		<typeAlias alias="BidingDto" type="team.cheese.domain.BidingDto"/>
+		<typeAlias alias="HoistingDto" type="team.cheese.domain.HoistingDto"/>
+		<typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
+		<typeAlias alias="SaleHistoryDto" type="team.cheese.domain.SaleHistoryDto"/>
+		<typeAlias alias="SaleImgDto" type="team.cheese.domain.SaleImgDto"/>
+		<typeAlias alias="SaleTagDto" type="team.cheese.domain.SaleTagDto"/>
+		<typeAlias alias="TagDto" type="team.cheese.domain.TagDto"/>
 	</typeAliases>
 </configuration>

@@ -2,11 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="team.cheese.dao.TagMapper">
+<mapper namespace="team.cheese.dao.SaleTagMapper">
     <sql id="selectFromTag">
         SELECT sal_no, tag_no
         FROM sale_tag
     </sql>
+
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM sale_tag
+    </select>
 
     <!--  R : 전체 테이블 읽어오기  -->
     <select id="selectAll" resultType="SaleTagDto">
@@ -21,6 +26,7 @@
 <!--    </select>-->
 
 <!--  R : 선택한 판매글의 해시태그 값을 읽어오기(join문)  -->
+<!-- join문 순서 조금 더 고민해보기 tag, sal_tag   -->
     <select id="selectSaleTag" parameterType="int" resultMap="joinTag">
         SELECT a.sal_no, a.tag_no, b.contents
             FROM sal_tag a
@@ -57,8 +63,12 @@
 
     <!--  D : 데이터 전체 삭제  -->
     <delete id="deleteAll">
-        DELETE FROM tag
+        DELETE FROM sale_tag
     </delete>
+
+    <update id="resetAutoIncrement" parameterType="map">
+        alter table sale_tag auto_increment = 1
+    </update>
 
 
 </mapper>

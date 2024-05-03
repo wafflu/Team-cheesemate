@@ -11,6 +11,7 @@ import team.cheese.dao.SaleCategoryDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.SaleDto;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -49,11 +50,11 @@ public class SaleServiceImplTest extends TestCase {
 
     @Test
     public void testRead() throws Exception {
-        Integer no = 50;
+        BigInteger no = BigInteger.valueOf(50);
         SaleDto saleDto = saleService.read(no);
 
         System.out.println(saleDto);
-        assertTrue(saleDto.getNo() == 50);
+        assertTrue(saleDto.getNo() == BigInteger.valueOf(50));
     }
 
     @Test

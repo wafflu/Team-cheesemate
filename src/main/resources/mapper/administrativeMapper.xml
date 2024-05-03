@@ -20,6 +20,7 @@
         addr_cd = #{addr_cd}
     </select>
 
+
     <select id="searchLetter" resultType="AdministrativeDto">
         <include refid="selectFromAdministrative"/>
         WHERE
@@ -35,4 +36,5 @@
         WHERE
             addr_cd = #{addr_cd}
     </update>
+
 </mapper>

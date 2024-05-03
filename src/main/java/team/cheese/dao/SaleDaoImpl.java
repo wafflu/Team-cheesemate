@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.cheese.domain.SaleDto;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
-    public SaleDto select(Integer no) throws Exception {
+    public SaleDto select(BigInteger no) throws Exception {
         return session.selectOne(namespace+"select", no);
     }
 
@@ -44,17 +45,33 @@ public class SaleDaoImpl implements SaleDao {
 
     @Override
     public int update(SaleDto saleDto) throws Exception {
-        int no = saleDto.getNo();
+        BigInteger no = saleDto.getNo();
 
         return session.update(namespace + "update", saleDto);
     }
 
     @Override
+//    public int delete(BigInteger no, String seller_id) throws Exception {
     public int delete(SaleDto saleDto) throws Exception {
-        int no = saleDto.getNo();
+//        System.out.println("no들어온거 확인 : " + no);
+//        System.out.println("seller_id들어온거 확인 : " + seller_id);
+//        BigInteger no = saleDto.getNo();
+//        Map map = new HashMap();
+//        map.put("no", no);
+//        map.put("seller_id", seller_id);
 
         return session.update(namespace + "delete", saleDto);
     }
+
+    @Override
+    public int deleteAll() throws Exception {
+        return session.update(namespace + "deleteAll");
+    }
+
+    public int resetAutoIncrement() throws Exception {
+        return session.update(namespace + "resetAutoIncrement");
+    }
+
 
     @Override
     public int adminState(SaleDto saleDto) throws Exception {

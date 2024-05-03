@@ -4,10 +4,9 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class TagDto {
-    private BigInteger no; // 태그 번호
-    private String contents; // 태그 내용
-    private char state; // 상태
+public class SaleImgDto {
+    private BigInteger sal_no;
+    private BigInteger img_no;
 
     private Timestamp first_date;
 
@@ -17,28 +16,20 @@ public class TagDto {
 
     private String last_id;
 
-    public BigInteger getNo() {
-        return no;
+    public BigInteger getSal_no() {
+        return sal_no;
     }
 
-    public void setNo(BigInteger no) {
-        this.no = no;
+    public void setSal_no(BigInteger sal_no) {
+        this.sal_no = sal_no;
     }
 
-    public String getContents() {
-        return contents;
+    public BigInteger getImg_no() {
+        return img_no;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public char getState() {
-        return state;
-    }
-
-    public void setState(char state) {
-        this.state = state;
+    public void setImg_no(BigInteger img_no) {
+        this.img_no = img_no;
     }
 
     public Timestamp getFirst_date() {
@@ -77,21 +68,20 @@ public class TagDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TagDto tagDto = (TagDto) o;
-        return state == tagDto.state && Objects.equals(no, tagDto.no) && Objects.equals(contents, tagDto.contents) && Objects.equals(first_date, tagDto.first_date) && Objects.equals(first_id, tagDto.first_id) && Objects.equals(last_date, tagDto.last_date) && Objects.equals(last_id, tagDto.last_id);
+        SaleImgDto that = (SaleImgDto) o;
+        return Objects.equals(sal_no, that.sal_no) && Objects.equals(img_no, that.img_no) && Objects.equals(first_date, that.first_date) && Objects.equals(first_id, that.first_id) && Objects.equals(last_date, that.last_date) && Objects.equals(last_id, that.last_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, contents, state, first_date, first_id, last_date, last_id);
+        return Objects.hash(sal_no, img_no, first_date, first_id, last_date, last_id);
     }
 
     @Override
     public String toString() {
-        return "TagDto{" +
-                "no=" + no +
-                ", contents='" + contents + '\'' +
-                ", state=" + state +
+        return "SaleImgDto{" +
+                "sal_no=" + sal_no +
+                ", img_no=" + img_no +
                 ", first_date=" + first_date +
                 ", first_id='" + first_id + '\'' +
                 ", last_date=" + last_date +
