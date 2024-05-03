@@ -62,6 +62,26 @@ public class ImgFactory {
         return img;
     }
 
+    public ImgDto setImginfo(File imgfile, String imgtype, int wsize, int hsize){
+        //파일 이름 얻기
+        String uploadFileName = imgfile.getName();
+        ImgDto img = new ImgDto();
+        String datastr = todaystr();
+        String uploadimgname = imgtype+"_"+datastr+"_";
+        String fullrt = datastr+"/"+uploadimgname+uploadFileName;
+        //2024_05_01/r_2024_05_01_1번_아보카도.png
+
+        img.setImgtype(imgtype);
+        img.setFile_rt(todaystr());
+        img.setU_name(uploadimgname);
+        img.setO_name(uploadFileName.substring(0, uploadFileName.lastIndexOf(".")));
+        img.setE_name(uploadFileName.substring(uploadFileName.lastIndexOf("."), uploadFileName.length()));
+        img.setImg_full_rt(fullrt);
+        img.setW_size(wsize);
+        img.setH_size(hsize);
+        return img;
+    }
+
     //이미지 파일 제작
     public void Makeimg(MultipartFile multipartFile, String imgtype, int wsize, int hsize){
         String uploadFileName = multipartFile.getOriginalFilename();
@@ -90,6 +110,36 @@ public class ImgFactory {
                     .size(wsize, hsize)
                     .outputQuality(1.0)  // 품질 유지
                     .toFile(thumbnailFile);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void Makeimg(File imageFile, String imgtype, int wsize, int hsize){
+        String datastr = todaystr();
+
+        File uploadPath = new File(folderPath, datastr);
+
+        String uploadFileName = imgtype+"_"+datastr+"_"+imageFile.getName();
+
+        /* 파일 위치, 파일 이름을 합친 File 객체 */
+        File saveFile = new File(uploadPath, uploadFileName);
+
+        /* 파일 저장 */
+        try {
+            File img_name = new File(uploadPath, uploadFileName);
+
+            // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+            BufferedImage image = Thumbnails.of(imageFile)
+                    .size(wsize, hsize)
+                    .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                    .asBufferedImage();
+
+            Thumbnails.of(image)
+                    .size(wsize, hsize)
+                    .outputQuality(1.0)  // 품질 유지
+                    .toFile(img_name);
 
         } catch (Exception e) {
             e.printStackTrace();

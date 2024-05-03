@@ -14,11 +14,13 @@
 </head>
 <body>
     <c:forEach items="${list}" var="img">
-        <img src="/display?fileName=${img.filert}/${img.u_name}${img.o_name}${img.e_name}">
-        <a href="/testdetail?no=${img.s_no}">
-        <p>${img.s_title}</p>
-        <p>${img.s_price}</p>
-        <p>${img.s_r_date}</p>
+        <a href="/img/testdetail?no=${img.no}">
+            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+        <p>작성자 : ${img.seller_nick}</p>
+        <p>제목 : ${img.title}</p>
+        <p>가격 : ${img.reg_price}</p>
+        <p>등록일 : ${img.r_date}</p>
+        <p>거래지역 : ${img.addr_name}</p>
         </a>
     </c:forEach>
 

@@ -43,7 +43,7 @@
     }
 
     $.ajax({
-      url: '/uploadAjaxAction',
+      url: '/img/uploadAjaxAction',
       type : 'POST',
       data : formData,
       processData : false,
@@ -74,7 +74,7 @@
       let fileCallPath = encodeURIComponent(obj.file_rt + "/r_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
 
       str += "<div id='result_card'>";
-      str += "<img src='/display?fileName=" + fileCallPath +"'>";
+      str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
 
       imginfo.push(obj);
 
@@ -131,7 +131,7 @@
     // alert("asd")
     let loc;
     $.ajax({
-      url: '/reg_image',
+      url: '/img/reg_image',
       type : 'POST',
       contentType : 'application/json',
       dataType : 'text',
@@ -186,7 +186,7 @@
     let targetDiv = $("#result_card");
 
     $.ajax({
-      url: '/deleteFile',
+      url: '/img/deleteFile',
       data : {fileName : targetFile},
       dataType : 'text',
       type : 'POST',
@@ -219,7 +219,7 @@
       let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
 
       str += "<div id='result_card'>";
-      str += "<img src='/display?fileName=" + fileCallPath +"'>";
+      str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
       str += "</div>";
     }
 

@@ -1,4 +1,3 @@
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import team.cheese.ImgFactory;
+import team.cheese.dao.ImgDao;
 import team.cheese.domain.ImgDto;
 import team.cheese.service.ImgService;
 
-import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import static junit.framework.TestCase.assertEquals;
@@ -61,7 +62,7 @@ public class ImgServiceTest {
 
     //등록 관련
     //mock을 사용하여 실제 데이터 입력없이 메서드가 실행되는지 확인
-    @Test(expected = Exception.class)
+    @Test
     public void r_reg_img() throws Exception {
         ArrayList<ImgDto> imglist = new ArrayList();
 
@@ -125,7 +126,7 @@ public class ImgServiceTest {
     @Test(expected = Exception.class)
     public void Ex_reg_img() throws Exception {
         //Column count doesn't match value count
-        //INSERT 문에 지정된 열의 수와 값의 수가 일치하지 않는 경우 발생합니다.
+        //INSERT 문에 지정된 열의 수와 값의 수가 일치하지 않는 경우
         ImgDto img = new ImgDto();
         String o_name = "아보카도";
         img.setImgtype("w");
@@ -141,7 +142,7 @@ public class ImgServiceTest {
 
     @Test(expected = Exception.class)
     public void Ex_reg_img2() throws Exception {
-        //Incorrect integer value: 정수형 데이터 타입의 열에 문자열 값을 삽입
+        //음수값을 넣을시 예외 발생
         ImgDto img = new ImgDto();
         String o_name = "아보카도";
         img.setImgtype("w");
@@ -169,13 +170,46 @@ public class ImgServiceTest {
         img.setW_size(292);
         img.setH_size(292);
         img.setImg_full_rt(datePath+"/"+img.getImgtype()+"_"+datePath+"_"+o_name+".png");
-
         imgService.reg_img(1, img);
     }
 
-    //강제 예외 처리 발생
     @Test(expected = Exception.class)
-    public void readall(){
+    public void DbConnectionError() throws Exception{
+        ImgDao imgDaoMock = mock(ImgDao.class);
+        ImgService imgServiceMock = new ImgService(imgDaoMock);
+        ImgDto imgDto = makeImg(100, "e");
+
+        // DAO 메서드 호출 시 데이터베이스 연결이 끊어졌다는 상황을 시뮬레이션
+        String errorMessage = "Database connection error";
+        doThrow(new RuntimeException(errorMessage)).when(imgDaoMock).insert(any(ImgDto.class));
+
+        // when
+        try {
+            imgServiceMock.reg_img(1, imgDto); // 예외 발생할 것을 예상하므로 예외가 발생하는지 확인하는 테스트
+        } catch (Exception e) {
+            // 예외 메시지를 콘솔에 출력
+            System.out.println("Caught exception: " + e.getMessage());
+            throw e; // 예외를 다시 던져서 테스트가 실패하도록 함
+        }
+    }
+
+    //예외가 발생해야 성공
+    @Test(expected = Exception.class)
+    public void readallException() throws Exception {
+        ImgDao imgDaoMock = mock(ImgDao.class);
+        ImgService imgServiceMock = new ImgService(imgDaoMock);
+
+        when(imgDaoMock.select_all_img()).thenThrow(new SQLException());
+
+        ArrayList<ImgDto> list = imgServiceMock.readall();
+
+        verify(imgDaoMock, times(1)).select_all_img();
+        assertTrue(list != null);
+        System.out.println(list.size());
+    }
+
+    @Test
+    public void readall() throws Exception {
         ArrayList<ImgDto> list = imgService.readall();
         assertTrue(list != null);
         System.out.println(list.size());
@@ -183,7 +217,10 @@ public class ImgServiceTest {
 
     @Test
     public void read(){
-        ArrayList<ImgDto> list = imgService.read(1);
+        HashMap map = new HashMap();
+        map.put("tb_name", "sale");
+        map.put("no", 1);
+        ArrayList<ImgDto> list = imgService.read(map);
         assertTrue(list != null);
     }
     @Test

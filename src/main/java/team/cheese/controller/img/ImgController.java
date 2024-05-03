@@ -1,7 +1,5 @@
-package team.cheese.controller;
+package team.cheese.controller.img;
 
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import team.cheese.ImgFactory;
 import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
@@ -22,23 +19,22 @@ import team.cheese.service.ImgService;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URLDecoder;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
-public class test2 {
+@RequestMapping("/img")
+public class ImgController {
 
     @Autowired
     ImgService imgService;
 
     @Autowired
     SaleDao saleDao;
+
     @Autowired
     ImgDao imgDao;
     ImgFactory ifc;
@@ -51,7 +47,7 @@ public class test2 {
         return folderPath;
     }
 
-    @GetMapping("/test")
+    @RequestMapping ("/test")
     public String ajax(HttpServletRequest request) {
         ifc = imgService.path(request);
         return "img/test";
@@ -60,16 +56,12 @@ public class test2 {
     //이미지 업로드 과정
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
-//        String folderPath = ifc.getFolderPath();
-
         if(!ifc.CheckImg(uploadFiles)){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
 
         String datePath = ifc.todaystr();
-
         ifc.Makefolder(datePath);
-
         List<ImgDto> list = new ArrayList();
 
         for(MultipartFile multipartFile : uploadFiles) {
@@ -84,7 +76,8 @@ public class test2 {
 
     //이미지 보여주기용
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getImage(String fileName){
+    public ResponseEntity<byte[]> getImage(String fileName, HttpServletRequest request){
+        ifc = imgService.path(request);
         String folderPath = ifc.getFolderPath();
         File file = new File(folderPath+"/"+ fileName);
         ResponseEntity<byte[]> result = null;
@@ -103,6 +96,7 @@ public class test2 {
     /* 이미지 파일 삭제 */
     @PostMapping("/deleteFile")
     public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request){
+        ifc = imgService.path(request);
         String folderPath = ifc.todaystr();
 
         //DB내용만 상태변화 시키기
@@ -122,15 +116,137 @@ public class test2 {
         }
         return new ResponseEntity<String>("success", HttpStatus.OK);
     }
+
+    @RequestMapping("/reg_image")
+    @ResponseBody
+    public ResponseEntity<String> reg_img(@RequestBody ArrayList<ImgDto> imglist, HttpServletRequest request){
+        if(imglist.size() == 0){
+            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+        }
+        try {
+        String folderPath = ifc.getFolderPath();
+
+        boolean change = true;
+
+        String datePath = ifc.todaystr();
+
+        /* 파일 저장 폴더 이름 */
+        File uploadPath = new File(folderPath, datePath);
+
+        //게시글 임의로 넣어둠 테스트를 위해서
+        int gno = imgService.getGno()+1;
+        String full_file_rt = "";
+
+        for (ImgDto img : imglist) {
+            try {
+                String fname = folderPath+"/"+img.getFile_rt()+"/"+img.getO_name()+img.getE_name();
+
+                File imageFile = new File(fname);
+
+                String uploadFileName = datePath+"_"+img.getO_name()+img.getE_name();
+
+                ImgDto imgDto = null;
+
+
+                //미리보기이미지 경로저장
+//                ifc.Makeimg(imageFile, "r", 78, 78);
+                imgDto = ifc.setImginfo(imageFile, "r", 78, 78);
+                imgService.reg_img(gno, imgDto);
+
+                //썸네일 이미지
+                if(change){
+//                    System.out.println(imageFile);
+                    full_file_rt = img.getFile_rt()+"/s_"+datePath+"_"+img.getO_name()+img.getE_name();
+                    ifc.Makeimg(imageFile, "s", 292, 292);
+                    imgDto = ifc.setImginfo(imageFile, "s", 292, 292);
+                    imgService.reg_img(gno, imgDto);
+                    change = false;
+                }
+
+                //본문 이미지
+                ifc.Makeimg(imageFile, "w", 856, 856);
+                imgDto = ifc.setImginfo(imageFile, "w", 856, 856);
+                imgService.reg_img(gno, imgDto);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        saleDao.insert_sale(makesale(gno, full_file_rt));
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+        }
+        return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
+    }
+
+
 //
-//    @RequestMapping("/testview")
-//    public String viewtest(Model model){
-//        List<ImgDto> list = imgDao.select_s_imglist(); // 이미지서비스
-////        System.out.println(list);
-//        model.addAttribute("list", list);
-//        System.out.println("뷰 이동");
-//        return "img/testview";
-//    }
+    @RequestMapping("/testview")
+    public String viewtest(Model model, HttpServletRequest request){
+        ifc = imgService.path(request);
+//        HashMap map = new HashMap<>();
+//        map.put("tb_name", "sale");
+//        map.put("no", 21);
+//        List<ImgDto> list = imgService.read(map); // 이미지서비스
+        List<SaleDto> list = saleDao.select_all();
+        model.addAttribute("list", list);
+
+        return "img/testview";
+    }
+
+    @RequestMapping("/testdetail")
+    public String testdetail(int no, Model model, HttpServletRequest request){
+        ifc = imgService.path(request);
+
+        SaleDto sdto = saleDao.select(no);
+        HashMap map = new HashMap();
+        map.put("tb_name", "sale");
+        map.put("no", sdto.getGroup_no());
+        List<ImgDto> list = imgService.read(map);
+
+        model.addAttribute("list", list);
+        model.addAttribute("sale", sdto);
+        return "img/testdetail";
+    }
+
+    public SaleDto makesale(int gno, String file_rt){
+        SaleDto saledto = new SaleDto();
+        saledto.setAddr_cd("11010720");
+        saledto.setAddr_name("서울특별시 종로구 사직동");
+        saledto.setSeller_id("user123");
+        saledto.setSeller_nick("minyoung");
+        saledto.setSal_i_cd("001002002");
+        saledto.setSal_name("후드티/후드집업");
+        saledto.setGroup_no(gno);
+        saledto.setImg_full_rt(file_rt);
+        saledto.setPro_s_cd("C");
+        saledto.setTx_s_cd("S");
+        saledto.setTrade_s_cd_1("F");
+        saledto.setTrade_s_cd_2("F");
+        saledto.setSal_s_cd("S");
+        saledto.setTitle(gno+"번 판매글");
+        saledto.setContents("판매테스트중");
+        saledto.setPrice(35000);
+        saledto.setBid_cd("N");
+        saledto.setPickup_addr_cd("11060710");
+        saledto.setPickup_addr_name("서울특별시 종로구 청운효자동");
+        saledto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saledto.setBrand("북북");
+        saledto.setReg_price(100);
+        saledto.setBuyer_id("");
+        saledto.setBuyer_nick("");
+        saledto.setLike_cnt(0);
+        saledto.setView_cnt(0);
+        saledto.setHoist_cnt(0);
+        saledto.setBid_cnt(0);
+        saledto.setUr_state('Y');
+        saledto.setAd_state('N');
+        saledto.setFirst_id("user123");
+        saledto.setLast_id("user123");
+        return saledto;
+    }
 //
 //    @RequestMapping("/reg_image")
 //    @ResponseBody

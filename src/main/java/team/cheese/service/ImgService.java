@@ -2,6 +2,7 @@ package team.cheese.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import team.cheese.ImgFactory;
 import team.cheese.dao.ImgDao;
@@ -9,9 +10,9 @@ import team.cheese.domain.ImgDto;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -19,6 +20,12 @@ public class ImgService {
     @Autowired
     ImgDao imgDao;
     ImgFactory ifc;
+
+    public ImgService() {}
+
+    public ImgService(ImgDao imgdao2){
+        this.imgDao = imgdao2;
+    }
 
     //최우선 실행되어야함
     public ImgFactory path(HttpServletRequest request){
@@ -28,24 +35,36 @@ public class ImgService {
         return new ImgFactory(folderPath);
     }
 
-    public ArrayList<ImgDto> readall(){
-        ArrayList<ImgDto> list = imgDao.select_all_img();
-        return list;
+    //테스트용도용서비스 코드
+    public ArrayList<ImgDto> readall() {
+        try{
+            return imgDao.select_all_img();
+        } catch (Exception e) {
+            throw new RuntimeException("이미지 로딩 실패", e);
+        }
     }
 
-    public ArrayList<ImgDto> read(int no){
-        ArrayList<ImgDto> list = imgDao.select_img(no);
-        return list;
+    public ArrayList<ImgDto> read(HashMap map){
+        try{
+            return imgDao.select_img(map);
+        } catch (Exception e){
+            throw new RuntimeException("이미지 로딩 실패", e);
+        }
     }
 
     //rollbackFor = 지정된 예외
-    @Transactional(rollbackFor = Exception.class)
-    public void reg_img(int gno, ImgDto idto) throws Exception{
-        if(idto.getW_size() < 0 || idto.getH_size() < 0){
-            throw new Exception();
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+    public boolean reg_img(int gno, ImgDto idto) throws Exception {
+        try{
+            int img = imgDao.insert(idto);
+            int img2 = imgDao.insert_group(imggroup(gno, idto.getNo()));
+            if(idto.getW_size() < 0 || idto.getH_size() < 0 || img+img2 != 2){
+                return false;
+            }
+        } catch (Exception e){
+            throw new Exception("서버와의 연결이 끊겼습니다", e);
         }
-        imgDao.insert(idto);
-        imgDao.insert_group(imggroup(gno, idto.getNo()));
+        return true;
     }
 
     private HashMap imggroup(int gno, int imgno){

@@ -7,6 +7,7 @@ import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.*;
 
+import java.math.BigInteger;
 import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -113,7 +114,10 @@ public class ImgDaoTest {
     //선택한 게시물에 대한 이미지 불러오기
     @Test
     public void select_img(){
-        List<ImgDto> list = imgDao.select_img(1);
+        HashMap map = new HashMap();
+        map.put("tb_name", "sale");
+        map.put("no", 1);
+        List<ImgDto> list = imgDao.select_img(map);
 
         assertTrue(list != null);
 
@@ -153,7 +157,7 @@ public class ImgDaoTest {
         System.out.println(list.get(0).getState());
     }
 
-    public int makeSale(int num){
+    public BigInteger makeSale(int num){
         SaleDto saledto = new SaleDto();
         saledto.setSeller_id("user123");
         saledto.setSal_i_cd("016001005");

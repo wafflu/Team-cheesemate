@@ -28,8 +28,11 @@
 <body>
 
     <c:forEach items="${list}" var="img">
-        <img src="/display?fileName=${img.filert}/${img.u_name}${img.o_name}${img.e_name}" id = "resizable"><br>
+        <c:if test="${img.imgtype eq 'w'}">
+            <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable"><br>
+        </c:if>
     </c:forEach>
+    <p>${sale}</p>
 
 <script>
 
