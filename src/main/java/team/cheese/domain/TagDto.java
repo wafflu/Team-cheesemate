@@ -1,11 +1,10 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class TagDto {
-    private BigInteger no; // 태그 번호
+    private Long no; // 태그 번호
     private String contents; // 태그 내용
     private char state; // 상태
 
@@ -17,11 +16,11 @@ public class TagDto {
 
     private String last_id;
 
-    public BigInteger getNo() {
+    public Long getNo() {
         return no;
     }
 
-    public void setNo(BigInteger no) {
+    public void setNo(Long no) {
         this.no = no;
     }
 

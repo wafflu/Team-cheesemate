@@ -50,11 +50,11 @@ public class SaleServiceImplTest extends TestCase {
 
     @Test
     public void testRead() throws Exception {
-        BigInteger no = BigInteger.valueOf(50);
+        Long no = Long.valueOf(50);
         SaleDto saleDto = saleService.read(no);
 
-        System.out.println(saleDto);
-        assertTrue(saleDto.getNo() == BigInteger.valueOf(50));
+        System.out.println(saleDto.getNo());
+        assertTrue(saleDto.getNo().equals(no));
     }
 
     @Test

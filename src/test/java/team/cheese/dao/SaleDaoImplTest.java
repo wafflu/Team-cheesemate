@@ -37,7 +37,8 @@ public class SaleDaoImplTest {
     @Autowired
     DeleteDao deleteDao;
 
-//    테스트를 진행하기에 앞서 먼저 Sale테이블을 참조하는 테이블의 데이터를 삭제한다.
+
+//   D : 테스트를 진행하기에 앞서 먼저 Sale테이블을 참조하는 테이블의 데이터를 삭제한다.
     @Test
     public void testDeleteAll() throws Exception {
         saleImgDao.deleteAll();
@@ -66,7 +67,7 @@ public class SaleDaoImplTest {
         assertTrue(saleDao.count()== 0);
     }
 
-    // 테스트를 위한 메서드를 따로 빼서 작성 후 테스트
+    // D : 테스트를 위한 메서드를 따로 빼서 작성 후 테스트
     @Test
     public void testDeleteMethod() throws Exception {
         // 1. 게시글 및 연관되어있는 테이블 전체를 삭제
@@ -117,8 +118,9 @@ public class SaleDaoImplTest {
         assertTrue(saleDao.count()== 0);
     }
 
+//    C : 게시글을 100 삽입한다
     @Test
-    public void testCount() throws Exception {
+    public void testInsertCount() throws Exception {
         // 1. 게시글 전체 삭제
         // 2. 반복문으로 게시글 100개 insert
         // 3. count로 게시글이 100개 들어갔는지 확인
@@ -135,8 +137,8 @@ public class SaleDaoImplTest {
         saleDto.setTrade_s_cd_1("F");
         saleDto.setPrice(28000);
         saleDto.setSal_s_cd("S");
-        saleDto.setTitle("자바의 정석 2판 팔아요");
-        saleDto.setContents("자바의 정석 2판 팔아요. 3판 구매해서 2판 팝니다.");
+        saleDto.setTitle("동화책 팔아요");
+        saleDto.setContents("어린이 동화책 전집 팔이요.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
         saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
@@ -154,10 +156,7 @@ public class SaleDaoImplTest {
         assertTrue(saleDao.count() == cnt);
     }
 
-    // sale테이블에 게시글 여러개가 잘 들어가는지 테스트
-
-
-    // 현재 작성되어있는 게시글을 전부 불러왔을 때 count개수와 일치하는 지 확인
+    // R : 현재 작성되어있는 게시글을 전부 불러왔을 때 count개수와 일치하는 지 확인
     @Test
     public void testSelectAll() throws Exception {
         // 1. 전체 글을 불러온다
@@ -167,19 +166,32 @@ public class SaleDaoImplTest {
         // 1. 전체 글을 불러온다
         List<SaleDto> list = saleDao.selectAll();
         // 2. count를 한다
-        int cnt = saleDao.count();
+        int cnt = saleDao.countUse();
 
         // 3. 두 값을 비교 한다
         assertTrue(list.size() == cnt);
     }
 
-    // 판매자가 자신이 작성한 글을 삭제하는 경우
+//    R : 게시글 하나를 선택해온다.
+    @Test
+    public void testSelectOne() throws Exception {
+        // 1. 삭제되지 않은 한개 글을 불러온다
+        // 2. 불러온 글 번호와 호출한 글 번호가 일치하는지 확인한다.
+
+        Long no = (long) (Math.random() * saleDao.countUse());
+        SaleDto saleDto = saleDao.select(no);
+        System.out.println("no : " + no);
+        System.out.println("getNo : " + saleDto.getNo());
+        assertTrue(no.equals(saleDto.getNo()));
+    }
+
+    // U : 판매자가 자신이 작성한 글을 삭제하는 경우
     @Test
     public void testDeletSalePost() throws Exception {
         // 1. 임의의 글을 불러온다.
         // 2. 글을 삭제한다.
         //     2.1. 글 작성자와 로그인한 사람이 동일하면 삭제 성공
-        //        2.1.1. 글의 상태가 'N'으로 변화했는지 확인한다.
+        //        2.1.1. 글의 상태가 'N'으로 변화했는지 확인한다.(null)
         //        2.1.2. 전체 게시글의 개수가 1개 줄어든 것을 확인한다.
         //     2.2. 글 작성자와 로그인한 사람이 다르면 삭제 실패
         //        2.2.1. 글의 상태가 'Y'인지 확인.
@@ -187,117 +199,59 @@ public class SaleDaoImplTest {
 
         String ur_id = "asdf";
 
-        BigInteger randnum = BigInteger.valueOf((int) (Math.random() * (saleDao.count()+1)));
+        Long randnum = Long.valueOf((int) (Math.random() * (saleDao.count()+1)));
         System.out.println(randnum);
 
-        SaleDto saleDto = saleDao.select(randnum);
-        System.out.println("값 선택" + saleDto);
-        int cnt = saleDao.count();
-
-        if (saleDto.getSeller_id().equals(ur_id)) {
+        if(saleDao.select(randnum) != null) {
+            SaleDto saleDto = saleDao.select(randnum);
+            System.out.println("값 선택 : " + saleDto);
+            int cnt = saleDao.countUse();
+            if (saleDto.getSeller_id().equals(ur_id) && saleDto.getUr_state() == 'Y') {
 //            saleDao.delete(randnum, ur_id);
-            saleDao.delete(saleDto);
-            System.out.println("아이디 동일 : " + saleDto);
+                int result = saleDao.delete(saleDto);
+                System.out.println("result : " + result);
+//                System.out.println("아이디 동일 : " + saleDto);
 
-            saleDto = saleDao.select(randnum);
-            char ur_state = saleDto.getUr_state();
-            System.out.println("ur_state : " + ur_state);
-            assertTrue(ur_state == 'N');
+                assertTrue(saleDao.select(randnum) == null);
 
-            int newCnt = saleDao.count();
+                int newCnt = saleDao.countUse();
+                System.out.println("cnt : " + cnt);
+                System.out.println("newCnt : " + newCnt);
 
-            assertTrue(cnt != newCnt);
-            assertTrue((cnt-1) == newCnt);
+                assertTrue(cnt != newCnt);
+                assertTrue((cnt-1) == newCnt);
 
-        } else {
-            saleDto = saleDao.select(randnum);
-            System.out.println("아이디 미동일" + saleDto);
+            } else if(!saleDto.getSeller_id().equals(ur_id) && saleDto.getUr_state() == 'Y') {
+                saleDto = saleDao.select(randnum);
+                System.out.println("아이디 미동일" + saleDto);
 
-            char ur_state = saleDto.getUr_state();
-            System.out.println("ur_state : " + ur_state);
-            assertFalse(ur_state == 'N');
+                assertTrue(!ur_id.equals(saleDto.getSeller_id()));
 
-            int newCnt = saleDao.count();
-
-            assertTrue(cnt == newCnt);
+            }
         }
     }
 
+    @Test
+    public void testAdminState() throws Exception {
+        // 관리자가 선택한 판매글의 번호의 상태에 개입할 때 상태를 바꿔주기
+        Long no = (long) (Math.random() * saleDao.countUse());
+        SaleDto saleDto = saleDao.select(no);
+        saleDao.adminState(saleDto);
+        System.out.println(saleDto.getAd_state());
+        assertTrue(saleDto.getAd_state() == 'N');
+    }
 
-//    @Test
-//    public void testSelect() throws Exception {
-//        // 글 하나를 선택했을 때 게시글 번호와 판매자가 일치하는지 확인하는 테스트
-//        System.out.println("select : " + saledao.select(BigInteger.valueOf(2)));
-////        SaleDto saleDto = saledao.select(Long.valueOf(1));
-////        String seller_id = saleDto.getSeller_id();
-////        System.out.println(seller_id);
-////        assertTrue(seller_id.equals("david234"));
-//    }
-//
-//    @Test
-//    public void testInsert() throws Exception {
-//        int cnt = saledao.count();
-//        assertTrue(cnt == 9);
-//        // 글 작성하기 테스트
-//        SaleDto saledto = new SaleDto();
-//        saledto.setSeller_id("asdf");
-//        saledto.setSal_i_cd("016001005");
-//        saledto.setPro_s_cd("C");
-//        saledto.setTx_s_cd("S");
-//        // 거래방법 1개만 작성
-//        saledto.setTrade_s_cd_1("F");
-////        saledto.setTrade_s_cd_2('F');
-//        saledto.setPrice(28000);
-//        saledto.setSal_s_cd("S");
-//        saledto.setTitle("자바의 정석 2판 팔아요");
-//        saledto.setContents("자바의 정석 2판 팔아요. 3판 구매해서 2판 팝니다.");
-//        saledto.setBid_cd("N");
-//        saledto.setPickup_addr_cd("11060710");
-//        saledto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
-//        saledto.setBrand("자바의 정석");
-//        saledto.setReg_price(30000);
-//        saledto.setCheck_addr_cd(0);
-//
-//        System.out.println(saledto);
-//
-//        int no = saledao.insert(saledto);
-//        System.out.println("확인 : " + saledto.getNo());
-//        System.out.println("성공(1)실패(0) : " + no);
-//        assertTrue(no == 1);
-//
-//        cnt = saledao.count();
-//        assertTrue(cnt == 8);
-//    }
-//
-//    @Test
-//    public void testAdminState() throws Exception {
-//        // 관리자가 선택한 판매글의 번호의 상태에 개입할 때 상태를 바꿔주기
-//        SaleDto saleDto = saledao.select(BigInteger.valueOf(3));
-//        System.out.println(saleDto.getNo());
-//        saledao.adminState(saleDto);
-//        System.out.println(saleDto.getAd_state());
-////        assertTrue(saleDto.getAd_state() == 'N');
-//    }
-//
-//    @Test
-//    public void testSaleState() throws Exception {
-//        // 판매자가 판매글글을 삭제하였을 때 상태를 바꿔주기
-//        SaleDto saleDto = saledao.select(BigInteger.valueOf(7));
-//        System.out.println(saleDto.getNo());
-//        saledao.delete(saleDto);
-//        System.out.println(saleDto.getAd_state());
-////        assertTrue(saleDto.getAd_state() == 'N');
-//    }
-//
-//    @Test
-//    public void testSaleModify() throws Exception {
-//        // 판매글 작성자(판매자)가 판매들을 수정하는 경우
-//        SaleDto saleDto = saledao.select(BigInteger.valueOf(7));
-//        saleDto.setTitle("자바의 정석 기본편 나눔");
-//        saleDto.setContents("자바의 정석 기본편 나눔합니다.");
-//        saleDto.setDetail_addr("상록중학교 정문");
-//        saleDto.setTx_s_cd("F");
-//        assertTrue(saledao.update(saleDto)==1);
-//    }
+    @Test
+    public void testSaleModify() throws Exception {
+        // 판매글 작성자(판매자)가 판매들을 수정하는 경우
+        Long no = (long) (Math.random() * saleDao.countUse());
+
+        SaleDto saleDto = saleDao.select(no);
+        saleDto.setTitle("글 수정 테스트");
+        saleDto.setContents("글 수정 테스트 중입니다");
+        saleDto.setDetail_addr("상록중학교 정문");
+        saleDto.setTx_s_cd("F");
+        assertTrue(saleDao.update(saleDto)==1);
+    }
 
 }

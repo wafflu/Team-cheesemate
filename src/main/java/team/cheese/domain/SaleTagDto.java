@@ -1,12 +1,11 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class SaleTagDto {
-    private BigInteger sal_no; // 판매글 번호
-    private BigInteger tag_no; // 태그 번호
+    private Long sal_no; // 판매글 번호
+    private Long tag_no; // 태그 번호
     private char state; // 상태
     private TagDto tagDto; // tag 테이블 정보
 
@@ -19,19 +18,19 @@ public class SaleTagDto {
     private String last_id;
 
 
-    public BigInteger getSal_no() {
+    public Long getSal_no() {
         return sal_no;
     }
 
-    public void setSal_no(BigInteger sal_no) {
+    public void setSal_no(Long sal_no) {
         this.sal_no = sal_no;
     }
 
-    public BigInteger getTag_no() {
+    public Long getTag_no() {
         return tag_no;
     }
 
-    public void setTag_no(BigInteger tag_no) {
+    public void setTag_no(Long tag_no) {
         this.tag_no = tag_no;
     }
 

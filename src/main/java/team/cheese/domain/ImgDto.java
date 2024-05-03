@@ -1,11 +1,10 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class ImgDto {
-    private BigInteger no;
+    private Long no;
     private String imgtype;
     private String file_rt;
     private String u_name;
@@ -39,11 +38,11 @@ public class ImgDto {
         this.img_full_rt = img_full_rt;
     }
 
-    public BigInteger getNo() {
+    public Long getNo() {
         return no;
     }
 
-    public void setNo(BigInteger no) {
+    public void setNo(Long no) {
         this.no = no;
     }
 

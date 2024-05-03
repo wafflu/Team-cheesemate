@@ -19,7 +19,7 @@ public interface SaleService {
     List<SaleDto> getList() throws Exception;
 
     // 판매글 하나에 들어가서 게시글을 읽을 때
-    SaleDto read(BigInteger no) throws Exception;
+    SaleDto read(Long no) throws Exception;
 
     // 판매 게시글을 수정할 때
     int modify(SaleDto saleDto) throws Exception;

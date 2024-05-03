@@ -1,12 +1,11 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class SaleImgDto {
-    private BigInteger sal_no;
-    private BigInteger img_no;
+    private Long sal_no;
+    private Long img_no;
 
     private Timestamp first_date;
 
@@ -16,19 +15,19 @@ public class SaleImgDto {
 
     private String last_id;
 
-    public BigInteger getSal_no() {
+    public Long getSal_no() {
         return sal_no;
     }
 
-    public void setSal_no(BigInteger sal_no) {
+    public void setSal_no(Long sal_no) {
         this.sal_no = sal_no;
     }
 
-    public BigInteger getImg_no() {
+    public Long getImg_no() {
         return img_no;
     }
 
-    public void setImg_no(BigInteger img_no) {
+    public void setImg_no(Long img_no) {
         this.img_no = img_no;
     }
 

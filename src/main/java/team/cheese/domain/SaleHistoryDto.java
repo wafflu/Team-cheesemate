@@ -1,12 +1,11 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class SaleHistoryDto {
-    private BigInteger no;
-    private BigInteger sal_no;
+    private Long no;
+    private Long sal_no;
     private String addr_cd;
     private String addr_name;
     private String seller_id;
@@ -35,19 +34,19 @@ public class SaleHistoryDto {
     private String last_id;
 
 
-    public BigInteger getNo() {
+    public Long getNo() {
         return no;
     }
 
-    public void setNo(BigInteger no) {
+    public void setNo(Long no) {
         this.no = no;
     }
 
-    public BigInteger getSal_no() {
+    public Long getSal_no() {
         return sal_no;
     }
 
-    public void setSal_no(BigInteger sal_no) {
+    public void setSal_no(Long sal_no) {
         this.sal_no = sal_no;
     }
 

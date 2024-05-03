@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.cheese.domain.SaleDto;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,7 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
-    public SaleDto select(BigInteger no) throws Exception {
+    public SaleDto select(Long no) throws Exception {
         return session.selectOne(namespace+"select", no);
     }
 
@@ -45,7 +44,7 @@ public class SaleDaoImpl implements SaleDao {
 
     @Override
     public int update(SaleDto saleDto) throws Exception {
-        BigInteger no = saleDto.getNo();
+        Long no = saleDto.getNo();
 
         return session.update(namespace + "update", saleDto);
     }

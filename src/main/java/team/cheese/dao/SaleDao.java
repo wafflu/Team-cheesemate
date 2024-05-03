@@ -1,6 +1,5 @@
 package team.cheese.dao;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import team.cheese.domain.SaleDto;
@@ -14,7 +13,7 @@ public interface SaleDao {
     List<SaleDto> selectAll() throws Exception;
 
     // 판매글 번호를 이용하여 판매글 가져오기
-    SaleDto select(BigInteger no) throws Exception;
+    SaleDto select(Long no) throws Exception;
 
     // 판매글 작성하는 경우
     int insert(SaleDto saleDto) throws  Exception;

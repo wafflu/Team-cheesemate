@@ -1,12 +1,11 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class BidingDto {
-    private BigInteger no; // 가격제시/나눔신청 번호
-    private BigInteger sal_no; // 판매글 번호
+    private Long no; // 가격제시/나눔신청 번호
+    private Long sal_no; // 판매글 번호
     private String addr_cd; // 행정구역 코드
     private String addr_name; // 주소명
     private char bid_cd; // 가격제시/나눔신청 구분
@@ -26,19 +25,19 @@ public class BidingDto {
 
     private String last_id;
 
-    public BigInteger getNo() {
+    public Long getNo() {
         return no;
     }
 
-    public void setNo(BigInteger no) {
+    public void setNo(Long no) {
         this.no = no;
     }
 
-    public BigInteger getSal_no() {
+    public Long getSal_no() {
         return sal_no;
     }
 
-    public void setSal_no(BigInteger sal_no) {
+    public void setSal_no(Long sal_no) {
         this.sal_no = sal_no;
     }
 
