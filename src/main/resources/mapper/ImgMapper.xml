@@ -4,58 +4,69 @@
 
 <mapper namespace="team.cheese.dao.ImgDao">
 
-    <insert id="insert_img" parameterType="ImgDto">
-        insert into img (tb_name, tb_no, imgtype, file_rt, u_name, o_name, e_name, w_size, h_size)
-        values (#{tb_name}, #{tb_no}, #{imgtype}, #{filert}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size});
+    <insert id="insert_img" parameterType="ImgDto" useGeneratedKeys="true" keyProperty="no">
+        insert into img (imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt)
+        values (#{imgtype}, #{file_rt}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt});
     </insert>
 
-    <select id="select_img" resultType="ImgDto">
-        select * from img;
+    <insert id="insert_group_img" parameterType="map">
+        INSERT INTO img_group (group_no, img_no) values (#{group_no}, #{img_no});
+    </insert>
+
+    <select id="select_group_max" resultType="int">
+        SELECT COALESCE(MAX(group_no), 0) AS max_group_no FROM img_group;
     </select>
 
-    <select id="select_simg_view" parameterType="map" resultType="ImgDto">
-        SELECT *
-        FROM img
-        WHERE state = 'Y'
-        and tb_name = #{tb_name}
-        and no IN (SELECT img_no FROM ${cross_tb} WHERE sal_no = #{sal_no});
+    <!--  본문 이미지 가져오기  -->
+    <select id="select_img" parameterType="map" resultType="ImgDto">
+        select *
+        from img i, ${tb_name} gi
+        where gi.group_no = i.group_no and i.state = 'y' and i.group_no = #{no};
     </select>
 
-    <update id="state_change_img" parameterType="map">
+    <update id="update_img_state" parameterType="map">
         update img set state = #{state} where no = #{no};
     </update>
 
-<!--    <insert id="insert_cross" parameterType="map">-->
-<!--        INSERT INTO sale_img (sal_no, img_no)-->
-<!--        SELECT s.no AS sale_no, i.no AS img_no-->
-<!--        FROM ${cross_tb} s, img i-->
-<!--        where s.no = #{no} and i.tb_name = #{cross_tb} and i.tb_no = #{no};-->
-<!--    </insert>-->
 
-    <!-- 이미지 교차 테이블 작성 -->
-    <insert id="insert_cross" parameterType="map">
-        INSERT INTO ${tb_name} (${col_name}, img_no)
-        SELECT s.${no_name} AS ${col_name}, i.no AS img_no
-        FROM ${cross_tb_name} s, img i
-        where s.${no_name} = #{no} and i.tb_name = #{cross_tb_name} and i.tb_no = #{no};
+
+    <!-- 이벤트 임의 작성용 -->
+    <insert id="insert_event" parameterType="team.cheese.domain.EventDto">
+        INSERT INTO event(evt_cd, active_s_cd, title, contents, s_date, e_date, img_no, prize, ad_id)
+        values(#{evt_cd}, #{active_s_cd}, #{title}, #{contents}, #{s_date}, #{e_date}, #{img_no}, #{prize}, #{ad_id});
     </insert>
 
-    <select id="select_sale_img" resultType="ImgDto">
+    <!-- 마이페이지 임의 작성용 -->
+    <insert id="insert_userinfo" parameterType="team.cheese.domain.UserInfoDTO">
+        insert into user_info (ur_id, nick, contents, img_full_rt)
+        select id,nick,'안녕하세요',#{img_full_rt}
+        from user
+        where id = #{ur_id};
+    </insert>
+
+    <!-- 커뮤니티 임의 작서용-->
+    <insert id="insert_commu" parameterType="team.cheese.domain.CommunityBoardDto" useGeneratedKeys="true" keyProperty="no">
+        insert into community_board(ur_id, addr_cd,addr_no, commu_cd, addr_name, title, contents, img_full_rt, nick)
+        values(#{ur_id}, #{addr_cd}, #{addr_no}, #{commu_cd}, #{addr_name}, #{title}, #{contents}, #{img_full_rt}, #{nick});
+    </insert>
+
+    <!-- 아래 테스트를 위한 코드용 -->
+    <select id="select_all_img" resultType="ImgDto">
         select * from img;
     </select>
 
-    <delete id="delete_cross_all" parameterType="string">
+    <select id="count" parameterType="string" resultType="int">
+        select count(*) from ${tb_name};
+    </select>
+
+    <select id="select_img2" parameterType="map" resultType="ImgDto">
+        select *
+        from img i, sale gi
+        where gi.group_no = i.group_no and i.group_no = #{no};
+    </select>
+
+    <delete id="delete_table" parameterType="string">
         delete from ${tb_name};
     </delete>
-
-    <delete id="delete_img_all" parameterType="int">
-        delete from img;
-    </delete>
-
-    <select id="select_s_imglist" resultType="ImgDto">
-        select s.no as s_no, i.imgtype, s.title as s_title, s.price as s_price, s.r_date as s_r_date, i.file_rt, i.u_name, i.o_name, i.e_name
-        from img i, sale s, sale_img si
-        where si.sal_no = s.no and si.img_no = i.no and i.imgtype = 's';
-    </select>
 
 </mapper>

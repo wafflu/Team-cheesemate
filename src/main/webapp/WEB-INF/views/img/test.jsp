@@ -16,6 +16,8 @@
   <%--        <input type="submit" onclick="return imgreg()">--%>
 </form>
 
+<h1 id="h1">click</h1>
+
 
 <%--    <div id="imgboxtest">--%>
 <%--        <div class="imgDeleteBtn">x</div>--%>
@@ -28,25 +30,7 @@
 </div>
 
 <script>
-  let regex = new RegExp("(.*?)\.(jpg|png)$"); //jpg와 png만 허용
-  let maxSize = 1048576; //1MB
   let imginfo = [];
-
-  function fileCheck(fileName, fileSize){
-
-    if(fileSize >= maxSize){
-      alert("파일 사이즈 초과");
-      return false;
-    }
-
-    if(!regex.test(fileName)){
-      alert("해당 종류의 파일은 업로드할 수 없습니다.");
-      return false;
-    }
-
-    return true;
-
-  }
 
   $("input[type='file']").on("change", function(e){
 
@@ -59,14 +43,13 @@
     }
 
     $.ajax({
-      url: '/uploadAjaxAction',
+      url: '/img/uploadAjaxAction',
       type : 'POST',
       data : formData,
       processData : false,
       contentType : false,
       dataType : 'json',
       success : function(result){
-        console.log("res : "+result);
         showUploadImage(result);
       },
       error : function(result){
@@ -88,12 +71,13 @@
       let obj = uploadResultArr[i];
 
       // let fileCallPath = encodeURIComponent(obj.uploadPath + "/r_" + obj.uuid + "_" + obj.fileName);
-      let fileCallPath = encodeURIComponent(obj.filert + "/r_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
+      let fileCallPath = encodeURIComponent(obj.file_rt + "/r_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
 
       str += "<div id='result_card'>";
-      str += "<img src='/display?fileName=" + fileCallPath +"'>";
+      str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
 
       imginfo.push(obj);
+
       str += "<div class='imgDeleteBtn' data-file='" + fileCallPath + "'>x</div>";
       // str += "<input type='hidden' name='imageList["+i+"].fileName' value='"+ obj.fileName +"'>";
       // str += "<input type='hidden' name='imageList["+i+"].uuid' value='"+ obj.uuid +"'>";
@@ -107,7 +91,7 @@
   /* 이미지 삭제 버튼 동작 */
   $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
     var index = $(".imgDeleteBtn").index(this);
-    console.log("index : "+index)
+    // console.log("index : "+index)
     imginfo.splice(index, 1);
     console.log(imginfo);
     deleteFile();
@@ -117,20 +101,80 @@
   // $(".imgDeletBtn").click(function(){
   //     deleteFile();
   // });
-let imginfo = [
-  {name : '김경식',
-    age : '123'
-  }
-];
-  $("#reg_img").on('click',function (){
-    alert("asdasdasd");
+
+  // $("#h1").click(function(){
+  //   let test =[1,2,3,4,5];
+  //
+  //   $.ajax({
+  //     url: '/reg_image2',
+  //     type: 'GET', // POST 요청으로 변경
+  //     // contentType: 'application/json',
+  //     // data: JSON.stringify(test), // JSON 형식으로 데이터 전송
+  //     dataType: 'json',
+  //     success: function(result) {
+  //       alert("S : " + result);
+  //     },
+  //     error: function(result) {
+  //       alert("F : " + result);
+  //     }
+  //   });
+  // })
+
+  // let info = {
+  //   "imglist" : imginfo,
+  //   "person": { "name": "lee", "age": 24 }
+  // }
+
+
+  //이미지 등록하기
+  $("#reg_img").click(function (){
+    // alert("asd")
+    let loc;
     $.ajax({
-      url: '/reg_image',
+      url: '/img/reg_image',
       type : 'POST',
       contentType : 'application/json',
-      dataType : 'json',
-      data : JSON.stringify(imginfo)
-    });
+      dataType : 'text',
+      // async : false,
+      data : JSON.stringify(imginfo),
+      success: function (result) {
+        // alert("S : "+result)
+        loc = result;
+        location.replace(loc);
+      },
+      error: function(result) {
+        alert("선택된 이미지가 없습니다.")
+      }
+  });
+    alert("등록되었습니다.")
+
+    // alert("asd");
+  // $("#reg_img").click(function (){
+  //   // alert("asdasdasd");
+  //   if(imginfo.length == 0){
+  //     alert("등록된 이미지가 없습니다.");
+  //     return;
+  //   }
+  //   $.ajax({
+  //     url: '/reg_image',
+  //     type : 'POST',
+  //     contentType : 'application/json',
+  //     dataType : 'text',
+  //     data : JSON.stringify(imginfo),
+  //     success: function (result) {
+  //       alert("S : "+result)
+  //       // location.replace(result);
+  //     },
+  //     error: function(xhr, status, error) {
+  //       if (status === "timeout") {
+  //         // 요청이 타임아웃 되었을 때의 처리
+  //         alert("서버 응답 시간이 초과되었습니다.");
+  //       } else {
+  //         // 기타 오류 발생 시의 처리
+  //         alert("에러 발생: " + error);
+  //       }
+  //     }
+  //   });
   })
 
 
@@ -142,7 +186,7 @@ let imginfo = [
     let targetDiv = $("#result_card");
 
     $.ajax({
-      url: '/deleteFile',
+      url: '/img/deleteFile',
       data : {fileName : targetFile},
       dataType : 'text',
       type : 'POST',
@@ -161,23 +205,6 @@ let imginfo = [
     });
   }
 
-  $(document).ready(
-          // $.ajax({
-          //   url: '/loadThumbnailImage',
-          //   type : 'POST',
-          //   processData : false,
-          //   contentType : false,
-          //   dataType : 'json',
-          //   data : JSON.stringify(imginfo),
-          //   success : function(result){
-          //     showThumbnailImage(result);
-          //   },
-          //   error : function(result){
-          //     alert("로딩 오류");
-          //   }
-          // })
-  );
-
   function showThumbnailImage(uploadResultArr){
 
     /* 전달받은 데이터 검증 */
@@ -192,7 +219,7 @@ let imginfo = [
       let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
 
       str += "<div id='result_card'>";
-      str += "<img src='/display?fileName=" + fileCallPath +"'>";
+      str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
       str += "</div>";
     }
 

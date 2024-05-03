@@ -10,20 +10,29 @@
 <html>
 <head>
     <title>Title</title>
+
+    <style>
+        #resizable {
+            width: 200px;
+            height: 200px;
+            padding: 0.5em;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <c:forEach items="${list}" var="img">
-        <a href="/img/testdetail?no=${img.no}">
-            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
-        <p>작성자 : ${img.seller_nick}</p>
-        <p>제목 : ${img.title}</p>
-        <p>가격 : ${img.reg_price}</p>
-        <p>등록일 : ${img.r_date}</p>
-        <p>거래지역 : ${img.addr_name}</p>
-        </a>
-    </c:forEach>
 
+    <c:forEach items="${list}" var="img">
+        <c:if test="${img.imgtype eq 'w'}">
+            <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable"><br>
+        </c:if>
+    </c:forEach>
+    <p>${sale}</p>
 
 <script>
 
@@ -34,7 +43,7 @@
         let uploadResult = $("#uploadResult");
         let str = "";
         let obj = imgDto;
-        let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
+        let fileCallPath = encodeURIComponent(obj.filert + "/w_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
         str += "<img src='/display?fileName=" + fileCallPath +"'>";
 
         uploadResult.append(str);
