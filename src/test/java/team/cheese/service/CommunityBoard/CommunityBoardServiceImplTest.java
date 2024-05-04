@@ -27,9 +27,14 @@ public  class CommunityBoardServiceImplTest {
     @Autowired
     CommunityBoardService communityBoardService;
 
+
+
     @Test
     public void readAll() throws Exception {
         communityBoardService.removeAll();
+
+
+
         CommunityBoardDto communityBoardDto = new CommunityBoardDto();
         communityBoardDto.setur_id("user123");
         communityBoardDto.setaddr_cd("11010720");
@@ -40,6 +45,7 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setContents("라이트 테스트");
         communityBoardDto.setNick("skyLee");
         communityBoardDto.setur_state('y'); // 상태 설정
+        String session_id = communityBoardDto.getur_id();
         communityBoardService.write(communityBoardDto);
 
         assertEquals(1, communityBoardService.readAll().size());
@@ -69,6 +75,7 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setTitle("라이트 테스트");
         communityBoardDto.setContents("라이트 테스트");
         communityBoardDto.setNick("skyLee");
+
         communityBoardService.write(communityBoardDto);
 
         communityBoardService.read(communityBoardDto.getno());
@@ -92,6 +99,7 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setTitle("라이트 테스트");
         communityBoardDto.setContents("라이트 테스트");
         communityBoardDto.setNick("skyLee");
+        String session_id = communityBoardDto.getur_id();
         communityBoardService.write(communityBoardDto);
         communityBoardService.read(communityBoardDto.getno());
         assertEquals(1,communityBoardService.getCount());
@@ -113,7 +121,8 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setTitle("라이트 테스트");
         communityBoardDto.setContents("라이트 테스트");
         communityBoardDto.setNick("skyLee");
-         communityBoardService.write(communityBoardDto);
+        String session_id = communityBoardDto.getur_id();
+        communityBoardService.write(communityBoardDto);
 
 
 
@@ -148,7 +157,8 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setContents("라이트 테스트");
         communityBoardDto.setNick("skyLee");
 
-        communityBoardService.write(communityBoardDto);
+        String session_id = communityBoardDto.getur_id();
+         communityBoardService.write(communityBoardDto);
         communityBoardDto = communityBoardService.read(communityBoardDto.getno());
         assertEquals(1,communityBoardService.getCount());
         assertEquals(communityBoardDto.getno(), communityBoardService.read(communityBoardDto.getno()).getno());
@@ -179,6 +189,7 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setContents("스테이트체인자 테스트");
         communityBoardDto.setNick("skyLee");
 
+        String session_id = communityBoardDto.getur_id();
         communityBoardService.write(communityBoardDto);
         assertEquals(1,communityBoardService.getCount());
 
@@ -204,6 +215,7 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setContents("스테이트체인자 테스트");
         communityBoardDto.setNick("skyLee");
 
+        String session_id = communityBoardDto.getur_id();
         communityBoardService.write(communityBoardDto);
         assertEquals(1,communityBoardService.getCount());
 

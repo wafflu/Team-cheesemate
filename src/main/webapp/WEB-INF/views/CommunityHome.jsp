@@ -75,7 +75,7 @@
             getTopTen.forEach((item,index)=>{
                 s+="<tr>";
                 s+="<td>"+index+"</td>";
-
+                s+="<td>"+item.commu_name+"</td>";
                 s+= "<td> <a href = '/community/read?no=" + item.no +"'>" + truncateString(item.title,5)+ "</a></td>";
 
                 s+="<td>" + truncateString(item.contents,5)+"</td>";

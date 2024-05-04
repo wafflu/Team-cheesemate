@@ -10,6 +10,7 @@ public class CommunityBoardDto {
         private String addr_cd;
         private Integer addr_no;
         private String commu_cd;
+        private String commu_name;
         private String addr_name;
         private String title;
         private String contents;
@@ -24,6 +25,8 @@ public class CommunityBoardDto {
         private String first_id;
         private Timestamp last_date;
         private String last_id;
+        private String img_full_rt;
+        private Integer group_no;
 
         //추가
         private String name;
@@ -31,12 +34,13 @@ public class CommunityBoardDto {
         public CommunityBoardDto() {
         };
 
-        public CommunityBoardDto(Integer no, String ur_id, String addr_cd, Integer addr_no, String commu_cd, String addr_name, String title, String contents, String nick, Timestamp r_date, Timestamp m_date, int like_cnt, int view_cnt, char ur_state, char ad_state, Timestamp first_date, String first_id, Timestamp last_date, String last_id) {
+        public CommunityBoardDto(Integer no, String ur_id, String addr_cd, Integer addr_no, String commu_cd,String commu_name, String addr_name, String title, String contents, String nick, Timestamp r_date, Timestamp m_date, int like_cnt, int view_cnt, char ur_state, char ad_state, Timestamp first_date, String first_id, Timestamp last_date, String last_id,String img_full_rt, Integer group_no, String name) {
             this.no = no;
             this.ur_id = ur_id;
             this.addr_cd = addr_cd;
             this.addr_no = addr_no;
             this.commu_cd = commu_cd;
+            this.commu_name = commu_name;
             this.addr_name = addr_name;
             this.title = title;
             this.contents = contents;
@@ -51,18 +55,23 @@ public class CommunityBoardDto {
             this.first_id = first_id;
             this.last_date = last_date;
             this.last_id = last_id;
+            this.img_full_rt = img_full_rt;
+            this.group_no = group_no;
         }
 
-        public CommunityBoardDto(String ur_id, String addr_cd, Integer addr_no, String commu_cd, String name, String addr_name, String title, String contents, String nick) {
+        public CommunityBoardDto(String ur_id, String addr_cd, Integer addr_no, String commu_cd, String commu_name, String name, String addr_name, String title, String contents, String nick, String img_full_rt, Integer group_no) {
             this.ur_id = ur_id;
             this.addr_cd = addr_cd;
             this.addr_no = addr_no;
             this.commu_cd = commu_cd;
+            this.commu_name = commu_name;
             this.name = name;
             this.addr_name = addr_name;
             this.title = title;
             this.contents = contents;
             this.nick = nick;
+            this.img_full_rt = img_full_rt;
+            this.group_no = group_no;
         }
 
 
@@ -227,7 +236,35 @@ public class CommunityBoardDto {
             this.name = name;
         }
 
-        @Override
+
+        //추가
+
+
+        public String getCommu_name() {
+            return commu_name;
+        }
+
+        public void setCommu_name(String commu_name) {
+            this.commu_name = commu_name;
+        }
+
+    public String getImg_full_rt() {
+        return img_full_rt;
+    }
+
+    public void setImg_full_rt(String img_full_rt) {
+        this.img_full_rt = img_full_rt;
+    }
+
+    public Integer getGroup_no() {
+        return group_no;
+    }
+
+    public void setGroup_no(Integer group_no) {
+        this.group_no = group_no;
+    }
+
+    @Override
         public String toString() {
             return "CommunityBoardDto{" +
                     "no=" + no +
@@ -235,6 +272,7 @@ public class CommunityBoardDto {
                     ", addr_cd='" + addr_cd + '\'' +
                     ", addr_no=" + addr_no +
                     ", commu_cd='" + commu_cd + '\'' +
+                    ", commu_name='" + commu_name + '\'' +
                     ", name='" + name + '\'' +
                     ", addr_name='" + addr_name + '\'' +
                     ", title='" + title + '\'' +
@@ -250,6 +288,8 @@ public class CommunityBoardDto {
                     ", first_id='" + first_id + '\'' +
                     ", last_date=" + last_date +
                     ", last_id='" + last_id + '\'' +
+                    ", img_full_rt='" + img_full_rt + '\'' +
+                    ", group_no=" + group_no +
                     '}';
         }
 

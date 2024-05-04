@@ -1,13 +1,12 @@
 package team.cheese.service.CommunityBoard;
 
+import org.springframework.web.multipart.MultipartFile;
 import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
 
 import java.util.List;
 
 public interface CommunityBoardService {
      List<CommunityBoardDto>readAll()throws Exception;
-
-
 
 
     public int write(CommunityBoardDto communityBoardDto)throws Exception;
@@ -25,4 +24,10 @@ public interface CommunityBoardService {
     List<CommunityBoardDto> getTopTen()throws Exception;
 
     public int userStateChange(CommunityBoardDto communityBoardDto)throws Exception;
+
+
+    public static final String IMAGE_REPO = "src/main/webapp/resources/img";
+    public String saveFile(MultipartFile file)throws Exception;
+
+//    public CommunityBoardDto preparedInfo(CommunityBoardDto communityBoardDto)throws Exception;
 }

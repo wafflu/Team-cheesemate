@@ -34,23 +34,30 @@ public class CommunityBoardDaoImplTest {
 
     @Test
     public void insert() throws Exception {
+
         communityBoardDao.deleteAll();
         assertEquals(0,communityBoardDao.count());
+
+        //given
         CommunityBoardDto communityBoardDto = new CommunityBoardDto();
         communityBoardDto.setur_id("user123");
         communityBoardDto.setaddr_cd("11010720");
         communityBoardDto.setaddr_no(1);
         communityBoardDto.setcommu_cd("commu_L");
+        communityBoardDto.setCommu_name("연애/썸");
         communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
         communityBoardDto.setTitle("좋아하는사람 제목");
         communityBoardDto.setContents("좋아하는 사람 내용");
         communityBoardDto.setNick("skyLee");
+        communityBoardDto.setImg_full_rt("src/main/resources/img/kgymz.jpeg");
 
+        //do
         int result = communityBoardDao.insert(communityBoardDto);
 
+        //assert
         assertEquals(1,result);
         assertEquals(1,communityBoardDao.count());
-//        System.out.println(communityBoardDao.select(communityBoardDto.getno()));
+
 
     }
 
@@ -88,9 +95,11 @@ public class CommunityBoardDaoImplTest {
 
     @Test
     public void selectAll() throws Exception {
+
         communityBoardDao.deleteAll();
         assertEquals(0,communityBoardDao.count());
 
+        //given
         CommunityBoardDto communityBoardDto = new CommunityBoardDto();
 
         communityBoardDto.setur_id("user123");
@@ -101,17 +110,23 @@ public class CommunityBoardDaoImplTest {
         communityBoardDto.setTitle("테스트 제목");
         communityBoardDto.setContents("테스트 내용");
         communityBoardDto.setNick("skyLee");
+        communityBoardDto.setNick("skyLee");
+        communityBoardDto.setImg_full_rt("src/main/resources/img/kgymz.jpeg");
+
 
         communityBoardDao.insert(communityBoardDto);
 
+        //do
         List<CommunityBoardDto> list = communityBoardDao.selectAll('y');
 
+        //assert1-'y'인 상태
         assertEquals(1,communityBoardDao.count());
         assertEquals(1,list.size());
         Iterator it = list.iterator();
         while (it.hasNext()) {
             System.out.println("before:" + it.next().toString());
         }
+        //assert2='n'으로 고의적 세팅
         communityBoardDto.setur_state('n');
         communityBoardDao.userChangeState(communityBoardDto);
         communityBoardDao.selectAll('y');
@@ -137,6 +152,8 @@ public class CommunityBoardDaoImplTest {
         communityBoardDto.setTitle("셀렉트 테스트제목");
         communityBoardDto.setContents("셀렉트 테스트내용");
         communityBoardDto.setNick("skyLee");
+        communityBoardDto.setNick("skyLee");
+        communityBoardDto.setImg_full_rt("src/main/resources/img/kgymz.jpeg");
 
         communityBoardDao.insert(communityBoardDto);
         communityBoardDao.select(communityBoardDto.getno());

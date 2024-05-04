@@ -17,7 +17,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action = "" id ="form">
+<form action = "" id ="form" enctype="multipart/form-data">
     <div class="header">
         <input type="hidden" name ="no" value="${communityBoardDto.no}" >
         <div>
@@ -26,16 +26,23 @@
                 <option  value="${"commu_W"}">고민/상담</option>
                 <option  value ="${"commu_L"}">연에/썸</option>
             </select>
+            <input type="hidden" name="commu_name" id="commu_name" value="">
             <input type = "submit" value="등록" id = "register">
             <input type ="button" value="수정" id = "modify">
             <input type = "button" value="삭제(상태병경)" id = "userStateChange" data-no="${communityBoardDto.no}" data-ur_state="${communityBoardDto.ur_state}">
 
         </div>
         <div><input id = "title" type ="text" name = "title" value= "${communityBoardDto.title}"></div>
+
+        <div class = "form-group" style="height: 150px; width: 200px;">
+            <label>이미지 파일 첨부</label>
+            <input type="file" name = "image" id="image"/>
+            <img id="preview" src="#" alt = "Image preview" style="max-width: 200px; max-height: 200px;"/>
+        </div>
     </div>
 
     <div class="main">
-        <textarea name = "contents">${communityBoardDto.contents}</textarea>
+        <textarea name = "contents" id ="contents">${communityBoardDto.contents}</textarea>
     </div>
     <div class = "footer"></div>
 </form>
@@ -47,30 +54,44 @@
 
     $(document).ready(function(){
         $('#register').on("click",function (){
+            let selectedValue = $('select[name="commu_cd"]').val();
+            let name = commuName(selectedValue);
+            $('#commu_name').val(name);
             let form = $('#form');
+
+            if ($('#title').val() === '' || $('#contents').val==='') {
+                alert('제목과 내용을 작성하였는지 확인해주세요.');
+                return false; // 이미지가 없으면 폼 제출을 중단
+            }
+
             form.attr("action","<c:url value='/community/register'/>");
             form.attr("method","post");
             form.submit();
-            alert("등록되었습니다");
+
         })
-
-        <%--$('#register').on("click",function(){--%>
-        <%--    let title = document.getElementById('title');--%>
-        <%--    let contents = document.getElementById('contents');--%>
-        <%--    let form = $('#form');--%>
-        <%--    if(title == null || contents ==null){--%>
-        <%--        alert("제목과 내용을 입력하세요");--%>
-        <%--        return;--%>
-        <%--    }--%>
-
-        <%--    form.attr("action","<c:url value='/community/register'/>");--%>
-        <%--    form.attr("method","post");--%>
-        <%--    form.submit();--%>
-        <%--    alert("등록되었습니다");--%>
+        function commuName (commuCd){
+            if(commuCd === 'commu_B') {
+                return "블라블라";
+            }else if(commuCd === 'commu_W'){
+                return "고민/상담";
+            }else if(commuCd === 'commu_L'){
+                return "연애/썸";
+            }
+        }
 
 
-        <%--})--%>
-
+        $('#image').change(function(){
+            readURL(this);
+        })
+        function readURL(input){
+            if(input.files && input.files[0]){
+                var reader = new FileReader();
+                reader.onload = function (e){
+                    $('#preview').attr('src',e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
 
         $('#modify').on("click",function(){
