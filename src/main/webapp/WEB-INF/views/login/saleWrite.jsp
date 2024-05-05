@@ -308,7 +308,7 @@
               hashtags.forEach(function (tag) {
                 let input = document.createElement("input");
                 input.type = "text";
-                input.name = "tag";
+                input.name = "t_contents";
                 input.value = "#" + tag; // 해시태그 앞에 #을 붙여서 표시
                 input.disabled = true; // 입력 불가능하도록 설정
                 container.appendChild(input);
@@ -431,7 +431,7 @@
             event.preventDefault(); // form의 기본 동작을 막음
             modal.classList.remove("hidden");
           }
-          const closeModal = (event) => {
+          const closeModal = () => {
             event.preventDefault(); // form의 기본 동작을 막음
             modal.classList.add("hidden");
           }
@@ -504,6 +504,20 @@
                 sal_i_cd_value = category3Value;
             }
 
+            // FormData 객체 생성
+            let formData = new FormData(document.getElementById("writeForm"));
+
+            // JSON 객체 초기화
+            var jsonData = {};
+
+            // FormData 객체의 엔트리 반복
+            formData.forEach(function(value, key){
+                // JSON 객체에 엔트리 추가
+                jsonData[key] = value;
+            });
+
+            formData.append("sal_i_cd", sal_i_cd_value);
+
             // trade_s_cd 값 추출
             let trade_s_cd_values = [];
             $(".trade_s_cd:checked").each(function(index, checkbox) {
@@ -513,32 +527,31 @@
             // trade_s_cd 파라미터 설정
             let trade_s_cd_param;
             if (trade_s_cd_values.length === 1) {
-                trade_s_cd_param = "trade_s_cd_1=" + trade_s_cd_values[0];
+                formData.append("trade_s_cd_1", trade_s_cd_values[0]);
             } else if (trade_s_cd_values.length === 2) {
-                trade_s_cd_param = "trade_s_cd_1=" + trade_s_cd_values[0] + "&trade_s_cd_2=" + trade_s_cd_values[1];
+              formData.append("trade_s_cd_1", trade_s_cd_values[0]);
+              formData.append("trade_s_cd_2", trade_s_cd_values[1]);
             }
 
+            // t_contents 추가
+            let t_contents = $("input[name='t_contents']").val;
+            formData.append("t_contents", t_contents);
 
-
-            // FormData 객체 생성
-            let formData = $("form[name=writeForm]").serialize();
-            // sal_i_cd 파라미터 추가
-            formData += "&sal_i_cd=" + sal_i_cd_value;
-            // trade_s_cd 파라미터 추가
-            formData += "&" + trade_s_cd_param;
             
+            // jsonData를 JSON 문자열로 변환
+            let jsonString = JSON.stringify(jsonData); 
 
-            console.log("formData : ", formData);
-            alert(formData);
+            console.log("jsonString : ", jsonString);
+            alert(jsonString);
             $.ajax({
               type: 'POST',
               url: '/sale/write',
-              // contentType: 'multipart/form-data',
-              contentType: false,
+              // contentType: 'multipart/form-data; charset=utf-8',
+              contentType: 'application/json; charset=utf-8',
               // contentType : false,
               // processData : false,
-              data: formData,
-              // dataType: 'json',
+              data: jsonString,
+              dataType: 'json',
               success: function (data) {
                 alert(data);
                 console.log("성공");

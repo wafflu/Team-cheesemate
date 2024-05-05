@@ -10,6 +10,7 @@ import team.cheese.dao.SaleDao;
 import team.cheese.domain.AdministrativeDto;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
+import team.cheese.domain.TagDto;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -68,7 +69,7 @@ public class SaleController {
     // 글쓰기 완료하고 글을 등록하는 경우
     @PostMapping("/write")
     @ResponseBody
-    public String write(@RequestBody SaleDto formData, Model model, HttpSession sesson,  HttpServletRequest request) throws Exception {
+    public String write(@RequestBody SaleDto saleDto, Model model, HttpSession sesson, HttpServletRequest request) throws Exception {
         // service 호출
         // 서비스단 작성 필요함
 //        System.out.println(formData);
@@ -83,10 +84,12 @@ public class SaleController {
 //        return "success";
 //        return "redirect:/sale/read?no=" + no;
 
-        System.out.println("Request : " + request);
-        System.out.println("값 들어왔는지 확인 : " + formData);
+//        System.out.println("Request : " + request);
+        System.out.println("값 들어왔는지 확인 : " + saleDto);
         // Service를 통해 글 등록 처리
-        saleService.write(formData);
+        saleService.write(saleDto);
+
+//        System.out.println("tag 값 들어왔는지 확인 : " + tagDto);
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
         return "redirect:/sale/list";
@@ -106,8 +109,8 @@ public class SaleController {
     @PostMapping("/saleCategory2")
     @ResponseBody
     public List<SaleCategoryDto> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
-        System.out.println("대분류 번호 : " + category1);
-        System.out.println(saleCategoryDao.selectCategory2(category1));
+//        System.out.println("대분류 번호 : " + category1);
+//        System.out.println(saleCategoryDao.selectCategory2(category1));
         return saleCategoryDao.selectCategory2(category1);
     }
 
@@ -115,8 +118,8 @@ public class SaleController {
     @RequestMapping("/saleCategory3")
     @ResponseBody
     public List<SaleCategoryDto> getSaleCategory3(@RequestParam String category2, Model model) throws Exception {
-        System.out.println("중분류 번호 : " + category2);
-        System.out.println(saleCategoryDao.selectCategory3(category2));
+//        System.out.println("중분류 번호 : " + category2);
+//        System.out.println(saleCategoryDao.selectCategory3(category2));
         return saleCategoryDao.selectCategory3(category2);
     }
 
@@ -125,8 +128,8 @@ public class SaleController {
     @ResponseBody
     public List<AdministrativeDto> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
         // 검색어를 이용하여 판매글을 검색
-        System.out.println("검색 내용 : " + searchLetter);
-        System.out.println(administrativeDao.searchLetter(searchLetter));
+//        System.out.println("검색 내용 : " + searchLetter);
+//        System.out.println(administrativeDao.searchLetter(searchLetter));
         return administrativeDao.searchLetter(searchLetter);
     }
 }
