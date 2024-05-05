@@ -1,4 +1,4 @@
-package team.cheese.controller;
+package team.cheese.controller.sale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +10,9 @@ import team.cheese.dao.SaleDao;
 import team.cheese.domain.AdministrativeDto;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
-import team.cheese.service.SaleService;
+import team.cheese.service.sale.SaleService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -49,15 +50,11 @@ public class SaleController {
     public String read(Long no, Model model, HttpSession session) throws Exception {
         SaleDto saleDto = saleService.read(no);
 
-        System.out.println("sale.jsp로 전달");
-        System.out.println("판매자 아이디 : " + saleDto.getSeller_id());
-
         model.addAttribute("Sale", saleDto); // model로 값 전달
 
         return "/login/saleBoard";
     }
 
-    // 서비스로 분리
     // 글쓰기 버튼 누른 경우
     @GetMapping("/write")
     public String write(Model model, HttpSession session) throws Exception {
@@ -71,10 +68,10 @@ public class SaleController {
     // 글쓰기 완료하고 글을 등록하는 경우
     @PostMapping("/write")
     @ResponseBody
-    public String write(@RequestBody SaleDto formData, Model model, HttpSession sesson) throws Exception {
+    public String write(@RequestBody SaleDto formData, Model model, HttpSession sesson,  HttpServletRequest request) throws Exception {
         // service 호출
         // 서비스단 작성 필요함
-        System.out.println(formData);
+//        System.out.println(formData);
 
         // 1. 사용자가 글작성
         // 동시에 작성버튼 누르면?
@@ -83,8 +80,16 @@ public class SaleController {
         
 //        Integer no = saleDto.getNo();
 
-        return "success";
+//        return "success";
 //        return "redirect:/sale/read?no=" + no;
+
+        System.out.println("Request : " + request);
+        System.out.println("값 들어왔는지 확인 : " + formData);
+        // Service를 통해 글 등록 처리
+        saleService.write(formData);
+
+        // 등록 후에는 다시 글 목록 페이지로 리다이렉트
+        return "redirect:/sale/list";
     }
 
     // 서비스로 분리

@@ -111,7 +111,7 @@
             }
 
             /* input text 및 textarea 너비 조절 */
-            input[type="text"],
+            input[type="text"], input[type="number"],
             textarea {
               width: calc(100% - 20px);
               /* 전체 너비에서 여백을 뺀 값으로 설정 */
@@ -137,51 +137,52 @@
                 제목 <input name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" />
               </p>
               <p>카테고리</p>
-              <select id="category1" name="sal_i_cd" onchange="loadCategory2()">
+              <select id="category1" onchange="loadCategory2()">
                 <option value="" disabled selected>대분류</option>
                 <c:forEach var="category" items="${saleCategory1}">
                   <option value="${category.sal_cd}">${category.name}</option>
                 </c:forEach>
               </select>
 
-              <select id="category2" name="sal_i_cd" onchange="loadCategory3()">
+              <select id="category2" onchange="loadCategory3()">
                 <option value="" disabled selected>중분류</option>
               </select>
 
-              <select id="category3" name="sal_i_cd">
+              <select id="category3">
                 <option value="" disabled selected>소분류</option>
               </select>
 
               <p style="color: red;" id="salecategoryMsg"></p>
 
               <p>상품상태</p>
-              <input type="radio" name="pro_s_cd" />새상품(미사용) <br />
-              <input type="radio" name="pro_s_cd" />사용감 없음 <br />
-              <input type="radio" name="pro_s_cd" />사용감 적음 <br />
-              <input type="radio" name="pro_s_cd" />사용감 많음 <br />
-              <input type="radio" name="pro_s_cd" />고장/파손 상품 <br />
+              <input type="radio" name="pro_s_cd" value="S" />새상품(미사용) <br />
+              <input type="radio" name="pro_s_cd" value="A" />사용감 없음 <br />
+              <input type="radio" name="pro_s_cd" value="B" />사용감 적음 <br />
+              <input type="radio" name="pro_s_cd" value="C" />사용감 많음 <br />
+              <input type="radio" name="pro_s_cd" value="D" />고장/파손 상품 <br />
               <p>
                 거래방법(2개 이하)
-                <input type="checkbox" class="trade_s_cd" /> 온라인
-                <input type="checkbox" class="trade_s_cd" /> 직거래
-                <input type="checkbox" class="trade_s_cd" /> 택배거래
+                <input type="checkbox" class="trade_s_cd" value="O"/> 온라인
+                <input type="checkbox" class="trade_s_cd" value="F"/> 직거래
+                <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
               </p>
               <p>설명</p>
-              <textarea name="contents" id="" cols="30" rows="10"></textarea>
-              <p>해시태그(선택) <input type="text" id="hashtagInput" /></p>
+              <textarea name="contents" id="contents" cols="30" rows="10"></textarea>
+              <p>해시태그(선택) <input type="text" id="hashtagInput" name="tag" value=""/></p>
               <div id="hashtagContainer"></div>
-              <input type="radio" name="tx_s_cd" value="sale" />판매
-              <input type="radio" name="tx_s_cd" value="free" />나눔
+              <input type="radio" name="tx_s_cd" value="S" />판매
+              <input type="radio" name="tx_s_cd" value="F" />나눔
               <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
               <p>
                 상품가격
-                <input name="price" type="text" placeholder="판매할 가격을 입력해주세요." />
+                <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0"/>
               </p>
-              <p id="proposal" hidden><input type="radio" /> 가격제안받기</p>
-              <p id="trade" hidden><input type="radio" id="trade" /> 나눔신청받기</p>
+              <p hidden><input type="radio" name="biding" value="N"/> 미사용 </p>
+              <p class="proposal" hidden><input class="proposal" type="radio" name="biding" value="P"/> 가격제안받기</p>
+              <p class="trade" hidden><input class="trade" type="radio" name="biding" value="T" /> 나눔신청받기</p>
               <p>
                 상품정가(선택)
-                <input type="text" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." />
+                <input type="number" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." min="0"/>
               </p>
               <button id="openModalBtn">거래희망 주소 검색</button>
               <div id="openModal" class="modal hidden">
@@ -203,16 +204,17 @@
                   </div>
                 </div>
               </div>
-              <p>거래장소 <input id="pickup_addr" name="pickup_addr_name" type="text" disabled></p>
+              <p>거래장소 <input id="pickup_addr" name="pickup_addr_name" type="text" value="" disabled></p>
               <p>
                 거래희망장소(선택)
-                <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." />
+                <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." value=""/>
               </p>
               <p>
                 브랜드(선택)
-                <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." />
+                <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." value=""/>
               </p>
-              <input type="button" id="submitBtn" value="등록하기" />
+              <!-- <input type="button" id="submitBtn" value="등록하기" onclick="write()"/> -->
+              <input type="button" id="submitBtn" value="등록하기"/>
             </form>
           </div>
         </body>
@@ -276,22 +278,20 @@
 
           // 판매/나눔 선택
           $("input[name='tx_s_cd']").change(function () {
-            if ($(this).val() === "sale") {
-              $("#proposal").show();
-              $("#trade").hide();
-              // 그 외의 경우는 활성화
-              $("input[name='price']").prop("disabled", false);
-              $("input[name='price']").attr("placeholder", "판매할 가격을 입력해주세요.");
-              $("#txMsg").text(""); // 메시지 제거
-            } else if ($(this).val() === "free") {
-              $("#proposal").hide();
-              $("#trade").show();
-              // 상품 가격 입력란을 비활성화
-              $("input[name='price']").prop("disabled", true);
-              $("input[name='price']").attr("placeholder", "나눔글입니다.");
-              $("#txMsg").text(""); // 메시지 제거
+            if ($(this).val() === "S") {
+                $(".proposal").show(); // 판매 선택 시 가격제안받기 옵션 보이기
+                $(".trade").hide(); // 판매 선택 시 나눔신청받기 옵션 숨기기
+                $("input[name='price']").prop("disabled", false); // 상품 가격 입력란 활성화
+                $("input[name='price']").attr("placeholder", "판매할 가격을 입력해주세요.");
+                $("#txMsg").text(""); // 메시지 제거
+            } else if ($(this).val() === "F") {
+                $(".proposal").hide(); // 나눔 선택 시 가격제안받기 옵션 숨기기
+                $(".trade").show(); // 나눔 선택 시 나눔신청받기 옵션 보이기
+                $("input[name='price']").prop("disabled", true); // 상품 가격 입력란 비활성화
+                $("input[name='price']").attr("placeholder", "나눔글입니다.");
+                $("#txMsg").text(""); // 메시지 제거
             }
-          });
+        });
 
 
           // 
@@ -418,10 +418,10 @@
             $("#salecategoryMsg").text("");
           });
 
-          document.getElementById('submitBtn').addEventListener('click', function () {
-            // submit 버튼 클릭 시 form 제출
-            document.getElementById('writeForm').submit();
-          });
+          // document.getElementById('submitBtn').addEventListener('click', function () {
+          //   // submit 버튼 클릭 시 form 제출
+          //   document.getElementById('writeForm').submit();
+          // });
 
           const openModalBtn = document.getElementById("openModalBtn");
           const modal = document.querySelector(".modal");
@@ -431,7 +431,7 @@
             event.preventDefault(); // form의 기본 동작을 막음
             modal.classList.remove("hidden");
           }
-          const closeModal = () => {
+          const closeModal = (event) => {
             event.preventDefault(); // form의 기본 동작을 막음
             modal.classList.add("hidden");
           }
@@ -487,52 +487,70 @@
           });
 
           // 등록하기 버튼 누르는 경우
-          // function write() {
-          //   // let queryString = $("form[name=writeForm]").serialize();
-          //   // let queryString = $("#writeForm").serialize();
-          //   // FormData 객체 생성
-          //   let formData = new FormData(document.getElementById("writeForm"));
-          //   console.log(queryString);
-          //   alert(queryString);
-          //   $.ajax({
-          //     type: 'POST',
-          //     url: '/sale/write',
-          //     contentType: 'multipart/form-data',
-          //     data: formData,
-          //     dataType: 'json',
-          //     success: function (data) {
-          //       alert(data);
-          //       location.reload();
-          //     },
-          //     error: function (xhr, status, error) {
-          //       alert(error);
-          //     }
-          //   });
-          // }
-
           $("#submitBtn").on("click", function () {
-              alert("확인");
-                // let queryString = $("form[name=writeForm]").serialize();
-            // let queryString = $("#writeForm").serialize();
+
+            // category1, category2, category3의 값 추출
+            let category1Value = $("#category1").val();
+            let category2Value = $("#category2").val();
+            let category3Value = $("#category3").val();
+
+            // 조건에 따라 sal_i_cd 값을 설정
+            let sal_i_cd_value;
+            if (category1Value && !category2Value && !category3Value) {
+                sal_i_cd_value = category1Value;
+            } else if (category1Value && category2Value && !category3Value) {
+                sal_i_cd_value = category2Value;
+            } else if (category1Value && category2Value && category3Value) {
+                sal_i_cd_value = category3Value;
+            }
+
+            // trade_s_cd 값 추출
+            let trade_s_cd_values = [];
+            $(".trade_s_cd:checked").each(function(index, checkbox) {
+                trade_s_cd_values.push($(checkbox).val());
+            });
+
+            // trade_s_cd 파라미터 설정
+            let trade_s_cd_param;
+            if (trade_s_cd_values.length === 1) {
+                trade_s_cd_param = "trade_s_cd_1=" + trade_s_cd_values[0];
+            } else if (trade_s_cd_values.length === 2) {
+                trade_s_cd_param = "trade_s_cd_1=" + trade_s_cd_values[0] + "&trade_s_cd_2=" + trade_s_cd_values[1];
+            }
+
+
+
             // FormData 객체 생성
-            let formData = new FormData(document.getElementById("writeForm"));
-            console.log(queryString);
+            let formData = $("form[name=writeForm]").serialize();
+            // sal_i_cd 파라미터 추가
+            formData += "&sal_i_cd=" + sal_i_cd_value;
+            // trade_s_cd 파라미터 추가
+            formData += "&" + trade_s_cd_param;
+            
+
+            console.log("formData : ", formData);
             alert(formData);
             $.ajax({
               type: 'POST',
               url: '/sale/write',
-              contentType: 'multipart/form-data',
+              // contentType: 'multipart/form-data',
+              contentType: false,
+              // contentType : false,
+              // processData : false,
               data: formData,
-              dataType: 'json',
+              // dataType: 'json',
               success: function (data) {
                 alert(data);
-                location.reload();
+                console.log("성공");
+                // location.reload();
+                // window.location.href = "/sale/list";
               },
               error: function (xhr, status, error) {
-                alert(error);
+                // alert(error);
+                alert("등록 중 오류가 발생했습니다.");
               }
             });
-          });
+          })
           
 
         </script>

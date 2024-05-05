@@ -1,4 +1,4 @@
-package team.cheese.service;
+package team.cheese.service.sale;
 
 import team.cheese.domain.SaleDto;
 

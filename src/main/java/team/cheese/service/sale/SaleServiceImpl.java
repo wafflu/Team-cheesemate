@@ -1,4 +1,4 @@
-package team.cheese.service;
+package team.cheese.service.sale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +34,20 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public int write(SaleDto saleDto) throws Exception {
         // insert 해주는 거 여기서 처리
+
+        // 1. 필수로 들어와야 되는 값 체크
+        /*  addr_cd(행정동코드), addr_name(주소명),
+        *   seller_id(판매자id), seller_nick(판매자명),
+        *   sal_i_cd(판매카테고리), sal_name(판매카테고리명),
+        *   group_no(이미지그룹번호), img_full_rt(이미지루트),
+        *   pro_s_cd(사용감), tx_s_cd(거래방법),
+        *   trade_s_cd_1(거래방식), title(제목), contents(내용),
+        *   price(가격), bid_cd(가격제시/나눔신청여부)
+        */
+        //     1.1. 값이 들어와 있지 않으면 rollback
+        // 2. sale 테이블에 insert
+        // 3. sale_history 테이블에 insert
+        //     3.1. 실패하면 rollback
 
         return saleDao.insert(saleDto);
     }

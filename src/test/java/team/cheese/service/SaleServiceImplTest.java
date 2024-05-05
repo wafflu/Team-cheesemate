@@ -10,8 +10,8 @@ import team.cheese.dao.AdministrativeDao;
 import team.cheese.dao.SaleCategoryDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.SaleDto;
+import team.cheese.service.sale.SaleService;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
