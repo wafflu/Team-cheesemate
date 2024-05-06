@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
+        <typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
+        <typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
+        <typeAlias alias="SaleDao" type="team.cheese.dao.SaleDao"/>
+        <typeAlias alias="EventDto" type="team.cheese.domain.EventDto"/>
+    </typeAliases>
+</configuration>

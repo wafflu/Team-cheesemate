@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.ImgDao">
+
+    <insert id="insert_img" parameterType="ImgDto" useGeneratedKeys="true" keyProperty="no">
+        insert into img (imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt)
+        values (#{imgtype}, #{file_rt}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt});
+    </insert>
+
+    <insert id="insert_group_img" parameterType="map">
+        INSERT INTO img_group (group_no, img_no) values (#{group_no}, #{img_no});
+    </insert>
+
+    <select id="select_group_max" resultType="int">
+        SELECT COALESCE(MAX(group_no), 0) AS max_group_no FROM img_group;
+    </select>
+
+    <!--  본문 이미지 가져오기  -->
+    <select id="select_img" parameterType="map" resultType="ImgDto">
+        select *
+        from img i, ${tb_name} gi
+        where gi.group_no = i.group_no and i.state = 'y' and i.group_no = #{no};
+    </select>
+
+    <update id="update_img_state" parameterType="map">
+        update img set state = #{state} where no = #{no};
+    </update>
+
+
+
+    <!-- 이벤트 임의 작성용 -->
+    <insert id="insert_event" parameterType="team.cheese.domain.EventDto">
+        INSERT INTO event(evt_cd, active_s_cd, title, contents, s_date, e_date, img_no, prize, ad_id)
+        values(#{evt_cd}, #{active_s_cd}, #{title}, #{contents}, #{s_date}, #{e_date}, #{img_no}, #{prize}, #{ad_id});
+    </insert>
+
+    <!-- 마이페이지 임의 작성용 -->
+    <insert id="insert_userinfo" parameterType="team.cheese.domain.UserInfoDTO">
+        insert into user_info (ur_id, nick, contents, img_full_rt)
+        select id,nick,'안녕하세요',#{img_full_rt}
+        from user
+        where id = #{ur_id};
+    </insert>
+
+    <!-- 커뮤니티 임의 작서용-->
+    <insert id="insert_commu" parameterType="team.cheese.domain.CommunityBoardDto" useGeneratedKeys="true" keyProperty="no">
+        insert into community_board(ur_id, addr_cd,addr_no, commu_cd, addr_name, title, contents, img_full_rt, nick)
+        values(#{ur_id}, #{addr_cd}, #{addr_no}, #{commu_cd}, #{addr_name}, #{title}, #{contents}, #{img_full_rt}, #{nick});
+    </insert>
+
+    <!-- 아래 테스트를 위한 코드용 -->
+    <select id="select_all_img" resultType="ImgDto">
+        select * from img;
+    </select>
+
+    <select id="count" parameterType="string" resultType="int">
+        select count(*) from ${tb_name};
+    </select>
+
+    <select id="select_img2" parameterType="map" resultType="ImgDto">
+        select *
+        from img i, sale gi
+        where gi.group_no = i.group_no and i.group_no = #{no};
+    </select>
+
+    <delete id="delete_table" parameterType="string">
+        delete from ${tb_name};
+    </delete>
+
+</mapper>
