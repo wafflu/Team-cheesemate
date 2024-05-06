@@ -64,7 +64,7 @@
                 return false; // 이미지가 없으면 폼 제출을 중단
             }
 
-            form.attr("action","<c:url value='/community/register'/>");
+            form.attr("action","<c:url value='/community/read'/>");
             form.attr("method","post");
             form.submit();
 

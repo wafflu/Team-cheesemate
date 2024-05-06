@@ -45,19 +45,23 @@
     </c:if>
 
     ${communityBoardDto.view_cnt}
+
+    <div style="display: none;" id = "alertDiv">
+        <p id = "edit">수정/삭제</p>
+    </div>
+
 </div>
 </form>
 <script>
-    let detailButton = document.getElementsByClassName("detail-button");
-
-    detailButton.forEach(button => {
-        button.addEventListener("click",function (){
-            const documentUserId = this.getAttribute('data-user-id');
+    $(document).ready(function() {
+        $('.detail-button').on("click",function(){
+            $('#alertDiv').show();
+            $('#edit').on("click",function (){
+                window.location.href = 'Board.jsp';
+            })
         })
+
     })
-
-
-
 </script>
 
 </body>

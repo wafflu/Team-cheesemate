@@ -1,6 +1,7 @@
 package team.cheese.Controller.CommunityBoard;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.expression.BeanExpressionContextAccessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,20 +76,20 @@ public  class CommunityBoardController {
 
         @RequestMapping(value = "/register", method = RequestMethod.POST)
         public String write(MultipartHttpServletRequest multi, CommunityBoardDto communityBoardDto, Model m, RedirectAttributes redirectAttributes,HttpServletRequest request) throws Exception {
-            //1.세션값에 저장된 아이디와 세션이 일치하는지 확인해아햔다.->현재 임의 설정
-            HttpSession session = request.getSession(true);
-            session.setAttribute("ur_id", "user123");
-            String session_id = (String) session.getAttribute("ur_id");
+//            //1.세션값에 저장된 아이디와 세션이 일치하는지 확인해아햔다.->현재 임의 설정
+//            HttpSession session = request.getSession(true);
+//            session.setAttribute("ur_id", "user123");
+//            String session_id = (String) session.getAttribute("ur_id");
+//
+//            //2.세션값에 저장된 아이디가 일치하지않거나 없는 경우 예외처리
+//            if(session_id==null){
+//                redirectAttributes.addFlashAttribute("error","유효하지 않습니다.");
+//                return "redirect:/ErrorPage";
+//            }
+//
 
-            //2.세션값에 저장된 아이디가 일치하지않거나 없는 경우 예외처리
-            if(session_id==null){
-                redirectAttributes.addFlashAttribute("error","유효하지 않습니다.");
-                return "redirect:/ErrorPage";
-            }
 
-
-
-            communityBoardDto.setur_id(session_id);
+            communityBoardDto.setur_id("user123");
             communityBoardDto.setaddr_cd("11010720");
             communityBoardDto.setaddr_no(2);
             communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
@@ -152,22 +153,7 @@ public  class CommunityBoardController {
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public String update(CommunityBoardDto communityBoardDto, Model m,HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception {
 
-        //1.세션값에 저장된 아이디와 세션이 일치하는지 확인해아햔다.->현재 임의 설정
-        HttpSession session = request.getSession(true);
-        session.setAttribute("ur_id", "user123");
-        String session_id = (String) session.getAttribute("ur_id");
 
-        //2.세션값에 저장된 아이디가 일치하지않거나 없는 경우 예외처리
-        if(session_id==null){
-            redirectAttributes.addFlashAttribute("error","유효하지 않습니다.");
-            return "redirect:/ErrorPage";
-        }else if(!Objects.equals(communityBoardDto.getur_id(), session_id)){
-            redirectAttributes.addFlashAttribute("error","유효하지 않습니다.");
-            return "redirect:/ErrorPage";
-        }
-
-
-        //3.수정
         communityBoardService.modify(communityBoardDto);
 
         System.out.println(communityBoardDto.toString());
