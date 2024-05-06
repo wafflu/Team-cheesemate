@@ -11,6 +11,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
+<c:set var="currentLoginUser" value="${communityBoardDto.ur_id}"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <html>
 <head>
@@ -28,9 +29,11 @@
             </select>
             <input type="hidden" name="commu_name" id="commu_name" value="">
             <input type = "submit" value="등록" id = "register">
+
+            <c:if test="${communityBoardDto.ur_id eq currentLoginUser}">
             <input type ="button" value="수정" id = "modify">
             <input type = "button" value="삭제(상태병경)" id = "userStateChange" data-no="${communityBoardDto.no}" data-ur_state="${communityBoardDto.ur_state}">
-
+            </c:if>
         </div>
         <div><input id = "title" type ="text" name = "title" value= "${communityBoardDto.title}"></div>
 
@@ -64,7 +67,7 @@
                 return false; // 이미지가 없으면 폼 제출을 중단
             }
 
-            form.attr("action","<c:url value='/community/read'/>");
+            form.attr("action","<c:url value='/community/register'/>");
             form.attr("method","post");
             form.submit();
 
@@ -135,10 +138,6 @@
             });
             alert("삭제되었습니다");
         })
-
-
-
-
 
 
 

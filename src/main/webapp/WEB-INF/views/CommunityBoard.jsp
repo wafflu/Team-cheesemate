@@ -9,6 +9,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
+
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <html>
 <head>
@@ -45,20 +46,30 @@
     </c:if>
 
     ${communityBoardDto.view_cnt}
+        <div style="display:none;"  id ="alertDiv">
+            <p id = "edit">수정/삭제</p>
+            <p id="alert">신고</p>
 
-    <div style="display: none;" id = "alertDiv">
-        <p id = "edit">수정/삭제</p>
+        </div>
+
+
+
+
+
+
     </div>
 
-</div>
+
 </form>
 <script>
     $(document).ready(function() {
         $('.detail-button').on("click",function(){
             $('#alertDiv').show();
-            $('#edit').on("click",function (){
-                window.location.href = 'Board.jsp';
-            })
+
+        })
+        $('#edit').on("click",function (){
+            window.location.href = '/community/edit?no=${communityBoardDto.no}';
+
         })
 
     })

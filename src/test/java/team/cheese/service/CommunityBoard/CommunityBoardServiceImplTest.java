@@ -194,7 +194,7 @@ public  class CommunityBoardServiceImplTest {
         assertEquals(1,communityBoardService.getCount());
 
         communityBoardDto = communityBoardService.read(communityBoardDto.getno());
-        assertEquals('y',communityBoardDto.getur_state());
+        communityBoardService.findCommunityBoardById(communityBoardDto.getno());
 
 
         communityBoardDto.setur_state('n');
@@ -227,5 +227,33 @@ public  class CommunityBoardServiceImplTest {
         communityBoardDto.setur_state(state);
         assertEquals('n',communityBoardDto.getur_state());
         System.out.println(communityBoardDto.getur_state());
+    }
+
+
+    @Test
+    public void findCommunityBoardById()throws Exception{
+        //init
+        communityBoardDao.deleteAll();
+
+        CommunityBoardDto communityBoardDto = new CommunityBoardDto();
+        communityBoardDto.setur_id("user123");
+        communityBoardDto.setaddr_cd("11010720");
+        communityBoardDto.setaddr_no(1);
+        communityBoardDto.setcommu_cd("commu_L");
+        communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
+        communityBoardDto.setTitle("스테이트체인지 테스트");
+        communityBoardDto.setContents("스테이트체인자 테스트");
+        communityBoardDto.setNick("skyLee");
+
+        communityBoardService.write(communityBoardDto);
+        assertEquals(1,communityBoardService.getCount());
+
+        //given
+        communityBoardDto = communityBoardService.read(communityBoardDto.getno());
+        communityBoardService.findCommunityBoardById(communityBoardDto.getno());
+
+        //assert
+        assertEquals('y',communityBoardDto.getur_state());
+        System.out.println(communityBoardDto.toString());
     }
 }

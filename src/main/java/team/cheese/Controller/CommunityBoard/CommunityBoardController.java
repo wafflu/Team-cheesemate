@@ -1,29 +1,22 @@
 package team.cheese.Controller.CommunityBoard;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.expression.BeanExpressionContextAccessor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 
 @Controller
@@ -87,9 +80,10 @@ public  class CommunityBoardController {
 //                return "redirect:/ErrorPage";
 //            }
 //
+            HttpSession session = request.getSession();
+            String postOwnerUser = (String)session.getAttribute("ur_id");
 
-
-            communityBoardDto.setur_id("user123");
+            communityBoardDto.setur_id(postOwnerUser);
             communityBoardDto.setaddr_cd("11010720");
             communityBoardDto.setaddr_no(2);
             communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
@@ -192,6 +186,15 @@ public  class CommunityBoardController {
             return "";
         }
         return imgPath;
+    }
+
+
+    @RequestMapping(value="/edit" ,method = RequestMethod.GET)
+    public String Edit(Integer no, Model m , HttpServletRequest request) throws Exception {
+        System.out.println(no);
+        CommunityBoardDto communityBoardDto = communityBoardService.findCommunityBoardById(no);
+        m.addAttribute("communityBoardDto", communityBoardDto);
+        return "Board";
     }
 
 }

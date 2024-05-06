@@ -121,6 +121,14 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         return fileName;
     }
 
+    @Override
+    public CommunityBoardDto findCommunityBoardById(Integer no) throws Exception {
+        CommunityBoardDto entity = communityBoardDao.select(no);
+        if (entity == null) {
+            throw new Exception();
+        }
+        return entity;
+    }
 
 
 //    //PreparedInfo: 유저정보_세션아이디와 로그인 아이디가 일치하면 호출된다.
@@ -134,7 +142,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 //
 //        return communityBoardDto;
 //    }
-//
+
 
 
 
