@@ -22,7 +22,7 @@
             <td>${Sale.no}</td>
                 <%-- <td>${Board.title}</td> --%>
             <td class="title"><a href="<c:url value='/sale/read?no=${Sale.no}'/>">${Sale.title}</a></td>
-            <td>${Sale.seller_id}</td>
+            <td>${Sale.seller_nick}</td>
             <c:choose>
                 <c:when test="${Sale.r_date.time >= startOfToday}">
                     <td class="regdate"><fmt:formatDate

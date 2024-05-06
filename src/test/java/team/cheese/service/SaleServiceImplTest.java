@@ -43,7 +43,8 @@ public class SaleServiceImplTest extends TestCase {
 
     @Test
     public void testGetList() throws Exception {
-        List<SaleDto> list = saleService.getList();
+        String addr_cd = null;
+        List<SaleDto> list = saleService.getList(addr_cd);
         System.out.println(list.size());
         assertTrue(list.size() == 27);
     }

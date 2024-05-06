@@ -10,7 +10,7 @@ public interface SaleDao {
     int countUse() throws  Exception;
 
     // 판매글 전부 가져오기
-    List<SaleDto> selectAll() throws Exception;
+    List<SaleDto> selectAll(String addr_cd) throws Exception;
 
     // 판매글 번호를 이용하여 판매글 가져오기
     SaleDto select(Long no) throws Exception;

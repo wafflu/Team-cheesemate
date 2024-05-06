@@ -162,9 +162,9 @@ public class SaleDaoImplTest {
         // 1. 전체 글을 불러온다
         // 2. count를 한다
         // 3. 두 값을 비교 한다
-
+        String addr_cd = null;
         // 1. 전체 글을 불러온다
-        List<SaleDto> list = saleDao.selectAll();
+        List<SaleDto> list = saleDao.selectAll(addr_cd);
         // 2. count를 한다
         int cnt = saleDao.countUse();
 

@@ -33,15 +33,25 @@ public class SaleController {
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
     public String getList(@RequestParam(defaultValue = "0") int check_addr_cd, Model model, HttpSession session) throws Exception {
-        List<SaleDto> saleList = saleService.getList();
 
-        System.out.println(saleList.size());
-    
-        // 사용자의 기본 주소 첫번째
-        model.addAttribute("check_addr_cd", check_addr_cd);
-        
-        // 불러온 게시글 리스트를 모델에 담음
-        model.addAttribute("saleList", saleList);
+        // 1. 세션에서 정보를 불러옴
+        //  1.1. 로그인 한 경우
+        //    1.1.1. 유저의 로그인 정보 첫번째 주소를 불러옴
+        //  1.2. 로그인 하지 않은 경우
+        //    1.2.1. addr_cd값을 null로 전달
+
+        if(session.getAttribute("sessionId") != null) {
+
+        } else {
+            String addr_cd = (String) session.getAttribute("addr_cd");
+            List<SaleDto> saleList = saleService.getList(addr_cd);
+            System.out.println(saleList.size());
+
+            // 사용자의 기본 주소 첫번째
+            model.addAttribute("check_addr_cd", check_addr_cd);
+            // 불러온 게시글 리스트를 모델에 담음
+            model.addAttribute("saleList", saleList);
+        }
 
         return "/login/saleList";
     }

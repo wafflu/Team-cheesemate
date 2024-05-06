@@ -488,6 +488,17 @@
 
           // 등록하기 버튼 누르는 경우
           $("#submitBtn").on("click", function () {
+            
+            let title = $('input[name="title"]').val(); // 제목
+            let pro_s_cd = $('input[name="pro_s_cd"]').val(); // 상품상태
+            let contents = $('textarea[name="contents"]').val(); // 설명
+            let tx_s_cd = $('input[name="tx_s_cd"]').val(); // 판매/나눔
+            let price = $('input[name="price"]').val(); // 가격
+            let biding = $('input[name="biding"]').val(); // 가격제시/나눔신청
+            let reg_price = $('input[name="biding"]').val(); // 상품정가
+            let pickup_addr_name = $('input[name="pickup_addr_name"]').val(); // 거래장소
+            let detail_addr = $('input[name="detail_addr"]').val(); // 거래희망장소
+            let brand = $('input[name="brand"]').val(); // 브랜드
 
             // category1, category2, category3의 값 추출
             let category1Value = $("#category1").val();
@@ -504,38 +515,40 @@
                 sal_i_cd_value = category3Value;
             }
 
-            // FormData 객체 생성
-            let formData = new FormData(document.getElementById("writeForm"));
-
-            // JSON 객체 초기화
-            var jsonData = {};
-
-            // FormData 객체의 엔트리 반복
-            formData.forEach(function(value, key){
-                // JSON 객체에 엔트리 추가
-                jsonData[key] = value;
-            });
-
-            formData.append("sal_i_cd", sal_i_cd_value);
-
             // trade_s_cd 값 추출
             let trade_s_cd_values = [];
             $(".trade_s_cd:checked").each(function(index, checkbox) {
                 trade_s_cd_values.push($(checkbox).val());
             });
 
+            
             // trade_s_cd 파라미터 설정
-            let trade_s_cd_param;
             if (trade_s_cd_values.length === 1) {
-                formData.append("trade_s_cd_1", trade_s_cd_values[0]);
+              let trade_s_cd_1 = trade_s_cd_values[0];
             } else if (trade_s_cd_values.length === 2) {
-              formData.append("trade_s_cd_1", trade_s_cd_values[0]);
-              formData.append("trade_s_cd_2", trade_s_cd_values[1]);
+              let trade_s_cd_1 = trade_s_cd_values[0];
+              let trade_s_cd_2 = trade_s_cd_values[1];
+            }
+ 
+            let sale = {
+              "title": title,
+              "pro_s_cd": pro_s_cd,
+              "contents": contents,
+              "tx_s_cd": tx_s_cd,
+              "price": price,
+              "biding": biding,
+              "reg_price": reg_price,
+              "pickup_addr_name": pickup_addr_name,
+              "detail_addr": detail_addr,
+              "brand": brand,
+              "sal_i_cd": sal_i_cd_value,
+              "trade_s_cd_1": trade_s_cd_1
             }
 
-            // t_contents 추가
-            let t_contents = $("input[name='t_contents']").val;
-            formData.append("t_contents", t_contents);
+            // trade_s_cd_2 값이 존재하는 경우 sale 객체에 추가
+            if (trade_s_cd_2) {
+                sale["trade_s_cd_2"] = trade_s_cd_2;
+            }
 
             
             // jsonData를 JSON 문자열로 변환
