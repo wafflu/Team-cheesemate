@@ -2,6 +2,7 @@ package team.cheese;
 
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.domain.ImgDto;
 
@@ -121,7 +122,10 @@ public class ImgFactory {
 
         File uploadPath = new File(folderPath, datastr);
 
-        String uploadFileName = imgtype+"_"+datastr+"_"+imageFile.getName();
+        BCryptPasswordEncoder nameEncoder = new BCryptPasswordEncoder();
+
+//        String uploadFileName = imgtype+"_"+datastr+"_"+imageFile.getName();
+        String uploadFileName = nameEncoder.encode(imageFile.getName());
 
         /* 파일 위치, 파일 이름을 합친 File 객체 */
         File saveFile = new File(uploadPath, uploadFileName);

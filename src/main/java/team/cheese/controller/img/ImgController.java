@@ -1,5 +1,7 @@
 package team.cheese.controller.img;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -149,7 +151,6 @@ public class ImgController {
 
 
                 //미리보기이미지 경로저장
-//                ifc.Makeimg(imageFile, "r", 78, 78);
                 imgDto = ifc.setImginfo(imageFile, "r", 78, 78);
                 imgService.reg_img(gno, imgDto);
 
@@ -172,7 +173,7 @@ public class ImgController {
             }
         }
 
-        saleDao.insert_sale(makesale(gno, full_file_rt));
+//        saleDao.insert_sale(makesale(gno, full_file_rt));
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -182,14 +183,9 @@ public class ImgController {
     }
 
 
-//
     @RequestMapping("/testview")
     public String viewtest(Model model, HttpServletRequest request){
         ifc = imgService.path(request);
-//        HashMap map = new HashMap<>();
-//        map.put("tb_name", "sale");
-//        map.put("no", 21);
-//        List<ImgDto> list = imgService.read(map); // 이미지서비스
         List<SaleDto> list = saleDao.select_all();
         model.addAttribute("list", list);
 
@@ -211,7 +207,92 @@ public class ImgController {
         return "img/testdetail";
     }
 
-    public SaleDto makesale(int gno, String file_rt){
+    @RequestMapping("/modifyview")
+    public String modifyview(int no, Model model, HttpServletRequest request){
+        ifc = imgService.path(request);
+
+        SaleDto sdto = saleDao.select(no);
+        HashMap map = new HashMap();
+        map.put("tb_name", "sale");
+        map.put("no", sdto.getGroup_no());
+        List<ImgDto> list = imgService.read(map);
+
+        model.addAttribute("list", list);
+        model.addAttribute("sale", sdto);
+        return "img/modifyimg";
+    }
+
+    @RequestMapping("/reg_image2")
+    @ResponseBody
+    public ResponseEntity<String> reg_img2(@RequestBody Map<String, Object> map){
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        SaleDto sdto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
+
+        System.out.println("sdto : "+sdto);
+        System.out.println("idto : "+imgList);
+        if(imgList.size() == 0){
+            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+        }
+        try {
+            String folderPath = ifc.getFolderPath();
+
+            boolean change = true;
+
+            String datePath = ifc.todaystr();
+
+            /* 파일 저장 폴더 이름 */
+            File uploadPath = new File(folderPath, datePath);
+
+            //게시글 임의로 넣어둠 테스트를 위해서
+            int gno = imgService.getGno()+1;
+            String full_file_rt = "";
+
+            for (ImgDto img : imgList) {
+                try {
+                    String fname = folderPath+"/"+img.getFile_rt()+"/"+img.getO_name()+img.getE_name();
+
+                    File imageFile = new File(fname);
+
+                    String uploadFileName = datePath+"_"+img.getO_name()+img.getE_name();
+
+                    ImgDto imgDto = null;
+
+
+                    //미리보기이미지 경로저장
+                    imgDto = ifc.setImginfo(imageFile, "r", 78, 78);
+                    imgService.reg_img(gno, imgDto);
+
+                    //썸네일 이미지
+                    if(change){
+//                    System.out.println(imageFile);
+                        full_file_rt = img.getFile_rt()+"/s_"+datePath+"_"+img.getO_name()+img.getE_name();
+                        ifc.Makeimg(imageFile, "s", 292, 292);
+                        imgDto = ifc.setImginfo(imageFile, "s", 292, 292);
+                        imgService.reg_img(gno, imgDto);
+                        change = false;
+                    }
+
+                    //본문 이미지
+                    ifc.Makeimg(imageFile, "w", 856, 856);
+                    imgDto = ifc.setImginfo(imageFile, "w", 856, 856);
+                    imgService.reg_img(gno, imgDto);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            saleDao.insert_sale(makesale(sdto.getTitle(), sdto.getContents(), gno, full_file_rt));
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+        }
+        return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
+    }
+
+    public SaleDto makesale(String title, String con, int gno, String file_rt){
         SaleDto saledto = new SaleDto();
         saledto.setAddr_cd("11010720");
         saledto.setAddr_name("서울특별시 종로구 사직동");
@@ -226,8 +307,8 @@ public class ImgController {
         saledto.setTrade_s_cd_1("F");
         saledto.setTrade_s_cd_2("F");
         saledto.setSal_s_cd("S");
-        saledto.setTitle(gno+"번 판매글");
-        saledto.setContents("판매테스트중");
+        saledto.setTitle(title);
+        saledto.setContents(con);
         saledto.setPrice(35000);
         saledto.setBid_cd("N");
         saledto.setPickup_addr_cd("11060710");

@@ -1,4 +1,12 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: jehyeon
+  Date: 4/26/24
+  Time: 3:26 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title>Title</title>
@@ -6,34 +14,46 @@
 </head>
 <body>
 <form>
-  <input type="text" name="title">
-  <input type="text" name="contents">
   <div class="form_section_title">
     <label>상품 이미지</label>
   </div>
   <div class="form_section_content">
-    <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
+    <input type="file" id ="fileItem" name='uploadFile' multiple>
   </div>
   <button id="reg_img">등록</button>
-  <%--        <input type="submit" onclick="return imgreg()">--%>
-</form>
+  <br>
+  <c:forEach items="${list}" var="img">
+    <c:if test="${img.imgtype eq 'r'}">
+      <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">
+      <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+    </c:if>
+  </c:forEach>
+</form
 
-<h1 id="h1">click</h1>
+<%--<c:forEach items="${list}" var="img">--%>
+<%--  <c:if test="${img.imgtype eq 'r'}">--%>
+<%--    <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">--%>
+<%--    <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>--%>
+<%--  </c:if>--%>
+<%--</c:forEach>--%>
 
-
-<%--    <div id="imgboxtest">--%>
-<%--        <div class="imgDeleteBtn">x</div>--%>
-<%--&lt;%&ndash;        <img src="../../resources/images/cho.png">&ndash;%&gt;--%>
-<%--        <img src="/display?fileName=2024_04_13/cho.png">--%>
-<%--    </div>--%>
-
-<div id = "uploadResult">
-
-</div>
+<p>${sale}</p>
 
 <script>
+  let oriimginfo = [];
   let imginfo = [];
 
+  <c:forEach items="${list}" var="img">
+  <c:if test="${img.imgtype eq 'r'}">
+  oriimginfo.push("${img}");
+  </c:if>
+  </c:forEach>
+
+  oriimginfo.push("${img}");
+
+  console.log(oriimginfo);
+
+  /* 이미지 등록 */
   $("input[type='file']").on("change", function(e){
 
     let fileInput = $('input[name="uploadFile"]');
@@ -87,77 +107,28 @@
     uploadResult.append(str);
   }
 
-  /* 이미지 삭제 버튼 동작 */
-  $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
-    var index = $(".imgDeleteBtn").index(this);
-    // console.log("index : "+index)
-    imginfo.splice(index, 1);
-    console.log(imginfo);
-    deleteFile();
-  });
-
-  //
-  // $(".imgDeletBtn").click(function(){
-  //     deleteFile();
-  // });
-
-  // $("#h1").click(function(){
-  //   let test =[1,2,3,4,5];
-  //
-  //   $.ajax({
-  //     url: '/reg_image2',
-  //     type: 'GET', // POST 요청으로 변경
-  //     // contentType: 'application/json',
-  //     // data: JSON.stringify(test), // JSON 형식으로 데이터 전송
-  //     dataType: 'json',
-  //     success: function(result) {
-  //       alert("S : " + result);
-  //     },
-  //     error: function(result) {
-  //       alert("F : " + result);
-  //     }
-  //   });
-  // })
-
-  // let info = {
-  //   "imglist" : imginfo,
-  //   "person": { "name": "lee", "age": 24 }
-  // }
-
-
   //이미지 등록하기
   $("#reg_img").click(function (){
-
-    let saletitle = $('input[name="title"]').val();
-    let salecontents = $('input[name="contents"]').val();
-
-    let sale = {
-      "title" : saletitle,
-      "contents" : salecontents
-    }
-
-    let map =
-      {
-        "sale" : sale,
-        "img" : imginfo
-      };
-
+    // alert("asd")
+    let loc;
     $.ajax({
       url: '/img/reg_image2',
       type : 'POST',
       contentType : 'application/json',
       dataType : 'text',
-      data : JSON.stringify(map),
+      // async : false,
+      data : JSON.stringify(imginfo),
       success: function (result) {
-        location.replace(result);
+        // alert("S : "+result)
+        loc = result;
+        location.replace(loc);
       },
       error: function(result) {
-        alert("선택된 이미지가 없습니다." + result)
+        alert("선택된 이미지가 없습니다.")
       }
     });
     alert("등록되었습니다.")
   })
-
 
   /* 파일 삭제 메서드 */
   function deleteFile(){
@@ -184,27 +155,6 @@
         alert("파일을 삭제하지 못하였습니다.")
       }
     });
-  }
-
-  function showThumbnailImage(uploadResultArr){
-
-    /* 전달받은 데이터 검증 */
-    if(!uploadResultArr || uploadResultArr.length == 0){return}
-
-    let uploadResult = $("#uploadResult");
-    let str = "";
-
-    for(let i = 0; i<uploadResultArr.length; i++){
-      let obj = uploadResultArr[i];
-
-      let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
-
-      str += "<div id='result_card'>";
-      str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
-      str += "</div>";
-    }
-
-    uploadResult.append(str);
   }
 
 </script>

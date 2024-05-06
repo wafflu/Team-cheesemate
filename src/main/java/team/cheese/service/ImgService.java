@@ -29,6 +29,7 @@ public class ImgService {
 
     //최우선 실행되어야함
     public ImgFactory path(HttpServletRequest request){
+//        System.out.println("path : "+ System.getProperty("user.home")+"/Desktop" );
         ServletContext servletContext = request.getServletContext();
         String realPath = servletContext.getRealPath("/");
         String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
@@ -53,7 +54,7 @@ public class ImgService {
     }
 
     //rollbackFor = 지정된 예외
-    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+    @Transactional
     public boolean reg_img(int gno, ImgDto idto) throws Exception {
         try{
             int img = imgDao.insert(idto);
@@ -65,6 +66,10 @@ public class ImgService {
             throw new Exception("서버와의 연결이 끊겼습니다", e);
         }
         return true;
+    }
+
+    public int update(HashMap map){
+        return imgDao.update(map);
     }
 
     private HashMap imggroup(int gno, int imgno){
