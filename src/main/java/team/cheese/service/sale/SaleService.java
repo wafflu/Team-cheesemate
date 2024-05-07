@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 import team.cheese.dao.AdministrativeDao;
 import team.cheese.dao.SaleCategoryDao;
 import team.cheese.dao.SaleDao;
+import team.cheese.dao.TagDao;
 import team.cheese.domain.SaleDto;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SaleService {
@@ -18,6 +21,9 @@ public class SaleService {
     SaleCategoryDao saleCategoryDao;
     @Autowired
     AdministrativeDao administrativeDao;
+
+    @Autowired
+    TagDao tagDao;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -32,7 +38,7 @@ public class SaleService {
     }
 
     // 판매자가 판매 게시글을 작성할 때
-    public int write(SaleDto saleDto) throws Exception {
+    public int write(Map<String, Object> map) throws Exception {
         // insert 해주는 거 여기서 처리
 
         // 1. 필수로 들어와야 되는 값 체크
@@ -50,7 +56,12 @@ public class SaleService {
         //     3.1. 실패하면 rollback
         // 4. tag테이블에 tag정보 저장
         // 5. saleTag테이블에 교차정보 저장
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
         System.out.println("service write: " + saleDto);
+        List<String> tagList = new ArrayList<>();
+        for (String content : tagList) {
+            tagDao.insert(content);
+        }
 
         System.out.println("insert 성공 : " + saleDao.insert(saleDto));
         return saleDao.insert(saleDto);

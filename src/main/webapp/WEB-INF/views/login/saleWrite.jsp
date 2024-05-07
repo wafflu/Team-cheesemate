@@ -339,13 +339,11 @@
             // 대분류 선택 시 중분류 메시지
             $("#category1").change(function () {
               $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
-              loadCategory2();
             });
 
             // 중분류 선택 시 소분류 메시지
             $("#category2").change(function () {
               $("#salecategoryMsg").text("소분류를 선택하세요.");
-              loadCategory3();
             });
 
             // 소분류 선택 시 메시지 제거
@@ -385,7 +383,7 @@
                   }
                 },
                 error: function (xhr, status, error) {
-                  console.error("Error :", error);
+                    alert("error", error);
                 }
               });
             }
@@ -417,7 +415,7 @@
                   }
                 },
                 error: function (xhr, status, error) {
-                  console.error("Error :", error);
+                    alert("Error", error);
                 }
               });
             }
@@ -475,7 +473,7 @@
                   }
                 },
                 error: function (xhr, status, error) {
-                  console.error("Error: ", error);
+                    alert("Error", error);
                 }
               });
             });

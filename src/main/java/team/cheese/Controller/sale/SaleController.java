@@ -2,6 +2,8 @@ package team.cheese.controller.sale;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +11,14 @@ import team.cheese.dao.AdministrativeDao;
 import team.cheese.dao.SaleCategoryDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.dao.TagDao;
-import team.cheese.domain.*;
+import team.cheese.domain.AdministrativeDto;
+import team.cheese.domain.SaleCategoryDto;
+import team.cheese.domain.SaleDto;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/sale")
@@ -115,12 +117,17 @@ public class SaleController {
             tagList.add(tagContent);
         }
 
+        Map mapDto = new HashMap();
+        mapDto.put("saleDto", saleDto);
+        mapDto.put("tagList", tagList);
+
+
 //      세션에서 ID 값을 가지고 옴
         String ur_id = "asdf";
         saleDto.setSeller_id(ur_id);
         
         // Service를 통해 글 등록 처리
-        saleService.write(saleDto);
+        saleService.write(mapDto);
 
 //        System.out.println("tag 값 들어왔는지 확인 : " + tagDto);
         System.out.println("글 번호 : " + saleDto.getNo());
@@ -142,28 +149,43 @@ public class SaleController {
 //  ajax 요청을 처리해주는 URL등
     @PostMapping("/saleCategory2")
     @ResponseBody
-    public List<SaleCategoryDto> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
+    public ResponseEntity<List<SaleCategoryDto>> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
 //        System.out.println("대분류 번호 : " + category1);
 //        System.out.println(saleCategoryDao.selectCategory2(category1));
-        return saleCategoryDao.selectCategory2(category1);
+        try{
+            return new ResponseEntity<>(saleCategoryDao.selectCategory2(category1), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // ajax 판매 카테고리 처리(중분류)
     @RequestMapping("/saleCategory3")
     @ResponseBody
-    public List<SaleCategoryDto> getSaleCategory3(@RequestParam String category2, Model model) throws Exception {
+    public  ResponseEntity<List<SaleCategoryDto>> getSaleCategory3(@RequestParam String category2, Model model) throws Exception {
 //        System.out.println("중분류 번호 : " + category2);
 //        System.out.println(saleCategoryDao.selectCategory3(category2));
-        return saleCategoryDao.selectCategory3(category2);
+        try{
+            return new ResponseEntity<>(saleCategoryDao.selectCategory3(category2), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // ajax 판매 카테고리 처리(소분류)
     @RequestMapping("/searchLetter")
     @ResponseBody
-    public List<AdministrativeDto> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
+    public ResponseEntity<List<AdministrativeDto>> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
         // 검색어를 이용하여 판매글을 검색
 //        System.out.println("검색 내용 : " + searchLetter);
 //        System.out.println(administrativeDao.searchLetter(searchLetter));
-        return administrativeDao.searchLetter(searchLetter);
+        try{
+            return new ResponseEntity<>(administrativeDao.searchLetter(searchLetter), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
