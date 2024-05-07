@@ -24,7 +24,7 @@
     </insert>
 
     <select id="select_all" resultType="SaleDto">
-        select no, img_full_rt, seller_nick, title, reg_price, r_date, addr_name, group_no from sale where ur_state = 'Y';
+        select no, img_full_rt, seller_nick, title, reg_price, r_date, addr_name, group_no from sale where ur_state = 'Y' order by r_date desc;
     </select>
 
     <select id="select" parameterType="int" resultType="SaleDto">

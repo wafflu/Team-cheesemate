@@ -22,13 +22,18 @@
   </div>
   <button id="reg_img">등록</button>
   <br>
+</form>
+
+<div id = "uploadResult">
   <c:forEach items="${list}" var="img">
     <c:if test="${img.imgtype eq 'r'}">
+    <div id='result_card'>
       <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">
       <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+    </div>
     </c:if>
   </c:forEach>
-</form
+</div>
 
 <%--<c:forEach items="${list}" var="img">--%>
 <%--  <c:if test="${img.imgtype eq 'r'}">--%>
@@ -40,20 +45,26 @@
 <p>${sale}</p>
 
 <script>
-  let oriimginfo = [];
+
   let imginfo = [];
 
   <c:forEach items="${list}" var="img">
   <c:if test="${img.imgtype eq 'r'}">
-  oriimginfo.push("${img}");
+    imginfo.push(
+            {
+              "file_rt" : "${img.file_rt}",
+              "o_name" : "${img.o_name}",
+              "e_name" : "${img.e_name}"
+            }
+    )
+  <%--imginfo.push("${img}");--%>
   </c:if>
   </c:forEach>
 
-  oriimginfo.push("${img}");
+  <%--oriimginfo.push("${img}");--%>
 
-  console.log(oriimginfo);
+  console.log(imginfo);
 
-  /* 이미지 등록 */
   $("input[type='file']").on("change", function(e){
 
     let fileInput = $('input[name="uploadFile"]');
@@ -93,7 +104,7 @@
       let obj = uploadResultArr[i];
 
       // let fileCallPath = encodeURIComponent(obj.uploadPath + "/r_" + obj.uuid + "_" + obj.fileName);
-      let fileCallPath = encodeURIComponent(obj.file_rt + "/r_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
+      let fileCallPath = encodeURIComponent(obj.img_full_rt);
 
       str += "<div id='result_card'>";
       str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
@@ -107,54 +118,82 @@
     uploadResult.append(str);
   }
 
+  /* 이미지 삭제 버튼 동작 */
+  $("#uploadResult").on("click", ".imgDeleteBtn", function(e){
+    var index = $(".imgDeleteBtn").index(this);
+    // console.log("index : "+index)
+    imginfo.splice(index, 1);
+    let targetDiv = $("#result_card");
+    targetDiv.remove();
+    $("input[type='file']").val("");
+    // deleteFile();
+  });
+
+  let sale = {
+    "title" : "${sale.title}",
+    "contents" : "${sale.contents}",
+    "group_no" : ${sale.group_no}
+  }
+
   //이미지 등록하기
   $("#reg_img").click(function (){
-    // alert("asd")
-    let loc;
+
+    // let saletitle = $('input[name="title"]').val();
+    // let salecontents = $('input[name="contents"]').val();
+
+    alert("asdasd")
+
+    alert("sale : "+sale)
+    let map =
+            {
+              "sale" : sale,
+              "img" : imginfo
+            };
+
+    <%--alert(sale);--%>
+
     $.ajax({
-      url: '/img/reg_image2',
+      url: '/img/modify_image',
       type : 'POST',
-      contentType : 'application/json',
+      contentType : 'application/json; charset=UTF-8',
       dataType : 'text',
-      // async : false,
-      data : JSON.stringify(imginfo),
+      data : JSON.stringify(map),
       success: function (result) {
-        // alert("S : "+result)
-        loc = result;
-        location.replace(loc);
+        location.replace(result);
       },
-      error: function(result) {
-        alert("선택된 이미지가 없습니다.")
+      error: function(xhr, status, error) {
+        // 오류 발생 시 처리
+        var errorMessage = xhr.responseText;
+        console.error('Error:', error);
+        alert("오류 발생: " + errorMessage); // 서버에서 전달된 예외 메시지를 알림창으로 표시
       }
+      // error: function(result) {
+      //   alert("선택된 이미지가 없습니다." + result)
+      // }
     });
     alert("등록되었습니다.")
   })
 
-  /* 파일 삭제 메서드 */
-  function deleteFile(){
 
-    let targetFile = $(".imgDeleteBtn").data("file");
+  function showThumbnailImage(uploadResultArr){
 
-    let targetDiv = $("#result_card");
+    /* 전달받은 데이터 검증 */
+    if(!uploadResultArr || uploadResultArr.length == 0){return}
 
-    $.ajax({
-      url: '/img/deleteFile',
-      data : {fileName : targetFile},
-      dataType : 'text',
-      type : 'POST',
-      success : function(result){
-        console.log(result);
+    let uploadResult = $("#uploadResult");
+    let str = "";
 
-        targetDiv.remove();
-        $("input[type='file']").val("");
+    for(let i = 0; i<uploadResultArr.length; i++){
+      let obj = uploadResultArr[i];
 
-      },
-      error : function(result){
-        console.log(result);
+      let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
 
-        alert("파일을 삭제하지 못하였습니다.")
-      }
-    });
+      str += "<div id='result_card'>";
+      str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
+      str += "</div>";
+    }
+
+    uploadResult.append(str);
   }
 
 </script>

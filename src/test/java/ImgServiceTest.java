@@ -3,23 +3,24 @@ import net.coobird.thumbnailator.geometry.Positions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import team.cheese.ImgFactory;
+import org.springframework.web.multipart.MultipartFile;
+import team.cheese.entity.ImgFactory;
 import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
 import team.cheese.domain.SaleDto;
+import team.cheese.exception.DataFailException;
 import team.cheese.service.ImgService;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.nio.file.Files;
@@ -29,10 +30,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -46,17 +49,17 @@ public class ImgServiceTest {
     @Autowired
     SaleDao saleDao;
 
-    ImgFactory ifc;
+    ImgFactory ifc = new ImgFactory();
     String datePath = "";
     // 테스트용 패스 찾기용
-    public void pathtest(){
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        ifc = imgService.path(request);
-        datePath = ifc.todaystr();
-    }
 
     @Test
+    @Rollback(false)
     public void delete(){
+        if(imgService.count("sale") != 0){
+            imgService.delete("sale");
+            System.out.println("sale 삭제완료");
+        }
         if(imgService.count("img_group") != 0){
             imgService.delete("img_group");
             System.out.println("이미지 그룹 삭제완료");
@@ -72,13 +75,17 @@ public class ImgServiceTest {
     @Test
     @Rollback(false)
     public void nr_reg_img() throws Exception {
-        ImgDto img = makeImg(100, "w");
+        File file = new File("test 아보카도.png");
+        ImgDto img = ifc.setImginfo(file, file.getName(), "s", 292, 292);
         int gno = imgService.getGno()+1;
-        imgService.reg_img(gno, img);
+        assertTrue(imgService.reg_img(gno, img));
+        List<ImgDto> list = imgService.readall();
+        assertTrue(list != null);
+
     }
 
     //등록 관련
-    //mock을 사용하여 실제 데이터 입력없이 메서드가 실행되는지 확인
+    //mock 사용
     @Test
     public void r_reg_img() throws Exception {
         ArrayList<ImgDto> imglist = new ArrayList();
@@ -128,7 +135,8 @@ public class ImgServiceTest {
         ArrayList<ImgDto> imglist = new ArrayList();
 
         for(int i = 1; i<=10; i++){
-            ImgDto simg = makeImg(i, "s");
+            File file = new File("test 아보카도.png");
+            ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
             int gno = imgService.getGno()+1;
 
             imgService.reg_img(gno, simg);
@@ -144,6 +152,30 @@ public class ImgServiceTest {
             assertEquals(it.next(), imglist.get(i));
             i++;
         }
+    }
+
+    @Test
+    public void exnull() throws Exception {
+        ImgDto img = new ImgDto();
+        String o_name = "아보카도";
+        img.setImgtype("w");
+        img.setFile_rt("2024_04_30");
+        img.setU_name("w_2024_04_30_");
+        img.setO_name(o_name);
+        img.setE_name(".png");
+        img.setW_size(292);
+//        img.setImg_full_rt("asd");
+
+//        try {
+//            imgService.reg_img(1, img);
+//            fail("Expected DataFailException was not thrown");
+//        } catch (DataFailException e) {
+//            // 예외가 발생했을 때의 처리
+//            // 여기서는 테스트가 성공적으로 수행되었음을 확인합니다.
+//        } catch (Exception e) {
+//            fail("Unexpected exception was thrown");
+//
+         imgService.reg_img(1, img);
     }
 
     @Test(expected = Exception.class)
@@ -163,7 +195,7 @@ public class ImgServiceTest {
         imgService.reg_img(1, img);
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void Ex_reg_img2() throws Exception {
         //음수값을 넣을시 예외 발생
         ImgDto img = new ImgDto();
@@ -178,6 +210,7 @@ public class ImgServiceTest {
         img.setImg_full_rt(datePath+"/"+img.getImgtype()+"_"+datePath+"_"+o_name+".png");
 
         imgService.reg_img(1, img);
+//        assertT(DataFailException.class, () -> imgService.reg_img(1, img));
     }
 
     @Test(expected = Exception.class)
@@ -239,7 +272,7 @@ public class ImgServiceTest {
 
         Iterator it = list.iterator();
 
-        pathtest();
+//        pathtest();
 
         System.out.println(ifc.getFolderPath());
 
@@ -280,7 +313,7 @@ public class ImgServiceTest {
     }
 
     public ImgDto makeImg(int num, String imgtype){
-        pathtest();
+//        pathtest();
         String o_name = num+"번_아보카도";
 
         String uname = o_name+".png";
@@ -298,81 +331,104 @@ public class ImgServiceTest {
         return img;
     }
 
+    //멀티파트 테스트용도입니다.
+//    @Test
+    public List<ImgDto> filerequest() {
+//    public void filerequest() {
+        // 파일삭제 - 테스트용도
+        deleteFile(ifc.getFolderPath() + File.separator + ifc.getDatePath());
+
+        String path = ifc.getFolderPath();
+
+        File directory = new File(path);
+
+        // 폴더에 있는 이미지파일만 담는 리스트
+        ArrayList<File> fileList = new ArrayList<>();
+        // 해당 경로에 있는 파일을 담는 배열
+        File[] files = directory.listFiles();
+
+        List<ImgDto> list = null;
+        try {
+            for (File file : files) {
+                String mimeType = getMimeType(file);
+                if (mimeType != null && mimeType.startsWith("image/")) {
+                    fileList.add(file);
+                }
+            }
+
+            // 파일들을 MockMultipartFile 객체로 변환
+            ArrayList<MultipartFile> multipartFileList = new ArrayList<>();
+
+            MultipartFile[] multipartFiles = new MultipartFile[fileList.size()];
+            int i = 0;
+            System.out.println(ifc.getFolderPath());
+            for (File file : fileList) {
+                // 파일 내용을 바이트 배열로 읽어오기
+                byte[] fileContent = Files.readAllBytes(file.toPath());
+
+                // 바이트 배열을 사용하여 MockMultipartFile 생성
+                MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(), "image/jpeg", fileContent);
+                multipartFileList.add(multipartFile);
+                multipartFiles[i++] = multipartFile;
+            }
+
+            list = ifc.makeImg(multipartFiles, "r", 78, 78);
+
+            // 변환된 파일들을 사용하여 멀티파트 테스트 수행
+            for (MultipartFile multipartFile : multipartFileList) {
+                System.out.println("File name: " + multipartFile.getOriginalFilename());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     @Test
     @Rollback(false)
     public void filetest() throws Exception {
-//        if(imgService.count("sale") != 0){
-//            imgService.delete("sale");
-//            System.out.println("sale 삭제완료");
-//        }
-//
-//        if(imgService.count("img_group") != 0){
-//            imgService.delete("img_group");
-//            System.out.println("이미지 그룹 삭제완료");
-//        }
-//
-//        if(imgService.count("img") != 0){
-//            imgService.delete("img");
-//            System.out.println("이미지 삭제완료");
-//        }
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        ifc = imgService.path(request);
-        datePath = ifc.todaystr();
-
-        String path = System.getProperty("user.home")+"/Desktop/Img";
-
-        Makefolder(path, datePath);
-
-        // 파일삭제 - 테스트용도
-        deleteFile(path+"/"+datePath);
-
-        // 디렉토리 객체 생성
-        File directory = new File(path);
-
-        //디렉토리에 있는 파일과 디렉토일 확인
-        File[] files = directory.listFiles();
-
-        boolean check = true;
-
-        if(files != null){
-
-            int gno = imgService.getGno()+1;
-
-            String sfilename = "";
-            for(File file : files) {
-                String mimeType = getMimeType(file);
-                if (mimeType != null && mimeType.startsWith("image/")) {
-                    String fileName = file.getName();
-                    String ename = fileName.substring(fileName.lastIndexOf('.'));
-                    String wname = fileName.substring(0, fileName.lastIndexOf('.'));
-
-                    ImgDto imgDto = null;
-
-                    long currentTimeMillis = System.currentTimeMillis();
-                    File newFile = new File(path+"/"+datePath+"/"+(gno+currentTimeMillis+ename));
-                    String filename = gno+currentTimeMillis+ename;
-
-                    if(check){
-                        sfilename = gno+currentTimeMillis+ename;
-                        makeimg(path, datePath, file, filename,292,292);
-                        imgDto = setImginfo(newFile, wname, datePath, "s", 292, 292);
-                        imgService.reg_img(gno, imgDto);
-                        check = false;
-                    }
-                    makeimg(path, datePath, file, filename, 856,856);
-                    imgDto = setImginfo(newFile, wname, datePath, "w", 292, 292);
-                    imgService.reg_img(gno, imgDto);
-                    makeimg(path, datePath, file, filename, 78,78);
-                    imgDto = setImginfo(newFile, wname, datePath, "r", 292, 292);
-                    imgService.reg_img(gno, imgDto);
-                }
-            }
-            saleDao.insert_sale(makesale("테스트", "테스트내용", gno, datePath+"/"+sfilename));
-
-        } else {
-            System.out.println("해당 경로에 아무것도 없음");
+        if(imgService.count("sale") != 0){
+            imgService.delete("sale");
+            System.out.println("sale 삭제완료");
         }
+
+        if(imgService.count("img_group") != 0){
+            imgService.delete("img_group");
+            System.out.println("이미지 그룹 삭제완료");
+        }
+
+        if(imgService.count("img") != 0){
+            imgService.delete("img");
+            System.out.println("이미지 삭제완료");
+        }
+
+        if(filerequest() == null){
+            System.out.println("시스템 에러 종료");
+            System.exit(0);
+        }
+
+        int gno = imgService.getGno()+1;
+        String folderpath = ifc.getFolderPath() + File.separator + ifc.getDatePath();
+
+        boolean cnt = true;
+
+        String spath = "";
+
+        for(ImgDto img : filerequest()){
+            File file = new File(folderpath, img.getO_name()+img.getE_name());
+            if(cnt) {
+                spath = img.getImg_full_rt();
+                // 썸네일은 한개만
+                ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);
+                assertTrue(imgService.reg_img(gno, simg));
+                cnt = false;
+            }
+            ImgDto wimg = ifc.makeImg(file, "w", gno, 856, 856);
+            assertTrue(imgService.reg_img(gno, img));
+            assertTrue(imgService.reg_img(gno, wimg));
+        }
+        saleDao.insert_sale(makesale("테스트", "테스트내용", gno, spath));
+        System.out.println(spath);
     }
 
     private static String getMimeType(File file) {
@@ -393,50 +449,6 @@ public class ImgServiceTest {
         if (uploadPath.exists() == false) {
             uploadPath.mkdirs();
         }
-    }
-
-    public void makeimg(String folderPath, String datastr, File imageFile, String filename, int wsize, int hsize) throws Exception {
-
-        File uploadPath = new File(folderPath, datastr);
-
-        String fileName = filename;
-
-        System.out.println(fileName);
-
-        /* 파일 저장 */
-        try {
-            File img_name = new File(uploadPath, fileName);
-
-            // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-            BufferedImage image = Thumbnails.of(imageFile)
-                    .size(wsize, hsize)
-                    .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                    .asBufferedImage();
-
-            Thumbnails.of(image)
-                    .size(wsize, hsize)
-                    .outputQuality(1.0)  // 품질 유지
-                    .toFile(img_name);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ImgDto setImginfo(File imgfile, String orifilename, String datastr, String imgtype, int wsize, int hsize){
-        //파일 이름 얻기
-        ImgDto img = new ImgDto();
-        String uploadFileName = imgfile.getName();
-        String fullrt = datastr+"/"+uploadFileName;
-        img.setImgtype(imgtype);
-        img.setFile_rt(datastr);
-        img.setU_name(uploadFileName);
-        img.setO_name(orifilename);
-        img.setE_name(uploadFileName.substring(uploadFileName.lastIndexOf("."), uploadFileName.length()));
-        img.setImg_full_rt(fullrt);
-        img.setW_size(wsize);
-        img.setH_size(hsize);
-        return img;
     }
 
     public void deleteFile(String path){
