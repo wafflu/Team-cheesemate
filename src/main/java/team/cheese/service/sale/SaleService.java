@@ -48,7 +48,11 @@ public class SaleService {
         // 2. sale 테이블에 insert
         // 3. sale_history 테이블에 insert
         //     3.1. 실패하면 rollback
+        // 4. tag테이블에 tag정보 저장
+        // 5. saleTag테이블에 교차정보 저장
+        System.out.println("service write: " + saleDto);
 
+        System.out.println("insert 성공 : " + saleDao.insert(saleDto));
         return saleDao.insert(saleDto);
     }
 

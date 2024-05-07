@@ -20,13 +20,13 @@ public class SaleDto {
     private String sal_s_cd;
     private String title;
     private String contents;
-    private int price;
+    private Integer price;
     private String bid_cd;
     private String pickup_addr_cd;
     private String pickup_addr_name;
     private String detail_addr;
     private String brand;
-    private int reg_price;
+    private Integer reg_price;
     private String buyer_id;
     private  String buyer_nick;
     private int like_cnt;
@@ -175,11 +175,11 @@ public class SaleDto {
         this.contents = contents;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -223,11 +223,11 @@ public class SaleDto {
         this.brand = brand;
     }
 
-    public int getReg_price() {
+    public Integer getReg_price() {
         return reg_price;
     }
 
-    public void setReg_price(int reg_price) {
+    public void setReg_price(Integer reg_price) {
         this.reg_price = reg_price;
     }
 

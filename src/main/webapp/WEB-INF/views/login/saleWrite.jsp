@@ -129,8 +129,7 @@
               <div class="division-line"></div>
               <div id="register_img">
                 <p>
-                  상품이미지(<span id="img_count">0</span>/10) <input type="file" id="imageBtn" name="imagename" ' multiple='
-                    multiple'>
+                  상품이미지(<span id="img_count">0</span>/10) <input type="file" id="imageBtn" name="imagename" multiple='multiple'>
                 </p>
               </div>
               <p>
@@ -177,9 +176,9 @@
                 상품가격
                 <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0"/>
               </p>
-              <p hidden><input type="radio" name="biding" value="N"/> 미사용 </p>
-              <p class="proposal" hidden><input class="proposal" type="radio" name="biding" value="P"/> 가격제안받기</p>
-              <p class="trade" hidden><input class="trade" type="radio" name="biding" value="T" /> 나눔신청받기</p>
+              <p hidden><input type="radio" name="bid_cd" value="N"/> 미사용 </p>
+              <p class="proposal" hidden><input class="proposal" type="radio" name="bid_cd" value="P"/> 가격제안받기</p>
+              <p class="trade" hidden><input class="trade" type="radio" name="bid_cd" value="T" /> 나눔신청받기</p>
               <p>
                 상품정가(선택)
                 <input type="number" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." min="0"/>
@@ -204,7 +203,9 @@
                   </div>
                 </div>
               </div>
-              <p>거래장소 <input id="pickup_addr" name="pickup_addr_name" type="text" value="" disabled></p>
+              <p>거래장소
+                <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="" hidden="hidden">
+                <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="" disabled></p>
               <p>
                 거래희망장소(선택)
                 <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." value=""/>
@@ -293,8 +294,9 @@
             }
         });
 
+          // tag값 배열 초기화
+          let t_contents = [];
 
-          // 
           document
             .getElementById("hashtagInput")
             .addEventListener("input", function () {
@@ -303,6 +305,9 @@
               // 기존의 해시태그를 모두 삭제
               let container = document.getElementById("hashtagContainer");
               container.innerHTML = "";
+
+              // 배열 초기화
+              t_contents = [];
 
               // 각 해시태그를 별도의 input 요소에 추가하여 표시
               hashtags.forEach(function (tag) {
@@ -317,9 +322,14 @@
                 // 해시태그의 글자 수에 따라 너비 동적 조절
                 input.style.width = (tag.length + 3) * 3 + "vw";
 
+                // 해시태그를 배열에 추가
+                t_contents.push("#" + tag);
+
                 container.appendChild(input);
                 container.appendChild(document.createTextNode(" ")); // 각 해시태그 뒤에 공백 추가
               });
+              // t_contents 배열 출력 (테스트용)
+              console.log(t_contents);
             });
 
           $(document).ready(function () {
@@ -479,7 +489,8 @@
               let addrName = $(this).find("td:eq(1)").text(); // 두 번째 td 열의 텍스트 (주소명)
 
               // pickup_addr input에 선택한 주소 정보를 추가
-              $("#pickup_addr").val(addrName);
+              $("#pickup_addr_cd").val(addrCode);
+              $("#pickup_addr_name").val(addrName);
 
               // 모달 닫기
               closeModal();
@@ -494,8 +505,9 @@
             let contents = $('textarea[name="contents"]').val(); // 설명
             let tx_s_cd = $('input[name="tx_s_cd"]').val(); // 판매/나눔
             let price = $('input[name="price"]').val(); // 가격
-            let biding = $('input[name="biding"]').val(); // 가격제시/나눔신청
-            let reg_price = $('input[name="biding"]').val(); // 상품정가
+            let bid_cd = $('input[name="bid_cd"]').val(); // 가격제시/나눔신청
+            let reg_price = $('input[name="reg_price"]').val(); // 상품정가
+            let pickup_addr_cd = $('input[name="pickup_addr_cd"]').val(); // 거래장소코드
             let pickup_addr_name = $('input[name="pickup_addr_name"]').val(); // 거래장소
             let detail_addr = $('input[name="detail_addr"]').val(); // 거래희망장소
             let brand = $('input[name="brand"]').val(); // 브랜드
@@ -521,58 +533,59 @@
                 trade_s_cd_values.push($(checkbox).val());
             });
 
-            
-            // trade_s_cd 파라미터 설정
-            if (trade_s_cd_values.length === 1) {
-              let trade_s_cd_1 = trade_s_cd_values[0];
-            } else if (trade_s_cd_values.length === 2) {
-              let trade_s_cd_1 = trade_s_cd_values[0];
-              let trade_s_cd_2 = trade_s_cd_values[1];
-            }
- 
             let sale = {
               "title": title,
               "pro_s_cd": pro_s_cd,
               "contents": contents,
               "tx_s_cd": tx_s_cd,
               "price": price,
-              "biding": biding,
+              "bid_cd": bid_cd,
               "reg_price": reg_price,
+              "pickup_addr_cd": pickup_addr_cd,
               "pickup_addr_name": pickup_addr_name,
               "detail_addr": detail_addr,
               "brand": brand,
-              "sal_i_cd": sal_i_cd_value,
-              "trade_s_cd_1": trade_s_cd_1
+              "sal_i_cd": sal_i_cd_value
+            }
+            
+            // trade_s_cd 파라미터 설정
+            if (trade_s_cd_values.length === 1) {
+              sale["trade_s_cd_1"] = trade_s_cd_values[0];
+            } else if (trade_s_cd_values.length === 2) {
+              sale["trade_s_cd_1"] = trade_s_cd_values[0];
+              sale["trade_s_cd_2"] = trade_s_cd_values[1];
             }
 
-            // trade_s_cd_2 값이 존재하는 경우 sale 객체에 추가
-            if (trade_s_cd_2) {
-                sale["trade_s_cd_2"] = trade_s_cd_2;
+            let tag = {
+              "contents" : t_contents
             }
+
+            console.log(tag);
+
+            let map =
+                    {
+                      "sale" : sale,
+                      "tag" : tag
+                    };
 
             
             // jsonData를 JSON 문자열로 변환
-            let jsonString = JSON.stringify(jsonData); 
+            let jsonString = JSON.stringify(map); 
 
-            console.log("jsonString : ", jsonString);
             alert(jsonString);
+
             $.ajax({
               type: 'POST',
               url: '/sale/write',
               // contentType: 'multipart/form-data; charset=utf-8',
               contentType: 'application/json; charset=utf-8',
-              // contentType : false,
-              // processData : false,
               data: jsonString,
-              dataType: 'json',
+              dataType: 'text',
               success: function (data) {
                 alert(data);
                 console.log("성공");
-                // location.reload();
-                // window.location.href = "/sale/list";
               },
               error: function (xhr, status, error) {
-                // alert(error);
                 alert("등록 중 오류가 발생했습니다.");
               }
             });

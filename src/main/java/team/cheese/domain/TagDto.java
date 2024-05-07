@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class TagDto {
     private Long no; // 태그 번호
-    private String t_contents; // 태그 내용
+    private String contents; // 태그 내용
     private char state; // 상태
 
     private Timestamp first_date;
@@ -19,8 +19,8 @@ public class TagDto {
     public TagDto() {
     }
 
-    public TagDto(String t_contents) {
-        this.t_contents = t_contents;
+    public TagDto(String contents) {
+        this.contents = contents;
     }
 
     public Long getNo() {
@@ -32,11 +32,11 @@ public class TagDto {
     }
 
     public String getContents() {
-        return t_contents;
+        return contents;
     }
 
-    public void setContents(String t_contents) {
-        this.t_contents = t_contents;
+    public void setContents(String contents) {
+        this.contents = contents;
     }
 
     public char getState() {
@@ -84,19 +84,19 @@ public class TagDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TagDto tagDto = (TagDto) o;
-        return state == tagDto.state && Objects.equals(no, tagDto.no) && Objects.equals(t_contents, tagDto.t_contents) && Objects.equals(first_date, tagDto.first_date) && Objects.equals(first_id, tagDto.first_id) && Objects.equals(last_date, tagDto.last_date) && Objects.equals(last_id, tagDto.last_id);
+        return state == tagDto.state && Objects.equals(no, tagDto.no) && Objects.equals(contents, tagDto.contents) && Objects.equals(first_date, tagDto.first_date) && Objects.equals(first_id, tagDto.first_id) && Objects.equals(last_date, tagDto.last_date) && Objects.equals(last_id, tagDto.last_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, t_contents, state, first_date, first_id, last_date, last_id);
+        return Objects.hash(no, contents, state, first_date, first_id, last_date, last_id);
     }
 
     @Override
     public String toString() {
         return "TagDto{" +
                 "no=" + no +
-                ", t_contents='" + t_contents + '\'' +
+                ", contents='" + contents + '\'' +
                 ", state=" + state +
                 ", first_date=" + first_date +
                 ", first_id='" + first_id + '\'' +
