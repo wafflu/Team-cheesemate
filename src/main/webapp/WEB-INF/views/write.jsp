@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -81,12 +82,12 @@
         <div class="form-group">
             <label>시작일</label>
             <input type="date" class="form-control" id="s_date"
-                   name="s_date" ${readonly} value=${s_date}>
+                   name="s_date" ${readonly} value=<fmt:formatDate value="${dto.s_date}" pattern="yyyy-MM-dd" />>
         </div>
         <div class="form-group">
             <label>종료일</label>
             <input type="date" class="form-control" id="e_date"
-                    name="e_date" ${readonly} value=${e_date}>
+                    name="e_date" ${readonly} value=<fmt:formatDate value="${dto.e_date}" pattern="yyyy-MM-dd" />>
         </div>
         <div class="form-group">
             <select id="user_select" name="evt_cd" label="회원 분류" ${readonly==readonly?disabled:""} />

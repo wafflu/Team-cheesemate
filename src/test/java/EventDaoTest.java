@@ -1,3 +1,4 @@
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class EventDaoTest {
     @Autowired()
     EventDao eventDao;
-
+//  1. create test
 
 
     EventDto dto1 = new EventDto("E","F","이벤트 1", "상품권 이벤트", new Date(2024/02/01), new Date(2024/02/30),1,"src", "도서 상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
@@ -30,7 +31,6 @@ public class EventDaoTest {
     EventDto dto5 = new EventDto("이벤트 5", "치즈 마켓 장바구니 증정 이벤트", "이벤트 관리자", new Date(2024/04/30), new Date(2024/05/07), "N", "치즈마켓 장바구니");
     EventDto dto6 = new EventDto("이벤트 6", "치즈 마켓 머그컵 증정 이벤트", "이벤트 관리자", new Date(2024/04/30), new Date(2024/05/30), "R", "치즈마켓머그컵");
     ArrayList<EventDto> dtoList = new ArrayList<>();
-
     public EventDaoTest(){
         dtoList.add(dto1);
         dtoList.add(dto2);
@@ -39,7 +39,7 @@ public class EventDaoTest {
         dtoList.add(dto5);
         dtoList.add(dto6);
     }
-    @Before
+    @After
     public void setup() throws  Exception {
         eventDao.deleteAll();
         assertTrue(eventDao.count("")==0);
@@ -53,6 +53,14 @@ public class EventDaoTest {
 
     @Test
     public void countTest() throws Exception {
+        eventDao.deleteAll();
+        assertTrue(eventDao.count("")==0);
+        eventDao.autoIncreaseReset();
+        for(int i = 0 ; i < 100 ; i++) {
+            for(EventDto dto : dtoList) {
+                assertTrue(1 == eventDao.insert(dto));
+            }
+        }
         String nowcd = "C";
         int C = eventDao.count(nowcd);
         assertTrue(C >= 0);
@@ -69,7 +77,16 @@ public class EventDaoTest {
         System.out.printf("all:%d, C:%d, P: %d, F: %d",all,C,P,F);
     }
     @Test
-    public void selectPPageTest() throws  Exception{
+    //성공 테스트
+    public void select_P_PageTest() throws  Exception{
+        eventDao.deleteAll();
+        assertTrue(eventDao.count("")==0);
+        eventDao.autoIncreaseReset();
+        for(int i = 0 ; i < 100 ; i++) {
+            for(EventDto dto : dtoList) {
+                assertTrue(1 == eventDao.insert(dto));
+            }
+        }
         int pageSize = 8;
         int maxnum = eventDao.count("P");
         int nowpage = (int)(Math.random()*(maxnum/8)+1);
@@ -82,7 +99,18 @@ public class EventDaoTest {
         }
     }
     @Test
+    //실패
+    public void select_P_PageTest_Fail() throws  Exception{}
+    @Test
     public void selectALLPageTest() throws  Exception{
+        eventDao.deleteAll();
+        assertTrue(eventDao.count("")==0);
+        eventDao.autoIncreaseReset();
+        for(int i = 0 ; i < 100 ; i++) {
+            for(EventDto dto : dtoList) {
+                assertTrue(1 == eventDao.insert(dto));
+            }
+        }
         int pageSize = 8;
         int maxnum = eventDao.count("");
         int nowpage = (int)(Math.random()*(maxnum/8)+1);
@@ -94,27 +122,24 @@ public class EventDaoTest {
             assertTrue(dtoList.get(i % 6).equals(arr.get(i)));
         }
     }
-//    @Test
-//    public void insertTest() throws Exception {
-//        eventDao.deleteAll();
-//        assertTrue(eventDao.count("")==0);
-//        eventDao.autoIncreaseReset();
-//        for(int i = 0 ; i < 100 ; i++) {
-//            for(EventDto dto : dtoList) {
-//                assertTrue(1 == eventDao.insert(dto));
-//            }
-//        }
-//        assertTrue(eventDao.count("") == 600);
-//        assertTrue(eventDao.count("P")==400);
-//        assertTrue(eventDao.count("F")==100);
-//        assertTrue(eventDao.count("c")==100);
-//
-//        for(int i = 0 ; i < 10 ; i++) {
-//            int r = ((int) (Math.random() * eventDao.count("")))+ 1;
-//            assertTrue(dtoList.get((r-1)% dtoList.size()).equals(eventDao.selectContent(Long.valueOf(r))));
-//        }
-//    }
-//
+    @Test
+    public void insertTest() throws Exception {
+        eventDao.deleteAll();
+        assertTrue(eventDao.count("")==0);
+        eventDao.autoIncreaseReset();
+        for(EventDto dto : dtoList) {
+            assertTrue(1 == eventDao.insert(dto));
+        }
+
+        assertTrue(eventDao.count("") == 6);
+        assertTrue(eventDao.count("P")==4);
+        assertTrue(eventDao.count("F")==1);
+        assertTrue(eventDao.count("c")==1);
+        for(int i=1; i<=eventDao.count(""); i++) {
+            assertTrue(eventDao.selectContent(Long.valueOf(i)).equals(dtoList.get(i)));
+        }
+    }
+
     @Test
     public void selectContentsTest() throws Exception {
         System.out.println(eventDao.selectContent(Long.valueOf(1)).getEvt_cd());
@@ -140,6 +165,7 @@ public class EventDaoTest {
         Map map = new HashMap();
         map.put("searchCd", "title");
         map.put("searchContent", "2월");
+
     }
     @Test
     public void searchDaoTest2() throws Exception {

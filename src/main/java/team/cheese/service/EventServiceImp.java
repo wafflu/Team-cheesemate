@@ -62,4 +62,9 @@ public class EventServiceImp implements EventService {
     public int changeState(EventDto dto){
         return dao.updatestate(dto);
     }
+
+    public int modifyEvent(EventDto dto){
+        return dao.updatecontent(dto);
+    }
+
 }

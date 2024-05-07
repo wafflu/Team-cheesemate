@@ -244,6 +244,6 @@ public class EventDto {
 
     @Override
     public int hashCode() {
-        return Objects.hash(evt_cd, title, contents, s_date, e_date, r_date, group_no, active_s_cd, prize);
+        return Objects.hash(evt_cd, title, contents, s_date, e_date, r_date, group_no, active_s_cd, prize, ad_id);
     }
 }

@@ -73,6 +73,7 @@ public class EventController {
     @ResponseBody
     public List<EventDto> SearchAjax(@RequestBody SearchDto dto) {
         System.out.println("Welcom Ajax");
+        System.out.println(dto);
         int nowpage = 1;
         EventPageHanddler ph = new EventPageHanddler(service.searchCount(dto.getCd(),dto.getContents()),nowpage);
         List<EventDto> arr=service.getSearchList(dto.getCd(), dto.getContents(), ph.getStartBno());
