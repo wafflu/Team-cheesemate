@@ -69,17 +69,7 @@ public  class CommunityBoardController {
 
         @RequestMapping(value = "/register", method = RequestMethod.POST)
         public String write(MultipartHttpServletRequest multi, CommunityBoardDto communityBoardDto, Model m, RedirectAttributes redirectAttributes,HttpServletRequest request) throws Exception {
-//            //1.세션값에 저장된 아이디와 세션이 일치하는지 확인해아햔다.->현재 임의 설정
-//            HttpSession session = request.getSession(true);
-//            session.setAttribute("ur_id", "user123");
-//            String session_id = (String) session.getAttribute("ur_id");
-//
-//            //2.세션값에 저장된 아이디가 일치하지않거나 없는 경우 예외처리
-//            if(session_id==null){
-//                redirectAttributes.addFlashAttribute("error","유효하지 않습니다.");
-//                return "redirect:/ErrorPage";
-//            }
-//
+
             HttpSession session = request.getSession();
             String postOwnerUser = (String)session.getAttribute("ur_id");
 
@@ -127,17 +117,24 @@ public  class CommunityBoardController {
         }
      //읽기
      @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public String read(Integer no, Model m) throws Exception {
+    public String read(Integer no, Model m,RedirectAttributes redirectAttributes) throws Exception {
+        try {
+            CommunityBoardDto communityBoardDto = communityBoardService.read(no);
+            m.addAttribute("communityBoardDto", communityBoardDto);
+
+            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
+            m.addAttribute("imagePath", imagePath);
+            System.out.println(communityBoardDto);
+            return "/CommunityBoard";
+        }catch (IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "/ErrorPage";
+        }
 
 
-        CommunityBoardDto communityBoardDto = communityBoardService.read(no);
-        m.addAttribute("communityBoardDto", communityBoardDto);
 
 
-        String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
-        m.addAttribute("imagePath", imagePath);
-         System.out.println(communityBoardDto);
-        return "/CommunityBoard";
+
     }
 
 
@@ -146,13 +143,15 @@ public  class CommunityBoardController {
     //세션값 필요
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public String update(CommunityBoardDto communityBoardDto, Model m,HttpServletRequest request,RedirectAttributes redirectAttributes) throws Exception {
+        try{
+            communityBoardService.modify(communityBoardDto);
+            m.addAttribute("communityBoardDto", communityBoardDto);
+        }catch (IllegalArgumentException e){
+            redirectAttributes.addFlashAttribute("error",e.getMessage());
+            return "redirect:/community/home" + communityBoardDto.getno();
+        }
 
-
-        communityBoardService.modify(communityBoardDto);
-
-        System.out.println(communityBoardDto.toString());
-        m.addAttribute("communityBoardDto", communityBoardDto);
-        return "/Board";
+        return "redirect:/community/read?no=" + communityBoardDto.getno();
     }
 
     //세션값 필요

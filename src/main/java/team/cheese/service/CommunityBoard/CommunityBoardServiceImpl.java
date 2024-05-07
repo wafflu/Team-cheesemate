@@ -20,22 +20,26 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     @Autowired
     CommunityBoardDao communityBoardDao;
 
-//    @Autowired
-//    CommunityBoardDto communityBoardDto;
 
     @Override
     public List<CommunityBoardDto> readAll() throws Exception {
         Character fixedUrState = 'y';
+        try{
+            List<CommunityBoardDto> list = communityBoardDao.selectAll(fixedUrState);
+
+            if(list==null){
+                throw new Exception();
+            }
+        }catch (Exception e){
+            throw e;
+        }
         return communityBoardDao.selectAll(fixedUrState);
     }
 
 
 
-    //write: 글 등록 : 제목과 내용, 기타 정보 등이 들어가는지 확인한다.
-        //제목 혹은 내용이 들어가 있지 않은 경우
-        //등록이 시간안에 안되는 경우
-        //사진까지 들어간 경우 트랜잭션으로 처리
-    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public int write(CommunityBoardDto communityBoardDto) throws Exception {
         if(communityBoardDto.getTitle()==null || communityBoardDto.getTitle().isEmpty()){
@@ -60,13 +64,35 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 
     @Override
     public int modify(CommunityBoardDto communityBoardDto) throws Exception {
+        //1. 예외체크
+            //1.1 null일 경우
+            //1.2둘 중 하나가 null인 경우
+          if(communityBoardDto == null){
+            throw new IllegalArgumentException("null값 입력");
+          } else if (communityBoardDto.getTitle()==null || communityBoardDto.getContents()==null) {
+              throw new IllegalArgumentException("제목 또는 컨텐츠 널");
+          }
+
         return communityBoardDao.update(communityBoardDto);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional
     @Override
     public CommunityBoardDto read(Integer no) throws Exception {
+        //1. 예외체크
+            //1.1  no가 null일경우
+            //1.2 제목,내용, 작성자, 일자 등이 null일 경우
+        //2. 제목,내용,작성자,일자 등을 시간안에 받아오지 못할 경우
+        if(no == null){
+            throw  new IllegalArgumentException("게시글 번호를 받아오지 못했다.");
+        }
         CommunityBoardDto communityBoardDto = communityBoardDao.select(no);
+        if (communityBoardDto == null) {
+            throw new IllegalArgumentException(no + "에 해당하는 글이 존재하지 않습니다.");
+        }
+        if(communityBoardDto.getTitle()==null || communityBoardDto.getContents()==null){
+            throw new IllegalArgumentException("글의 제목이나 내용이 없습니다.");
+        }
         communityBoardDao.increaseViewCnt(no);
         return communityBoardDto;
     }
@@ -129,19 +155,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         }
         return entity;
     }
-
-
-//    //PreparedInfo: 유저정보_세션아이디와 로그인 아이디가 일치하면 호출된다.
-//    @Override
-//    public CommunityBoardDto preparedInfo(CommunityBoardDto communityBoardDto) throws Exception {
-//        communityBoardDto = new CommunityBoardDto();
-//        communityBoardDto.setaddr_cd("11010720");
-//        communityBoardDto.setaddr_no(2);
-//        communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
-//        communityBoardDto.setNick("skyLee");
-//
-//        return communityBoardDto;
-//    }
 
 
 

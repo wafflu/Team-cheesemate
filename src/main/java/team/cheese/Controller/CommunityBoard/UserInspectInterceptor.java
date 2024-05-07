@@ -34,10 +34,13 @@ public class UserInspectInterceptor implements HandlerInterceptor {
                 return true;
             }else{
                 System.out.println("false세션 다름");
-                return true;   //사용자의 ID가 서로 다른 경우
+                //신고페이지로 이동
+                //사용자의 ID가 서로 다른 경우(원래는 false임의로 true로 해놓틈)
+                return true;
             }
         } else{
             System.out.println("false세션없음");
+                //로그인 창으로 이동
                 return false;   //세션 자체가 없는 경우
         }
 

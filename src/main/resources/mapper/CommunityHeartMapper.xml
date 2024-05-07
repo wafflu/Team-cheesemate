@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.CommunityHeart.CommunityHeartMapper">
+
+<!--    //좋아요-->
+    <insert id = "insertLike">
+        insert into heart(ur_id, post_no)
+        values (#{ur_id}, #{post_no})
+    </insert>
+
+<!--    //삭제-->
+    <delete id = "deleteLike">
+        delete from heart
+        where ur_id = #{ur_id} and post_no = #{post_no}
+    </delete>
+
+<!--    //게시글의 총 하트 수-->
+    <select id = "countAllLikes" resultType ="Integer">
+        select count(*) from heart where post_no = #{post_no}
+    </select>
+
+<!--    //좋아요 상태-->
+    <select id ="countLikeStatus" resultType ="Integer">
+        select count (*) form heart where post_no = #{post_no} and ur_id = #{ur_id}
+    </select>
+
+
+    <delete id = "deleteAll" parameterType="Integer">
+        delete from heart;
+    </delete>
+
+    <select id="count" resultType="int">
+        select count (*) from heart;
+    </select>
+</mapper>
