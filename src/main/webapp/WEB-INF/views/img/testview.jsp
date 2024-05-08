@@ -14,7 +14,8 @@
 </head>
 <body>
     <c:forEach items="${list}" var="img">
-        <a href="/img/testdetail?no=${img.no}">
+<%--        <a href="/img/testdetail?no=${img.no}">--%>
+        <a href="/img/modifyview?no=${img.no}">
             <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
         <p>작성자 : ${img.seller_nick}</p>
         <p>제목 : ${img.title}</p>

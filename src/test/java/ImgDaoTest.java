@@ -6,8 +6,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.*;
+import team.cheese.entity.ImgFactory;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -26,18 +32,18 @@ public class ImgDaoTest {
     @Autowired
     SaleDao saleDao;
 
-    String folderPath = "/Users/jehyeon/Desktop/Team/src/main/webapp/resources/img";
-    String datePath = Todaystr();
-    String filename = "아보카도.png";
-    static public String Todaystr(){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String str = sdf.format(date);
-        return str.replaceAll("-", "_");
-    }
+    ImgFactory ifc = new ImgFactory();
 
-    @Test
+    String folderPath = ifc.getFolderPath()+ifc.getDatePath();
+    String datePath = ifc.getDatePath();
+
+    //    @Test
     public void delete(){
+        if(imgDao.count("sale") != 0){
+            assertTrue(imgDao.delete("sale") != 0);
+            System.out.println("세일 삭제완료");
+        }
+
         if(imgDao.count("img_group") != 0){
             assertTrue(imgDao.delete("img_group") != 0);
             System.out.println("이미지 그룹 삭제완료");
@@ -49,53 +55,312 @@ public class ImgDaoTest {
         }
     }
 
-
+    //실제 이미지를 가지고 테스트
     @Test
-    public void img_insert(){
-        ArrayList<ImgDto> imglist = new ArrayList();
+    public void imginsert(){
+        delete();
 
-        for(int i = 1; i<=10; i++){
-//            int tb_no = makeSale(i);//판매 테이블 만들어지는곳
-            int a = imgDao.select_group_max()+1;
-//            System.out.println("a : "+a);
-            HashMap map = new HashMap<>();
-            map.put("group_no", a);
+        ArrayList<ImgDto> list = new ArrayList<>();
 
-            ImgDto simg = makeImg(i, "s");
-            imglist.add(simg);
-            ImgDto rimg = makeImg(i, "r");
-            imglist.add(rimg);
-            ImgDto wimg = makeImg(i, "w");
-            imglist.add(wimg);
-            assertTrue(imgDao.insert(simg) != 0);
-            map.put("img_no", simg.getNo());
-            assertTrue(imgDao.insert_group(map) != 0);
+        String path = ifc.getFolderPath();
+        //날짜 폴더 있는지 체크하고 만들기
+        Makefolder(path, ifc.getDatePath());
 
-            assertTrue(imgDao.insert(rimg) != 0);
-            map.put("img_no", rimg.getNo());
-            assertTrue(imgDao.insert_group(map) != 0);
+        File directory = new File(path);
 
-            assertTrue(imgDao.insert(wimg) != 0);
-            map.put("img_no", wimg.getNo());
-            assertTrue(imgDao.insert_group(map) != 0);
+        File[] files = directory.listFiles();
 
-//            assertTrue(imgDao.insert(wimg) != 0);
-//            map.put("img_no", wimg.getNo());
-//            assertTrue(imgDao.insert_group(map) != 0);
-//
-//            assertTrue(imgDao.insert(wimg) != 0);
-//            map.put("img_no", wimg.getNo());
-//            assertTrue(imgDao.insert_group(map) != 0);
+        boolean scheck = true;
+        int gno = imgDao.select_group_max()+1;
+        for (File file : files) {
+            String mimeType = getMimeType(file);
+            if (mimeType != null && mimeType.startsWith("image/")) {
+                HashMap map = new HashMap<>();
+                map.put("group_no", gno);
+                if(scheck){
+                    //이미지 제작
+                    ImgDto simg = ifc.makeImg(file, "s", gno, 292,292);
+                    //이미지 디비 등록
+                    assertTrue(imgDao.insert(simg) == 1);
+                    map.put("img_no", simg.getNo());
+                    //이미지 그룹 디비 등록
+                    assertTrue(imgDao.insert(map) == 1);
+                    list.add(simg);
+                    scheck = false;
+                }
+                ImgDto rimg = ifc.makeImg(file, "r", gno, 78,78);
+                //이미지 디비 등록
+                assertTrue(imgDao.insert(rimg) == 1);
+                map.put("img_no", rimg.getNo());
+                //이미지 그룹 디비 등록
+                assertTrue(imgDao.insert(map) == 1);
+                list.add(rimg);
 
-//            System.out.println(i+"번 끝");
+                ImgDto wimg = ifc.makeImg(file, "w", gno, 856,856);
+                //이미지 디비 등록
+                assertTrue(imgDao.insert(wimg) == 1);
+                map.put("img_no", wimg.getNo());
+                //이미지 그룹 디비 등록
+                assertTrue(imgDao.insert(map) == 1);
+                list.add(wimg);
+            }
         }
-        select(imglist);
+        //전체 조회
+        selectall(list);
     }
 
+    //이미지 10번 넣기
+    @Test
+    public void imginsert10(){
+        delete();
+
+        ArrayList<ImgDto> list = new ArrayList<>();
+
+        boolean scheck = true;
+        int gno = imgDao.select_group_max()+1;
+        for (int i = 0; i<10; i++) {
+            File file = new File(i+"번 아보카도.png");
+
+            HashMap map = new HashMap<>();
+            map.put("group_no", gno);
+            if(scheck){
+                //이미지 제작
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                //이미지 디비 등록
+                assertTrue(imgDao.insert(simg) == 1);
+                map.put("img_no", simg.getNo());
+                //이미지 그룹 디비 등록
+                assertTrue(imgDao.insert(map) == 1);
+                list.add(simg);
+                scheck = false;
+            }
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(rimg) == 1);
+            map.put("img_no", rimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(rimg);
+
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(wimg) == 1);
+            map.put("img_no", wimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(wimg);
+        }
+        //전체 조회
+        selectall(list);
+    }
+
+    //이미지 100번 넣기
+    @Test
+    public void imginsert100(){
+        delete();
+
+        ArrayList<ImgDto> list = new ArrayList<>();
+
+        boolean scheck = true;
+        int gno = imgDao.select_group_max()+1;
+        for (int i = 0; i<100; i++) {
+            File file = new File(i+"번 아보카도.png");
+
+            HashMap map = new HashMap<>();
+            map.put("group_no", gno);
+            if(scheck){
+                //이미지 제작
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                //이미지 디비 등록
+                assertTrue(imgDao.insert(simg) == 1);
+                map.put("img_no", simg.getNo());
+                //이미지 그룹 디비 등록
+                assertTrue(imgDao.insert(map) == 1);
+                list.add(simg);
+                scheck = false;
+            }
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(rimg) == 1);
+            map.put("img_no", rimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(rimg);
+
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(wimg) == 1);
+            map.put("img_no", wimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(wimg);
+        }
+        //전체 조회
+        selectall(list);
+    }
+
+    //10개의 이미지 업데이트
+    @Test
+    public void imgupdate10(){
+        delete();
+
+        ArrayList<ImgDto> list = new ArrayList<>();
+
+        boolean scheck = true;
+        int gno = imgDao.select_group_max()+1;
+        for (int i = 0; i<10; i++) {
+            File file = new File(i+"번 아보카도.png");
+
+            HashMap map = new HashMap<>();
+            map.put("group_no", gno);
+            if(scheck){
+                //이미지 제작
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                //이미지 디비 등록
+                assertTrue(imgDao.insert(simg) == 1);
+                map.put("img_no", simg.getNo());
+                //이미지 그룹 디비 등록
+                assertTrue(imgDao.insert(map) == 1);
+                list.add(simg);
+                scheck = false;
+            }
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(rimg) == 1);
+            map.put("img_no", rimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(rimg);
+
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(wimg) == 1);
+            map.put("img_no", wimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(wimg);
+        }
+        //전체 조회
+        selectall(list);
+
+        //비활성화
+        HashMap map = new HashMap();
+        map.put("state", "N");
+        map.put("no",  gno);
+        assertTrue(imgDao.update(map) != 0);
+
+        map.put("state", "Y");
+        map.put("no",  gno);
+        assertTrue(imgDao.update(map) != 0);
+    }
+
+    //100개의 이미지 업데이트
+    @Test
+    public void imgupdate100(){
+        delete();
+
+        ArrayList<ImgDto> list = new ArrayList<>();
+
+        boolean scheck = true;
+        int gno = imgDao.select_group_max()+1;
+        for (int i = 0; i<100; i++) {
+            File file = new File(i+"번 아보카도.png");
+
+            HashMap map = new HashMap<>();
+            map.put("group_no", gno);
+            if(scheck){
+                //이미지 제작
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                //이미지 디비 등록
+                assertTrue(imgDao.insert(simg) == 1);
+                map.put("img_no", simg.getNo());
+                //이미지 그룹 디비 등록
+                assertTrue(imgDao.insert(map) == 1);
+                list.add(simg);
+                scheck = false;
+            }
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(rimg) == 1);
+            map.put("img_no", rimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(rimg);
+
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(wimg) == 1);
+            map.put("img_no", wimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(wimg);
+        }
+        //전체 조회
+        selectall(list);
+
+        //비활성화
+        HashMap map = new HashMap();
+        map.put("state", "N");
+        map.put("no",  gno);
+        assertTrue(imgDao.update(map) != 0);
+
+        map.put("state", "Y");
+        map.put("no",  gno);
+        assertTrue(imgDao.update(map) != 0);
+    }
+
+    // 판매 + 이미지 조합
+    @Test
+    public void saleimg_insert(){
+        delete();
+
+        ArrayList<ImgDto> list = new ArrayList<>();
+
+        boolean scheck = true;
+        int gno = imgDao.select_group_max()+1;
+        String img_full_rt = "";
+        for (int i = 0; i<10; i++) {
+            File file = new File(i+"번 아보카도.png");
+
+            HashMap map = new HashMap<>();
+            map.put("group_no", gno);
+            if(scheck){
+                //이미지 제작
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                //이미지 디비 등록
+                assertTrue(imgDao.insert(simg) == 1);
+                map.put("img_no", simg.getNo());
+                //이미지 그룹 디비 등록
+                assertTrue(imgDao.insert(map) == 1);
+                img_full_rt = simg.getImg_full_rt();
+                list.add(simg);
+                scheck = false;
+            }
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(rimg) == 1);
+            map.put("img_no", rimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(rimg);
+
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            //이미지 디비 등록
+            assertTrue(imgDao.insert(wimg) == 1);
+            map.put("img_no", wimg.getNo());
+            //이미지 그룹 디비 등록
+            assertTrue(imgDao.insert(map) == 1);
+            list.add(wimg);
+        }
+        //전체 조회
+        selectall(list);
+
+        int saleno = makeSale(gno, img_full_rt);
+        select_saleimg(saleno);
+    }
 
     //전체 이미지 조회
-//    @Test
-    public void select(ArrayList<ImgDto> imglist){
+    public void selectall(ArrayList<ImgDto> imglist){
         ArrayList<ImgDto> list = imgDao.select_all_img();
         assertTrue(list != null);
 
@@ -104,19 +369,18 @@ public class ImgDaoTest {
         int i = 0;
         while (it.hasNext()){
             assertEquals(it.next(), imglist.get(i));
-//            System.out.println(it.next() +"/"+ imglist.get(i)+"\n");
             i++;
         }
-        System.out.println("이미지 리스트 출력완료");
+        System.out.println("이미지 리스트 조회완료");
     }
 
 
     //선택한 게시물에 대한 이미지 불러오기
-    @Test
-    public void select_img(){
+
+    public void select_saleimg(int gno){
         HashMap map = new HashMap();
         map.put("tb_name", "sale");
-        map.put("no", 1);
+        map.put("no", gno);
         List<ImgDto> list = imgDao.select_img(map);
 
         assertTrue(list != null);
@@ -129,87 +393,63 @@ public class ImgDaoTest {
     }
 
 
-    @Test
-    public void update(){
-        //테스트시 판매테이블 데이터 필요
-        //조회
-        List<ImgDto> list = imgDao.select_img2(1);
-        assertTrue(list != null);
-
-        System.out.println(list.get(0).getNo());
-        System.out.println(list.get(0).getState());
-
-        int imgno = list.get(0).getNo();
-        String state = "Y";
-        if(list.get(0).getState().equals("Y")){
-            state = "N";
-        }
-
-        HashMap map = new HashMap();
-        map.put("state", state);
-        map.put("no",  imgno);
-        assertTrue(imgDao.update(map) == 1);
-
-        list = imgDao.select_img2(1);
-        assertTrue(list != null);
-
-        System.out.println(list.get(0).getNo());
-        System.out.println(list.get(0).getState());
-    }
-
-    public BigInteger makeSale(int num){
+    public int makeSale(int gno, String img_full_rt){
         SaleDto saledto = new SaleDto();
+        saledto.setAddr_cd("11010720");
+        saledto.setAddr_name("서울특별시 종로구 사직동");
         saledto.setSeller_id("user123");
-        saledto.setSal_i_cd("016001005");
+        saledto.setSeller_nick("minyoung");
+        saledto.setSal_i_cd("001002002");
+        saledto.setSal_name("후드티/후드집업");
+        saledto.setGroup_no(gno);
+        saledto.setImg_full_rt(img_full_rt);
         saledto.setPro_s_cd("C");
         saledto.setTx_s_cd("S");
-        // 거래방법 1개만 작성
         saledto.setTrade_s_cd_1("F");
         saledto.setTrade_s_cd_2("F");
-        saledto.setPrice(28000);
         saledto.setSal_s_cd("S");
-        saledto.setTitle(num+"번 자바의 정석 팔아요");
-        saledto.setContents("자바의 정석 2판 팔아요.");
-        saledto.setImg_full_rt(datePath+"/s_"+datePath+"_"+num+"번_"+filename);
+        saledto.setTitle("title");
+        saledto.setContents("contents");
+        saledto.setPrice(35000);
         saledto.setBid_cd("N");
         saledto.setPickup_addr_cd("11060710");
+        saledto.setPickup_addr_name("서울특별시 종로구 청운효자동");
         saledto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
-        saledto.setBrand("자바의 정석");
-        saledto.setReg_price(30000);
-        saledto.setCheck_addr_cd(0);
+        saledto.setBrand("북북");
+        saledto.setReg_price(100);
+        saledto.setBuyer_id("");
+        saledto.setBuyer_nick("");
+        saledto.setLike_cnt(0);
+        saledto.setView_cnt(0);
+        saledto.setHoist_cnt(0);
+        saledto.setBid_cnt(0);
+        saledto.setUr_state('Y');
+        saledto.setAd_state('N');
+        saledto.setFirst_id("user123");
+        saledto.setLast_id("user123");
 
         assertTrue(saleDao.insert_sale(saledto) == 1);
-        return saledto.getNo();
+        return saledto.getGroup_no();
     }
 
-    public int makecommu(int num){
-        CommunityBoardDto cdto = new CommunityBoardDto();
-        cdto.setur_id("user123");
-        cdto.setaddr_cd("11010720");
-        cdto.setaddr_no(1);
-        cdto.setcommu_cd("commu_W");
-        cdto.setaddr_name("서울특별시 종로구 사직동");
-        cdto.setTitle("고민/상담테스트 제목"+num);
-        cdto.setContents("내용"+num);
-        cdto.setImg_full_rt(datePath+"/s_"+datePath+"_"+num+"번_"+filename);
-        cdto.setNick("skyLee");
 
-        assertTrue(imgDao.insert_commu(cdto) == 1);
-        return cdto.getno();
+    private static String getMimeType(File file) {
+        Path path = Paths.get(file.getAbsolutePath());
+        try {
+            return Files.probeContentType(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    public ImgDto makeImg(int num, String imgtype){
-        String o_name = num+"번_아보카도";
-        ImgDto img = new ImgDto();
-        img.setImgtype(imgtype);
-        img.setFile_rt("2024_04_30");
-        img.setU_name(imgtype+"_2024_04_30_");
-        img.setO_name(o_name);
-        img.setE_name(".png");
-        img.setW_size(292);
-        img.setH_size(292);
-        img.setImg_full_rt(datePath+"/"+imgtype+"_"+datePath+"_"+o_name+".png");
-        return img;
-    }
+    public void Makefolder(String folderPath, String datePath) {
+        /* 파일 저장 폴더 이름 (오늘 날짜별로 폴더 생성) */
+        File uploadPath = new File(folderPath, datePath);
 
+        /* 오늘 날짜 폴더가 있을시 생성 x 없으면 생성 o */
+        if (uploadPath.exists() == false) {
+            uploadPath.mkdirs();
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package team.cheese.controller.img;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -8,20 +10,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import team.cheese.ImgFactory;
+import team.cheese.entity.ImgFactory;
 import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.service.ImgService;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -37,51 +39,31 @@ public class ImgController {
 
     @Autowired
     ImgDao imgDao;
-    ImgFactory ifc;
-
-    //사용안함 일단 두기
-    public String path(HttpServletRequest request){
-        ServletContext servletContext = request.getServletContext();
-        String realPath = servletContext.getRealPath("/");
-        String folderPath = realPath.substring(0, realPath.indexOf("target"))+"src/main/webapp/resources/img";
-        return folderPath;
-    }
+    ImgFactory ifc = new ImgFactory();
 
     @RequestMapping ("/test")
     public String ajax(HttpServletRequest request) {
-        ifc = imgService.path(request);
         return "img/test";
     }
 
     //이미지 업로드 과정
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpServletRequest request) {
-        if(!ifc.CheckImg(uploadFiles)){
+    public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
+        List<ImgDto> list = imgService.uploadimg(uploadFiles);
+        if(list == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } else {
+            ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
+            return result;
         }
-
-        String datePath = ifc.todaystr();
-        ifc.Makefolder(datePath);
-        List<ImgDto> list = new ArrayList();
-
-        for(MultipartFile multipartFile : uploadFiles) {
-            ifc.Makeimg(multipartFile, "r_",78, 78);
-            ImgDto img = ifc.setImginfo(multipartFile, "r_",78, 78);
-            list.add(img);
-        }
-
-        ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
-        return result;
     }
 
     //이미지 보여주기용
     @GetMapping("/display")
-    public ResponseEntity<byte[]> getImage(String fileName, HttpServletRequest request){
-        ifc = imgService.path(request);
-        String folderPath = ifc.getFolderPath();
-        File file = new File(folderPath+"/"+ fileName);
-        ResponseEntity<byte[]> result = null;
+    public ResponseEntity<byte[]> getImage(String fileName){
+        File file = imgService.display(fileName);
 
+        ResponseEntity<byte[]> result = null;
         try {
             HttpHeaders header = new HttpHeaders();
             header.add("Content-type", Files.probeContentType(file.toPath()));
@@ -93,113 +75,43 @@ public class ImgController {
         return result;
     }
 
-    /* 이미지 파일 삭제 */
-    @PostMapping("/deleteFile")
-    public ResponseEntity<String> deleteFile(String fileName, HttpServletRequest request){
-        ifc = imgService.path(request);
-        String folderPath = ifc.todaystr();
-
-        //DB내용만 상태변화 시키기
-//        System.out.println("delete : "+fileName);
-        File file = null;
-        try {
-            file = new File(folderPath+"/" + URLDecoder.decode(fileName, "UTF-8"));
-            file.delete();
-            /* 썸네일 파일 삭제 */
-            String originFileName = file.getAbsolutePath().replace("s_", "");
-            file = new File(originFileName);
-            file.delete();
-        } catch(Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
-
-        }
-        return new ResponseEntity<String>("success", HttpStatus.OK);
-    }
-
-    @RequestMapping("/reg_image")
+    @RequestMapping(value = "/reg_image2", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<String> reg_img(@RequestBody ArrayList<ImgDto> imglist, HttpServletRequest request){
-        if(imglist.size() == 0){
-            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<String> reg_img2(@RequestBody Map<String, Object> map) {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        SaleDto sdto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+
+        ifc.setUserid("user123");
+        //추후 변경예정
+        // SaleEntity 유효성 검사 수행
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<SaleDto>> violations = validator.validate(sdto);
+
+        // 유효성 검사 결과 확인
+        if (!violations.isEmpty()) {
+            return new ResponseEntity<>("데이터 조작 오류 발생", HttpStatus.BAD_REQUEST);
         }
-        try {
-        String folderPath = ifc.getFolderPath();
 
-        boolean change = true;
+        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
 
-        String datePath = ifc.todaystr();
-
-        /* 파일 저장 폴더 이름 */
-        File uploadPath = new File(folderPath, datePath);
-
-        //게시글 임의로 넣어둠 테스트를 위해서
         int gno = imgService.getGno()+1;
-        String full_file_rt = "";
-
-        for (ImgDto img : imglist) {
-            try {
-                String fname = folderPath+"/"+img.getFile_rt()+"/"+img.getO_name()+img.getE_name();
-
-                File imageFile = new File(fname);
-
-                String uploadFileName = datePath+"_"+img.getO_name()+img.getE_name();
-
-                ImgDto imgDto = null;
-
-
-                //미리보기이미지 경로저장
-//                ifc.Makeimg(imageFile, "r", 78, 78);
-                imgDto = ifc.setImginfo(imageFile, "r", 78, 78);
-                imgService.reg_img(gno, imgDto);
-
-                //썸네일 이미지
-                if(change){
-//                    System.out.println(imageFile);
-                    full_file_rt = img.getFile_rt()+"/s_"+datePath+"_"+img.getO_name()+img.getE_name();
-                    ifc.Makeimg(imageFile, "s", 292, 292);
-                    imgDto = ifc.setImginfo(imageFile, "s", 292, 292);
-                    imgService.reg_img(gno, imgDto);
-                    change = false;
-                }
-
-                //본문 이미지
-                ifc.Makeimg(imageFile, "w", 856, 856);
-                imgDto = ifc.setImginfo(imageFile, "w", 856, 856);
-                imgService.reg_img(gno, imgDto);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        saleDao.insert_sale(makesale(gno, full_file_rt));
-
-        } catch(Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
-        }
+        String full_file_rt = imgService.reg_img2(imgList, gno);
+        saleDao.insert_sale(makesale(sdto.getTitle(), sdto.getContents(), gno, full_file_rt));
         return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
     }
 
 
-//
     @RequestMapping("/testview")
-    public String viewtest(Model model, HttpServletRequest request){
-        ifc = imgService.path(request);
-//        HashMap map = new HashMap<>();
-//        map.put("tb_name", "sale");
-//        map.put("no", 21);
-//        List<ImgDto> list = imgService.read(map); // 이미지서비스
+    public String viewtest(Model model){
         List<SaleDto> list = saleDao.select_all();
         model.addAttribute("list", list);
 
         return "img/testview";
     }
-
     @RequestMapping("/testdetail")
-    public String testdetail(int no, Model model, HttpServletRequest request){
-        ifc = imgService.path(request);
-
+    public String testdetail(int no, Model model){
         SaleDto sdto = saleDao.select(no);
         HashMap map = new HashMap();
         map.put("tb_name", "sale");
@@ -210,8 +122,106 @@ public class ImgController {
         model.addAttribute("sale", sdto);
         return "img/testdetail";
     }
+    @RequestMapping("/modifyview")
+    public String modifyview(int no, Model model){
+        SaleDto sdto = saleDao.select(no);
+        HashMap map = new HashMap();
+        map.put("tb_name", "sale");
+        map.put("no", sdto.getGroup_no());
+        List<ImgDto> list = imgService.read(map);
 
-    public SaleDto makesale(int gno, String file_rt){
+        model.addAttribute("list", list);
+        model.addAttribute("sale", sdto);
+        return "img/modifyimg";
+    }
+
+    @RequestMapping(value = "/modify_image", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<String> modify_image(@RequestBody Map<String, Object> map) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        SaleDto sdto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
+
+//        System.out.println(sdto);
+//        System.out.println(imgList);
+
+        int gno = imgService.getGno()+1;
+        System.out.println(gno);
+        imgService.modify_img(imgList, gno, sdto.getGroup_no());
+
+//        String full_file_rt = imgService.reg_img2(imgList, gno, false);
+//        saleDao.insert_sale(makesale(sdto.getTitle(), sdto.getContents(), gno, full_file_rt));
+        return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
+    }
+
+
+//    @RequestMapping("/reg_image")
+//    @ResponseBody
+//    public ResponseEntity<String> reg_img(@RequestBody ArrayList<ImgDto> imglist, HttpServletRequest request){
+//        if(imglist.size() == 0){
+//            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+//        }
+//        try {
+//        String folderPath = ifc.getFolderPath();
+//
+//        boolean change = true;
+//
+//        String datePath = ifc.todaystr();
+//
+//        /* 파일 저장 폴더 이름 */
+//        File uploadPath = new File(folderPath, datePath);
+//
+//        //게시글 임의로 넣어둠 테스트를 위해서
+//        int gno = imgService.getGno()+1;
+//        String full_file_rt = "";
+//
+//        for (ImgDto img : imglist) {
+//            try {
+//                String fname = folderPath+"/"+img.getFile_rt()+"/"+img.getO_name()+img.getE_name();
+//
+//                File imageFile = new File(fname);
+//
+//                String uploadFileName = datePath+"_"+img.getO_name()+img.getE_name();
+//
+//                ImgDto imgDto = null;
+//
+//
+//                //미리보기이미지 경로저장
+//                imgDto = ifc.setImginfo(imageFile, "r", 78, 78);
+//                imgService.reg_img(gno, imgDto);
+//
+//                //썸네일 이미지
+//                if(change){
+////                    System.out.println(imageFile);
+//                    full_file_rt = img.getFile_rt()+"/s_"+datePath+"_"+img.getO_name()+img.getE_name();
+//                    ifc.Makeimg(imageFile, "s", 292, 292);
+//                    imgDto = ifc.setImginfo(imageFile, "s", 292, 292);
+//                    imgService.reg_img(gno, imgDto);
+//                    change = false;
+//                }
+//
+//                //본문 이미지
+//                ifc.Makeimg(imageFile, "w", 856, 856);
+//                imgDto = ifc.setImginfo(imageFile, "w", 856, 856);
+//                imgService.reg_img(gno, imgDto);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+////        saleDao.insert_sale(makesale(gno, full_file_rt));
+//
+//        } catch(Exception e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<String>("fail", HttpStatus.NOT_IMPLEMENTED);
+//        }
+//        return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
+//    }
+//
+//
+//
+
+    public SaleDto makesale(String title, String con, int gno, String file_rt){
         SaleDto saledto = new SaleDto();
         saledto.setAddr_cd("11010720");
         saledto.setAddr_name("서울특별시 종로구 사직동");
@@ -226,8 +236,8 @@ public class ImgController {
         saledto.setTrade_s_cd_1("F");
         saledto.setTrade_s_cd_2("F");
         saledto.setSal_s_cd("S");
-        saledto.setTitle(gno+"번 판매글");
-        saledto.setContents("판매테스트중");
+        saledto.setTitle(title);
+        saledto.setContents(con);
         saledto.setPrice(35000);
         saledto.setBid_cd("N");
         saledto.setPickup_addr_cd("11060710");

@@ -47,7 +47,7 @@ public class ImgDto {
     @Override
     public String toString() {
         return "ImgDto{" +
-//                "no=" + no +
+                "no=" + no +
                 ", imgtype='" + imgtype + '\'' +
                 ", file_rt='" + file_rt + '\'' +
                 ", u_name='" + u_name + '\'' +
@@ -55,10 +55,10 @@ public class ImgDto {
                 ", e_name='" + e_name + '\'' +
                 ", w_size=" + w_size +
                 ", h_size=" + h_size +
-//                ", r_date='" + r_date + '\'' +
-//                ", state='" + state + '\'' +
+                ", r_date='" + r_date + '\'' +
+                ", state='" + state + '\'' +
                 ", img_full_rt='" + img_full_rt + '\'' +
-//                ", group_no=" + group_no +
+                ", group_no=" + group_no +
                 '}';
     }
 

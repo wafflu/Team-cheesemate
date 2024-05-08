@@ -1,4 +1,12 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: jehyeon
+  Date: 4/26/24
+  Time: 3:26 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
   <title>Title</title>
@@ -6,33 +14,56 @@
 </head>
 <body>
 <form>
-  <input type="text" name="title">
-  <input type="text" name="contents">
   <div class="form_section_title">
     <label>상품 이미지</label>
   </div>
   <div class="form_section_content">
-    <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
+    <input type="file" id ="fileItem" name='uploadFile' multiple>
   </div>
   <button id="reg_img">등록</button>
-  <%--        <input type="submit" onclick="return imgreg()">--%>
+  <br>
 </form>
 
-<h1 id="h1">click</h1>
-
-
-<%--    <div id="imgboxtest">--%>
-<%--        <div class="imgDeleteBtn">x</div>--%>
-<%--&lt;%&ndash;        <img src="../../resources/images/cho.png">&ndash;%&gt;--%>
-<%--        <img src="/display?fileName=2024_04_13/cho.png">--%>
-<%--    </div>--%>
-
 <div id = "uploadResult">
-
+  <c:forEach items="${list}" var="img">
+    <c:if test="${img.imgtype eq 'r'}">
+    <div id='result_card'>
+      <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">
+      <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+    </div>
+    </c:if>
+  </c:forEach>
 </div>
 
+<%--<c:forEach items="${list}" var="img">--%>
+<%--  <c:if test="${img.imgtype eq 'r'}">--%>
+<%--    <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">--%>
+<%--    <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>--%>
+<%--  </c:if>--%>
+<%--</c:forEach>--%>
+
+<p>${sale}</p>
+
 <script>
+
   let imginfo = [];
+
+  <c:forEach items="${list}" var="img">
+  <c:if test="${img.imgtype eq 'r'}">
+    imginfo.push(
+            {
+              "file_rt" : "${img.file_rt}",
+              "o_name" : "${img.o_name}",
+              "e_name" : "${img.e_name}"
+            }
+    )
+  <%--imginfo.push("${img}");--%>
+  </c:if>
+  </c:forEach>
+
+  <%--oriimginfo.push("${img}");--%>
+
+  console.log(imginfo);
 
   $("input[type='file']").on("change", function(e){
 
@@ -98,27 +129,31 @@
     // deleteFile();
   });
 
+  let sale = {
+    "title" : "${sale.title}",
+    "contents" : "${sale.contents}",
+    "group_no" : ${sale.group_no}
+  }
+
   //이미지 등록하기
   $("#reg_img").click(function (){
 
-    let saletitle = $('input[name="title"]').val();
-    let salecontents = $('input[name="contents"]').val();
+    // let saletitle = $('input[name="title"]').val();
+    // let salecontents = $('input[name="contents"]').val();
 
-    let sale = {
-      "title" : saletitle,
-      "contents" : salecontents
-    }
+    alert("asdasd")
 
+    alert("sale : "+sale)
     let map =
-      {
-        "sale" : sale,
-        "img" : imginfo
-      };
+            {
+              "sale" : sale,
+              "img" : imginfo
+            };
 
-    alert(sale);
+    <%--alert(sale);--%>
 
     $.ajax({
-      url: '/img/reg_image2',
+      url: '/img/modify_image',
       type : 'POST',
       contentType : 'application/json; charset=UTF-8',
       dataType : 'text',
@@ -139,33 +174,6 @@
     alert("등록되었습니다.")
   })
 
-
-  /* 파일 삭제 메서드 */
-  function deleteFile(){
-
-    let targetFile = $(".imgDeleteBtn").data("file");
-
-    let targetDiv = $("#result_card");
-
-    $.ajax({
-      url: '/img/deleteFile',
-      data : {fileName : targetFile},
-      dataType : 'text',
-      type : 'POST',
-      success : function(result){
-        console.log(result);
-
-        targetDiv.remove();
-        $("input[type='file']").val("");
-
-      },
-      error : function(result){
-        console.log(result);
-
-        alert("파일을 삭제하지 못하였습니다.")
-      }
-    });
-  }
 
   function showThumbnailImage(uploadResultArr){
 
