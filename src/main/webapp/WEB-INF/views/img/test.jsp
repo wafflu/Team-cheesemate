@@ -115,6 +115,8 @@
         "img" : imginfo
       };
 
+    alert(sale);
+
     $.ajax({
       url: '/img/reg_image2',
       type : 'POST',

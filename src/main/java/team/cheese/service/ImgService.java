@@ -155,17 +155,11 @@ public class ImgService {
         if(idto == null){
             throw new ImgNullException("이미지가 비어 있습니다.");
         }
-//        내부적으로 발생한 예외는 try-catch문으로 날려주는수밖에 없다
-//        try {
-            int img = imgDao.insert(idto);
-            int img2 = imgDao.insert(imggroup(gno, idto.getNo()));
-            img = 0;
-            if (img <= 0 || img2 <= 0) {
-                throw new DataFailException("이미지 등록 오류");
-            }
-//        } catch (DataIntegrityViolationException e){
-//            throw new DataFailException("이미지가 비어 있습니다.");
-//        }
+        int img = imgDao.insert(idto);
+        int img2 = imgDao.insert(imggroup(gno, idto.getNo()));
+        if (img <= 0 || img2 <= 0) {
+            throw new DataFailException("이미지 등록 오류");
+        }
         return true;
     }
 

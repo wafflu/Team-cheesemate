@@ -23,9 +23,16 @@ public class ImgFactory {
     private static String folderPath = System.getProperty("user.home")+File.separator+"Desktop"+File.separator;
     private static String foldername = "ImgRepository";
     private String datePath = "";
+
+    private String userid = "";
     public ImgFactory(){
         checkimgfolder();
         todaystr();
+    }
+
+    //로그인 할때 유저 아이디 가져오기용도
+    public void setUserid(String userid){
+        this.userid = userid;
     }
 
     // File.separator -> /
@@ -77,7 +84,7 @@ public class ImgFactory {
             File saveFile = new File(getFolderPath()+File.separator+getDatePath(), fileName);
             /* 파일 저장 */
             try {
-                File img_name = new File(uploadPath, hash("user123"+fileName)+ename);
+                File img_name = new File(uploadPath, hash(userid+fileName)+ename);
                 /* 원본 파일 저장 */
                 multipartFile.transferTo(saveFile);
 
@@ -120,7 +127,7 @@ public class ImgFactory {
 
             //수정때문에 만든부분
             if(imgtype.equals("r")){
-                img_name = new File(fullrt, hash("user123"+fileName)+ename);
+                img_name = new File(fullrt, hash(userid+fileName)+ename);
             }
 
             // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기

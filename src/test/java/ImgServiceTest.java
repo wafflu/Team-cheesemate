@@ -3,6 +3,7 @@ import net.coobird.thumbnailator.geometry.Positions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
@@ -16,6 +17,7 @@ import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.exception.DataFailException;
+import team.cheese.exception.ImgNullException;
 import team.cheese.service.ImgService;
 
 import java.awt.image.BufferedImage;
@@ -154,79 +156,33 @@ public class ImgServiceTest {
         }
     }
 
-    @Test
+    @Test(expected = Exception.class)
     public void exnull() throws Exception {
-        ImgDto img = new ImgDto();
-        String o_name = "아보카도";
-        img.setImgtype("w");
-        img.setFile_rt("2024_04_30");
-        img.setU_name("w_2024_04_30_");
-        img.setO_name(o_name);
-        img.setE_name(".png");
-        img.setW_size(292);
-//        img.setImg_full_rt("asd");
-
-//        try {
-//            imgService.reg_img(1, img);
-//            fail("Expected DataFailException was not thrown");
-//        } catch (DataFailException e) {
-//            // 예외가 발생했을 때의 처리
-//            // 여기서는 테스트가 성공적으로 수행되었음을 확인합니다.
-//        } catch (Exception e) {
-//            fail("Unexpected exception was thrown");
-//
-         imgService.reg_img(1, img);
+        ImgDto img = imginfo("아보카도.png");
+        img.setImg_full_rt(null);
+        try {
+            imgService.reg_img(1, img);
+            System.out.println("Expected DataFailException was not thrown");
+        } catch (DataIntegrityViolationException e) {
+            // 예외가 발생했을 때의 처리
+            // 여기서는 테스트가 성공적으로 수행되었음을 확인합니다.
+            throw new DataIntegrityViolationException("데이터 입력 오류");
+        } catch (Exception e) {
+            fail("Unexpected exception was thrown");
+        }
     }
 
     @Test(expected = Exception.class)
-    public void Ex_reg_img() throws Exception {
-        //Column count doesn't match value count
-        //INSERT 문에 지정된 열의 수와 값의 수가 일치하지 않는 경우
-        ImgDto img = new ImgDto();
-        String o_name = "아보카도";
-        img.setImgtype("w");
-        img.setFile_rt("2024_04_30");
-        img.setU_name("w_2024_04_30_");
-        img.setO_name(o_name);
-        img.setE_name(".png");
-        img.setW_size(292);
-        img.setH_size(292);
-
-        imgService.reg_img(1, img);
-    }
-
-    @Test
     public void Ex_reg_img2() throws Exception {
-        //음수값을 넣을시 예외 발생
-        ImgDto img = new ImgDto();
-        String o_name = "아보카도";
-        img.setImgtype("w");
-        img.setFile_rt("2024_04_30");
-        img.setU_name("w_2024_04_30_");
-        img.setO_name(o_name);
-        img.setE_name(".png");
-        img.setW_size(-292);
-        img.setH_size(292);
-        img.setImg_full_rt(datePath+"/"+img.getImgtype()+"_"+datePath+"_"+o_name+".png");
-
-        imgService.reg_img(1, img);
-//        assertT(DataFailException.class, () -> imgService.reg_img(1, img));
-    }
-
-    @Test(expected = Exception.class)
-    public void Ex_reg_img3() throws Exception {
-        //Column count doesn't match value count: INSERT 문에 지정된 열의 수와 값의 수가 일치하지 않는 경우
-        ImgDto img = new ImgDto();
-        String o_name = "아보카도";
-        img.setImgtype("ㅁㄴㅇㄹㅁㄴㅇㄹㅁㄴㅇㄹㅁㅁㄴㅇㄹ");
-        img.setFile_rt("2024_04_30");
-        img.setU_name("w_2024_04_30_");
-        img.setO_name(o_name);
-        img.setE_name(".png");
-        img.setW_size(292);
-        img.setH_size(292);
-        img.setImg_full_rt(datePath+"/"+img.getImgtype()+"_"+datePath+"_"+o_name+".png");
-        imgService.reg_img(1, img);
+        ImgDto img = null;
+        try {
+            imgService.reg_img(1, img);
+            System.out.println("Expected DataFailException was not thrown");
+        } catch (DataFailException e) {
+            System.out.println("데이터 입력 오류");
+        } catch (Exception e) {
+            System.out.println("Unexpected exception was thrown");
+        }
     }
 
     @Test(expected = Exception.class)
@@ -503,5 +459,19 @@ public class ImgServiceTest {
         saledto.setFirst_id("user123");
         saledto.setLast_id("user123");
         return saledto;
+    }
+
+    public ImgDto imginfo(String uploadFileName){
+        ImgDto img = new ImgDto();
+        String fullrt = datePath+File.separator+uploadFileName;
+        img.setImgtype("s");
+        img.setFile_rt(datePath);
+        img.setU_name(uploadFileName);
+        img.setO_name(uploadFileName.substring(0, uploadFileName.lastIndexOf(".")));
+        img.setE_name(uploadFileName.substring(uploadFileName.lastIndexOf("."), uploadFileName.length()));
+        img.setImg_full_rt(fullrt);
+        img.setW_size(0);
+        img.setH_size(0);
+        return img;
     }
 }

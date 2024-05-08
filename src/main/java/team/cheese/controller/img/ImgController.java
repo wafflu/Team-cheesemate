@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.entity.ImgFactory;
@@ -19,11 +20,10 @@ import team.cheese.domain.ImgDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.service.ImgService;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.*;
 import java.io.File;
 import java.io.IOException;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -77,10 +77,23 @@ public class ImgController {
 
     @RequestMapping(value = "/reg_image2", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<String> reg_img2(@RequestBody Map<String, Object> map) throws Exception {
+    public ResponseEntity<String> reg_img2(@RequestBody Map<String, Object> map) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto sdto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+
+        ifc.setUserid("user123");
+        //추후 변경예정
+        // SaleEntity 유효성 검사 수행
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<SaleDto>> violations = validator.validate(sdto);
+
+        // 유효성 검사 결과 확인
+        if (!violations.isEmpty()) {
+            return new ResponseEntity<>("데이터 조작 오류 발생", HttpStatus.BAD_REQUEST);
+        }
+
         ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
 
         int gno = imgService.getGno()+1;
@@ -88,6 +101,7 @@ public class ImgController {
         saleDao.insert_sale(makesale(sdto.getTitle(), sdto.getContents(), gno, full_file_rt));
         return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
     }
+
 
     @RequestMapping("/testview")
     public String viewtest(Model model){
@@ -129,12 +143,8 @@ public class ImgController {
         ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
 
 //        System.out.println(sdto);
-        System.out.println(imgList);
+//        System.out.println(imgList);
 
-//        if(imgList.size() == 0){
-//            return new ResponseEntity<String>("등록된 이미지가 없습니다.", HttpStatus.NOT_IMPLEMENTED);
-//        }
-//
         int gno = imgService.getGno()+1;
         System.out.println(gno);
         imgService.modify_img(imgList, gno, sdto.getGroup_no());
