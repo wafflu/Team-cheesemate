@@ -51,16 +51,27 @@ public class SaleService {
         *   price(가격), bid_cd(가격제시/나눔신청여부)
         */
         //     1.1. 값이 들어와 있지 않으면 rollback
+
         // 2. sale 테이블에 insert
+
         // 3. sale_history 테이블에 insert
         //     3.1. 실패하면 rollback
+
         // 4. tag테이블에 tag정보 저장
         // 5. saleTag테이블에 교차정보 저장
+
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         System.out.println("service write: " + saleDto);
-        List<String> tagList = new ArrayList<>();
-        for (String content : tagList) {
-            tagDao.insert(content);
+        List<String> tagList = (List<String>) map.get("tagList");
+        for (String contents : tagList) {
+            System.out.println("service tag contents : " + contents);
+//            2.2.2.3.2. tagDao에 해당하는 contents값이 존재하는지 확인
+
+//            - 값이 존재하는 경우
+//            - tagDao의 no값 반환
+//            - 값이 존재하지 않는 경우
+//                    - tagDao의 insert문 수행
+
         }
 
         System.out.println("insert 성공 : " + saleDao.insert(saleDto));

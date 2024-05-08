@@ -5,8 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.cheese.domain.TagDto;
 
-import java.math.BigInteger;
-
 @Repository
 public class TagDaoImpl implements TagDao{
     @Autowired
@@ -28,6 +26,16 @@ public class TagDaoImpl implements TagDao{
     @Override
     public int insert(TagDto tagDto) throws Exception {
         return session.insert(namespace + "insert", tagDto);
+    }
+
+    @Override
+    public TagDto selectTagContents(String contents) throws Exception {
+        return session.selectOne(namespace + "selectTagContents", contents);
+    }
+
+    @Override
+    public int update(TagDto tagDto) throws Exception {
+        return session.update(namespace + "update", tagDto);
     }
 
     @Override

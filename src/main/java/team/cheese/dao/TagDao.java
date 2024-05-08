@@ -10,6 +10,10 @@ public interface TagDao {
 
     int insert(TagDto tagDto) throws Exception;
 
+    TagDto selectTagContents(String contents) throws Exception;
+
+    int update(TagDto tagDto) throws Exception;
+
     int deleteAll() throws Exception;
 
     int resetAutoIncrement() throws Exception;

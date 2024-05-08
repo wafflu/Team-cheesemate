@@ -27,16 +27,24 @@
 
 <!--  R : 태그명 조회하기(태그 번호만 반환)  -->
     <select id="selectTagContents" parameterType="TagDto" resultType="TagDto">
-        SELECT no
+        <include refid="selectFromTag"/>
         WHERE
         state = 'Y'
         and contents = #{contents}
     </select>
 
-<!--  U : 태그 존재하지 않을 때 삽입  -->
+<!--  C : 태그 존재하지 않을 때 삽입  -->
     <insert id="insert" parameterType="TagDto" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO tag (contents, first_date, first_id, last_date, last_id)
         values (#{contents}, now(), #{first_id}, now(), #{last_id})
+    </insert>
+
+<!--  U : 태그 존재할 때 시스템 컬럼 업데이트  -->
+    <insert id="update" parameterType="TagDto">
+        UPDATE tag
+        SET last_date = now(),
+            last_id = #{last_id}
+        WHERE no = #{no}
     </insert>
 
 <!--  D : 데이터 전체 삭제  -->

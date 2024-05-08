@@ -101,7 +101,7 @@ public class SaleController {
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
         System.out.println("값 들어왔는지 확인 : " + saleDto);
 
-//        List<String> tagContents = (List<String>) map.get("contents");
+//      List<String> tagContents = (List<String>) map.get("contents");
         Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
         List<String> tagContents = (List<String>) tagMap.get("contents");
         System.out.println("tag값 확인 : " + tagMap.size());
@@ -120,7 +120,6 @@ public class SaleController {
         Map mapDto = new HashMap();
         mapDto.put("saleDto", saleDto);
         mapDto.put("tagList", tagList);
-
 
 //      세션에서 ID 값을 가지고 옴
         String ur_id = "asdf";

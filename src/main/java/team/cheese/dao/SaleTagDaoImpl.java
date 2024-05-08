@@ -21,6 +21,11 @@ public class SaleTagDaoImpl implements SaleTagDao{
     }
 
     @Override
+    public int insert(SaleTagDto saleTagDto) throws Exception {
+        return session.insert(namespace + "insert", saleTagDto);
+    }
+
+    @Override
     public int deleteAll() throws Exception {
 
         return session.delete(namespace + "deleteAll");
