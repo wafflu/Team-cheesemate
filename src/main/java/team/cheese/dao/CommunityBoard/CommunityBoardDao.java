@@ -5,6 +5,7 @@ import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
 import java.util.List;
 
 public interface CommunityBoardDao {
+
     int count()throws Exception;
 
     int insert(CommunityBoardDto communityBoardDto)throws Exception;

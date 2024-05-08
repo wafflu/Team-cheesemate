@@ -17,6 +17,8 @@ public class CommunityBoardDaoImpl implements CommunityBoardDao {
   @Autowired
     private SqlSession session;
     private static String namespace = "team.cheese.dao.CommunityBoard.BoardMapper.";
+
+
     @Override
     public int count() throws Exception {
         return session.selectOne(namespace + "count");

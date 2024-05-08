@@ -52,7 +52,8 @@
 
         </div>
 
-
+<%--    commmunityHeart--%>
+        <p id = "heart">❤️</p>
 
 
 
@@ -69,6 +70,10 @@
         })
         $('#edit').on("click",function (){
             window.location.href = '/community/edit?no=${communityBoardDto.no}';
+
+        })
+
+        $('#heart').on("click",function(){
 
         })
 

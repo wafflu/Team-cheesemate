@@ -4,34 +4,53 @@
 
 <mapper namespace="team.cheese.dao.CommunityHeart.CommunityHeartMapper">
 
-<!--    //좋아요-->
-    <insert id = "insertLike">
-        insert into heart(ur_id, post_no)
-        values (#{ur_id}, #{post_no})
+<!--    좋아요-->
+    <insert id = "doLike" parameterType="CommunityHeartDto" useGeneratedKeys="true" keyProperty="like_no">
+        insert into community_heart(ur_id,post_no)
+        values(#{ur_id},#{post_no})
+        ON DUPLICATE KEY UPDATE ur_state = IF(ur_state = 'y', 'n', 'y');
     </insert>
 
+<!--&lt;!&ndash;    //좋아요&ndash;&gt;-->
+<!--    <insert id = "insertLike" parameterType= "communityHeartDto" useGeneratedKeys="true" keyProperty="like_no">-->
+<!--        insert into community_heart(ur_id, post_no)-->
+<!--        values (#{ur_id}, #{post_no})-->
+<!--    </insert>-->
+
+<!--    <update id="changeLikeStatus" parameterType="CommunityHeartDto">-->
+<!--        update community_heart-->
+<!--        set ur_state = #{ur_state}-->
+<!--        where post_no = #{post_no} and ur_id = #{ur_id};-->
+<!--    </update>-->
 <!--    //삭제-->
-    <delete id = "deleteLike">
-        delete from heart
-        where ur_id = #{ur_id} and post_no = #{post_no}
-    </delete>
+<!--    <delete id = "deleteLike">-->
+<!--        delete from community_heart-->
+<!--        where ur_id = #{ur_id} and post_no = #{post_no}-->
+<!--    </delete>-->
 
-<!--    //게시글의 총 하트 수-->
-    <select id = "countAllLikes" resultType ="Integer">
-        select count(*) from heart where post_no = #{post_no}
-    </select>
+<!--&lt;!&ndash;    //게시글의 총 하트 수&ndash;&gt;-->
+<!--    <select id = "countAllLikes" resultType ="Integer">-->
+<!--        select count(*) from community_heart where post_no = #{post_no} and ur_state = 'y'-->
+<!--    </select>-->
 
-<!--    //좋아요 상태-->
-    <select id ="countLikeStatus" resultType ="Integer">
-        select count (*) form heart where post_no = #{post_no} and ur_id = #{ur_id}
-    </select>
+<!--&lt;!&ndash;    //좋아요 상태수&ndash;&gt;-->
+<!--    <select id ="countLikeStatus" resultType ="Integer">-->
+<!--        select count(*) from community_heart where ur_state = 'y'-->
+<!--    </select>-->
 
 
-    <delete id = "deleteAll" parameterType="Integer">
-        delete from heart;
-    </delete>
+<!--    <delete id = "deleteAll" parameterType="Integer">-->
+<!--        delete from community_heart;-->
+<!--    </delete>-->
 
-    <select id="count" resultType="int">
-        select count (*) from heart;
+<!--    <select id="count" resultType="int">-->
+<!--        SELECT COUNT(*) FROM community_heart;-->
+<!--    </select>-->
+
+
+
+
+    <select id = "selectLike" resultType="CommunityHeartDto">
+        select * from community_heart where like_no = #{like_no}
     </select>
 </mapper>
