@@ -31,6 +31,7 @@ public class ReviewCommentDaoImpl implements ReviewCommentDao {
     @Override
     public int insert(ReviewCommentDTO reviewCommentDTO) throws Exception {
         return sqlSession.insert(namespace+"insert",reviewCommentDTO);
+//        throw new Exception("test222");
     }
     @Override
     public int update(ReviewCommentDTO reviewCommentDTO) throws Exception {
@@ -41,21 +42,10 @@ public class ReviewCommentDaoImpl implements ReviewCommentDao {
         return sqlSession.update(namespace+"incrementLikeCnt",no);
     }
     @Override
-    public int UserStateChange(ReviewCommentDTO reviewCommentDTO) throws Exception {
-        Map map = new HashMap();
-        map.put("ur_state",reviewCommentDTO.getUr_state());
-        map.put("no",reviewCommentDTO.getNo());
-        System.out.println(map);
-        return sqlSession.update(namespace+"UserStateChange",map);
+    public int stateChange(String buy_id) throws Exception {
+        return sqlSession.update(namespace+"stateChange",buy_id);
     }
-    @Override
-    public int AdminStateChange(ReviewCommentDTO reviewCommentDTO) throws Exception {
-        Map map = new HashMap();
-        map.put("ad_state",reviewCommentDTO.getAd_state());
-        map.put("no",reviewCommentDTO.getNo());
-        System.out.println(map);
-        return sqlSession.update(namespace+"AdminStateChange",map);
-    }
+
     @Override
     public int delete(String buy_id, Integer no) throws Exception {
         Map map = new HashMap();

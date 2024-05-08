@@ -17,15 +17,13 @@ public interface ReviewCommentService {
 
     // insert -> write
     @Transactional(rollbackFor = Exception.class)
-    int write(ReviewCommentDTO reviewCommentDTO) throws Exception;
+    boolean write(ReviewCommentDTO reviewCommentDTO) throws Exception;
 
     // delete -> remove
     @Transactional(rollbackFor = Exception.class)
-    int remove(String sal_id, String buy_id, Integer no) throws Exception;
+    boolean remove(String sal_id, String buy_id, Integer no) throws Exception;
 
     // update -> modify
-    int modify(ReviewCommentDTO reviewCommentDTO) throws Exception;
+    boolean modify(ReviewCommentDTO reviewCommentDTO);
 
-    // incrementLikeCnt -> ClickedLike
-    int ClickedLike(Integer no) throws Exception;
 }

@@ -71,4 +71,8 @@ public class UserInfoDaoImpl implements UserInfoDao {
         return sqlSession.delete(namespace+"deleteAll");
     }
 
+    @Override
+    public int stateChange(String ur_id) throws Exception {
+        return sqlSession.update(namespace+"stateChange",ur_id);
+    }
 }

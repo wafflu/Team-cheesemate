@@ -17,6 +17,16 @@ public class UserInfoDTO {
     private Timestamp r_date;
     private Timestamp m_date;
 
+    private char state;
+
+    public char getState() {
+        return state;
+    }
+
+    public void setState(char state) {
+        this.state = state;
+    }
+
     public Timestamp getM_date() {
         return m_date;
     }
@@ -31,7 +41,7 @@ public class UserInfoDTO {
     private String last_id;
 
     public UserInfoDTO() {}
-    public UserInfoDTO(String ur_id, String contents) {
+    public UserInfoDTO(String ur_id,String nick, String contents) {
         this.ur_id = ur_id;
         this.nick = nick;
         this.contents = contents;
@@ -42,12 +52,12 @@ public class UserInfoDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserInfoDTO that = (UserInfoDTO) o;
-        return img_no == that.img_no && view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && like_cnt == that.like_cnt && hate_cnt == that.hate_cnt && rpt_cnt == that.rpt_cnt && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(first_date, that.first_date) && Objects.equals(first_id, that.first_id) && Objects.equals(last_date, that.last_date) && Objects.equals(last_id, that.last_id);
+        return img_no == that.img_no && view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && like_cnt == that.like_cnt && hate_cnt == that.hate_cnt && rpt_cnt == that.rpt_cnt && state == that.state && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ur_id, nick, img_no, contents, view_cnt, complete_cnt, rv_cmt_cnt, like_cnt, hate_cnt, rpt_cnt, r_date, first_date, first_id, last_date, last_id);
+        return Objects.hash(ur_id, nick, img_no, contents, view_cnt, complete_cnt, rv_cmt_cnt, like_cnt, hate_cnt, rpt_cnt, state);
     }
 
     @Override
@@ -64,10 +74,12 @@ public class UserInfoDTO {
                 ", hate_cnt=" + hate_cnt +
                 ", rpt_cnt=" + rpt_cnt +
                 ", r_date=" + r_date +
-                ", first_r_date=" + first_date +
-                ", first_idno='" + first_id + '\'' +
-                ", last_r_date=" + last_date +
-                ", last_idno='" + last_id + '\'' +
+                ", m_date=" + m_date +
+                ", state=" + state +
+                ", first_date=" + first_date +
+                ", first_id='" + first_id + '\'' +
+                ", last_date=" + last_date +
+                ", last_id='" + last_id + '\'' +
                 '}';
     }
 

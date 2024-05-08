@@ -21,9 +21,10 @@ public class ReviewCommentDTO {
     private String last_id;
     public ReviewCommentDTO() {}
 
-    public ReviewCommentDTO(String sal_id, String buy_id, String contents) {
+    public ReviewCommentDTO(String sal_id, String buy_id, String buy_nick,String contents) {
         this.sal_id = sal_id;
         this.buy_id = buy_id;
+        this.buy_nick = buy_nick;
         this.contents = contents;
     }
 

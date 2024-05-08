@@ -29,17 +29,18 @@
     <select id="select"  parameterType="String" resultType="UserInfoDto">
         <include refid="selectUserInfo"/>
         where ur_id = #{ur_id}
+        and state = 'Y'
     </select>
     <insert id="insert" parameterType="UserInfoDto">
-        insert into user_info (ur_id, nick, contents)
-        select id,nick,#{contents}
-        from user
-        where id = #{ur_id}
+        insert into user_info (ur_id, nick, contents,first_date,first_id,last_date,last_id)
+        values (#{ur_id},#{nick},#{contents},now(),#{ur_id},now(),#{ur_id})
     </insert>
     <update id="update" parameterType="UserInfoDto">
         update user_info
         set contents = #{contents}
           , m_date = now()
+          , last_date = now()
+          , last_id = #{ur_id}
         where ur_id = #{ur_id}
     </update>
     <update id="incrementViewCnt" parameterType="String">
@@ -79,4 +80,10 @@
     <delete id="deleteAll">
         delete from user_info
     </delete>
+    <!-- 회원 탈퇴 시 사용할 쿼리문 | 사용자 소개글 상태를 N으로 | Y/N 보이기/안보이기    -->
+    <update id="stateChange" parameterType="String">
+        update user_info
+        set state = 'N'
+        where ur_id = #{ur_id}
+    </update>
 </mapper>

@@ -17,9 +17,7 @@ public interface ReviewCommentDao {
 
     int incrementLikeCnt(Integer no) throws Exception;
 
-    int UserStateChange(ReviewCommentDTO reviewCommentDTO) throws Exception;
-
-    int AdminStateChange(ReviewCommentDTO reviewCommentDTO) throws Exception;
+    int stateChange(String buy_id) throws Exception;
 
     int delete(String buy_id, Integer no) throws Exception;
 

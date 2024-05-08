@@ -37,15 +37,15 @@
         order by r_date desc, no desc
     </select>
     <insert id="insert" parameterType="ReviewCommentDto">
-        insert into review_comment (sal_id, buy_id, buy_nick, contents)
-        select #{sal_id},id,nick,#{contents}
-        from user
-        where id = #{buy_id}
+        insert into review_comment (sal_id, buy_id, buy_nick, contents,first_date,first_id,last_date,last_id)
+        values (#{sal_id},#{buy_id},#{buy_nick},#{contents},now(),#{buy_id},now(),#{buy_id})
     </insert>
     <update id="update" parameterType="ReviewCommentDto">
         update review_comment
         set contents = #{contents}
           , m_date = now()
+          , last_date = now()
+          , last_id = #{buy_id}
         where buy_id = #{buy_id} and no = #{no}
     </update>
     <delete id="delete" parameterType="map">
@@ -60,24 +60,9 @@
         set like_cnt = like_cnt+1
         where no = #{no}
     </update>
-    <update id="UserStateChange" parameterType="map">
+    <update id="stateChange" parameterType="String">
         update review_comment
-        <if test="ur_state=='Y'">
             set ur_state = 'N'
-        </if>
-        <if test="ur_state=='N'">
-            set ur_state = 'Y'
-        </if>
-        where no = #{no}
-    </update>
-    <update id="AdminStateChange" parameterType="map">
-        update review_comment
-        <if test="ad_state=='N'">
-            set ad_state = 'Y'
-        </if>
-        <if test="ad_state=='Y'">
-            set ad_state = 'N'
-        </if>
         where no = #{no}
     </update>
 </mapper>

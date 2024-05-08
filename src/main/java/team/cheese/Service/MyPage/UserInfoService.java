@@ -7,26 +7,24 @@ public interface UserInfoService {
     int getCount() throws Exception;
 
     // select -> read , incrementViewCnt
+    UserInfoDTO read(String ur_id,String session_id) throws Exception;
+
     UserInfoDTO read(String ur_id) throws Exception;
 
     // insert -> write
-    int write(UserInfoDTO userInfoDTO) throws Exception;
+    boolean write(UserInfoDTO userInfoDTO);
 
     // update -> modify
-    int modify(UserInfoDTO userInfoDTO) throws Exception;
+    boolean modify(UserInfoDTO userInfoDTO);
 
     // delete -> remove
-    int remove(String ur_id) throws Exception;
+    boolean remove(String ur_id);
 
-    // incrementCompleteCnt -> SuccessTx
-    int SuccessTx(String ur_id) throws Exception;
+    boolean successTx(String ur_id);
 
-    // incrementLikeCnt -> ClickedLike
-    int ClickedLike(String ur_id) throws Exception;
+    boolean clickedLike(String ur_id);
 
-    // incrementHateCnt -> ClickedHate
-    int ClickedHate(String ur_id) throws Exception;
+    boolean clickedHate(String ur_id);
 
-    // incrementRptCnt -> ReportView
-    int ReportView(String ur_id) throws Exception;
+    boolean reportView(String ur_id);
 }

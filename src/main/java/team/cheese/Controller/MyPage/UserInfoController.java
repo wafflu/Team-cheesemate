@@ -13,92 +13,59 @@ import javax.servlet.http.HttpSession;
 public class UserInfoController {
     @Autowired
     UserInfoService userInfoService;
-    @GetMapping("/userInfo/{ur_id}")
-    public ResponseEntity<UserInfoDTO> read(@PathVariable String ur_id) {
+
+    // 소개글 읽기
+    @GetMapping("/userInfo/{ur_id}") // controller -> service
+    public ResponseEntity<UserInfoDTO> read(@PathVariable String ur_id,HttpSession session) {
         UserInfoDTO userInfoDTO = null;
         try {
-            if(userInfoService.read(ur_id)==null) {
-                userInfoDTO = new UserInfoDTO(ur_id,"");
-                int rowCnt = userInfoService.write(userInfoDTO);
-                System.out.println(rowCnt);
-                if(rowCnt!=1) {
-                    throw new Exception("Read ERR");
-                }
-            }
+            // ur_id에 해당하는 소개글 읽어오기
             userInfoDTO = userInfoService.read(ur_id);
-            System.out.println(ur_id);
-            System.out.println(userInfoDTO);
             return new ResponseEntity<UserInfoDTO>(userInfoDTO,HttpStatus.OK);
         }catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<UserInfoDTO>(userInfoDTO,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<UserInfoDTO>(userInfoDTO,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    // 소개글 쓰기
     @PostMapping("/userInfo")
-    public ResponseEntity<String> write(@RequestBody UserInfoDTO userInfoDTO, HttpSession session) {
-//        String ur_id = (String) session.getAttribute("id");
-//        String ur_id = "rudtlr";
-//        userInfoDTO.setUr_id(ur_id);
-        try {
-            int rowCnt =  userInfoService.write(userInfoDTO);
-            if (rowCnt != 1)
-                throw new Exception("Write failed.");
+    public ResponseEntity<String> write(@RequestBody UserInfoDTO userInfoDTO, HttpSession session) throws Exception {
+//       String ur_id = (String) session.getAttribute("id");
+//       String ur_id = "rudtlr";
+//       userInfoDTO.setUr_id(ur_id);
+        if (!userInfoService.write(userInfoDTO))
+            return new ResponseEntity<>("WRT_ERR", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            return new ResponseEntity<>("WRT_OK", HttpStatus.OK);
-        }catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("WRT_OK", HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>("WRT_OK", HttpStatus.OK);
     }
 
+    // 소개글 수정하기
     @PatchMapping("/userInfo/{ur_id}")
     public ResponseEntity<String> modify(@PathVariable String ur_id,@RequestBody UserInfoDTO userInfoDTO) {
         userInfoDTO.setUr_id(ur_id);
-        try {
-            int rowCnt = userInfoService.modify(userInfoDTO);
+        if(!userInfoService.modify(userInfoDTO))
+            return new ResponseEntity<>("MOD_ERR", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            if (rowCnt != 1)
-                throw new Exception("Modify failed.");
-
-            return new ResponseEntity<>("MOD_OK", HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("MOD_ERR", HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>("MOD_OK", HttpStatus.OK);
     }
 
+    // 소개글 좋아요 수 증가
     @PatchMapping("/userInfo/like/{ur_id}")
     public ResponseEntity<String> changeLikeCnt(@PathVariable String ur_id) {
-        try {
-            int rowCnt = userInfoService.ClickedLike(ur_id);
+        if(!userInfoService.clickedLike(ur_id))
+            return new ResponseEntity<>("Like MOD_ERR", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            if (rowCnt != 1)
-                throw new Exception("Like Modify failed.");
-
-            return new ResponseEntity<>("Like MOD_OK", HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Like MOD_ERR", HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>("Like MOD_OK", HttpStatus.OK);
     }
 
+    // 소개글 싫어요 수 증가
     @PatchMapping("/userInfo/hate/{ur_id}")
     public ResponseEntity<String> changeHateCnt(@PathVariable String ur_id) {
-        try {
-            int rowCnt = userInfoService.ClickedHate(ur_id);
+        if(!userInfoService.clickedHate(ur_id))
+            return new ResponseEntity<>("Hate MOD_ERR", HttpStatus.INTERNAL_SERVER_ERROR);
 
-            if (rowCnt != 1)
-                throw new Exception("Hate Modify failed.");
-
-            return new ResponseEntity<>("Hate MOD_OK", HttpStatus.OK);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>("Hate MOD_ERR", HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>("Hate MOD_OK", HttpStatus.OK);
     }
     
 }

@@ -26,4 +26,6 @@ public interface UserInfoDao {
     int delete(String ur_id) throws Exception;
 
     int deleteAll() throws Exception;
+
+    int stateChange(String ur_id) throws Exception;
 }

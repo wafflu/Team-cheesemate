@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import team.cheese.Domain.MyPage.UserInfoDTO;
 import team.cheese.Service.MyPage.UserInfoService;
 
@@ -23,30 +24,24 @@ public class MyPageController {
     UserInfoService userInfoService;
 
     @RequestMapping("/main")
-    public String main(HttpSession session,Model model) {
+    public String main(@RequestParam(required = false)String ur_id, HttpSession session, Model model) {
         if(!loginCheck(session))
             return "home";
+        // 다른 페이지에서 사용자를 클릭해서 /myPage/main?ur_id=rudtlr 으로 타고들어왔을때,
+        // QueryString으로 ur_id값이 들어오면 다른 사람의 myPage를 본다는 것
+        // QueryString으로 ur_id값이 안들어온다는 것은 자신의 myPage를 본다는 것
+        // 1. 세션에서 session_id 값 받아오기
+        // String session_id = (String) session.getAttribute("id");
+        // test를 위한 session_id값
+        String session_id = "1";
 
-
-//        String ur_id = (String) session.getAttribute("id");
-        String ur_id = "user123";
-        UserInfoDTO userInfoDTO = null;
         try {
-            if(userInfoService.read(ur_id)==null) {
-                userInfoDTO = new UserInfoDTO(ur_id,"");
-                int rowCnt = userInfoService.write(userInfoDTO);
-                if(rowCnt!=1) {
-                    throw new Exception("Read ERR");
-                }
-                System.out.println(rowCnt);
-            }
-            userInfoDTO = userInfoService.read(ur_id);
-            System.out.println(ur_id);
+            UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id);
+            model.addAttribute("userInfoDTO",userInfoDTO);
             Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
             model.addAttribute("startOfToday", startOfToday.toEpochMilli());
-
             model.addAttribute("msg","MyPage Read Complete");
-            model.addAttribute("userInfoDTO",userInfoDTO);
+
             return "main";
         }catch (Exception e) {
             e.printStackTrace();
