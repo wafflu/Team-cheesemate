@@ -7,10 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import team.cheese.dao.AdministrativeDao;
-import team.cheese.dao.SaleCategoryDao;
-import team.cheese.dao.SaleDao;
-import team.cheese.dao.TagDao;
+import team.cheese.dao.*;
+import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.AdministrativeDto;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
@@ -31,13 +29,15 @@ public class SaleController {
     AdministrativeDao administrativeDao;
     @Autowired
     TagDao tagDao;
+    @Autowired
+    AddrCdDao addrCdDao;
 
     @Autowired
     SaleService saleService;
 
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
-    public String getList(@RequestParam(defaultValue = "0") int check_addr_cd, Model model, HttpSession session) throws Exception {
+    public String getList(Model model, HttpSession session) throws Exception {
 
         // 1. 세션에서 정보를 불러옴
         //  1.1. 로그인 한 경우
@@ -45,21 +45,29 @@ public class SaleController {
         //  1.2. 로그인 하지 않은 경우
         //    1.2.1. addr_cd값을 null로 전달
 
-        if(session.getAttribute("sessionId") != null) {
+//        String ur_id = (String) session.getAttribute("sessionId");
+        String ur_id = "david234";
+//        String ur_id = null;
 
+        if(ur_id == null) {
+            model.addAttribute("addrCdList", administrativeDao.selectAll());
+            List<SaleDto> saleList = saleService.getList();
+            System.out.println(saleList.size());
+            model.addAttribute("saleList", saleList);
         } else {
-            String addr_cd = (String) session.getAttribute("addr_cd");
-            List<SaleDto> saleList = saleService.getList(addr_cd);
+            // 세션에서 ID 값을 가지고 옴
+            List<AddrCdDto> addrCdList = addrCdDao.getAddrCdByUserId(ur_id);
+            String addr_cd = addrCdList.get(0).getAddr_cd();
+            System.out.println("addr_cd" + addr_cd);
+            List<SaleDto> saleList = saleService.getUserAddrCdList(addr_cd);
             System.out.println(saleList.size());
 
             // 사용자의 기본 주소 첫번째
-            model.addAttribute("check_addr_cd", check_addr_cd);
+            model.addAttribute("addrCdList", addrCdList);
             // 불러온 게시글 리스트를 모델에 담음
             model.addAttribute("saleList", saleList);
-
         }
-
-        return "/login/saleList";
+        return "/saleList";
     }
     
     // 게시글 리스트 중 하나를 클릭한 경우
@@ -75,18 +83,29 @@ public class SaleController {
 
     // 글쓰기 버튼 누른 경우
     @GetMapping("/write")
-    public String write(Model model, HttpSession session) throws Exception {
+    public String write(@RequestParam(defaultValue = "0") int selectAddr, Model model, HttpSession session) throws Exception {
 
-        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-
-        return "/login/saleWrite";
+        // 로그인 한 경우
+        // String ur_id = (String) session.getAttribute("sessionId");
+        String ur_id = "david234";
+        String ur_nick = "minyoung";
+        String addr_cd = "11010530";
+        String addr_name = "서울특별시 종로구 청운효자동";
+        if(ur_id != null) {
+//            model.addAttribute("", );
+            model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+            return "/login/saleWrite";
+        } else {
+            // 로그인 안한 경우
+            return "home";
+        }
     }
 
     // 서비스로 분리
     // 글쓰기 완료하고 글을 등록하는 경우
     @PostMapping("/write")
-//    @ResponseBody
-    public String write(@RequestBody Map<String, Object> map, Model model, HttpSession sesson, HttpServletRequest request) throws Exception {
+    @ResponseBody
+    public ResponseEntity<String> write(@RequestBody Map<String, Object> map, Model model, HttpSession sesson, HttpServletRequest request) throws Exception {
         // service 호출
         // 서비스단 작성 필요함
 //        System.out.println(formData);
@@ -123,10 +142,6 @@ public class SaleController {
         mapDto.put("saleDto", saleDto);
         mapDto.put("tagList", tagList);
 
-//      세션에서 ID 값을 가지고 옴
-        String ur_id = "asdf";
-        saleDto.setSeller_id(ur_id);
-        
         // Service를 통해 글 등록 처리
         saleService.write(mapDto);
 
@@ -134,7 +149,8 @@ public class SaleController {
         System.out.println("글 번호 : " + saleDto.getNo());
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
-        return "redirect:/sale/read?no=" + saleDto.getNo();
+//        return "redirect:/sale/read?no=" + saleDto.getNo();
+        return new ResponseEntity<>("/sale/read?no=" + saleDto.getNo(), HttpStatus.OK);
     }
 
     // 서비스로 분리

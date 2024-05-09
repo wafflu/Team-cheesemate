@@ -26,7 +26,12 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
-    public List<SaleDto> selectAll(String addr_cd) throws Exception {
+    public List<SaleDto> selectAll() throws Exception {
+        return session.selectList(namespace + "selectAll");
+    }
+
+    @Override
+    public List<SaleDto> selectUserAddrCd(String addr_cd) throws Exception {
         return session.selectList(namespace + "selectSales", addr_cd);
     }
 

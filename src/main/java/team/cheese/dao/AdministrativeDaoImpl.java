@@ -19,6 +19,11 @@ public class AdministrativeDaoImpl implements AdministrativeDao {
     }
 
     @Override
+    public List<AdministrativeDto> selectAll() throws Exception {
+        return session.selectList(namespace + "selectAll");
+    }
+
+    @Override
     public List<AdministrativeDto> selectAddrCd(String addr_cd) throws Exception {
         return session.selectOne(namespace + "selectAddrCd", addr_cd);
     }

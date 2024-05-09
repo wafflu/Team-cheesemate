@@ -84,7 +84,7 @@ public class SaleDaoImplTest {
         // 2. 게시글 1개 작성 후 개수 확인
         SaleDto saleDto = new SaleDto();
 
-        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_id("david234");
         saleDto.setSal_i_cd("016001005");
         saleDto.setPro_s_cd("C");
         saleDto.setTx_s_cd("S");
@@ -160,13 +160,13 @@ public class SaleDaoImplTest {
 
     // R : 현재 작성되어있는 게시글을 전부 불러왔을 때 count개수와 일치하는 지 확인
     @Test
-    public void testSelectAll() throws Exception {
+    public void testselectUserAddrCd() throws Exception {
         // 1. 전체 글을 불러온다
         // 2. count를 한다
         // 3. 두 값을 비교 한다
         String addr_cd = null;
         // 1. 전체 글을 불러온다
-        List<SaleDto> list = saleDao.selectAll(addr_cd);
+        List<SaleDto> list = saleDao.selectUserAddrCd(addr_cd);
         // 2. count를 한다
         int cnt = saleDao.countUse();
 

@@ -2,14 +2,10 @@ package team.cheese.service.sale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.cheese.dao.AdministrativeDao;
-import team.cheese.dao.SaleCategoryDao;
-import team.cheese.dao.SaleDao;
-import team.cheese.dao.TagDao;
+import team.cheese.dao.*;
 import team.cheese.domain.SaleDto;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +20,8 @@ public class SaleService {
 
     @Autowired
     TagDao tagDao;
+    @Autowired
+    AddrCdDao addrCdDao;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -62,6 +60,20 @@ public class SaleService {
 
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         System.out.println("service write: " + saleDto);
+
+        //      세션에서 ID 값을 가지고 옴
+        String ur_id = "david234";
+        saleDto.setSeller_id(ur_id);
+
+        String ur_nick = "닉네임";
+        saleDto.setSeller_nick(ur_nick);
+//
+        String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
+        String addr_name = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_name();
+
+        saleDto.setAddr_cd(addr_cd);
+        saleDto.setAddr_name(addr_name);
+
         List<String> tagList = (List<String>) map.get("tagList");
         for (String contents : tagList) {
             System.out.println("service tag contents : " + contents);
@@ -74,13 +86,20 @@ public class SaleService {
 
         }
 
-        System.out.println("insert 성공 : " + saleDao.insert(saleDto));
-        return saleDao.insert(saleDto);
+        return saleDao.insertSale(saleDto);
     }
 
     // 전체 게시글 list를 가지고 올 때
-    public List<SaleDto> getList(String addr_cd) throws Exception {
-        List<SaleDto> saleList = saleDao.selectAll(addr_cd);
+    public List<SaleDto> getList() throws Exception {
+        List<SaleDto> saleList = saleDao.selectAll();
+        System.out.println(saleList.size());
+
+        return saleList;
+    }
+
+    // 사용자가 속한 주소의 전체 게시글 list를 가지고 올 때
+    public List<SaleDto> getUserAddrCdList(String addr_cd) throws Exception {
+        List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
         System.out.println(saleList.size());
 
         return saleList;

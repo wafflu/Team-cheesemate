@@ -626,7 +626,7 @@
                 // let redirectURL = '/sale/read?no=' + data;
                 // console.log("redirectURL : ", redirectURL);
                 // // 새로운 URL로 이동
-                // window.location.href = redirectURL;
+                window.location.replace(data);
               },
               error: function (xhr, status, error) {
                 alert("등록 중 오류가 발생했습니다.");
