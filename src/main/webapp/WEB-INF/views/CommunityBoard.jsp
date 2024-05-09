@@ -53,7 +53,10 @@
         </div>
 
 <%--    commmunityHeart--%>
-        <p id = "heart">❤️</p>
+
+        <p id="heart">❤️</p>
+        <input type="hidden" id="postNo" value="${communityBoardDto.no}">
+
 
 
 
@@ -74,7 +77,30 @@
         })
 
         $('#heart').on("click",function(){
+            const postNo = $('#postNo').val();
+            // const userId = $('#userId').val();
 
+
+            if (!postNo) {
+                console.error("데이터가 올바르지 않습니다.");
+                return; // 데이터가 없으면 함수 종료
+            }
+
+            $.ajax({
+               url:'/community/doLike',
+               type:'PATCH',
+               data:JSON.stringify({
+                   "post_no":postNo
+                   // "ur_id":userId
+               }),
+               contentType:'application/json',
+               success:function(response){
+                   console.log("좋아요")
+               },
+               error:function (xhr,status,error){
+                   console.error("좋아요 실패")
+               }
+           })
         })
 
     })

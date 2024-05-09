@@ -20,28 +20,28 @@ public class UserInspectInterceptor implements HandlerInterceptor {
         // 임의의 사용자 ID 설정
         if (session.getAttribute("ur_id") == null) {
             session.setAttribute("ur_id", "user123");
-        }
 
 
-        if (session != null) {
-            String currentLoginUser = (String)session.getAttribute("ur_id");
+            String currentLoginUser = (String) session.getAttribute("ur_id");
             System.out.println(currentLoginUser);
-            String postOwnerUser = request.getParameter("ur_id");
+            String postOwnerUser = "user123";
             System.out.println(postOwnerUser);
-            if(currentLoginUser != null &&currentLoginUser.equals(postOwnerUser)) {  //사용자 ID가 일치하는 경우
+            if (currentLoginUser != null && currentLoginUser.equals(postOwnerUser)) {  //사용자 ID가 일치하는 경우
                 System.out.println("true세션같음");
 
                 return true;
-            }else{
+            } else {
                 System.out.println("false세션 다름");
                 //신고페이지로 이동
                 //사용자의 ID가 서로 다른 경우(원래는 false임의로 true로 해놓틈)
-                return true;
+
+                return false;
             }
-        } else{
+        }
+        else{
             System.out.println("false세션없음");
                 //로그인 창으로 이동
-                return false;   //세션 자체가 없는 경우
+                return true;   //세션 자체가 없는 경우
         }
 
     }

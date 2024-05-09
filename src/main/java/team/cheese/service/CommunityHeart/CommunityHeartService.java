@@ -5,8 +5,9 @@ import team.cheese.dao.CommunityHeart.CommunityHeartDao;
 
 public interface CommunityHeartService {
     public int doLike(CommunityHeartDto communityHeartDto)throws Exception;
-    public int removeLike(CommunityHeartDto communityHeartDto) throws Exception;
-    public int countAllLike(Integer post_no) throws Exception;
-    public int LikeStatus(CommunityHeartDto communityHeartDto) throws Exception;
+
+    public int countLike(CommunityHeartDto communityHeartDto) throws Exception;
+
+    public CommunityHeartDto select(Integer like_no)throws Exception;
 
 }

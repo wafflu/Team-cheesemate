@@ -11,46 +11,14 @@
         ON DUPLICATE KEY UPDATE ur_state = IF(ur_state = 'y', 'n', 'y');
     </insert>
 
-<!--&lt;!&ndash;    //좋아요&ndash;&gt;-->
-<!--    <insert id = "insertLike" parameterType= "communityHeartDto" useGeneratedKeys="true" keyProperty="like_no">-->
-<!--        insert into community_heart(ur_id, post_no)-->
-<!--        values (#{ur_id}, #{post_no})-->
-<!--    </insert>-->
+<!--    게시글의 총 좋아요 수  - ur_state가 y인것만-->
+    <select id = "countLike" resultType="int">
+        select count(*) from community_heart where post_no = #{post_no} and ur_state = 'y';
+    </select>
 
-<!--    <update id="changeLikeStatus" parameterType="CommunityHeartDto">-->
-<!--        update community_heart-->
-<!--        set ur_state = #{ur_state}-->
-<!--        where post_no = #{post_no} and ur_id = #{ur_id};-->
-<!--    </update>-->
-<!--    //삭제-->
-<!--    <delete id = "deleteLike">-->
-<!--        delete from community_heart-->
-<!--        where ur_id = #{ur_id} and post_no = #{post_no}-->
-<!--    </delete>-->
-
-<!--&lt;!&ndash;    //게시글의 총 하트 수&ndash;&gt;-->
-<!--    <select id = "countAllLikes" resultType ="Integer">-->
-<!--        select count(*) from community_heart where post_no = #{post_no} and ur_state = 'y'-->
-<!--    </select>-->
-
-<!--&lt;!&ndash;    //좋아요 상태수&ndash;&gt;-->
-<!--    <select id ="countLikeStatus" resultType ="Integer">-->
-<!--        select count(*) from community_heart where ur_state = 'y'-->
-<!--    </select>-->
-
-
-<!--    <delete id = "deleteAll" parameterType="Integer">-->
-<!--        delete from community_heart;-->
-<!--    </delete>-->
-
-<!--    <select id="count" resultType="int">-->
-<!--        SELECT COUNT(*) FROM community_heart;-->
-<!--    </select>-->
-
-
-
-
+<!--선택-->
     <select id = "selectLike" resultType="CommunityHeartDto">
         select * from community_heart where like_no = #{like_no}
     </select>
+
 </mapper>
