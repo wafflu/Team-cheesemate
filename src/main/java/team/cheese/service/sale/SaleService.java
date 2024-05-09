@@ -91,9 +91,6 @@ public class SaleService {
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         SaleDto saleDto = saleDao.select(no);
 
-        System.out.println("sale.jsp로 전달");
-        System.out.println("판매자 아이디 : " + saleDto.getSeller_id());
-
         return saleDto;
     }
 

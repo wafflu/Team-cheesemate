@@ -28,7 +28,7 @@ public class SaleDto {
     private String brand;
     private Integer reg_price;
     private String buyer_id;
-    private  String buyer_nick;
+    private String buyer_nick;
     private int like_cnt;
     private int view_cnt;
     private Timestamp r_date;

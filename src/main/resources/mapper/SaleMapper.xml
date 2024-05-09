@@ -67,7 +67,8 @@
 
     <!-- C : 판매글 작성 : 사용자 입력값 삽입하기(세션고려해서 수정) -->
     <insert id="insert" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, pro_s_cd, tx_s_cd,
+        INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
+                          group_no, img_full_rt, pro_s_cd, tx_s_cd,
                           trade_s_cd_1, trade_s_cd_2, price,
                           sal_s_cd, title, contents, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand,
                           reg_price)
@@ -77,6 +78,8 @@
                (SELECT nick FROM user WHERE id = #{seller_id}), -- 나중에 세션에서 가져오기
                #{sal_i_cd},
                (SELECT name FROM sale_category WHERE sal_cd = #{sal_i_cd}), -- 나중에 세션에서 가져오기
+               #{group_no},
+               #{img_full_rt},
                #{pro_s_cd},
                #{tx_s_cd},
                #{trade_s_cd_1},
@@ -97,19 +100,19 @@
     </insert>
 
 <!--  User 완성된 후 사용할 수 있는 insert문   -->
-    <insert id="insert2" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
+    <insert id="insertSale" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO sale(
             addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
             group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2,
             sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr,
-            brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date,
-            bid_cnt, ur_state, ad_state, first_date, first_id, last_date, last_id
+            brand, reg_price,
+            first_date, first_id, last_date, last_id
         ) values (
              #{addr_cd}, #{addr_name}, #{seller_id}, #{seller_nick}, #{sal_i_cd}, #{sal_name},
              #{group_no}, #{img_full_rt}, #{pro_s_cd}, #{tx_s_cd}, #{trade_s_cd_1}, #{trade_s_cd_2},
              #{sal_s_cd}, #{title}, #{contents}, #{price}, #{bid_cd}, #{pickup_addr_cd}, #{pickup_addr_name}, #{detail_addr},
-             #{brand}, #{reg_price}, #{buyer_id}, #{buyer_nick}, #{like_cnt}, #{view_cnt}, now(), now(), #{hoist_cnt}, #{h_date},
-             #{bid_cnt}, #{ur_state}, #{ad_state}, now(), #{first_id}, now(), #{last_id}
+             #{brand}, #{reg_price},
+             now(), #{first_id}, now(), #{last_id}
          )
     </insert>
 

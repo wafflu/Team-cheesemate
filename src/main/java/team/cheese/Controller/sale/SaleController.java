@@ -56,6 +56,7 @@ public class SaleController {
             model.addAttribute("check_addr_cd", check_addr_cd);
             // 불러온 게시글 리스트를 모델에 담음
             model.addAttribute("saleList", saleList);
+
         }
 
         return "/login/saleList";
@@ -65,6 +66,7 @@ public class SaleController {
     @RequestMapping("/read")
     public String read(Long no, Model model, HttpSession session) throws Exception {
         SaleDto saleDto = saleService.read(no);
+        System.out.println(saleDto);
 
         model.addAttribute("Sale", saleDto); // model로 값 전달
 

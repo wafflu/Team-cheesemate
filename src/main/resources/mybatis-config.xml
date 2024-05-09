@@ -14,5 +14,6 @@
 		<typeAlias alias="SaleImgDto" type="team.cheese.domain.SaleImgDto"/>
 		<typeAlias alias="SaleTagDto" type="team.cheese.domain.SaleTagDto"/>
 		<typeAlias alias="TagDto" type="team.cheese.domain.TagDto"/>
+		<typeAlias alias="AddrCdDto" type="team.cheese.domain.AddrCdDto"/>
 	</typeAliases>
 </configuration>

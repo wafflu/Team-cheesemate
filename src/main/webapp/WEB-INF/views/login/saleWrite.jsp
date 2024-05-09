@@ -151,7 +151,8 @@
                 <option value="" disabled selected>소분류</option>
               </select>
 
-              <p style="color: red;" id="salecategoryMsg"></p>
+              <p style="color: orangered;" id="salecategoryMsg"></p>
+              <span style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;" id="sal_name"></p></b></span>
 
               <p>상품상태</p>
               <input type="radio" name="pro_s_cd" value="S" />새상품(미사용) <br />
@@ -219,9 +220,7 @@
             </form>
           </div>
         </body>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-          integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script>
 
           // Enter키 누를 시 모달창 뜨는 것 방지
@@ -350,6 +349,39 @@
             $("#category3").change(function () {
               $("#categoryMsg").text("");
             });
+          });
+
+          $(document).ready(function() {
+            // 페이지 로드 시 현재 선택된 대분류 카테고리의 이름을 가져와서 sal_name에 표시
+            let category1Name = $("#category1 option:checked").text();
+            if(category1Name !== "대분류") {
+              $("#sal_name").text($("#category1 option:checked").text());
+            }
+
+            // 대분류 선택 시 선택된 카테고리의 이름을 sal_name에 업데이트
+            $("#category1").change(function () {
+              $("#sal_name").text($("#category1 option:checked").text());
+            });
+
+            // 중분류 선택 시 대분류 카테고리와 함께 중분류 카테고리의 이름을 sal_name에 업데이트
+            $("#category2").change(function () {
+              let category1Name = $("#category1 option:checked").text();
+              let category2Name = $("#category2 option:checked").text();
+              if(category2Name !== "중분류") {
+                $("#sal_name").text(category1Name + " > " + category2Name);
+              }
+            });
+
+            // 소분류 선택 시 대분류, 중분류 카테고리와 함께 소분류 카테고리의 이름을 sal_name에 업데이트
+            $("#category3").change(function () {
+              let category1Name = $("#category1 option:checked").text();
+              let category2Name = $("#category2 option:checked").text();
+              let category3Name = $("#category3 option:checked").text();
+              if(category3Name !== "소분류") {
+                $("#sal_name").text(category1Name + " > " + category2Name + " > " + category3Name);
+              }
+            });
+
           });
 
           function loadCategory2() {
@@ -512,17 +544,24 @@
 
             // category1, category2, category3의 값 추출
             let category1Value = $("#category1").val();
-            let category2Value = $("#category2").val();
-            let category3Value = $("#category3").val();
+            let category2Value = $("#category2 option:checked").val();
+            let category3Value = $("#category3 option:checked").val();
+            let category1Text = $("#category1 option:checked").text();
+            let category2Text = $("#category2 option:checked").text();
+            let category3Text = $("#category3 option:checked").text();
 
             // 조건에 따라 sal_i_cd 값을 설정
             let sal_i_cd_value;
+            let sal_name_value;
             if (category1Value && !category2Value && !category3Value) {
                 sal_i_cd_value = category1Value;
+                sal_name_value = category1Text;
             } else if (category1Value && category2Value && !category3Value) {
                 sal_i_cd_value = category2Value;
+                sal_name_value = category2Text;
             } else if (category1Value && category2Value && category3Value) {
                 sal_i_cd_value = category3Value;
+                sal_name_value = category3Text;
             }
 
             // trade_s_cd 값 추출
@@ -543,7 +582,8 @@
               "pickup_addr_name": pickup_addr_name,
               "detail_addr": detail_addr,
               "brand": brand,
-              "sal_i_cd": sal_i_cd_value
+              "sal_i_cd": sal_i_cd_value,
+              "sal_name": sal_name_value
             }
             
             // trade_s_cd 파라미터 설정
@@ -580,8 +620,13 @@
               data: jsonString,
               dataType: 'text',
               success: function (data) {
-                alert(data);
-                console.log("성공");
+                // // 글이 성공적으로 등록되었을 때
+                // // data에는 등록된 글의 번호가 반환됨
+                // // 반환된 글 번호를 이용하여 리다이렉션할 URL 생성
+                // let redirectURL = '/sale/read?no=' + data;
+                // console.log("redirectURL : ", redirectURL);
+                // // 새로운 URL로 이동
+                // window.location.href = redirectURL;
               },
               error: function (xhr, status, error) {
                 alert("등록 중 오류가 발생했습니다.");

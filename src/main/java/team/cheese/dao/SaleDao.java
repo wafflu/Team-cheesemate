@@ -15,8 +15,11 @@ public interface SaleDao {
     // 판매글 번호를 이용하여 판매글 가져오기
     SaleDto select(Long no) throws Exception;
 
-    // 판매글 작성하는 경우
+    // 판매글 작성하는 경우(세션고려X)
     int insert(SaleDto saleDto) throws  Exception;
+
+    // 판매글 작성하는 경우(세션고려O)
+    int insertSale(SaleDto saleDto) throws  Exception;
 
     // 판매글 수정하는 경우
     int update(SaleDto saleDto) throws Exception;

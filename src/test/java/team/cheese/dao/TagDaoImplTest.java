@@ -82,7 +82,7 @@ public class TagDaoImplTest extends TestCase {
 
                 tagDto.setLast_id(seller_id);
 
-                int resutUpdate = tagDao.update(tagDto);
+                int resutUpdate = tagDao.updateSys(tagDto);
                 assertTrue(resutUpdate == 1);
 
                 Long tag_no = tagDto.getNo();
@@ -139,7 +139,7 @@ public class TagDaoImplTest extends TestCase {
 
                 tagDto.setLast_id(seller_id);
 
-                int resutUpdate = tagDao.update(tagDto);
+                int resutUpdate = tagDao.updateSys(tagDto);
                 assertTrue(resutUpdate == 1);
 
                 Long tag_no = tagDto.getNo();
@@ -156,6 +156,53 @@ public class TagDaoImplTest extends TestCase {
         }
     }
 
+    @Test
+    // update Test
+    public void testUpdateTag() throws Exception {
+        // 1. 판매글 선택해서 update진행
+        // 2. 임의의 판매글을 선택했다고 가정
+        // 3. tag테이블에 해시태그 존재하는지 확인
+        Long sal_no = (long) (Math.random() * saleDao.count()) + 1;
+        SaleDto saleDto = saleDao.select(sal_no);
+        String seller_id = saleDto.getSeller_id();
+        System.out.println(seller_id);
+
+        List<String> tagList = new ArrayList<>();
+        tagList.add("태그테스트");
+        tagList.add("태그업데이트");
+        tagList.add("업데이트테스트");
+
+        for(String contents : tagList) {
+            System.out.println(contents);
+
+            // 태그 존재하는지 확인
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            System.out.println("tagDto 확인 : " + tagDto);
+            if (tagDto == null) { // contents가 중복값이 없는 경우
+                assertNull(tagDto);
+                tagDto = new TagDto(); // 새로운 객체 생성
+
+                tagDto.setContents(contents);
+                tagDto.setFirst_id(seller_id);
+                tagDto.setLast_id(seller_id);
+
+                int resultTag = tagDao.insert(tagDto);
+                assertTrue(resultTag == 1);
+
+                Long tag_no = tagDto.getNo();
+                System.out.println("insert된 tag의 no : " + tag_no);
+
+            } else { // contents가 중복값이 있는 경우
+                assertNotNull(tagDto);
+
+                tagDto.setLast_id(seller_id);
+
+                int resutUpdate = tagDao.updateSys(tagDto);
+                assertTrue(resutUpdate == 1);
+            }
+            assertTrue(tagDto.getLast_id() == seller_id);
+        }
+    }
 
     public SaleDto saleDeleteInsert() throws Exception {
         // 1. 게시글 전체 삭제

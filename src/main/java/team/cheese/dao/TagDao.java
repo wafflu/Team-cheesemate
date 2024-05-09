@@ -12,7 +12,9 @@ public interface TagDao {
 
     TagDto selectTagContents(String contents) throws Exception;
 
-    int update(TagDto tagDto) throws Exception;
+    int updateSys(TagDto tagDto) throws Exception;
+
+    int updateTag(TagDto tagDto) throws Exception;
 
     int deleteAll() throws Exception;
 

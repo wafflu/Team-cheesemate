@@ -43,6 +43,12 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
+    public int insertSale(SaleDto saleDto) throws Exception {
+
+        return session.insert(namespace + "insertSale", saleDto);
+    }
+
+    @Override
     public int update(SaleDto saleDto) throws Exception {
         Long no = saleDto.getNo();
 

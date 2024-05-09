@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.SaleDto;
 
 import java.util.List;
@@ -31,6 +32,8 @@ public class SaleDaoImplTest {
     SaleImgDao saleImgDao;
     @Autowired
     ImgDao imgDao;
+    @Autowired
+    AddrCdDao addrCdDao;
 
     // 테스트하기 위해서 delete문을 한번에 담은 Class
     @Autowired
@@ -252,5 +255,48 @@ public class SaleDaoImplTest {
         saleDto.setTx_s_cd("F");
         assertTrue(saleDao.update(saleDto)==1);
     }
+    
+    @Test
+    public void testSaleInsert() throws Exception {
+        // insert문 테스트
 
+        // 1. 게시글 전체 삭제
+        deleteDao.deleteAll();
+
+        // 2. 세션에서 id, nick, addr_cd정보를 불러온다고 가정
+        String seller_id = "asdf"; // user 테이블에서 가져왔다고 가정
+        String seller_nick = "봄"; // user 테이블에서 가져왔다고 가정
+        List<AddrCdDto> addrCdList = addrCdDao.getAddrCdByUserId(seller_id);
+        // addrCdList 중 첫번째 값이 기본 주소값
+        AddrCdDto addrCdDto = addrCdList.get(0);
+        String addr_cd = addrCdDto.getAddr_cd();
+        String addr_name = addrCdDto.getAddr_name();
+
+        // 판매카테고리 선택한 경우
+        // 판매카테고리 명 적용
+
+        // 2. 반복문으로 동일한 게시글 100개 insert
+        SaleDto saleDto = new SaleDto();
+        saleDto.setSeller_id(seller_id);
+        saleDto.setAddr_cd(addr_cd);
+        saleDto.setAddr_name(addr_name);
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("016001005");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("동화책 팔아요");
+        saleDto.setContents("어린이 동화책 전집 팔이요.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("ㅇㅇ북스");
+        saleDto.setReg_price(30000);
+        saleDto.setCheck_addr_cd(0);
+
+        // 3. 게시글 1개 작성
+        assertTrue(saleDao.insert(saleDto) == 1);
+    }
 }

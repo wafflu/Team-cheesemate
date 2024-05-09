@@ -34,8 +34,14 @@ public class TagDaoImpl implements TagDao{
     }
 
     @Override
-    public int update(TagDto tagDto) throws Exception {
-        return session.update(namespace + "update", tagDto);
+    public int updateSys(TagDto tagDto) throws Exception {
+        return session.update(namespace + "updateSys", tagDto);
+    }
+
+    @Override
+    public int updateTag(TagDto tagDto) throws Exception {
+
+        return session.update(namespace + "updateTag", tagDto);
     }
 
     @Override
