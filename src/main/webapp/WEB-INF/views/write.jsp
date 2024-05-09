@@ -71,7 +71,7 @@
             <label>내용</label>
             <!--  여러줄의 데이터를 입력하고 하고자 할때 textarea 태그를 사용한다. -->
             <!--  textarea 안에 있는 모든 글자는 그대로 나타난다. 공백문자, tag, enter -->
-            <textarea class="form-control" rows="5" id="b_content"
+            <textarea class="form-control" rows="5" id="contents"
                       name="contents" placeholder="내용 작성" ${readonly}>${dto.contents}</textarea>
         </div>
         <div class="form-group">
@@ -101,19 +101,47 @@
             <input type="text" class="form-control" id="prize"
                    placeholder="경품(2자-10자)" name="prize" ${readonly} value=${dto.prize}>
         </div>
-<%--        <c:choose>--%>
-<%--            <c:when test="${requestScope['javax.servlet.forward.servlet_path']=='/read'}">--%>
+        <c:choose>
+            <c:when test="${requestScope['javax.servlet.forward.servlet_path']=='/read'}">
                 <button type="button" class="btn btn-default" onclick="location.href='modify?evt_no=${dto.evt_no}'">수정</button>
                 <button type="button" class="btn btn-default" onclick="location.href='remove?evt_no=${dto.evt_no}'">삭제</button>
-<%--            </c:when>--%>
-<%--            <c:otherwise>--%>
-<%--                <c:if test="${requestScope['javax.servlet.forward.servlet_path']!='/read'}">--%>
+            </c:when>
+            <c:otherwise>
+                <c:if test="${requestScope['javax.servlet.forward.servlet_path']!='/read'}">
                     <button type="submit" class="btn btn-default">등록</button>
-<%--                </c:if>--%>
-<%--            </c:otherwise>--%>
-<%--        </c:choose>--%>
+                </c:if>
+            </c:otherwise>
+        </c:choose>
     </form>
 
     <a href="write" class="btn btn-default">쓰기</a>
+    <script>
+        function writeData() {
+            var title = document.getElementById("title").value;
+            var contents = document.getElementById("contents").value;
+            var ad_id = document.getElementById("nickname").value;
+            var s_date = document.getElementById("s_date").value;
+            var e_date = document.getElementById("e_date").value;
+            var evt_cd = document.getElementById("user_select").value;
+            var prize = document.getElementById("prize").value;
+            var eventDto = {
+                title: title,
+                contents: contents,
+                ad_id: ad_id,
+                s_date: s_date,
+                e_date: e_date,
+                evt_cd: evt_cd,
+                prize: prize
+            };
+            $.ajax({
+                url : "event/write",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: "json",
+                data: JSON.stringify(eventDto),
+                success: function (data){}
+                })
+        }
+    </script>
 </body>
 </html>

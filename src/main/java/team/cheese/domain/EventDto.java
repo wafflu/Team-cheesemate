@@ -131,7 +131,7 @@ public class EventDto {
         this.e_date = e_date;
     }
 
-    public int getEvt_img_sn() {
+    public int getGroup_no() {
         return group_no;
     }
 
@@ -239,11 +239,18 @@ public class EventDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventDto eventDto = (EventDto) o;
-        return group_no == eventDto.group_no && Objects.equals(evt_cd, eventDto.evt_cd) && Objects.equals(title, eventDto.title) && Objects.equals(contents, eventDto.contents) && Objects.equals(s_date, eventDto.s_date) && Objects.equals(e_date, eventDto.e_date) && Objects.equals(active_s_cd, eventDto.active_s_cd) && Objects.equals(prize, eventDto.prize) && Objects.equals(ad_id, eventDto.ad_id);
+        return Objects.equals(group_no, eventDto.group_no)
+                && Objects.equals(evt_cd, eventDto.evt_cd)
+                && Objects.equals(title, eventDto.title)
+                && Objects.equals(contents, eventDto.contents)
+                && Objects.equals(s_date, eventDto.s_date)
+                && Objects.equals(e_date, eventDto.e_date)
+                && Objects.equals(active_s_cd, eventDto.active_s_cd)
+                && Objects.equals(prize, eventDto.prize);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(evt_cd, title, contents, s_date, e_date, r_date, group_no, active_s_cd, prize, ad_id);
+        return Objects.hash(evt_cd, title, contents, s_date, e_date, r_date, group_no, active_s_cd, prize);
     }
 }

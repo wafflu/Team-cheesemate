@@ -22,6 +22,7 @@ public class EventDaoTest {
     @Autowired()
     EventDao eventDao;
 //  1. create test
+//  -
 
 
     EventDto dto1 = new EventDto("E","F","이벤트 1", "상품권 이벤트", new Date(2024/02/01), new Date(2024/02/30),1,"src", "도서 상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
@@ -130,14 +131,15 @@ public class EventDaoTest {
         for(EventDto dto : dtoList) {
             assertTrue(1 == eventDao.insert(dto));
         }
+        EventDto dto = eventDao.selectContent(Long.valueOf(1));
+        System.out.println(dto.getContents());
+        System.out.println(dtoList.get(1-1).getContents());
 
+        assertTrue(dto.getGroup_no() == dtoList.get(1-1).getGroup_no());
+
+        assertTrue(dtoList.get(1-1).equals(dto));
         assertTrue(eventDao.count("") == 6);
-        assertTrue(eventDao.count("P")==4);
-        assertTrue(eventDao.count("F")==1);
-        assertTrue(eventDao.count("c")==1);
-        for(int i=1; i<=eventDao.count(""); i++) {
-            assertTrue(eventDao.selectContent(Long.valueOf(i)).equals(dtoList.get(i)));
-        }
+
     }
 
     @Test

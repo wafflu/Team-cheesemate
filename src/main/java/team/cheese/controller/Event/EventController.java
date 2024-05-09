@@ -48,12 +48,14 @@ public class EventController {
     }
 
     @PostMapping(value = "write")
+    @ResponseBody
     public String write(EventDto dto) {
         service.eventRegister(dto);
         return "redirect: /event";
     }
     @PostMapping(value = "modify")
-    public String modify(EventDto dto) throws Exception {
+    public String modify(Long evt_no,EventDto dto) throws Exception {
+        dto.setEvt_no(evt_no);
         int result=service.updateContent(dto);
         if(result==1) {
             throw new Exception("업데이트 실패");

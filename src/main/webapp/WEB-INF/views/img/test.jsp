@@ -9,7 +9,7 @@
   <input type="text" name="title">
   <input type="text" name="contents">
   <div class="form_section_title">
-    <label>상품 이미지</label>
+    <label>이벤트 이미지</label>
   </div>
   <div class="form_section_content">
     <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
