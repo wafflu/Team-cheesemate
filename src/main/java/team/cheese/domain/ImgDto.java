@@ -27,6 +27,10 @@ public class ImgDto {
     private String last_id;
 
 
+    public ImgDto() {
+
+    }
+
     public ImgDto(String tb_name, int tb_no, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size, String img_full_rt){
         this.imgtype = imgtype;
         this.file_rt = file_rt;
