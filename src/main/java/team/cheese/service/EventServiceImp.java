@@ -60,6 +60,7 @@ public class EventServiceImp implements EventService {
     }
     @Override
     public int changeState(EventDto dto){
+
         return dao.updatestate(dto);
     }
 

@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+
     <!-- Root Context: defines shared resources visible to all other web components -->
     <!--
     MySQL JDBC 드라이버의 클래스가 바뀌었음을 나타내며, 이제 com.mysql.cj.jdbc.Driver를 사용해야 한다는 것을 알려줍니다.

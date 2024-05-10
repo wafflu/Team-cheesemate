@@ -1,11 +1,13 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class SaleDto {
-    private BigInteger no;
+    private Long no;
     private String addr_cd;
     private String addr_name;
     private String seller_id;
@@ -19,15 +21,24 @@ public class SaleDto {
     private String trade_s_cd_1;
     private String trade_s_cd_2;
     private String sal_s_cd;
+
+    @NotBlank
+    @NotEmpty
+    @Size(max = 100)
     private String title;
+
+    @NotBlank
+    @NotEmpty
+    @Size(max = 2000)
     private String contents;
-    private int price;
+
+    private Integer price;
     private String bid_cd;
     private String pickup_addr_cd;
     private String pickup_addr_name;
     private String detail_addr;
     private String brand;
-    private int reg_price;
+    private Integer reg_price;
     private String buyer_id;
     private  String buyer_nick;
     private int like_cnt;
@@ -45,11 +56,11 @@ public class SaleDto {
     private String last_id;
     private int check_addr_cd;
 
-    public BigInteger getNo() {
+    public Long getNo() {
         return no;
     }
 
-    public void setNo(BigInteger no) {
+    public void setNo(Long no) {
         this.no = no;
     }
 
@@ -177,7 +188,7 @@ public class SaleDto {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -225,7 +236,7 @@ public class SaleDto {
         return reg_price;
     }
 
-    public void setReg_price(int reg_price) {
+    public void setReg_price(Integer reg_price) {
         this.reg_price = reg_price;
     }
 

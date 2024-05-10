@@ -94,14 +94,14 @@ public class test {
 
     @Test
     public void pass() throws NoSuchAlgorithmException {
-        String password = "password123";
+        String password = "user123아보카도.png";
 
         // 비밀번호를 해시화
         String hashedPassword = hashPassword(password);
         System.out.println("Hashed Password: " + hashedPassword);
 
         // 데이터베이스에서 가져온 해시값
-        String storedHashedPassword = "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f";
+        String storedHashedPassword = "0d648b01768eae5c49592f999ecc2b6b2735e8de1caad9e50b2f6057daa539bb";
 
         // 사용자가 입력한 비밀번호를 해시화하여 데이터베이스에서 가져온 해시값과 비교
         boolean passwordsMatch = hashPassword(password).equals(storedHashedPassword);
@@ -112,5 +112,26 @@ public class test {
     public void path(){
         String path = System.getProperty("user.dir");
         System.out.println(path);
+    }
+
+    @Test
+    public void filetest(){
+        String path = System.getProperty("user.home")+"/Desktop/Img";
+        ///Users/jehyeon/Desktop/Img
+        System.out.println(path);
+
+        // 디렉토리 객체 생성
+        File directory = new File(path);
+
+        //디렉토리에 있는 파일과 디렉토일 확인
+        File[] files = directory.listFiles();
+
+        if(files != null){
+            for(File file : files) {
+                System.out.println(file.getName());
+            }
+        } else {
+            System.out.println("해당 경로에 아무것도 없음");
+        }
     }
 }

@@ -9,7 +9,7 @@
   <input type="text" name="title">
   <input type="text" name="contents">
   <div class="form_section_title">
-    <label>이벤트 이미지</label>
+    <label>상품 이미지</label>
   </div>
   <div class="form_section_content">
     <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
@@ -73,7 +73,6 @@
       let obj = uploadResultArr[i];
 
       // let fileCallPath = encodeURIComponent(obj.uploadPath + "/r_" + obj.uuid + "_" + obj.fileName);
-      let fileCallPath = encodeURIComponent(obj.file_rt + "/r_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
 
       str += "<div id='result_card'>";
       str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
@@ -92,38 +91,11 @@
     var index = $(".imgDeleteBtn").index(this);
     // console.log("index : "+index)
     imginfo.splice(index, 1);
-    console.log(imginfo);
-    deleteFile();
+    let targetDiv = $("#result_card");
+    targetDiv.remove();
+    $("input[type='file']").val("");
+    // deleteFile();
   });
-
-  //
-  // $(".imgDeletBtn").click(function(){
-  //     deleteFile();
-  // });
-
-  // $("#h1").click(function(){
-  //   let test =[1,2,3,4,5];
-  //
-  //   $.ajax({
-  //     url: '/reg_image2',
-  //     type: 'GET', // POST 요청으로 변경
-  //     // contentType: 'application/json',
-  //     // data: JSON.stringify(test), // JSON 형식으로 데이터 전송
-  //     dataType: 'json',
-  //     success: function(result) {
-  //       alert("S : " + result);
-  //     },
-  //     error: function(result) {
-  //       alert("F : " + result);
-  //     }
-  //   });
-  // })
-
-  // let info = {
-  //   "imglist" : imginfo,
-  //   "person": { "name": "lee", "age": 24 }
-  // }
-
 
   //이미지 등록하기
   $("#reg_img").click(function (){
@@ -142,18 +114,26 @@
         "img" : imginfo
       };
 
+    alert(sale);
+
     $.ajax({
       url: '/img/reg_image2',
       type : 'POST',
-      contentType : 'application/json',
+      contentType : 'application/json; charset=UTF-8',
       dataType : 'text',
       data : JSON.stringify(map),
       success: function (result) {
         location.replace(result);
       },
-      error: function(result) {
-        alert("선택된 이미지가 없습니다." + result)
+      error: function(xhr, status, error) {
+        // 오류 발생 시 처리
+        var errorMessage = xhr.responseText;
+        console.error('Error:', error);
+        alert("오류 발생: " + errorMessage); // 서버에서 전달된 예외 메시지를 알림창으로 표시
       }
+      // error: function(result) {
+      //   alert("선택된 이미지가 없습니다." + result)
+      // }
     });
     alert("등록되었습니다.")
   })

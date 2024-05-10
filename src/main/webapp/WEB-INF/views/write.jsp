@@ -116,6 +116,7 @@
 
     <a href="write" class="btn btn-default">쓰기</a>
     <script>
+
         function writeData() {
             var title = document.getElementById("title").value;
             var contents = document.getElementById("contents").value;

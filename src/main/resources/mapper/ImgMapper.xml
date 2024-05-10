@@ -25,30 +25,9 @@
     </select>
 
     <update id="update_img_state" parameterType="map">
-        update img set state = #{state} where no = #{no};
+        update img set state = #{state} where group_no = #{no};
     </update>
 
-
-
-    <!-- 이벤트 임의 작성용 -->
-    <insert id="insert_event" parameterType="team.cheese.domain.EventDto">
-        INSERT INTO event(evt_cd, active_s_cd, title, contents, s_date, e_date, img_no, prize, ad_id)
-        values(#{evt_cd}, #{active_s_cd}, #{title}, #{contents}, #{s_date}, #{e_date}, #{img_no}, #{prize}, #{ad_id});
-    </insert>
-
-    <!-- 마이페이지 임의 작성용 -->
-    <insert id="insert_userinfo" parameterType="team.cheese.domain.UserInfoDTO">
-        insert into user_info (ur_id, nick, contents, img_full_rt)
-        select id,nick,'안녕하세요',#{img_full_rt}
-        from user
-        where id = #{ur_id};
-    </insert>
-
-    <!-- 커뮤니티 임의 작서용-->
-    <insert id="insert_commu" parameterType="team.cheese.domain.CommunityBoardDto" useGeneratedKeys="true" keyProperty="no">
-        insert into community_board(ur_id, addr_cd,addr_no, commu_cd, addr_name, title, contents, img_full_rt, nick)
-        values(#{ur_id}, #{addr_cd}, #{addr_no}, #{commu_cd}, #{addr_name}, #{title}, #{contents}, #{img_full_rt}, #{nick});
-    </insert>
 
     <!-- 아래 테스트를 위한 코드용 -->
     <select id="select_all_img" resultType="ImgDto">

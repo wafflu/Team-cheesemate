@@ -103,6 +103,26 @@
             loadDocArr();
         });
     });
+    function showThumbnailImage(uploadResultArr){
+
+        /* 전달받은 데이터 검증 */
+        if(!uploadResultArr || uploadResultArr.length == 0){return}
+
+        let uploadResult = $("#uploadResult");
+        let str = "";
+
+        for(let i = 0; i<uploadResultArr.length; i++){
+            let obj = uploadResultArr[i];
+
+            let fileCallPath = encodeURIComponent(obj.filert + "/s_" + obj.u_name + "_" + (obj.o_name+obj.e_name));
+
+            str += "<div id='result_card'>";
+            str += "<img src='/img/display?fileName=" + fileCallPath +"'>";
+            str += "</div>";
+        }
+
+        uploadResult.append(str);
+    }
 </script>
 
 </body>
