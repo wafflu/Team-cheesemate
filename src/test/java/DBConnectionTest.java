@@ -13,7 +13,7 @@ import static junit.framework.TestCase.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
-public class dbtest {
+public class DBConnectionTest {
     @Autowired
     DataSource ds; // 컨테이너로부터 자동 주입받는다.
 
