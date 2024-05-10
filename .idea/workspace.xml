@@ -9,96 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f585c393-c4a7-4287-8051-228d6023e449" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AddrCdDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AddrCdDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AdminDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AdminImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/UserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/UserDaoImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/domain/AddrCdDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/domain/AdminDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/domain/UserDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/AddrCdService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/AdminService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/UserService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/AddrCdMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/AdminMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/board.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/loginForm.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/resisterForm.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/adasd.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/cho.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/r_2024_04_29_adasd.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/r_2024_04_29_cho.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/r_2024_04_29_마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/r_2024_04_29_아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/s_2024_04_29_adasd.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/s_2024_04_29_cho.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/s_2024_04_29_마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/s_2024_04_29_아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/w_2024_04_29_adasd.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/w_2024_04_29_cho.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/w_2024_04_29_마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/w_2024_04_29_아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_29/아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/adasd.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/r_2024_04_30_adasd.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/r_2024_04_30_마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/r_2024_04_30_아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/r_2024_04_30_아보카도222.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/s_2024_04_30_마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/s_2024_04_30_아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/w_2024_04_30_adasd.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/w_2024_04_30_마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/w_2024_04_30_아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/마루1.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/아보카도.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/img/2024_04_30/아보카도222.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/AddrCdDaoTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/AdminDaoTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/UserDaoTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/team/cheese/service/AddrCdServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/team/cheese/service/AdminServiceTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/team/cheese/service/UserServiceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/test2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/ImgDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/PublicDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/SaleDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/domain/ImgDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/domain/SaleDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/ImgService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ImgMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/PublicMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/SaleMapper.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/img/test.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/img/testview.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ImgDaoTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ImgServiceTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/SaleDaoTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/dbtest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DBConnectionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/publicDaoTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sp_legacy/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/sp_legacy/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/spring/root-context.xml" afterDir="false" />
-    </list>
+    <list default="true" id="f585c393-c4a7-4287-8051-228d6023e449" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -174,58 +85,58 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;JUnit.AddrCdDaoTest.testGetAddrCdByUserId.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AddrCdDaoTest.testGetAddrCdCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AddrCdDaoTest.testGetAllAddrCd.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AddrCdServiceTest.testGetAddrCdByUserId.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AddrCdServiceTest.testGetAddrCdCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AddrCdServiceTest.testGetAllAddrCd.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminDaoTest.testGetAdminById.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminDaoTest.testGetAdminCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminDaoTest.testGetAdministerCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminDaoTest.testGetAllAdmins.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminDaoTest.testGetAllAdminsId.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminServiceTest.testGetAdminById.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminServiceTest.testGetAdminCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdminServiceTest.testGetAllAdmins.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.AdministerDaoTest.testGetAdministerCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.DBConnectionTest.jdbcConnectionTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserDaoTest.testGetAllUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserDaoTest.testGetAllUserId.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserDaoTest.testGetAllUsersId.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserDaoTest.testGetCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserDaoTest.testGetUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserDaoTest.testGetUserById.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserDaoTest.testInsertNewUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.testGetAllUsers.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.testGetCnt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.testGetUserById.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.testInsertNewUser.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UserServiceTest.testLogin.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.dbtest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.dbtest.jdbcConnectionTest.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Tomcat 8.5.99.executor&quot;: &quot;Run&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit3&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3&quot;: &quot;junit.framework.TestCase&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/wjdgn/OneDrive/바탕 화면/backup/teamproject&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.AddrCdDaoTest.testGetAddrCdByUserId.executor": "Run",
+    "JUnit.AddrCdDaoTest.testGetAddrCdCnt.executor": "Run",
+    "JUnit.AddrCdDaoTest.testGetAllAddrCd.executor": "Run",
+    "JUnit.AddrCdServiceTest.testGetAddrCdByUserId.executor": "Run",
+    "JUnit.AddrCdServiceTest.testGetAddrCdCnt.executor": "Run",
+    "JUnit.AddrCdServiceTest.testGetAllAddrCd.executor": "Run",
+    "JUnit.AdminDaoTest.testGetAdminById.executor": "Run",
+    "JUnit.AdminDaoTest.testGetAdminCnt.executor": "Run",
+    "JUnit.AdminDaoTest.testGetAdministerCnt.executor": "Run",
+    "JUnit.AdminDaoTest.testGetAllAdmins.executor": "Run",
+    "JUnit.AdminDaoTest.testGetAllAdminsId.executor": "Run",
+    "JUnit.AdminServiceTest.testGetAdminById.executor": "Run",
+    "JUnit.AdminServiceTest.testGetAdminCnt.executor": "Run",
+    "JUnit.AdminServiceTest.testGetAllAdmins.executor": "Run",
+    "JUnit.AdministerDaoTest.testGetAdministerCnt.executor": "Run",
+    "JUnit.DBConnectionTest.jdbcConnectionTest.executor": "Run",
+    "JUnit.UserDaoTest.testGetAllUser.executor": "Run",
+    "JUnit.UserDaoTest.testGetAllUserId.executor": "Run",
+    "JUnit.UserDaoTest.testGetAllUsersId.executor": "Run",
+    "JUnit.UserDaoTest.testGetCnt.executor": "Run",
+    "JUnit.UserDaoTest.testGetUser.executor": "Run",
+    "JUnit.UserDaoTest.testGetUserById.executor": "Run",
+    "JUnit.UserDaoTest.testInsertNewUser.executor": "Run",
+    "JUnit.UserServiceTest.testGetAllUsers.executor": "Run",
+    "JUnit.UserServiceTest.testGetCnt.executor": "Run",
+    "JUnit.UserServiceTest.testGetUserById.executor": "Run",
+    "JUnit.UserServiceTest.testInsertNewUser.executor": "Run",
+    "JUnit.UserServiceTest.testLogin.executor": "Run",
+    "JUnit.dbtest.executor": "Run",
+    "JUnit.dbtest.jdbcConnectionTest.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Tomcat Server.Tomcat 8.5.99.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit3",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3": "junit.framework.TestCase",
+    "git-widget-placeholder": "jjh",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/wjdgn/OneDrive/바탕 화면/backup/teamproject",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Problems",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="junit.framework.TestCase" />
