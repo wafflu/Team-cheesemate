@@ -19,6 +19,12 @@ public class TagDto {
     public TagDto() {
     }
 
+    public TagDto(String contents, String seller_id) {
+        this.contents = contents;
+        this.first_id = seller_id;
+        this.last_id = seller_id;
+    }
+
     public TagDto(String contents) {
         this.contents = contents;
     }

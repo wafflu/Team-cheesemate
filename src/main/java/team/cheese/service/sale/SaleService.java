@@ -2,9 +2,14 @@ package team.cheese.service.sale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import team.cheese.dao.*;
 import team.cheese.domain.SaleDto;
+import team.cheese.domain.SaleTagDto;
+import team.cheese.domain.TagDto;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +27,11 @@ public class SaleService {
     TagDao tagDao;
     @Autowired
     AddrCdDao addrCdDao;
+    @Autowired
+    SaleTagDao saleTagDao;
+
+    @Autowired
+    TestSession testSession;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -36,19 +46,20 @@ public class SaleService {
     }
 
     // 판매자가 판매 게시글을 작성할 때
-    public int write(Map<String, Object> map) throws Exception {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Long write(Map<String, Object> map) throws Exception {
         // insert 해주는 거 여기서 처리
 
         // 1. 필수로 들어와야 되는 값 체크
         /*  addr_cd(행정동코드), addr_name(주소명),
-        *   seller_id(판매자id), seller_nick(판매자명),
-        *   sal_i_cd(판매카테고리), sal_name(판매카테고리명),
-        *   group_no(이미지그룹번호), img_full_rt(이미지루트),
-        *   pro_s_cd(사용감), tx_s_cd(거래방법),
-        *   trade_s_cd_1(거래방식), title(제목), contents(내용),
-        *   price(가격), bid_cd(가격제시/나눔신청여부)
-        */
-        //     1.1. 값이 들어와 있지 않으면 rollback
+         *   seller_id(판매자id), seller_nick(판매자명),
+         *   sal_i_cd(판매카테고리), sal_name(판매카테고리명),
+         *   group_no(이미지그룹번호), img_full_rt(이미지루트),
+         *   pro_s_cd(사용감), tx_s_cd(거래방법),
+         *   trade_s_cd_1(거래방식), title(제목), contents(내용),
+         *   price(가격), bid_cd(가격제시/나눔신청여부)
+         */
+        //     1.1. 값이 들어와 있지 않으면 rollback -> @Valid 사용
 
         // 2. sale 테이블에 insert
 
@@ -62,31 +73,48 @@ public class SaleService {
         System.out.println("service write: " + saleDto);
 
         //      세션에서 ID 값을 가지고 옴
-        String ur_id = "david234";
-        saleDto.setSeller_id(ur_id);
+        // TestSession 클래스를 사용하여 세션을 설정
+        String ur_id = saleDto.getSeller_id();
 
-        String ur_nick = "닉네임";
-        saleDto.setSeller_nick(ur_nick);
-//
-        String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
-        String addr_name = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_name();
+        int insertSale = saleDao.insertSale(saleDto);
 
-        saleDto.setAddr_cd(addr_cd);
-        saleDto.setAddr_name(addr_name);
+        Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
+        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+
+        System.out.println("sal_no : " + sal_no);
+        return sal_no;
+    }
+    
+    // tag 데이터를 insert하는 트렌젝션 문
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int insertTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
+        System.out.println("insertTagTx 들어옴");
+        int insertTagTx = 0;
+        int resultSaleTag = 0;
         for (String contents : tagList) {
-            System.out.println("service tag contents : " + contents);
-//            2.2.2.3.2. tagDao에 해당하는 contents값이 존재하는지 확인
-
-//            - 값이 존재하는 경우
-//            - tagDao의 no값 반환
-//            - 값이 존재하지 않는 경우
-//                    - tagDao의 insert문 수행
-
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            if (tagDto == null) { // contents가 중복값이 없는 경우
+                tagDto = new TagDto(contents, ur_id); // 새로운 객체 생성
+                insertTagTx = tagDao.insert(tagDto);
+            } else { // contents가 중복값이 있는 경우
+                tagDto.setLast_id(ur_id);
+                insertTagTx = tagDao.updateSys(tagDto);
+            }
+            Long tag_no = tagDto.getNo();
+            resultSaleTag = insertSaleTagTx(sal_no, tag_no, ur_id);
         }
+        return insertTagTx + resultSaleTag;
+    }
 
-        return saleDao.insertSale(saleDto);
+    // saleTag 교차 테이블 데이터를 insert하는 트렌젝션 문
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int insertSaleTagTx(Long sal_no, Long tag_no, String ur_id) throws Exception {
+        SaleTagDto saleTagDto = new SaleTagDto(sal_no, tag_no, ur_id, ur_id);
+
+        int insertSaleTagTx = saleTagDao.insert(saleTagDto);
+        return insertSaleTagTx;
     }
 
     // 전체 게시글 list를 가지고 올 때
@@ -119,3 +147,4 @@ public class SaleService {
         return saleDao.update(saleDto);
     }
 }
+

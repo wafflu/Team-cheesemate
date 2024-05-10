@@ -40,6 +40,100 @@ public class TagDaoImplTest extends TestCase {
 
     @Test
     public void testTagInsert() throws Exception {
+        deleteDao.deleteAll();
+
+        SaleDto saleDto = saleInsert(); // insert
+        Long sal_no = saleDto.getNo();
+        String seller_id = saleDto.getSeller_id();
+
+        List<String> tagList =  new ArrayList<>();
+        tagList.add("태그입력1");
+        tagList.add("태그입력2");
+        tagList.add("태그입력3");
+
+        for(String contents : tagList) {
+            System.out.println(contents);
+
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            if (tagDto == null) { // contents가 중복값이 없는 경우
+                assertNull(tagDto);
+                tagDto = new TagDto(contents, seller_id); // 새로운 객체 생성
+
+                int resultTag = tagDao.insert(tagDto);
+                assertTrue(resultTag == 1);
+            }
+        }
+    }
+
+    @Test
+    public void testTagDuplicateInsert() throws Exception {
+        SaleDto saleDto = saleInsert(); // insert
+        Long sal_no = saleDto.getNo();
+        String seller_id = saleDto.getSeller_id();
+
+        List<String> tagList =  new ArrayList<>();
+        tagList.add("태그입력1");
+        tagList.add("태그입력2");
+        tagList.add("태그입력3");
+
+        for(String contents : tagList) {
+            System.out.println(contents);
+
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            System.out.println(tagDto);
+            if (tagDto != null) { // contents가 중복값이 있는 경우
+                assertNotNull(tagDto);
+
+                tagDto.setLast_id(seller_id);
+
+                int resutUpdate = tagDao.updateSys(tagDto);
+                assertTrue(resutUpdate == 1);
+                assertTrue(tagDto.getFirst_date() != tagDto.getLast_date());
+            }
+        }
+    }
+
+    @Test
+    public void testTagVarietyInsert() throws Exception {
+        SaleDto saleDto = saleInsert(); // insert
+        Long sal_no = saleDto.getNo();
+        String seller_id = saleDto.getSeller_id();
+
+        List<String> tagList =  new ArrayList<>();
+        tagList.add("태그입력1");
+        tagList.add("태그입력3");
+        tagList.add("태그입력4");
+
+        for(String contents : tagList) {
+            System.out.println(contents);
+
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            System.out.println(tagDto);
+            if (tagDto == null) { // contents가 중복값이 없는 경우
+                assertNull(tagDto);
+                tagDto = new TagDto(); // 새로운 객체 생성
+
+                tagDto.setContents(contents);
+                tagDto.setFirst_id(seller_id);
+                tagDto.setLast_id(seller_id);
+
+                int resultTag = tagDao.insert(tagDto);
+                assertTrue(resultTag == 1);
+            } else {
+                assertNotNull(tagDto);
+
+                tagDto.setLast_id(seller_id);
+
+                int resutUpdate = tagDao.updateSys(tagDto);
+                assertTrue(resutUpdate == 1);
+                assertTrue(tagDto.getFirst_date() != tagDto.getLast_date());
+            }
+        }
+    }
+
+
+    @Test
+    public void testTagSaleTagInsert() throws Exception {
         saleTagDao.deleteAll();
         tagDao.deleteAll();
 

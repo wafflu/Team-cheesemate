@@ -4,7 +4,8 @@
 
 <mapper namespace="team.cheese.dao.TagMapper">
     <sql id="selectFromTag">
-        SELECT no, contents, state
+        SELECT no, contents, state,
+            first_date, first_id, last_date, last_id
         FROM tag
     </sql>
 

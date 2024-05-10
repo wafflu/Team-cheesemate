@@ -47,6 +47,11 @@ public class SaleDto {
     public SaleDto() {
     }
 
+    public void setAddrSeller(String seller_id, String seller_nick) {
+        this.seller_id = seller_id;
+        this.seller_nick = seller_nick;
+    }
+
     public Long getNo() {
         return no;
     }

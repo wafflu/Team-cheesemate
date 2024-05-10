@@ -204,6 +204,8 @@
                   </div>
                 </div>
               </div>
+              <input name="addr_cd" value="${addrCd}" hidden>
+              <input name="addr_name" value="${addrName}" hidden>
               <p>거래장소
                 <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="" hidden="hidden">
                 <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="" disabled></p>
@@ -394,7 +396,7 @@
                 dataType: "json", // 받을 값
                 data: { category1: category1Value },
                 success: function (data) {
-                  // console.log(data); 
+                  // console.log(data);
                   // console.log(typeof data);
                   // alert(data);
                   let category2Select = document.getElementById("category2");
@@ -529,7 +531,7 @@
 
           // 등록하기 버튼 누르는 경우
           $("#submitBtn").on("click", function () {
-            
+
             let title = $('input[name="title"]').val(); // 제목
             let pro_s_cd = $('input[name="pro_s_cd"]').val(); // 상품상태
             let contents = $('textarea[name="contents"]').val(); // 설명
@@ -541,6 +543,8 @@
             let pickup_addr_name = $('input[name="pickup_addr_name"]').val(); // 거래장소
             let detail_addr = $('input[name="detail_addr"]').val(); // 거래희망장소
             let brand = $('input[name="brand"]').val(); // 브랜드
+            let addr_cd = $('input[name="addr_cd"]').val(); // 행정구역코드
+            let addr_name = $('input[name="addr_name"]').val(); // 주소명
 
             // category1, category2, category3의 값 추출
             let category1Value = $("#category1").val();
@@ -583,9 +587,11 @@
               "detail_addr": detail_addr,
               "brand": brand,
               "sal_i_cd": sal_i_cd_value,
-              "sal_name": sal_name_value
+              "sal_name": sal_name_value,
+              "addr_cd": addr_cd,
+              "addr_name": addr_name
             }
-            
+
             // trade_s_cd 파라미터 설정
             if (trade_s_cd_values.length === 1) {
               sale["trade_s_cd_1"] = trade_s_cd_values[0];
@@ -606,9 +612,9 @@
                       "tag" : tag
                     };
 
-            
+
             // jsonData를 JSON 문자열로 변환
-            let jsonString = JSON.stringify(map); 
+            let jsonString = JSON.stringify(map);
 
             alert(jsonString);
 
@@ -633,7 +639,7 @@
               }
             });
           })
-          
+
 
         </script>
 

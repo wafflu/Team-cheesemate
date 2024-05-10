@@ -17,6 +17,15 @@ public class SaleTagDto {
 
     private String last_id;
 
+    public SaleTagDto() {
+    }
+
+    public SaleTagDto(Long sal_no, Long tag_no, String first_id, String last_id) {
+        this.sal_no = sal_no;
+        this.tag_no = tag_no;
+        this.first_id = first_id;
+        this.last_id = last_id;
+    }
 
     public Long getSal_no() {
         return sal_no;

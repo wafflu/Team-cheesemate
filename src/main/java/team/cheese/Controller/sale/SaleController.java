@@ -35,28 +35,37 @@ public class SaleController {
     @Autowired
     SaleService saleService;
 
+    @Autowired
+    TestSession testSession;
+
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
     public String getList(Model model, HttpSession session) throws Exception {
-
+        System.out.println("/list들어옴");
         // 1. 세션에서 정보를 불러옴
         //  1.1. 로그인 한 경우
         //    1.1.1. 유저의 로그인 정보 첫번째 주소를 불러옴
         //  1.2. 로그인 하지 않은 경우
         //    1.2.1. addr_cd값을 null로 전달
 
-//        String ur_id = (String) session.getAttribute("sessionId");
-        String ur_id = "david234";
-//        String ur_id = null;
+        // TestSession 클래스를 사용하여 세션을 설정
+        String ur_id = "asdf";
+        session = testSession.setSession(ur_id, session);
+
+        ur_id = (String) session.getAttribute("userId");
+        System.out.println("ur_id : " + ur_id);
 
         if(ur_id == null) {
+            System.out.println("ur_id가 Null인 경우");
             model.addAttribute("addrCdList", administrativeDao.selectAll());
             List<SaleDto> saleList = saleService.getList();
             System.out.println(saleList.size());
             model.addAttribute("saleList", saleList);
         } else {
+            System.out.println("ur_id가 NOTNull인 경우");
             // 세션에서 ID 값을 가지고 옴
-            List<AddrCdDto> addrCdList = addrCdDao.getAddrCdByUserId(ur_id);
+            List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
+            System.out.println("addrCdList 확인 : " + addrCdList);
             String addr_cd = addrCdList.get(0).getAddr_cd();
             System.out.println("addr_cd" + addr_cd);
             List<SaleDto> saleList = saleService.getUserAddrCdList(addr_cd);
@@ -83,16 +92,24 @@ public class SaleController {
 
     // 글쓰기 버튼 누른 경우
     @GetMapping("/write")
-    public String write(@RequestParam(defaultValue = "0") int selectAddr, Model model, HttpSession session) throws Exception {
-
+    public String write(@RequestParam String addr_cd, Model model, HttpSession session) throws Exception {
+        System.out.println("GET write");
         // 로그인 한 경우
-        // String ur_id = (String) session.getAttribute("sessionId");
-        String ur_id = "david234";
-        String ur_nick = "minyoung";
-        String addr_cd = "11010530";
-        String addr_name = "서울특별시 종로구 청운효자동";
+
+        String ur_id = (String) session.getAttribute("userId");
+
+        List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
+        String addr_name = "";
+        for(AddrCdDto addrCdDto : addrCdDtoList) {
+            if (addr_cd.equals(addrCdDto.getAddr_cd())) {
+                addr_name = addrCdDto.getAddr_name();
+            }
+        }
+//        String addr_name = "서울특별시 종로구 청운효자동";
+
         if(ur_id != null) {
-//            model.addAttribute("", );
+            model.addAttribute("addrCd", addr_cd);
+            model.addAttribute("addrName", addr_name);
             model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
             return "/login/saleWrite";
         } else {
@@ -105,7 +122,8 @@ public class SaleController {
     // 글쓰기 완료하고 글을 등록하는 경우
     @PostMapping("/write")
     @ResponseBody
-    public ResponseEntity<String> write(@RequestBody Map<String, Object> map, Model model, HttpSession sesson, HttpServletRequest request) throws Exception {
+    public ResponseEntity<String> write(@RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+        System.out.println("POST write");
         // service 호출
         // 서비스단 작성 필요함
 //        System.out.println(formData);
@@ -115,14 +133,18 @@ public class SaleController {
         // 작성 실패하면?
         // 필수로 써야되는거 안썼으면? -> view에서 여기로 전송못하게하기
 
+        String seller_id = (String) session.getAttribute("userId");
+        String seller_nick = (String) session.getAttribute("userNick");
+
         // ObjectMapper : JSON 형태를 JAVA 객체로 변환
         System.out.println(map.get("sale"));
         System.out.println(map.get("tag"));
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+
+        saleDto.setAddrSeller(seller_id, seller_nick);
         System.out.println("값 들어왔는지 확인 : " + saleDto);
 
-//      List<String> tagContents = (List<String>) map.get("contents");
         Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
         List<String> tagContents = (List<String>) tagMap.get("contents");
         System.out.println("tag값 확인 : " + tagMap.size());
@@ -132,7 +154,6 @@ public class SaleController {
         for (String content : tagContents) {
             // '#' 기호를 제거하여 태그 내용만 추출
             String tagContent = content.substring(1);
-            System.out.println("tagContent : " + tagContent);
             // TagDto 객체 생성
             // 생성된 TagDto를 tagList에 추가
             tagList.add(tagContent);
@@ -143,14 +164,13 @@ public class SaleController {
         mapDto.put("tagList", tagList);
 
         // Service를 통해 글 등록 처리
-        saleService.write(mapDto);
+        Long sal_no = saleService.write(mapDto);
 
-//        System.out.println("tag 값 들어왔는지 확인 : " + tagDto);
-        System.out.println("글 번호 : " + saleDto.getNo());
+        System.out.println("글 번호 : " + sal_no);
+        String page = "/sale/read?no=" + sal_no;
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
-//        return "redirect:/sale/read?no=" + saleDto.getNo();
-        return new ResponseEntity<>("/sale/read?no=" + saleDto.getNo(), HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     // 서비스로 분리
@@ -167,8 +187,6 @@ public class SaleController {
     @PostMapping("/saleCategory2")
     @ResponseBody
     public ResponseEntity<List<SaleCategoryDto>> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
-//        System.out.println("대분류 번호 : " + category1);
-//        System.out.println(saleCategoryDao.selectCategory2(category1));
         try{
             return new ResponseEntity<>(saleCategoryDao.selectCategory2(category1), HttpStatus.OK);
         }catch(Exception e){
@@ -181,8 +199,6 @@ public class SaleController {
     @RequestMapping("/saleCategory3")
     @ResponseBody
     public  ResponseEntity<List<SaleCategoryDto>> getSaleCategory3(@RequestParam String category2, Model model) throws Exception {
-//        System.out.println("중분류 번호 : " + category2);
-//        System.out.println(saleCategoryDao.selectCategory3(category2));
         try{
             return new ResponseEntity<>(saleCategoryDao.selectCategory3(category2), HttpStatus.OK);
         }catch(Exception e){
@@ -196,8 +212,6 @@ public class SaleController {
     @ResponseBody
     public ResponseEntity<List<AdministrativeDto>> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
         // 검색어를 이용하여 판매글을 검색
-//        System.out.println("검색 내용 : " + searchLetter);
-//        System.out.println(administrativeDao.searchLetter(searchLetter));
         try{
             return new ResponseEntity<>(administrativeDao.searchLetter(searchLetter), HttpStatus.OK);
         }catch(Exception e){
@@ -205,4 +219,5 @@ public class SaleController {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
