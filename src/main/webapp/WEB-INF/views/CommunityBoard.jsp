@@ -54,8 +54,10 @@
 
 <%--    commmunityHeart--%>
 
-        <p id="heart">❤️</p>
+<%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
+        <p id="heart" data-count-like="${communityHeartDto.countLike}" >❤️${communityHeartDto.countLike}</p>
         <input type="hidden" id="postNo" value="${communityBoardDto.no}">
+
 
 
 
@@ -76,9 +78,9 @@
 
         })
 
-        $('#heart').on("click",function(){
+        $('#heart').on("click",function() {
             const postNo = $('#postNo').val();
-            // const userId = $('#userId').val();
+
 
 
             if (!postNo) {
@@ -87,22 +89,64 @@
             }
 
             $.ajax({
-               url:'/community/doLike',
-               type:'PATCH',
-               data:JSON.stringify({
-                   "post_no":postNo
-                   // "ur_id":userId
-               }),
-               contentType:'application/json',
-               success:function(response){
-                   console.log("좋아요")
-               },
-               error:function (xhr,status,error){
-                   console.error("좋아요 실패")
-               }
-           })
-        })
+                url: '/community/doLike',
+                type: 'PATCH',
+                data: JSON.stringify({
+                    "post_no": postNo,
 
+                }),
+                contentType: 'application/json',
+                success: function (response) {
+
+
+                    if(response.hasOwnProperty('countLike')) {
+                        $('#heart').data('count-like',response.countLike);
+                        $('#heart').text('❤️ ' + response.countLike);
+
+
+                    }
+                    console.log("하트");
+                    console.log(response.countLike);
+                },
+                error: function (xhr, status, error) {
+                    console.error("좋아요 실패", xhr.responseText)
+                }
+
+
+            })
+
+
+
+            //   $.ajax({
+            //       url:'/community/countLike',
+            //       type:'PATCH',
+            //       data:JSON.stringify({
+            //           "countLike":countLike
+            //           }),
+            //       contentType:'application/json',
+            //       success:function(response){
+            //           console.log(response);
+            //
+            //           displayCntLike(response)
+            //       },
+            //       error:function (xhr,status,error){
+            //           console.log("error");
+            //       }
+            //
+            //   });
+            // });
+            //
+            //
+            // function displayCntLike(data){
+            //     let totalLikes = 0;
+            //
+            //     data.forEach((item)=>{
+            //         totalLikes += item.countLike;
+            //     });
+            //     $('#heart').data('count-like',totalLikes)
+            //
+            //  }
+        })
     })
 </script>
 

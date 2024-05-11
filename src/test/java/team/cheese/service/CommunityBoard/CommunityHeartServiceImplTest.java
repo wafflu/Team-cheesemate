@@ -39,7 +39,7 @@ public class CommunityHeartServiceImplTest {
         int post_no = communityBoardDto.getno();
 
         //given1:처음 하트 클릭
-        CommunityHeartDto communityHeartDto = new CommunityHeartDto("user123", post_no, 'y');
+        CommunityHeartDto communityHeartDto = new CommunityHeartDto("user123", post_no, 'y',0);
         communityHeartService.doLike(communityHeartDto);
 
         communityHeartDto = communityHeartDao.select(communityHeartDto.getLike_no());
@@ -89,6 +89,62 @@ public class CommunityHeartServiceImplTest {
 
         assertEquals(0,communityHeartDto);
     }
+
+
+    @Test
+    public void countLike()throws Exception{
+        CommunityBoardDto communityBoardDto = community();
+        int post_no = communityBoardDto.getno();
+        CommunityHeartDto communityHeartDto = new CommunityHeartDto("user123", post_no);
+        communityHeartService.doLike(communityHeartDto);
+        communityHeartDto = new CommunityHeartDto("david234", post_no);
+
+        communityHeartService.doLike(communityHeartDto);
+        int result = communityHeartDao.countLike(post_no);
+        System.out.println(result);
+        assertEquals(2,result);
+
+    }
+
+
+
+    @Test
+    public void findByUserId()throws Exception{
+        CommunityBoardDto communityBoardDto = community();
+        int post_no = communityBoardDto.getno();
+
+
+
+        CommunityHeartDto communityHeartDto1 = new CommunityHeartDto("user123", post_no);
+        communityHeartService.doLike(communityHeartDto1);
+        CommunityHeartDto communityHeartDto2 = new CommunityHeartDto("david234", post_no);
+        communityHeartService.doLike(communityHeartDto2);
+
+        //아이디가 존재하는지 확인
+
+        String result1 = communityHeartDao.findByUserId("user123", String.valueOf(post_no));
+        String result2 = communityHeartDao.findByUserId("david234", String.valueOf(post_no));
+        assertEquals("user123",result1);
+        assertEquals("david234",result2);
+
+        int sum = communityHeartDao.countLike(post_no);
+        System.out.println("바꾸기전:" + sum);
+        assertEquals(2,sum);
+
+
+        communityHeartService.doLike(communityHeartDto1);
+        communityHeartDto1 = communityHeartDao.select(communityHeartDto1.getLike_no());
+        System.out.println(communityHeartDto1.toString());
+        assertEquals('n',communityHeartDto1.getUr_state());
+
+        int sum2 = communityHeartDao.countLike(post_no);
+        System.out.println("바꾼후:" + sum2);
+        assertEquals(1,sum2);
+    }
+
+
+
+
 
 
     public CommunityBoardDto community() throws Exception {

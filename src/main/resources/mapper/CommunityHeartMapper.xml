@@ -13,12 +13,15 @@
 
 <!--    게시글의 총 좋아요 수  - ur_state가 y인것만-->
     <select id = "countLike" resultType="int">
-        select count(*) from community_heart where post_no = #{post_no} and ur_state = 'y';
+        select count(post_no) from community_heart where post_no = #{post_no} and ur_state = 'y';
     </select>
 
 <!--선택-->
     <select id = "selectLike" resultType="CommunityHeartDto">
         select * from community_heart where like_no = #{like_no}
     </select>
-
+<!--   아이디 조회-->
+    <select id = "selectUser" resultType="string">
+        select ur_id from community_heart where ur_id = #{ur_id} and post_no = #{post_no}
+    </select>
 </mapper>

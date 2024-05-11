@@ -10,5 +10,7 @@ public interface CommunityHeartDao {
     CommunityHeartDto select(Integer like_no)throws Exception;
 
 
-    int countLike(CommunityHeartDto communityHeartDto)throws Exception;
+    int countLike(Integer post_no)throws Exception;
+
+    String findByUserId(String ur_id,String post_no)throws Exception;
 }

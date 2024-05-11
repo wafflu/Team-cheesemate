@@ -38,12 +38,18 @@ public class UserInspectInterceptor implements HandlerInterceptor {
                 return false;
             }
         }
-        else{
-            System.out.println("false세션없음");
-                //로그인 창으로 이동
-                return true;   //세션 자체가 없는 경우
-        }
+        else if(session.getAttribute("ur_id") != null) {
+            String currentLoginUser = (String) session.getAttribute("ur_id");
+            System.out.println(currentLoginUser);
+            String postOwnerUser = "user123";
+            System.out.println(postOwnerUser);
+            if (currentLoginUser != null && currentLoginUser.equals(postOwnerUser)) {  //사용자 ID가 일치하는 경우
+                System.out.println("true세션같음");
 
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

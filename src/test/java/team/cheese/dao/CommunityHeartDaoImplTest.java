@@ -10,6 +10,8 @@ import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
 import team.cheese.dao.CommunityHeart.CommunityHeartDao;
 
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -70,11 +72,30 @@ public class CommunityHeartDaoImplTest {
         communityHeartDao.doLike(communityHeartDto);
 
         communityHeartDto = communityHeartDao.select(communityHeartDto.getLike_no());
-        assertEquals(2, communityHeartDao.countLike(communityHeartDto));
+        assertEquals(2, communityHeartDao.countLike(post_no));
 
 
 
     }
+
+
+    @Test
+    public void selectUser()throws Exception{
+        CommunityBoardDto communityBoardDto = community();
+        int post_no = communityBoardDto.getno();
+        CommunityHeartDto communityHeartDto = new CommunityHeartDto();
+        communityHeartDto.setPost_no(post_no);
+        communityHeartDto.setUr_id("user123");
+        communityHeartDao.doLike(communityHeartDto);
+
+        communityHeartDto = communityHeartDao.select(communityHeartDto.getLike_no());
+        String result = communityHeartDao.findByUserId("user123", String.valueOf(post_no));
+
+        assertEquals(1,communityHeartDao.countLike(post_no));
+
+
+    }
+
 
     public CommunityBoardDto community() throws Exception {
         CommunityBoardDto communityBoardDto = new CommunityBoardDto();
