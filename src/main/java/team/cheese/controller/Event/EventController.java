@@ -48,10 +48,10 @@ public class EventController {
     }
 
     @PostMapping(value = "write")
-    @ResponseBody
     public String write(EventDto dto) {
+        System.out.println(dto);
         service.eventRegister(dto);
-        return "redirect: /event";
+        return "redirect:/event";
     }
     @PostMapping(value = "modify")
     public String modify(Long evt_no,EventDto dto) throws Exception {

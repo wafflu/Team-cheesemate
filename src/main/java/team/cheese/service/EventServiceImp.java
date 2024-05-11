@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import team.cheese.dao.EventDaoImp;
 import team.cheese.domain.EventDto;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EventServiceImp implements EventService {
@@ -46,6 +43,10 @@ public class EventServiceImp implements EventService {
     }
     @Override
     public int eventRegister(EventDto dto){
+        if(isWithinRange(dto.getS_date(),dto.getE_date()))
+            dto.setActive_s_cd("P");
+        else
+            dto.setActive_s_cd("F");
         int result=dao.insert(dto);
         return result;
     }
@@ -68,4 +69,8 @@ public class EventServiceImp implements EventService {
         return dao.updatecontent(dto);
     }
 
+    public boolean isWithinRange(Date startDate ,Date endDate){
+        Date nowDate = new Date();
+        return nowDate.after(startDate)&& nowDate.before(endDate);
+    }
 }

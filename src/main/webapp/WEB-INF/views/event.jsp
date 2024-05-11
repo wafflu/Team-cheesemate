@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <html>
 <head>
@@ -46,8 +47,8 @@
                 <p>${event.contents}</p>
             </td>
             <td>${event.prize}</td>
-            <td>${event.s_date}</td>
-            <td>${event.e_date}</td>
+            <td><fmt:formatDate value="${event.s_date}" pattern="yyyy-MM-dd" /></td>
+            <td><fmt:formatDate value="${event.e_date}" pattern="yyyy-MM-dd" /></td>
             <td>${event.active_s_cd}</td>
         </tr>
 
@@ -81,7 +82,7 @@
             url: "/event/search",
             type : "POST",
             contentType: "application/json;",
-            dataType : "text",
+            dataType : "json",
             data : JSON.stringify(formData),
             success : function (data) {
                 arrdata=JSON.parse(data);

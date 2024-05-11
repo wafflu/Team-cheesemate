@@ -28,7 +28,7 @@ public class EventDto {
     String first_id;
     Timestamp last_r_date;
     String last_id;
-    SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     public EventDto() {}
     public EventDto(Long evt_no, String evt_cd, String title, String contents,int group_no, String img_full_rt, Date s_date, Date e_date, Timestamp r_date, String active_s_cd, Timestamp m_date, String prize, String ad_id, Timestamp first_r_date, String first_id, Timestamp last_r_date, String last_id) {
         this.evt_no = evt_no;
@@ -230,7 +230,6 @@ public class EventDto {
                 ", first_id='" + first_id + '\'' +
                 ", last_r_date=" + last_r_date +
                 ", last_id='" + last_id + '\'' +
-                ", transFormat=" + transFormat +
                 '}';
     }
 
