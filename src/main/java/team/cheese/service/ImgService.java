@@ -14,8 +14,10 @@ import team.cheese.exception.DataFailException;
 import team.cheese.exception.ImgNullException;
 
 import java.io.File;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -50,9 +52,10 @@ public class ImgService {
     }
 
     @Transactional
-    public String reg_img2(ArrayList<ImgDto> imgList, int gno) {
+    public String reg_img(ArrayList<ImgDto> imgList, int gno) throws Exception {
+
         if (imgList.isEmpty()) {
-            throw new ImgNullException("이미지 리스트가 비어 있습니다.");
+            throw new Exception("이미지 리스트가 비어 있습니다.");
         }
 
         boolean cnt = true;
@@ -68,9 +71,9 @@ public class ImgService {
 
             File file = new File(folderpath, idto.getO_name()+idto.getE_name());
             if(cnt) {
-                spath = idto.getImg_full_rt();
                 // 썸네일은 한개만
                 ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);
+                spath = simg.getImg_full_rt();
                 imgDao.insert(simg);
                 imgDao.insert(imggroup(gno, simg.getNo()));
                 cnt = false;
@@ -95,17 +98,23 @@ public class ImgService {
             throw new IllegalArgumentException("이미지 리스트가 비어 있습니다.");
         }
 
+        ArrayList<ImgDto> list = imgDao.select_img(salegno);
+
+        for(ImgDto img : list){
+            System.out.println(img.getImg_full_rt());
+            deleteFile(img.getImg_full_rt());
+        }
+
         boolean cnt = true;
         String spath = "";
 
         //기존 이미지 상태 전부 비활성화
-        HashMap map = new HashMap<>();
-        map.put("state", "N");
-        map.put("no", salegno);
-        update(map);
+        HashMap updatestate = new HashMap<>();
+        updatestate.put("state", "N");
+        updatestate.put("no", salegno);
+        update(updatestate);
 
         for(ImgDto idto : imgList){
-            System.out.println("idto : "+idto);
 //            if (idto.getW_size() < 0 || idto.getH_size() < 0) {
 //                throw new IllegalArgumentException("이미지 사이즈가 올바르지 않습니다.");
 //            }
@@ -114,9 +123,9 @@ public class ImgService {
 
             File file = new File(folderpath, idto.getO_name()+idto.getE_name());
             if(cnt) {
-                spath = idto.getImg_full_rt();
                 // 썸네일은 한개만
                 ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);
+                spath = simg.getImg_full_rt();
                 imgDao.insert(simg);
                 imgDao.insert(imggroup(gno, simg.getNo()));
                 cnt = false;
@@ -141,12 +150,19 @@ public class ImgService {
         return spath;
     }
 
+    public void deleteFile(String filename){
+        File Dfile = new File(ifc.getFolderPath()+File.separator+filename);
+        if(Dfile.exists()){
+            Dfile.delete();
+        }
+    }
+
     public ArrayList<ImgDto> readall() {
         return imgDao.select_all_img();
     }
 
-    public ArrayList<ImgDto> read(HashMap map){
-        return imgDao.select_img(map);
+    public ArrayList<ImgDto> read(int gno){
+        return imgDao.select_img(gno);
     }
 
     //rollbackFor = 지정된 예외

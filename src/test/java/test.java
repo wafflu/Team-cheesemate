@@ -36,10 +36,7 @@ public class test {
     @Test
     public void test(){
 
-        HashMap map = new HashMap<>();
-        map.put("tb_name", "sale");
-        map.put("no", 21);
-        List<ImgDto> list = imgService.read(map);
+        List<ImgDto> list = imgService.read(21);
 
         Iterator it = list.iterator();
 

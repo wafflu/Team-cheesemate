@@ -33,8 +33,8 @@ public class ImgDao {
         List<ImgDto> list = session.selectList(namespace+"select_all_img");
         return new ArrayList<>(list);
     }
-    public ArrayList<ImgDto> select_img(HashMap map){
-        List<ImgDto> list = session.selectList(namespace+"select_img", map);
+    public ArrayList<ImgDto> select_img(int gno){
+        List<ImgDto> list = session.selectList(namespace+"select_img", gno);
         return new ArrayList<>(list);
     }
 

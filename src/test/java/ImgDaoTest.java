@@ -378,10 +378,7 @@ public class ImgDaoTest {
     //선택한 게시물에 대한 이미지 불러오기
 
     public void select_saleimg(int gno){
-        HashMap map = new HashMap();
-        map.put("tb_name", "sale");
-        map.put("no", gno);
-        List<ImgDto> list = imgDao.select_img(map);
+        List<ImgDto> list = imgDao.select_img(gno);
 
         assertTrue(list != null);
 

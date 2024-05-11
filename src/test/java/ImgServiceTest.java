@@ -255,10 +255,7 @@ public class ImgServiceTest {
 
     @Test
     public void read(){
-        HashMap map = new HashMap();
-        map.put("tb_name", "sale");
-        map.put("no", 1);
-        ArrayList<ImgDto> list = imgService.read(map);
+        ArrayList<ImgDto> list = imgService.read(1);
         assertTrue(list != null);
     }
     @Test
