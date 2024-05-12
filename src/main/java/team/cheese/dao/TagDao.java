@@ -2,7 +2,9 @@ package team.cheese.dao;
 
 import team.cheese.domain.TagDto;
 
+import javax.servlet.jsp.tagext.Tag;
 import java.math.BigInteger;
+import java.util.List;
 
 public interface TagDao {
 
@@ -19,4 +21,6 @@ public interface TagDao {
     int deleteAll() throws Exception;
 
     int resetAutoIncrement() throws Exception;
+
+    List<TagDto> getTagContents(Long sal_no) throws Exception;
 }

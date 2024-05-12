@@ -16,6 +16,7 @@ import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -78,7 +79,7 @@ public class SaleController {
         }
         return "/saleList";
     }
-    
+
     // 게시글 리스트 중 하나를 클릭한 경우
     @RequestMapping("/read")
     public String read(Long no, Model model, HttpSession session) throws Exception {
@@ -105,11 +106,10 @@ public class SaleController {
                 addr_name = addrCdDto.getAddr_name();
             }
         }
-//        String addr_name = "서울특별시 종로구 청운효자동";
 
         if(ur_id != null) {
-            model.addAttribute("addrCd", addr_cd);
-            model.addAttribute("addrName", addr_name);
+            SaleDto saleDto = new SaleDto(addr_cd, addr_name);
+            model.addAttribute("Sale", saleDto);
             model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
             return "/login/saleWrite";
         } else {
@@ -118,11 +118,26 @@ public class SaleController {
         }
     }
 
+    // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
+    @PostMapping("/modify")
+    public String modify(@RequestParam Long no, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+
+        Map map = saleService.modify(no);
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
+        String tagContents = (String) map.get("tagContents");
+
+        model.addAttribute("Sale", saleDto);
+        model.addAttribute("Tag", tagContents);
+        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+
+        return "/login/saleWrite";
+    }
+
     // 서비스로 분리
     // 글쓰기 완료하고 글을 등록하는 경우
     @PostMapping("/write")
     @ResponseBody
-    public ResponseEntity<String> write(@RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+    public ResponseEntity<String> write(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
         System.out.println("POST write");
         // service 호출
         // 서비스단 작성 필요함
@@ -141,6 +156,7 @@ public class SaleController {
         System.out.println(map.get("tag"));
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+
 
         saleDto.setAddrSeller(seller_id, seller_nick);
         System.out.println("값 들어왔는지 확인 : " + saleDto);
@@ -173,14 +189,61 @@ public class SaleController {
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
-    // 서비스로 분리
-    // 수정 버튼 누른 경우
-    @RequestMapping("/update")
-    public String update(SaleDto saleDto, Model model, HttpSession session) throws Exception {
+// 글 수정을 완료하고 글을 등록하는 경우
+@PostMapping("/write")
+@ResponseBody
+public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+    System.out.println("POST update");
 
-        saleService.modify(saleDto);
+    String seller_id = (String) session.getAttribute("userId");
+    String seller_nick = (String) session.getAttribute("userNick");
 
-        return "redirect:/sale/read?no=" + saleDto.getNo();
+    // ObjectMapper : JSON 형태를 JAVA 객체로 변환
+    System.out.println(map.get("sale"));
+    System.out.println(map.get("tag"));
+    ObjectMapper objectMapper = new ObjectMapper();
+    SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+
+
+    saleDto.setAddrSeller(seller_id, seller_nick);
+    System.out.println("값 들어왔는지 확인 : " + saleDto);
+
+    Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
+    List<String> tagContents = (List<String>) tagMap.get("contents");
+    System.out.println("tag값 확인 : " + tagMap.size());
+
+    // 각 해시태그를 반복하여 TagDto 객체 생성 및 tagList에 추가
+    List<String> tagList = new ArrayList<>();
+    for (String content : tagContents) {
+        // '#' 기호를 제거하여 태그 내용만 추출
+        String tagContent = content.substring(1);
+        // TagDto 객체 생성
+        // 생성된 TagDto를 tagList에 추가
+        tagList.add(tagContent);
+    }
+
+    Map mapDto = new HashMap();
+    mapDto.put("saleDto", saleDto);
+    mapDto.put("tagList", tagList);
+
+    // Service를 통해 글 등록 처리
+    Long sal_no = saleService.update(mapDto);
+
+    System.out.println("글 번호 : " + sal_no);
+    String page = "/sale/read?no=" + sal_no;
+
+    // 등록 후에는 다시 글 목록 페이지로 리다이렉트
+    return new ResponseEntity<>(page, HttpStatus.OK);
+}
+
+    @RequestMapping("/remove")
+    public ResponseEntity<String> remove(@RequestParam Long no, Model model, HttpSession session) throws Exception {
+        String seller_id = (String) session.getAttribute("userId");
+        saleService.remove(no, seller_id);
+
+        // 등록 후에는 다시 글 목록 페이지로 리다이렉트
+        String page = "/sale/list";
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
 //  ajax 요청을 처리해주는 URL등

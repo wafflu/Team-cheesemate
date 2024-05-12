@@ -42,7 +42,84 @@ public class SaleServiceTest extends TestCase {
     public void testGetCount() {
     }
 
-    public void testRemove() {
+    @Test
+    public void testDiffIdRemove() throws Exception {
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+        saleDao.insertSale(saleDto);
+        Long no = saleDto.getNo();
+
+        SaleDto selectSale = saleDao.select(no);
+        char bf_state = selectSale.getUr_state();
+
+//        세션ID와 글작성자가 다른 경우 삭제 테스트
+        HttpSession session = new MockHttpSession(); // HttpSession 객체 생성
+        session.setAttribute("userId", "david234");
+        String ur_id = (String) session.getAttribute("userId");
+
+        assertTrue(saleDao.delete(no, ur_id) == 0);
+    }
+
+    @Test
+    public void testSameIdRemove() throws Exception {
+//        세션ID와 글작성자가 다른 경우 삭제 테스트
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+        saleDao.insertSale(saleDto);
+        Long no = saleDto.getNo();
+
+        SaleDto selectSale = saleDao.select(no);
+        char bf_state = selectSale.getUr_state();
+
+        assertTrue(bf_state == 'Y');
+
+//        세션ID와 글작성자가 다른 경우 삭제 테스트
+        HttpSession session = new MockHttpSession(); // HttpSession 객체 생성
+        session.setAttribute("userId", "asdf");
+        String ur_id = (String) session.getAttribute("userId");
+
+        assertTrue(saleDao.delete(no, ur_id) == 1);
+        assertTrue(saleDao.select(no) == null);
     }
 
     @Test
@@ -68,12 +145,6 @@ public class SaleServiceTest extends TestCase {
         assertTrue(sal_no == num);
     }
 
-    public void testInsertTagTx() {
-    }
-
-    public void testInsertSaleTagTx() {
-    }
-
     @Test
     public void testGetList() throws Exception {
         String addr_cd = null;
@@ -88,10 +159,18 @@ public class SaleServiceTest extends TestCase {
     @Test
     public void testRead() throws Exception {
         Long no = Long.valueOf(1);
+        SaleDto before = saleDao.select(no);
+        int beforeViewCnt = before.getView_cnt();
+        System.out.println("이전 viewcnt : " + beforeViewCnt);
         SaleDto saleDto = saleService.read(no);
 
         System.out.println(saleDto.getNo());
         assertTrue(saleDto.getNo().equals(no));
+
+        int afterViewCnt = saleDto.getView_cnt();
+        System.out.println("이후 viewcnt : " + afterViewCnt);
+
+        assertTrue(beforeViewCnt == (afterViewCnt-1));
     }
 
     public void testModify() {
@@ -128,10 +207,10 @@ public class SaleServiceTest extends TestCase {
         saleDto.setContents("어린이 동화책 전집 팔이요.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
+        saleDto.setPickup_addr_name("서울특별시 동대문구 회기동");
         saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
         saleDto.setBrand("ㅇㅇ북스");
         saleDto.setReg_price(30000);
-        saleDto.setCheck_addr_cd(0);
 
         return saleDto;
     }

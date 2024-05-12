@@ -131,125 +131,6 @@ public class TagDaoImplTest extends TestCase {
         }
     }
 
-
-    @Test
-    public void testTagSaleTagInsert() throws Exception {
-        saleTagDao.deleteAll();
-        tagDao.deleteAll();
-
-        // 글을 새로 하나 작성했다고 가정 후 진행
-        SaleDto saleDto = saleDeleteInsert(); // deleteAll -> insert
-        assertTrue(saleDao.count() == 1);
-        Long sal_no = saleDto.getNo();
-        String seller_id = saleDto.getSeller_id();
-
-        List<String> tagList =  tagList();
-        for(String contents : tagList) {
-            System.out.println(contents);
-
-            TagDto tagDto = tagDao.selectTagContents(contents);
-            System.out.println("tagDto 확인 : " + tagDto);
-            if (tagDto == null) { // contents가 중복값이 없는 경우
-                assertNull(tagDto);
-                tagDto = new TagDto(); // 새로운 객체 생성
-
-                tagDto.setContents(contents);
-                tagDto.setFirst_id(seller_id);
-                tagDto.setLast_id(seller_id);
-
-                int resultTag = tagDao.insert(tagDto);
-                assertTrue(resultTag == 1);
-
-                Long tag_no = tagDto.getNo();
-                System.out.println("insert된 tag의 no : " + tag_no);
-
-                SaleTagDto saleTagDto = new SaleTagDto();
-                saleTagDto.setSal_no(sal_no);
-                saleTagDto.setTag_no(tag_no);
-                saleTagDto.setFirst_id(seller_id);
-                saleTagDto.setLast_id(seller_id);
-
-                int resultSaleTag = saleTagDao.insert(saleTagDto);
-                assertTrue(resultSaleTag == 1);
-            } else { // contents가 중복값이 있는 경우
-                assertNotNull(tagDto);
-
-                tagDto.setLast_id(seller_id);
-
-                int resutUpdate = tagDao.updateSys(tagDto);
-                assertTrue(resutUpdate == 1);
-
-                Long tag_no = tagDto.getNo();
-
-                SaleTagDto saleTagDto = new SaleTagDto();
-                saleTagDto.setSal_no(sal_no);
-                saleTagDto.setTag_no(tag_no);
-                saleTagDto.setFirst_id(seller_id);
-                saleTagDto.setLast_id(seller_id);
-
-                int resultSaleTag = saleTagDao.insert(saleTagDto);
-                assertTrue(resultSaleTag == 1);
-            }
-        }
-    }
-
-    @Test
-    public void testTagDuplicatoinInsert() throws Exception {
-        // 글을 새로 하나 추가로 더 작성했다고 가정 후 진행
-        SaleDto saleDto = saleInsert(); // insert
-        Long sal_no = saleDto.getNo();
-        String seller_id = saleDto.getSeller_id();
-
-        List<String> tagList =  tagListDuplication();
-        for(String contents : tagList) {
-            System.out.println(contents);
-
-            TagDto tagDto = tagDao.selectTagContents(contents);
-            System.out.println("tagDto 확인 : " + tagDto);
-            if (tagDto == null) { // contents가 중복값이 없는 경우
-                assertNull(tagDto);
-                tagDto = new TagDto(); // 새로운 객체 생성
-
-                tagDto.setContents(contents);
-                tagDto.setFirst_id(seller_id);
-                tagDto.setLast_id(seller_id);
-
-                int resultTag = tagDao.insert(tagDto);
-                assertTrue(resultTag == 1);
-
-                Long tag_no = tagDto.getNo();
-                System.out.println("insert된 tag의 no : " + tag_no);
-
-                SaleTagDto saleTagDto = new SaleTagDto();
-                saleTagDto.setSal_no(sal_no);
-                saleTagDto.setTag_no(tag_no);
-                saleTagDto.setFirst_id(seller_id);
-                saleTagDto.setLast_id(seller_id);
-
-                int resultSaleTag = saleTagDao.insert(saleTagDto);
-                assertTrue(resultSaleTag == 1);
-            } else { // contents가 중복값이 있는 경우
-                assertNotNull(tagDto);
-
-                tagDto.setLast_id(seller_id);
-
-                int resutUpdate = tagDao.updateSys(tagDto);
-                assertTrue(resutUpdate == 1);
-
-                Long tag_no = tagDto.getNo();
-
-                SaleTagDto saleTagDto = new SaleTagDto();
-                saleTagDto.setSal_no(sal_no);
-                saleTagDto.setTag_no(tag_no);
-                saleTagDto.setFirst_id(seller_id);
-                saleTagDto.setLast_id(seller_id);
-
-                int resultSaleTag = saleTagDao.insert(saleTagDto);
-                assertTrue(resultSaleTag == 1);
-            }
-        }
-    }
-
     @Test
     // update Test
     public void testUpdateTag() throws Exception {
@@ -304,46 +185,132 @@ public class TagDaoImplTest extends TestCase {
 
         // 2. 반복문으로 동일한 게시글 1개 insert
         SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
         saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
         saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
         saleDto.setPro_s_cd("C");
         saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
         saleDto.setTrade_s_cd_1("F");
         saleDto.setPrice(28000);
         saleDto.setSal_s_cd("S");
-        saleDto.setTitle("동화책 팔아요");
-        saleDto.setContents("어린이 동화책 전집 팔이요.");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
         saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
-        saleDto.setBrand("어린이 동화책");
+        saleDto.setBrand("oo북스");
         saleDto.setReg_price(30000);
-        saleDto.setCheck_addr_cd(0);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
 
-        saleDao.insert(saleDto);
+        saleDao.insertSale(saleDto);
 
         return saleDto;
     }
 
+    @Test
+    public void testGetTagContents() throws Exception {
+        deleteDao.deleteAll();
+
+        // 글을 작성
+        SaleDto saleDto = saleInsert();
+        assertTrue(saleDao.count() == 1);
+        Long sal_no = saleDto.getNo();
+        String seller_id = saleDto.getSeller_id();
+
+        List<String> tagList =  tagList();
+        for(String contents : tagList) {
+            System.out.println(contents);
+
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            System.out.println("tagDto 확인 : " + tagDto);
+            if (tagDto == null) { // contents가 중복값이 없는 경우
+                assertNull(tagDto);
+                tagDto = new TagDto(); // 새로운 객체 생성
+
+                tagDto.setContents(contents);
+                tagDto.setFirst_id(seller_id);
+                tagDto.setLast_id(seller_id);
+
+                int resultTag = tagDao.insert(tagDto);
+                assertTrue(resultTag == 1);
+
+                Long tag_no = tagDto.getNo();
+                System.out.println("insert된 tag의 no : " + tag_no);
+
+                SaleTagDto saleTagDto = new SaleTagDto();
+                saleTagDto.setSal_no(sal_no);
+                saleTagDto.setTag_no(tag_no);
+                saleTagDto.setFirst_id(seller_id);
+                saleTagDto.setLast_id(seller_id);
+
+                int resultSaleTag = saleTagDao.insert(saleTagDto);
+                assertTrue(resultSaleTag == 1);
+            } else { // contents가 중복값이 있는 경우
+                assertNotNull(tagDto);
+
+                tagDto.setLast_id(seller_id);
+
+                int resutUpdate = tagDao.updateSys(tagDto);
+                assertTrue(resutUpdate == 1);
+
+                Long tag_no = tagDto.getNo();
+
+                SaleTagDto saleTagDto = new SaleTagDto();
+                saleTagDto.setSal_no(sal_no);
+                saleTagDto.setTag_no(tag_no);
+                saleTagDto.setFirst_id(seller_id);
+                saleTagDto.setLast_id(seller_id);
+
+                int resultSaleTag = saleTagDao.insert(saleTagDto);
+                assertTrue(resultSaleTag == 1);
+            }
+        }
+
+        SaleDto selectSaleDto = saleDao.select(1L);
+        Long no = selectSaleDto.getNo();
+
+        // 작성한 태그의 개수를 확인
+        int tagSize = tagList.size();
+
+        // 글을 하나 선택하여 작성한 태그의 개수가 일치하는지 확인
+        List<TagDto> tag = tagDao.getTagContents(no);
+
+        int loadTagSize = tag.size();
+
+        assertTrue(tagSize == loadTagSize);
+    }
+
     public SaleDto saleInsert() throws Exception {
-        // 2. 게시글 1개 insert
+        // 게시글 1개 insert
         SaleDto saleDto = new SaleDto();
-        saleDto.setSeller_id("david234");
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
         saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
         saleDto.setPro_s_cd("C");
         saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
         saleDto.setTrade_s_cd_1("F");
-        saleDto.setPrice(80000);
+        saleDto.setPrice(28000);
         saleDto.setSal_s_cd("S");
-        saleDto.setTitle("WHY 책 팔아요");
-        saleDto.setContents("WHY 책 전집 팔이요.");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
         saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
-        saleDto.setReg_price(210000);
-        saleDto.setCheck_addr_cd(0);
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
 
-        saleDao.insert(saleDto);
+        saleDao.insertSale(saleDto);
 
         return saleDto;
     }

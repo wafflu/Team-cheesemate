@@ -11,6 +11,7 @@ import team.cheese.domain.TagDto;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,9 +41,10 @@ public class SaleService {
     }
 
     // 판매자가 자신의 게시글을 삭제할 때
-    public int remove(BigInteger no, String writer) throws Exception {
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int remove(Long no, String seller_id) throws Exception {
         // 현재 상태를 'N'으로 변경해주는거 여기서 처리
-        return 0;
+        return saleDao.delete(no, seller_id);
     }
 
     // 판매자가 판매 게시글을 작성할 때
@@ -77,11 +79,14 @@ public class SaleService {
         String ur_id = saleDto.getSeller_id();
 
         int insertSale = saleDao.insertSale(saleDto);
+        System.out.println("sale insert 성공? :  " + insertSale);
 
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
-        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+        if(tagList != null) {
+            int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+        }
 
         System.out.println("sal_no : " + sal_no);
         return sal_no;
@@ -117,7 +122,60 @@ public class SaleService {
         return insertSaleTagTx;
     }
 
+    // 판매자가 판매 게시글을 수정할 때
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Long update(Map<String, Object> map) throws Exception {
+
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
+        System.out.println("service write: " + saleDto);
+
+        //      세션에서 ID 값을 가지고 옴
+        // TestSession 클래스를 사용하여 세션을 설정
+        String ur_id = saleDto.getSeller_id();
+
+        int update = saleDao.update(saleDto);
+        System.out.println("sale update 성공? :  " + update);
+
+        Long sal_no = saleDto.getNo();
+
+        List<String> tagList = (List<String>) map.get("tagList");
+        if(tagList != null) {
+            int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+        }
+
+        System.out.println("sal_no : " + sal_no);
+        return sal_no;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int updateTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
+        System.out.println("updateTagTx 들어옴");
+        int insertTagTx = 0;
+        int resultSaleTag = 0;
+        deleteSaleTagTx(sal_no);
+        for (String contents : tagList) {
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            if (tagDto == null) { // contents가 중복값이 없는 경우
+                tagDto = new TagDto(contents, ur_id); // 새로운 객체 생성
+                insertTagTx = tagDao.insert(tagDto);
+            } else { // contents가 중복값이 있는 경우
+                tagDto.setLast_id(ur_id);
+                insertTagTx = tagDao.updateSys(tagDto);
+            }
+            Long tag_no = tagDto.getNo();
+            resultSaleTag = insertSaleTagTx(sal_no, tag_no, ur_id);
+        }
+        return insertTagTx + resultSaleTag;
+    }
+
+    // saleTag 교차 테이블 데이터를 insert하는 트렌젝션 문
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteSaleTagTx(Long sal_no) throws Exception {
+        saleTagDao.delete(sal_no);
+    }
+
     // 전체 게시글 list를 가지고 올 때
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getList() throws Exception {
         List<SaleDto> saleList = saleDao.selectAll();
         System.out.println(saleList.size());
@@ -126,6 +184,7 @@ public class SaleService {
     }
 
     // 사용자가 속한 주소의 전체 게시글 list를 가지고 올 때
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getUserAddrCdList(String addr_cd) throws Exception {
         List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
         System.out.println(saleList.size());
@@ -134,17 +193,44 @@ public class SaleService {
     }
 
     // 판매글 하나에 들어가서 게시글을 읽을 때
+    @Transactional(propagation = Propagation.REQUIRED)
     public SaleDto read(Long no) throws Exception {
+        increaseViewCnt(no);
+
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         SaleDto saleDto = saleDao.select(no);
 
         return saleDto;
     }
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void increaseViewCnt(Long no) throws Exception {
+        saleDao.increaseViewCnt(no);
+    }
+
+//    // 판매 게시글을 수정할 때
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public int update(SaleDto saleDto) throws Exception {
+//        // 판매글 내용을 받아서 수정하도록 처리
+//        return saleDao.update(saleDto);
+//    }
 
     // 판매 게시글을 수정할 때
-    public int modify(SaleDto saleDto) throws Exception {
-        // 판매글 내용을 받아서 수정하도록 처리
-        return saleDao.update(saleDto);
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Map modify(Long no) throws Exception {
+        // 판매글 내용을 받아서 전달
+        SaleDto saleDto = saleDao.select(no);
+        List<TagDto> tagList = tagDao.getTagContents(no);
+
+        String tagContents = "";
+        for(TagDto tagDto : tagList) {
+            tagContents += "#" + tagDto.getContents();
+        }
+        System.out.println("태그내용 : " + tagContents);
+        Map map = new HashMap();
+        map.put("saleDto", saleDto);
+        map.put("tagContents", tagContents);
+
+        return map;
     }
 }
 

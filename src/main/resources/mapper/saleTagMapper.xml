@@ -4,13 +4,19 @@
 
 <mapper namespace="team.cheese.dao.SaleTagMapper">
     <sql id="selectFromTag">
-        SELECT sal_no, tag_no
+        SELECT sal_no, tag_no, first_date, first_id, last_date, last_id
         FROM sale_tag
     </sql>
 
     <select id="count" resultType="int">
         SELECT count(*)
         FROM sale_tag
+    </select>
+
+    <!--  R : 판매글 번호에 해당하는 테이블 읽어오기  -->
+    <select id="selectSalNo" resultType="SaleTagDto">
+        <include refid="selectFromTag"/>
+        WHERE sal_no = #{sal_no}
     </select>
 
     <!--  R : 전체 테이블 읽어오기  -->
@@ -25,28 +31,6 @@
 <!--        state = 'Y'-->
 <!--    </select>-->
 
-<!--  R : 선택한 판매글의 해시태그 값을 읽어오기(join문)  -->
-<!-- join문 순서 조금 더 고민해보기 tag, sal_tag   -->
-    <select id="selectSaleTag" parameterType="int" resultMap="joinTag">
-        SELECT a.sal_no, a.tag_no, b.contents
-            FROM sal_tag a
-        LEFT JOIN tag b ON a.tag_no = b.no
-        WHERE a.sal_no = #{sal_no}
-    </select>
-
-    <resultMap id="joinTag" type="SaleTagDto">
-        <!-- 1 : 다 관계의 경우 데이터 매핑시켜준다.
-                association => 1 : 1 관계
-                collection => 1 : 다 관계 (하나의 판매글에 여러개의 태그)
-                일반 컬럼과 pk 구분 가능 (pk 칼럼에게는 result 아닌 id 사용)
-        -->
-        <id property="sal_no" column="sal_no"/>
-        <result property="tag_no" column="tag_no"/>
-        <collection property="tagDto" javaType="team.cheese.domain.TagDto">
-            <result property="contents" column="contents"/>
-        </collection>
-    </resultMap>
-
     <!--  R : 태그명 조회하기(태그 번호만 반환)  -->
     <select id="selectTagContents" parameterType="TagDto" resultType="SaleTagDto">
         SELECT no
@@ -60,6 +44,12 @@
         INSERT INTO sale_tag (sal_no, tag_no, first_date, first_id, last_date, last_id)
         values (#{sal_no}, #{tag_no}, now(), #{first_id}, now(), #{last_id})
     </insert>
+
+    <!--  D : 선택한 판매글의 태그를 삭제  -->
+    <delete id="delete">
+        DELETE FROM sale_tag
+        WHERE sal_no = #{sal_no}
+    </delete>
 
     <!--  D : 데이터 전체 삭제  -->
     <delete id="deleteAll">

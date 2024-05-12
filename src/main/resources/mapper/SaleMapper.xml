@@ -58,6 +58,13 @@
         and ur_state = 'Y'
     </select>
 
+    <!--  U : 게시글 조회해서 들어갈 때마다 조회수 늘려주기  -->
+    <update id="increaseViewCnt" parameterType="Long">
+        UPDATE sale
+        SET view_cnt = view_cnt + 1
+        WHERE no = #{no}
+    </update>
+
     <!--  R : 관리자가 관여한 게시글을 전체선택  -->
     <select id="selectAdmin" resultType="SaleDto">
         <include refid="selectFromSale"/>
@@ -65,41 +72,7 @@
             ad_state = 'Y'
     </select>
 
-    <!-- C : 판매글 작성 : 사용자 입력값 삽입하기(세션고려해서 수정) -->
-    <insert id="insert" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO sale (addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
-                          group_no, img_full_rt, pro_s_cd, tx_s_cd,
-                          trade_s_cd_1, trade_s_cd_2, price,
-                          sal_s_cd, title, contents, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand,
-                          reg_price)
-        SELECT a.addr_cd,
-               a.addr_name,
-               #{seller_id},
-               (SELECT nick FROM user WHERE id = #{seller_id}), -- 나중에 세션에서 가져오기
-               #{sal_i_cd},
-               (SELECT name FROM sale_category WHERE sal_cd = #{sal_i_cd}), -- 나중에 세션에서 가져오기
-               #{group_no},
-               #{img_full_rt},
-               #{pro_s_cd},
-               #{tx_s_cd},
-               #{trade_s_cd_1},
-               #{trade_s_cd_2},
-               #{price},
-               #{sal_s_cd},
-               #{title},
-               #{contents},
-               #{bid_cd},
-               #{pickup_addr_cd},
-               (select addr_name as pickup_addr_cd from administrative where addr_cd = #{pickup_addr_cd}), -- 화면단에서 보내면 이렇게 안해도 됨
-               #{detail_addr},
-               #{brand},
-               #{reg_price}
-        FROM addr_cd a
-        WHERE a.ur_id = #{seller_id}
-        LIMIT #{check_addr_cd}, 1
-    </insert>
-
-<!--  User 완성된 후 사용할 수 있는 insert문   -->
+    <!-- C : 판매글 작성 : 사용자 입력값 삽입하기 -->
     <insert id="insertSale" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
         INSERT INTO sale(
             addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
@@ -112,7 +85,7 @@
              #{group_no}, #{img_full_rt}, #{pro_s_cd}, #{tx_s_cd}, #{trade_s_cd_1}, #{trade_s_cd_2},
              #{sal_s_cd}, #{title}, #{contents}, #{price}, #{bid_cd}, #{pickup_addr_cd}, #{pickup_addr_name}, #{detail_addr},
              #{brand}, #{reg_price},
-             now(), #{first_id}, now(), #{last_id}
+             now(), #{seller_id}, now(), #{seller_id}
          )
     </insert>
 
@@ -140,16 +113,18 @@
             brand            = #{brand},                                                                 -- 상품 브랜드
             reg_price        = #{reg_price},                                                             -- 상품 정가
             m_date           = NOW(),                                                                    -- 수정 날짜
-            ur_state         = 'N'                                                                       -- 사용자 상태
+            ur_state         = 'N',                                                                       -- 사용자 상태
+            last_date        = NOW(),
+            last_id          = #{seller_id}
         WHERE no = #{no} -- 판매글 번호
     </update>
 
     <!--  D : 판매글 작성자가 판매글 삭제하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌  -->
-    <update id="delete" parameterType="SaleDto">
+    <update id="delete" parameterType="map">
         UPDATE sale
         SET m_date   = now(),
             ur_state = 'N',
-            last_id = #{last_id},
+            last_id = #{seller_id},
             last_date = now()
         WHERE
         no = #{no}

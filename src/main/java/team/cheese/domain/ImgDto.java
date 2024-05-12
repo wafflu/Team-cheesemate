@@ -1,10 +1,9 @@
 package team.cheese.domain;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 
 public class ImgDto {
-    private Long no;
+    private Integer no;
     private String imgtype;
     private String file_rt;
     private String u_name;
@@ -18,19 +17,9 @@ public class ImgDto {
 
     private Integer group_no;
 
-    private Timestamp first_date;
+    public ImgDto(){}
 
-    private String first_id;
-
-    private Timestamp last_date;
-
-    private String last_id;
-
-
-    public ImgDto() {
-
-    }
-
+    //이미지 작성시 아래 사용
     public ImgDto(String tb_name, int tb_no, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size, String img_full_rt){
         this.imgtype = imgtype;
         this.file_rt = file_rt;
@@ -42,11 +31,42 @@ public class ImgDto {
         this.img_full_rt = img_full_rt;
     }
 
-    public Long getNo() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ImgDto imgDto = (ImgDto) o;
+        return Objects.equals(imgtype, imgDto.imgtype) && Objects.equals(file_rt, imgDto.file_rt) && Objects.equals(u_name, imgDto.u_name) && Objects.equals(o_name, imgDto.o_name) && Objects.equals(e_name, imgDto.e_name) && Objects.equals(w_size, imgDto.w_size) && Objects.equals(h_size, imgDto.h_size) && Objects.equals(img_full_rt, imgDto.img_full_rt);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt);
+    }
+
+    @Override
+    public String toString() {
+        return "ImgDto{" +
+                "no=" + no +
+                ", imgtype='" + imgtype + '\'' +
+                ", file_rt='" + file_rt + '\'' +
+                ", u_name='" + u_name + '\'' +
+                ", o_name='" + o_name + '\'' +
+                ", e_name='" + e_name + '\'' +
+                ", w_size=" + w_size +
+                ", h_size=" + h_size +
+                ", r_date='" + r_date + '\'' +
+                ", state='" + state + '\'' +
+                ", img_full_rt='" + img_full_rt + '\'' +
+                ", group_no=" + group_no +
+                '}';
+    }
+
+    public Integer getNo() {
         return no;
     }
 
-    public void setNo(Long no) {
+    public void setNo(Integer no) {
         this.no = no;
     }
 
@@ -136,72 +156,5 @@ public class ImgDto {
 
     public void setGroup_no(Integer group_no) {
         this.group_no = group_no;
-    }
-
-    public Timestamp getFirst_date() {
-        return first_date;
-    }
-
-    public void setFirst_date(Timestamp first_date) {
-        this.first_date = first_date;
-    }
-
-    public String getFirst_id() {
-        return first_id;
-    }
-
-    public void setFirst_id(String first_id) {
-        this.first_id = first_id;
-    }
-
-    public Timestamp getLast_date() {
-        return last_date;
-    }
-
-    public void setLast_date(Timestamp last_date) {
-        this.last_date = last_date;
-    }
-
-    public String getLast_id() {
-        return last_id;
-    }
-
-    public void setLast_id(String last_id) {
-        this.last_id = last_id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ImgDto imgDto = (ImgDto) o;
-        return Objects.equals(no, imgDto.no) && Objects.equals(imgtype, imgDto.imgtype) && Objects.equals(file_rt, imgDto.file_rt) && Objects.equals(u_name, imgDto.u_name) && Objects.equals(o_name, imgDto.o_name) && Objects.equals(e_name, imgDto.e_name) && Objects.equals(w_size, imgDto.w_size) && Objects.equals(h_size, imgDto.h_size) && Objects.equals(r_date, imgDto.r_date) && Objects.equals(state, imgDto.state) && Objects.equals(img_full_rt, imgDto.img_full_rt) && Objects.equals(group_no, imgDto.group_no) && Objects.equals(first_date, imgDto.first_date) && Objects.equals(first_id, imgDto.first_id) && Objects.equals(last_date, imgDto.last_date) && Objects.equals(last_id, imgDto.last_id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(no, imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, r_date, state, img_full_rt, group_no, first_date, first_id, last_date, last_id);
-    }
-
-    @Override
-    public String toString() {
-        return "ImgDto{" +
-                "no=" + no +
-                ", imgtype='" + imgtype + '\'' +
-                ", file_rt='" + file_rt + '\'' +
-                ", u_name='" + u_name + '\'' +
-                ", o_name='" + o_name + '\'' +
-                ", e_name='" + e_name + '\'' +
-                ", w_size=" + w_size +
-                ", h_size=" + h_size +
-                ", r_date='" + r_date + '\'' +
-                ", state='" + state + '\'' +
-                ", img_full_rt='" + img_full_rt + '\'' +
-                ", group_no=" + group_no +
-                ", first_date=" + first_date +
-                ", first_id='" + first_id + '\'' +
-                ", last_date=" + last_date +
-                ", last_id='" + last_id + '\'' +
-                '}';
     }
 }

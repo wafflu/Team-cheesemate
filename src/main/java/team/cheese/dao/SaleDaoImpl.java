@@ -41,6 +41,11 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
+    public int increaseViewCnt(Long no) throws Exception {
+        return session.update(namespace+"increaseViewCnt", no);
+    }
+
+    @Override
     public int insert(SaleDto saleDto) throws Exception {
         String tx_s_cd = saleDto.getTx_s_cd();
 
@@ -61,16 +66,15 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
-//    public int delete(BigInteger no, String seller_id) throws Exception {
-    public int delete(SaleDto saleDto) throws Exception {
+    public int delete(Long no, String seller_id) throws Exception {
 //        System.out.println("no들어온거 확인 : " + no);
 //        System.out.println("seller_id들어온거 확인 : " + seller_id);
 //        BigInteger no = saleDto.getNo();
-//        Map map = new HashMap();
-//        map.put("no", no);
-//        map.put("seller_id", seller_id);
+        Map map = new HashMap();
+        map.put("no", no);
+        map.put("seller_id", seller_id);
 
-        return session.update(namespace + "delete", saleDto);
+        return session.update(namespace + "delete", map);
     }
 
     @Override

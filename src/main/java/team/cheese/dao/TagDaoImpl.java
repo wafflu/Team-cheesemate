@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import team.cheese.domain.TagDto;
 
+import javax.servlet.jsp.tagext.Tag;
+import java.util.List;
+
 @Repository
 public class TagDaoImpl implements TagDao{
     @Autowired
@@ -47,5 +50,10 @@ public class TagDaoImpl implements TagDao{
     @Override
     public int resetAutoIncrement() throws Exception {
         return session.update(namespace + "resetAutoIncrement");
+    }
+
+    @Override
+    public List<TagDto> getTagContents(Long sal_no) throws Exception {
+        return session.selectList(namespace + "getTagsBySaleNo", sal_no);
     }
 }

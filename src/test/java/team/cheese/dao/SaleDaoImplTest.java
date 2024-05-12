@@ -60,7 +60,7 @@ public class SaleDaoImplTest {
         saleDao.resetAutoIncrement();
 
         assertTrue(saleImgDao.count()== 0);
-        assertTrue(imgDao.count()== 0);
+        assertTrue(imgDao.count("sale")== 0);
         assertTrue(saleTagDao.count()== 0);
         assertTrue(tagDao.count()== 0);
         assertTrue(bidingDao.count()== 0);
@@ -84,25 +84,30 @@ public class SaleDaoImplTest {
         // 2. 게시글 1개 작성 후 개수 확인
         SaleDto saleDto = new SaleDto();
 
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
         saleDto.setSeller_id("david234");
+        saleDto.setSeller_nick("닉네임");
         saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
         saleDto.setPro_s_cd("C");
         saleDto.setTx_s_cd("S");
         // 거래방법 1개만 작성
         saleDto.setTrade_s_cd_1("F");
         saleDto.setPrice(28000);
         saleDto.setSal_s_cd("S");
-        saleDto.setTitle("자바의 정석 2판 팔아요");
-        saleDto.setContents("자바의 정석 2판 팔아요. 3판 구매해서 2판 팝니다.");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
         saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
-        saleDto.setBrand("자바의 정석");
+        saleDto.setBrand("oo북스");
         saleDto.setReg_price(30000);
-        saleDto.setCheck_addr_cd(0);
+        saleDto.setFirst_id("david234");
+        saleDto.setLast_id("david234");
 
         // 2.1. 게시글 1개 작성
-        saleDao.insert(saleDto);
+        saleDao.insertSale(saleDto);
 
         // 2.2. 게시글 들어갔는지 확인
         assertTrue(saleDao.count() == 1);
@@ -111,7 +116,7 @@ public class SaleDaoImplTest {
         deleteDao.deleteAll();
 
         assertTrue(saleImgDao.count()== 0);
-        assertTrue(imgDao.count()== 0);
+        assertTrue(imgDao.count("sale")== 0);
         assertTrue(saleTagDao.count()== 0);
         assertTrue(tagDao.count()== 0);
         assertTrue(bidingDao.count()== 0);
@@ -132,26 +137,32 @@ public class SaleDaoImplTest {
 
         // 2. 반복문으로 동일한 게시글 100개 insert
         SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
         saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
         saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
         saleDto.setPro_s_cd("C");
         saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
         saleDto.setTrade_s_cd_1("F");
         saleDto.setPrice(28000);
         saleDto.setSal_s_cd("S");
-        saleDto.setTitle("동화책 팔아요");
-        saleDto.setContents("어린이 동화책 전집 팔이요.");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
         saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
-        saleDto.setBrand("자바의 정석");
+        saleDto.setBrand("oo북스");
         saleDto.setReg_price(30000);
-        saleDto.setCheck_addr_cd(0);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
 
         int cnt = 100;
         for(int i = 0; i < cnt; i++) {
             // 2.1. 게시글 1개 작성
-            saleDao.insert(saleDto);
+            saleDao.insertSale(saleDto);
         }
 
         // 3. count로 게시글이 100개 들어갔는지 확인
@@ -210,7 +221,7 @@ public class SaleDaoImplTest {
             int cnt = saleDao.countUse();
             if (saleDto.getSeller_id().equals(ur_id) && saleDto.getUr_state() == 'Y') {
 //            saleDao.delete(randnum, ur_id);
-                int result = saleDao.delete(saleDto);
+                int result = saleDao.delete(randnum, ur_id);
                 System.out.println("result : " + result);
 //                System.out.println("아이디 동일 : " + saleDto);
 
@@ -277,26 +288,89 @@ public class SaleDaoImplTest {
 
         // 2. 반복문으로 동일한 게시글 100개 insert
         SaleDto saleDto = new SaleDto();
-        saleDto.setSeller_id(seller_id);
+
         saleDto.setAddr_cd(addr_cd);
         saleDto.setAddr_name(addr_name);
+        saleDto.setSeller_id(seller_id);
+        saleDto.setSeller_nick("닉네임");
         saleDto.setSal_i_cd("016001005");
-        saleDto.setSal_name("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
         saleDto.setPro_s_cd("C");
         saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
         saleDto.setTrade_s_cd_1("F");
         saleDto.setPrice(28000);
         saleDto.setSal_s_cd("S");
-        saleDto.setTitle("동화책 팔아요");
-        saleDto.setContents("어린이 동화책 전집 팔이요.");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
         saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
-        saleDto.setBrand("ㅇㅇ북스");
+        saleDto.setBrand("oo북스");
         saleDto.setReg_price(30000);
-        saleDto.setCheck_addr_cd(0);
+        saleDto.setFirst_id(seller_id);
+        saleDto.setLast_id(seller_id);
 
         // 3. 게시글 1개 작성
-        assertTrue(saleDao.insert(saleDto) == 1);
+        assertTrue(saleDao.insertSale(saleDto) == 1);
     }
+
+    // viewCnt가 증가하는지 확인하는 테스트
+    @Test
+    public void testViewCnt() throws Exception {
+        // 1. 게시글 전체 삭제
+        deleteDao.deleteAll();
+
+        // 2. 반복문으로 동일한 게시글 100개 insert
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+
+        int cnt = 100;
+        for(int i = 0; i < cnt; i++) {
+            // 2.1. 게시글 1개 작성
+            saleDao.insertSale(saleDto);
+        }
+
+        // 3. count로 게시글이 100개 들어갔는지 확인
+        assertTrue(saleDao.count() == cnt);
+
+        // 4. 게시물 중 랜덤으로 하나를 불러옴
+        Long no = (long) (Math.random() * saleDao.count()+ 1);
+        System.out.println("판매글 번호 : " + no);
+
+        SaleDto beforeSaleDto = saleDao.select(no);
+        int beforeViewCnt = beforeSaleDto.getView_cnt();
+        System.out.println("이전 viewCnt : " + beforeViewCnt);
+
+        // 5. 조회를 하였으므로 viewCnt 증가
+        saleDao.increaseViewCnt(no);
+
+        SaleDto afterSaleDto = saleDao.select(no);
+        int afterViewCnt = afterSaleDto.getView_cnt();
+        System.out.println("이후 viewCnt : " + afterViewCnt);
+
+        // 6. 이전 조회수와 이후 조회수 비교
+        assertTrue(beforeViewCnt == (afterViewCnt - 1));
+    }
+
 }

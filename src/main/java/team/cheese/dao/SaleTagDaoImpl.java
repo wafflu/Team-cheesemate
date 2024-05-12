@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleTagDto;
 
+import javax.servlet.jsp.tagext.Tag;
 import java.util.List;
 
 @Repository
@@ -21,8 +22,19 @@ public class SaleTagDaoImpl implements SaleTagDao{
     }
 
     @Override
+    public List<SaleTagDto> selectSalNo(Long sal_no) throws Exception {
+        return session.selectList(namespace + "selectSalNo", sal_no);
+    }
+
+    @Override
     public int insert(SaleTagDto saleTagDto) throws Exception {
         return session.insert(namespace + "insert", saleTagDto);
+    }
+
+    @Override
+    public int delete(Long sal_no) throws Exception {
+
+        return session.delete(namespace + "delete", sal_no);
     }
 
     @Override
@@ -35,5 +47,7 @@ public class SaleTagDaoImpl implements SaleTagDao{
     public int resetAutoIncrement() throws Exception {
         return session.update(namespace + "resetAutoIncrement");
     }
+
+
 
 }

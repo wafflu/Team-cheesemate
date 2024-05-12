@@ -23,5 +23,10 @@
         WHERE ur_id = #{userId}
     </select>
 
+<!--    *** 유저의 주소코드 추가 ***-->
+<!--    <insert id="insertNewAddrCd" parameterType="AddrCdDto">-->
+<!--        INSERT INTO addr_cd-->
+<!--        VALUES (#{no}, #{ur_id}, #{addr_cd}, #{addr_name}, #{state}, #{first_date}, #{first_id}, #{last_date}, #{last_id})-->
+<!--    </insert>-->
 
 </mapper>
