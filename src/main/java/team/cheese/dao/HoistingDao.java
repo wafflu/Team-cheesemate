@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class hoistingDao {
+public class HoistingDao {
     @Autowired
     private SqlSession session;
     private static String namespace = "team.cheese.dao.HoistingMapper.";

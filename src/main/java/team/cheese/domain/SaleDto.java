@@ -64,6 +64,10 @@ public class SaleDto {
     private String contents;
 
     private Integer price;
+
+    @NotBlank
+    @NotEmpty
+    @NotNull
     private String bid_cd;
     private String pickup_addr_cd;
     private String pickup_addr_name;

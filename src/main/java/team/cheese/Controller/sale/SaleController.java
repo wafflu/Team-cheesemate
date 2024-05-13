@@ -17,6 +17,9 @@ import team.cheese.service.sale.SaleService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 @Controller
@@ -72,6 +75,8 @@ public class SaleController {
             List<SaleDto> saleList = saleService.getUserAddrCdList(addr_cd);
             System.out.println(saleList.size());
 
+            model.addAttribute("startOfToday", getStartOfToday());
+
             // 사용자의 기본 주소 첫번째
             model.addAttribute("addrCdList", addrCdList);
             // 불러온 게시글 리스트를 모델에 담음
@@ -92,9 +97,9 @@ public class SaleController {
     }
 
     // 글쓰기 버튼 누른 경우
-    @GetMapping("/write")
+    @PostMapping("/write")
     public String write(@RequestParam String addr_cd, Model model, HttpSession session) throws Exception {
-        System.out.println("GET write");
+        System.out.println("POST write");
         // 로그인 한 경우
 
         String ur_id = (String) session.getAttribute("userId");
@@ -104,6 +109,7 @@ public class SaleController {
         for(AddrCdDto addrCdDto : addrCdDtoList) {
             if (addr_cd.equals(addrCdDto.getAddr_cd())) {
                 addr_name = addrCdDto.getAddr_name();
+                break;
             }
         }
 
@@ -135,7 +141,7 @@ public class SaleController {
 
     // 서비스로 분리
     // 글쓰기 완료하고 글을 등록하는 경우
-    @PostMapping("/write")
+    @PostMapping("/insert")
     @ResponseBody
     public ResponseEntity<String> write(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
         System.out.println("POST write");
@@ -190,7 +196,7 @@ public class SaleController {
     }
 
 // 글 수정을 완료하고 글을 등록하는 경우
-@PostMapping("/write")
+@PostMapping("/update")
 @ResponseBody
 public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
     System.out.println("POST update");
@@ -282,5 +288,31 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    // ajax 지역에 따른 List 반환
+    @RequestMapping("/searchAddrCd")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getUserAddr(@RequestParam String addr_cd, HttpSession session) throws Exception {
+        System.out.println("addr_cd ajax로 전송받음 : " + addr_cd);
+        // 선택하는 지역에 따른 List 반환
+        try {
+            List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
+            long startOfToday = getStartOfToday();
+            Map<String, Object> response = new HashMap<>();
+            response.put("saleList", saleList);
+            response.put("startOfToday", startOfToday);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(Collections.emptyMap(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    private long getStartOfToday() {
+        Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        return startOfToday.toEpochMilli();
+    }
+
 
 }

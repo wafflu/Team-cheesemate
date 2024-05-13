@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import team.cheese.dao.*;
 import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.SaleDto;
+import team.cheese.domain.SaleTagDto;
+import team.cheese.domain.TagDto;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class SaleServiceTest extends TestCase {
     SaleTagDao saleTagDao;
     @Autowired
     SaleService saleService;
+    @Autowired
+    DeleteDao deleteDao;
 
     @Autowired
     TestSession testSession;
@@ -173,7 +177,157 @@ public class SaleServiceTest extends TestCase {
         assertTrue(beforeViewCnt == (afterViewCnt-1));
     }
 
-    public void testModify() {
+    // 메서드 분리해서 sale, tag, sale_tag 테이블에 데이터 삽입
+    // 판매자가 판매 게시글을 작성할 때
+    @Test
+    public void testWriteMethod() throws Exception {
+        deleteDao.deleteAll();
+
+        // 글을 작성
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+        saleDao.insertSale(saleDto);
+
+        assertTrue(saleDao.count() == 1);
+        Long sal_no = saleDto.getNo();
+        String ur_id = saleDto.getSeller_id();
+
+        List<String> tagList =  tagList();
+
+        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+    }
+
+    @Test
+    public void testWriteMethodTagDuplicate() throws Exception {
+        deleteDao.deleteAll();
+
+        // 글을 작성
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+        saleDao.insertSale(saleDto);
+
+        assertTrue(saleDao.count() == 1);
+        Long sal_no = saleDto.getNo();
+        String ur_id = saleDto.getSeller_id();
+
+        List<String> tagList =  tagListDuplication();
+
+        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+    }
+
+
+    @Test
+    public void testWriteMethodTagNone() throws Exception {
+        deleteDao.deleteAll();
+
+        // 글을 작성
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+        saleDao.insertSale(saleDto);
+
+        assertTrue(saleDao.count() == 1);
+        Long sal_no = saleDto.getNo();
+        String ur_id = saleDto.getSeller_id();
+
+        List<String> tagList =  tagListNone();
+
+        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+    }
+
+    // tag 데이터를 insert하는 트렌젝션 문
+    public int insertTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
+        System.out.println("insertTagTx 들어옴");
+        int insertTagTx = 0;
+        int resultSaleTag = 0;
+        for (String contents : tagList) {
+            TagDto tagDto = tagDao.selectTagContents(contents);
+            if (tagDto == null) { // contents가 중복값이 없는 경우
+                tagDto = new TagDto(contents, ur_id); // 새로운 객체 생성
+                insertTagTx = tagDao.insert(tagDto);
+                assertTrue(insertTagTx == 1);
+            } else { // contents가 중복값이 있는 경우
+                tagDto.setLast_id(ur_id);
+                insertTagTx = tagDao.updateSys(tagDto);
+                assertTrue(insertTagTx == 1);
+            }
+            Long tag_no = tagDto.getNo();
+            resultSaleTag = insertSaleTagTx(sal_no, tag_no, ur_id);
+        }
+        return insertTagTx + resultSaleTag;
+    }
+
+    // saleTag 교차 테이블 데이터를 insert하는 트렌젝션 문
+    public int insertSaleTagTx(Long sal_no, Long tag_no, String ur_id) throws Exception {
+        SaleTagDto saleTagDto = new SaleTagDto(sal_no, tag_no, ur_id, ur_id);
+
+        int insertSaleTagTx = saleTagDao.insert(saleTagDto);
+        assertTrue(insertSaleTagTx == 1);
+        return insertSaleTagTx;
+    }
+
+    @Test
+    public void testModify() throws Exception {
+        Long no = (long) (Math.random() * saleDao.count()+ 1);
     }
 
     public SaleDto saleInsert(HttpSession session) throws Exception {
@@ -229,6 +383,12 @@ public class SaleServiceTest extends TestCase {
         contents.add("태그테스트");
         contents.add("태그중복");
         contents.add("중복테스트");
+
+        return contents;
+    }
+
+    public List<String> tagListNone() throws Exception {
+        List<String> contents = new ArrayList<>();
 
         return contents;
     }

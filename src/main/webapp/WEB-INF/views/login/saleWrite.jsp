@@ -170,7 +170,7 @@
             <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
         </p>
         <p>설명</p>
-        <textarea name="contents" id="contents" cols="30" rows="10">${Sale.contents}</textarea>
+        <p style="white-space: pre-wrap"><textarea name="contents" id="contents" cols="30" rows="10" style="white-space: pre-line;">${Sale.contents}</textarea></p>
         <p>해시태그(선택) <input type="text" id="hashtagInput" name="tag" value="${Tag}"/></p>
         <div id="hashtagContainer"></div>
         <input type="radio" class="tx_s_cd" name="tx_s_cd" value="S"/>판매
@@ -180,7 +180,7 @@
             상품가격
             <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0" value="${Sale.price}"/>
         </p>
-        <p hidden><input type="radio" name="bid_cd" value="N"/> 미사용 </p>
+        <p hidden><input type="radio" name="bid_cd" value="N" checked/> 미사용 </p>
         <p class="proposal" hidden><input class="proposal" type="radio" name="bid_cd" value="P"/> 가격제안받기</p>
         <p class="trade" hidden><input class="trade" type="radio" name="bid_cd" value="T"/> 나눔신청받기</p>
         <p>
@@ -207,12 +207,13 @@
                 </div>
             </div>
         </div>
-        <input name="addr_cd" value="${Sale.addr_cd}">
-        <input name="addr_name" value="${Sale.addr_name}">
+<%--        <input name="addr_cd" value="${Sale.addr_cd}">--%>
+<%--        <input name="addr_name" value="${Sale.addr_name}">--%>
         <p>거래장소
             <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="${Sale.pickup_addr_cd}" hidden>
             <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="${Sale.pickup_addr_name}" disabled>
         </p>
+
         <p>
             거래희망장소(선택)
             <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." value="${Sale.detail_addr}"/>
@@ -229,125 +230,196 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
-    let submitURL = '/sale/write';
+    let submitURL = '/sale/insert';
     $(document).ready(function () {
-        // Sale의 pro_s_cd 값 : 상품상태
-        let pro_s_cd = "${Sale.pro_s_cd}";
-        // pro_s_cd 값에 해당하는 radio input 선택
-        $("input[name='pro_s_cd'][value='" + pro_s_cd + "']").prop("checked", true);
-
-        // Sale의 trade_s_cd_1과 trade_s_cd_2 값 : 거래방법
-        let trade_s_cd_1 = "${Sale.trade_s_cd_1}";
-        let trade_s_cd_2 = "${Sale.trade_s_cd_2}";
-
-        // trade_s_cd_1 값에 해당하는 checkbox 선택(필수값O)
-        $("input[type='checkbox'][value='" + trade_s_cd_1 + "']").prop("checked", true);
-
-        // trade_s_cd_2 값에 해당하는 checkbox 선택(필수값X)
-        if (trade_s_cd_2) {
-            $("input[type='checkbox'][value='" + trade_s_cd_2 + "']").prop("checked", true);
-        }
-
-        // Sale의 tx_s_cd값 : 판매/나눔
-        let tx_s_cd = "${Sale.tx_s_cd}";
-        if (tx_s_cd) {
-            $("#txMsg").text(""); // 메시지 제거
-            $("input[name='tx_s_cd'][value='" + tx_s_cd + "']").prop("checked", true);
-        }
-
-        // Sale의 bid_cd 값 : 가격제시/나눔신청
-        let bid_cd = "${Sale.bid_cd}";
-        // bid_cd 값에 해당하는 radio input 선택
-        $(".proposal").show();
-        if (bid_cd === "P") {
-            $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
-        } else if (bid_cd === "T") {
-            $(".trade").show();
-            $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
-        }
-
-        // Sale의 category 값
-        // 조건에 따라 sal_i_cd 값을 설정
-        let sal_i_cd = "${Sale.sal_i_cd}";
-        console.log(sal_i_cd);
-        if (sal_i_cd.length == 9) {
-            let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
-            $("#category1").val(category1Value).trigger("change");
-            let category2Value = sal_i_cd.substring(0, 6); // sal_i_cd의 앞 6글자
-            $.ajax({
-                type: "POST",
-                url: "/sale/saleCategory2",
-                dataType: "json",
-                data: {category1: category1Value},
-                success: function (data) {
-                    $("#category2").val(category2Value).trigger("change");
-                    let category3Value = sal_i_cd; // sal_i_cd의 전체 글자
-                    $.ajax({
-                        type: "POST",
-                        url: "/sale/saleCategory3",
-                        dataType: "json",
-                        data: {category2: category2Value},
-                        success: function (data) {
-                            $("#category3").val(category3Value).trigger("change");
-                        },
-                        error: function (xhr, status, error) {
-                            alert("Error", error);
-                        }
-                    });
-                },
-                error: function (xhr, status, error) {
-                    alert("Error", error);
-                }
-            });
-            // let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
-            // let category2Value = sal_i_cd.substring(0, 6); // sal_i_cd의 앞 6글자
-            // let category3Value = sal_i_cd; // sal_i_cd의 전체 글자
-            // $("#category1").val(category1Value).trigger("change").promise().done(function(){
-            //     $("#category2").val(category2Value).trigger("change").promise().done(function(){
-            //         $("#category3").val(category3Value).trigger("change");
-            //     });
-            // });
-        } else if(sal_i_cd.length == 6) {
-            let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
-            $("#category1").val(category1Value).trigger("change");
-            let category2Value = sal_i_cd; // sal_i_cd의 전체 글자
-            $.ajax({
-                type: "POST",
-                url: "/sale/saleCategory2",
-                dataType: "json",
-                data: {category1: category1Value},
-                success: function (data) {
-                    $("#category2").val(category2Value).trigger("change");
-                },
-                error: function (xhr, status, error) {
-                    alert("Error", error);
-                }
-            });
-            // let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
-            // let category2Value = sal_i_cd; // sal_i_cd의 전체 글자
-            // $("#category1").val(category1Value).trigger("change").promise().done(function(){
-            //     $("#category2").val(category2Value).trigger("change");
-            // });
-        } else {
-            let category1Value = sal_i_cd; // sal_i_cd의 전체 글자
-            $("#category1").val(category1Value).trigger("change");
-        }
+        // 현재 URL에서 addr_cd 매개변수를 제거하고 페이지를 다시로드하지 않음
+        // history.replaceState({}, document.title, window.location.pathname);
 
         // 현재 URL에서 "modify" 문자열이 포함되어 있는지 확인
         if (window.location.href.indexOf("modify") != -1) {
+            // Sale의 pro_s_cd 값 : 상품상태
+            let pro_s_cd = "${Sale.pro_s_cd}";
+            // pro_s_cd 값에 해당하는 radio input 선택
+            $("input[name='pro_s_cd'][value='" + pro_s_cd + "']").prop("checked", true);
+
+            // Sale의 trade_s_cd_1과 trade_s_cd_2 값 : 거래방법
+            let trade_s_cd_1 = "${Sale.trade_s_cd_1}";
+            let trade_s_cd_2 = "${Sale.trade_s_cd_2}";
+
+            // trade_s_cd_1 값에 해당하는 checkbox 선택(필수값O)
+            $("input[type='checkbox'][value='" + trade_s_cd_1 + "']").prop("checked", true);
+
+            // trade_s_cd_2 값에 해당하는 checkbox 선택(필수값X)
+            if (trade_s_cd_2) {
+                $("input[type='checkbox'][value='" + trade_s_cd_2 + "']").prop("checked", true);
+            }
+
+            let tagValue = "${Tag}";
+            createHashtagInput(); // 페이지 로드 시에도 input 생성
+            // input 요소에 이벤트 리스너 추가
+            document
+                .getElementById("hashtagInput")
+                .addEventListener("input", createHashtagInput);
+
+            // Sale의 tx_s_cd값 : 판매/나눔
+            let tx_s_cd = "${Sale.tx_s_cd}";
+            if (tx_s_cd) {
+                $("#txMsg").text(""); // 메시지 제거
+                $("input[name='tx_s_cd'][value='" + tx_s_cd + "']").prop("checked", true);
+            }
+
+            // Sale의 bid_cd 값 : 가격제시/나눔신청
+            let bid_cd = "${Sale.bid_cd}";
+            // bid_cd 값에 해당하는 radio input 선택
+            $(".proposal").show();
+            if (bid_cd === "P") {
+                $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
+            } else if (bid_cd === "T") {
+                $(".trade").show();
+                $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
+            }
+
+            // Sale의 category 값
+            // 조건에 따라 sal_i_cd 값을 설정
+            let sal_i_cd = "${Sale.sal_i_cd}";
+            console.log(sal_i_cd);
+            if (sal_i_cd.length == 9) {
+                let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
+                $("#category1").val(category1Value).trigger("change");
+                let category2Value = sal_i_cd.substring(0, 6); // sal_i_cd의 앞 6글자
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/saleCategory2",
+                    dataType: "json",
+                    data: {category1: category1Value},
+                    success: function (data) {
+                        $("#category2").val(category2Value).trigger("change");
+                        let category3Value = sal_i_cd; // sal_i_cd의 전체 글자
+                        $.ajax({
+                            type: "POST",
+                            url: "/sale/saleCategory3",
+                            dataType: "json",
+                            data: {category2: category2Value},
+                            success: function (data) {
+                                $("#category3").val(category3Value).trigger("change");
+                            },
+                            error: function (xhr, status, error) {
+                                alert("Error", error);
+                            }
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error", error);
+                    }
+                });
+                // let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
+                // let category2Value = sal_i_cd.substring(0, 6); // sal_i_cd의 앞 6글자
+                // let category3Value = sal_i_cd; // sal_i_cd의 전체 글자
+                // $("#category1").val(category1Value).trigger("change").promise().done(function(){
+                //     $("#category2").val(category2Value).trigger("change").promise().done(function(){
+                //         $("#category3").val(category3Value).trigger("change");
+                //     });
+                // });
+            } else if (sal_i_cd.length == 6) {
+                let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
+                $("#category1").val(category1Value).trigger("change");
+                let category2Value = sal_i_cd; // sal_i_cd의 전체 글자
+                console.log("6글자일때 : ", category2Value);
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/saleCategory2",
+                    dataType: "json",
+                    data: {category1: category1Value},
+                    success: function (data) {
+                        $("#category2").val(category2Value).trigger("change");
+                    },
+                    error: function (xhr, status, error) {
+                        alert("Error", error);
+                        // window.location.reload();
+                    }
+                });
+                // let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
+                // let category2Value = sal_i_cd; // sal_i_cd의 전체 글자
+                // $("#category1").val(category1Value).trigger("change").promise().done(function(){
+                //     $("#category2").val(category2Value).trigger("change");
+                // });
+            } else {
+                let category1Value = sal_i_cd; // sal_i_cd의 전체 글자
+                $("#category1").val(category1Value).trigger("change");
+            }
             // "modify" 문자열이 포함되어 있다면 버튼의 텍스트를 "수정하기"로 변경
             $("#submitBtn").val("수정하기");
             submitURL = '/sale/update';
         }
     });
 
-    // Enter키 누를 시 모달창 뜨는 것 방지
+    // tag값 배열 초기화
+    // t_contents = [];
+    //
+    // document
+    //     .getElementById("hashtagInput")
+    //     .addEventListener("input", function () {
+    //         let hashtags = this.value.split("#").filter(Boolean); // #을 기준으로 문자열을 나누고 빈 문자열 제거
+    //
+    //         // 기존의 해시태그를 모두 삭제
+    //         let container = document.getElementById("hashtagContainer");
+    //         container.innerHTML = "";
+    //
+    //         // 배열 초기화
+    //         t_contents = [];
+    //
+    //         // 각 해시태그를 별도의 input 요소에 추가하여 표시
+    //         hashtags.forEach(function (tag) {
+    //             let input = document.createElement("input");
+    //             input.type = "text";
+    //             input.name = "t_contents";
+    //             input.value = "#" + tag; // 해시태그 앞에 #을 붙여서 표시
+    //             input.disabled = true; // 입력 불가능하도록 설정
+    //             container.appendChild(input);
+    //
+    //             // 해시태그 사이 간격 조절
+    //             // 해시태그의 글자 수에 따라 너비 동적 조절
+    //             input.style.width = (tag.length + 3) * 3 + "vw";
+    //
+    //             // 해시태그를 배열에 추가
+    //             t_contents.push("#" + tag);
+    //
+    //             container.appendChild(input);
+    //             container.appendChild(document.createTextNode(" ")); // 각 해시태그 뒤에 공백 추가
+    //         });
+    //         // t_contents 배열 출력 (테스트용)
+    //         console.log(t_contents);
+    //     });
+
+    // // Enter키 누를 시 모달창 뜨는 것 방지
+    // $(document).ready(function () {
+    //     $(document).on("keydown", function (event) {
+    //         if (event.keyCode === 13) {
+    //             event.preventDefault(); // Enter 키의 기본 동작 막기(input 창에서 Enter치면 모달창이 열리기 때문)
+    //         }
+    //     });
+    // });
+
+    // Enter키 누를 시 모달창 뜨는 것 방지 및 텍스트 영역에서 Enter 키 입력 허용
     $(document).ready(function () {
-        $(document).on("keydown", function (event) {
-            if (event.keyCode === 13) {
-                event.preventDefault(); // Enter 키의 기본 동작 막기(input 창에서 Enter치면 모달창이 열리기 때문)
+        // 텍스트 영역에서 Enter 키 입력 허용
+        $(document).on("keydown", "#contents", function (event) {
+            // 현재 포커스된 요소가 텍스트 영역인지 확인
+            if ($(this).is(":focus")) {
+                // Enter 키 입력이면서 Shift 키가 눌리지 않았을 때만 기본 동작 막지 않음
+                if (event.keyCode === 13) {
+                    return; // Enter 키 입력
+                }
+            }
+            // event.preventDefault(); // 그 외의 경우에는 Enter 키의 기본 동작 막기
+            if ($(".modal").hasClass("hidden")) {
+                // 모달 창이 숨겨져 있을 때만 Enter 키 입력 방지
+                if (event.keyCode === 13) {
+                    event.preventDefault(); // Enter 키의 기본 동작 막기(input 창에서 Enter치면 모달창이 열리기 때문)
+                }
             }
         });
+
     });
 
     // 이미지 등록 개수 한도 정하기
@@ -418,14 +490,14 @@
     $(document).ready(function () {
         // ${Tag} 값이 존재하는지 확인
         let tagValue = "${Tag}";
-        if (tagValue) {
+        // if (tagValue) {
             createHashtagInput(); // 페이지 로드 시에도 input 생성
 
             // input 요소에 이벤트 리스너 추가
             document
                 .getElementById("hashtagInput")
                 .addEventListener("input", createHashtagInput);
-        }
+        // }
     });
 
     // 해시태그 input 생성하는 함수
@@ -658,6 +730,9 @@
 
     // 등록하기 버튼 누르는 경우
     $("#submitBtn").on("click", function () {
+        // addr_cd와 addr_name 값을 가져오기 위해 input 태그 추가
+        $("<input>").attr("type", "hidden").attr("name", "addr_cd").val("${Sale.addr_cd}").appendTo("#writeForm");
+        $("<input>").attr("type", "hidden").attr("name", "addr_name").val("${Sale.addr_name}").appendTo("#writeForm");
 
         let title = $('input[name="title"]').val(); // 제목
         let pro_s_cd = $('input[name="pro_s_cd"]:checked').val(); // 상품상태

@@ -21,7 +21,7 @@ public class SaleDaoImplTest {
     @Autowired
     SaleHistoryDao salehistoryDao;
     @Autowired
-    hoistingDao hoistingDao;
+    HoistingDao hoistingDao;
     @Autowired
     BidingDao bidingDao;
     @Autowired

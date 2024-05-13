@@ -24,7 +24,7 @@
         <p>거래방식2 : ${Sale.trade_s_cd_2}</p>
         <p>거래상태 : ${Sale.sal_s_cd}</p>
         <p>제목 : ${Sale.title}</p>
-        <p>내용 : ${Sale.contents}</p>
+        내용 : <textarea>${Sale.contents}</textarea>
         <p>가격 : ${Sale.price}</p>
         <p>가격제시/나눔신청 : ${Sale.bid_cd}</p>
         <p>희망행성구역코드 : ${Sale.pickup_addr_cd}</p>
@@ -91,9 +91,18 @@
     $(document).ready(function () {
         $("#modifyBtn").on("click", function () {
             if (confirm("수정 하시겠습니까?")) {
-                $("#form").attr("action", "<c:url value='/sale/modify?no=${Sale.no}'/>");
-                $("#form").attr("method", "post");
-                $("#form").submit();
+                    // Sale.no 값을 읽어와서 hidden input을 추가
+                    var saleNo = "${Sale.no}";
+                    $("<input>").attr({
+                        type: "hidden",
+                        name: "no",
+                        value: saleNo
+                    }).appendTo("#form");
+                    // action 속성 설정
+                    $("#form").attr("action", "/sale/modify");
+
+                    // form submit
+                    $("#form").submit();
             }
         });
     });

@@ -77,16 +77,20 @@ public class SaleService {
         //      세션에서 ID 값을 가지고 옴
         // TestSession 클래스를 사용하여 세션을 설정
         String ur_id = saleDto.getSeller_id();
+        System.out.println("판매자id : " + ur_id);
 
-        int insertSale = saleDao.insertSale(saleDto);
+        int insertSale = 0;
+        try {
+            insertSale = saleDao.insertSale(saleDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("sale insert 성공? :  " + insertSale);
 
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
-        if(tagList != null) {
-            int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
-        }
+        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
 
         System.out.println("sal_no : " + sal_no);
         return sal_no;
@@ -139,9 +143,7 @@ public class SaleService {
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
-        if(tagList != null) {
-            int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
-        }
+        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
 
         System.out.println("sal_no : " + sal_no);
         return sal_no;
