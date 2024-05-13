@@ -120,7 +120,6 @@
     }
 
     // 업데이트된 saleList를 화면에 출력하는 함수
-    // 업데이트된 saleList를 화면에 출력하는 함수
     function updateSaleList(saleList, startOfToday) {
         // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
         $("#saleList tbody").empty();

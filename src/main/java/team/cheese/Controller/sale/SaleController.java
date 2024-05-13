@@ -44,19 +44,10 @@ public class SaleController {
 
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
-    public String getList(Model model, HttpSession session) throws Exception {
+    public String getList(@RequestParam(required = false) String addr_cd, Model model, HttpSession session) throws Exception {
         System.out.println("/list들어옴");
-        // 1. 세션에서 정보를 불러옴
-        //  1.1. 로그인 한 경우
-        //    1.1.1. 유저의 로그인 정보 첫번째 주소를 불러옴
-        //  1.2. 로그인 하지 않은 경우
-        //    1.2.1. addr_cd값을 null로 전달
 
-        // TestSession 클래스를 사용하여 세션을 설정
-        String ur_id = "asdf";
-        session = testSession.setSession(ur_id, session);
-
-        ur_id = (String) session.getAttribute("userId");
+        String ur_id = (String) session.getAttribute("userId");
         System.out.println("ur_id : " + ur_id);
 
         if(ur_id == null) {
@@ -70,7 +61,6 @@ public class SaleController {
             // 세션에서 ID 값을 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
             System.out.println("addrCdList 확인 : " + addrCdList);
-            String addr_cd = addrCdList.get(0).getAddr_cd();
             System.out.println("addr_cd" + addr_cd);
             List<SaleDto> saleList = saleService.getUserAddrCdList(addr_cd);
             System.out.println(saleList.size());
