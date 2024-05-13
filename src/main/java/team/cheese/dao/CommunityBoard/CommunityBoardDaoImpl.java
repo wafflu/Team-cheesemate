@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
+import team.cheese.Domain.Comment.CommentDto;
 import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -72,6 +74,19 @@ public class CommunityBoardDaoImpl implements CommunityBoardDao {
     @Override
     public int userChangeState(CommunityBoardDto communityBoardDto) throws Exception {
         return session.update(namespace + "userChangeState", communityBoardDto);
+    }
+
+    @Override
+    public int totalLikeCount(Integer no) throws Exception {
+        return session.update(namespace + "increaseLikeCnt", no);
+    }
+
+    @Override
+    public int commentCount(Integer no,int cnt) throws Exception {
+        HashMap map = new HashMap();
+        map.put("no", no);
+        map.put("cnt", cnt);
+        return session.update(namespace + "commentCount", map);
     }
 
 

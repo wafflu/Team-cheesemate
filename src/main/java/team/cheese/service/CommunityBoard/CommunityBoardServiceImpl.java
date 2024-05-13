@@ -156,7 +156,10 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         return entity;
     }
 
-
+    @Override
+    public int totalLike(Integer no) throws Exception {
+        return communityBoardDao.totalLikeCount(no);
+    }
 
 
 }

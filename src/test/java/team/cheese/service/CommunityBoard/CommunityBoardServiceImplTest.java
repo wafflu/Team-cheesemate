@@ -256,4 +256,31 @@ public  class CommunityBoardServiceImplTest {
         assertEquals('y',communityBoardDto.getur_state());
         System.out.println(communityBoardDto.toString());
     }
+
+
+    @Test
+    public void totalLikeCount()throws Exception{
+        communityBoardDao.deleteAll();
+
+        CommunityBoardDto communityBoardDto = new CommunityBoardDto();
+        communityBoardDto.setur_id("user123");
+        communityBoardDto.setaddr_cd("11010720");
+        communityBoardDto.setaddr_no(1);
+        communityBoardDto.setcommu_cd("commu_L");
+        communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
+        communityBoardDto.setTitle("스테이트체인지 테스트");
+        communityBoardDto.setContents("스테이트체인자 테스트");
+        communityBoardDto.setNick("skyLee");
+
+        communityBoardService.write(communityBoardDto);
+        assertEquals(1,communityBoardService.getCount());
+        communityBoardDto = communityBoardService.read(communityBoardDto.getno());
+        int result = communityBoardService.totalLike(communityBoardDto.getno());
+        assertEquals(0,result);
+
+        communityBoardDto.setlike_cnt(1);
+        result = communityBoardService.totalLike(communityBoardDto.getno());
+        assertEquals(1,result);
+
+    }
 }

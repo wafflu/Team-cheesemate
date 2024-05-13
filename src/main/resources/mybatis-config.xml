@@ -8,5 +8,6 @@
         <typeAlias alias="CommuDto" type="team.cheese.Domain.Commu.CommuDto"/>
         <typeAlias alias="CommunityBoardDto" type="team.cheese.Domain.CommunityBoard.CommunityBoardDto"/>
         <typeAlias alias="CommunityHeartDto" type="team.cheese.Domain.CommunityHeart.CommunityHeartDto"/>
+        <typeAlias alias="CommentDto" type="team.cheese.Domain.Comment.CommentDto"/>
     </typeAliases>
 </configuration>

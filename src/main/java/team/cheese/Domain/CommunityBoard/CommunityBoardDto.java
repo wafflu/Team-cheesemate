@@ -1,5 +1,6 @@
 package team.cheese.Domain.CommunityBoard;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class CommunityBoardDto {
@@ -30,11 +31,12 @@ public class CommunityBoardDto {
 
         //추가
         private String name;
+        private Integer comment_count;
 
         public CommunityBoardDto() {
         };
 
-        public CommunityBoardDto(Integer no, String ur_id, String addr_cd, Integer addr_no, String commu_cd,String commu_name, String addr_name, String title, String contents, String nick, Timestamp r_date, Timestamp m_date, int like_cnt, int view_cnt, char ur_state, char ad_state, Timestamp first_date, String first_id, Timestamp last_date, String last_id,String img_full_rt, Integer group_no, String name) {
+        public CommunityBoardDto(Integer no, String ur_id, String addr_cd, Integer addr_no, String commu_cd,String commu_name, String addr_name, String title, String contents, String nick, Timestamp r_date, Timestamp m_date, int like_cnt, int view_cnt, char ur_state, char ad_state, Timestamp first_date, String first_id, Timestamp last_date, String last_id,String img_full_rt, Integer group_no, String name,Integer comment_count) {
             this.no = no;
             this.ur_id = ur_id;
             this.addr_cd = addr_cd;
@@ -57,6 +59,8 @@ public class CommunityBoardDto {
             this.last_id = last_id;
             this.img_full_rt = img_full_rt;
             this.group_no = group_no;
+            this.name = name;
+            this.comment_count = comment_count;
         }
 
         public CommunityBoardDto(String ur_id, String addr_cd, Integer addr_no, String commu_cd, String commu_name, String name, String addr_name, String title, String contents, String nick, String img_full_rt, Integer group_no) {
@@ -248,6 +252,9 @@ public class CommunityBoardDto {
             this.commu_name = commu_name;
         }
 
+
+
+
     public String getImg_full_rt() {
         return img_full_rt;
     }
@@ -263,6 +270,19 @@ public class CommunityBoardDto {
     public void setGroup_no(Integer group_no) {
         this.group_no = group_no;
     }
+
+
+    //추가
+
+
+    public Integer getComment_count() {
+        return comment_count;
+    }
+
+    public void setComment_count(Integer comment_count) {
+        this.comment_count = comment_count;
+    }
+
 
     @Override
         public String toString() {
@@ -290,6 +310,7 @@ public class CommunityBoardDto {
                     ", last_id='" + last_id + '\'' +
                     ", img_full_rt='" + img_full_rt + '\'' +
                     ", group_no=" + group_no +
+                    ", comment_count=" + comment_count +
                     '}';
         }
 

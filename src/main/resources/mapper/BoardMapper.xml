@@ -50,11 +50,21 @@
     </update>
 
 
-    <update id = "increaselike_cnt" parameterType="Integer">
-        update community_board set like_cnt = like_cnt+1
-        where no=#{no}
-    </update>
-
+    <update id="increaseLikeCnt" parameterType="Integer">
+    <![CDATA[
+        UPDATE community_board b
+        SET b.like_cnt = (
+            SELECT COUNT(*)
+            FROM community_heart h
+            WHERE h.post_no = b.no AND h.ur_state = 'y'
+        )
+        WHERE b.like_cnt <> (
+            SELECT COUNT(*)
+            FROM community_heart h
+            WHERE h.post_no = b.no AND h.ur_state = 'y'
+        );
+        ]]>
+</update>
 
     <select id = "getTopTen" resultType="CommunityBoardDto">
         select b.no, c.name,b.title, b.nick, b.view_cnt, b.addr_name
@@ -64,5 +74,12 @@
             limit 10;
     </select>
 
+<!--    추가-->
+<!--    댓글 카운팅  추가-->
+    <update id="updateCommentCount" parameterType="map">
+        UPDATE community_board b
+        SET b.comment_count = b.commnet_count + #{cnt}
+        WHERE b.no = #{post_no};
+    </update>
 
 </mapper>

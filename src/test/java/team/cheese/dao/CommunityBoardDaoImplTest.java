@@ -5,9 +5,13 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import team.cheese.Domain.Comment.CommentDto;
 import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
 
+import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.dao.Comment.CommentDao;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
+import team.cheese.dao.CommunityHeart.CommunityHeartDao;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityBoard.CommunityBoardServiceImpl;
 
@@ -322,4 +326,76 @@ public class CommunityBoardDaoImplTest {
 
 
         }
+
+
+        @Autowired
+    CommunityHeartDao communityHeartDao;
+        @Test
+        public void totalLkeCount()throws Exception{
+        communityBoardDao.deleteAll();
+            CommunityBoardDto communityBoardDto = new CommunityBoardDto();
+
+            communityBoardDto.setur_id("user123");
+            communityBoardDto.setaddr_cd("11010720");
+            communityBoardDto.setaddr_no(1);
+            communityBoardDto.setcommu_cd("commu_L");
+            communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
+            communityBoardDto.setTitle("y상태 제목");
+            communityBoardDto.setContents("y상태 내용");
+            communityBoardDto.setNick("skyLee");
+            communityBoardDto.setur_state('y');
+            communityBoardDto.setad_state('n');
+
+            communityBoardDao.insert(communityBoardDto);
+            assertEquals(1,communityBoardDao.count());
+            communityBoardDto = communityBoardDao.select(communityBoardDto.getno());
+
+            int result = communityBoardDao.totalLikeCount(communityBoardDto.getno());
+
+            assertEquals(0,result);
+
+            communityHeartDao.doLike(new CommunityHeartDto());
+
+
+        }
+
+
+
+//        @Autowired
+//        CommentDao commentDao;
+//
+//        @Test
+//        public void commentCount()throws Exception{
+//            communityBoardDao.deleteAll();
+//            CommunityBoardDto communityBoardDto = new CommunityBoardDto();
+//
+//            communityBoardDto.setur_id("user123");
+//            communityBoardDto.setaddr_cd("11010720");
+//            communityBoardDto.setaddr_no(1);
+//            communityBoardDto.setcommu_cd("commu_L");
+//            communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
+//            communityBoardDto.setTitle("y상태 제목");
+//            communityBoardDto.setContents("y상태 내용");
+//            communityBoardDto.setNick("skyLee");
+//            communityBoardDto.setur_state('y');
+//            communityBoardDto.setad_state('n');
+//            communityBoardDao.insert(communityBoardDto);
+//            assertEquals(1,communityBoardDao.count());
+//            communityBoardDto = communityBoardDao.select(communityBoardDto.getno());
+//
+//            int result = communityBoardDao.commentCount(communityBoardDto.getno());
+//            assertEquals(0,result);
+//
+//            CommentDto commentDto = new CommentDto();
+//            commentDto.setPost_no(communityBoardDto.getno());
+//            commentDto.setNo(1);
+//            commentDto.setNick("skyLee");
+//            commentDto.setUr_id("user123");
+//            commentDto.setContents("댓글테스트메서드");
+//            commentDao.insert(commentDto);
+//
+//            result = communityBoardDao.commentCount(communityBoardDto.getno());
+//            assertEquals(1,result);
+//
+//        }
     }

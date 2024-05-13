@@ -55,7 +55,7 @@
 <%--    commmunityHeart--%>
 
 <%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
-        <p id="heart" data-count-like="${communityHeartDto.countLike}" >❤️${communityHeartDto.countLike}</p>
+        <p id="heart" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
         <input type="hidden" id="postNo" value="${communityBoardDto.no}">
 
 
@@ -92,60 +92,25 @@
                 url: '/community/doLike',
                 type: 'PATCH',
                 data: JSON.stringify({
-                    "post_no": postNo,
+                    "no": postNo
 
                 }),
                 contentType: 'application/json',
+
                 success: function (response) {
 
-
-                    if(response.hasOwnProperty('countLike')) {
-                        $('#heart').data('count-like',response.countLike);
-                        $('#heart').text('❤️ ' + response.countLike);
-
-
-                    }
                     console.log("하트");
-                    console.log(response.countLike);
+                    console.log(response.totalLikeCount);
+                    $('#heart').text('❤️ ' + response.totalLikeCount); // HTML 요소에 좋아요 수를 업데이트
+                    $('#heart').data('count-like', response.totalLikeCount); // 데이터 속성도 업데이트
                 },
                 error: function (xhr, status, error) {
-                    console.error("좋아요 실패", xhr.responseText)
+                    console.error("좋아요 실패", error.responseText)
                 }
 
 
             })
 
-
-
-            //   $.ajax({
-            //       url:'/community/countLike',
-            //       type:'PATCH',
-            //       data:JSON.stringify({
-            //           "countLike":countLike
-            //           }),
-            //       contentType:'application/json',
-            //       success:function(response){
-            //           console.log(response);
-            //
-            //           displayCntLike(response)
-            //       },
-            //       error:function (xhr,status,error){
-            //           console.log("error");
-            //       }
-            //
-            //   });
-            // });
-            //
-            //
-            // function displayCntLike(data){
-            //     let totalLikes = 0;
-            //
-            //     data.forEach((item)=>{
-            //         totalLikes += item.countLike;
-            //     });
-            //     $('#heart').data('count-like',totalLikes)
-            //
-            //  }
         })
     })
 </script>

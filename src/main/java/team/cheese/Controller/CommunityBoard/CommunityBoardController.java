@@ -1,22 +1,28 @@
 package team.cheese.Controller.CommunityBoard;
 
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
+import team.cheese.service.CommunityHeart.CommunityHeartService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 @Controller
@@ -25,6 +31,8 @@ public  class CommunityBoardController {
     @Autowired
     CommunityBoardService communityBoardService;
 
+    @Autowired
+    CommunityHeartService communityHeartService;
 
         //community메인페이지
         @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -124,6 +132,12 @@ public  class CommunityBoardController {
 
             String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
             m.addAttribute("imagePath", imagePath);
+
+
+            //5월 11일 communityHeart 추가
+            String totalLikeCount = communityHeartService.countLike(no);
+            m.addAttribute("totalLikeCount", totalLikeCount);
+
             System.out.println(communityBoardDto);
             return "/CommunityBoard";
         }catch (IllegalArgumentException e){
@@ -196,7 +210,47 @@ public  class CommunityBoardController {
         return "Board";
     }
 
-}
+
+
+
+
+        //하트 누를때 상태
+        @Transactional(rollbackFor = Exception.class)
+        @RequestMapping(value="/doLike", method=RequestMethod.PATCH)
+        public ResponseEntity<Map<String,Object>> doLike(@RequestBody Map<String, Integer> requestBody, HttpSession session) throws Exception {
+
+
+        
+
+
+            String userId = (String) session.getAttribute("ur_id");
+            int postNo  = requestBody.get("no");
+            if (userId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "User not authenticated"));
+            }
+
+            CommunityHeartDto communityHeartDto = new CommunityHeartDto();
+            communityHeartDto.setUr_id(userId);
+            communityHeartDto.setPost_no(postNo);
+            communityHeartService.doLike(communityHeartDto);
+
+
+            int totalLikeCount = communityBoardService.totalLike(postNo);
+            Map<String, Object> response = new HashMap<>();
+            response.put("totalLikeCount", totalLikeCount);
+            System.out.println(response);
+
+
+
+
+
+            return ResponseEntity.ok(response);
+
+
+        }
+
+
+    }
 
 
 

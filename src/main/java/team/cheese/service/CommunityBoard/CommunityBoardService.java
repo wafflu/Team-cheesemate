@@ -31,4 +31,6 @@ public interface CommunityBoardService {
     public String saveFile(MultipartFile file) throws Exception;
 
     public CommunityBoardDto findCommunityBoardById(Integer no) throws Exception;
+
+    public int totalLike(Integer no) throws Exception;
 }
