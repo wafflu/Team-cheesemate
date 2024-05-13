@@ -73,7 +73,7 @@
             <!--  textarea 안에 있는 모든 글자는 그대로 나타난다. 공백문자, tag, enter -->
             <textarea class="form-control" rows="5" id="contents"
                       name="contents" placeholder="내용 작성" ${readonly}>${dto.contents}</textarea>
-        </div>
+        ty</div>
         <div class="form-group">
             <label>작성자</label>
             <input type="text" class="form-control" id="nickname"
