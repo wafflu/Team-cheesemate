@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.entity.ImgFactory;
-import team.cheese.dao.ImgDao;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
 import team.cheese.domain.SaleDto;
@@ -37,8 +36,6 @@ public class ImgController {
     @Autowired
     SaleDao saleDao;
 
-    @Autowired
-    ImgDao imgDao;
     ImgFactory ifc = new ImgFactory();
 
     @RequestMapping ("/test")
@@ -49,30 +46,13 @@ public class ImgController {
     //이미지 업로드 과정
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
-        List<ImgDto> list = imgService.uploadimg(uploadFiles);
-        if(list == null){
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        } else {
-            ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
-            return result;
-        }
+        return imgService.uploadimg(uploadFiles);
     }
 
     //이미지 보여주기용
     @GetMapping("/display")
     public ResponseEntity<byte[]> getImage(String fileName){
-        File file = imgService.display(fileName);
-
-        ResponseEntity<byte[]> result = null;
-        try {
-            HttpHeaders header = new HttpHeaders();
-            header.add("Content-type", Files.probeContentType(file.toPath()));
-            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return result;
+        return imgService.display(fileName);
     }
 
     //위에까지는 공용
@@ -81,22 +61,8 @@ public class ImgController {
     @RequestMapping(value = "/reg_image2", produces = "application/json; charset=UTF-8")
     @ResponseBody
     public ResponseEntity<String> reg_img(@RequestBody Map<String, Object> map) throws Exception {
-
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto sdto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
-
-//        ifc.setUserid("user123");
-//        //추후 변경예정
-//        // SaleEntity 유효성 검사 수행
-//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//        Validator validator = factory.getValidator();
-//        Set<ConstraintViolation<SaleDto>> violations = validator.validate(sdto);
-//
-//        // 유효성 검사 결과 확인
-//        if (!violations.isEmpty()) {
-//            return new ResponseEntity<>("데이터 조작 오류 발생", HttpStatus.BAD_REQUEST);
-//        }
-
         ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
 
         int gno = imgService.getGno()+1;
@@ -105,7 +71,14 @@ public class ImgController {
         return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/reg_image3", produces = "application/json; charset=UTF-8")
+    public String reg_img3(SaleDto sdto, ArrayList<ImgDto> imglist) throws Exception {
+        System.out.println("sdto : "+sdto);
+        System.out.println("imglist : "+imglist);
+        return "img/test";
+    }
 
+    // 이 아래로 다 테스트코드
     @RequestMapping("/testview")
     public String viewtest(Model model){
         List<SaleDto> list = saleDao.select_all();
@@ -140,7 +113,6 @@ public class ImgController {
         ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
 
         int gno = imgService.getGno()+1;
-//        System.out.println(gno);
 
         String full_file_rt = imgService.modify_img(imgList, gno, sdto.getGroup_no());
         System.out.println(full_file_rt);

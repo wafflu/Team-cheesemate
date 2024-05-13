@@ -325,7 +325,7 @@ public class ImgServiceTest {
                 multipartFiles[i++] = multipartFile;
             }
 
-            list = ifc.makeImg(multipartFiles, "r", 78, 78);
+            list = ifc.makeImg(multipartFiles, "r", 78, 78, true);
 
             // 변환된 파일들을 사용하여 멀티파트 테스트 수행
             for (MultipartFile multipartFile : multipartFileList) {

@@ -2,10 +2,12 @@ package team.cheese.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.entity.ImgFactory;
 import team.cheese.dao.ImgDao;
@@ -14,7 +16,9 @@ import team.cheese.exception.DataFailException;
 import team.cheese.exception.ImgNullException;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLDecoder;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,21 +38,34 @@ public class ImgService {
         this.imgDao = imgdao2;
     }
 
-    public List<ImgDto> uploadimg(MultipartFile[] uploadFiles){
+    public ResponseEntity<List<ImgDto>> uploadimg(MultipartFile[] uploadFiles){
         if(!ifc.CheckImg(uploadFiles)){
             return null;
         }
+        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", 78, 78, true);
 
-        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", 78, 78);
-
-        return list;
+        if(list == null){
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        } else {
+            ResponseEntity<List<ImgDto>> result = new ResponseEntity<>(list, HttpStatus.OK);
+            return result;
+        }
     }
 
-    public File display(String fileName){
+    public ResponseEntity<byte[]> display(String fileName){
         String folderPath = ifc.getFolderPath()+ File.separator;
 
         File file = new File(folderPath+fileName);
-        return file;
+
+//        ResponseEntity<byte[]> result = null;
+        try {
+            HttpHeaders header = new HttpHeaders();
+            header.add("Content-type", Files.probeContentType(file.toPath()));
+            return new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Transactional
