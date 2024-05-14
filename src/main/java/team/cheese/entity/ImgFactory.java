@@ -74,7 +74,7 @@ public class ImgFactory {
     }
 
     /* 파일등록으로 파일 만들때 */
-    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, int wsize, int hsize, boolean make){
+    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, int wsize, int hsize){
         File uploadPath = new File(getFolderPath(), getDatePath());
 
         List<ImgDto> list = new ArrayList();
@@ -91,7 +91,7 @@ public class ImgFactory {
                 multipartFile.transferTo(saveFile);
 
                 // 판매, 커뮤니티만 아래 만들기 허용
-                if(make) {
+//                if(make) {
                     // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
                     BufferedImage image = Thumbnails.of(saveFile)
                             .size(wsize, hsize)
@@ -106,9 +106,9 @@ public class ImgFactory {
 
                     //이미지 객체 만들기
                     img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
-                } else {
-                    img = setImginfo(saveFile, fileName, imgtype, wsize, hsize);
-                }
+//                } else {
+//                    img = setImginfo(saveFile, fileName, imgtype, wsize, hsize);
+//                }
                 list.add(img);
             } catch (Exception e) {
                 System.out.println("fail");

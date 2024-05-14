@@ -1,8 +1,12 @@
 package team.cheese.domain;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class ChatMessageDto {
     private Long cr_no;
     private Long sale_no;
+    private String acid;
     private String nick;
     private String message;
     private String r_date;
@@ -26,6 +30,7 @@ public class ChatMessageDto {
         return "ChatMessageDto{" +
                 "cr_no=" + cr_no +
                 ", sale_no=" + sale_no +
+                ", acid="+acid+
                 ", nick='" + nick + '\'' +
                 ", message='" + message + '\'' +
                 ", r_date='" + r_date + '\'' +
@@ -48,6 +53,14 @@ public class ChatMessageDto {
 
     public void setSale_no(Long sale_no) {
         this.sale_no = sale_no;
+    }
+
+    public String getAcid() {
+        return acid;
+    }
+
+    public void setAcid(String acid) {
+        this.acid = acid;
     }
 
     public String getNick() {

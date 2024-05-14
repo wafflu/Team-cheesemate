@@ -42,7 +42,7 @@ public class ImgService {
         if(!ifc.CheckImg(uploadFiles)){
             return null;
         }
-        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", 78, 78, true);
+        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", 78, 78);
 
         if(list == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -69,7 +69,7 @@ public class ImgService {
     }
 
     @Transactional
-    public String reg_img(ArrayList<ImgDto> imgList, int gno) throws Exception {
+    public String reg_img(ArrayList<ImgDto> imgList, int gno, boolean check) throws Exception {
 
         if (imgList.isEmpty()) {
             throw new Exception("이미지 리스트가 비어 있습니다.");
@@ -77,16 +77,19 @@ public class ImgService {
 
         boolean cnt = true;
         String spath = "";
+        String folderpath = ifc.getFolderPath() + File.separator + ifc.getDatePath();
 
         for(ImgDto idto : imgList){
-//            idto.setW_size(-1);
             if (idto.getW_size() < 0 || idto.getH_size() < 0) {
                 throw new ImgNullException("이미지 사이즈가 올바르지 않습니다.");
             }
 
-            String folderpath = ifc.getFolderPath() + File.separator + ifc.getDatePath();
-
             File file = new File(folderpath, idto.getO_name()+idto.getE_name());
+            if(!check){
+                ImgDto originalimg = ifc.makeImg(file, "original", gno, 0, 0);
+                spath = originalimg.getImg_full_rt();
+                return spath;
+            }
             if(cnt) {
                 // 썸네일은 한개만
                 ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);

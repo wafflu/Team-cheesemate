@@ -1,7 +1,7 @@
 package team.cheese.domain;
 
 public class ChatRoomDto {
-    private Long cr_no;
+    private Long no;
     private Long sale_no;
     private String seller_id;
     private String seller_nk;
@@ -18,7 +18,7 @@ public class ChatRoomDto {
     @Override
     public String toString() {
         return "ChatRoomDto{" +
-                "cr_no=" + cr_no +
+                "no=" + no +
                 ", sale_no=" + sale_no +
                 ", seller_id='" + seller_id + '\'' +
                 ", seller_nk='" + seller_nk + '\'' +
@@ -34,12 +34,12 @@ public class ChatRoomDto {
                 '}';
     }
 
-    public Long getCr_no() {
-        return cr_no;
+    public Long getNo() {
+        return no;
     }
 
-    public void setCr_no(Long cr_no) {
-        this.cr_no = cr_no;
+    public void setNo(Long no) {
+        this.no = no;
     }
 
     public Long getSale_no() {

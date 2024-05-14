@@ -47,6 +47,8 @@
 <form action="/board" method="get">
     <button id="boardBnt">Board</button>
 </form>
+<a href="/img/testview">판매 리스트 보기</a>
+<a href="/chat2">치즈톡</a>
 
 </body>
 </html>

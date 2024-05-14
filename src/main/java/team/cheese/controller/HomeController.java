@@ -34,8 +34,7 @@ public class HomeController {
 
     @Autowired
     AddrCdService addrCdService;
-    @Autowired
-    private HttpServletResponse httpServletResponse;
+
 
     // *** 홈(home.jsp)으로 이동 ***
     @GetMapping("/")
@@ -64,7 +63,7 @@ public class HomeController {
     //      1.3 로그인 실패할 경우
     //          1.3.1 로그인 화면(loginForm.jsp)으로 이동
     @PostMapping("/login")
-    public String login(Model m, HttpSession session, String inputId, String inputPw, boolean rememberAccountBnt, boolean keepLoginState) {
+    public String login(Model m, HttpSession session, String inputId, String inputPw, boolean rememberAccountBnt, boolean keepLoginState, HttpServletResponse res) {
 
         UserDto userDto = userService.login(inputId, inputPw);
         AdminDto adminDto = adminService.login(inputId, inputPw);
@@ -87,7 +86,7 @@ public class HomeController {
 
                 cookieUserId.setPath("/");
 
-                httpServletResponse.addCookie(cookieUserId);
+                res.addCookie(cookieUserId);
             }
 
             // *** 로그인 유지 쿠키 생성 ***

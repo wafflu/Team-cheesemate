@@ -28,45 +28,38 @@
   //이미지 등록하기
   $("#reg_img").click(function (){
 
-    // let saletitle = $('input[name="title"]').val();
-    // let salecontents = $('input[name="contents"]').val();
-    //
-    // let sale = {
-    //   "title" : saletitle,
-    //   "contents" : salecontents
-    // }
+    let saletitle = $('input[name="title"]').val();
+    let salecontents = $('input[name="contents"]').val();
+
+    let sale = {
+      "title" : saletitle,
+      "contents" : salecontents
+    }
     // alert("imginfo : "+imginfo)
 
+    let map =
+      {
+        "sale" : sale,
+        "img" : imginfo
+      };
 
-    $("#testform").append("imgList", JSON.stringify(imginfo));
-    $("#testform").submit();
-
-    // let map =
-    //   {
-    //     "sale" : sale,
-    //     "img" : imginfo
-    //   };
-    //
-    // $.ajax({
-    //   url: '/img/reg_image2',
-    //   type : 'POST',
-    //   contentType : 'application/json; charset=UTF-8',
-    //   dataType : 'text',
-    //   data : JSON.stringify(map),
-    //   success: function (result) {
-    //     location.replace(result);
-    //   },
-    //   error: function(xhr, status, error) {
-    //     // 오류 발생 시 처리
-    //     var errorMessage = xhr.responseText;
-    //     console.error('Error:', error);
-    //     alert("오류 발생: " + errorMessage); // 서버에서 전달된 예외 메시지를 알림창으로 표시
-    //   }
-    //   // error: function(result) {
-    //   //   alert("선택된 이미지가 없습니다." + result)
-    //   // }
-    // });
-    // alert("등록되었습니다.")
+    $.ajax({
+      url: '/img/reg_image2',
+      type : 'POST',
+      contentType : 'application/json; charset=UTF-8',
+      dataType : 'text',
+      data : JSON.stringify(map),
+      success: function (result) {
+        location.replace(result);
+      },
+      error: function(xhr, status, error) {
+        // 오류 발생 시 처리
+        var errorMessage = xhr.responseText;
+        console.error('Error:', error);
+        alert("오류 발생: " + errorMessage); // 서버에서 전달된 예외 메시지를 알림창으로 표시
+      }
+    });
+    alert("등록되었습니다.")
   })
 </script>
 </body>

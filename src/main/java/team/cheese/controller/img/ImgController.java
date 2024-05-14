@@ -66,7 +66,7 @@ public class ImgController {
         ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("img"), new TypeReference<ArrayList<ImgDto>>() {});
 
         int gno = imgService.getGno()+1;
-        String full_file_rt = imgService.reg_img(imgList, gno);
+        String full_file_rt = imgService.reg_img(imgList, gno, true);
         saleDao.insert_sale(makesale(sdto.getTitle(), sdto.getContents(), gno, full_file_rt));
         return new ResponseEntity<String>("/img/testview", HttpStatus.OK);
     }
