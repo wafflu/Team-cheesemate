@@ -33,6 +33,5 @@
 <form action="/home" method="get">
     <button name="homeBnt">Home</button>
 </form>
-
 </body>
 </html>

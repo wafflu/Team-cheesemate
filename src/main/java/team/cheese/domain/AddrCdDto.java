@@ -5,7 +5,7 @@ import java.security.Timestamp;
 import java.util.Objects;
 
 public class AddrCdDto {
-    private long no;
+    private BigInteger no;
     private String ur_id;
     private String addr_cd;
     private String addr_name;
@@ -18,7 +18,7 @@ public class AddrCdDto {
     public AddrCdDto() {
     }
 
-    public AddrCdDto(long no, String ur_id, String addr_cd, String addr_name, char state, Timestamp first_date, String first_id, Timestamp last_date, String last_id) {
+    public AddrCdDto(BigInteger no, String ur_id, String addr_cd, String addr_name, char state, Timestamp first_date, String first_id, Timestamp last_date, String last_id) {
         this.no = no;
         this.ur_id = ur_id;
         this.addr_cd = addr_cd;
@@ -58,11 +58,11 @@ public class AddrCdDto {
                 '}';
     }
 
-    public long getNo() {
+    public BigInteger getNo() {
         return no;
     }
 
-    public void setNo(long no) {
+    public void setNo(BigInteger no) {
         this.no = no;
     }
 

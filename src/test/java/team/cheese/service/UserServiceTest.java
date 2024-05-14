@@ -10,7 +10,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import team.cheese.domain.UserDto;
 
 import java.lang.reflect.Array;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class UserServiceTest extends TestCase {
 
     // *** 모든 유저의 수 카운트 테스트 ***
     @Test
-    public void testGetCnt() throws NoSuchAlgorithmException {
+    public void testGetCnt() {
         System.out.println("*** testGetCnt 테스트 시작 ***");
         userService.deleteAllUsers();
         assertTrue(userService.getCnt() == 0);
@@ -111,7 +110,7 @@ public class UserServiceTest extends TestCase {
     // 1. 아이디가 중복되는 경우
     // 2.         중복되지 않는 경우
     @Test
-    public void testInsertNewUser() throws NoSuchAlgorithmException {
+    public void testInsertNewUser() {
         System.out.println("*** testInsertNewUser 테스트 시작 ***");
 
         String insertUserId = "insertServiceTest";
