@@ -12,6 +12,7 @@ import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.AdministrativeDto;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
+import team.cheese.entity.PageHandler;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,25 +45,42 @@ public class SaleController {
 
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
-    public String getList(@RequestParam(required = false) String addr_cd, Model model, HttpSession session) throws Exception {
+    public String getList(@RequestParam(defaultValue ="1") int page,
+                          @RequestParam(defaultValue = "10") int pageSize,Model model, HttpSession session) throws Exception {
         System.out.println("/list들어옴");
+
+        // 페이징 처리를 하기위해서 전체페이지 개수를 구함
+        int totalCnt = saleService.getCount();
+        // PageHandler(전체페이지수, 현재페이지(default 1), pageSize(default 10))
+        System.out.println("page input 확인: " + page);
+        PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+
+        System.out.println("start Page : " + pageHandler.getStartPage());
+        System.out.println("end Page : " + pageHandler.getEndPage());
+        model.addAttribute("ph", pageHandler);
+
+        Map map = new HashMap();
+        map.put("offset", (page-1)*10);
+        map.put("pageSize", pageSize);
 
         String ur_id = (String) session.getAttribute("userId");
         System.out.println("ur_id : " + ur_id);
 
+        String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
+
         if(ur_id == null) {
             System.out.println("ur_id가 Null인 경우");
             model.addAttribute("addrCdList", administrativeDao.selectAll());
-            List<SaleDto> saleList = saleService.getList();
+            List<SaleDto> saleList = saleService.getList(addr_cd);
             System.out.println(saleList.size());
             model.addAttribute("saleList", saleList);
         } else {
             System.out.println("ur_id가 NOTNull인 경우");
-            // 세션에서 ID 값을 가지고 옴
+            // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
             System.out.println("addrCdList 확인 : " + addrCdList);
             System.out.println("addr_cd" + addr_cd);
-            List<SaleDto> saleList = saleService.getUserAddrCdList(addr_cd);
+            List<SaleDto> saleList = saleService.getList(addr_cd);
             System.out.println(saleList.size());
 
             model.addAttribute("startOfToday", getStartOfToday());
@@ -72,6 +90,60 @@ public class SaleController {
             // 불러온 게시글 리스트를 모델에 담음
             model.addAttribute("saleList", saleList);
         }
+
+
+
+        return "/saleList";
+    }
+
+    // 전체 게시글을 보는 경우
+    @RequestMapping("/list2")
+    public String getList2(@RequestParam(defaultValue ="1") int page,
+                          @RequestParam(defaultValue = "10") int pageSize,Model model, HttpSession session) throws Exception {
+        System.out.println("/list들어옴");
+
+        // 페이징 처리를 하기위해서 전체페이지 개수를 구함
+        int totalCnt = saleService.getCount();
+        // PageHandler(전체페이지수, 현재페이지(default 1), pageSize(default 10))
+        System.out.println("page input 확인: " + page);
+        PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+
+        System.out.println("start Page : " + pageHandler.getStartPage());
+        System.out.println("end Page : " + pageHandler.getEndPage());
+        model.addAttribute("ph", pageHandler);
+
+        Map map = new HashMap();
+        map.put("offset", (page-1)*10);
+        map.put("pageSize", pageSize);
+
+        String ur_id = (String) session.getAttribute("userId");
+        System.out.println("ur_id : " + ur_id);
+
+        String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
+
+        if(ur_id == null) {
+            System.out.println("ur_id가 Null인 경우");
+            model.addAttribute("addrCdList", administrativeDao.selectAll());
+            List<SaleDto> saleList = saleService.getList(addr_cd);
+            System.out.println(saleList.size());
+            model.addAttribute("saleList", saleList);
+        } else {
+            System.out.println("ur_id가 NOTNull인 경우");
+            // 세션에서 주소값LIST를 가지고 옴
+            List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
+            System.out.println("addrCdList 확인 : " + addrCdList);
+            System.out.println("addr_cd" + addr_cd);
+            List<SaleDto> saleList = saleService.getList(addr_cd);
+            System.out.println(saleList.size());
+
+            model.addAttribute("startOfToday", getStartOfToday());
+
+            // 사용자의 기본 주소 첫번째
+            model.addAttribute("addrCdList", addrCdList);
+            // 불러온 게시글 리스트를 모델에 담음
+            model.addAttribute("saleList", saleList);
+        }
+
         return "/saleList";
     }
 
@@ -110,7 +182,7 @@ public class SaleController {
             return "/login/saleWrite";
         } else {
             // 로그인 안한 경우
-            return "home";
+            return "main";
         }
     }
 
@@ -270,7 +342,7 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
     @RequestMapping("/searchLetter")
     @ResponseBody
     public ResponseEntity<List<AdministrativeDto>> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
-        // 검색어를 이용하여 판매글을 검색
+        // 검색어를 이용하여 주소를 검색
         try{
             return new ResponseEntity<>(administrativeDao.searchLetter(searchLetter), HttpStatus.OK);
         }catch(Exception e){
@@ -287,6 +359,7 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
         // 선택하는 지역에 따른 List 반환
         try {
             List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
+            System.out.println(saleList);
             long startOfToday = getStartOfToday();
             Map<String, Object> response = new HashMap<>();
             response.put("saleList", saleList);

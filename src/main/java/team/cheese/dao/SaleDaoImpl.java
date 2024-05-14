@@ -101,4 +101,9 @@ public class SaleDaoImpl implements SaleDao {
         return session.selectList(namespace + "selectStandardAddr");
     }
 
+    @Override
+    public List<SaleDto> selectList(Map map) throws Exception {
+        return session.selectList(namespace + "selectPage", map);
+    }
+
 }

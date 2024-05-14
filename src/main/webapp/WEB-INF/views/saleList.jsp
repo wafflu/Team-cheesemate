@@ -1,15 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%
-    // 세션에 sessionId가 존재하는지 확인
+<% // 세션에 sessionId가 존재하는지 확인
     String sessionId = (String) session.getAttribute("urId");
 %>
 <html>
+
 <head>
     <title>판매/나눔</title>
 </head>
+
 <body>
 <button type="button" onclick="writeBtn()">글쓰기</button>
 <select id="addr_cd">
@@ -31,15 +31,21 @@
     <c:forEach var="Sale" items="${saleList}">
         <tr>
             <td>${Sale.no}</td>
-            <td class="title"><a href="<c:url value='/sale/read?no=${Sale.no}'/>">${Sale.title}</a></td>
+            <td class="title"><a
+                    href="<c:url value='/sale/read?no=${Sale.no}'/>">${Sale.title}</a></td>
             <td>${Sale.seller_nick}</td>
             <td>${Sale.addr_name}</td>
             <c:choose>
                 <c:when test="${Sale.r_date.time >= startOfToday}">
-                    <td class="regdate"><fmt:formatDate value="${Sale.r_date}" pattern="HH:mm" type="time"/></td>
+                    <td class="regdate">
+                        <fmt:formatDate value="${Sale.r_date}" pattern="HH:mm" type="time"/>
+                    </td>
                 </c:when>
                 <c:otherwise>
-                    <td class="regdate"><fmt:formatDate value="${Sale.r_date}" pattern="yyyy-MM-dd" type="date"/></td>
+                    <td class="regdate">
+                        <fmt:formatDate value="${Sale.r_date}" pattern="yyyy-MM-dd"
+                                        type="date"/>
+                    </td>
                 </c:otherwise>
             </c:choose>
             <td>${Sale.view_cnt}</td>
@@ -47,6 +53,31 @@
     </c:forEach>
     </tbody>
 </table>
+<br>
+<div style="text-align: center">
+    <a href="<c:url value="/sale/list?page=1"/>"> << </a>
+    <c:choose>
+        <c:when test="${(ph.page-1) < 1}">
+            <a href="<c:url value="/sale/list?page=${ph.totalPage}"/>"> < </a>
+        </c:when>
+        <c:otherwise>
+            <a href="<c:url value="/sale/list?page=${ph.page - 1}"/>"> < </a>
+        </c:otherwise>
+    </c:choose>
+    <c:forEach var="i" begin="${ph.startPage}" end="${ph.endPage}">
+        <a class="page ${i==ph.page? "paging-active" : ""}" href="<c:url value="/sale/list?page=${i}"/>">${i}</a>
+    </c:forEach>
+    <c:choose>
+        <c:when test="${(ph.page+1) > ph.totalPage}">
+            <a href="<c:url value="/sale/list?page=1"/>"> > </a>
+        </c:when>
+        <c:otherwise>
+            <a href="<c:url value="/sale/list?page=${ph.page+1}"/>"> > </a>
+        </c:otherwise>
+    </c:choose>
+    <a href="<c:url value="/sale/list?page=${ph.totalPage}"/>"> >> </a>
+</div>
+<br>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -57,8 +88,8 @@
     // };
 
     // "전체" 옵션이 보이지 않도록 설정
-    if ("${sessionId}" != "" || "${sessionId}" != null) {
-        document.getElementById("selectAll").style.display = "none";
+    if ("${sessionId}" != null || "${sessionId}" != "") {
+        document.getElementById("selectAll").style.display = "none"; // "전체" 옵션 숨기기
 
         // 첫 번째 옵션 선택
         var addrCdSelect = document.getElementById("addr_cd");
@@ -68,7 +99,6 @@
     $(document).ready(function () {
         // AddrCd 선택이 변경될 때마다 실행되는 함수
         $("#addr_cd").change(function () {
-            $("#saleListTB").delete();
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $(this).val();
 
@@ -122,35 +152,31 @@
     // 업데이트된 saleList를 화면에 출력하는 함수
     function updateSaleList(saleList, startOfToday) {
         // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
-        $("#saleList tbody").empty();
+        $("#saleList").empty();
+        if (saleList.length > 0) {
+            saleList.forEach(function (sale) {
+                let row = $("<tr>");
+                row.append($("<td>").text(sale.no)); // 판매 번호
+                row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
+                row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임
+                row.append($("<td>").text(sale.addr_name)); // 주소명
 
-        if (saleList && saleList.length > 0) { // saleList가 존재하고 비어있지 않은 경우에만 처리
-            // 받아온 saleList 데이터를 사용하여 테이블의 tbody에 새로운 내용을 추가합니다.
-            saleList.forEach(function(sale) {
-                let row = '<tr>' +
-                    '<td>' + sale.no + '</td>' +
-                    '<td class="title"><a href="/sale/read?no=' + sale.no + '">' + sale.title + '</a></td>' +
-                    '<td>' + sale.seller_nick + '</td>' +
-                    '<td>' + sale.addr_name + '</td>';
-
-                // 판매 등록일의 형식을 조건에 따라 결정합니다.
-                let regdate;
                 let saleDate = new Date(sale.r_date);
+                let regdate;
                 if (saleDate.getTime() >= startOfToday) {
-                    regdate = '<td class="regdate">' + formatDate(saleDate, "HH:mm") + '</td>';
+                    regdate = $("<td>").addClass("regdate").text(formatDate(saleDate, "HH:mm"));
                 } else {
-                    regdate = '<td class="regdate">' + formatDate(saleDate, "yyyy-MM-dd") + '</td>';
+                    regdate = $("<td>").addClass("regdate").text(formatDate(saleDate, "yyyy-MM-dd"));
                 }
 
-                row += regdate + '<td>' + sale.view_cnt + '</td>' +
-                    '</tr>';
-                $("#saleList tbody").append(row);
+                row.append(regdate);
+                row.append($("<td>").text(sale.view_cnt)); // 조회수
+                $("#saleList").append(row);
             });
         } else {
-            // saleList가 비어있는 경우, 화면에 표시할 내용이 없음을 사용자에게 알릴 수 있는 처리를 추가할 수 있음
-            $("#saleList tbody").append('<tr><td colspan="6">데이터가 없습니다.</td></tr>');
+            $("#saleList").append("<tr><td colspan='5'>데이터가 없습니다.</td></tr>");
         }
-    }
+    };
 
     // 날짜 형식을 변환하는 함수
     function formatDate(date, format) {
@@ -160,4 +186,5 @@
 
 
 </script>
+
 </html>

@@ -150,6 +150,14 @@
         alter table sale auto_increment = 1
     </update>
 
+<!--  PageHandeler  -->
+    <select id="selectPage" parameterType="map" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        where
+            ur_state = 'Y'
+        order by no desc
+            limit #{offset}, #{pageSize}
+    </select>
 
     <!--  검색 기능(추후 추가)   -->
     <!--  R : 카테고리를 기준으로 조회할 수 있어야 됨  -->

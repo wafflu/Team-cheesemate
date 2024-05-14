@@ -36,8 +36,14 @@ public class SaleService {
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
-        // 총 작성된 글을 count해주어야 됨
-        return 0;
+        // 총 작성된 글을 count
+        return saleDao.countUse();
+    }
+
+    public List<SaleDto> getPage(Map map) throws Exception {
+        System.out.println("Service map startPage : " + map.get("startPage"));
+        System.out.println("Service map endPage : " + map.get("endPage"));
+        return saleDao.selectList(map);
     }
 
     // 판매자가 자신의 게시글을 삭제할 때
@@ -176,23 +182,38 @@ public class SaleService {
         saleTagDao.delete(sal_no);
     }
 
-    // 전체 게시글 list를 가지고 올 때
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<SaleDto> getList() throws Exception {
-        List<SaleDto> saleList = saleDao.selectAll();
+    public List<SaleDto> getList(String addr_cd) throws Exception {
+        List<SaleDto> saleList = null;
+        if(addr_cd == null) {
+            // 전체 게시글 list를 가지고 올 때
+            saleList = saleDao.selectAll();
+        } else {
+            // 사용자가 속한 주소의 list를 가지고 올 때
+            saleList = saleDao.selectUserAddrCd(addr_cd);
+        }
+            System.out.println(saleList.size());
+
+            return saleList;
+    }
+
+    // 페이징된 게시글 list를 가지고 올 때
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<SaleDto> getPageList(Map map) throws Exception {
+        List<SaleDto> saleList = saleDao.selectList(map);
         System.out.println(saleList.size());
 
         return saleList;
     }
 
-    // 사용자가 속한 주소의 전체 게시글 list를 가지고 올 때
-    @Transactional(propagation = Propagation.REQUIRED)
-    public List<SaleDto> getUserAddrCdList(String addr_cd) throws Exception {
-        List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
-        System.out.println(saleList.size());
-
-        return saleList;
-    }
+//    // 사용자가 속한 주소의 전체 게시글 list를 가지고 올 때
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public List<SaleDto> getUserAddrCdList(String addr_cd) throws Exception {
+//        List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
+//        System.out.println(saleList.size());
+//
+//        return saleList;
+//    }
 
     // 판매글 하나에 들어가서 게시글을 읽을 때
     @Transactional(propagation = Propagation.REQUIRED)

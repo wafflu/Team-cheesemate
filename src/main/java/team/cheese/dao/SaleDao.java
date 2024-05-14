@@ -1,6 +1,7 @@
 package team.cheese.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import team.cheese.domain.SaleDto;
 
@@ -43,4 +44,5 @@ public interface SaleDao {
     // 판매/나눔을 클릭 했을 때 사용자의 첫번째 주소로 조회되는 경우
     List<SaleDto> selectStandardAddr(String ur_id, int check_addr_cd) throws Exception;
 
+    List<SaleDto> selectList(Map map) throws Exception;
 }

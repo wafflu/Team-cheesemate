@@ -58,17 +58,18 @@ public class MainController {
 
         // TestSession 클래스를 사용하여 세션을 설정
         String ur_id = "asdf";
+//        String ur_id = null;
         session = testSession.setSession(ur_id, session);
 
         ur_id = (String) session.getAttribute("userId");
         System.out.println("ur_id : " + ur_id);
 
-        String addr_cd = null;
-        if (ur_id == null) {
-            return "redirect:/sale/list";
-        } else {
-            return "redirect:/sale/list?addr_cd=" + addr_cd;
-        }
+//        if (ur_id != null) {
+//            String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
+//            model.addAttribute("addr_cd", addr_cd);
+//        }
+        return "redirect:/sale/list";
+//        return "redirect:/sale/list?addr_cd=" + addr_cd;
     }
 
     private long getStartOfToday() {

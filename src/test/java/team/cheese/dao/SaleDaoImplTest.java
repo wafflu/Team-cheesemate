@@ -185,6 +185,17 @@ public class SaleDaoImplTest {
         assertTrue(list.size() == cnt);
     }
 
+    @Test
+    public void testselectUserAddrCd2() throws Exception {
+//        List<AddrCdDto> addrCdList = addrCdDao.se
+
+        String addr_cd = "11060710";
+        // 1. 전체 글을 불러온다
+        List<SaleDto> list = saleDao.selectUserAddrCd(addr_cd);
+        System.out.println(list);
+        System.out.println(list.size());
+    }
+
 //    R : 게시글 하나를 선택해온다.
     @Test
     public void testSelectOne() throws Exception {
