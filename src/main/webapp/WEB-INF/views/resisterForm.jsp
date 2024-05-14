@@ -5,14 +5,19 @@
 
 <html>
 <head>
+    <meta charset="UTF-8">
     <style>
 
         input:invalid {
             border: 2px solid red;
         }
 
+        hr {
+          width: 40%;
+        }
+
         form {
-            border: 3px solid #f1f1f1;
+            border: 3px solid #959595;
             padding: 20px;
             width: 50%;
             margin: 0 auto;
@@ -20,9 +25,17 @@
         }
 
         label {
-            display: inline; /* 각 레이블을 블록 요소로 만들어 줄바꿈이 일어나도록 함 */
+            display: inline;
             text-align: left; /* 텍스트를 왼쪽으로 정렬 */
             margin: 10px 0; /* 레이블과 다른 요소 사이의 여백을 줌 */
+        }
+
+        .inputBox {
+            padding-top: 3px;
+            padding-bottom: 3px;
+
+            margin-top: 3px;
+            margin-bottom: 3px;
         }
 
         .center {
@@ -35,56 +48,51 @@
 </head>
 <body>
 
+
+
 <form action="/createAccount" method="post" class="center" onsubmit="return submitCheck();">
     <h1>회원가입</h1>
+    <hr>
 
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-    <label>아이디 : </label>
-    <input type="text" id="id" name="id" pattern="[A-Za-z][A-Za-z0-9]{5,}$" minlength="5" maxlength="20" title="한글 아이디는 불가능하고, 아이디의 길이는 6글자이상 20글자 이합니다.">
+
+    <input placeholder="아이디" class="inputBox" type="text" id="id" name="id" pattern="^[A-Za-z\d]{6,25}$" minlength="5" maxlength="25" title="아이디는 영어와 숫자만 가능하며 길이는 6글자이상 20글자까지 가능합니다." onchange="checkIdDuplication()">
+    <p id="idCheckResult"></p>
+
+    <input placeholder="비밀번호" class="inputBox" type="password" id="pw" name="pw"pattern="^[A-Za-z\d@$!%*?&]*$" minlength="5" maxlength="16" title="비밀번호는 영어,숫자 및 특수문자로 가능하며 최소 6자리부터 최대 16자리까지 가능합니다.">
     <br>
 
-    <label>비밀번호 : </label>
-    <input type="password" id="pw" name="pw" pattern="^[A-Za-z\d@$!%*?&]{5,}$" minlength="5" maxlength="20" title="비밀번호는 최소 6자리부터 가능합니다.">
+    <input placeholder="비밀번호 확인" class="inputBox" type="password" id="inputPwCheck" name="inputPwCheck" pattern="^[A-Za-z\d@$!%*?&]{5,}$" title="동일한 비밀번호를 입력해주세요.">
     <br>
 
-    <label>비밀번호 확인 : </label>
-    <input type="password" id="inputPwCheck" name="inputPwCheck" pattern="^[A-Za-z\d@$!%*?&]{5,}$" title="동일한 비밀번호를 입력해주세요.">
+    <input placeholder="이메일" class="inputBox" type="email" id="email" name="email" pattern="^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$" minlength="6" title="이메일 주소를 정확하게 입력해주세요.">
     <br>
 
-    <label>이메일 : </label>
-    <input type="email" id="email" name="email" pattern="^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$" minlength="6" title="이메일 주소를 정확하게 입력해주세요.">
-    <br>
-
-    <label>주소 :</label>
-    <input type="text" id="addr_det" name="addr_det" minlength="6" title="거주하고 있는 주소를 정확하게 입력해주세요.">
+    <input placeholder="주소" class="inputBox" type="text" id="addr_det" name="addr_det" minlength="6" title="거주하고 있는 주소를 정확하게 입력해주세요.">
     <br>
     <br>
 
-    <label>이름 : </label>
-    <input type="text" id="name" name="name" pattern="^[A-Za-z가-힣]+$" title="이름을 입력 해주세요">
+    <input placeholder="이름" class="inputBox" type="text" id="name" name="name" pattern="^[A-Za-z가-힣]+$" title="이름을 입력 해주세요">
     <br>
 
-    <label>별명 : </label>
-    <input type="text" id="nick" name="nick" minlength="2" pattern="[A-Za-z가-힣]{2,}" title="별명은 2자리 이상입니다.">
+    <input placeholder="별명" class="inputBox" type="text" id="nick" name="nick" minlength="2" pattern="[A-Za-z가-힣]{2,}" title="별명은 2자리 이상입니다.">
     <br>
 
-    <label>생년월일 : </label>
-    <input type="date" id="birth" name="birth" title="생년월일을 입력해주세요">
+    <input placeholder="생년월일" class="inputBox" type="date" id="birth" name="birth" title="생년월일을 입력해주세요">
     <br>
 
-    <label>휴대전화번호 : </label>
-    <input type="text" id="phone_num" name="phone_num" minlength="11" maxlength="11" title="하이픈(-)을 뺀 전화번호 11자리를 입력해주세요">
+    <input placeholder="휴대전화번호" class="inputBox" type="text" id="phone_num" name="phone_num" minlength="11" maxlength="11" title="하이픈(-)을 뺀 전화번호 11자리를 입력해주세요">
     <br>
 
     <label>성별   </label>
     <input required type="radio" name="gender" value="M" title="성별 하나를 선택 해주세요">남자
     <input required type="radio" name="gender" value="F" title="성별 하나를 선택 해주세요">여자<br>
-    <br>
 
     <label>내외국인   </label>
     <input type="radio" name="foreigner" value="Y" checked>내국인
     <input type="radio" name="foreigner" value="N">외국인<br>
+    <br>
 
     <button type="submit">제출</button>
 </form>
@@ -93,7 +101,46 @@
 </html>
 
 <script>
+    // *** 아이디 중복 확인(Ajax) ***
+    function checkIdDuplication() {
 
+        var inputId = document.getElementById("id").value;
+        var resultElement = document.getElementById("idCheckResult");
+
+        if(inputId.length > 5) {
+            fetch('/checkIdDuplication?id=' + encodeURIComponent(inputId))
+                .then(response => response.text())
+                .then(data => {
+                    resultElement.innerText = data;
+                    if (data === "이미 존재하는 아이디입니다.") {
+                        resultElement.style.color = 'red';
+                    } else if (data === "사용 가능한 아이디입니다.") {
+                        resultElement.style.color = 'green';
+                    }
+                });
+        }
+        else {
+            document.getElementById("idCheckResult").innerText = "";
+        }
+    }
+
+    // *** 생년월일 입력시 미래 날짜 사용 불가능 ***
+    document.addEventListener('DOMContentLoaded', function() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("birth").setAttribute("max", today);
+    });
+
+    // *** 확인 버튼 누를 시 부적합한 입력을 화면에 표시 ***
     function submitCheck() {
         var check = true;
 
