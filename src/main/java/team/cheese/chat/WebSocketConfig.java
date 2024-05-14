@@ -7,16 +7,9 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.*;
 
 @Configuration
-@EnableWebSocketMessageBroker
+//@EnableWebSocketMessageBroker
 @Slf4j
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    @Autowired
-    private CustomWebSocketHandler customWebSocketHandler;
-//    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(customWebSocketHandler, "*");
-    }
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic");
