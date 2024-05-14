@@ -211,6 +211,18 @@ public class EventDto {
         this.r_date = r_date;
     }
 
+    public String getImg_full_rt() {
+        return img_full_rt;
+    }
+
+    public void setImg_full_rt(String img_full_rt) {
+        this.img_full_rt = img_full_rt;
+    }
+
+    public void setGroup_no(int group_no) {
+        this.group_no = group_no;
+    }
+
     @Override
     public String toString() {
         return "eventDto{" +

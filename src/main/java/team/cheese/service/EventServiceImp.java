@@ -43,10 +43,8 @@ public class EventServiceImp implements EventService {
     }
     @Override
     public int eventRegister(EventDto dto){
-        if(isWithinRange(dto.getS_date(),dto.getE_date()))
-            dto.setActive_s_cd("P");
-        else
-            dto.setActive_s_cd("F");
+        String S_Cd = isWithinRange(dto.getS_date(),dto.getE_date());
+        dto.setActive_s_cd(S_Cd);
         int result=dao.insert(dto);
         return result;
     }
@@ -69,8 +67,13 @@ public class EventServiceImp implements EventService {
         return dao.updatecontent(dto);
     }
 
-    public boolean isWithinRange(Date startDate ,Date endDate){
+    public String isWithinRange(Date startDate ,Date endDate){
         Date nowDate = new Date();
-        return nowDate.after(startDate)&& nowDate.before(endDate);
+        if(nowDate.after(startDate)&& nowDate.before(endDate))
+            return "P";
+        if(nowDate.before(startDate))
+            return "B";
+        else
+            return "F";
     }
 }

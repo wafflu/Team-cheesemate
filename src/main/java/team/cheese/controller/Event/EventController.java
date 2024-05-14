@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.EventDto;
 import team.cheese.domain.EventPageHanddler;
+import team.cheese.domain.ImgDto;
 import team.cheese.domain.SearchDto;
 import team.cheese.service.EventService;
+import team.cheese.service.ImgService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +18,17 @@ import java.util.List;
 @RequestMapping(value = "/event")
 public class EventController {
     @Autowired
-    EventService service;
+    EventService eventService;
+    
+    @Autowired
+    ImgService imgService;
 
     @GetMapping(value = "")
     public String event(String cd,Integer page, Model model) {
         String nowcd = cd==null?"P":cd;
         int nowpage = page==null?1:page;
-        EventPageHanddler ph = new EventPageHanddler(service.count(nowcd),nowpage);
-        ArrayList<EventDto> arr = service.getPageList(ph.getStartBno(), nowcd, ph.getMAXCONTENT());
+        EventPageHanddler ph = new EventPageHanddler(eventService.count(nowcd),nowpage);
+        ArrayList<EventDto> arr = eventService.getPageList(ph.getStartBno(), nowcd, ph.getMAXCONTENT());
         model.addAttribute("eventarr", arr);
         model.addAttribute("ph", ph);
         model.addAttribute("cd", nowcd);
@@ -31,14 +36,14 @@ public class EventController {
     }
     @GetMapping(value = "read")
     public String read(Long evt_no, Model model) {
-        EventDto dto = service.getContent(evt_no);
+        EventDto dto = eventService.getContent(evt_no);
         model.addAttribute("dto", dto);
         model.addAttribute("readonly", "readonly");
         return "write";
     }
     @GetMapping(value = "modify")
     public String modify(Long evt_no, Model model) {
-        EventDto dto = service.getContent(evt_no);
+        EventDto dto = eventService.getContent(evt_no);
         model.addAttribute("dto", dto);
         return "write";
     }
@@ -48,15 +53,15 @@ public class EventController {
     }
 
     @PostMapping(value = "write")
-    public String write(EventDto dto) {
+    public String write(EventDto dto, ImgDto imgdto) {
         System.out.println(dto);
-        service.eventRegister(dto);
+        eventService.eventRegister(dto);
         return "redirect:/event";
     }
     @PostMapping(value = "modify")
     public String modify(Long evt_no,EventDto dto) throws Exception {
         dto.setEvt_no(evt_no);
-        int result=service.updateContent(dto);
+        int result=eventService.updateContent(dto);
         if(result==1) {
             throw new Exception("업데이트 실패");
         }
@@ -66,9 +71,9 @@ public class EventController {
     }
     @GetMapping(value = "remove")
     public String remove(Long evt_no) {
-        EventDto dto=service.getContent(evt_no);
+        EventDto dto=eventService.getContent(evt_no);
         dto.setActive_s_cd("C");
-        service.changeState(dto);
+        eventService.changeState(dto);
         return "redirect:/event";
     }
     @PostMapping(value = "search")
@@ -77,8 +82,8 @@ public class EventController {
         System.out.println("Welcom Ajax");
         System.out.println(dto);
         int nowpage = 1;
-        EventPageHanddler ph = new EventPageHanddler(service.searchCount(dto.getCd(),dto.getContents()),nowpage);
-        List<EventDto> arr=service.getSearchList(dto.getCd(), dto.getContents(), ph.getStartBno());
+        EventPageHanddler ph = new EventPageHanddler(eventService.searchCount(dto.getCd(),dto.getContents()),nowpage);
+        List<EventDto> arr=eventService.getSearchList(dto.getCd(), dto.getContents(), ph.getStartBno());
         return arr;
     }
 }

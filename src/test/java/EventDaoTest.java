@@ -27,20 +27,17 @@ public class EventDaoTest {
 //  -
 
 
-    EventDto dto1 = new EventDto("E","F","이벤트 1", "상품권 이벤트", new Date(2024/02/01), new Date(2024/02/30),1,"src", "도서 상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
-    EventDto dto2 = new EventDto("A","C","이벤트 2", "치즈마켓 상품권 추첨 이벤트", new Date(2024/04/30), new Date(2024/05/20),1, "src","신세계 상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
-    EventDto dto3 = new EventDto("N","P","이벤트 3", "치즈마켓 신규유저 환영 이벤트", new Date(2024/05/1), new Date(2024/06/05),1,"src", "문화상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
-    EventDto dto4 = new EventDto("이벤트 4", "스타벅스 기프티콘 이벤트", "이벤트 관리자", new Date(2024/03/01), new Date(2024/03/30),"A", "스타벅스 기프티콘");
-    EventDto dto5 = new EventDto("이벤트 5", "치즈 마켓 장바구니 증정 이벤트", "이벤트 관리자", new Date(2024/04/30), new Date(2024/05/07), "N", "치즈마켓 장바구니");
-    EventDto dto6 = new EventDto("이벤트 6", "치즈 마켓 머그컵 증정 이벤트", "이벤트 관리자", new Date(2024/04/30), new Date(2024/05/30), "R", "치즈마켓머그컵");
+    EventDto dto1 = new EventDto("E","F","이벤트 1", "상품권 이벤트", new Date(2024/02/01), new Date(2024/02/30),1,"/Users/MY/Desktop/image/basket.jpg", "도서 상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
+    EventDto dto2 = new EventDto("A","C","이벤트 2", "치즈마켓 상품권 추첨 이벤트", new Date(2024/04/30), new Date(2024/05/20),1, "C:/Users/MY/Desktop/image/basket.jpg","신세계 상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
+    EventDto dto3 = new EventDto("N","P","이벤트 3", "치즈마켓 신규유저 환영 이벤트", new Date(2024/05/1), new Date(2024/06/05),1,"C:/Users/MY/Desktop/image/basket.jpg", "문화상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
+    EventDto dto4 = new EventDto("E","B","이벤트 9", "상품권 이벤트", new Date(2024/06/01), new Date(2024/06/30),1,"C:/Users/MY/Desktop/image/basket.jpg", "도서 상품권", "ghkdwjdgk", "ghkdwjdgk", "ghkdwjdgk");
+
     ArrayList<EventDto> dtoList = new ArrayList<>();
     public EventDaoTest(){
         dtoList.add(dto1);
         dtoList.add(dto2);
         dtoList.add(dto3);
         dtoList.add(dto4);
-        dtoList.add(dto5);
-        dtoList.add(dto6);
     }
     @After
     public void setup() throws  Exception {
