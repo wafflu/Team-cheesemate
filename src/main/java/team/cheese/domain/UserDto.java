@@ -3,17 +3,20 @@ package team.cheese.domain;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class UserDto {
 
     @NotNull
-    @Pattern(regexp = "[A-Za-z][A-Za-z0-9]{5,}$")
+    @Pattern(regexp = "^[A-Za-z\\d]{6,25}$")
+    @Size(min = 6, max = 25)
     private String id;
 
     @NotNull
-    @Pattern(regexp = "^[A-Za-z\\d@$!%*?&]{5,}$")
+    @Pattern(regexp = "^[A-Za-z\\d@$!%*?&]*$")
+    @Size(min = 6, max = 16)
     private String pw;
 
     @NotNull
