@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import team.cheese.Domain.Comment.CommentDto;
 import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.service.Comment.CommentService;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
 
@@ -248,6 +250,45 @@ public  class CommunityBoardController {
 
 
         }
+
+
+    @Autowired
+    CommentService commentService;
+
+    //댓글 등록 메서드
+    @PostMapping("/writeComment")
+    @ResponseBody
+    public ResponseEntity<String> write(@RequestBody CommentDto commentDto, HttpSession session , HttpServletRequest request) throws Exception {
+        //1.세션 객체에서 ur_id 갖고오기
+        //2.세션 객체에서 nick 갖고오기
+
+        //String ur_id = (String)session.getAttribute("ur_id")
+        //String nick = (String)session.getAttribute("nick")
+
+
+
+        String ur_id = session.getAttribute("ur_id").toString();
+        String nick = session.getAttribute("nick").toString();
+
+
+        commentDto.setUr_id(ur_id);
+        commentDto.setNick(nick);
+
+
+        commentDto.setNo(5);
+
+        try{
+            if(commentService.write(commentDto) != 1){
+                throw new Exception("Write comment failed");
+            }
+            return new ResponseEntity<>("write success", HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("write failed" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
 
 
     }

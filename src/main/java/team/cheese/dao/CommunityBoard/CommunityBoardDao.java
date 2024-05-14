@@ -32,5 +32,5 @@ public interface CommunityBoardDao {
     int totalLikeCount(Integer no) throws Exception;
 
     //추가
-    int commentCount(Integer no,int cnt) throws Exception;
+    int updateCommentCnt(Integer no,int cnt) throws Exception;
 }

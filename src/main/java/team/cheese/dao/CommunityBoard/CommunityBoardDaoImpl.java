@@ -82,11 +82,11 @@ public class CommunityBoardDaoImpl implements CommunityBoardDao {
     }
 
     @Override
-    public int commentCount(Integer no,int cnt) throws Exception {
+    public int updateCommentCnt(Integer no,int cnt) throws Exception {
         HashMap map = new HashMap();
         map.put("no", no);
         map.put("cnt", cnt);
-        return session.update(namespace + "commentCount", map);
+        return session.update(namespace + "updateCommentCnt", map);
     }
 
 

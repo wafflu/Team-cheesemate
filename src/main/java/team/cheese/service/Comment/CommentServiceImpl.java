@@ -2,6 +2,7 @@ package team.cheese.service.Comment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import team.cheese.Domain.Comment.CommentDto;
 import team.cheese.dao.Comment.CommentDao;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
@@ -23,7 +24,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int write(CommentDto commentDto) throws Exception {
+        communityBoardDao.updateCommentCnt(commentDto.getPost_no(),1);
         return commentDao.insert(commentDto);
     }
 

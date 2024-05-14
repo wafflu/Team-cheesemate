@@ -24,10 +24,16 @@ public class CommunityInterceptor implements HandlerInterceptor {
         //1.세션값에 저장된 아이디와 세션이 일치하는지 확인해아햔다.->현재 임의 설정
         HttpSession session = request.getSession(true);
         session.setAttribute("ur_id", "user123");
-        String session_id = (String) session.getAttribute("ur_id");
+        session.setAttribute("nick", "skyLee");
+        String ur_id = (String) session.getAttribute("ur_id");
+        String nick = (String) session.getAttribute("nick");
+
+
+        String currentLoginUser = (String) session.getAttribute("ur_id");
+        System.out.println(currentLoginUser);
 
         //2.세션값에 저장된 아이디가 일치하지않거나 없는 경우 예외처리
-        if(session_id==null){
+        if(ur_id==null || !ur_id.equals(currentLoginUser)){
             return false;
         }
 

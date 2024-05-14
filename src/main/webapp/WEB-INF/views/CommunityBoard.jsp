@@ -60,13 +60,24 @@
 
 
 
-
-
-
-    </div>
+         </div>
 
 
 </form>
+
+<div id="comment_insert">
+
+    <div id = "comment">
+        <input type="hidden" id = "post_no" name="post_no" value="${communityBoardDto.no}">
+    </div>
+    <p>
+        <label>&nbsp;&nbsp;댓글 등록</label> <br>
+        <textarea id="content" rows="5" cols="80" name="content"
+                  maxlength="300" placeholder="댓글은 최대 300자까지 입력가능합니다."></textarea>
+    </p>
+    <button id ="input_comment" type = submit>댓글 작성</button>
+</div>
+
 <script>
     $(document).ready(function() {
         $('.detail-button').on("click",function(){
@@ -112,7 +123,54 @@
             })
 
         })
-    })
+
+
+        $('#input_comment').click(function () {
+
+            let post_no = $('#post_no').val();
+            let contents = $('#content').val();
+
+            if (contents.trim() === "") {
+                alert("내용을 입력하세요");
+                return;
+            }
+
+
+            $.ajax({
+                type: 'post',
+                url: '/community/writeComment',
+                data: JSON.stringify(
+                    {
+                        // "nick":nick,
+                        // "ur_id":ur_id,
+                        "post_no": post_no,
+                        "contents": contents
+                    }
+                ),
+                contentType: 'application/json',
+                success: function (result) {  //결과 성공 콜백함수
+                    let s = " ";
+                    s += "<table>"
+                    for (let i = 0; i < result.length; i++) {
+                        console.log(result[i]);
+                        s += "<tr>"
+                        s += "<td>" + result[i].post_no + "</td>"
+                        s += "<td>" + result[i].no + "</td>"
+                        s += "<td>" + result[i].nick + "</td>"
+                        s += "<td>" + result[i].contents + "</td>"
+                        s += "<td>" + result[i].r_date + "</td>"
+                    }
+                    s += "</table>";
+                    $('article').html(s);
+                    alert("dsfsadfdsa");
+                },
+                error: function (request, status, error) {  //결과 에러 콜백함수
+                    console.log(error);
+                    alert("에러");
+                }
+            });
+        })
+    });
 </script>
 
 </body>

@@ -47,6 +47,10 @@
     <div class="main">
         <textarea name = "contents" id ="contents">${communityBoardDto.contents}</textarea>
     </div>
+
+    <div>
+
+    </div>
     <div class = "footer"></div>
 </form>
 

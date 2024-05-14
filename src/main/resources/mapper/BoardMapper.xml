@@ -76,10 +76,10 @@
 
 <!--    추가-->
 <!--    댓글 카운팅  추가-->
-    <update id="updateCommentCount" parameterType="map">
+    <update id="updateCommentCnt" parameterType="map">
         UPDATE community_board b
-        SET b.comment_count = b.commnet_count + #{cnt}
-        WHERE b.no = #{post_no};
+        SET b.comment_count = b.comment_count + #{cnt}
+        WHERE b.no = #{no};
     </update>
 
 </mapper>
