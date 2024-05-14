@@ -183,7 +183,7 @@ public class SaleService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<SaleDto> getList(String addr_cd) throws Exception {
+    public List<SaleDto> getList(String addr_cd, String sal_i_cd) throws Exception {
         List<SaleDto> saleList = null;
         if(addr_cd == null) {
             // 전체 게시글 list를 가지고 올 때

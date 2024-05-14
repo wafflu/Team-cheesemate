@@ -40,7 +40,7 @@
     <option value="" disabled selected>소분류</option>
 </select>
 <p style="color: orangered;" id="salecategoryMsg"></p>
-<span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
+<span><b><p style="display: inline; color: red" id="sal_name">전체</p></b> 상품</span>
 <br><br>
 <table id="saleListTB">
     <tr>
@@ -52,6 +52,29 @@
         <th class="viewcnt">조회수</th>
     </tr>
     <tbody id="saleList">
+    <c:forEach var="Sale" items="${saleList}">
+        <tr>
+            <td>${Sale.no}</td>
+            <td class="title"><a
+                    href="<c:url value='/sale/read?no=${Sale.no}'/>">${Sale.title}</a></td>
+            <td>${Sale.seller_nick}</td>
+            <td>${Sale.addr_name}</td>
+            <c:choose>
+                <c:when test="${Sale.r_date.time >= startOfToday}">
+                    <td class="regdate">
+                        <fmt:formatDate value="${Sale.r_date}" pattern="HH:mm" type="time"/>
+                    </td>
+                </c:when>
+                <c:otherwise>
+                    <td class="regdate">
+                        <fmt:formatDate value="${Sale.r_date}" pattern="yyyy-MM-dd"
+                                        type="date"/>
+                    </td>
+                </c:otherwise>
+            </c:choose>
+            <td>${Sale.view_cnt}</td>
+        </tr>
+    </c:forEach>
     </tbody>
 </table>
 <br>
@@ -97,112 +120,7 @@
         addrCdSelect.selectedIndex = 1;
     }
 
-    function loadCategory2() {
-        let category1Value = $('#category1').val();
-        console.log(category1Value)
-        if (category1Value !== "") {
-            $.ajax({
-                type: "POST",
-                url: "/sale/saleCategory2",
-                dataType: "json", // 받을 값
-                data: {category1: category1Value},
-                success: function (data) {
-                    let category2Select = document.getElementById("category2");
-                    category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-                    let category3Select = document.getElementById("category3");
-                    category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                    console.log("data.length : ", data.length);
-                    if (data.length > 0) {
-                        data.forEach(function (category) {
-                            // console.log(typeof category);
-                            if (category.sal_cd.startsWith(category1Value)) {
-                                let option = new Option(category.name, category.sal_cd);
-                                category2Select.add(option);
-                            }
-                        });
-                    } else {
-                        $("#sal_name").text("");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert("error", error);
-                }
-            });
-        }
-    }
-
-    function loadCategory3() {
-        let category2Value = $('#category2').val();
-        console.log(category2Value)
-        if (category2Value !== "") {
-            $.ajax({
-                type: "POST",
-                url: "/sale/saleCategory3",
-                dataType: "json",
-                data: {category2: category2Value},
-                success: function (data) {
-                    // alert(data);
-                    let category3Select = document.getElementById("category3");
-                    category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                    console.log("data.length : ", data.length);
-                    if (data.length > 0) {
-                        data.forEach(function (category) {
-                            if (category.sal_cd.startsWith(category2Value)) {
-                                let option = new Option(category.name, category.sal_cd);
-                                category3Select.add(option);
-                            }
-                        });
-                    } else {
-                        $("#sal_name").text("");
-                    }
-                },
-                error: function (xhr, status, error) {
-                    alert("Error", error);
-                }
-            });
-        }
-    }
-
-    let sal_name = "";
-
-    let saleList = function (page=1,pageSize=10,addr_cd,tx_s_cd) {
-        $.ajax({
-            type:'GET',       // 요청 메서드
-            url: "/sale/searchAddrCd?page=" + page + "&pageSize=" + pageSize + "&addr_cd=" + addr_cd + "&tx_s_cd=" + tx_s_cd,  // 요청 URI
-            headers: {"content-type": "application/json"}, // 요청 헤더
-            dataType : 'json',
-            success : function(result){
-                // 후기글 목록과 페이징 정보 가져오기
-                let comments = result.comments;
-                let ph = result.ph;
-                $("#commentList").html(toHtml(comments,ph,sal_id));
-                closeModal();
-            },
-            error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
-        }); // $.ajax()
-    }
-
-
     $(document).ready(function () {
-        // 대분류 선택 전 메시지 설정
-        $("#sal_name").text("전체");
-
-        // 대분류 선택 시 중분류 메시지
-        $("#category1").change(function () {
-            $("#sal_name").text($("#category1 option:checked").text());
-        });
-
-        // 중분류 선택 시 소분류 메시지
-        $("#category2").change(function () {
-            $("#sal_name").text($("#category2 option:checked").text());
-        });
-
-        // 소분류 선택 시 메시지 제거
-        $("#category3").change(function () {
-            $("#sal_name").text($("#category3 option:checked").text());
-        });
-
-
         // AddrCd 선택이 변경될 때마다 실행되는 함수
         $("#addr_cd").change(function () {
             // 선택된 AddrCd 값 가져오기
@@ -211,7 +129,7 @@
             // 서버에 선택된 AddrCd 값을 전송하여 새로운 addrCdList 받아오기
             $.ajax({
                 type: "GET",
-                url: "/sale/search", // 새로운 addrCdList를 반환하는 URL로 변경해야 함
+                url: "/sale/searchAddrCd", // 새로운 addrCdList를 반환하는 URL로 변경해야 함
                 dataType: "json",
                 data: {addr_cd: addr_cd},
                 success: function (data) {
@@ -226,6 +144,13 @@
             });
         });
     });
+
+    // function writeBtn() {
+    //     // 선택된 주소 코드(addr_cd) 값 가져오기
+    //     let addrCdValue = $('#addr_cd').val();
+    //
+    //     window.location.href = "/sale/write?addr_cd=" + addrCdValue;
+    // }
 
     function writeBtn() {
         // 선택된 주소 코드(addr_cd) 값 가져오기
