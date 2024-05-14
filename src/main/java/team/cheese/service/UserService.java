@@ -7,6 +7,8 @@ import team.cheese.dao.AdminDao;
 import team.cheese.dao.UserDao;
 import team.cheese.domain.UserDto;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @Service
@@ -49,7 +51,7 @@ public class UserService {
             UserDto dto = userDao.getUserById(inputId);
 
             if(dto != null) {
-                if(dto.getPw().equals(inputPw)) {
+                if(dto.getPw().equals(hashPassword(inputPw))) {
                     System.out.println("유저 로그인 성공.");
                     return dto;
                 }
@@ -66,6 +68,11 @@ public class UserService {
             System.out.println("DB Access Exception");
             e.printStackTrace();
             return null;
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("NoSuchAlgorithmException");
+            e.printStackTrace();
+            return null;
+//            throw new RuntimeException(e);
         }
     }
 
@@ -86,8 +93,32 @@ public class UserService {
     }
 
     // *** 회원가입 기능 ***
-    public void insertNewUser(UserDto dto) {
+    public int insertNewUser(UserDto dto) throws NoSuchAlgorithmException {
         System.out.println("*** UserService에서 insertNewUser 기능을 수행합니다. ***");
-        userDao.insertNewUser(dto);
+
+        dto.setPw(hashPassword(dto.getPw()));
+
+        return userDao.insertNewUser(dto);
+    }
+
+    // *** 비밀번호 암호화 기능 ***
+    private String hashPassword(String password) throws NoSuchAlgorithmException {
+
+        // SHA-256 해시 알고리즘 인스턴스 생성
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+        // 입력된 비밀번호를 바이트 배열로 변환하여 해싱
+        byte[] encodedHash = digest.digest(password.getBytes());
+
+        // 해시값을 16진수 문자열로 변환
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : encodedHash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+
+        // 암호화된 비밀번호 리턴
+        return hexString.toString();
     }
 }
