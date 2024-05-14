@@ -11,9 +11,19 @@ public class UserInfoDTO {
     private int view_cnt;
     private int complete_cnt;
     private int rv_cmt_cnt;
-    private int like_cnt;
-    private int hate_cnt;
+
     private int rpt_cnt;
+
+    private Double star_avg;
+
+    public Double getStar_avg() {
+        return star_avg;
+    }
+
+    public void setStar_avg(Double star_avg) {
+        this.star_avg = star_avg;
+    }
+
     private Timestamp r_date;
     private Timestamp m_date;
 
@@ -52,12 +62,12 @@ public class UserInfoDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         UserInfoDTO that = (UserInfoDTO) o;
-        return img_no == that.img_no && view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && like_cnt == that.like_cnt && hate_cnt == that.hate_cnt && rpt_cnt == that.rpt_cnt && state == that.state && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents);
+        return img_no == that.img_no && view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && rpt_cnt == that.rpt_cnt && Double.compare(star_avg, that.star_avg) == 0 && state == that.state && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(m_date, that.m_date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ur_id, nick, img_no, contents, view_cnt, complete_cnt, rv_cmt_cnt, like_cnt, hate_cnt, rpt_cnt, state);
+        return Objects.hash(ur_id, nick, img_no, contents, view_cnt, complete_cnt, rv_cmt_cnt, rpt_cnt, star_avg, r_date, m_date, state);
     }
 
     @Override
@@ -70,9 +80,8 @@ public class UserInfoDTO {
                 ", view_cnt=" + view_cnt +
                 ", complete_cnt=" + complete_cnt +
                 ", rv_cmt_cnt=" + rv_cmt_cnt +
-                ", like_cnt=" + like_cnt +
-                ", hate_cnt=" + hate_cnt +
                 ", rpt_cnt=" + rpt_cnt +
+                ", star_avg=" + star_avg +
                 ", r_date=" + r_date +
                 ", m_date=" + m_date +
                 ", state=" + state +
@@ -137,22 +146,6 @@ public class UserInfoDTO {
 
     public void setRv_cmt_cnt(int rv_cmt_cnt) {
         this.rv_cmt_cnt = rv_cmt_cnt;
-    }
-
-    public int getLike_cnt() {
-        return like_cnt;
-    }
-
-    public void setLike_cnt(int like_cnt) {
-        this.like_cnt = like_cnt;
-    }
-
-    public int getHate_cnt() {
-        return hate_cnt;
-    }
-
-    public void setHate_cnt(int hate_cnt) {
-        this.hate_cnt = hate_cnt;
     }
 
     public int getRpt_cnt() {

@@ -28,7 +28,7 @@ public class UserInfoServiceImplTest {
             assertTrue(userService.getCount()==0);
             UserInfoDTO userInfoDTO = createData(1);
             // do : 소개글 1개 작성
-            assertTrue(userService.write(userInfoDTO));
+            userService.write(userInfoDTO);
             // assert : 테이블에 1개의 행이 있는지 & DTO와 read한 DTO가 일치하는지 확인
             assertTrue(userService.getCount()==1);
             assertTrue(userInfoDTO.equals(userService.read("1")));
@@ -60,7 +60,7 @@ public class UserInfoServiceImplTest {
             }
         }
     // 실패
-        @Test
+        @Test(expected = Exception.class)
         public void writeFaildTest1() throws Exception {
             // given&when : 테이블초기화 & ur_id가 null인 UserInfoDTO 1개 생성
             cleanDB();
@@ -68,24 +68,22 @@ public class UserInfoServiceImplTest {
 
             UserInfoDTO userInfoDTO = new UserInfoDTO(null,"1","1");
             // do : 소개글 1개 작성
-            boolean isWriteSuccessful = userService.write(userInfoDTO);
+            userService.write(userInfoDTO);
             // assert : 테이블에 0개의 행이 있는지 & 예상한 예외가 발생했는지 확인
-            assertFalse(isWriteSuccessful);
             assertTrue(userService.getCount()==0);
         }
-        @Test
+        @Test(expected = Exception.class)
         public void writeFaildTest2() throws Exception {
             // given&when : 테이블초기화 & ur_id가 user테이블에 없는 값으로 UserInfoDTO 1개 생성
             cleanDB();
             assertTrue(userService.getCount()==0);
             UserInfoDTO userInfoDTO = new UserInfoDTO(2000+"","1","1");
             // do : 소개글 1개 작성
-            boolean isWriteSuccessful = userService.write(userInfoDTO);
+            userService.write(userInfoDTO);
             // assert : 테이블에 0개의 행이 있는지 & 예상한 예외가 발생했는지 확인
-            assertFalse(isWriteSuccessful);
             assertTrue(userService.getCount()==0);
         }
-        @Test
+        @Test(expected = Exception.class)
         public void writeFaildTest3() throws Exception {
             // given&when : 테이블초기화 & ur_id를 중복된 값으로 UserInfoDTO 1개 생성
             cleanDB();
@@ -93,9 +91,8 @@ public class UserInfoServiceImplTest {
             insertData(1);
             UserInfoDTO userInfoDTO = createData(1);
             // do : 소개글 1개 작성
-            boolean isWriteSuccessful = userService.write(userInfoDTO);
+            userService.write(userInfoDTO);
             // assert : 테이블에 1개의 행이 있는지 & 예상한 예외가 발생했는지 확인
-            assertFalse(isWriteSuccessful);
             assertTrue(userService.getCount()==1);
         }
 
@@ -109,7 +106,7 @@ public class UserInfoServiceImplTest {
             insertData(1);
             assertTrue(userService.getCount()==1);
             // do : 소개글 1개 삭제
-            assertTrue(userService.remove("1"));
+            userService.remove("1");
             // assert : 테이블이 비었는지 확인
             assertTrue(userService.getCount()==0);
         }
@@ -122,7 +119,7 @@ public class UserInfoServiceImplTest {
             assertTrue(userService.getCount()==10);
             // do : 소개글 10개 삭제
             for(int i=1; i<=10; i++) {
-                assertTrue(userService.remove(i+""));
+                userService.remove(i+"");
             }
             // assert : 테이블이 비었는지 확인
             assertTrue(userService.getCount()==0);
@@ -136,25 +133,24 @@ public class UserInfoServiceImplTest {
             assertTrue(userService.getCount()==100);
             // do : 소개글 100개 삭제
             for(int i=1; i<=100; i++) {
-                assertTrue(userService.remove(i+""));
+                userService.remove(i+"");
             }
             // assert : 테이블이 비었는지 확인
             assertTrue(userService.getCount()==0);
         }
 
     // 실패
-        @Test
+        @Test(expected = Exception.class)
         public void removeFaildTest1() throws Exception  {
             // given&when : 테이블초기화
             cleanDB();
             assertTrue(userService.getCount()==0);
             // do : 소개글 1개 삭제 (아무것도 없는 테이블에서 삭제하려고 할때)
-            boolean isDeleteSuccessful = userService.remove("1");
+            userService.remove("1");
             // assert : 예상한 예외가 발생하는지 확인
-            assertFalse(isDeleteSuccessful);
             assertTrue(userService.getCount()==0);
         }
-        @Test
+        @Test(expected = Exception.class)
         public void removeFaildTest2() throws Exception  {
             // given&when : 테이블초기화 & UserInfoDTO 1개 생성 & 소개글 1개 작성
             cleanDB();
@@ -162,9 +158,8 @@ public class UserInfoServiceImplTest {
             insertData(1);
             assertTrue(userService.getCount()==1);
             // do : 소개글 1개 삭제 ( ur_id값을 null로 지정했을 때)
-            boolean isDeleteSuccessful = userService.remove(null);
+             userService.remove(null);
             // assert : 테이블에 행이 1개인지 확인 & 예상한 예외가 발생했는지 확인
-            assertFalse(isDeleteSuccessful);
             assertTrue(userService.getCount()==1);
         }
 
@@ -179,7 +174,7 @@ public class UserInfoServiceImplTest {
             cleanDB();
             assertTrue(userService.getCount()==0);
             UserInfoDTO userInfoDTO = new UserInfoDTO("1","1","1");
-            assertTrue(userService.write(userInfoDTO));
+           userService.write(userInfoDTO);
             assertTrue(userService.getCount()==1);
             // do : 소개글 1개 읽기
             UserInfoDTO userInfoDTO2 = userService.read(null,"1");
@@ -194,7 +189,7 @@ public class UserInfoServiceImplTest {
             cleanDB();
             assertTrue(userService.getCount()==0);
             UserInfoDTO userInfoDTO = new UserInfoDTO("1","1","1");
-            assertTrue(userService.write(userInfoDTO));
+            userService.write(userInfoDTO);
             assertTrue(userService.getCount()==1);
             // do : 소개글 1개 읽기
             UserInfoDTO userInfoDTO2 = userService.read("1","2");
@@ -209,7 +204,7 @@ public class UserInfoServiceImplTest {
             cleanDB();
             assertTrue(userService.getCount()==0);
             UserInfoDTO userInfoDTO = new UserInfoDTO("1","1","1");
-            assertTrue(userService.write(userInfoDTO));
+            userService.write(userInfoDTO);
             assertTrue(userService.getCount()==1);
             // do : 소개글 1개 읽기
             UserInfoDTO userInfoDTO1 = userService.read(null,null);
@@ -222,7 +217,7 @@ public class UserInfoServiceImplTest {
             cleanDB();
             assertTrue(userService.getCount()==0);
             UserInfoDTO userInfoDTO = new UserInfoDTO("1","1","1");
-            assertTrue(userService.write(userInfoDTO));
+            userService.write(userInfoDTO);
             assertTrue(userService.getCount()==1);
             // do : 소개글 1개 읽기
             UserInfoDTO userInfoDTO1 = userService.read(null,"2");
@@ -240,12 +235,12 @@ public class UserInfoServiceImplTest {
             assertTrue(userService.getCount()==1);
             UserInfoDTO userInfoDTO = createUpdateData(1);
             // do : update할 DTO로 update
-            assertTrue(userService.modify(userInfoDTO));
+            userService.modify(userInfoDTO);
             // assert : update할 DTO와 read한 DTO의 내용이 일치하는지 확인
             assertTrue(userInfoDTO.getContents().equals(userService.read("1").getContents()));
         }
     // 실패
-        @Test
+        @Test(expected = Exception.class)
         public void modifyFaildTest1() throws Exception {
             // update할 DTO의 ur_id가 null일떄
             // given&when : 테이블초기화 & UserInfoDTO 1개 생성 & 소개글 1개 작성 & update할 UserInfoDTO 1개 생성
@@ -255,9 +250,8 @@ public class UserInfoServiceImplTest {
             assertTrue(userService.getCount()==1);
             UserInfoDTO userInfoDTO = new UserInfoDTO(null,null,null);
             // do : update할 DTO로 update
-            boolean isModifySuccessful = userService.modify(userInfoDTO);
+             userService.modify(userInfoDTO);
             // assert : 예상한 예외가 발생하는지 확인
-            assertFalse(isModifySuccessful);
         }
 
     // 보조 메서드
@@ -268,7 +262,7 @@ public class UserInfoServiceImplTest {
     private void insertData(int amount) throws Exception{
         for (int i=1; i<=amount; i++) {
             UserInfoDTO createdData = createData(i);
-            assertTrue(userService.write(createdData));
+            userService.write(createdData);
         }
     }
 

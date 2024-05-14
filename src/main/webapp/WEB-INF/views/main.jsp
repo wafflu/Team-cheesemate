@@ -51,10 +51,6 @@
 			margin-bottom: 20px;
 		}
 
-		.feeling_div {
-			margin-bottom: 0;
-		}
-
 		#commentList {
 			width: 100%;
 			text-align: center;
@@ -81,6 +77,51 @@
 		button[type="button"]:hover {
 			background-color: #0c7dbd;
 		}
+		#myform fieldset{
+			display: inline-block;
+			direction: rtl;
+			border:0;
+		}
+		#myform fieldset legend{
+			text-align: right;
+		}
+		#myform input[type=radio]{
+			display: none;
+		}
+		#myform label{
+			font-size: 3em;
+			color: transparent;
+			text-shadow: 0 0 0 #f0f0f0;
+		}
+		#myform label:hover{
+			text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+		}
+		#myform label:hover ~ label{
+			text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+		}
+		#myform input[type=radio]:checked ~ label{
+			text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
+		}
+		#reviewContents {
+			width: 100%;
+			height: 150px;
+			padding: 10px;
+			box-sizing: border-box;
+			border: solid 1.5px #D3D3D3;
+			border-radius: 5px;
+			font-size: 16px;
+			resize: none;
+		}
+		.paging-active {
+			background-color: rgb(216, 216, 216);
+			border-radius: 5px;
+			color: rgb(24, 24, 24);
+		}
+		/* 페이지 링크 공백 스타일 */
+		.page-space {
+			margin: 0 5px; /* 공백 크기 조절 */
+		}
+
 	</style>
 </head>
 <script>
@@ -115,44 +156,141 @@
 			<p>가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="yyyy-MM-dd" type="date"/></p>
 		</c:otherwise>
 	</c:choose>
-	<div class="feeling_div">
-		<div class="button-container like-container">
-			<button class="feeling_a">
-				<i class="fa fa-heart-o"> 좋아요 </i>
-			</button>
-		</div>
-		<div class="button-container dislike-container">
-			<button class="feeling_a">
-				<i class="fa fa-heart"> 싫어요 </i>
-			</button>
-		</div>
-	</div>
-<%--	<script>--%>
-<%--		$('.like-container > .feeling_a, .dislike-container  > .feeling_a').on('click', function() {--%>
-<%--			event.preventDefault();--%>
-<%--			$('.active').removeClass('active');--%>
-<%--			$(this).addClass('active');--%>
-<%--		});--%>
-<%--	</script>--%>
 </div>
-<h3 style="margin-bottom: 10px;">후기글 : ${userInfoDTO.rv_cmt_cnt}</h3>
-<input type="text" name="comment" style="margin-right: 10px;"><button id="sendBtn" type="button">등록</button><button id="modifyBtn" type="button">수정</button>
-<div id="commentList"></div>
+<h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
+<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> </h4>
+<div id="averageStarRating">
+	<!-- 별표(★) 표시 -->
+	<span>
+        <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
+			★
+		</c:forEach>
+    </span>
+	<!-- 빈 별표(☆) 표시 -->
+	<span>
+        <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
+			☆
+		</c:forEach>
+    </span>
+</div>
+<button id="writeBtn" type="button">후기글 작성</button>
+<!-- 모달 창 -->
+<div id="myModal" class="modal" >
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<!-- 후기글 작성 폼 -->
+		<form class="mb-3" name="myform" id="myform">
+			<fieldset>
+				<span class="text-bold">별점을 선택해주세요</span>
+				<div id="starRating">
+					<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
+					<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
+					<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
+					<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
+					<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
+				</div>
+			</fieldset>
+			<div>
+				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+			</div>
+			<button class="commentBtn" id="" type="button"></button>
+		</form>
+	</div>
+</div>
+<div id="commentList" ></div>
 <script>
-	let showList = function (sal_id) {
+	let ur_id = $("textarea[name=contents]").attr('id'); // 해당 유저아이디 변수선언
+
+	let addZero = function(value=1){
+		return value > 9 ? value : "0"+value;
+	}
+
+	let dateToString = function(ms=0) {
+		let date = new Date(ms);
+
+		let yyyy = date.getFullYear();
+		let mm = addZero(date.getMonth() + 1);
+		let dd = addZero(date.getDate());
+
+		let HH = addZero(date.getHours());
+		let MM = addZero(date.getMinutes());
+		let ss = addZero(date.getSeconds());
+
+		return yyyy+"."+mm+"."+dd+ " " + HH + ":" + MM + ":" + ss;
+	}
+
+	// 후기글 작성 버튼
+	var writeBtn = document.getElementById("writeBtn");
+
+	// 모달 창
+	var modal = document.getElementById("myModal");
+
+	// 모달 창 닫기 버튼
+	var closeBtn = document.getElementsByClassName("close")[0];
+
+	// 모달 창을 닫는 함수
+	function closeModal() {
+		modal.style.display = "none";
+	}
+
+	// 선택된 별점 값 담을 변수
+	var selectedStar;
+
+	// 별점 클릭시 변수에 값 담기
+	$("input[name='reviewStar']").on("click", function() {
+		var clickedStar = $(this).val(); // 클릭된 별점 값
+
+		// 클릭한 별점이 이미 선택된 경우
+		if ($(this).is(":checked")) {
+			// 선택된 별점과 이전에 선택된 별점이 같은 경우
+			if (clickedStar === selectedStar) {
+				// 이전에 선택된 별점을 취소하여 0점으로 설정
+				$(this).prop("checked", false);
+				selectedStar = 0;
+			} else {
+				// 클릭한 별점 값으로 설정
+				selectedStar = clickedStar;
+			}
+		} else {
+			// 선택되지 않은 경우는 0점으로 설정
+			selectedStar = 0;
+		}
+		// 선택된 별점 값을 콘솔에 출력하여 확인
+		alert("선택된 별점 값: " + selectedStar);
+	});
+
+	// 후기글 작성 버튼 클릭 시 모달 창 열기
+	writeBtn.onclick = function() {
+		modal.style.display = "block";
+		$('#reviewContents').val(''); // 리뷰내용초기화
+		// 등록버튼으로 바꾸기
+		$(".commentBtn").text("등록");
+		$(".commentBtn").attr("id", "comment-sendBtn");
+		// 별점 초기화
+		$("input[name='reviewStar']").prop("checked", false);
+		selectedStar = undefined; // 선택된 별점 초기화
+	}
+
+	// 후기글 목록 보여주기
+	let showList = function (sal_id,page=1,pageSize=5) {
 		$.ajax({
 			type:'GET',       // 요청 메서드
-			url: "/comments?sal_id="+sal_id,  // 요청 URI
+			url: "/comments?sal_id=" + sal_id + "&page=" + page + "&pageSize=" + pageSize,  // 요청 URI
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType : 'json',
 			success : function(result){
-				$("#commentList").html(toHtml(result));
+				// 후기글 목록과 페이징 정보 가져오기
+				let comments = result.comments;
+				let ph = result.ph;
+				$("#commentList").html(toHtml(comments,ph,sal_id));
+				closeModal();
 			},
-			error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
+			error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 		}); // $.ajax()
 	}
 
-	let toHtml = function (comments) {
+	// 후기글 목록을 보여주기 위한 함수
+	let toHtml = function (comments,ph,sal_id) {
 		let tmp = "<ul>";
 
 		comments.forEach(function (comment) {
@@ -160,15 +298,50 @@
 			tmp += ' data-sal_id=' + comment.sal_id + '>'
 			tmp += ' buy_id = <span class="buy_id">' + comment.buy_id + '</span>'
 			tmp += ' cotents = <span class="contents">' + comment.contents + '</span>'
-			tmp += ' 등록날짜 =' + comment.m_date
-			tmp += '<button class="deleteBtn">삭제</button>'
-			tmp += '<button class="modify1Btn">수정</button>'
-			tmp += '<button class="likeBtn">좋아요: <span class="like">' + comment.like_cnt + '</span></button>';
+			tmp += ' 별점 ='; // 별점 표시 부분 추가
+
+			// 별표(★) 개수만큼 추가
+			for (let i = 0; i < comment.reviewStar; i++) {
+				tmp += '★';
+			}
+			// 빈 별표 추가
+			for (let i = comment.reviewStar; i < 5; i++) {
+				tmp += '☆';
+			}
+			tmp += ' 작성날짜 =' + dateToString(comment.m_date)
+			tmp += '<button class="deleteBtn" data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '">삭제</button>'
+			tmp += '<button class="modifyBtn" data-reviewStar="' + comment.reviewStar + '"' +
+					'data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '">수정</button>'; // data-reviewStar 속성 추가
 			tmp += '</li>'
 		});
-		return tmp + "</ul>";
+		// 페이지 링크 추가
+		if (ph, sal_id) {
+			tmp += '<div class="pageContainer" style="text-align:center">';
+			if (ph.totalCnt == null || ph.totalCnt == 0) {
+				tmp += '<div>게시물이 없습니다.</div>';
+			}
+			if (ph.totalCnt != null && ph.totalCnt != 0) {
+				if (ph.prevPage) {
+					tmp += '<a href="#" onclick="showList(\'' + sal_id + '\', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</a>';
+				}
+				for (let i = ph.beginPage; i <= ph.endPage; i++) {
+					// 페이지 번호 사이에 공백 추가
+					tmp += '<span class="page-space"></span>';
+					tmp += '<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="showList(\'' + sal_id + '\', ' + i + ', ' + ph.pageSize + ')">' + i + '</a>';
+				}
+				if (ph.nextPage) {
+					tmp += '<span class="page-space"></span>';
+					tmp += '<a href="#" onclick="showList(\'' + sal_id + '\', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</a>';
+				}
+			}
+			tmp += '</div>';
+		}
+
+		tmp += "</ul>";
+		return tmp;
 	}
 
+	// 소개글 읽기
 	let showUserInfo = function (ur_id) {
 		$.ajax({
 			type:'GET',       // 요청 메서드
@@ -179,13 +352,18 @@
 				alert("Success Change");
 				toChange(result);
 			},
-			error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
+			error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 		}); // $.ajax()
 	}
 
+	// 소개글 수정
 	let toChange = function (userInfoDTO) {
 		let newValue = userInfoDTO.contents;
 		$("textarea[name=contents]").val(newValue);
+		// rv_cmt_cnt와 star_avg 값을 가져와서 HTML 요소에 넣어줌
+		$("#rv_cmt_cnt").text(userInfoDTO.rv_cmt_cnt);
+		$("#star_avg").text(userInfoDTO.star_avg);
+
 		let newDate = new Date(userInfoDTO.m_date);
 		let formattedDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 1).toString().padStart(2, '0') + '-' + newDate.getDate().toString().padStart(2, '0');
 		$("p[id=m_date]").text("수정날짜 : "+formattedDate);
@@ -198,73 +376,115 @@
 
 
 	$(document).ready(function() {
-		let ur_id = $("textarea[name=contents]").attr('id');
-		showList(ur_id);
+		showList(ur_id); // 후기글 목록 읽어오기
+		modal.style.display = "none"; // 모달창 숨기기
 
-		$("#modifyBtn").click(function(){
-			let contents = $("input[name=comment]").val();
-			let no = $("input[name=comment]").attr("data-no");
+		// 모달 창 닫기 버튼 클릭 시 모달 창 닫기
+		closeBtn.onclick = closeModal;
+
+		// 후기글 수정
+		$(document).on("click", "#comment-modBtn", function() {
+			let contents = $("#reviewContents").val();
+			let no = $("#reviewContents").attr("data-no");
+			let page = $('#reviewContents').attr("data-page");
+			let pageSize = $('#reviewContents').attr("data-pageSize");
+
+			if(contents.trim()==''){
+				alert("글을 작성해주세요");
+				$("#reviewContents").focus()
+				return;
+			}
+
 			$.ajax({
 				type:'PATCH',       // 요청 메서드
 				url: '/comments/'+no+'?sal_id='+ur_id,  // 요청 URI
 				headers : { "content-type": "application/json"}, // 요청 헤더
 				// dataType : 'text', // 전송받을 데이터의 타입
-				data : JSON.stringify({no:bno,contents:contents}),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
+				data : JSON.stringify({no:no,contents:contents,reviewStar: selectedStar}),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
 				success : function(result){
 					alert(result);
-					showList(ur_id);
+					showList(ur_id,page,pageSize);
 				},
-				error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
+				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
 		});
 
+		// 후기글 쓰기
+		$(document).on("click", "#comment-sendBtn", function() {
+			let contents = $("#reviewContents").val();
 
-		$("#commentList").on("click",".modBtn",function(){
-			let cno = $(this).parent().attr("data-no");
-			let contents = $(this).parent().find("span.contents").text();
-
-			$("input[name=comment]").val(contents);
-			$("input[name=comment]").attr("data-no",no);
-		});
-
-		$("#sendBtn").click(function(){
-			let contents = $("input[name=comment]").val();
-
-			if(comment.trim()==''){
-				alert("댓글을 입력해주세요");
-				$("input[name=comment]").focus()
-				return
+			if(contents.trim()==''){
+				alert("글을 작성해주세요");
+				$("#reviewContents").focus()
+				return;
 			}
 
 			$.ajax({
 				type:'POST',       // 요청 메서드
 				url: '/comments',  // 요청 URI
 				headers : { "content-type": "application/json"}, // 요청 헤더
-				dataType : 'json', // 전송받을 데이터의 타입
-				data : JSON.stringify({contents:contents}),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
-				success : function(result){
+				// dataType : 'json', // 전송받을 데이터의 타입
+				data: JSON.stringify({sal_id : ur_id,contents:contents,reviewStar: selectedStar}),
+				success: function(result) {
 					alert(result);
-					showList(bno);
+					showList(ur_id);
+					showUserInfo(ur_id);
 				},
-				error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
+				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
-
 		});
-		// 동적으로 생성되는 요소에 이벤트 거는법
+
+		// 후기글 수정 버튼 클릭시
+		$("#commentList").on("click", ".modifyBtn", function() {
+			let no = $(this).parent().attr("data-no");
+			let contents = $(this).parent().find("span.contents").text();
+			let reviewStar = parseInt($(this).attr("data-reviewStar")); // 후기글의 별점값 가져오기
+			let page = $(this).data("page"); // 현재 페이지
+			let pageSize = $(this).data("pageSize"); // 페이지 크기
+
+			// 모달 창에 후기글 정보 채우기
+			$('#reviewContents').attr("data-no", no);
+			$('#reviewContents').attr("data-page", page);
+			$('#reviewContents').attr("data-pageSize", pageSize);
+			$('#reviewContents').val(contents);
+
+			// 모달 창의 별점 설정
+			if(reviewStar === 0) {
+				// 후기글의 별점이 0일 때는 아무 것도 체크되지 않도록 설정
+				$("input[name='reviewStar']").prop("checked", false);
+			} else {
+				$("input[name='reviewStar'][value='" + reviewStar + "']").prop("checked", true);
+			}
+
+			// 모달 창 열기
+			modal.style.display = "block";
+
+			// 등록 버튼을 수정 버튼으로 변경
+			$(".commentBtn").text("수정");
+			$(".commentBtn").attr("id", "comment-modBtn");
+		});
+
+
+		// 후기글 삭제 버튼 클릭시
 		$("#commentList").on("click",".deleteBtn",function(){
 			let no = $(this).parent().attr("data-no");
 			let sal_id = $(this).parent().attr("data-sal_id");
+			let page = $(this).data("page");
+			let pageSize = $(this).data("pageSize");
+
 			$.ajax({
 				type:'DELETE',       // 요청 메서드
 				url: '/comments/'+no+'?sal_id='+sal_id,  // 요청 URI
 				success : function(result){
 					alert(result);
-					showList(sal_id);
+					showList(sal_id,page,pageSize);
+					showUserInfo(ur_id);
 				},
-				error   : function(){ alert("error") } // 에러가 발생했을 때, 호출될 함수
+				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
 		});
 
+		// 소개글 수정 버튼 클릭시
 		$("#modBtn").click(function () {
 			let ur_id = $("textarea[name=contents]").attr('id');
 			let contents = $("textarea[name=contents]").val();
@@ -287,45 +507,6 @@
 				},
 				error: function (result) {
 					alert(result.responseText);
-				} // 에러가 발생했을 때, 호출될 함수
-			}); // $.ajax()
-		});
-
-		$("#like").click(function () {
-			let ur_id = $("textarea[name=contents]").attr('id');
-			$.ajax({
-				type: 'PATCH',       // 요청 메서드
-				url: '/userInfo/like/' + ur_id ,  // 요청 URI
-				// headers: {"content-type": "application/json"}, // 요청 헤더
-				// dataType : 'text', // 전송받을 데이터의 타입
-				success: function (result) {
-					alert(result);
-					let likeCount = parseInt($("#like").text().split(":")[1].trim()); // 좋아요 수 가져오기
-					likeCount++; // 좋아요 수 증가
-					$("#like").text("좋아요 : " + likeCount); // 수정된 좋아요 수로 버튼 텍스트 업데이트
-				},
-				error: function () {
-					alert("error");
-				} // 에러가 발생했을 때, 호출될 함수
-			}); // $.ajax()
-		});
-
-		$("#hate").click(function () {
-			let ur_id = $("textarea[name=contents]").attr('id');
-			$.ajax({
-				type: 'PATCH',       // 요청 메서드
-				url: '/userInfo/hate/' + ur_id  ,  // 요청 URI
-				// headers: {"content-type": "application/json"}, // 요청 헤더
-				// dataType : 'text', // 전송받을 데이터의 타입
-				// data: JSON.stringify({contents: contents}),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
-				success: function (result) {
-					alert(result);
-					let hateCount = parseInt($("#hate").text().split(":")[1].trim()); // 좋아요 수 가져오기
-					hateCount++; // 좋아요 수 증가
-					$("#hate").text("싫어요 : " + hateCount); // 수정된 좋아요 수로 버튼 텍스트 업데이트
-				},
-				error: function () {
-					alert("error");
 				} // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
 		});

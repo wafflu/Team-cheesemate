@@ -3,6 +3,7 @@ package team.cheese.Dao.MyPage;
 import team.cheese.Domain.MyPage.ReviewCommentDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReviewCommentDao {
     int count(String sal_id) throws Exception;
@@ -11,11 +12,11 @@ public interface ReviewCommentDao {
 
     List<ReviewCommentDTO> selectAll(String sal_id) throws Exception;
 
+    List<ReviewCommentDTO> selectPage(Map map) throws Exception;
+
     int insert(ReviewCommentDTO reviewCommentDTO) throws Exception;
 
     int update(ReviewCommentDTO reviewCommentDTO) throws Exception;
-
-    int incrementLikeCnt(Integer no) throws Exception;
 
     int stateChange(String buy_id) throws Exception;
 

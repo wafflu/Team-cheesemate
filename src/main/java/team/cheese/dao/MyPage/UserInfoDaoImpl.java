@@ -50,16 +50,13 @@ public class UserInfoDaoImpl implements UserInfoDao {
     }
 
     @Override
-    public int incrementLikeCnt(String ur_id) throws Exception {
-        return sqlSession.update(namespace+"incrementLikeCnt",ur_id);
-    }
-    @Override
-    public int incrementHateCnt(String ur_id) throws Exception {
-        return sqlSession.update(namespace+"incrementHateCnt",ur_id);
-    }
-    @Override
     public int incrementRptCnt(String ur_id) throws Exception {
         return sqlSession.update(namespace+"incrementRptCnt",ur_id);
+    }
+
+    @Override
+    public Double starAverage(String ur_id) throws Exception {
+        return sqlSession.selectOne(namespace+"starAverage",ur_id);
     }
 
     @Override

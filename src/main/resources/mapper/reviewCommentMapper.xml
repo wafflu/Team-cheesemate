@@ -11,7 +11,7 @@
             buy_id,
             buy_nick,
             contents,
-            like_cnt,
+            reviewStar,
             r_date,
             m_date,
             ur_state,
@@ -36,13 +36,20 @@
         where sal_id = #{sal_id}
         order by r_date desc, no desc
     </select>
+    <select id="selectPage" parameterType="map" resultType="ReviewCommentDto">
+        <include refid="selectReviewComment"/>
+        where sal_id = #{sal_id}
+        order by r_date desc, no desc
+        LIMIT #{offset},#{pageSize}
+    </select>
     <insert id="insert" parameterType="ReviewCommentDto">
-        insert into review_comment (sal_id, buy_id, buy_nick, contents,first_date,first_id,last_date,last_id)
-        values (#{sal_id},#{buy_id},#{buy_nick},#{contents},now(),#{buy_id},now(),#{buy_id})
+        insert into review_comment (sal_id, buy_id, buy_nick, contents,reviewStar,first_date,first_id,last_date,last_id)
+        values (#{sal_id},#{buy_id},#{buy_nick},#{contents},#{reviewStar},now(),#{buy_id},now(),#{buy_id})
     </insert>
     <update id="update" parameterType="ReviewCommentDto">
         update review_comment
         set contents = #{contents}
+          ,  reviewStar = #{reviewStar}
           , m_date = now()
           , last_date = now()
           , last_id = #{buy_id}
@@ -55,11 +62,6 @@
     <delete id="deleteAll" parameterType="String">
         delete from review_comment where sal_id = #{sal_id}
     </delete>
-    <update id="incrementLikeCnt" parameterType="Integer">
-        update review_comment
-        set like_cnt = like_cnt+1
-        where no = #{no}
-    </update>
     <update id="stateChange" parameterType="String">
         update review_comment
             set ur_state = 'N'

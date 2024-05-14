@@ -11,9 +11,8 @@
                view_cnt,
                complete_cnt,
                rv_cmt_cnt,
-               like_cnt,
-               hate_cnt,
                rpt_cnt,
+               star_avg,
                r_date,
                m_date,
                first_date,
@@ -25,6 +24,12 @@
     <select id="count" resultType="int">
         select count(*)
         from user_info
+    </select>
+    <select id="starAverage" parameterType="String" resultType="Double">
+        select round(avg(reviewStar), 1)
+        from review_comment
+        where sal_id = #{ur_id}
+        group by sal_id
     </select>
     <select id="select"  parameterType="String" resultType="UserInfoDto">
         <include refid="selectUserInfo"/>
@@ -57,16 +62,6 @@
          update user_info
          set rv_cmt_cnt = rv_cmt_cnt+ #{cnt}
          where ur_id = #{ur_id}
-    </update>
-    <update id="incrementLikeCnt" parameterType="String">
-        update user_info
-        set like_cnt = like_cnt+1
-        where ur_id = #{ur_id}
-    </update>
-    <update id="incrementHateCnt" parameterType="String">
-        update user_info
-        set hate_cnt = hate_cnt+1
-        where ur_id = #{ur_id}
     </update>
     <update id="incrementRptCnt" parameterType="String">
         update user_info

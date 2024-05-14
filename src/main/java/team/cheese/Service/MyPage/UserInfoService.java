@@ -12,19 +12,17 @@ public interface UserInfoService {
     UserInfoDTO read(String ur_id) throws Exception;
 
     // insert -> write
-    boolean write(UserInfoDTO userInfoDTO);
+    void write(UserInfoDTO userInfoDTO) throws Exception;
 
     // update -> modify
-    boolean modify(UserInfoDTO userInfoDTO);
+    void modify(UserInfoDTO userInfoDTO) throws Exception;
 
     // delete -> remove
-    boolean remove(String ur_id);
+    void remove(String ur_id) throws Exception;
 
-    boolean successTx(String ur_id);
+    void successTx(String ur_id) throws Exception;
 
-    boolean clickedLike(String ur_id);
+    void reportView(String ur_id) throws Exception;
 
-    boolean clickedHate(String ur_id);
-
-    boolean reportView(String ur_id);
+    Double starRating(String ur_id) throws Exception;
 }

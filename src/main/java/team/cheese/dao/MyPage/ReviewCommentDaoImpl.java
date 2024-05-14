@@ -28,6 +28,12 @@ public class ReviewCommentDaoImpl implements ReviewCommentDao {
     public List<ReviewCommentDTO> selectAll(String sal_id) throws Exception {
         return sqlSession.selectList(namespace+"selectAll",sal_id);
     }
+
+    @Override
+    public List<ReviewCommentDTO> selectPage(Map map) throws Exception {
+        return sqlSession.selectList(namespace+"selectPage",map);
+    }
+
     @Override
     public int insert(ReviewCommentDTO reviewCommentDTO) throws Exception {
         return sqlSession.insert(namespace+"insert",reviewCommentDTO);
@@ -36,10 +42,6 @@ public class ReviewCommentDaoImpl implements ReviewCommentDao {
     @Override
     public int update(ReviewCommentDTO reviewCommentDTO) throws Exception {
         return sqlSession.update(namespace+"update",reviewCommentDTO);
-    }
-    @Override
-    public int incrementLikeCnt(Integer no) throws Exception {
-        return sqlSession.update(namespace+"incrementLikeCnt",no);
     }
     @Override
     public int stateChange(String buy_id) throws Exception {

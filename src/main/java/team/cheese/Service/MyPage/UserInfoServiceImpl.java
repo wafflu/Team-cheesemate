@@ -2,12 +2,14 @@ package team.cheese.Service.MyPage;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.cheese.Dao.MyPage.UserInfoDao;
 import team.cheese.Domain.MyPage.UserInfoDTO;
 
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
@@ -28,7 +30,6 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfoDTO read(String ur_id,String session_id) throws Exception {
         // 자신의 소개글을 읽을땐 방문자수를 늘리면 안됨
         // 자신의 소개글인지 다른 사람의 소개글인지 판단
-        try {
             // 1. ur_id값이 null이면 -> 자신의 소개글 -> 방문자수 증가 없이 읽어오기
             if(ur_id==null) {
                 // 1-1. ur_id값이 null 이면 ur_id값도 세션객체의 id
@@ -39,144 +40,77 @@ public class UserInfoServiceImpl implements UserInfoService {
                 int rowCnt =userInfoDao.incrementViewCnt(ur_id);
                 // 2-3. rowCnt가 1이 아니면 예외발생
                 if(rowCnt!=1)
-                    throw new Exception("incrementViewCnt ERR");
+                    throw new Exception("소개글 조회 중 오류가 발생했습니다.");
             }
             // 3. 해당 ur_id에 따른 소개글 읽어오기
             return read(ur_id);
-        }catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     // 소개글을 읽어오기 위한 메서드 (오버로딩)
     // => UserInfoController에서 호출
     @Override
     public UserInfoDTO read(String ur_id) throws Exception{
-        try {
             UserInfoDTO userInfoDTO = userInfoDao.select(ur_id);
-//            // 1. 소개글을 읽었을때 null이면
+            // 1. 소개글을 읽었을때 null이면
             if(userInfoDTO==null)
-                throw new Exception("select ERR");
-//            // 2. null이 아니면 userInfoDTO를 반환
+                throw new Exception("소개글 조회 중 오류가 발생했습니다.");
+            // 2. null이 아니면 userInfoDTO를 반환
+            // 3. userInfoDTO를 반환받은 별점평균값으로 초기화 시켜주기
+            userInfoDTO.setStar_avg(starRating(ur_id));
             return userInfoDTO;
-        }catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
     }
 
     // insert -> write
     // 소개글 작성을 위한 메서드
     // 회원가입 insert 시 소개글도 insert로 처리
     @Override
-    public boolean write(UserInfoDTO userInfoDTO){
-        try {
+    public void write(UserInfoDTO userInfoDTO) throws Exception{
             int rowCnt = userInfoDao.insert(userInfoDTO);
             // 1. rowCnt가 1이 아니면 예외발생
             if(rowCnt!=1)
-                throw new Exception("insert ERR");
-            // 2. 1이면 true를 반환
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            // 3. 예외 발생시 false를 반환
-            return false;
-        }
+                throw new Exception("소개글 작성 중 오류가 발생했습니다.");
     }
     // update -> modify
     // 소개글을 수정하기 위한 메서드
     @Override
-    public boolean modify(UserInfoDTO userInfoDTO) {
-        try {
+    public void modify(UserInfoDTO userInfoDTO) throws Exception{
             int rowCnt = userInfoDao.update(userInfoDTO);
             // 1. rowCnt가 1이 아니면 예외발생
-            if(rowCnt!=1)
-                throw new Exception("update ERR");
-            // 2. 1이면 true를 반환
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            // 3. 예외 발생시 false를 반환
-            return false;
-        }
+            if (rowCnt != 1) {
+                throw new Exception("소개글 수정 중 오류가 발생했습니다.");
+            }
     }
     // delete -> remove
     // 소개글을 삭제하기 위한 메서드
     @Override
-    public boolean remove(String ur_id) {
-        try {
+    public void remove(String ur_id) throws Exception{
             int rowCnt = userInfoDao.delete(ur_id);
-            System.out.println(rowCnt);
             // 1. rowCnt가 1이 아니면 예외발생
             if(rowCnt!=1)
-                throw new Exception("delete ERR");
-            // 2. 1이면 true를 반환
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            // 3. 예외 발생시 false를 반환
-            return false;
-        }
+                throw new Exception("소개글 삭제 중 오류가 발생했습니다.");
     }
     @Override
-    public boolean successTx(String ur_id) {
-        try {
+    public void successTx(String ur_id) throws Exception {
             int rowCnt = userInfoDao.incrementCompleteCnt(ur_id);
             // 1. rowCnt가 1이 아니면 예외발생
             if(rowCnt!=1)
                 throw new Exception("incrementComplete ERR");
-            // 2. 1이면 true를 반환
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            // 3. 예외 발생시 false를 반환
-            return false;
-        }
     }
     @Override
-    public boolean clickedLike(String ur_id)  {
-        try {
-            int rowCnt = userInfoDao.incrementLikeCnt(ur_id);
-            // 1. rowCnt가 1이 아니면 예외발생
-            if(rowCnt!=1)
-                throw new Exception("incrementLike ERR");
-            // 2. 1이면 true를 반환
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            // 3. 예외 발생시 false를 반환
-            return false;
-        }
-    }
-    @Override
-    public boolean clickedHate(String ur_id)  {
-        try {
-            int rowCnt = userInfoDao.incrementHateCnt(ur_id);
-            // 1. rowCnt가 1이 아니면 예외발생
-            if(rowCnt!=1)
-                throw new Exception("incrementHate ERR");
-            // 2. 1이면 true를 반환
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            // 3. 예외 발생시 false를 반환
-            return false;
-        }
-    }
-    @Override
-    public boolean reportView(String ur_id)  {
-        try {
+    public void reportView(String ur_id) throws Exception {
             int rowCnt = userInfoDao.incrementRptCnt(ur_id);
             // 1. rowCnt가 1이 아니면 예외발생
             if(rowCnt!=1)
                 throw new Exception("incrementRpt ERR");
-            // 2. 1이면 true를 반환
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            // 3. 예외 발생시 false를 반환
-            return false;
-        }
+    }
+
+    @Override
+    public Double starRating(String ur_id) throws Exception {
+        Double starAverage = userInfoDao.starAverage(ur_id);
+        // 1. 소개글을 읽었을때 null이면
+        if(starAverage==null)
+            throw new Exception("평균별점수를 조회 중 오류가 발생했습니다.");
+        // 2. null이 아니면 userInfoDTO를 반환
+        return starAverage;
     }
 }

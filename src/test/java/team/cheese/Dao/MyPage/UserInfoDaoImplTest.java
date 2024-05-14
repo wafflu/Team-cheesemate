@@ -223,64 +223,35 @@ public class UserInfoDaoImplTest {
         }
     }
 
-    @Test
-    public void incrementLikeCnt() throws Exception{
-        // given : 테이블초기화 & 소개글 10개 생성 후 insert
-        userInfoDao.deleteAll();
-        UserInfoDTO userInfoDTO =null;
-        for(int i=0; i<10; i++) {
-            userInfoDTO = new UserInfoDTO(Integer.toString(i+1),Integer.toString(i+1),"Hi");
-            assertTrue(userInfoDao.insert(userInfoDTO)==1);
-        }
-        assertTrue(userInfoDao.count()==10);
-        // do : 10개의 소개글 ViewCnt를 1씩 증가
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.incrementLikeCnt(Integer.toString(i+1))==1);
-        }
-        // assert : 10개의 소개글 ViewCnt가 1씩 증가했는지 확인
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.select(Integer.toString(i+1)).getLike_cnt()==1);
-        }
-
-        // do : 10개의 소개글 ViewCnt를 1씩 추가적으로 증가
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.incrementLikeCnt(Integer.toString(i+1))==1);
-        }
-        // assert : 10개의 소개글 ViewCnt가 1씩 증가했는지 확인
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.select(Integer.toString(i+1)).getLike_cnt()==2);
-        }
-    }
-
-    @Test
-    public void incrementHateCnt() throws  Exception{
-        // given : 테이블초기화 & 소개글 10개 생성 후 insert
-        userInfoDao.deleteAll();
-        UserInfoDTO userInfoDTO =null;
-        for(int i=0; i<10; i++) {
-            userInfoDTO = new UserInfoDTO(Integer.toString(i+1),Integer.toString(i+1),"Hi");
-            assertTrue(userInfoDao.insert(userInfoDTO)==1);
-        }
-        assertTrue(userInfoDao.count()==10);
-        // do : 10개의 소개글 ViewCnt를 1씩 증가
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.incrementHateCnt(Integer.toString(i+1))==1);
-        }
-        // assert : 10개의 소개글 ViewCnt가 1씩 증가했는지 확인
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.select(Integer.toString(i+1)).getHate_cnt()==1);
-        }
-
-        // do : 10개의 소개글 ViewCnt를 1씩 추가적으로 증가
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.incrementHateCnt(Integer.toString(i+1))==1);
-        }
-        // assert : 10개의 소개글 ViewCnt가 1씩 증가했는지 확인
-        for(int i=0; i<10; i++) {
-            assertTrue(userInfoDao.select(Integer.toString(i+1)).getHate_cnt()==2);
-        }
-    }
-
+//    @Test
+//    public void incrementLikeCnt() throws Exception{
+//        // given : 테이블초기화 & 소개글 10개 생성 후 insert
+//        userInfoDao.deleteAll();
+//        UserInfoDTO userInfoDTO =null;
+//        for(int i=0; i<10; i++) {
+//            userInfoDTO = new UserInfoDTO(Integer.toString(i+1),Integer.toString(i+1),"Hi");
+//            assertTrue(userInfoDao.insert(userInfoDTO)==1);
+//        }
+//        assertTrue(userInfoDao.count()==10);
+//        // do : 10개의 소개글 ViewCnt를 1씩 증가
+//        for(int i=0; i<10; i++) {
+//            assertTrue(userInfoDao.incrementLikeCnt(Integer.toString(i+1))==1);
+//        }
+//        // assert : 10개의 소개글 ViewCnt가 1씩 증가했는지 확인
+//        for(int i=0; i<10; i++) {
+//            assertTrue(userInfoDao.select(Integer.toString(i+1)).getLike_cnt()==1);
+//        }
+//
+//        // do : 10개의 소개글 ViewCnt를 1씩 추가적으로 증가
+//        for(int i=0; i<10; i++) {
+//            assertTrue(userInfoDao.incrementLikeCnt(Integer.toString(i+1))==1);
+//        }
+//        // assert : 10개의 소개글 ViewCnt가 1씩 증가했는지 확인
+//        for(int i=0; i<10; i++) {
+//            assertTrue(userInfoDao.select(Integer.toString(i+1)).getLike_cnt()==2);
+//        }
+//    }
+    
     @Test
     public void incrementRptCnt() throws Exception{
         // given : 테이블초기화 & 소개글 10개 생성 후 insert

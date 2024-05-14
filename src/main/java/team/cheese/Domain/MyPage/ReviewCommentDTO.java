@@ -9,7 +9,7 @@ public class ReviewCommentDTO {
     private String buy_id;
     private String buy_nick;
     private String contents;
-    private int like_cnt;
+    private int reviewStar;
     private Timestamp r_date;
     private Timestamp m_date;
 
@@ -21,11 +21,12 @@ public class ReviewCommentDTO {
     private String last_id;
     public ReviewCommentDTO() {}
 
-    public ReviewCommentDTO(String sal_id, String buy_id, String buy_nick,String contents) {
+    public ReviewCommentDTO(String sal_id, String buy_id, String buy_nick,String contents,int reviewStar) {
         this.sal_id = sal_id;
         this.buy_id = buy_id;
         this.buy_nick = buy_nick;
         this.contents = contents;
+        this.reviewStar = reviewStar;
     }
 
     @Override
@@ -33,12 +34,12 @@ public class ReviewCommentDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ReviewCommentDTO that = (ReviewCommentDTO) o;
-        return like_cnt == that.like_cnt && ur_state == that.ur_state && ad_state == that.ad_state && Objects.equals(no, that.no) && Objects.equals(sal_id, that.sal_id) && Objects.equals(buy_id, that.buy_id) && Objects.equals(buy_nick, that.buy_nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(m_date, that.m_date) && Objects.equals(first_date, that.first_date) && Objects.equals(first_id, that.first_id) && Objects.equals(last_date, that.last_date) && Objects.equals(last_id, that.last_id);
+        return reviewStar == that.reviewStar && ur_state == that.ur_state && ad_state == that.ad_state && Objects.equals(no, that.no) && Objects.equals(sal_id, that.sal_id) && Objects.equals(buy_id, that.buy_id) && Objects.equals(buy_nick, that.buy_nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(m_date, that.m_date) && Objects.equals(first_date, that.first_date) && Objects.equals(first_id, that.first_id) && Objects.equals(last_date, that.last_date) && Objects.equals(last_id, that.last_id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no, sal_id, buy_id, buy_nick, contents, like_cnt, r_date, m_date, ur_state, ad_state, first_date, first_id, last_date, last_id);
+        return Objects.hash(no, sal_id, buy_id, buy_nick, contents, reviewStar, r_date, m_date, ur_state, ad_state, first_date, first_id, last_date, last_id);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ReviewCommentDTO {
                 ", buy_id='" + buy_id + '\'' +
                 ", buy_nick='" + buy_nick + '\'' +
                 ", contents='" + contents + '\'' +
-                ", like_cnt=" + like_cnt +
+                ", reviewStar=" + reviewStar +
                 ", r_date=" + r_date +
                 ", m_date=" + m_date +
                 ", ur_state=" + ur_state +
@@ -101,12 +102,12 @@ public class ReviewCommentDTO {
         this.contents = contents;
     }
 
-    public int getLike_cnt() {
-        return like_cnt;
+    public int getReviewStar() {
+        return reviewStar;
     }
 
-    public void setLike_cnt(int like_cnt) {
-        this.like_cnt = like_cnt;
+    public void setReviewStar(int reviewStar) {
+        this.reviewStar = reviewStar;
     }
 
     public Timestamp getR_date() {
