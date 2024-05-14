@@ -18,7 +18,6 @@ public class AddrCdDto {
     public AddrCdDto() {
     }
 
-    public AddrCdDto(long no, String ur_id, String addr_cd, String addr_name, char state, Timestamp first_date, String first_id, Timestamp last_date, String last_id) {
         this.no = no;
         this.ur_id = ur_id;
         this.addr_cd = addr_cd;

@@ -10,6 +10,7 @@
         <typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
         <typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
         <typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
-        <typeAlias alias="SaleDao" type="team.cheese.dao.SaleDao"/>
+        <typeAlias alias="ChatMessageDto" type="team.cheese.domain.ChatMessageDto"/>
+        <typeAlias alias="ChatRoomDto" type="team.cheese.domain.ChatRoomDto"/>
     </typeAliases>
 </configuration>
