@@ -14,6 +14,10 @@
             width: 80%; /* 테이블의 너비 설정 */
             text-align: center; /* 텍스트 가운데 정렬 */
         }
+
+        .page-space {
+            margin: 0 5px; /* 공백 크기 조절 */
+        }
     </style>
 </head>
 
@@ -55,28 +59,7 @@
     </tbody>
 </table>
 <br>
-<div style="text-align: center">
-    <a href="<c:url value="/sale/list?page=1"/>"> << </a>
-    <c:choose>
-        <c:when test="${(ph.page-1) < 1}">
-            <a href="<c:url value="/sale/list?page=${ph.totalPage}"/>"> < </a>
-        </c:when>
-        <c:otherwise>
-            <a href="<c:url value="/sale/list?page=${ph.page - 1}"/>"> < </a>
-        </c:otherwise>
-    </c:choose>
-    <c:forEach var="i" begin="${ph.startPage}" end="${ph.endPage}">
-        <a class="page ${i==ph.page? "paging-active" : ""}" href="<c:url value="/sale/list?page=${i}"/>">${i}</a>
-    </c:forEach>
-    <c:choose>
-        <c:when test="${(ph.page+1) > ph.totalPage}">
-            <a href="<c:url value="/sale/list?page=1"/>"> > </a>
-        </c:when>
-        <c:otherwise>
-            <a href="<c:url value="/sale/list?page=${ph.page+1}"/>"> > </a>
-        </c:otherwise>
-    </c:choose>
-    <a href="<c:url value="/sale/list?page=${ph.totalPage}"/>"> >> </a>
+<div id="pageContainer" style="text-align: center">
 </div>
 <br>
 </body>
@@ -141,7 +124,6 @@
                 dataType: "json",
                 data: {category2: category2Value},
                 success: function (data) {
-                    // alert(data);
                     let category3Select = document.getElementById("category3");
                     category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
                     console.log("data.length : ", data.length);
@@ -165,27 +147,36 @@
 
     let sal_name = "";
 
-    let saleList = function (page=1,pageSize=10,addr_cd,tx_s_cd) {
+    let saleList = function (addr_cd,sal_i_cd,page=1,pageSize=10) {
         $.ajax({
             type:'GET',       // 요청 메서드
-            url: "/sale/searchAddrCd?page=" + page + "&pageSize=" + pageSize + "&addr_cd=" + addr_cd + "&tx_s_cd=" + tx_s_cd,  // 요청 URI
+            url: "/sale/salePage?page=" + page + "&pageSize=" + pageSize + "&addr_cd=" + addr_cd + "&sal_i_cd=" + sal_i_cd,  // 요청 URI
             headers: {"content-type": "application/json"}, // 요청 헤더
             dataType : 'json',
-            success : function(result){
+            success : function(data){
                 // 후기글 목록과 페이징 정보 가져오기
-                let comments = result.comments;
-                let ph = result.ph;
-                $("#commentList").html(toHtml(comments,ph,sal_id));
-                closeModal();
+                // let comments = result.comments;
+                let ph = data.ph;
+                let saleList = data.saleList;
+                let startOfToday = data.startOfToday;
+                $("#saleList").html(updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd));
             },
-            error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
+            error   : function(result){
+                alert("화면 로딩 중 오류 발생");
+                // alert(result.responseText)
+            } // 에러가 발생했을 때, 호출될 함수
         }); // $.ajax()
     }
 
 
     $(document).ready(function () {
+        let addr_cd = $("#addr_cd").val();
+        let sal_i_cd = $("#category1").val();
+
         // 대분류 선택 전 메시지 설정
         $("#sal_name").text("전체");
+
+        saleList(addr_cd, sal_i_cd);
 
         // 대분류 선택 시 중분류 메시지
         $("#category1").change(function () {
@@ -207,6 +198,57 @@
         $("#addr_cd").change(function () {
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $(this).val();
+            // let sal_i_cd = $("#category1").val();
+
+            let category1Value = $("#category1").val();
+            let category2Value = $("#category2 option:checked").val();
+            let category3Value = $("#category3 option:checked").val();
+            let category1Text = $("#category1 option:checked").text();
+            let category2Text = $("#category2 option:checked").text();
+            let category3Text = $("#category3 option:checked").text();
+
+            // 조건에 따라 sal_i_cd 값을 설정
+            let sal_i_cd;
+            let sal_name_value;
+            if (category1Value && !category2Value && !category3Value) {
+                sal_i_cd = category1Value;
+            } else if (category1Value && category2Value && !category3Value) {
+                sal_i_cd = category2Value;
+            } else if (category1Value && category2Value && category3Value) {
+                sal_i_cd = category3Value;
+            }
+
+            saleList(addr_cd, sal_i_cd);
+        });
+
+        $("#category1").change(function () {
+            // 선택된 AddrCd 값 가져오기
+            let addr_cd = $("#addr_cd").val();
+            let sal_i_cd = $(this).val();
+
+            saleList(addr_cd, sal_i_cd);
+        });
+
+        $("#category2").change(function () {
+            // 선택된 AddrCd 값 가져오기
+            let addr_cd = $("#addr_cd").val();
+            let sal_i_cd = $(this).val();
+
+            saleList(addr_cd, sal_i_cd);
+        });
+
+        $("#category3").change(function () {
+            // 선택된 AddrCd 값 가져오기
+            let addr_cd = $("#addr_cd").val();
+            let sal_i_cd = $(this).val();
+
+            saleList(addr_cd, sal_i_cd);
+        });
+/*        // AddrCd 선택이 변경될 때마다 실행되는 함수
+        $("#addr_cd").change(function () {
+            // 선택된 AddrCd 값 가져오기
+            let addr_cd = $(this).val();
+            let sal_i_cd = $(this).val();
 
             // 서버에 선택된 AddrCd 값을 전송하여 새로운 addrCdList 받아오기
             $.ajax({
@@ -224,7 +266,7 @@
                     console.error("Error:", error);
                 }
             });
-        });
+        });*/
     });
 
     function writeBtn() {
@@ -249,7 +291,7 @@
     }
 
     // 업데이트된 saleList를 화면에 출력하는 함수
-    function updateSaleList(saleList, startOfToday) {
+    function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
         // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
         $("#saleList").empty();
         if (saleList.length > 0) {
@@ -261,27 +303,59 @@
                 row.append($("<td>").text(sale.addr_name)); // 주소명
 
                 let saleDate = new Date(sale.r_date);
-                let regdate;
-                if (saleDate.getTime() >= startOfToday) {
-                    regdate = $("<td>").addClass("regdate").text(formatDate(saleDate, "HH:mm"));
-                } else {
-                    regdate = $("<td>").addClass("regdate").text(formatDate(saleDate, "yyyy-MM-dd"));
-                }
 
-                row.append(regdate);
+                row.append($("<td>").addClass("regdate").text(dateToString(sale.r_date, startOfToday)));
                 row.append($("<td>").text(sale.view_cnt)); // 조회수
                 $("#saleList").append(row);
             });
         } else {
             $("#saleList").append("<tr><td colspan='5'>데이터가 없습니다.</td></tr>");
         }
+
+        $("#pageContainer").empty(); // 기존에 있는 페이지 내용 비우기
+
+        if (ph.totalCnt != null && ph.totalCnt != 0) {
+            let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
+            if (ph.prevPage) {
+                pageContainer.append('<a href="#" onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</a>');
+            }
+            for (let i = ph.beginPage; i <= ph.endPage; i++) {
+                // 페이지 번호 사이에 공백 추가
+                pageContainer.append('<span class="page-space"></span>');
+                pageContainer.append('<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + i + ', ' + ph.pageSize + ')">' + i + '</a>');
+            }
+            if (ph.nextPage) {
+                pageContainer.append('<span class="page-space"></span>');
+                pageContainer.append('<a href="#" onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</a>');
+            }
+            $("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
+        }
+
     };
 
-    // 날짜 형식을 변환하는 함수
-    function formatDate(date, format) {
-        // 현재는 간단히 예시로만 구현한 함수입니다. 실제로는 더 복잡한 로직이 필요할 수 있습니다.
-        return date.toLocaleString();
+
+    let addZero = function(value=1){
+        return value > 9 ? value : "0"+value;
     }
+
+    let dateToString = function(ms=0, startOfToday) {
+        console.log(startOfToday);
+        let date = new Date(ms);
+
+        let yyyy = date.getFullYear();
+        let mm = addZero(date.getMonth() + 1);
+        let dd = addZero(date.getDate());
+
+        let HH = addZero(date.getHours());
+        let MM = addZero(date.getMinutes());
+        let ss = addZero(date.getSeconds());
+
+        if (date.getTime() >= startOfToday) {
+            return HH + ":" + MM + ":" + ss;
+        }
+        return yyyy+"."+mm+"."+dd+ " " + HH + ":" + MM + ":" + ss;
+    }
+
 
 
 </script>

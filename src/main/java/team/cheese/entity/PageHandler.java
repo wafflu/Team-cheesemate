@@ -3,66 +3,78 @@ package team.cheese.entity;
 import java.util.Objects;
 
 public class PageHandler {
-    private int startPage; // 시작 페이지
-    private int endPage; // 마지막 페이지
-    private int totalCnt; // 전체 게시글 수
-    private int totalPage; // 전체페이지 수
-    private int page; // 현재 페이지
-    private int navSize = 10; // 네비 사이즈
-    private int pageSize; // 보여줄 게시글 수
+    private int navSize = 10; // 내비게이션 크기
+    private int totalCnt; // 총 게시물 갯수
+    private Integer page; // 현재 페이지
+    private Integer pageSize; // 페이지 크기
+    private int totalPage; // 총 페이지 갯수
+    private int beginPage; // 제일 첫번쨰 페이지
+    private int endPage; // 제일 마지막 페이지
+    private boolean prevPage; // 이전페이지로 이동할수있는지
+    private boolean nextPage; // 다음페이지로 이동할수있는지
+    private int offset; // 페이지 offset
 
-    private boolean prevPage; // 이전 페이지로 이동할 수 있는지 여부
-
-    private boolean nextPage; // 다음 페이지로 이동할 수 있는지 여부
-
-    public PageHandler(int totalCnt, int page, int pageSize) {
-        this.page = page;
-        this.totalPage =  (totalCnt/pageSize) + (totalCnt%pageSize > 0 ? 1 : 0); // 전체 페이지 수
-        this.startPage = ((page/navSize) * 10) + 1;
-        if(startPage > totalPage) {
-            startPage = 1;
-        }
-        this.endPage = (this.startPage + (navSize - 1)) > totalPage ? totalPage : (this.startPage + (navSize - 1));
+    public int getOffset() {
+        return offset;
     }
 
-    public int getStartPage() {
-        return startPage;
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
-    public void setStartPage(int startPage) {
-        this.startPage = startPage;
+    public PageHandler(){} // 기본 생성자
+
+    public PageHandler(Integer totalCnt,Integer page) {
+        this(totalCnt,page,10);
     }
 
-    public int getEndPage() {
-        return endPage;
-    }
-
-    public void setEndPage(int endPage) {
-        this.endPage = endPage;
-    }
-
-    public int getTotalCnt() {
-        return totalCnt;
-    }
-
-    public void setTotalCnt(int totalCnt) {
+    public PageHandler(Integer totalCnt,Integer page,Integer pageSize) {
         this.totalCnt = totalCnt;
-    }
-
-    public int getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public int getPage() {
-        return page;
-    }
-
-    public void setPage(int page) {
         this.page = page;
+        this.pageSize = pageSize;
+        this.totalPage = (int) Math.ceil(totalCnt/(double)pageSize);
+        this.beginPage = ((page-1)/navSize)*navSize+1;
+        this.endPage = Math.min(beginPage+(navSize-1),totalPage);
+        this.prevPage = beginPage != 1;
+        this.nextPage = endPage != totalPage;
+        this.offset = (this.page-1)*this.pageSize;
+    }
+    void print() {
+        System.out.println("page = " + page);
+        System.out.println(prevPage ? "[PREV]":"");
+        for(int i =beginPage; i<=endPage; i++) {
+            System.out.println(i+" ");
+        }
+        System.out.println(nextPage ? "[NEXT]":"");
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PageHandler that = (PageHandler) o;
+        return totalCnt == that.totalCnt && page == that.page && pageSize == that.pageSize;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(totalCnt, page, pageSize);
+    }
+
+    @Override
+    public String toString() {
+        return "PageHandler{" +
+                "navSize=" + navSize +
+                ", totalCnt=" + totalCnt +
+                ", page ="+page+
+                ", pageSize ="+pageSize+
+                ", totalPage=" + totalPage +
+                ", beginPage=" + beginPage +
+                ", endPage=" + endPage +
+                ", prevPage=" + prevPage +
+                ", nextPage=" + nextPage +
+                '}';
     }
 
     public int getNavSize() {
@@ -73,12 +85,52 @@ public class PageHandler {
         this.navSize = navSize;
     }
 
-    public int getPageSize() {
+    public int getTotalCnt() {
+        return totalCnt;
+    }
+
+    public void setTotalCnt(int totalCnt) {
+        this.totalCnt = totalCnt;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(int pageSize) {
+    public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public int getBeginPage() {
+        return beginPage;
+    }
+
+    public void setBeginPage(int beginPage) {
+        this.beginPage = beginPage;
+    }
+
+    public int getEndPage() {
+        return endPage;
+    }
+
+    public void setEndPage(int endPage) {
+        this.endPage = endPage;
     }
 
     public boolean isPrevPage() {
@@ -95,33 +147,5 @@ public class PageHandler {
 
     public void setNextPage(boolean nextPage) {
         this.nextPage = nextPage;
-    }
-
-    @Override
-    public String toString() {
-        return "PageHandler{" +
-                "startPage=" + startPage +
-                ", endPage=" + endPage +
-                ", totalCnt=" + totalCnt +
-                ", totalPage=" + totalPage +
-                ", page=" + page +
-                ", navSize=" + navSize +
-                ", pageSize=" + pageSize +
-                ", prevPage=" + prevPage +
-                ", nextPage=" + nextPage +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PageHandler that = (PageHandler) o;
-        return startPage == that.startPage && endPage == that.endPage && totalCnt == that.totalCnt && totalPage == that.totalPage && page == that.page && navSize == that.navSize && pageSize == that.pageSize && prevPage == that.prevPage && nextPage == that.nextPage;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(startPage, endPage, totalCnt, totalPage, page, navSize, pageSize, prevPage, nextPage);
     }
 }

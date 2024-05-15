@@ -26,13 +26,19 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
+    public int countSale(Map map) throws Exception {
+
+        return session.selectOne(namespace + "countSale", map);
+    }
+
+    @Override
     public List<SaleDto> selectAll() throws Exception {
         return session.selectList(namespace + "selectAll");
     }
 
     @Override
-    public List<SaleDto> selectUserAddrCd(String addr_cd) throws Exception {
-        return session.selectList(namespace + "selectSales", addr_cd);
+    public List<SaleDto> selectSaleList(Map map) throws Exception {
+        return session.selectList(namespace + "selectSales", map);
     }
 
     @Override
@@ -67,9 +73,6 @@ public class SaleDaoImpl implements SaleDao {
 
     @Override
     public int delete(Long no, String seller_id) throws Exception {
-//        System.out.println("no들어온거 확인 : " + no);
-//        System.out.println("seller_id들어온거 확인 : " + seller_id);
-//        BigInteger no = saleDto.getNo();
         Map map = new HashMap();
         map.put("no", no);
         map.put("seller_id", seller_id);

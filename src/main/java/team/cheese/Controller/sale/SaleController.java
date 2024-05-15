@@ -67,57 +67,6 @@ public class SaleController {
         return "/saleList";
     }
 
-//    // 전체 게시글을 보는 경우
-//    @RequestMapping("/list2")
-//    public String getList2(@RequestParam(defaultValue ="1") int page,
-//                          @RequestParam(defaultValue = "10") int pageSize,Model model, HttpSession session) throws Exception {
-//        System.out.println("/list들어옴");
-//
-//        // 페이징 처리를 하기위해서 전체페이지 개수를 구함
-//        int totalCnt = saleService.getCount();
-//        // PageHandler(전체페이지수, 현재페이지(default 1), pageSize(default 10))
-//        System.out.println("page input 확인: " + page);
-//        PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
-//
-//        System.out.println("start Page : " + pageHandler.getStartPage());
-//        System.out.println("end Page : " + pageHandler.getEndPage());
-//        model.addAttribute("ph", pageHandler);
-//
-//        Map map = new HashMap();
-//        map.put("offset", (page-1)*10);
-//        map.put("pageSize", pageSize);
-//
-//        String ur_id = (String) session.getAttribute("userId");
-//        System.out.println("ur_id : " + ur_id);
-//
-//        String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
-//
-//        if(ur_id == null) {
-//            System.out.println("ur_id가 Null인 경우");
-//            model.addAttribute("addrCdList", administrativeDao.selectAll());
-//            List<SaleDto> saleList = saleService.getList(addr_cd);
-//            System.out.println(saleList.size());
-//            model.addAttribute("saleList", saleList);
-//        } else {
-//            System.out.println("ur_id가 NOTNull인 경우");
-//            // 세션에서 주소값LIST를 가지고 옴
-//            List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
-//            System.out.println("addrCdList 확인 : " + addrCdList);
-//            System.out.println("addr_cd" + addr_cd);
-//            List<SaleDto> saleList = saleService.getList(addr_cd);
-//            System.out.println(saleList.size());
-//
-//            model.addAttribute("startOfToday", getStartOfToday());
-//
-//            // 사용자의 기본 주소 첫번째
-//            model.addAttribute("addrCdList", addrCdList);
-//            // 불러온 게시글 리스트를 모델에 담음
-//            model.addAttribute("saleList", saleList);
-//        }
-//
-//        return "/saleList";
-//    }
-
     // 게시글 리스트 중 하나를 클릭한 경우
     @RequestMapping("/read")
     public String read(Long no, Model model, HttpSession session) throws Exception {
@@ -323,7 +272,7 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
     }
 
     // ajax 지역에 따른 List 반환
-    @RequestMapping("/search")
+    @RequestMapping("/salePage")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getSearchList(@RequestParam(defaultValue ="1") int page,
                                                              @RequestParam(defaultValue = "10") int pageSize,
@@ -331,16 +280,42 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
                                                              @RequestParam(required = false) String sal_i_cd,
                                                              HttpSession session) throws Exception {
 
-        System.out.println("addr_cd ajax로 전송받음 : " + addr_cd);
+        System.out.println("page : " + page);
+        System.out.println("pageSize : " + pageSize);
+
         // 선택하는 지역에 따른 List 반환
         try {
-            List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
+            if(addr_cd.equals("null")) {
+                addr_cd = null;
+            }
+            if(sal_i_cd.equals("null")) {
+                sal_i_cd = null;
+            }
+
+            Map map = new HashMap();
+            map.put("addr_cd", addr_cd);
+            map.put("sal_i_cd", sal_i_cd);
+
+            int totalCnt = saleService.getCount(map);
+
+            PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+
+            map.put("offset", ph.getOffset());
+            map.put("pageSize", pageSize);
+
+            List<SaleDto> saleList = saleService.getList(map);
+
             System.out.println(saleList);
+
+            Map result = new HashMap();
+
             long startOfToday = getStartOfToday();
-            Map<String, Object> response = new HashMap<>();
-            response.put("saleList", saleList);
-            response.put("startOfToday", startOfToday);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+
+            result.put("ph", ph);
+            result.put("saleList", saleList);
+            result.put("startOfToday", startOfToday);
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(Collections.emptyMap(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -348,7 +323,7 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
     }
 
 
-    private long getStartOfToday() {
+    public long getStartOfToday() {
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         return startOfToday.toEpochMilli();
     }

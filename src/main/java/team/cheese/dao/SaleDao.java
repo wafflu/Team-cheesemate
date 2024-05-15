@@ -10,11 +10,13 @@ public interface SaleDao {
 
     int countUse() throws  Exception;
 
+    int countSale(Map map) throws  Exception;
+
     // 판매글 전부 가져오기
     List<SaleDto> selectAll() throws Exception;
 
-    // 사용자가 속한 지역의 판매글 전부 가져오기
-    List<SaleDto> selectUserAddrCd(String addr_cd) throws Exception;
+    // 사용자가 속한 지역, 카테고리의 판매글 전부 가져오기
+    List<SaleDto> selectSaleList(Map map) throws Exception;
 
     // 판매글 번호를 이용하여 판매글 가져오기
     SaleDto select(Long no) throws Exception;

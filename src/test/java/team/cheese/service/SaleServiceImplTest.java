@@ -12,7 +12,9 @@ import team.cheese.dao.SaleDao;
 import team.cheese.domain.SaleDto;
 import team.cheese.service.sale.SaleService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
 
@@ -45,7 +47,8 @@ public class SaleServiceImplTest extends TestCase {
     public void testGetList() throws Exception {
         String addr_cd = null;
         String sal_i_cd = null;
-        List<SaleDto> list = saleService.getList(addr_cd, sal_i_cd);
+        Map map = new HashMap();
+        List<SaleDto> list = saleService.getList(map);
         System.out.println(list.size());
         assertTrue(list.size() != 0);
     }

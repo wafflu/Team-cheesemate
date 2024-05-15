@@ -157,7 +157,6 @@ public class SaleService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public int updateTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
-        System.out.println("updateTagTx 들어옴");
         int insertTagTx = 0;
         int resultSaleTag = 0;
         deleteSaleTagTx(sal_no);
@@ -183,25 +182,16 @@ public class SaleService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<SaleDto> getList(String addr_cd, String sal_i_cd) throws Exception {
-        List<SaleDto> saleList = null;
-        if(addr_cd == null) {
-            // 전체 게시글 list를 가지고 올 때
-            saleList = saleDao.selectAll();
-        } else {
-            // 사용자가 속한 주소의 list를 가지고 올 때
-            saleList = saleDao.selectUserAddrCd(addr_cd);
-        }
-            System.out.println(saleList.size());
+    public List<SaleDto> getList(Map map) throws Exception {
+        List<SaleDto> saleList = saleDao.selectSaleList(map);
 
-            return saleList;
+        return saleList;
     }
 
     // 페이징된 게시글 list를 가지고 올 때
     @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getPageList(Map map) throws Exception {
         List<SaleDto> saleList = saleDao.selectList(map);
-        System.out.println(saleList.size());
 
         return saleList;
     }
@@ -248,12 +238,18 @@ public class SaleService {
         for(TagDto tagDto : tagList) {
             tagContents += "#" + tagDto.getContents();
         }
-        System.out.println("태그내용 : " + tagContents);
         Map map = new HashMap();
         map.put("saleDto", saleDto);
         map.put("tagContents", tagContents);
 
         return map;
+    }
+
+    public int getCount(Map map) throws Exception {
+
+        int totalCnt = saleDao.countSale(map);
+
+        return totalCnt;
     }
 }
 

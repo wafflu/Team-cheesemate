@@ -7,8 +7,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.SaleDto;
+import team.cheese.entity.PageHandler;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -133,7 +136,7 @@ public class SaleDaoImplTest {
         // 3. count로 게시글이 100개 들어갔는지 확인
 
         // 1. 게시글 전체 삭제
-        deleteDao.deleteAll();
+//        deleteDao.deleteAll();
 
         // 2. 반복문으로 동일한 게시글 100개 insert
         SaleDto saleDto = new SaleDto();
@@ -175,9 +178,14 @@ public class SaleDaoImplTest {
         // 1. 전체 글을 불러온다
         // 2. count를 한다
         // 3. 두 값을 비교 한다
+        Map map = new HashMap();
         String addr_cd = null;
+        String sal_i_cd = null;
+        map.put("addr_cd", addr_cd);
+        map.put("sal_i_cd", sal_i_cd);
+
         // 1. 전체 글을 불러온다
-        List<SaleDto> list = saleDao.selectUserAddrCd(addr_cd);
+        List<SaleDto> list = saleDao.selectSaleList(map);
         // 2. count를 한다
         int cnt = saleDao.countUse();
 
@@ -191,7 +199,9 @@ public class SaleDaoImplTest {
 
         String addr_cd = "11060710";
         // 1. 전체 글을 불러온다
-        List<SaleDto> list = saleDao.selectUserAddrCd(addr_cd);
+        Map map = new HashMap();
+        map.put("addr_cd", addr_cd);
+        List<SaleDto> list = saleDao.selectSaleList(map);
         System.out.println(list);
         System.out.println(list.size());
     }
@@ -384,4 +394,44 @@ public class SaleDaoImplTest {
         assertTrue(beforeViewCnt == (afterViewCnt - 1));
     }
 
+    @Test
+    public void testCountSale() throws Exception {
+        Map map = new HashMap();
+
+        int count = saleDao.countSale(map);
+        System.out.println(count);
+        assertTrue( count != 0 );
+    }
+
+    @Test
+    public void testCountAddrCdSale() throws Exception {
+        Map map = new HashMap();
+
+        map.put("addr_cd", "11060710");
+        map.put("sal_i_cd", null);
+
+        int count = saleDao.countSale(map);
+        System.out.println(count);
+        assertTrue( count != 0 );
+    }
+
+    @Test
+    public void testAddrCdSaleList() throws Exception {
+
+        Map map = new HashMap();
+        map.put("addr_cd", "11060710");
+        map.put("sal_i_cd", "016001005");
+        int page = 2;
+        int pageSize = 10;
+        PageHandler ph = new PageHandler(saleDao.countSale(map), page, pageSize);
+        System.out.println(ph.getBeginPage());
+
+        map.put("offset", ph.getOffset());
+        map.put("pageSize", pageSize);
+
+        List<SaleDto> saleList = saleDao.selectSaleList(map);
+        System.out.println(saleList);
+        System.out.println(saleList.size());
+//        assert( saleList);
+    }
 }

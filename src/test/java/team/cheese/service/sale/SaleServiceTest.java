@@ -12,6 +12,7 @@ import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.domain.SaleTagDto;
 import team.cheese.domain.TagDto;
+import team.cheese.entity.PageHandler;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -42,9 +43,6 @@ public class SaleServiceTest extends TestCase {
 
     @Autowired
     TestSession testSession;
-
-    public void testGetCount() {
-    }
 
     @Test
     public void testDiffIdRemove() throws Exception {
@@ -151,11 +149,18 @@ public class SaleServiceTest extends TestCase {
 
     @Test
     public void testGetList() throws Exception {
-        String addr_cd = null;
+        String addr_cd = "11060710";
         String sal_i_cd = null;
-        List<SaleDto> list = saleService.getList(addr_cd, sal_i_cd);
+
+        Map map = new HashMap();
+
+        map.put("addr_cd", addr_cd);
+        map.put("sal_i_cd", sal_i_cd);
+
+        List<SaleDto> list = saleService.getList(map);
         System.out.println(list.size());
-        assertTrue(list.size() == 27);
+
+        assertTrue(list.size() != 0);
     }
 
     public void testGetUserAddrCdList() {
@@ -329,6 +334,52 @@ public class SaleServiceTest extends TestCase {
     @Test
     public void testModify() throws Exception {
         Long no = (long) (Math.random() * saleDao.count()+ 1);
+    }
+
+    @Test
+    public void testGetCount() throws Exception {
+        String addr_cd = "11060710";
+        String sal_i_cd = null;
+
+        Map map = new HashMap();
+
+        map.put("addr_cd", addr_cd);
+        map.put("sal_i_cd", sal_i_cd);
+
+        int totalCnt = saleService.getCount(map);
+        System.out.println(totalCnt);
+
+        assertTrue(totalCnt != 0);
+    }
+
+    @Test
+    public void testGetListPh() throws Exception {
+        String addr_cd = "11060710";
+//        String sal_i_cd = "016001005";
+        String sal_i_cd = null;
+        int page = 1;
+        int pageSize = 10;
+
+        Map map = new HashMap();
+
+        map.put("addr_cd", addr_cd);
+        map.put("sal_i_cd", sal_i_cd);
+
+        int totalCnt = saleService.getCount(map);
+        System.out.println(totalCnt);
+
+        assertTrue(totalCnt != 0);
+
+        PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+
+        System.out.println("ph : " + ph);
+
+        map.put("offset", ph.getOffset());
+        map.put("pageSize", pageSize);
+
+        List<SaleDto> saleList = saleService.getList(map);
+
+        System.out.println(saleList.size());
     }
 
     public SaleDto saleInsert(HttpSession session) throws Exception {

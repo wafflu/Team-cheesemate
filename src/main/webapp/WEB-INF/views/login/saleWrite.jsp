@@ -632,7 +632,6 @@
                 dataType: "json",
                 data: {category2: category2Value},
                 success: function (data) {
-                    // alert(data);
                     let category3Select = document.getElementById("category3");
                     category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
                     console.log("data.length : ", data.length);
