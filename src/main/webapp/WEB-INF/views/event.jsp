@@ -24,10 +24,10 @@
     <div class="wrapper">
         <div class="nav">
             <a class="Allarr" href='event?cd='>전체 이벤트</a>
-            <a class="Beforearr" href='event?cd="B"'>시작전 이벤트</a>
-            <a class="activearr" href='event?cd="P"'>활성 이벤트</a>
-            <a class="finisharr" href='event?cd="F"'>종료 이벤트</a>
-            <a class="cancelarr" href='event?cd="C"'>취소 이벤트</a>
+            <a class="Beforearr" href='event?cd=B'>시작전 이벤트</a>
+            <a class="activearr" href='event?cd=P'>활성 이벤트</a>
+            <a class="finisharr" href='event?cd=F'>종료 이벤트</a>
+            <a class="cancelarr" href='event?cd=C'>취소 이벤트</a>
             <a href="/event/write">작성</a>
             <div id="search">
                 <form id="searchform" name="searchform" method="post">

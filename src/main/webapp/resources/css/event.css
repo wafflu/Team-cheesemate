@@ -68,3 +68,10 @@ main>.wrapper{
 .imgbox>.date{
     position: static;
 }
+footer{
+    width: 100%;
+    height: 10vh;
+    color: rgba(121, 163, 173, 0.1);
+    position: relative;
+    bottom: 0;
+}
