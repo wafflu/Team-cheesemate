@@ -16,8 +16,6 @@ public class AddrCdDto {
     private String last_id;
 
     public AddrCdDto() {
-    }
-
         this.no = no;
         this.ur_id = ur_id;
         this.addr_cd = addr_cd;
