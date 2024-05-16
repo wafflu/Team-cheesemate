@@ -24,7 +24,7 @@ public class DeleteDao {
 
     public void deleteAll() throws Exception {
         saleImgDao.deleteAll();
-        imgDao.deleteAll();
+//        imgDao.deleteAll();
         saleTagDao.deleteAll();
         tagDao.deleteAll();
         bidingDao.deleteAll();
@@ -32,7 +32,7 @@ public class DeleteDao {
         salehistoryDao.deleteAll();
         saleDao.deleteAll();
 
-        imgDao.resetAutoIncrement();
+//        imgDao.resetAutoIncrement();
         tagDao.resetAutoIncrement();
         bidingDao.resetAutoIncrement();
         hoistingDao.resetAutoIncrement();

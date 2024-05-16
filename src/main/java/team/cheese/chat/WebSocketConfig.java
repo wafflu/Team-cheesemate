@@ -10,12 +10,6 @@ import org.springframework.web.socket.config.annotation.*;
 @EnableWebSocketMessageBroker
 @Slf4j
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
-    @Autowired
-    private CustomWebSocketHandler customWebSocketHandler;
-//    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(customWebSocketHandler, "*");
-    }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {

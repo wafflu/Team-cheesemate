@@ -47,7 +47,7 @@ public class SaleDaoImplTest {
     @Test
     public void testDeleteAll() throws Exception {
         saleImgDao.deleteAll();
-        imgDao.deleteAll();
+//        imgDao.deleteAll();
         saleTagDao.deleteAll();
         tagDao.deleteAll();
         bidingDao.deleteAll();
@@ -55,7 +55,7 @@ public class SaleDaoImplTest {
         salehistoryDao.deleteAll();
         saleDao.deleteAll();
 
-        imgDao.resetAutoIncrement();
+//        imgDao.resetAutoIncrement();
         tagDao.resetAutoIncrement();
         bidingDao.resetAutoIncrement();
         hoistingDao.resetAutoIncrement();

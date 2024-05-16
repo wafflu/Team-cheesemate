@@ -41,10 +41,10 @@ public class MainController {
     @Autowired
     TestSession testSession;
 
-    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    @RequestMapping(value = "/saleLoginTest", method = RequestMethod.GET)
     public String main(Model model, HttpSession session) throws Exception {
 
-        return "main";
+        return "saleLoginTest";
     }
 
     // 전체 게시글을 보는 경우
