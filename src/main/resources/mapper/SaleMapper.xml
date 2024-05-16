@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.SaleDao">
+    <sql id="selectFromSale">
+        SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
+            group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd,
+            title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name,
+            detail_addr, brand, reg_price, buyer_id, buyer_nick,
+            like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt,
+            ur_state, ad_state
+        FROM sale
+    </sql>
+
+    <select id="select_sale_last_insert" resultType="int">
+        SELECT LAST_INSERT_ID() from sale LIMIT 1;
+    </select>
+
+    <insert id="insert" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO sale(
+            addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
+            group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2,
+            sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr,
+            brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date,
+            bid_cnt, ur_state, ad_state, first_date, first_id, last_date, last_id
+        ) values (
+                     #{addr_cd}, #{addr_name}, #{seller_id}, #{seller_nick}, #{sal_i_cd}, #{sal_name},
+                     #{group_no}, #{img_full_rt}, #{pro_s_cd}, #{tx_s_cd}, #{trade_s_cd_1}, #{trade_s_cd_2},
+                     #{sal_s_cd}, #{title}, #{contents}, #{price}, #{bid_cd}, #{pickup_addr_cd}, #{pickup_addr_name}, #{detail_addr},
+                     #{brand}, #{reg_price}, #{buyer_id}, #{buyer_nick}, #{like_cnt}, #{view_cnt}, now(), now(), #{hoist_cnt}, now(),
+                     #{bid_cnt}, #{ur_state}, #{ad_state}, now(), #{first_id}, now(), #{last_id}
+                 )
+    </insert>
+
+    <select id="select_all" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        where
+        ur_state = 'Y'
+        ORDER BY no DESC
+    </select>
+
+<!--    <select id="select_all" resultType="SaleDto">-->
+<!--        select no, img_full_rt, seller_nick, title, reg_price, r_date, addr_name, group_no from sale where ur_state = 'Y' order by r_date desc;-->
+<!--    </select>-->
+
+    <select id="select" parameterType="int" resultType="SaleDto">
+        select * from sale where ur_state = 'Y' and no = #{no};
+    </select>
+</mapper>

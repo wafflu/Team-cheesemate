@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-<!--        <typeAlias alias="BoardDao" type="com.fastcampus.ch2.dao.BoardDao"/>-->
+        <typeAlias alias="UserDto" type="team.cheese.domain.UserDto"/>
+        <typeAlias alias="AdminDto" type="team.cheese.domain.AdminDto"/>
+        <typeAlias alias="AddrCdDto" type="team.cheese.domain.AddrCdDto"/>
+        <typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
+        <typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
+        <typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
+        <typeAlias alias="ChatMessageDto" type="team.cheese.domain.ChatMessageDto"/>
+        <typeAlias alias="ChatRoomDto" type="team.cheese.domain.ChatRoomDto"/>
     </typeAliases>
 </configuration>
