@@ -18,12 +18,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 
-public class DBConnectionTest {
+public class Testdb {
     @Autowired
     DataSource ds; // 컨테이너로부터 자동 주입받는다.
 
     @Autowired
-    SqlSessionFactoryBean sf; // 컨테이너로부터 자동 주입받는다.
+    SqlSessionFactoryBean sf;
     @Autowired
     SqlSession session;
 

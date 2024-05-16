@@ -2,49 +2,176 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="team.cheese.dao.SaleDao">
+<mapper namespace="team.cheese.dao.SaleMapper">
     <sql id="selectFromSale">
-        SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
-            group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd,
-            title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name,
-            detail_addr, brand, reg_price, buyer_id, buyer_nick,
-            like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt,
-            ur_state, ad_state
+        SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state
         FROM sale
     </sql>
 
-    <select id="select_sale_last_insert" resultType="int">
-        SELECT LAST_INSERT_ID() from sale LIMIT 1;
+    <!--  데이터 개수 확인  -->
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM sale
     </select>
 
-    <insert id="insert" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO sale(
-            addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
-            group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2,
-            sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr,
-            brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date,
-            bid_cnt, ur_state, ad_state, first_date, first_id, last_date, last_id
-        ) values (
-                     #{addr_cd}, #{addr_name}, #{seller_id}, #{seller_nick}, #{sal_i_cd}, #{sal_name},
-                     #{group_no}, #{img_full_rt}, #{pro_s_cd}, #{tx_s_cd}, #{trade_s_cd_1}, #{trade_s_cd_2},
-                     #{sal_s_cd}, #{title}, #{contents}, #{price}, #{bid_cd}, #{pickup_addr_cd}, #{pickup_addr_name}, #{detail_addr},
-                     #{brand}, #{reg_price}, #{buyer_id}, #{buyer_nick}, #{like_cnt}, #{view_cnt}, now(), now(), #{hoist_cnt}, now(),
-                     #{bid_cnt}, #{ur_state}, #{ad_state}, now(), #{first_id}, now(), #{last_id}
-                 )
-    </insert>
+    <!--  사용하는 데이터의 개수 확인  -->
+    <select id="countUse" resultType="int">
+        SELECT count(*)
+        FROM sale
+        WHERE ur_state = 'Y'
+    </select>
 
-    <select id="select_all" resultType="SaleDto">
+    <select id="countSale" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM sale
+        WHERE ur_state = 'Y'
+        <if test="addr_cd != null and addr_cd != ''">
+            AND addr_cd = #{addr_cd}
+        </if>
+        <if test="sal_i_cd != null and sal_i_cd != ''">
+            AND sal_i_cd = #{sal_i_cd}
+        </if>
+    </select>
+
+    <!-- CRUD  -->
+    <!--  R : 전체 게시글 선택  -->
+    <!--  유저의 주소를 기준으로 조회되어야 됨  -->
+    <select id="selectAll" resultType="SaleDto">
         <include refid="selectFromSale"/>
         where
         ur_state = 'Y'
         ORDER BY no DESC
     </select>
 
-<!--    <select id="select_all" resultType="SaleDto">-->
-<!--        select no, img_full_rt, seller_nick, title, reg_price, r_date, addr_name, group_no from sale where ur_state = 'Y' order by r_date desc;-->
-<!--    </select>-->
-
-    <select id="select" parameterType="int" resultType="SaleDto">
-        select * from sale where ur_state = 'Y' and no = #{no};
+    <!--  처음에 판매/나눔 들어 갈 때  -->
+    <select id="selectSales" parameterType="map" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        WHERE ur_state = 'Y'
+        <if test="addr_cd != null and addr_cd != ''">
+            AND addr_cd = #{addr_cd}
+        </if>
+        <if test="sal_i_cd != null and sal_i_cd != ''">
+            AND sal_i_cd LIKE CONCAT(#{sal_i_cd}, '%')
+        </if>
+        ORDER BY no DESC
+        LIMIT #{pageSize} OFFSET #{offset}
     </select>
+
+    <!--  max  -->
+
+    <!--   R : 게시글 하나 선택    -->
+    <!--  no를 변경해 줘야 됨  -->
+    <select id="select" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        where
+        no = #{no}
+        and ur_state = 'Y'
+    </select>
+
+    <!--  U : 게시글 조회해서 들어갈 때마다 조회수 늘려주기  -->
+    <update id="increaseViewCnt" parameterType="Long">
+        UPDATE sale
+        SET view_cnt = view_cnt + 1
+        WHERE no = #{no}
+    </update>
+
+    <!--  R : 관리자가 관여한 게시글을 전체선택  -->
+    <select id="selectAdmin" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        where
+        ad_state = 'Y'
+    </select>
+
+    <!-- C : 판매글 작성 : 사용자 입력값 삽입하기 -->
+    <insert id="insertSale" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO sale(addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
+                         group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2,
+                         sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr,
+                         brand, reg_price,
+                         first_date, first_id, last_date, last_id)
+        values (#{addr_cd}, #{addr_name}, #{seller_id}, #{seller_nick}, #{sal_i_cd}, #{sal_name},
+                #{group_no}, #{img_full_rt}, #{pro_s_cd}, #{tx_s_cd}, #{trade_s_cd_1}, #{trade_s_cd_2},
+                #{sal_s_cd}, #{title}, #{contents}, #{price}, #{bid_cd}, #{pickup_addr_cd}, #{pickup_addr_name},
+                #{detail_addr},
+                #{brand}, #{reg_price},
+                now(), #{seller_id}, now(), #{seller_id})
+    </insert>
+
+    <!-- U : 판매글 수정하는 경우  -->
+    <update id="update" parameterType="SaleDto">
+        UPDATE sale
+        SET addr_cd          = #{addr_cd},                                                               -- 주소 코드
+            addr_name        = #{addr_name},                                                             -- 주소 이름
+            seller_id        = #{seller_id},                                                             -- 판매자 ID
+            seller_nick      = #{seller_nick},                          -- 판매자 닉네임
+            sal_i_cd         = #{sal_i_cd},                                                              -- 판매 카테고리 코드
+            sal_name         = #{sal_name},              -- 판매 카테고리 이름
+            pro_s_cd         = #{pro_s_cd},                                                              -- 상품 상태 코드
+            tx_s_cd          = #{tx_s_cd},                                                               -- 거래 방식 코드
+            trade_s_cd_1     = #{trade_s_cd_1},                                                          -- 거래 방법1 코드
+            trade_s_cd_2     = #{trade_s_cd_2},                                                          -- 거래 방법2 코드
+            price            = #{price},                                                                 -- 상품 가격
+            sal_s_cd         = #{sal_s_cd},                                                              -- 판매 상태 코드
+            title            = #{title},                                                                 -- 판매글 제목
+            contents         = #{contents},                                                              -- 판매 상품 설명
+            bid_cd           = #{bid_cd},                                                                -- 가격제시/나눔 여부
+            pickup_addr_cd   = #{pickup_addr_cd},                                                        -- 거래희망장소 코드
+            pickup_addr_name = #{pickup_addr_name}, -- 거래희망장소 주소명
+            detail_addr      = #{detail_addr},                                                           -- 거래희망장소 상세장소(위치)
+            brand            = #{brand},                                                                 -- 상품 브랜드
+            reg_price        = #{reg_price},                                                             -- 상품 정가
+            m_date           = NOW(),                                                                    -- 수정 날짜
+            ur_state         = 'Y',                                                                      -- 사용자 상태
+            last_date        = NOW(),
+            last_id          = #{seller_id}
+        WHERE no = #{no} -- 판매글 번호
+    </update>
+
+    <!--  D : 판매글 작성자가 판매글 삭제하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌  -->
+    <update id="delete" parameterType="map">
+        UPDATE sale
+        SET m_date    = now(),
+            ur_state  = 'N',
+            last_id   = #{seller_id},
+            last_date = now()
+        WHERE
+            no = #{no}
+          and seller_id = #{seller_id}
+    </update>
+
+    <!--  D : 관리자가 판매글에 관여하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌(너무길어요)  -->
+    <update id="adminState" parameterType="SaleDto">
+        UPDATE sale
+        SET m_date   = now(),
+            ad_state = #{ad_state}
+        WHERE
+            no = #{no}
+    </update>
+
+
+    <!-- 전체 삭제  -->
+    <delete id="deleteAll">
+        delete
+        from sale
+    </delete>
+
+    <update id="resetAutoIncrement" parameterType="map">
+        alter table sale auto_increment = 1
+    </update>
+
+    <!--  PageHandeler  -->
+    <select id="selectPage" parameterType="map" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        where
+        ur_state = 'Y'
+        order by no desc
+        limit #{offset}, #{pageSize}
+    </select>
+
+    <!--  검색 기능(추후 추가)   -->
+    <!--  R : 카테고리를 기준으로 조회할 수 있어야 됨  -->
+    <!--   1. 판매카테고리(대/중/소)    -->
+    <!--   2. 지역을 기준으로 조회  -->
+    <!--   3.   -->
+
 </mapper>

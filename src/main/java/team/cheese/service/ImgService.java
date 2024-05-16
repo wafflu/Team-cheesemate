@@ -222,3 +222,4 @@ public class ImgService {
         return imgDao.select_group_max();
     }
 }
+
