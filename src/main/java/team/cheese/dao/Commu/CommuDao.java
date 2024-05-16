@@ -1,6 +1,6 @@
 package team.cheese.dao.Commu;
 
-import team.cheese.Domain.Commu.CommuDto;
+import team.cheese.domain.Commu.CommuDto;
 
 
 public interface CommuDao {

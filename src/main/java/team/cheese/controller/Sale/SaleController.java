@@ -1,4 +1,4 @@
-package team.cheese.Controller.Sale;
+package team.cheese.controller.Sale;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import team.cheese.dao.Sale.SaleDao;
-import team.cheese.Domain.Sale.Sale;
+import team.cheese.domain.Sale.Sale;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;

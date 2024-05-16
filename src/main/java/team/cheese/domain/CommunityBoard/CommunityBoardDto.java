@@ -1,6 +1,5 @@
-package team.cheese.Domain.CommunityBoard;
+package team.cheese.domain.CommunityBoard;
 
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class CommunityBoardDto {

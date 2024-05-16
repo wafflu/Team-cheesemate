@@ -1,32 +1,25 @@
-package team.cheese.Controller.CommunityBoard;
+package team.cheese.controller.CommunityBoard;
 
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import team.cheese.Domain.Comment.CommentDto;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
-import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.domain.Comment.CommentDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.service.Comment.CommentService;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.*;
 
 
 @Controller
@@ -61,14 +54,14 @@ public  class CommunityBoardController {
         return "/CommunityList";
     }
 
-    //community세부 리스트 페이지ajax
-    @RequestMapping(value = "/story", method = RequestMethod.GET)
-    @ResponseBody
-    public List test(Character ur_state) throws Exception {
-        List<CommunityBoardDto> list = communityBoardService.readAll();
-
-        return list;
-    }
+//    //community세부 리스트 페이지ajax
+//    @RequestMapping(value = "/story", method = RequestMethod.GET)
+//    @ResponseBody
+//    public List test(Character ur_state) throws Exception {
+//        List<CommunityBoardDto> list = communityBoardService.readAll();
+//
+//        return list;
+//    }
 
     //글쓰기 페이지로 이동
     @RequestMapping(value = "/write", method = RequestMethod.GET)
@@ -120,7 +113,7 @@ public  class CommunityBoardController {
 
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("message", "파일 저장 중 에러가 발생했습니다.");
-            return "redirect:/Board"; // 에러 시 사용자를 등록 페이지로 리다이렉트
+            return "redirect:/CommunityWriteBoard"; // 에러 시 사용자를 등록 페이지로 리다이렉트
         }
 
 
@@ -212,7 +205,7 @@ public  class CommunityBoardController {
         System.out.println(no);
         CommunityBoardDto communityBoardDto = communityBoardService.findCommunityBoardById(no);
         m.addAttribute("communityBoardDto", communityBoardDto);
-        return "Board";
+        return "CommunityWriteBoard";
     }
 
 
@@ -249,53 +242,37 @@ public  class CommunityBoardController {
     @Autowired
     CommentService commentService;
 
-    //댓글 등록 메서드
     @PostMapping("/writeComment")
     @ResponseBody
-    public ResponseEntity<List<CommentDto>> write(@RequestBody CommentDto commentDto, HttpSession session, HttpServletRequest request) throws Exception {
-        //1.세션 객체에서 ur_id 갖고오기
-        //2.세션 객체에서 nick 갖고오기
-
-        //String ur_id = (String)session.getAttribute("ur_id")
-        //String nick = (String)session.getAttribute("nick")
-
-
-        String ur_id = session.getAttribute("ur_id").toString();
-        String nick = session.getAttribute("nick").toString();
-
-
-
-        commentDto.setUr_id(ur_id);
-        commentDto.setNick(nick);
-
-        System.out.println(commentDto.toString());
-        int maxNo = commentService.findMaxByPostNo(commentDto.getPost_no());
-
-         commentDto.setNo(maxNo + 1);
-
-
-
-        System.out.println(commentDto.getUr_id());
-        System.out.println(commentDto.getNick());
-        System.out.println(commentDto.getNo());
-
-        System.out.println(commentDto.toString());
-
-
+    public ResponseEntity<List<CommentDto>> write(@RequestBody CommentDto commentDto, HttpSession session) {
         try {
-            if (commentService.write(commentDto) != 1) {
-                throw new Exception("Write comment failed");
-            }
+            // 세션에서 ur_id와 nick 가져오기, 기본값 설정
+            String ur_id = (session.getAttribute("ur_id") != null) ? session.getAttribute("ur_id").toString() : "defaultUserId";
+            String nick = (session.getAttribute("nick") != null) ? session.getAttribute("nick").toString() : "defaultNick";
+
+            // DTO에 세션에서 가져온 데이터 설정
+            commentDto.setUr_id(ur_id);
+            commentDto.setNick(nick);
+
+            // 최대 번호 찾기 및 예외 처리
+            Integer maxNo = commentService.findMaxByPostNo(commentDto.getPost_no());
+            commentDto.setNo(maxNo + 1);
+
+            // 댓글 작성
+            commentService.write(commentDto);
+
+            // 댓글 목록 읽기
             List<CommentDto> comments = commentService.readAll(commentDto.getPost_no());
-
-            return new ResponseEntity<>(comments, HttpStatus.OK);
+            return ResponseEntity.ok(comments);
         } catch (Exception e) {
+            // 로깅 및 에러 응답 처리
+
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing comment: " + e.getMessage());
         }
-
-
+        return null;
     }
+
 
     @GetMapping("/comments")
     public ResponseEntity<List<CommentDto>> readComments(@RequestParam int postId) throws Exception {

@@ -1,6 +1,6 @@
 package team.cheese.dao.Comment;
 
-import team.cheese.Domain.Comment.CommentDto;
+import team.cheese.domain.Comment.CommentDto;
 
 import java.util.List;
 

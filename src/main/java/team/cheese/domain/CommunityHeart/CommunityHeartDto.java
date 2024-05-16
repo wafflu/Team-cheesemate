@@ -1,4 +1,4 @@
-package team.cheese.Domain.CommunityHeart;
+package team.cheese.domain.CommunityHeart;
 
 public class CommunityHeartDto {
     private Integer like_no;

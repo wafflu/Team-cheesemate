@@ -5,14 +5,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import team.cheese.Domain.Comment.CommentDto;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.Comment.CommentDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.dao.Comment.CommentDao;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -5,15 +5,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import team.cheese.Domain.Comment.CommentDto;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 
-import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
-import team.cheese.dao.Comment.CommentDao;
+import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
 import team.cheese.dao.CommunityHeart.CommunityHeartDao;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
-import team.cheese.service.CommunityBoard.CommunityBoardServiceImpl;
 
 
 import java.util.Iterator;

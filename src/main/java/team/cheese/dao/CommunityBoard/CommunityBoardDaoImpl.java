@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
-import team.cheese.Domain.Comment.CommentDto;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 
 import java.util.HashMap;
 import java.util.List;

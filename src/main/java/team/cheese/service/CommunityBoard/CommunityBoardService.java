@@ -1,7 +1,7 @@
 package team.cheese.service.CommunityBoard;
 
 import org.springframework.web.multipart.MultipartFile;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 
 import java.util.List;
 

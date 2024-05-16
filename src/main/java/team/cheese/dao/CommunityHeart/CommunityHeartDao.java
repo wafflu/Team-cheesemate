@@ -1,7 +1,6 @@
 package team.cheese.dao.CommunityHeart;
 
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
-import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 ;
 
 public interface CommunityHeartDao {

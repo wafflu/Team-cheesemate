@@ -1,4 +1,4 @@
-package team.cheese.Domain.Commu;
+package team.cheese.domain.Commu;
 
 
 import java.sql.Timestamp;

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import team.cheese.dao.Commu.CommuDao;
-import team.cheese.Domain.Commu.CommuDto;
+import team.cheese.domain.Commu.CommuDto;
 
 import static org.junit.Assert.assertEquals;
 

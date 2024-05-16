@@ -3,7 +3,7 @@ package team.cheese.service.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.cheese.Domain.Comment.CommentDto;
+import team.cheese.domain.Comment.CommentDto;
 import team.cheese.dao.Comment.CommentDao;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
 

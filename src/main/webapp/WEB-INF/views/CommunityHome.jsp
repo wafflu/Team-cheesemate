@@ -14,6 +14,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="src/main/webapp/resources/css/CommunityHome.css">
 </head>
 <body>
 <article>

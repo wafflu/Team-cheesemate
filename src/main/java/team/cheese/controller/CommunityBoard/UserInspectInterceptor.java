@@ -1,4 +1,4 @@
-package team.cheese.Controller.CommunityBoard;
+package team.cheese.controller.CommunityBoard;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;

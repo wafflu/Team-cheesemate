@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import team.cheese.Domain.Sale.Sale;
+import team.cheese.domain.Sale.Sale;
 import team.cheese.dao.Sale.SaleDao;
 
 import java.util.List;

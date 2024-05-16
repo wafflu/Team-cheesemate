@@ -1,7 +1,6 @@
 package team.cheese.dao.CommunityBoard;
 
-import team.cheese.Domain.Comment.CommentDto;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 
 import java.util.List;
 

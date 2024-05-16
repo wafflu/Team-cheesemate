@@ -1,19 +1,16 @@
 package team.cheese.service.CommunityBoard;
 
-import net.bytebuddy.description.type.TypeList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.web.servlet.support.JstlUtils;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
 
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 

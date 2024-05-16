@@ -1,4 +1,4 @@
-package team.cheese.Domain.Comment;
+package team.cheese.domain.Comment;
 
 import java.sql.Timestamp;
 import java.util.Objects;

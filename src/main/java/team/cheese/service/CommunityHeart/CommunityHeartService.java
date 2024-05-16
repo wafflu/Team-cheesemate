@@ -1,6 +1,6 @@
 package team.cheese.service.CommunityHeart;
 
-import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 
 public interface CommunityHeartService {
 

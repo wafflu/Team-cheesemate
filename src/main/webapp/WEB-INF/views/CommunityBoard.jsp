@@ -153,33 +153,20 @@
             $.ajax({
                 type: 'post',
                 url: '/community/writeComment',
+                cache: false,
                 headers : { "content-type": "application/json"}, // 요청 헤더
                 data: JSON.stringify(
                     {
-                        // "nick":nick,
-                        // "ur_id":ur_id,
                         "post_no": post_no,
                         "contents": contents
                     }
                 ),
-                // contentType: 'application/json',
+
                 dataType : 'json',
                 success:function (comments) {
-                    //     console.log(comments);
-                    //     const commentsContainer = $('#comment-container');
-                    //     commentsContainer.empty();
-                    //     console.log(comments[0].contents);
-                    //     let str = "";
-                    //     comments.forEach(comment => {
-                    //         console.log(
-                    //             comment.contents
-                    //         )
-                    //         str+=`<div>`+comment.contents + `</div>`
-                    //         str+=`<div>`+comment.nick+ `</div>`;
-                    //     });
-                    //     commentsContainer.append(str);
-                    // },
-                },
+                        console.log(comments);
+                        loadComments(post_no);
+                    },
                 error:function (){
                     alert('댓글을 작성하는데 실패했습니다..');
                 }
@@ -191,12 +178,13 @@
             $.ajax({
                 url:'/community/comments?postId='+postId,
                 type:'GET',
+                cache: false,
                 dataType:'json',
                 // data:{post_no:postId},
                 success:function (comments) {
                     const commentsContainer = $('#comment-container');
                     commentsContainer.empty();
-                    console.log(comments[0].contents);
+
                     let str = "";
                     comments.forEach(comment => {
                         console.log(
@@ -206,6 +194,8 @@
                         str+=`<div>`+comment.nick+ `</div>`;
                     });
                     commentsContainer.append(str);
+
+
                 },
                 error:function (){
                     alert('댓글을 불러오는 데 실패했습니다.');

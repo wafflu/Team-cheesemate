@@ -5,9 +5,9 @@
 <configuration>
     <typeAliases>
 <!--        <typeAlias alias="BoardDao" type="com.fastcampus.ch2.dao.BoardDao"/>-->
-        <typeAlias alias="CommuDto" type="team.cheese.Domain.Commu.CommuDto"/>
-        <typeAlias alias="CommunityBoardDto" type="team.cheese.Domain.CommunityBoard.CommunityBoardDto"/>
-        <typeAlias alias="CommunityHeartDto" type="team.cheese.Domain.CommunityHeart.CommunityHeartDto"/>
-        <typeAlias alias="CommentDto" type="team.cheese.Domain.Comment.CommentDto"/>
+        <typeAlias alias="CommuDto" type="team.cheese.domain.Commu.CommuDto"/>
+        <typeAlias alias="CommunityBoardDto" type="team.cheese.domain.CommunityBoard.CommunityBoardDto"/>
+        <typeAlias alias="CommunityHeartDto" type="team.cheese.domain.CommunityHeart.CommunityHeartDto"/>
+        <typeAlias alias="CommentDto" type="team.cheese.domain.Comment.CommentDto"/>
     </typeAliases>
 </configuration>

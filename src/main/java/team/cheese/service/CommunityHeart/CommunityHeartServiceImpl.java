@@ -2,8 +2,8 @@ package team.cheese.service.CommunityHeart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.cheese.Domain.CommunityBoard.CommunityBoardDto;
-import team.cheese.Domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.dao.CommunityHeart.CommunityHeartDao;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 
