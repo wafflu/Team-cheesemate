@@ -57,11 +57,11 @@ public class MainController {
         //    1.2.1. addr_cd값을 null로 전달
 
         // TestSession 클래스를 사용하여 세션을 설정
-        String ur_id = "asdf";
+//        String ur_id = "asdf";
 //        String ur_id = null;
-        session = testSession.setSession(ur_id, session);
+//        session = testSession.setSession(ur_id, session);
 
-        ur_id = (String) session.getAttribute("userId");
+        String ur_id = (String) session.getAttribute("userId");
         System.out.println("ur_id : " + ur_id);
 
 //        if (ur_id != null) {

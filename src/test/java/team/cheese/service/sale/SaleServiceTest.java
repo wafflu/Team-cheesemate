@@ -172,7 +172,9 @@ public class SaleServiceTest extends TestCase {
         SaleDto before = saleDao.select(no);
         int beforeViewCnt = before.getView_cnt();
         System.out.println("이전 viewcnt : " + beforeViewCnt);
-        SaleDto saleDto = saleService.read(no);
+        Map map = saleService.read(no);
+
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
 
         System.out.println(saleDto.getNo());
         assertTrue(saleDto.getNo().equals(no));

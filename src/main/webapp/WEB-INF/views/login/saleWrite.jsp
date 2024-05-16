@@ -11,12 +11,12 @@
 <head>
     <title>sale</title>
     <style>
-        .division-line {
+        .sale-division-line {
             border-top: 1px solid #444444;
             margin: 30px 0px;
         }
 
-        .preview-image {
+        .sale-preview-image {
             display: inline-block;
             position: relative;
             margin-right: 10px;
@@ -31,7 +31,7 @@
             cursor: pointer;
         }
 
-        .modal {
+        .SaleModal {
             position: fixed;
             top: 0;
             left: 0;
@@ -42,14 +42,14 @@
             align-items: center;
         }
 
-        .modal_overlay {
+        .sale_modal_overlay {
             background-color: rgba(0, 0, 0, 0.6);
             width: 100%;
             height: 100%;
             position: absolute;
         }
 
-        .modal_content {
+        .sale_modal_content {
             background-color: white;
             padding: 50px 100px;
             text-align: center;
@@ -78,7 +78,7 @@
             /* 마우스 커서를 포인터로 변경 */
         }
 
-        .table-wrapper {
+        .sale-table-wrapper {
             overflow-y: auto;
             max-height: 200px;
         }
@@ -89,7 +89,7 @@
         }
 
 
-        #searchInput {
+        #saleSearchInput {
             /* 모달 창의 너비에 맞게 조정 */
             width: 100%;
             padding: 10px;
@@ -108,7 +108,7 @@
             margin: 0;
         }
 
-        .hidden {
+        .SaleHidden {
             display: none;
         }
 
@@ -128,7 +128,7 @@
 <div>
     <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
         <p>상품 정보</p>
-        <div class="division-line"></div>
+        <div class="sale-division-line"></div>
         <div id="register_img">
             <p>
                 상품이미지(<span id="img_count">0</span>/10) <input type="file" id="imageBtn" name="imagename"
@@ -188,13 +188,13 @@
             <input type="number" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." min="0" value="${Sale.reg_price}"/>
         </p>
         <button id="openModalBtn">거래희망 주소 검색</button>
-        <div id="openModal" class="modal hidden">
-            <div class="modal_overlay"> <!--모달창의 배경색--></div>
-            <div class="modal_content">
+        <div id="openModal" class="SaleModal SaleHidden">
+            <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
+            <div class="sale_modal_content">
                 <button id="closeModalBtn">x</button>
                 <h1>주소 검색</h1>
-                <input id="searchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
-                <div class="table-wrapper">
+                <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
+                <div class="sale-table-wrapper">
                     <table id="addrTable" class="table text-center">
                         <thead>
                         <tr>
@@ -353,53 +353,6 @@
         }
     });
 
-    // tag값 배열 초기화
-    // t_contents = [];
-    //
-    // document
-    //     .getElementById("hashtagInput")
-    //     .addEventListener("input", function () {
-    //         let hashtags = this.value.split("#").filter(Boolean); // #을 기준으로 문자열을 나누고 빈 문자열 제거
-    //
-    //         // 기존의 해시태그를 모두 삭제
-    //         let container = document.getElementById("hashtagContainer");
-    //         container.innerHTML = "";
-    //
-    //         // 배열 초기화
-    //         t_contents = [];
-    //
-    //         // 각 해시태그를 별도의 input 요소에 추가하여 표시
-    //         hashtags.forEach(function (tag) {
-    //             let input = document.createElement("input");
-    //             input.type = "text";
-    //             input.name = "t_contents";
-    //             input.value = "#" + tag; // 해시태그 앞에 #을 붙여서 표시
-    //             input.disabled = true; // 입력 불가능하도록 설정
-    //             container.appendChild(input);
-    //
-    //             // 해시태그 사이 간격 조절
-    //             // 해시태그의 글자 수에 따라 너비 동적 조절
-    //             input.style.width = (tag.length + 3) * 3 + "vw";
-    //
-    //             // 해시태그를 배열에 추가
-    //             t_contents.push("#" + tag);
-    //
-    //             container.appendChild(input);
-    //             container.appendChild(document.createTextNode(" ")); // 각 해시태그 뒤에 공백 추가
-    //         });
-    //         // t_contents 배열 출력 (테스트용)
-    //         console.log(t_contents);
-    //     });
-
-    // // Enter키 누를 시 모달창 뜨는 것 방지
-    // $(document).ready(function () {
-    //     $(document).on("keydown", function (event) {
-    //         if (event.keyCode === 13) {
-    //             event.preventDefault(); // Enter 키의 기본 동작 막기(input 창에서 Enter치면 모달창이 열리기 때문)
-    //         }
-    //     });
-    // });
-
     // Enter키 누를 시 모달창 뜨는 것 방지 및 텍스트 영역에서 Enter 키 입력 허용
     $(document).ready(function () {
         // 텍스트 영역에서 Enter 키 입력 허용
@@ -412,7 +365,7 @@
                 }
             }
             // event.preventDefault(); // 그 외의 경우에는 Enter 키의 기본 동작 막기
-            if ($(".modal").hasClass("hidden")) {
+            if ($(".SaleModal").hasClass("SaleHidden")) {
                 // 모달 창이 숨겨져 있을 때만 Enter 키 입력 방지
                 if (event.keyCode === 13) {
                     event.preventDefault(); // Enter 키의 기본 동작 막기(input 창에서 Enter치면 모달창이 열리기 때문)
@@ -437,7 +390,7 @@
                 reader.onload = function (event) {
                     let imageUrl = event.target.result;
                     let imagePreview =
-                        "<div class='preview-image'><img src='" +
+                        "<div class='sale-preview-image'><img src='" +
                         imageUrl +
                         "' width='150'><span class='delete-icon'>x</span></div>";
                     $("#register_img").append(imagePreview);
@@ -451,7 +404,7 @@
 
         // 이미지 삭제시 이미지 카운트 수 줄이기
         $(document).on("click", ".delete-icon", function () {
-            $(this).closest(".preview-image").remove();
+            $(this).closest(".sale-preview-image").remove();
             img_count--;
             $("#img_count").text(img_count);
         });
@@ -530,8 +483,6 @@
             container.appendChild(input);
             container.appendChild(document.createTextNode(" ")); // 각 해시태그 뒤에 공백 추가
         });
-        // t_contents 배열 출력 (테스트용)
-        console.log(t_contents);
     }
 
 
@@ -658,22 +609,17 @@
         $("#salecategoryMsg").text("");
     });
 
-    // document.getElementById('submitBtn').addEventListener('click', function () {
-    //   // submit 버튼 클릭 시 form 제출
-    //   document.getElementById('writeForm').submit();
-    // });
-
     const openModalBtn = document.getElementById("openModalBtn");
-    const modal = document.querySelector(".modal");
-    const overlay = modal.querySelector(".modal_overlay");
+    const modal = document.querySelector(".SaleModal");
+    const overlay = modal.querySelector(".sale_modal_overlay");
     const closeModalBtn = document.getElementById("closeModalBtn");
     const openModal = (event) => {
         event.preventDefault(); // form의 기본 동작을 막음
-        modal.classList.remove("hidden");
+        modal.classList.remove("SaleHidden");
     }
     const closeModal = () => {
         event.preventDefault(); // form의 기본 동작을 막음
-        modal.classList.add("hidden");
+        modal.classList.add("SaleHidden");
     }
     overlay.addEventListener("click", closeModal);
     closeModalBtn.addEventListener("click", closeModal);
@@ -681,7 +627,7 @@
 
 
     $(document).ready(function () {
-        $("#searchInput").on("input", function () {
+        $("#saleSearchInput").on("input", function () {
             let searchLetter = $(this).val();
             $.ajax({
                 type: "POST",
@@ -807,11 +753,12 @@
             sale["trade_s_cd_2"] = trade_s_cd_values[1];
         }
 
-        let tag = {
-            "contents": t_contents
-        }
+        let tagSet = new Set(t_contents);
+        let tagList = Array.from(tagSet);
 
-        console.log(tag);
+        let tag = {
+            "contents": tagList
+        }
 
         let map =
             {

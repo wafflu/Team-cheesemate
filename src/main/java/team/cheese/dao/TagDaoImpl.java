@@ -32,6 +32,11 @@ public class TagDaoImpl implements TagDao{
     }
 
     @Override
+    public TagDto select(Long no) throws Exception {
+        return session.selectOne(namespace + "select", no);
+    }
+
+    @Override
     public TagDto selectTagContents(String contents) throws Exception {
         return session.selectOne(namespace + "selectTagContents", contents);
     }

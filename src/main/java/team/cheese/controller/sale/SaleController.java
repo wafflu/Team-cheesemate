@@ -8,10 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.dao.*;
-import team.cheese.domain.AddrCdDto;
-import team.cheese.domain.AdministrativeDto;
-import team.cheese.domain.SaleCategoryDto;
-import team.cheese.domain.SaleDto;
+import team.cheese.domain.*;
 import team.cheese.entity.PageHandler;
 import team.cheese.service.sale.SaleService;
 
@@ -45,16 +42,17 @@ public class SaleController {
 
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
-    public String getList(Model model, HttpSession session) throws Exception {
+    public String getList(Model model, HttpServletRequest request) throws Exception {
         System.out.println("/list들어옴");
-
+        HttpSession session = request.getSession();
         String ur_id = (String) session.getAttribute("userId");
+        System.out.println("userId 확인 : " + ur_id);
 
-        String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
 
         if(ur_id == null) {
             model.addAttribute("addrCdList", administrativeDao.selectAll());
         } else {
+            String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
             // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
@@ -69,49 +67,45 @@ public class SaleController {
 
     // 게시글 리스트 중 하나를 클릭한 경우
     @RequestMapping("/read")
-    public String read(Long no, Model model, HttpSession session) throws Exception {
-        SaleDto saleDto = saleService.read(no);
-        System.out.println(saleDto);
+    public String read(Long no, Model model) throws Exception {
+        Map map = saleService.read(no);
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
+        List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
 
         model.addAttribute("Sale", saleDto); // model로 값 전달
+        model.addAttribute("tagList", tagDto); // model로 값 전달
 
         return "/login/saleBoard";
     }
 
     // 글쓰기 버튼 누른 경우
     @PostMapping("/write")
-    public String write(@RequestParam String addr_cd, Model model, HttpSession session) throws Exception {
+    public String write(@RequestParam String addr_cd, Model model, HttpServletRequest request) throws Exception {
         System.out.println("POST write");
         // 로그인 한 경우
 
+        HttpSession session = request.getSession();
         String ur_id = (String) session.getAttribute("userId");
+        System.out.println(ur_id);
 
-        List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
-        String addr_name = "";
-        for(AddrCdDto addrCdDto : addrCdDtoList) {
-            if (addr_cd.equals(addrCdDto.getAddr_cd())) {
-                addr_name = addrCdDto.getAddr_name();
-                break;
-            }
-        }
-
-        System.out.println("여기까지 됨 1");
 
         if(ur_id != null) {
-            System.out.println("여기까지 됨 2");
+            List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
+            String addr_name = addrCdDtoList.get(0).getAddr_name();
+
             SaleDto saleDto = new SaleDto(addr_cd, addr_name);
             model.addAttribute("Sale", saleDto);
             model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
             return "/login/saleWrite";
         } else {
             // 로그인 안한 경우
-            return "main";
+            return "loginForm";
         }
     }
 
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
     @PostMapping("/modify")
-    public String modify(@RequestParam Long no, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
 
         Map map = saleService.modify(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
@@ -286,6 +280,9 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
 
         System.out.println("page : " + page);
         System.out.println("pageSize : " + pageSize);
+        System.out.println("addr_cd : " + addr_cd);
+        System.out.println("sal_i_cd : " + sal_i_cd);
+
 
         // 선택하는 지역에 따른 List 반환
         try {
@@ -301,6 +298,7 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
             map.put("sal_i_cd", sal_i_cd);
 
             int totalCnt = saleService.getCount(map);
+            System.out.println("totalCnt : " + totalCnt);
 
             PageHandler ph = new PageHandler(totalCnt, page, pageSize);
 

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <% // 세션에 sessionId가 존재하는지 확인
-    String sessionId = (String) session.getAttribute("urId");
+//    String sessionId = request.getParameter("userId");
 %>
 <html>
 
@@ -71,14 +71,7 @@
     //     alert("페이지가 로드되었습니다!");
     // };
 
-    // "전체" 옵션이 보이지 않도록 설정
-    if ("${sessionId}" != null || "${sessionId}" != "") {
-        document.getElementById("selectAll").style.display = "none"; // "전체" 옵션 숨기기
-
-        // 첫 번째 옵션 선택
-        var addrCdSelect = document.getElementById("addr_cd");
-        addrCdSelect.selectedIndex = 1;
-    }
+    let sessionId = "${sessionScope.userId}";
 
     function loadCategory2() {
         let category1Value = $('#category1').val();
@@ -168,8 +161,16 @@
         }); // $.ajax()
     }
 
-
     $(document).ready(function () {
+        // "전체" 옵션이 보이지 않도록 설정
+        if (!!sessionId?.trim()) {
+            document.getElementById("selectAll").style.display = "none"; // "전체" 옵션 숨기기
+
+            // 첫 번째 옵션 선택
+            let addrCdSelect = document.getElementById("addr_cd");
+            addrCdSelect.selectedIndex = 1;
+        }
+
         let addr_cd = $("#addr_cd").val();
         let sal_i_cd = $("#category1").val();
 
@@ -177,22 +178,6 @@
         $("#sal_name").text("전체");
 
         saleList(addr_cd, sal_i_cd);
-
-        // 대분류 선택 시 중분류 메시지
-        $("#category1").change(function () {
-            $("#sal_name").text($("#category1 option:checked").text());
-        });
-
-        // 중분류 선택 시 소분류 메시지
-        $("#category2").change(function () {
-            $("#sal_name").text($("#category2 option:checked").text());
-        });
-
-        // 소분류 선택 시 메시지 제거
-        $("#category3").change(function () {
-            $("#sal_name").text($("#category3 option:checked").text());
-        });
-
 
         // AddrCd 선택이 변경될 때마다 실행되는 함수
         $("#addr_cd").change(function () {
@@ -211,6 +196,7 @@
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $("#addr_cd").val();
             let sal_i_cd = $(this).val();
+            $("#sal_name").text($("#category1 option:checked").text());
 
             saleList(addr_cd, sal_i_cd);
         });
@@ -219,6 +205,7 @@
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $("#addr_cd").val();
             let sal_i_cd = $(this).val();
+            $("#sal_name").text($("#category2 option:checked").text());
 
             saleList(addr_cd, sal_i_cd);
         });
@@ -227,32 +214,10 @@
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $("#addr_cd").val();
             let sal_i_cd = $(this).val();
+            $("#sal_name").text($("#category3 option:checked").text());
 
             saleList(addr_cd, sal_i_cd);
         });
-/*        // AddrCd 선택이 변경될 때마다 실행되는 함수
-        $("#addr_cd").change(function () {
-            // 선택된 AddrCd 값 가져오기
-            let addr_cd = $(this).val();
-            let sal_i_cd = $(this).val();
-
-            // 서버에 선택된 AddrCd 값을 전송하여 새로운 addrCdList 받아오기
-            $.ajax({
-                type: "GET",
-                url: "/sale/search", // 새로운 addrCdList를 반환하는 URL로 변경해야 함
-                dataType: "json",
-                data: {addr_cd: addr_cd},
-                success: function (data) {
-                    // startOfToday 값을 추출
-                    let startOfToday = data.startOfToday;
-                    // 판매 목록 업데이트 함수 호출 시 startOfToday 값을 함께 전달
-                    updateSaleList(data.saleList, startOfToday);
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error:", error);
-                }
-            });
-        });*/
     });
 
     function writeBtn() {
