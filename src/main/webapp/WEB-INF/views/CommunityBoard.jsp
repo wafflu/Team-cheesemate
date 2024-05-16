@@ -57,10 +57,10 @@
 <%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
         <p id="heart" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
         <input type="hidden" id="postNo" value="${communityBoardDto.no}">
+        <p>💬 ${communityBoardDto.comment_count}</p>
+</div>
 
 
-
-         </div>
 
 
 </form>
@@ -78,8 +78,22 @@
     <button id ="input_comment" type = submit>댓글 작성</button>
 </div>
 
+<input type="hidden" id = "no" name="post_no" value="${commentDto.post_no}">
+<div id = comment-container>
+
+</div>
+
+
+
 <script>
     $(document).ready(function() {
+        loadComments($('#post_no').val());
+
+
+
+
+
+
         $('.detail-button').on("click",function(){
             $('#alertDiv').show();
 
@@ -139,6 +153,7 @@
             $.ajax({
                 type: 'post',
                 url: '/community/writeComment',
+                headers : { "content-type": "application/json"}, // 요청 헤더
                 data: JSON.stringify(
                     {
                         // "nick":nick,
@@ -147,29 +162,58 @@
                         "contents": contents
                     }
                 ),
-                contentType: 'application/json',
-                success: function (result) {  //결과 성공 콜백함수
-                    let s = " ";
-                    s += "<table>"
-                    for (let i = 0; i < result.length; i++) {
-                        console.log(result[i]);
-                        s += "<tr>"
-                        s += "<td>" + result[i].post_no + "</td>"
-                        s += "<td>" + result[i].no + "</td>"
-                        s += "<td>" + result[i].nick + "</td>"
-                        s += "<td>" + result[i].contents + "</td>"
-                        s += "<td>" + result[i].r_date + "</td>"
-                    }
-                    s += "</table>";
-                    $('article').html(s);
-                    alert("dsfsadfdsa");
+                // contentType: 'application/json',
+                dataType : 'json',
+                success:function (comments) {
+                    //     console.log(comments);
+                    //     const commentsContainer = $('#comment-container');
+                    //     commentsContainer.empty();
+                    //     console.log(comments[0].contents);
+                    //     let str = "";
+                    //     comments.forEach(comment => {
+                    //         console.log(
+                    //             comment.contents
+                    //         )
+                    //         str+=`<div>`+comment.contents + `</div>`
+                    //         str+=`<div>`+comment.nick+ `</div>`;
+                    //     });
+                    //     commentsContainer.append(str);
+                    // },
                 },
-                error: function (request, status, error) {  //결과 에러 콜백함수
-                    console.log(error);
-                    alert("에러");
+                error:function (){
+                    alert('댓글을 작성하는데 실패했습니다..');
                 }
             });
         })
+
+
+        function loadComments(postId){
+            $.ajax({
+                url:'/community/comments?postId='+postId,
+                type:'GET',
+                dataType:'json',
+                // data:{post_no:postId},
+                success:function (comments) {
+                    const commentsContainer = $('#comment-container');
+                    commentsContainer.empty();
+                    console.log(comments[0].contents);
+                    let str = "";
+                    comments.forEach(comment => {
+                        console.log(
+                            comment.contents
+                        )
+                        str+=`<div>`+comment.contents + `</div>`
+                        str+=`<div>`+comment.nick+ `</div>`;
+                    });
+                    commentsContainer.append(str);
+                },
+                error:function (){
+                    alert('댓글을 불러오는 데 실패했습니다.');
+                }
+            });
+        }
+
+
     });
 </script>
 

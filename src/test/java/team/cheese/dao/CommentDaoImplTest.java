@@ -142,7 +142,18 @@ public class CommentDaoImplTest {
     }
 
 
+    @Test
+    public void findMaxNoByPostNo()throws Exception{
+        commentDao.deleteAll();
 
+        commentDao.deleteAll();
+        CommentDto commentDto = insertComment();
+        commentDao.insert(commentDto);
+        commentDto = commentDao.select(commentDto.getNo());
+
+        commentDao.findMaxByPostNo(commentDto.getPost_no());
+        assertEquals(1,commentDao.count(commentDto.getNo()));
+    }
 
 
 

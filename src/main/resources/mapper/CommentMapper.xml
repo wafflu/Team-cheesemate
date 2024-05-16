@@ -54,5 +54,7 @@
         order by r_date asc;
     </select>
 
-
+    <select id="findMaxByPostNo" resultType="Integer" parameterType="Integer">
+        SELECT COALESCE(MAX(no), 0) AS maxNo FROM comment WHERE post_no = #{post_no}
+    </select>
 </mapper>

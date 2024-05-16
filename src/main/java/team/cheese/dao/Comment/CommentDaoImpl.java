@@ -53,6 +53,11 @@ public class CommentDaoImpl implements CommentDao{
         return session.update(namespace + "userChangeState", commentDto);
     }
 
+    @Override
+    public int findMaxByPostNo(Integer post_no) throws Exception {
+        return session.selectOne(namespace + "findMaxByPostNo", post_no);
+    }
+
 
     @Override
     public List<CommentDto> selectAll(Integer post_no) throws Exception {

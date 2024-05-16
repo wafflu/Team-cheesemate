@@ -24,5 +24,5 @@ public interface CommentService {
 
     int userChangeState(CommentDto commentDto) throws Exception;
 
-
+    int findMaxByPostNo(Integer post_no) throws Exception;
 }

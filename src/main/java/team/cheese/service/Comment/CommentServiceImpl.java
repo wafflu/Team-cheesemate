@@ -59,4 +59,9 @@ public class CommentServiceImpl implements CommentService {
     public int userChangeState(CommentDto commentDto) throws Exception {
         return commentDao.userChangeState(commentDto);
     }
+
+    @Override
+    public int findMaxByPostNo(Integer post_no) throws Exception {
+        return commentDao.findMaxByPostNo(post_no);
+    }
 }

@@ -30,7 +30,9 @@ public class CommunityInterceptor implements HandlerInterceptor {
 
 
         String currentLoginUser = (String) session.getAttribute("ur_id");
-        System.out.println(currentLoginUser);
+        String currentLoginNick = (String) session.getAttribute("nick");
+//        System.out.println(currentLoginUser);
+//        System.out.println(nick);
 
         //2.세션값에 저장된 아이디가 일치하지않거나 없는 경우 예외처리
         if(ur_id==null || !ur_id.equals(currentLoginUser)){
