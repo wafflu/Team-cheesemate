@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
-		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
 		<typeAlias alias="UserDto" type="team.cheese.domain.UserDto"/>
@@ -19,5 +19,7 @@
 		<typeAlias alias="SaleTagDto" type="team.cheese.domain.SaleTagDto"/>
 		<typeAlias alias="TagDto" type="team.cheese.domain.TagDto"/>
 		<typeAlias alias="AddrCdDto" type="team.cheese.domain.AddrCdDto"/>
-	</typeAliases>
+        <typeAlias alias="ChatMessageDto" type="team.cheese.domain.ChatMessageDto"/>
+        <typeAlias alias="ChatRoomDto" type="team.cheese.domain.ChatRoomDto"/>
+    </typeAliases>
 </configuration>

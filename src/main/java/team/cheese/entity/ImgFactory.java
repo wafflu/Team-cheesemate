@@ -6,6 +6,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.domain.ImgDto;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -82,27 +84,32 @@ public class ImgFactory {
             String ename = fileName.substring(fileName.lastIndexOf('.'));
 
             File saveFile = new File(getFolderPath()+File.separator+getDatePath(), fileName);
+            ImgDto img = null;
             /* 파일 저장 */
             try {
-                File img_name = new File(uploadPath, hash(userid+fileName)+ename);
                 /* 원본 파일 저장 */
                 multipartFile.transferTo(saveFile);
 
-                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-                BufferedImage image = Thumbnails.of(saveFile)
-                        .size(wsize, hsize)
-                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                        .asBufferedImage();
+                // 판매, 커뮤니티만 아래 만들기 허용
+//                if(make) {
+                    // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+                    BufferedImage image = Thumbnails.of(saveFile)
+                            .size(wsize, hsize)
+                            .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                            .imageType(BufferedImage.TYPE_INT_RGB)
+                            .asBufferedImage();
 
-                Thumbnails.of(image)
-                        .size(wsize, hsize)
-                        .outputQuality(1.0)  // 품질 유지
-                        .toFile(img_name);
+                    long currentTimeMillis = System.currentTimeMillis();
+                    //이미지 jpg로 변환
+                    File img_name = new File(uploadPath, hash(currentTimeMillis + fileName) + ".jpg");
+                    ImageIO.write(image, "jpg", img_name);
 
-                //이미지 객체 만들기
-                ImgDto img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
+                    //이미지 객체 만들기
+                    img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
+//                } else {
+//                    img = setImginfo(saveFile, fileName, imgtype, wsize, hsize);
+//                }
                 list.add(img);
-
             } catch (Exception e) {
                 System.out.println("fail");
                 e.printStackTrace();
@@ -118,16 +125,15 @@ public class ImgFactory {
         /* 파일 저장 */
         try {
             String fileName = file.getName();
-            String ename = fileName.substring(fileName.lastIndexOf('.'));
 
             String fullrt = folderPath+foldername+File.separator+datePath;
-            String imgname = (gno+currentTimeMillis)+ename;
+            String imgname = (gno+currentTimeMillis)+ ".jpg";
 
             File img_name = new File(fullrt, imgname);
 
             //수정때문에 만든부분
             if(imgtype.equals("r")){
-                img_name = new File(fullrt, hash(userid+fileName)+ename);
+                img_name = new File(fullrt, hash(currentTimeMillis + fileName) + ".jpg");
             }
 
             // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
@@ -136,10 +142,12 @@ public class ImgFactory {
                     .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
                     .asBufferedImage();
 
-            Thumbnails.of(image)
-                    .size(wsize, hsize)
-                    .outputQuality(1.0)  // 품질 유지
-                    .toFile(img_name);
+            // RGB 형식으로 이미지 변환
+            BufferedImage rgbImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
+            rgbImage.createGraphics().drawImage(image, 0, 0, Color.WHITE, null);
+
+            ImageIO.write(rgbImage, "jpg", img_name);
+
             img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
         } catch (Exception e) {
             e.printStackTrace();

@@ -15,13 +15,15 @@
 <body>
     <c:forEach items="${list}" var="img">
 <%--        <a href="/img/testdetail?no=${img.no}">--%>
-        <a href="/img/modifyview?no=${img.no}">
+<%--        <a href="/img/modifyview?no=${img.no}">--%>
+        <a href="/callchat?sno=${img.no}&id=${img.seller_id}&nick=${img.seller_nick}">
             <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
-        <p>작성자 : ${img.seller_nick}</p>
-        <p>제목 : ${img.title}</p>
-        <p>가격 : ${img.reg_price}</p>
-        <p>등록일 : ${img.r_date}</p>
-        <p>거래지역 : ${img.addr_name}</p>
+            <p>번호 : ${img.no}</p>
+            <p>작성자 : ${img.seller_nick}</p>
+            <p>제목 : ${img.title}</p>
+            <p>가격 : ${img.reg_price}</p>
+            <p>등록일 : ${img.r_date}</p>
+            <p>거래지역 : ${img.addr_name}</p>
         </a>
     </c:forEach>
 

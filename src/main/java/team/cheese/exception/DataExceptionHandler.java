@@ -28,4 +28,12 @@ public class DataExceptionHandler {
         // 예외 메시지를 응답으로 반환
         return new ResponseEntity<>("asdas서버 오류가 발생했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        System.out.println("모든예외 처리 : ");
+        e.printStackTrace();
+        // 예외 메시지를 응답으로 반환
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

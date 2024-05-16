@@ -17,10 +17,10 @@
     </select>
 
     <!--  본문 이미지 가져오기  -->
-    <select id="select_img" parameterType="map" resultType="ImgDto">
+    <select id="select_img" parameterType="int" resultType="ImgDto">
         select *
-        from img i, ${tb_name} gi
-        where gi.group_no = i.group_no and i.state = 'y' and i.group_no = #{no};
+        from img
+        where state = 'y' and group_no = #{no};
     </select>
 
     <update id="update_img_state" parameterType="map">
