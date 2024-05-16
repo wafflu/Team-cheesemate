@@ -95,7 +95,10 @@ public class SaleController {
             }
         }
 
+        System.out.println("여기까지 됨 1");
+
         if(ur_id != null) {
+            System.out.println("여기까지 됨 2");
             SaleDto saleDto = new SaleDto(addr_cd, addr_name);
             model.addAttribute("Sale", saleDto);
             model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
@@ -113,6 +116,7 @@ public class SaleController {
         Map map = saleService.modify(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         String tagContents = (String) map.get("tagContents");
+        System.out.println("modify 판매글 번호 : " + saleDto.getNo());
 
         model.addAttribute("Sale", saleDto);
         model.addAttribute("Tag", tagContents);

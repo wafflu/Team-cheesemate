@@ -103,9 +103,9 @@
         SET addr_cd          = #{addr_cd},                                                               -- 주소 코드
             addr_name        = #{addr_name},                                                             -- 주소 이름
             seller_id        = #{seller_id},                                                             -- 판매자 ID
-            seller_nick      = (SELECT nick FROM user WHERE id = #{seller_id}),                          -- 판매자 닉네임
+            seller_nick      = #{seller_nick},                          -- 판매자 닉네임
             sal_i_cd         = #{sal_i_cd},                                                              -- 판매 카테고리 코드
-            sal_name         = (SELECT name FROM sale_category WHERE sal_cd = #{sal_i_cd}),              -- 판매 카테고리 이름
+            sal_name         = #{sal_name},              -- 판매 카테고리 이름
             pro_s_cd         = #{pro_s_cd},                                                              -- 상품 상태 코드
             tx_s_cd          = #{tx_s_cd},                                                               -- 거래 방식 코드
             trade_s_cd_1     = #{trade_s_cd_1},                                                          -- 거래 방법1 코드
@@ -116,12 +116,12 @@
             contents         = #{contents},                                                              -- 판매 상품 설명
             bid_cd           = #{bid_cd},                                                                -- 가격제시/나눔 여부
             pickup_addr_cd   = #{pickup_addr_cd},                                                        -- 거래희망장소 코드
-            pickup_addr_name = (SELECT addr_name FROM administrative WHERE addr_cd = #{pickup_addr_cd}), -- 거래희망장소 주소명
+            pickup_addr_name = #{pickup_addr_name}, -- 거래희망장소 주소명
             detail_addr      = #{detail_addr},                                                           -- 거래희망장소 상세장소(위치)
             brand            = #{brand},                                                                 -- 상품 브랜드
             reg_price        = #{reg_price},                                                             -- 상품 정가
             m_date           = NOW(),                                                                    -- 수정 날짜
-            ur_state         = 'N',                                                                      -- 사용자 상태
+            ur_state         = 'Y',                                                                      -- 사용자 상태
             last_date        = NOW(),
             last_id          = #{seller_id}
         WHERE no = #{no} -- 판매글 번호

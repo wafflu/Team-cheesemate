@@ -733,6 +733,9 @@
         $("<input>").attr("type", "hidden").attr("name", "addr_cd").val("${Sale.addr_cd}").appendTo("#writeForm");
         $("<input>").attr("type", "hidden").attr("name", "addr_name").val("${Sale.addr_name}").appendTo("#writeForm");
 
+        let no = "${Sale.no}";
+        let seller_id = "${Sale.seller_id}";
+        let seller_nick = "${Sale.seller_nick}";
         let title = $('input[name="title"]').val(); // 제목
         let pro_s_cd = $('input[name="pro_s_cd"]:checked').val(); // 상품상태
         let contents = $('textarea[name="contents"]').val(); // 설명
@@ -776,6 +779,9 @@
         });
 
         let sale = {
+            "no": no,
+            "seller_id":seller_id,
+            "seller_nick":seller_nick,
             "title": title,
             "pro_s_cd": pro_s_cd,
             "contents": contents,

@@ -198,25 +198,11 @@
         $("#addr_cd").change(function () {
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $(this).val();
-            // let sal_i_cd = $("#category1").val();
-
-            let category1Value = $("#category1").val();
-            let category2Value = $("#category2 option:checked").val();
-            let category3Value = $("#category3 option:checked").val();
-            let category1Text = $("#category1 option:checked").text();
-            let category2Text = $("#category2 option:checked").text();
-            let category3Text = $("#category3 option:checked").text();
-
-            // 조건에 따라 sal_i_cd 값을 설정
-            let sal_i_cd;
-            let sal_name_value;
-            if (category1Value && !category2Value && !category3Value) {
-                sal_i_cd = category1Value;
-            } else if (category1Value && category2Value && !category3Value) {
-                sal_i_cd = category2Value;
-            } else if (category1Value && category2Value && category3Value) {
-                sal_i_cd = category3Value;
-            }
+            let sal_i_cd = null;
+            $("#category1").val('').prop('selected', true);
+            $("#category2").val('').prop('selected', true);
+            $("#category3").val('').prop('selected', true);
+            $("#sal_name").text("전체");
 
             saleList(addr_cd, sal_i_cd);
         });

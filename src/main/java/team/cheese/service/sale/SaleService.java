@@ -149,7 +149,7 @@ public class SaleService {
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
-        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+        updateTagTx(sal_no, ur_id, tagList);
 
         System.out.println("sal_no : " + sal_no);
         return sal_no;
@@ -159,7 +159,7 @@ public class SaleService {
     public int updateTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
         int insertTagTx = 0;
         int resultSaleTag = 0;
-        deleteSaleTagTx(sal_no);
+        deleteSaleTagTx(sal_no); // sale_tag 테이블의 판매글 번호와 일치하는 행 삭제
         for (String contents : tagList) {
             TagDto tagDto = tagDao.selectTagContents(contents);
             if (tagDto == null) { // contents가 중복값이 없는 경우
