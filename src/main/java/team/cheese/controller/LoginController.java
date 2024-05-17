@@ -37,7 +37,8 @@ public class LoginController {
     }
 
     // *** 로그인 기능 ***
-    // 1. 입력된 아이디로 유저/관리자 로그인이 가능한지 확인
+    // 1. 입력된 아이디로 유저\
+    // 관리자 로그인이 가능한지 확인
     //      1.1 유저가 로그인한 경우
     //          1.1.1 세션에 유저의 정보 저장(Id, Nick, addr_cd)
     //          1.1.2 홈(home.jsp)으로 이동
@@ -83,11 +84,11 @@ public class LoginController {
 
             if(fromUri.isEmpty()) {
                 System.out.println("fromUri에는 아무것도 없음으로 home으로 이동합니다.");
-                return "home";
+                return "redirect:" + "home";
             }
             else {
                 System.out.println("fromUri에는 " + fromUri + " 이 있어 이동합니다.");
-                return fromUri;
+                return "redirect:" + fromUri;
             }
         }
         else if(adminDto != null) { // 1.2 관리자가 로그인한 경우
