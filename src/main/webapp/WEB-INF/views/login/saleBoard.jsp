@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,44 +78,24 @@
                 });
             }
         });
-    });
 
-    <%--$(document).ready(function () {--%>
-    <%--    $("#modifyBtn").on("click", function () {--%>
-    <%--        if (confirm("수정 하시겠습니까?")) { // 삭제 여부 확인--%>
-    <%--            $.ajax({--%>
-    <%--                type: "POST",--%>
-    <%--                url: "<c:url value='/sale/modify?no=${Sale.no}'/>",--%>
-    <%--                contentType: "application/json",--%>
-    <%--                success: function (data) {--%>
-    <%--                },--%>
-    <%--                error: function (xhr, status, error) {--%>
-    <%--                    alert("오류가 발생했습니다.");--%>
-    <%--                }--%>
-    <%--            });--%>
-    <%--        }--%>
-    <%--    });--%>
-    <%--});--%>
-    $(document).ready(function () {
         $("#modifyBtn").on("click", function () {
             if (confirm("수정 하시겠습니까?")) {
-                    // Sale.no 값을 읽어와서 hidden input을 추가
-                    var saleNo = "${Sale.no}";
-                    $("<input>").attr({
-                        type: "hidden",
-                        name: "no",
-                        value: saleNo
-                    }).appendTo("#form");
-                    // action 속성 설정
-                    $("#form").attr("action", "/sale/modify");
+                // Sale.no 값을 읽어와서 hidden input을 추가
+                var saleNo = "${Sale.no}";
+                $("<input>").attr({
+                    type: "hidden",
+                    name: "no",
+                    value: saleNo
+                }).appendTo("#form");
+                // action 속성 설정
+                $("#form").attr("action", "/sale/modify");
 
-                    // form submit
-                    $("#form").submit();
+                // form submit
+                $("#form").submit();
             }
         });
-    });
 
-    $(document).ready(function () {
         $("#returnBtn").on("click", function () {
             if (confirm("목록으로 돌아가시겠습니까?")) { // 삭제 여부 확인
                 $.ajax({
@@ -132,15 +111,6 @@
             }
         });
     });
-
-
-    <%--$("#returnBtn").on("click", function() {--%>
-    <%--    let form = $("#form");--%>
-    <%--    form.attr("action", "<c:url value='/sale/list'/>");--%>
-    <%--    form.attr("method", "post");--%>
-    <%--    confirm("목록으로 돌아가시겠습니까?");--%>
-    <%--    form.submit();--%>
-    <%--});--%>
 
 </script>
 </body>

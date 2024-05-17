@@ -88,7 +88,7 @@ public class SaleController {
 
         HttpSession session = request.getSession();
         String user_id = (String) session.getAttribute("userId");
-        String user_nick = (String) session.getAttribute("userId");
+        String user_nick = (String) session.getAttribute("userNick");
         System.out.println(user_id);
 
 
@@ -156,7 +156,7 @@ public class SaleController {
         if (!violations.isEmpty()) {
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
-            return new ResponseEntity<>("필수값 입력 오류 발생", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
         }
 
 //        saleDto.setAddrSeller(seller_id, seller_nick);
@@ -271,7 +271,7 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
         }
     }
 
-    // ajax 판매 카테고리 처리(소분류)
+    // ajax 주소 검색
     @RequestMapping("/searchLetter")
     @ResponseBody
     public ResponseEntity<List<AdministrativeDto>> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {

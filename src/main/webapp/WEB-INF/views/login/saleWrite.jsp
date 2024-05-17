@@ -24,7 +24,7 @@
 
         #openModalBtn {
             all: unset;
-            background-color: steelblue;
+            background-color: rgba(245, 157, 28, 1);
             color: white;
             padding: 5px 20px;
             border-radius: 5px;
@@ -83,8 +83,8 @@
             max-height: 200px;
         }
 
-        tr:hover {
-            background-color: cornflowerblue;
+        .sale-addr-tr:hover {
+            background-color: rgba(245, 157, 28, 0.5);
             cursor: pointer;
         }
 
@@ -104,7 +104,7 @@
             /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
         }
 
-        h1 {
+        #sale_search_addr {
             margin: 0;
         }
 
@@ -114,12 +114,13 @@
 
         /* input text 및 textarea 너비 조절 */
         input[type="text"], input[type="number"],
-        textarea {
+        #contents {
             width: calc(100% - 20px);
             /* 전체 너비에서 여백을 뺀 값으로 설정 */
             padding: 5px;
             /* 내부 여백 설정 */
             margin-top: 10px;
+            resize: none;
         }
     </style>
 </head>
@@ -136,49 +137,62 @@
             </p>
         </div>
         <p>
-            제목 <input name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" value="${Sale.title}"/>
+            제목 <input name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" value="${Sale.title}"
+                      minlength="1" maxlength="40"/>
         </p>
-        <p>카테고리</p>
-        <select id="category1" onchange="loadCategory2()">
-            <option value="" disabled selected>대분류</option>
-            <c:forEach var="category" items="${saleCategory1}">
-                <option value="${category.sal_cd}">${category.name}</option>
-            </c:forEach>
-        </select>
+        <div id="categoryContainer">
+            <p>카테고리</p>
+            <select id="category1" onchange="loadCategory2()">
+                <option value="" disabled selected>대분류</option>
+                <c:forEach var="category" items="${saleCategory1}">
+                    <option value="${category.sal_cd}">${category.name}</option>
+                </c:forEach>
+            </select>
 
-        <select id="category2" onchange="loadCategory3()">
-            <option value="" disabled selected>중분류</option>
-        </select>
+            <select id="category2" onchange="loadCategory3()">
+                <option value="" disabled selected>중분류</option>
+            </select>
 
-        <select id="category3">
-            <option value="" disabled selected>소분류</option>
-        </select>
+            <select id="category3">
+                <option value="" disabled selected>소분류</option>
+            </select>
 
-        <p style="color: orangered;" id="salecategoryMsg"></p>
-        <span style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;" id="sal_name"></p></b></span>
+            <p style="color: orangered;" id="salecategoryMsg"></p>
+            <span style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;"
+                                                       id="sal_name"></p></b></span>
+        </div>
 
-        <p>상품상태</p>
-        <input type="radio" name="pro_s_cd" value="S"/>새상품(미사용) <br/>
-        <input type="radio" name="pro_s_cd" value="A"/>사용감 없음 <br/>
-        <input type="radio" name="pro_s_cd" value="B"/>사용감 적음 <br/>
-        <input type="radio" name="pro_s_cd" value="C"/>사용감 많음 <br/>
-        <input type="radio" name="pro_s_cd" value="D"/>고장/파손 상품 <br/>
-        <p>
-            거래방법(2개 이하)
-            <input type="checkbox" class="trade_s_cd" value="O"/> 온라인
-            <input type="checkbox" class="trade_s_cd" value="F"/> 직거래
-            <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
+        <div id="pro_s_cdContainer">
+            <p>상품상태</p>
+            <input type="radio" name="pro_s_cd" value="S"/>새상품(미사용) <br/>
+            <input type="radio" name="pro_s_cd" value="A"/>사용감 없음 <br/>
+            <input type="radio" name="pro_s_cd" value="B"/>사용감 적음 <br/>
+            <input type="radio" name="pro_s_cd" value="C"/>사용감 많음 <br/>
+            <input type="radio" name="pro_s_cd" value="D"/>고장/파손 상품 <br/>
+        </div>
+        <div id="trade_s_cdContainer">
+            <p>
+                거래방법(2개 이하)
+                <input type="checkbox" class="trade_s_cd" value="O"/> 온라인
+                <input type="checkbox" class="trade_s_cd" value="F"/> 직거래
+                <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
+            </p>
+        </div>
+        <p>설명
+            <textarea name="contents" id="contents" cols="30" rows="10" style="white-space: pre-line;"
+                      minlength="1" maxlength="2000" title="내용을 입력해 주세요.">${Sale.contents}</textarea>
         </p>
-        <p>설명</p>
-        <p style="white-space: pre-wrap"><textarea name="contents" id="contents" cols="30" rows="10" style="white-space: pre-line;">${Sale.contents}</textarea></p>
         <p>해시태그(선택) <input type="text" id="hashtagInput" name="tag" value="${Tag}"/></p>
         <div id="hashtagContainer"></div>
-        <input type="radio" class="tx_s_cd" name="tx_s_cd" value="S"/>판매
-        <input type="radio" class="tx_s_cd" name="tx_s_cd" value="F"/>나눔
-        <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
+        <div id="tx_s_cdContainer">
+            <input type="radio" class="tx_s_cd" name="tx_s_cd" value="S"/>판매
+            <input type="radio" class="tx_s_cd" name="tx_s_cd" value="F"/>나눔
+            <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
+        </div>
         <p>
             상품가격
-            <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0" value="${Sale.price}"/>
+            <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0" value="${Sale.price}"
+                   title="가격을 입력해 주세요."/>
         </p>
         <p hidden><input type="radio" name="bid_cd" value="N" checked/> 미사용 </p>
         <p class="proposal" hidden><input class="proposal" type="radio" name="bid_cd" value="P"/> 가격제안받기</p>
@@ -192,7 +206,7 @@
             <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
             <div class="sale_modal_content">
                 <button id="closeModalBtn">x</button>
-                <h1>주소 검색</h1>
+                <h1 id="sale_search_addr">주소 검색</h1>
                 <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
                 <div class="sale-table-wrapper">
                     <table id="addrTable" class="table text-center">
@@ -207,8 +221,6 @@
                 </div>
             </div>
         </div>
-<%--        <input name="addr_cd" value="${Sale.addr_cd}">--%>
-<%--        <input name="addr_name" value="${Sale.addr_name}">--%>
         <p>거래장소
             <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="${Sale.pickup_addr_cd}" hidden>
             <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="${Sale.pickup_addr_name}" disabled>
@@ -222,7 +234,6 @@
             브랜드(선택)
             <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." value="${Sale.brand}"/>
         </p>
-        <!-- <input type="button" id="submitBtn" value="등록하기" onclick="write()"/> -->
         <input type="button" id="submitBtn" value="등록하기"/>
     </form>
 </div>
@@ -231,9 +242,11 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     let submitURL = '/sale/insert';
+
+    let category2Check = true;
+    let category3Check = true;
+
     $(document).ready(function () {
-        // 현재 URL에서 addr_cd 매개변수를 제거하고 페이지를 다시로드하지 않음
-        // history.replaceState({}, document.title, window.location.pathname);
 
         // 현재 URL에서 "modify" 문자열이 포함되어 있는지 확인
         if (window.location.href.indexOf("modify") != -1) {
@@ -282,7 +295,6 @@
             // Sale의 category 값
             // 조건에 따라 sal_i_cd 값을 설정
             let sal_i_cd = "${Sale.sal_i_cd}";
-            console.log(sal_i_cd);
             if (sal_i_cd.length == 9) {
                 let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
                 $("#category1").val(category1Value).trigger("change");
@@ -312,14 +324,7 @@
                         alert("Error", error);
                     }
                 });
-                // let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
-                // let category2Value = sal_i_cd.substring(0, 6); // sal_i_cd의 앞 6글자
-                // let category3Value = sal_i_cd; // sal_i_cd의 전체 글자
-                // $("#category1").val(category1Value).trigger("change").promise().done(function(){
-                //     $("#category2").val(category2Value).trigger("change").promise().done(function(){
-                //         $("#category3").val(category3Value).trigger("change");
-                //     });
-                // });
+
             } else if (sal_i_cd.length == 6) {
                 let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
                 $("#category1").val(category1Value).trigger("change");
@@ -338,11 +343,7 @@
                         // window.location.reload();
                     }
                 });
-                // let category1Value = sal_i_cd.substring(0, 3); // sal_i_cd의 앞 3글자
-                // let category2Value = sal_i_cd; // sal_i_cd의 전체 글자
-                // $("#category1").val(category1Value).trigger("change").promise().done(function(){
-                //     $("#category2").val(category2Value).trigger("change");
-                // });
+
             } else {
                 let category1Value = sal_i_cd; // sal_i_cd의 전체 글자
                 $("#category1").val(category1Value).trigger("change");
@@ -372,7 +373,6 @@
                 }
             }
         });
-
     });
 
     // 이미지 등록 개수 한도 정하기
@@ -443,14 +443,12 @@
     $(document).ready(function () {
         // ${Tag} 값이 존재하는지 확인
         let tagValue = "${Tag}";
-        // if (tagValue) {
-            createHashtagInput(); // 페이지 로드 시에도 input 생성
+        createHashtagInput(); // 페이지 로드 시에도 input 생성
 
-            // input 요소에 이벤트 리스너 추가
-            document
-                .getElementById("hashtagInput")
-                .addEventListener("input", createHashtagInput);
-        // }
+        // input 요소에 이벤트 리스너 추가
+        document
+            .getElementById("hashtagInput")
+            .addEventListener("input", createHashtagInput);
     });
 
     // 해시태그 input 생성하는 함수
@@ -485,27 +483,6 @@
         });
     }
 
-
-    $(document).ready(function () {
-        // 대분류 선택 전 메시지 설정
-        $("#salecategoryMsg").text("대분류 > 중분류 > 소분류를 선택하세요.");
-
-        // 대분류 선택 시 중분류 메시지
-        $("#category1").change(function () {
-            $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
-        });
-
-        // 중분류 선택 시 소분류 메시지
-        $("#category2").change(function () {
-            $("#salecategoryMsg").text("소분류를 선택하세요.");
-        });
-
-        // 소분류 선택 시 메시지 제거
-        $("#category3").change(function () {
-            $("#categoryMsg").text("");
-        });
-    });
-
     $(document).ready(function () {
         // 페이지 로드 시 현재 선택된 대분류 카테고리의 이름을 가져와서 sal_name에 표시
         let category1Name = $("#category1 option:checked").text();
@@ -537,6 +514,24 @@
             }
         });
 
+        // 대분류 선택 전 메시지 설정
+        $("#salecategoryMsg").text("대분류 > 중분류 > 소분류를 선택하세요.");
+
+        // 대분류 선택 시 중분류 메시지
+        $("#category1").change(function () {
+            $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
+        });
+
+        // 중분류 선택 시 소분류 메시지
+        $("#category2").change(function () {
+            $("#salecategoryMsg").text("소분류를 선택하세요.");
+        });
+
+        // 소분류 선택 시 메시지 제거
+        $("#category3").change(function () {
+            $("#salecategoryMsg").text("");
+        });
+
     });
 
     function loadCategory2() {
@@ -555,6 +550,7 @@
                     category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
                     console.log("data.length : ", data.length);
                     if (data.length > 0) {
+                        category2Check = false;
                         data.forEach(function (category) {
                             // console.log(typeof category);
                             if (category.sal_cd.startsWith(category1Value)) {
@@ -587,6 +583,7 @@
                     category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
                     console.log("data.length : ", data.length);
                     if (data.length > 0) {
+                        category2Check = false;
                         data.forEach(function (category) {
                             if (category.sal_cd.startsWith(category2Value)) {
                                 let option = new Option(category.name, category.sal_cd);
@@ -603,11 +600,6 @@
             });
         }
     }
-
-    // 소분류 선택 시 메시지 제거
-    $("#category3").change(function () {
-        $("#salecategoryMsg").text("");
-    });
 
     const openModalBtn = document.getElementById("openModalBtn");
     const modal = document.querySelector(".SaleModal");
@@ -631,7 +623,8 @@
             let searchLetter = $(this).val();
             $.ajax({
                 type: "POST",
-                url: "/sale/searchLetter",
+                url: "/searchLetter",
+                // url: "/sale/searchLetter",
                 data: {searchLetter: searchLetter},
                 dataType: "json",
                 success: function (data) {
@@ -641,7 +634,7 @@
                     if (data.length > 0) {
                         data.forEach(function (addr) {
                             console.log("addr", addr);
-                            let row = $("<tr>");
+                            let row = $("<tr class='sale-addr-tr'>");
                             row.append($("<td>").text(addr.addr_cd)); // 행정구역 코드
                             row.append($("<td>").text(addr.addr_name)); // 주소명
                             $("#addrList").append(row);
@@ -676,8 +669,8 @@
     // 등록하기 버튼 누르는 경우
     $("#submitBtn").on("click", function () {
         // addr_cd와 addr_name 값을 가져오기 위해 input 태그 추가
-        $("<input>").attr("type", "hidden").attr("name", "addr_cd").val("${Sale.addr_cd}").appendTo("#writeForm");
-        $("<input>").attr("type", "hidden").attr("name", "addr_name").val("${Sale.addr_name}").appendTo("#writeForm");
+        <%--$("<input>").attr("type", "hidden").attr("name", "addr_cd").val("${Sale.addr_cd}").appendTo("#writeForm");--%>
+        <%--$("<input>").attr("type", "hidden").attr("name", "addr_name").val("${Sale.addr_name}").appendTo("#writeForm");--%>
 
         let no = "${Sale.no}";
         let seller_id = "${Sale.seller_id}";
@@ -693,8 +686,8 @@
         let pickup_addr_name = $('input[name="pickup_addr_name"]').val(); // 거래장소
         let detail_addr = $('input[name="detail_addr"]').val(); // 거래희망장소
         let brand = $('input[name="brand"]').val(); // 브랜드
-        let addr_cd = $('input[name="addr_cd"]').val(); // 행정구역코드
-        let addr_name = $('input[name="addr_name"]').val(); // 주소명
+        let addr_cd = "${Sale.addr_cd}"; // 행정구역코드
+        let addr_name = "${Sale.addr_name}"; // 주소명
 
         // category1, category2, category3의 값 추출
         let category1Value = $("#category1").val();
@@ -724,10 +717,16 @@
             trade_s_cd_values.push($(checkbox).val());
         });
 
+        if (!validationForm(title, category1Value, category2Check, category3Check, category3Value, contents, pro_s_cd, trade_s_cd_values[0], tx_s_cd, price, reg_price)) { // 유효성 검사 통과 못하면 함수 종료
+            return false;
+        }
+        ;
+
+
         let sale = {
             "no": no,
-            "seller_id":seller_id,
-            "seller_nick":seller_nick,
+            "seller_id": seller_id,
+            "seller_nick": seller_nick,
             "title": title,
             "pro_s_cd": pro_s_cd,
             "contents": contents,
@@ -794,6 +793,73 @@
             }
         });
     })
+
+    function validationForm(title, category1Value, category2Check, category3Check, category3Value, contents, pro_s_cd, trade_s_cd, tx_s_cd, price, reg_price) {
+        // if (!title) {
+        //     document.getElementsByName("title")[0].focus();
+        //     document.getElementsByName("title")[0].style.borderColor = 'red';
+        //     alert("제목을 입력하세요.");
+        //     return false;
+        // }
+
+        if (!category1Value || !category2Check || (!category3Check && !category3Value)) {
+            $("#categoryContainer").attr('tabindex', 0).focus();
+            $("#categoryContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
+            alert("상품 상태를 선택하세요.");
+            category2Check = true;
+            category3Check = true;
+            return false;
+        }
+
+        // if (!contents) {
+        //     document.getElementsByName("contents")[0].focus();
+        //     document.getElementsByName("contents")[0].style.borderColor = 'red';
+        //     alert("내용을 입력하세요.");
+        //     return false;
+        // }
+        //
+        // if (!pro_s_cd) {
+        //     $("#pro_s_cdContainer").attr('tabindex', 0).focus();
+        //     $("#pro_s_cdContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
+        //     alert("상품 상태를 선택하세요.");
+        //     return false;
+        // }
+        //
+        // if (!trade_s_cd) {
+        //     $("#trade_s_cdContainer").attr('tabindex', 0).focus();
+        //     $("#trade_s_cdContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
+        //     alert("거래방법을 선택하세요.");
+        //     return false;
+        // }
+        //
+        // if (!tx_s_cd) {
+        //     $("#tx_s_cdContainer").attr('tabindex', 0).focus();
+        //     $("#tx_s_cdContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
+        //     alert("판매/나눔 중 한 가지를 선택하세요.");
+        //     return false;
+        // }
+        //
+        // if (tx_s_cd === 'S' && !price) {
+        //     document.getElementsByName("price")[0].focus();
+        //     document.getElementsByName("price")[0].style.borderColor = 'red';
+        //     alert("가격을 입력하세요.");
+        //     return false;
+        // } else if(tx_s_cd === 'S' && price < 0) {
+        //     document.getElementsByName("price")[0].focus();
+        //     document.getElementsByName("price")[0].style.borderColor = 'red';
+        //     alert("음수를 제외한 정확한 가격을 입력하세요.");
+        //     return false;
+        // }
+        //
+        // if(!reg_price && reg_price < 0) {
+        //     document.getElementsByName("reg_price")[0].focus();
+        //     document.getElementsByName("reg_price")[0].style.borderColor = 'red';
+        //     alert("음수를 제외한 정확한 가격을 입력하세요.");
+        //     return false;
+        // }
+
+        return true;
+    }
 
 </script>
 
