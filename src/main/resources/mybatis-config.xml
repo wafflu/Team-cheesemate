@@ -3,7 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<typeAliases>
+    <typeAliases>
+        <typeAlias alias="UserInfoDto" type="team.cheese.domain.MyPage.UserInfoDTO"/>
+        <typeAlias alias="ReviewCommentDto" type="team.cheese.domain.MyPage.ReviewCommentDTO"/>
+        <typeAlias alias="SearchCondition" type="team.cheese.domain.MyPage.SearchCondition"/>
 		<typeAlias alias="UserDto" type="team.cheese.domain.UserDto"/>
 		<typeAlias alias="AdminDto" type="team.cheese.domain.AdminDto"/>
 		<typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
@@ -13,7 +16,6 @@
 		<typeAlias alias="BidingDto" type="team.cheese.domain.BidingDto"/>
 		<typeAlias alias="HoistingDto" type="team.cheese.domain.HoistingDto"/>
 		<typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
-		<typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
 		<typeAlias alias="SaleHistoryDto" type="team.cheese.domain.SaleHistoryDto"/>
 		<typeAlias alias="SaleImgDto" type="team.cheese.domain.SaleImgDto"/>
 		<typeAlias alias="SaleTagDto" type="team.cheese.domain.SaleTagDto"/>

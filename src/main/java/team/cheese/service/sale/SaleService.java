@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
 import team.cheese.domain.SaleDto;
 import team.cheese.domain.SaleTagDto;
 import team.cheese.domain.TagDto;
 
-import javax.servlet.http.HttpSession;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,19 +20,19 @@ public class SaleService {
     @Autowired
     SaleDao saleDao;
     @Autowired
-    SaleCategoryDao saleCategoryDao;
+    team.cheese.dao.SaleCategoryDao saleCategoryDao;
     @Autowired
-    AdministrativeDao administrativeDao;
+    team.cheese.dao.AdministrativeDao administrativeDao;
 
     @Autowired
-    TagDao tagDao;
+    team.cheese.dao.TagDao tagDao;
     @Autowired
-    AddrCdDao addrCdDao;
+    team.cheese.dao.AddrCdDao addrCdDao;
     @Autowired
-    SaleTagDao saleTagDao;
+    team.cheese.dao.SaleTagDao saleTagDao;
 
     @Autowired
-    TestSession testSession;
+    team.cheese.dao.TestSession testSession;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -289,6 +288,13 @@ public class SaleService {
         int totalCnt = saleDao.countSale(map);
 
         return totalCnt;
+    }
+
+    public List<SaleDto> getSearchPage(SearchCondition sc) throws Exception {
+        return saleDao.selectSearchPage(sc);
+    }
+    public int getSearchCnt(SearchCondition sc) throws Exception {
+        return saleDao.selectSearchCount(sc);
     }
 }
 

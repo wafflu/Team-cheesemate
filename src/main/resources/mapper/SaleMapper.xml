@@ -32,6 +32,44 @@
             AND sal_i_cd LIKE CONCAT(#{sal_i_cd}, '%')
         </if>
     </select>
+    <!-- CRUD  -->
+    <!--  R : 전체 게시글 선택  -->
+    <!--  유저의 주소를 기준으로 조회되어야 됨  -->
+    <!--    and 제목으로 검색조건도 추가해야함-->
+    <select id="selectSearchPage" parameterType="SearchCondition" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        where true
+        and ur_state = 'Y'
+        <if test='option=="seller"'>
+            and seller_id = #{ur_id}
+        </if>
+        <if test='option=="buyer"'>
+            and buyer_id = #{ur_id}
+        </if>
+        <if test='sal_s_cd!=""'>
+            and sal_s_cd = #{sal_s_cd}
+        </if>
+        and title like concat('%',#{keyword},'%')
+        ORDER BY no DESC
+        LIMIT #{offset},#{pageSize}
+    </select>
+
+    <select id="selectSearchCount" parameterType="SearchCondition" resultType="int">
+        SELECT count(*)
+        FROM sale
+        where true
+        and ur_state = 'Y'
+        <if test='option=="seller"'>
+            and seller_id = #{ur_id}
+        </if>
+        <if test='option=="buyer"'>
+            and buyer_id = #{ur_id}
+        </if>
+        <if test='sal_s_cd!=""'>
+            and sal_s_cd = #{sal_s_cd}
+        </if>
+        and title like concat('%',#{keyword},'%')
+    </select>
 
     <!-- CRUD  -->
     <!--  R : 전체 게시글 선택  -->
@@ -87,13 +125,13 @@
         INSERT INTO sale(addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
                          group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2,
                          sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr,
-                         brand, reg_price,
+                         brand, reg_price,buyer_id,buyer_nick,
                          first_date, first_id, last_date, last_id)
         values (#{addr_cd}, #{addr_name}, #{seller_id}, #{seller_nick}, #{sal_i_cd}, #{sal_name},
                 #{group_no}, #{img_full_rt}, #{pro_s_cd}, #{tx_s_cd}, #{trade_s_cd_1}, #{trade_s_cd_2},
                 #{sal_s_cd}, #{title}, #{contents}, #{price}, #{bid_cd}, #{pickup_addr_cd}, #{pickup_addr_name},
                 #{detail_addr},
-                #{brand}, #{reg_price},
+                #{brand}, #{reg_price}, #{buyer_id} , #{buyer_nick},
                 now(), #{seller_id}, now(), #{seller_id})
     </insert>
 

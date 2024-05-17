@@ -12,6 +12,10 @@
         }
     </style>
 </head>
+<script>
+	let msg ="${msg}"
+	alert(msg);
+</script>
 <body>
 
 <div class="center">

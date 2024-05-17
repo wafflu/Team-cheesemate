@@ -3,6 +3,7 @@ package team.cheese.dao;
 import java.util.List;
 import java.util.Map;
 
+import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.domain.SaleDto;
 
 public interface SaleDao {
@@ -47,4 +48,9 @@ public interface SaleDao {
     List<SaleDto> selectStandardAddr(String ur_id, int check_addr_cd) throws Exception;
 
     List<SaleDto> selectList(Map map) throws Exception;
+
+    // 조건대로 판매글 목록 조회
+    List<SaleDto> selectSearchPage(SearchCondition sc) throws Exception;
+
+    int selectSearchCount(SearchCondition sc) throws Exception;
 }
