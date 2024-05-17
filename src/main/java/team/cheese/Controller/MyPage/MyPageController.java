@@ -6,31 +6,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import team.cheese.Domain.MyPage.CommentPageHandler;
+import org.springframework.web.bind.annotation.*;
+import team.cheese.Domain.MyPage.PageHandler;
+import team.cheese.Domain.MyPage.SaleDto;
+import team.cheese.Domain.MyPage.SearchCondition;
 import team.cheese.Domain.MyPage.UserInfoDTO;
-import team.cheese.Service.MyPage.ReviewCommentService;
+import team.cheese.Service.MyPage.SaleService;
 import team.cheese.Service.MyPage.UserInfoService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/myPage")
 public class MyPageController {
 
     UserInfoService userInfoService;
-    ReviewCommentService reviewCommentService;
+    SaleService saleService;
 
     @Autowired
-    public MyPageController(UserInfoService userInfoService, ReviewCommentService reviewCommentService){
+    public MyPageController(UserInfoService userInfoService, SaleService saleService){
         this.userInfoService = userInfoService;
-        this.reviewCommentService = reviewCommentService;
+        this.saleService = saleService;
     }
 
     @ExceptionHandler(Exception.class)
@@ -39,6 +41,7 @@ public class MyPageController {
         return "home";
     }
 
+    // 마이페이지 메인화면
     @RequestMapping("/main")
     public String main(@RequestParam(required = false)String ur_id, HttpSession session, Model model) throws Exception{
         if(!loginCheck(session))
@@ -50,12 +53,6 @@ public class MyPageController {
         // String session_id = (String) session.getAttribute("id");
         // test를 위한 session_id값
         String session_id = "1";
-        // 사용자의 후기글 갯수 가져오기
-        int totalCnt = reviewCommentService.getPageCount(ur_id,session_id);
-
-        // 페이징핸들러 객체 생성 & 모델에 담기
-        CommentPageHandler ph = new CommentPageHandler(totalCnt,1,5);
-        model.addAttribute("ph",ph);
 
         // 소개글 읽어오기
         UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id);
@@ -68,6 +65,37 @@ public class MyPageController {
 
         return "main";
     }
+
+    // 마이페이지 판매,구매내역 화면
+    @RequestMapping("/saleInfo")
+    public String saleInfo(HttpSession session, Model model) throws Exception {
+        // 1. 세션에서 session_id 값 받아오기
+        // String session_id = (String) session.getAttribute("id");
+        // test를 위한 session_id값
+        String session_id = "asdf";
+        model.addAttribute("ur_id",session_id);
+
+        return "saleInfo";
+    }
+
+    // 조건객체에 따른 목록과 페이징정보를 Map에 담아 전달
+    @PostMapping("/saleHistorys")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> list(@RequestBody SearchCondition sc) throws Exception {
+        // 조건객체에 따른 목록전체 카운트수
+        int totalCnt = saleService.getSearchCnt(sc);
+
+        // 페이징 객체 생성 각 매개변수에 값 전달
+        PageHandler ph = new PageHandler(totalCnt,sc.getPage(),sc.getPageSize());
+        List<SaleDto> list = saleService.getSearchPage(sc);
+
+        // 목록과 페이징을 하기 위해 PageHandler객체를 Map에 저장
+        Map<String, Object> response = new HashMap<>();
+        response.put("list", list);
+        response.put("ph", ph);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
     private boolean loginCheck(HttpSession session) {
         // 1. 세션을 얻어서

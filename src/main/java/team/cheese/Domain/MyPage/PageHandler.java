@@ -1,9 +1,10 @@
 package team.cheese.Domain.MyPage;
 
+import team.cheese.Domain.MyPage.SearchCondition;
+
 import java.util.Objects;
 
-public class CommentPageHandler {
-
+public class PageHandler {
     private int navSize = 10; // 내비게이션 크기
     private int totalCnt; // 총 게시물 갯수
     private Integer page; // 현재 페이지
@@ -13,13 +14,23 @@ public class CommentPageHandler {
     private int endPage; // 제일 마지막 페이지
     private boolean prevPage; // 이전페이지로 이동할수있는지
     private boolean nextPage; // 다음페이지로 이동할수있는지
-    public CommentPageHandler(){} // 기본 생성자
+    private int offset; // 페이지 offset
 
-    public CommentPageHandler(Integer totalCnt,Integer page) {
-        this(totalCnt,page,5);
+    public int getOffset() {
+        return offset;
     }
 
-    public CommentPageHandler(Integer totalCnt,Integer page,Integer pageSize) {
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
+    public PageHandler(){} // 기본 생성자
+
+    public PageHandler(Integer totalCnt,Integer page) {
+        this(totalCnt,page,10);
+    }
+
+    public PageHandler(Integer totalCnt,Integer page,Integer pageSize) {
         this.totalCnt = totalCnt;
         this.page = page;
         this.pageSize = pageSize;
@@ -28,6 +39,7 @@ public class CommentPageHandler {
         this.endPage = Math.min(beginPage+(navSize-1),totalPage);
         this.prevPage = beginPage != 1;
         this.nextPage = endPage != totalPage;
+        this.offset = (this.page-1)*this.pageSize;
     }
     void print() {
         System.out.println("page = " + page);
@@ -43,7 +55,7 @@ public class CommentPageHandler {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CommentPageHandler that = (CommentPageHandler) o;
+        PageHandler that = (PageHandler) o;
         return totalCnt == that.totalCnt && page == that.page && pageSize == that.pageSize;
     }
 
@@ -139,4 +151,3 @@ public class CommentPageHandler {
         this.nextPage = nextPage;
     }
 }
-

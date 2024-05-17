@@ -14,8 +14,8 @@
 		.navigation {
 			background-color: #333;
 			color: white;
-			width: 200px; /* 네비게이션 바의 폭 설정 */
-			float: left; /* 왼쪽으로 부유시켜 세로로 배치 */
+			width: 200px;
+			float: left;
 		}
 
 		.navigation ul {
@@ -25,7 +25,7 @@
 		}
 
 		.navigation ul li {
-			display: block; /* 각 메뉴 아이템을 블록 요소로 표시하여 세로로 배치 */
+			display: block;
 		}
 
 		.navigation ul li a {
@@ -44,11 +44,19 @@
 			margin-left: 220px; /* 네비게이션 바 폭과 여백 고려하여 컨테이너 위치 조정 */
 			padding: 20px;
 		}
+		.container h4 {
+			margin-bottom: 10px; /* 기존 h4의 하단 여백 조정 */
+		}
 
-		.container h2, .container h4, .container textarea, .container p, .container .feeling_div {
-			width: 100%;
-			text-align: center;
-			margin-bottom: 20px;
+		.container p {
+			display: inline-block; /* 요소를 인라인 블록 요소로 변경하여 가로 정렬 */
+			margin-right: 20px; /* 각 정보 사이의 우측 여백 조정 */
+		}
+
+		.container textarea {
+			resize: none;
+			width: 500px;
+			height: 200px;
 		}
 
 		#commentList {
@@ -77,33 +85,72 @@
 		button[type="button"]:hover {
 			background-color: #0c7dbd;
 		}
-		#myform fieldset{
-			display: inline-block;
-			direction: rtl;
-			border:0;
-		}
-		#myform fieldset legend{
-			text-align: right;
-		}
-		#myform input[type=radio]{
-			display: none;
-		}
-		#myform label{
-			font-size: 3em;
-			color: transparent;
-			text-shadow: 0 0 0 #f0f0f0;
-		}
-		#myform label:hover{
-			text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-		}
-		#myform label:hover ~ label{
-			text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-		}
-		#myform input[type=radio]:checked ~ label{
-			text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-		}
-		#reviewContents {
+
+		.modal {
+			position: fixed;
+			top: 0;
+			left: 0;
 			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.6);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1000;
+		}
+
+		.modal-content {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			width: auto;
+			max-width: 600px;
+			margin: auto;
+		}
+
+		.close {
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+			cursor: pointer;
+		}
+
+		#myform fieldset {
+			display: block;
+			direction: rtl;
+			border: 0;
+			text-align: center;
+			margin: 20px 0;
+		}
+
+		#starRating {
+			display: flex;
+			justify-content: center;
+		}
+
+		#myform input[type=radio] {
+			position: absolute;
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+		#myform label {
+			font-size: 3em;
+			color: #ccc;
+			cursor: pointer;
+			transition: color 0.3s ease;
+		}
+
+		#myform input[type=radio]:checked ~ label,
+		#myform label:hover,
+		#myform label:hover ~ label {
+			color: rgba(250, 208, 0, 0.99);
+		}
+
+		#reviewContents {
+			width: calc(100% - 20px);
 			height: 150px;
 			padding: 10px;
 			box-sizing: border-box;
@@ -111,17 +158,55 @@
 			border-radius: 5px;
 			font-size: 16px;
 			resize: none;
+			outline: none;
 		}
+
+		.commentBtn {
+			background-color: #007BFF;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			font-size: 16px;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		.commentBtn:hover {
+			background-color: #0056b3;
+		}
+
 		.paging-active {
 			background-color: rgb(216, 216, 216);
 			border-radius: 5px;
 			color: rgb(24, 24, 24);
 		}
-		/* 페이지 링크 공백 스타일 */
+
 		.page-space {
-			margin: 0 5px; /* 공백 크기 조절 */
+			margin: 0 5px;
 		}
 
+
+		.info-container {
+			display: flex;
+			align-items: center;
+		}
+
+		.info-container p {
+			margin-right: 10px; /* 각 정보 사이의 오른쪽 여백 조정 */
+		}
+
+		.info-container p:last-child {
+			margin-right: 0; /* 마지막 요소의 오른쪽 여백 제거 */
+		}
+		.profile {
+			border-radius: 20%;
+		}
+		div register_img{
+			width: 300px;
+			float: left;
+			border: 1px solid;
+		}
 	</style>
 </head>
 <script>
@@ -133,7 +218,7 @@
 	<ul>
 		<li><a href="/myPage/main">마이페이지</a></li>
 		<li><a href="/about">거래정보</a></li>
-		<li><a href="/contact">판매/나눔/구매내역</a></li>
+		<li><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
 		<li><a href="/contact">찜한 상품</a></li>
 		<li><a href="/contact">내 정보 관리</a></li>
 		<li><a href="/contact">개인 정보 수정</a></li>
@@ -141,38 +226,47 @@
 		<li><a href="/contact">회원 탈퇴</a></li>
 	</ul>
 </div>
+<%--<div id="register_img">--%>
+<%--	<p>--%>
+<%--		프로필이미지--%>
+<%--		<input type="file" id="imageBtn" name="imagename">--%>
+<%--	</p>--%>
+<%--</div>--%>
+<div class="register_img">
+	<img src="#" class="profile">
+	<input type="file" id="imageBtn" name="imagename">
+</div>
 <div class="container">
 	<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
-	<h4>방문자수 : ${userInfoDTO.view_cnt} 거래 성공수: ${userInfoDTO.complete_cnt} 신고 누적수 : ${userInfoDTO.rpt_cnt}</h4>
+	<div class="info-container">
+		<p>
+			<c:choose>
+				<c:when test="${userInfoDTO.r_date.time >= startOfToday}">
+					가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="HH:mm" type="time"/>
+				</c:when>
+				<c:otherwise>
+					가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="yyyy-MM-dd" type="date"/>
+				</c:otherwise>
+			</c:choose>
+		</p>
+		<p>상점방문수 : ${userInfoDTO.view_cnt}</p>
+		<p>상품 판매: ${userInfoDTO.complete_cnt}회</p>
+	</div>
 	<c:if test="${userInfoDTO.ur_id eq loginId}">
-		<button id="modBtn">수정</button><br>
+		<button id="modBtn">소개글 수정</button><br>
 	</c:if>
 	<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 내용을 입력해 주세요." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
-	<c:choose>
-		<c:when test="${userInfoDTO.r_date.time >= startOfToday}">
-			<p>가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="HH:mm" type="time"/></p>
-		</c:when>
-		<c:otherwise>
-			<p>가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="yyyy-MM-dd" type="date"/></p>
-		</c:otherwise>
-	</c:choose>
 </div>
 <h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
-<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> </h4>
-<div id="averageStarRating">
-	<!-- 별표(★) 표시 -->
-	<span>
+<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
         <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
 			★
 		</c:forEach>
-    </span>
 	<!-- 빈 별표(☆) 표시 -->
-	<span>
         <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
 			☆
 		</c:forEach>
-    </span>
-</div>
+</span></h4>
 <button id="writeBtn" type="button">후기글 작성</button>
 <!-- 모달 창 -->
 <div id="myModal" class="modal" >
@@ -364,13 +458,33 @@
 		$("#rv_cmt_cnt").text(userInfoDTO.rv_cmt_cnt);
 		$("#star_avg").text(userInfoDTO.star_avg);
 
-		let newDate = new Date(userInfoDTO.m_date);
-		let formattedDate = newDate.getFullYear() + '-' + (newDate.getMonth() + 1).toString().padStart(2, '0') + '-' + newDate.getDate().toString().padStart(2, '0');
-		$("p[id=m_date]").text("수정날짜 : "+formattedDate);
+		// begin과 end 값 변수로 선언
+		let beginValue = 1;
+		let endValue = userInfoDTO.star_avg;
+
+		// 별표(★) 표시하는 HTML 생성
+		let starHtml = '';
+		for (let i = beginValue; i <= endValue; i++) {
+			starHtml += ' ★';
+		}
+
+		// 빈 별표(☆) 표시하는 HTML 생성
+		let emptyStarHtml = '';
+		for (let i = endValue; i <= 5; i++) {
+			emptyStarHtml += ' ☆';
+		}
+
+		// HTML을 동적으로 삽입
+		let averageStarRatingSpan = document.getElementById('averageStarRating');
+		averageStarRatingSpan.innerHTML = '<span>' + starHtml + '</span><span>' + emptyStarHtml + '</span>';
+
+		// text박스의 readonly 속성 읽어오기
 		let isReadonly =$("textarea[name=contents]").attr('readonly');
+
+		// 수정버튼으로 바꿈 & text박스를 readonly로
 		if(isReadonly!='readonly') {
 			$("#modBtn").html("수정");
-			$("textarea").attr('readonly', true);
+			$("textarea[name=contents]").attr('readonly', true);
 		}
 	}
 
@@ -491,7 +605,7 @@
 			let isReadonly =$("textarea[name=contents]").attr('readonly');
 
 			if(isReadonly=='readonly') {
-				$("#modBtn").html("등록");
+				$("#modBtn").html("소개글 등록");
 				$("textarea").attr('readonly', false);
 				return;
 			}

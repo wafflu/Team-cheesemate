@@ -6,5 +6,7 @@
     <typeAliases>
         <typeAlias alias="UserInfoDto" type="team.cheese.Domain.MyPage.UserInfoDTO"/>
         <typeAlias alias="ReviewCommentDto" type="team.cheese.Domain.MyPage.ReviewCommentDTO"/>
+        <typeAlias alias="SaleDto" type="team.cheese.Domain.MyPage.SaleDto"/>
+        <typeAlias alias="SearchCondition" type="team.cheese.Domain.MyPage.SearchCondition"/>
     </typeAliases>
 </configuration>

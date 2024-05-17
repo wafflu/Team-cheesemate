@@ -6,7 +6,6 @@ import java.util.Objects;
 public class UserInfoDTO {
     private String ur_id;
     private String nick;
-    private long img_no;
     private String contents;
     private int view_cnt;
     private int complete_cnt;
@@ -28,6 +27,61 @@ public class UserInfoDTO {
     private Timestamp m_date;
 
     private char state;
+
+    private String img_full_rt;
+    private int group_no;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserInfoDTO that = (UserInfoDTO) o;
+        return view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && rpt_cnt == that.rpt_cnt && state == that.state && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents) && Objects.equals(star_avg, that.star_avg) && Objects.equals(r_date, that.r_date) && Objects.equals(m_date, that.m_date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ur_id, nick, contents, view_cnt, complete_cnt, rv_cmt_cnt, rpt_cnt, star_avg, r_date, m_date, state);
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfoDTO{" +
+                "ur_id='" + ur_id + '\'' +
+                ", nick='" + nick + '\'' +
+                ", contents='" + contents + '\'' +
+                ", view_cnt=" + view_cnt +
+                ", complete_cnt=" + complete_cnt +
+                ", rv_cmt_cnt=" + rv_cmt_cnt +
+                ", rpt_cnt=" + rpt_cnt +
+                ", star_avg=" + star_avg +
+                ", r_date=" + r_date +
+                ", m_date=" + m_date +
+                ", state=" + state +
+                ", img_full_rt='" + img_full_rt + '\'' +
+                ", group_no=" + group_no +
+                ", first_date=" + first_date +
+                ", first_id='" + first_id + '\'' +
+                ", last_date=" + last_date +
+                ", last_id='" + last_id + '\'' +
+                '}';
+    }
+
+    public String getImg_full_rt() {
+        return img_full_rt;
+    }
+
+    public void setImg_full_rt(String img_full_rt) {
+        this.img_full_rt = img_full_rt;
+    }
+
+    public int getGroup_no() {
+        return group_no;
+    }
+
+    public void setGroup_no(int group_no) {
+        this.group_no = group_no;
+    }
 
     public char getState() {
         return state;
@@ -57,40 +111,7 @@ public class UserInfoDTO {
         this.contents = contents;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserInfoDTO that = (UserInfoDTO) o;
-        return img_no == that.img_no && view_cnt == that.view_cnt && complete_cnt == that.complete_cnt && rv_cmt_cnt == that.rv_cmt_cnt && rpt_cnt == that.rpt_cnt && Double.compare(star_avg, that.star_avg) == 0 && state == that.state && Objects.equals(ur_id, that.ur_id) && Objects.equals(nick, that.nick) && Objects.equals(contents, that.contents) && Objects.equals(r_date, that.r_date) && Objects.equals(m_date, that.m_date);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(ur_id, nick, img_no, contents, view_cnt, complete_cnt, rv_cmt_cnt, rpt_cnt, star_avg, r_date, m_date, state);
-    }
-
-    @Override
-    public String toString() {
-        return "UserInfoDTO{" +
-                "ur_id='" + ur_id + '\'' +
-                ", nick='" + nick + '\'' +
-                ", img_no=" + img_no +
-                ", contents='" + contents + '\'' +
-                ", view_cnt=" + view_cnt +
-                ", complete_cnt=" + complete_cnt +
-                ", rv_cmt_cnt=" + rv_cmt_cnt +
-                ", rpt_cnt=" + rpt_cnt +
-                ", star_avg=" + star_avg +
-                ", r_date=" + r_date +
-                ", m_date=" + m_date +
-                ", state=" + state +
-                ", first_date=" + first_date +
-                ", first_id='" + first_id + '\'' +
-                ", last_date=" + last_date +
-                ", last_id='" + last_id + '\'' +
-                '}';
-    }
 
     public String getUr_id() {
         return ur_id;
@@ -106,14 +127,6 @@ public class UserInfoDTO {
 
     public void setNick(String nick) {
         this.nick = nick;
-    }
-
-    public long getImg_no() {
-        return img_no;
-    }
-
-    public void setImg_no(long img_no) {
-        this.img_no = img_no;
     }
 
     public String getContents() {

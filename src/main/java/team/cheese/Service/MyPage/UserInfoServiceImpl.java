@@ -2,14 +2,10 @@ package team.cheese.Service.MyPage;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.cheese.Dao.MyPage.UserInfoDao;
 import team.cheese.Domain.MyPage.UserInfoDTO;
-
-import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
+import team.cheese.Dao.MyPage.UserInfoDao;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {

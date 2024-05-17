@@ -56,7 +56,7 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
     public List<ReviewCommentDTO> getPage(String sal_id, Integer page, Integer pageSize) throws Exception {
         Map map = new HashMap();
         map.put("sal_id",sal_id);
-        map.put("offset",(page-1)*5);
+        map.put("offset",(page-1)*pageSize);
         map.put("pageSize",pageSize);
         List<ReviewCommentDTO> list = rvdao.selectPage(map);
         if(list==null)

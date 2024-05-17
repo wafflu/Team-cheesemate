@@ -27,3 +27,4 @@ public interface UserInfoDao {
 
     int stateChange(String ur_id) throws Exception;
 }
+

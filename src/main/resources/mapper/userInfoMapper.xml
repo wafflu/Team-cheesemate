@@ -6,7 +6,6 @@
     <sql id="selectUserInfo">
         select ur_id,
                nick,
-               img_no,
                contents,
                view_cnt,
                complete_cnt,
@@ -15,6 +14,9 @@
                star_avg,
                r_date,
                m_date,
+               state,
+               img_full_rt,
+               group_no,
                first_date,
                first_id,
                last_date,
