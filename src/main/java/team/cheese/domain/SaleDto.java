@@ -9,9 +9,9 @@ import java.util.Objects;
 
 public class SaleDto {
 
-    @NotBlank
-    @NotEmpty
-    @NotNull
+//    @NotBlank
+//    @NotEmpty
+//    @NotNull
     private Long no;
 
     @NotBlank
@@ -93,7 +93,9 @@ public class SaleDto {
     public SaleDto() {
     }
 
-    public SaleDto(String addr_cd, String addr_name) {
+    public SaleDto(String seller_id, String seller_nick ,String addr_cd, String addr_name) {
+        this.seller_id = seller_id;
+        this.seller_nick = seller_nick;
         this.addr_cd = addr_cd;
         this.addr_name = addr_name;
     }

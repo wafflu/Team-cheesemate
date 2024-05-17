@@ -2,7 +2,9 @@ package team.cheese.controller.sale;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,7 @@ import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
+import javax.validation.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -85,15 +87,16 @@ public class SaleController {
         // 로그인 한 경우
 
         HttpSession session = request.getSession();
-        String ur_id = (String) session.getAttribute("userId");
-        System.out.println(ur_id);
+        String user_id = (String) session.getAttribute("userId");
+        String user_nick = (String) session.getAttribute("userId");
+        System.out.println(user_id);
 
 
-        if(ur_id != null) {
+        if(user_id != null) {
             List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
             String addr_name = addrCdDtoList.get(0).getAddr_name();
 
-            SaleDto saleDto = new SaleDto(addr_cd, addr_name);
+            SaleDto saleDto = new SaleDto(user_id, user_nick, addr_cd, addr_name);
             model.addAttribute("Sale", saleDto);
             model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
             return "/login/saleWrite";
@@ -123,7 +126,7 @@ public class SaleController {
     // 글쓰기 완료하고 글을 등록하는 경우
     @PostMapping("/insert")
     @ResponseBody
-    public ResponseEntity<String> write(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+    public ResponseEntity<String> write(@RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
         System.out.println("POST write");
         // service 호출
         // 서비스단 작성 필요함
@@ -134,8 +137,8 @@ public class SaleController {
         // 작성 실패하면?
         // 필수로 써야되는거 안썼으면? -> view에서 여기로 전송못하게하기
 
-        String seller_id = (String) session.getAttribute("userId");
-        String seller_nick = (String) session.getAttribute("userNick");
+//        String seller_id = (String) session.getAttribute("userId");
+//        String seller_nick = (String) session.getAttribute("userNick");
 
         // ObjectMapper : JSON 형태를 JAVA 객체로 변환
         System.out.println(map.get("sale"));
@@ -143,8 +146,20 @@ public class SaleController {
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
 
+        
+        // 유효성 검사 진행
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Set<ConstraintViolation<SaleDto>> violations = validator.validate(saleDto);
 
-        saleDto.setAddrSeller(seller_id, seller_nick);
+        // 유효성 검사 결과 확인
+        if (!violations.isEmpty()) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
+            return new ResponseEntity<>("필수값 입력 오류 발생", headers, HttpStatus.BAD_REQUEST);
+        }
+
+//        saleDto.setAddrSeller(seller_id, seller_nick);
         System.out.println("값 들어왔는지 확인 : " + saleDto);
 
         Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");

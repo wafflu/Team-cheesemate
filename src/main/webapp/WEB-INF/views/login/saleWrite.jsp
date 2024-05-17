@@ -789,7 +789,8 @@
                 window.location.replace(data);
             },
             error: function (xhr, status, error) {
-                alert("등록 중 오류가 발생했습니다.");
+                alert("Error", error);
+                alert(xhr.responseText);
             }
         });
     })

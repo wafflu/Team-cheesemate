@@ -51,8 +51,10 @@
         </div>
         <br>
 
-        <button type="button" id="removeBtn">삭제하기</button>
-        <button type="button" id="modifyBtn">수정하기</button>
+        <c:if test="${Sale.seller_id == sessionScope.userId}">
+            <button type="button" id="removeBtn">삭제하기</button>
+            <button type="button" id="modifyBtn">수정하기</button>
+        </c:if>
         <button type="button" id="returnBtn">목록</button>
     </form>
 </div>
