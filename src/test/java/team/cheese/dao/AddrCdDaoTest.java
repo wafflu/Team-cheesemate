@@ -9,7 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import team.cheese.domain.AddrCdDto;
 
-//import team.cheese.domain.UserDto;
+//import team.cheese.Domain.UserDto;
 
 import java.util.List;
 

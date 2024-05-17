@@ -1,29 +1,17 @@
 package team.cheese.controller.img;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.entity.ImgFactory;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
-import team.cheese.domain.SaleDto;
 import team.cheese.service.ImgService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
 
 @Controller

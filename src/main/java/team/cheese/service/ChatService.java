@@ -2,20 +2,15 @@ package team.cheese.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileCopyUtils;
 import team.cheese.dao.ChatDaoImpl;
 import team.cheese.domain.ChatMessageDto;
 import team.cheese.domain.ChatRoomDto;
 import team.cheese.domain.SaleDto;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 @Service
 @Slf4j
