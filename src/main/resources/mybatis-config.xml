@@ -23,5 +23,9 @@
 		<typeAlias alias="AddrCdDto" type="team.cheese.domain.AddrCdDto"/>
         <typeAlias alias="ChatMessageDto" type="team.cheese.domain.ChatMessageDto"/>
         <typeAlias alias="ChatRoomDto" type="team.cheese.domain.ChatRoomDto"/>
+        <typeAlias alias="CommuDto" type="team.cheese.domain.Commu.CommuDto"/>
+        <typeAlias alias="CommunityBoardDto" type="team.cheese.domain.CommunityBoard.CommunityBoardDto"/>
+        <typeAlias alias="CommunityHeartDto" type="team.cheese.domain.CommunityHeart.CommunityHeartDto"/>
+        <typeAlias alias="CommentDto" type="team.cheese.domain.Comment.CommentDto"/>
     </typeAliases>
 </configuration>
