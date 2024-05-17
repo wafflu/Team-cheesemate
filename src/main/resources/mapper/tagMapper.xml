@@ -14,6 +14,11 @@
         FROM tag
     </select>
 
+    <select id="select" resultType="TagDto">
+        <include refid="selectFromTag"/>
+        WHERE no = #{no}
+    </select>
+
 <!--  R : 전체 테이블 읽어오기  -->
     <select id="selectAll" resultType="TagDto">
         <include refid="selectFromTag"/>

@@ -57,6 +57,10 @@
     <form action="/board_2" method="get">
         <button id="board_2_Bnt">Board_2</button>
     </form>
+
+    <form action="/sale" method="get">
+        <button id="SaleBnt">판매/나눔</button>
+    </form>
 </div>
 
 

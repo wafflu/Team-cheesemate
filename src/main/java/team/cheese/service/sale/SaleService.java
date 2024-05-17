@@ -11,6 +11,7 @@ import team.cheese.domain.TagDto;
 
 import javax.servlet.http.HttpSession;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -207,14 +208,52 @@ public class SaleService {
 
     // 판매글 하나에 들어가서 게시글을 읽을 때
     @Transactional(propagation = Propagation.REQUIRED)
-    public SaleDto read(Long no) throws Exception {
+    public Map read(Long no) throws Exception {
         increaseViewCnt(no);
 
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         SaleDto saleDto = saleDao.select(no);
+        List<TagDto> tagDto = saleTagRead(no);
 
-        return saleDto;
+        Map map = new HashMap();
+        map.put("saleDto", saleDto);
+        map.put("tagDto", tagDto);
+
+        return map;
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<TagDto> saleTagRead(Long no) throws Exception {
+
+        // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
+        List<SaleTagDto> saleTagList = saleTagDao.selectSalNo(no);
+        System.out.println(saleTagList);
+        System.out.println(saleTagList.size());
+        List<TagDto> tagDto = null;
+        if(saleTagList.size() != 0) {
+            tagDto = tagRead(saleTagList);
+        }
+
+        System.out.println("여기까지 완료?");
+
+        return tagDto;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<TagDto> tagRead(List<SaleTagDto> saleTagList) throws Exception {
+
+        List<TagDto> tagDto = new ArrayList<>();
+
+        for( SaleTagDto saleTagDto : saleTagList) {
+            Long tagNo = saleTagDto.getTag_no();
+            TagDto tag = tagDao.select(tagNo);
+            System.out.println("tag값 확인 : " + tag);
+            tagDto.add(tag);
+        }
+
+        return tagDto;
+    }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void increaseViewCnt(Long no) throws Exception {
         saleDao.increaseViewCnt(no);

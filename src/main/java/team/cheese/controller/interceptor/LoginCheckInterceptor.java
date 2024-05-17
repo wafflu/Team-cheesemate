@@ -24,7 +24,13 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         if(session == null || session.getAttribute("userId") == null) {
             System.out.println("요청한 화면 -> " + request.getRequestURI());
 
-            response.sendRedirect("loginForm" + "?from=" + request.getRequestURI());
+            // 주소창에 직접 주소를 입력할 경우 일단 home으로 가도록 설정
+            if(request.getRequestURI() == "") {
+                response.sendRedirect("/loginForm" + "?from=" + "home");
+            }
+            else {
+                response.sendRedirect("/loginForm" + "?from=" + request.getRequestURI());
+            }
 
             System.out.println("로그인 정보가 없습니다.");
             return false;

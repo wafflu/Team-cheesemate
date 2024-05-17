@@ -44,6 +44,13 @@
         <%--    <p>판매글 노출여부 : ${Sale.ur_state}</p>--%>
         <%--    <p>관리자 관리상태 : ${Sale.ad_state}</p>--%>
 
+        <div id="tagDiv">
+            <c:forEach var="Tag" items="${tagList}">
+                <span value="${Tag.no}">#${Tag.contents}</span>
+            </c:forEach>
+        </div>
+        <br>
+
         <button type="button" id="removeBtn">삭제하기</button>
         <button type="button" id="modifyBtn">수정하기</button>
         <button type="button" id="returnBtn">목록</button>

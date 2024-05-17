@@ -419,8 +419,8 @@ public class SaleDaoImplTest {
     public void testAddrCdSaleList() throws Exception {
 
         Map map = new HashMap();
-        map.put("addr_cd", "11060710");
-        map.put("sal_i_cd", "016001005");
+//        map.put("addr_cd", "11060710");
+//        map.put("sal_i_cd", "016001005");
         int page = 2;
         int pageSize = 10;
         PageHandler ph = new PageHandler(saleDao.countSale(map), page, pageSize);

@@ -66,7 +66,7 @@
     <input placeholder="비밀번호 확인" class="inputBox" type="password" id="inputPwCheck" name="inputPwCheck" pattern="^[A-Za-z\d@$!%*?&]{5,}$" title="동일한 비밀번호를 입력해주세요.">
     <br>
 
-    <input placeholder="이메일" class="inputBox" type="email" id="email" name="email" pattern="^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$" minlength="6" title="이메일 주소를 정확하게 입력해주세요.">
+    <input placeholder="이메일" class="inputBox" type="email" id="email" name="email" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" minlength="6" title="이메일 주소를 정확하게 입력해주세요.">    <br>
     <br>
 
     <input placeholder="주소" class="inputBox" type="text" id="addr_det" name="addr_det" minlength="6" title="거주하고 있는 주소를 정확하게 입력해주세요.">

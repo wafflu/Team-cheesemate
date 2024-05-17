@@ -12,6 +12,8 @@ public interface TagDao {
 
     int insert(TagDto tagDto) throws Exception;
 
+    TagDto select(Long no) throws Exception;
+
     TagDto selectTagContents(String contents) throws Exception;
 
     int updateSys(TagDto tagDto) throws Exception;

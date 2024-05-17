@@ -56,8 +56,8 @@ public class SaleServiceImplTest extends TestCase {
     @Test
     public void testRead() throws Exception {
         Long no = Long.valueOf(50);
-        SaleDto saleDto = saleService.read(no);
-
+        Map map = saleService.read(no);
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
         System.out.println(saleDto.getNo());
         assertTrue(saleDto.getNo().equals(no));
     }
