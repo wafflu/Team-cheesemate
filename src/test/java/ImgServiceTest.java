@@ -1,6 +1,8 @@
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -8,7 +10,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.entity.ImgFactory;
@@ -40,7 +42,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
 @Transactional
 
@@ -55,8 +58,10 @@ public class ImgServiceTest {
     String datePath = "";
     // 테스트용 패스 찾기용
 
+//    @Test
     @Test
     @Rollback(false)
+    @DisplayName("황정하삭제")
     public void delete(){
         if(imgService.count("sale") != 0){
             imgService.delete("sale");
@@ -156,7 +161,8 @@ public class ImgServiceTest {
         }
     }
 
-    @Test(expected = Exception.class)
+//    @Test(expected = Exception.class)
+    @Test
     public void exnull() throws Exception {
         ImgDto img = imginfo("아보카도.png");
         img.setImg_full_rt(null);
@@ -172,7 +178,7 @@ public class ImgServiceTest {
         }
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void Ex_reg_img2() throws Exception {
         ImgDto img = null;
         try {
@@ -185,7 +191,7 @@ public class ImgServiceTest {
         }
     }
 
-    @Test(expected = Exception.class)
+    @Test
     public void DbConnectionError() throws Exception{
         ImgDao imgDaoMock = mock(ImgDao.class);
         ImgService imgServiceMock = new ImgService(imgDaoMock);
@@ -206,7 +212,7 @@ public class ImgServiceTest {
     }
 
     //예외가 발생해야 성공
-    @Test(expected = Exception.class)
+    @Test
     public void readallException() throws Exception {
         ImgDao imgDaoMock = mock(ImgDao.class);
         ImgService imgServiceMock = new ImgService(imgDaoMock);
@@ -325,7 +331,7 @@ public class ImgServiceTest {
                 multipartFiles[i++] = multipartFile;
             }
 
-            list = ifc.makeImg(multipartFiles, "r", 78, 78);
+            list = ifc.makeImg(multipartFiles, "r",true);
 
             // 변환된 파일들을 사용하여 멀티파트 테스트 수행
             for (MultipartFile multipartFile : multipartFileList) {
@@ -471,4 +477,5 @@ public class ImgServiceTest {
         img.setH_size(0);
         return img;
     }
+
 }

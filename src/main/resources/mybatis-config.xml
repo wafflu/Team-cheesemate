@@ -11,5 +11,8 @@
         <typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
         <typeAlias alias="ChatMessageDto" type="team.cheese.domain.ChatMessageDto"/>
         <typeAlias alias="ChatRoomDto" type="team.cheese.domain.ChatRoomDto"/>
+        <typeAlias alias="UserInfoDto" type="team.cheese.domain.MyPage.UserInfoDTO"/>
+        <typeAlias alias="ReviewCommentDto" type="team.cheese.domain.MyPage.ReviewCommentDTO"/>
+        <typeAlias alias="EventDto" type="team.cheese.domain.EventDto"/>
     </typeAliases>
 </configuration>

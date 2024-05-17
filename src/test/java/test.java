@@ -92,7 +92,7 @@ public class test {
 
     @Test
     public void pass() throws NoSuchAlgorithmException {
-        String password = "user123아보카도.png";
+        String password = "1234";
 
         // 비밀번호를 해시화
         String hashedPassword = hashPassword(password);

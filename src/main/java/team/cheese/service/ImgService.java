@@ -15,6 +15,8 @@ import team.cheese.domain.ImgDto;
 import team.cheese.exception.DataFailException;
 import team.cheese.exception.ImgNullException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -38,11 +40,11 @@ public class ImgService {
         this.imgDao = imgdao2;
     }
 
-    public ResponseEntity<List<ImgDto>> uploadimg(MultipartFile[] uploadFiles){
+    public ResponseEntity<List<ImgDto>> uploadimg(MultipartFile[] uploadFiles, boolean check){
         if(!ifc.CheckImg(uploadFiles)){
             return null;
         }
-        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", 78, 78);
+        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", check);
 
         if(list == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -68,6 +70,7 @@ public class ImgService {
         }
     }
 
+    //이미지 등록
     @Transactional
     public String reg_img(ArrayList<ImgDto> imgList, int gno, boolean check) throws Exception {
 
@@ -81,15 +84,10 @@ public class ImgService {
 
         for(ImgDto idto : imgList){
             if (idto.getW_size() < 0 || idto.getH_size() < 0) {
-                throw new ImgNullException("이미지 사이즈가 올바르지 않습니다.");
+                throw new Exception("이미지 사이즈가 올바르지 않습니다.");
             }
 
             File file = new File(folderpath, idto.getO_name()+idto.getE_name());
-            if(!check){
-                ImgDto originalimg = ifc.makeImg(file, "original", gno, 0, 0);
-                spath = originalimg.getImg_full_rt();
-                return spath;
-            }
             if(cnt) {
                 // 썸네일은 한개만
                 ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);
@@ -110,6 +108,27 @@ public class ImgService {
         }
 
         return spath;
+    }
+
+    @Transactional
+    public ImgDto reg_img_one(String filename) throws IOException {
+        String folderpath = ifc.getFolderPath() + File.separator + ifc.getDatePath();
+
+        int gno = imgDao.select_group_max()+1;
+
+        File file = new File(folderpath, filename);
+        BufferedImage bi = ImageIO.read(file);
+
+        int width = (int) bi.getWidth();
+        int height = (int) bi.getHeight();
+
+        ImgDto originalimg = ifc.setImginfo(file, filename,"profile", width, height);
+
+        imgDao.insert(originalimg);
+        imgDao.insert(imggroup(gno, originalimg.getNo()));
+        //임시적
+        originalimg.setGroup_no(gno);
+        return originalimg;
     }
 
     @Transactional

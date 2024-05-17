@@ -13,6 +13,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team.cheese.dao.MyPage.UserInfoDao;
 import team.cheese.entity.ImgFactory;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
@@ -36,6 +37,9 @@ public class ImgController {
     @Autowired
     SaleDao saleDao;
 
+    @Autowired
+    UserInfoDao userInfoDao;
+
     ImgFactory ifc = new ImgFactory();
 
     @RequestMapping ("/test")
@@ -46,13 +50,33 @@ public class ImgController {
     //이미지 업로드 과정
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
-        return imgService.uploadimg(uploadFiles);
+        return imgService.uploadimg(uploadFiles, true);
+    }
+
+    @PostMapping(value="/uploadoneimg", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<ImgDto>> uploadoneimg(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
+        return imgService.uploadimg(uploadFiles, false);
     }
 
     //이미지 보여주기용
     @GetMapping("/display")
     public ResponseEntity<byte[]> getImage(String fileName){
         return imgService.display(fileName);
+    }
+
+    @RequestMapping(value = "/saveporfile", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<String> saveporfile(@RequestBody ArrayList<ImgDto> imgList) throws Exception {
+        System.out.println("asdas");
+        ImgDto profile = imgList.get(0);
+        String imgname = profile.getO_name()+profile.getE_name();
+        ImgDto profileimg = imgService.reg_img_one(imgname);
+        HashMap map = new HashMap<>();
+        map.put("img_full_rt", profileimg.getImg_full_rt());
+        map.put("group_no", profileimg.getGroup_no());
+        map.put("ur_id", "1");
+        userInfoDao.updateProfile(map);
+        return new ResponseEntity<String>("/myPage/main", HttpStatus.OK);
     }
 
     //위에까지는 공용

@@ -74,14 +74,13 @@ public class ImgFactory {
     }
 
     /* 파일등록으로 파일 만들때 */
-    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, int wsize, int hsize){
+    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, boolean ckeck){
         File uploadPath = new File(getFolderPath(), getDatePath());
 
         List<ImgDto> list = new ArrayList();
 
         for(MultipartFile multipartFile : uploadFiles) {
             String fileName = multipartFile.getOriginalFilename();
-            String ename = fileName.substring(fileName.lastIndexOf('.'));
 
             File saveFile = new File(getFolderPath()+File.separator+getDatePath(), fileName);
             ImgDto img = null;
@@ -89,26 +88,32 @@ public class ImgFactory {
             try {
                 /* 원본 파일 저장 */
                 multipartFile.transferTo(saveFile);
+                if(!ckeck) {
+                    BufferedImage bi = ImageIO.read( saveFile );
+                    int width = (int) bi.getWidth();
+                    int height = (int) bi.getHeight();
+
+                    img = setImginfo(saveFile, fileName, "original", width, height);
+                    list.add(img);
+                    return list;
+                }
+
 
                 // 판매, 커뮤니티만 아래 만들기 허용
-//                if(make) {
-                    // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-                    BufferedImage image = Thumbnails.of(saveFile)
-                            .size(wsize, hsize)
-                            .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                            .imageType(BufferedImage.TYPE_INT_RGB)
-                            .asBufferedImage();
+                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+                BufferedImage image = Thumbnails.of(saveFile)
+                        .size(78, 78)
+                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                        .imageType(BufferedImage.TYPE_INT_RGB)
+                        .asBufferedImage();
 
-                    long currentTimeMillis = System.currentTimeMillis();
-                    //이미지 jpg로 변환
-                    File img_name = new File(uploadPath, hash(currentTimeMillis + fileName) + ".jpg");
-                    ImageIO.write(image, "jpg", img_name);
+                long currentTimeMillis = System.currentTimeMillis();
+                //이미지 jpg로 변환
+                File img_name = new File(uploadPath, hash(currentTimeMillis + fileName) + ".jpg");
+                ImageIO.write(image, "jpg", img_name);
 
-                    //이미지 객체 만들기
-                    img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
-//                } else {
-//                    img = setImginfo(saveFile, fileName, imgtype, wsize, hsize);
-//                }
+                //이미지 객체 만들기
+                img = setImginfo(img_name, fileName, imgtype, 78, 78);
                 list.add(img);
             } catch (Exception e) {
                 System.out.println("fail");
@@ -171,40 +176,6 @@ public class ImgFactory {
         return img;
     }
 
-
-//
-//    public void Makeimg(File imageFile, String imgtype, int wsize, int hsize){
-//        String datastr = todaystr();
-//
-//        File uploadPath = new File(folderPath, datastr);
-//
-//        BCryptPasswordEncoder nameEncoder = new BCryptPasswordEncoder();
-//
-////        String uploadFileName = imgtype+"_"+datastr+"_"+imageFile.getName();
-//        String uploadFileName = nameEncoder.encode(imageFile.getName());
-//
-//        /* 파일 위치, 파일 이름을 합친 File 객체 */
-//        File saveFile = new File(uploadPath, uploadFileName);
-//
-//        /* 파일 저장 */
-//        try {
-//            File img_name = new File(uploadPath, uploadFileName);
-//
-//            // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-//            BufferedImage image = Thumbnails.of(imageFile)
-//                    .size(wsize, hsize)
-//                    .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-//                    .asBufferedImage();
-//
-//            Thumbnails.of(image)
-//                    .size(wsize, hsize)
-//                    .outputQuality(1.0)  // 품질 유지
-//                    .toFile(img_name);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     // 이미지 파일체크
     public boolean CheckImg(MultipartFile[] uploadFiles){
