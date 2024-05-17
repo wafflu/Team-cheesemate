@@ -13,7 +13,10 @@ import team.cheese.domain.ImgDto;
 import team.cheese.exception.DataFailException;
 import team.cheese.exception.ImgNullException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +90,28 @@ public class ImgService {
         }
 
         return spath;
+    }
+
+    @Transactional
+    public String reg_img_one(String filename) throws IOException {
+        System.out.println("imgService");
+        String folderpath = ifc.getFolderPath() + File.separator + ifc.getDatePath();
+
+        int gno = imgDao.select_group_max();
+
+        System.out.println("Servicefilename : "+filename);
+
+        File file = new File(folderpath, filename);
+        BufferedImage bi = ImageIO.read( file );
+
+        int width = (int) bi.getWidth();
+        int height = (int) bi.getHeight();
+
+        ImgDto originalimg = ifc.setImginfo(file, filename,"original", width, height);
+        System.out.println("originalimg : "+originalimg);
+        imgDao.insert(originalimg);
+        imgDao.insert(imggroup(gno, originalimg.getNo()));
+        return originalimg.getImg_full_rt();
     }
 
     @Transactional

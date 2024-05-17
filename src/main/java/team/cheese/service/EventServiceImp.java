@@ -5,12 +5,17 @@ import org.springframework.stereotype.Service;
 import team.cheese.dao.EventDaoImp;
 import team.cheese.domain.EventDto;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
 public class EventServiceImp implements EventService {
     @Autowired
     EventDaoImp dao;
+
+    @Autowired
+    ImgService imgService;
+
     @Override
     public ArrayList<EventDto> getAlllist(){
         ArrayList<EventDto> dtolist = new ArrayList<>(dao.selectAll());
@@ -42,10 +47,17 @@ public class EventServiceImp implements EventService {
         return arr;
     }
     @Override
-    public int eventRegister(EventDto dto){
+    public int eventRegister(EventDto dto, String imgname) throws IOException {
+        System.out.println("register imgDto: " +dto);
         String S_Cd = isWithinRange(dto.getS_date(),dto.getE_date());
+        System.out.println("S_Cd: " + S_Cd);
         dto.setActive_s_cd(S_Cd);
+
         int result=dao.insert(dto);
+        System.out.println("imgname : "+imgname);
+//        String fullrt = imgService.reg_img_one(imgname);
+//        dto.setImg_full_rt(fullrt);
+
         return result;
     }
     @Override

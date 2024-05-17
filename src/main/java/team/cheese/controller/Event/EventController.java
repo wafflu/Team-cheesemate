@@ -9,8 +9,10 @@ import team.cheese.domain.EventPageHanddler;
 import team.cheese.domain.ImgDto;
 import team.cheese.domain.SearchDto;
 import team.cheese.service.EventService;
+import team.cheese.service.EventServiceImp;
 import team.cheese.service.ImgService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class EventController {
     
     @Autowired
     ImgService imgService;
+
 
     @GetMapping(value = "")
     public String event(String cd,Integer page, Model model) {
@@ -53,10 +56,11 @@ public class EventController {
     }
 
     @PostMapping(value = "write")
-    public String write(EventDto dto, ImgDto imgdto) {
+    public String write(EventDto dto, String imgname) throws IOException {
         System.out.println(dto);
-        eventService.eventRegister(dto);
-        return "redirect:/event";
+        System.out.println(imgname);
+        eventService.eventRegister(dto, imgname);
+        return "redirect: /event/read?evt_no="+dto.getEvt_no();
     }
     @PostMapping(value = "modify")
     public String modify(Long evt_no,EventDto dto) throws Exception {

@@ -50,7 +50,7 @@ public class EventDto {
         this.last_id = last_id;
     }
 
-    public EventDto(String title, String contents, String ad_id, Date s_date, Date e_date, String evt_cd, String prize) {
+    public EventDto(String title, String contents, String ad_id, Date s_date, Date e_date,String img_full_rt, String evt_cd, String prize) {
         this.title = title;
         this.contents = contents;
         this.s_date = s_date;
@@ -59,7 +59,7 @@ public class EventDto {
         this.prize = prize;
         this.active_s_cd = "P";
         this.group_no = 1;
-        this.img_full_rt = "src/";
+        this.img_full_rt = img_full_rt;
         this.ad_id = ad_id;
         this.first_id = "ghkdwjdgk";
         this.last_id = "ghkdwjdgk";
@@ -242,6 +242,7 @@ public class EventDto {
                 ", first_id='" + first_id + '\'' +
                 ", last_r_date=" + last_r_date +
                 ", last_id='" + last_id + '\'' +
+                ", img_full_rt='" + img_full_rt + '\'' +
                 '}';
     }
 

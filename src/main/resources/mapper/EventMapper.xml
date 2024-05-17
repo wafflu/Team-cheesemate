@@ -30,11 +30,15 @@
         </if>
         ORDER BY evt_no DESC
         LIMIT #{maxContents} OFFSET #{startNum}
+
     </select>
     <select id="selectContent" parameterType="long" resultType = "EventDto">
         select * from event where evt_no = #{evt_no}
     </select>
-    <insert id="insert" parameterType="EventDto">
+    <insert id="insert" parameterType="EventDto" useGeneratedKeys="true" keyProperty="evt_no">
+        <selectKey keyProperty="evt_no" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         insert into event(evt_cd, active_s_cd, title, contents, s_date, e_date, group_no,img_full_rt, prize, ad_id, first_id, last_id)
         values ( #{evt_cd}, #{active_s_cd}, #{title}, #{contents}, #{s_date}, #{e_date},#{group_no},#{img_full_rt},
                    #{prize}, #{ad_id}, #{first_id}, #{last_id});

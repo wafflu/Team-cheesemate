@@ -39,6 +39,7 @@ public class EventDaoTest {
         dtoList.add(dto3);
         dtoList.add(dto4);
     }
+
     @After
     public void setup() throws  Exception {
         eventDao.deleteAll();
