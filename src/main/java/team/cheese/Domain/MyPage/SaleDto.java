@@ -1,4 +1,4 @@
-package team.cheese.Domain.MyPage;
+package team.cheese.domain;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
