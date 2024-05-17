@@ -1,4 +1,4 @@
-package team.cheese.service.CommunityBoard;
+package team.cheese.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.dao.CommunityHeart.CommunityHeartDao;
+import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
 
 import static org.junit.Assert.*;

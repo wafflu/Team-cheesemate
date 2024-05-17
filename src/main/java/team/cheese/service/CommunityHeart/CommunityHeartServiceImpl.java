@@ -42,38 +42,11 @@ public class CommunityHeartServiceImpl implements CommunityHeartService {
 
 
 
-
-
-
     @Override
     public String countLike(Integer post_no) throws Exception {
         String result = String.valueOf(communityHeartDao.countLike(post_no));
         return result; // 게시글 번호에 대한 좋아요 수 집계
     }
 
-    @Override
-    public int countLike(Integer post_no, String result) throws Exception {
-        return 0;
-    }
-
-
-    @Override
-    public CommunityHeartDto select(Integer like_no) throws Exception {
-        return null;
-    }
-
-    @Override
-    public CommunityHeartDto findByUserId(String ur_id,Integer post_no) throws Exception {
-        try{
-            Map<String,String> map = new HashMap<>();
-            map.put("ur_id", ur_id);
-            map.put("post_no", String.valueOf(post_no));
-            communityHeartDao.findByUserId(ur_id, String.valueOf(post_no));
-
-        }catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
-        return null;
-    }
 
 }

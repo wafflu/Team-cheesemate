@@ -1,0 +1,205 @@
+
+
+#header_box{
+    width: 100%;
+    height: 150px;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    background-color: #fff;
+}
+
+#herder_top{
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+    justify-content: space-between;
+    display: flex;
+}
+
+#logobox{
+    width: 100px;
+    height: 100%;
+    position: relative;
+}
+#cheezmate{
+    display: block;
+    width: 100%;
+    height:100%;
+}
+#logoimg{
+    width: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#searchbox{
+    width: 700px;
+    position: relative;
+}
+
+#search{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    width: 600px;
+    height: 40px;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    background-image: url("icon/search.png");
+    background-repeat: no-repeat;
+    background-size: 24px;
+    background-position: 10px 50%;
+    padding-left: 50px;
+}
+
+#search:focus{
+    outline: none;
+}
+
+#subnavbox{
+    position: relative;
+    width: 300px;
+}
+
+#subnavinnerbox{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.subnavspan {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 10px;
+    height: 30px;
+}
+
+.subnavlink {
+    display: inline-block;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.subnavicon {
+    vertical-align: middle;
+    width: 30px;
+}
+
+.subnavtext {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: 14px;
+    font-style: normal;
+}
+
+/* 네비영역 */
+
+#nav{
+    width: 1200px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+#navlist{
+    padding-left: 180px;
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navtext{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: 20px;
+    font-style: normal;
+    text-align: center;
+}
+
+#headerspace{
+    width: 100%;
+    height: 150px;
+}
+
+
+#footer{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(247 249 250);
+}
+
+#footersub{
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 50px 0;
+}
+
+#footersub li{
+    font-size: 12px;
+    padding-bottom: 8px;
+    color:#787e89;
+}
+
+.cheesecompany>b{
+    font-size: 13px;
+    padding-bottom: 12px;
+    color:#191c21;
+}
+
+.footerulflex{
+    display: flex;
+}
+
+.footerulflex>li{
+    position: relative;
+    margin-right: 12px;
+}
+
+.footerulflex>li::after{
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: -7px;
+    width: 1px;
+    height: 8px;
+    background-color: #E0E0E0;
+}
+
+
+.footerulflex>li:last-child::after {
+    content: none; /* 마지막 요소의 선을 숨김 */
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+}
+
+#footergflexgroup1{
+    margin: 10px 0;
+}
+
+#footergflexgroup1 li{
+    color:#191c21;
+}
+
+.footermsg{
+    width: 460px;
+    color:#787e89;
+}
+
+.maincontent{
+    width: 1200px;
+    height: 200px;
+    margin: 0 auto;
+    font-size:50px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 200px;
+}

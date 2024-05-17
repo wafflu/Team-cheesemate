@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
-public class commuDaoTest {
+public class CommuDaoImplTest {
     @Autowired
     CommuDao commuDao;
 

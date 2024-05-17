@@ -13,11 +13,7 @@ public class CommunityInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //인증 검사 등의 로직을 구현
         System.out.println("preHandle1");
-        System.out.println("[preHandle][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI());
-        System.out.println("[handler][" + handler.toString() + "]");
 
-
-        System.out.println("-------------------");
 
         //1.세션값에 저장된 아이디와 세션이 일치하는지 확인해아햔다.->현재 임의 설정
         HttpSession session = request.getSession(true);

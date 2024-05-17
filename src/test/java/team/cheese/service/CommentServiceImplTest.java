@@ -1,4 +1,4 @@
-package team.cheese.service.CommunityBoard;
+package team.cheese.service;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -13,8 +13,7 @@ public class UserInspectInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //인증 검사 등의 로직을 구현
         System.out.println("preHandle1");
-        System.out.println("[preHandle][" + request + "]" + "[" + request.getMethod() + "]" + request.getRequestURI());
-        System.out.println("[handler][" + handler.toString() + "]");
+
 
         HttpSession session = request.getSession(true);
         // 임의의 사용자 ID 설정

@@ -11,35 +11,39 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
 <html>
 <head>
+
+    <link rel="stylesheet" type="text/css" href="/resources/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/communityhome.css">
     <title>Title</title>
-    <link rel="stylesheet" href="src/main/webapp/resources/css/CommunityHome.css">
 </head>
 <body>
-<article>
+<article id="community-home">
 
-    <div class = "section1">
-
-        <h2>실시간 우리 지역 인기글</h2>
-        <p><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
-        <input type = "button" value = "글쓰기" onclick = "location.href='<c:url value="/community/write"/>'">
-
-    </div>
-    <div class = "section2">
-        <h3>블라블라</h3>
-        <p><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
-    </div>
-    <div class = "section3">
-        <h3>고민/상담</h3>
-        <p><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
+    <div class = "topic-best">
+        <h2 class = "topic-name">실시간 우리 지역 인기글</h2>
+        <p class="btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
+        <hr id = "topic-best-horizon"/>
+        <input type = "button" value = "글쓰기" onclick = "location.href='<c:url value="/community/write"/>'" id="write-btn">
 
     </div>
+    <div class = "topic-bla">
+        <h3  class = "topic-name">블라블라</h3>
+        <p class = "btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
+    </div>
+    <div class = "topic-worry">
+        <h3  class = "topic-name">고민/상담</h3>
+        <p class = "btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
 
-    <div class = "section4">
-        <h3>연애/썸</h3>
-        <p><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
+    </div>
 
+    <div class = "topic-love">
+        <h3  class = "topic-name">연애/썸</h3>
+        <p class = "btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
     </div>
 
 </article>
@@ -76,32 +80,38 @@
             getTopTen.forEach((item,index)=>{
                 s+="<tr>";
                 s+="<td>"+index+"</td>";
-                s+="<td>"+item.commu_name+"</td>";
-                s+= "<td> <a href = '/community/read?no=" + item.no +"'>" + truncateString(item.title,5)+ "</a></td>";
+                s+="<td class='community-name'>"+item.commu_name+"</td>";
+                s+= "<td class='community-title'> <a href = '/community/read?no=" + item.no +"'>" + item.title+ "</a></td>";
 
-                s+="<td>" + truncateString(item.contents,5)+"</td>";
-                s+="<td>" + item.nick +"</td>";
-                s+="<td>" + item.view_cnt+"</td>";
-                s+="<td>" + item.r_date + "</td>";
+                s+="<td class='community-contents'>" + truncateString(item.contents,5)+"</td>";
+                s+="<td class='community-nick'>" + item.nick +"</td>";
+                // s+="<td class ='community-date'>" + moment(item.r_date).format("MMM Do YY") + "</td>";
+                s+="<td class='community-view-count'>" + "👁️"+item.view_cnt+ "</td>"
+                s+="<td class ='community-comment-count'>" + "💬"+item.comment_count+"</td>"
+                s+="<td class = 'community-like-cnt'>" + "❤️"+item.like_cnt+"</td>"
 
             });
             s+="</table>";
             console.log(s);
-            $('.section1').append(s);
+            $('.topic-best').append(s);
         }
 
         function displayBlaBla(data){//블라블라
             let getBla = data.filter(item=>item.commu_cd==='commu_B').slice(0,5);
             let s = "<table>";
-            getBla.forEach((item) =>{
-                s+="<tr>";
-                s+= "<td> <a href = '/community/read?no=" + item.no +"'>" + item.title+ "</a></td>";
-                s+="<td>"+item.view_cnt+"</td>";
-            });
+            if (getBla.length > 0) {
+                getBla.forEach((item) => {
+                    s += "<tr>";
+                    s += "<td class='community-title'> <a href = '/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
+                    s += "<td class='community-view-count'>"+"👁️"+item.view_cnt + "</td>";
+                });
 
 
-            s+="</table>";
-            $('.section2').append(s);
+                s += "</table>";
+            }else{
+                s="<div>해당 게시판의 게시글이 없습니다.</div>"
+            }
+            $('.topic-bla').append(s);
         }
 
 
@@ -110,15 +120,19 @@
         function displayWorry(data){//고민상담
             let getBla = data.filter(item=>item.commu_cd==='commu_W').slice(0,5);
             let s = "<table>";
-            getBla.forEach((item) =>{
-                s+="<tr>";
-                s+= "<td> <a href = '/community/read?no=" + item.no +"'>" + item.title+ "</a></td>";
-                s+="<td>"+item.view_cnt+"</td>";
-            });
+            if (getBla.length > 0) {
+                getBla.forEach((item) => {
+                    s += "<tr>";
+                    s += "<td class='community-title'> <a href = '/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
+                    s += "<td class='community-view-count'>" + "👁️"+item.view_cnt + "</td>";
+                });
 
 
-            s+="</table>";
-            $('.section3').append(s);
+                s += "</table>";
+            }else{
+                s="<div>해당 게시판의 게시글이 없습니다.</div>";
+            }
+            $('.topic-worry').append(s);
         }
 
 
@@ -127,15 +141,19 @@
         function displayLove(data){//연애
             let getBla = data.filter(item=>item.commu_cd==='commu_L').slice(0,5);
             let s = "<table>";
-            getBla.forEach((item) =>{
-                s+="<tr>";
-                s+= "<td> <a href = '/community/read?no=" + item.no +"'>" + item.title+ "</a></td>";
-                s+="<td>"+item.view_cnt+"</td>";
-            });
+            if (getBla.length > 0) {
+                getBla.forEach((item) => {
+                    s += "<tr>";
+                    s += "<td class='community-title'> <a href = '/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
+                    s += "<td class='community-view-count'>"+"👁️"+item.view_cnt + "</td>";
+                });
 
 
-            s+="</table>";
-            $('.section4').append(s);
+                s += "</table>";
+            }else{
+                s="<div>해당 게시판의 게시글이 없습니다.</div>";
+            }
+            $('.topic-love').append(s);
         }
 
 

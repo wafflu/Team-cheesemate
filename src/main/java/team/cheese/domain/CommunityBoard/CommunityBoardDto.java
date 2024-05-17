@@ -1,23 +1,56 @@
 package team.cheese.domain.CommunityBoard;
 
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 public class CommunityBoardDto {
 
 
+
         private Integer no;
+
+        @NotNull
+        @NotEmpty
         private String ur_id;
+
+        @NotNull
+        @NotEmpty
         private String addr_cd;
+
+        @NotNull
         private Integer addr_no;
+
+        @NotNull
+        @NotEmpty
         private String commu_cd;
+
+        @NotNull
+        @NotEmpty
         private String commu_name;
+
+        @NotNull
+        @NotEmpty
         private String addr_name;
+
+        @NotNull
+        @NotEmpty
         private String title;
+
+        @NotNull
+        @NotEmpty
         private String contents;
+
+        @NotNull
+        @NotEmpty
         private String nick;
+
         private Timestamp r_date;
         private Timestamp m_date;
+
+
         private int like_cnt;
+
+
         private int view_cnt;
         private char ur_state;
         private char ad_state;
@@ -29,7 +62,7 @@ public class CommunityBoardDto {
         private Integer group_no;
 
         //추가
-        private String name;
+       
         private Integer comment_count;
 
         public CommunityBoardDto() {
@@ -58,17 +91,17 @@ public class CommunityBoardDto {
             this.last_id = last_id;
             this.img_full_rt = img_full_rt;
             this.group_no = group_no;
-            this.name = name;
+//
             this.comment_count = comment_count;
         }
 
-        public CommunityBoardDto(String ur_id, String addr_cd, Integer addr_no, String commu_cd, String commu_name, String name, String addr_name, String title, String contents, String nick, String img_full_rt, Integer group_no) {
+        public CommunityBoardDto(String ur_id, String addr_cd, Integer addr_no, String commu_cd, String commu_name, String addr_name, String title, String contents, String nick, String img_full_rt, Integer group_no) {
             this.ur_id = ur_id;
             this.addr_cd = addr_cd;
             this.addr_no = addr_no;
             this.commu_cd = commu_cd;
             this.commu_name = commu_name;
-            this.name = name;
+
             this.addr_name = addr_name;
             this.title = title;
             this.contents = contents;
@@ -231,13 +264,6 @@ public class CommunityBoardDto {
         }
 
         //추가
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
 
 
         //추가
@@ -292,7 +318,6 @@ public class CommunityBoardDto {
                     ", addr_no=" + addr_no +
                     ", commu_cd='" + commu_cd + '\'' +
                     ", commu_name='" + commu_name + '\'' +
-                    ", name='" + name + '\'' +
                     ", addr_name='" + addr_name + '\'' +
                     ", title='" + title + '\'' +
                     ", contents='" + contents + '\'' +

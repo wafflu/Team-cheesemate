@@ -1,14 +1,26 @@
 package team.cheese.domain.Comment;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class CommentDto {
+    @NotNull
     private Integer post_no;
+
+    @NotNull
     private Integer no;
+
     private Integer psn;
+    @NotNull
+    @NotEmpty
     private String nick;
+    @NotNull
+    @NotEmpty
     private String ur_id;
+    @NotNull
+    @NotEmpty
     private String contents;
     private Timestamp r_date;
     private Timestamp m_date;
