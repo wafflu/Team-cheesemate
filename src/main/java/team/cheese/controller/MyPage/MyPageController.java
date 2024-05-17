@@ -87,7 +87,7 @@ public class MyPageController {
     public ResponseEntity<Map<String, Object>> list(@RequestBody SearchCondition sc) throws Exception {
         // 조건객체에 따른 목록전체 카운트수
         int totalCnt = saleService.getSearchCnt(sc);
-
+        System.out.println(sc);
         // 페이징 객체 생성 각 매개변수에 값 전달
         PageHandler ph = new PageHandler(totalCnt,sc.getPage(),sc.getPageSize());
         List<SaleDto> list = saleService.getSearchPage(sc);

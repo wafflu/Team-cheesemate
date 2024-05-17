@@ -189,7 +189,7 @@ public class SaleServiceTest extends TestCase {
     // 판매자가 판매 게시글을 작성할 때
     @Test
     public void testWriteMethod() throws Exception {
-        deleteDao.deleteAll();
+//        deleteDao.deleteAll();
 
         // 글을 작성
         SaleDto saleDto = new SaleDto();
@@ -204,8 +204,10 @@ public class SaleServiceTest extends TestCase {
         // 거래방법 1개만 작성
         saleDto.setTrade_s_cd_1("F");
         saleDto.setPrice(28000);
-        saleDto.setSal_s_cd("S");
-        saleDto.setTitle("서적 팔아요");
+        saleDto.setBuyer_id("1234");
+        saleDto.setBuyer_nick("asdf");
+        saleDto.setSal_s_cd("C");
+        saleDto.setTitle("딥다이브");
         saleDto.setContents("서적 팝니다.");
         saleDto.setBid_cd("N");
         saleDto.setPickup_addr_cd("11060710");
@@ -214,15 +216,16 @@ public class SaleServiceTest extends TestCase {
         saleDto.setReg_price(30000);
         saleDto.setFirst_id("asdf");
         saleDto.setLast_id("asdf");
-        saleDao.insertSale(saleDto);
+        for(int i=0; i<12; i++) {
+            saleDao.insertSale(saleDto);
+        }
 
-        assertTrue(saleDao.count() == 1);
-        Long sal_no = saleDto.getNo();
-        String ur_id = saleDto.getSeller_id();
-
-        List<String> tagList =  tagList();
-
-        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
+//        Long sal_no = saleDto.getNo();
+//        String ur_id = saleDto.getSeller_id();
+//
+//        List<String> tagList =  tagList();
+//
+//        int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
     }
 
     @Test

@@ -135,36 +135,36 @@
 <body>
 <div class="mainContainer">
 	<div class="bun-ui-divider">
-		<button class="bun-ui-tab bun-ui-tab-selected" label="판매내역">
+		<button class="bun-ui-tab bun-ui-tab-selected" id="seller">
 			<span class="bun-ui-tab-label">판매내역</span>
 		</button>
-		<button class="bun-ui-tab" label="구매내역">
+		<button class="bun-ui-tab" id="buyer">
 			<span class="bun-ui-tab-label">구매내역</span>
 		</button>
 	</div>
 	<hr class="bun-ui-divider">
 	<section class="purchase-info">
 		<div>
-			<button class="bun-ui-tab bun-ui-tab-selected" label="전체">
+			<button class="bun-ui-tab bun-ui-tab-selected" id="A">
 				<span class="bun-ui-tab-label">전체</span>
 			</button>
-			<button class="bun-ui-tab" label="예약중">
+			<button class="bun-ui-tab" id="R">
 				<span class="bun-ui-tab-label">예약중</span>
 			</button>
-			<button class="bun-ui-tab" label="판매중">
+			<button class="bun-ui-tab" id="S">
 				<span class="bun-ui-tab-label">판매중</span>
 			</button>
-			<button class="bun-ui-tab" label="판매완료">
-				<span class="bun-ui-tab-label">판매완료</span>
+			<button class="bun-ui-tab" id="C">
+				<span class="bun-ui-tab-label">거래완료</span>
 			</button>
 		</div>
 		<div class="sc-57cf470b-1 fFtTgD">
-			<form>
+			<form id="searchForm">
 				<div class="sc-cPiKLX irylio bun-ui-search-container">
 					<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
 						<path d="M8.99 16.162c-3.955 0-7.172-3.218-7.172-7.172A7.18 7.18 0 0 1 8.99 1.818c3.954 0 7.171 3.217 7.171 7.172 0 3.954-3.217 7.172-7.171 7.172zm6.963-1.494A8.953 8.953 0 0 0 17.98 8.99C17.98 4.032 13.946 0 8.99 0 4.033 0 0 4.032 0 8.99c0 4.957 4.033 8.99 8.99 8.99a8.943 8.943 0 0 0 5.676-2.027l3.781 3.78a.908.908 0 0 0 1.287 0 .909.909 0 0 0 0-1.285l-3.78-3.78z" fill="#b2b2b2" fill-rule="evenodd"></path>
 					</svg>
-					<input placeholder="상품명으로 검색해보세요" enterkeyhint="search" class="bun-ui-search" value="">
+					<input id="searchInput" placeholder="상품명으로 검색해보세요" enterkeyhint="search" class="bun-ui-search" value="">
 				</div>
 			</form>
 			<button class="sc-57cf470b-3 ferXDa">
@@ -201,7 +201,7 @@
 	}
 
 	// 내역 목록 보여주기
-	let showList = function (page = 1, pageSize = 5, option = 'seller', sal_s_cd = '') {
+	let showList = function (page = 1, pageSize = 5, option = 'seller', sal_s_cd = '',keyword= '') {
 		$.ajax({
 			type: 'POST',       // 요청 메서드
 			url: "/myPage/saleHistorys",  // 요청 URI
@@ -212,13 +212,14 @@
 				page: page,
 				pageSize: pageSize,
 				option: option,
-				sal_s_cd: sal_s_cd
-			}),
+				sal_s_cd: sal_s_cd,
+				keyword: keyword
+		}),
 			success: function (result) {
 				// 내역 목록과 페이징 정보 가져오기
 				let list = result.list;
 				let ph = result.ph;
-				$("#historyList").html(toHtml(list, ph));
+				$("#historyList").html(toHtml(list, ph,option,sal_s_cd,keyword));
 			},
 			error: function (result) {
 				alert(result.responseText);
@@ -226,7 +227,7 @@
 		}); // $.ajax()
 	}
 
-	let toHtml = function (list,ph) {
+	let toHtml = function (list,ph,option,sal_s_cd,keyword) {
 		let tmp = "";
 
 		list.forEach(function (item) {
@@ -268,20 +269,20 @@
 		if (ph) {
 			tmp += '<div class="pageContainer" style="text-align:center">';
 			if (ph.totalCnt == null || ph.totalCnt == 0) {
-				tmp += '<div>게시물이 없습니다.</div>';
+				tmp += '<div>내역이 없습니다.</div>';
 			}
 			if (ph.totalCnt != null && ph.totalCnt != 0) {
 				if (ph.prevPage) {
-					tmp += '<a href="#" onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</a>';
+					tmp += '<a href="#" onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\')">&lt;</a>';
 				}
 				for (let i = ph.beginPage; i <= ph.endPage; i++) {
 					// 페이지 번호 사이에 공백 추가
 					tmp += '<span class="page-space"></span>';
-					tmp += '<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="showList(' + i + ', ' + ph.pageSize + ')">' + i + '</a>';
+					tmp += '<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="showList(' + i + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\')">' + i + '</a>';
 				}
 				if (ph.nextPage) {
 					tmp += '<span class="page-space"></span>';
-					tmp += '<a href="#" onclick="showList(' + (ph.endPage + 1) + ', ' + ph	.pageSize + ')">&gt;</a>';
+					tmp += '<a href="#" onclick="showList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\')">&gt;</a>';
 				}
 			}
 			tmp += '</div>';
@@ -290,6 +291,60 @@
 	}
 	$(document).ready(function(){
 		showList();
+
+		// 판매내역, 구매내역 버튼 클릭 이벤트 설정
+		$(".bun-ui-divider .bun-ui-tab").click(function () {
+			// 같은 div 내의 모든 버튼에서 bun-ui-tab-selected 클래스를 제거
+			$(".bun-ui-tab").removeClass("bun-ui-tab-selected");
+			// 클릭한 버튼에 bun-ui-tab-selected 클래스 추가
+			$(this).addClass("bun-ui-tab-selected");
+
+			// '전체' 버튼에 bun-ui-tab-selected 클래스 추가
+			$("#A").addClass("bun-ui-tab-selected");
+			$("#R").removeClass("bun-ui-tab-selected");
+			$("#S").removeClass("bun-ui-tab-selected");
+			$("#C").removeClass("bun-ui-tab-selected");
+
+			// 내역 목록 업데이트
+			let option = $(this).attr('id');
+			showList(1, 5, option);
+		});
+
+		// 판매상태 버튼 클릭 이벤트 설정
+		$(".purchase-info .bun-ui-tab").click(function () {
+			// 같은 div 내의 모든 버튼에서 bun-ui-tab-selected 클래스를 제거
+			$(".purchase-info .bun-ui-tab").removeClass("bun-ui-tab-selected");
+			// 클릭한 버튼에 bun-ui-tab-selected 클래스 추가
+			$(this).addClass("bun-ui-tab-selected");
+
+			// 각 버튼의 id에 맞는 showList 호출
+			let id = $(this).attr('id');
+			let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
+			let searchValue = $("#searchInput").val();
+
+			if (id === 'R') {
+				showList(1, 5, option, 'R', searchValue);
+			} else if (id === 'S') {
+				showList(1, 5, option, 'S', searchValue);
+			} else if (id === 'C') {
+				showList(1, 5, option, 'C', searchValue);
+			} else {
+				showList(1, 5, option, '', searchValue);
+			}
+		});
+
+		// 검색 폼 제출 이벤트 설정
+		$("#searchForm").submit(function(event) {
+			event.preventDefault();
+			let searchValue = $("#searchInput").val();
+			let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
+			let sal_s_cd = $(".purchase-info .bun-ui-tab.bun-ui-tab-selected").attr('id');
+			if (sal_s_cd === 'A') {
+				showList(1, 5, option, '', searchValue);
+			} else {
+				showList(1, 5, option, sal_s_cd, searchValue);
+			}
+		});
 	});
 </script>
 </html>
