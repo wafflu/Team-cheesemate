@@ -16,7 +16,6 @@
 		<typeAlias alias="BidingDto" type="team.cheese.domain.BidingDto"/>
 		<typeAlias alias="HoistingDto" type="team.cheese.domain.HoistingDto"/>
 		<typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
-		<typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
 		<typeAlias alias="SaleHistoryDto" type="team.cheese.domain.SaleHistoryDto"/>
 		<typeAlias alias="SaleImgDto" type="team.cheese.domain.SaleImgDto"/>
 		<typeAlias alias="SaleTagDto" type="team.cheese.domain.SaleTagDto"/>
