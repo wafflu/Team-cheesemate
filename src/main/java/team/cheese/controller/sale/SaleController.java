@@ -159,30 +159,13 @@ public class SaleController {
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<SaleDto>> violations = validator.validate(saleDto);
 
-//        // 유효성 검사 결과 확인
-//        if (!violations.isEmpty()) {
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
-//            return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
-//        }
-
         // 유효성 검사 결과 확인
         if (!violations.isEmpty()) {
-            StringBuilder errorMessage = new StringBuilder("등록 중 오류가 발생하였습니다: ");
-
-            for (ConstraintViolation<SaleDto> violation : violations) {
-                errorMessage.append(violation.getPropertyPath())
-                        .append(" ")
-                        .append(violation.getMessage())
-                        .append(". ");
-            }
-
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
-            return new ResponseEntity<>(errorMessage.toString(), headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
         }
 
-//        saleDto.setAddrSeller(seller_id, seller_nick);
         System.out.println("값 들어왔는지 확인 : " + saleDto);
 
         Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
@@ -216,7 +199,7 @@ public class SaleController {
 // 글 수정을 완료하고 글을 등록하는 경우
 @PostMapping("/update")
 @ResponseBody
-public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+public ResponseEntity<String> update(@RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
     System.out.println("POST update");
 
     String seller_id = (String) session.getAttribute("userId");
@@ -231,6 +214,18 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
 
     saleDto.setAddrSeller(seller_id, seller_nick);
     System.out.println("값 들어왔는지 확인 : " + saleDto);
+
+    // 유효성 검사 진행
+    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+    Validator validator = factory.getValidator();
+    Set<ConstraintViolation<SaleDto>> violations = validator.validate(saleDto);
+
+    // 유효성 검사 결과 확인
+    if (!violations.isEmpty()) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
+        return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
+    }
 
     Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
     List<String> tagContents = (List<String>) tagMap.get("contents");
@@ -267,7 +262,6 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
         saleService.remove(no, seller_id);
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
-//        String page = "/sale/list";
         return "redirect:/sale/list";
     }
 
@@ -316,12 +310,6 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
                                                              @RequestParam(required = false) String addr_cd,
                                                              @RequestParam(required = false) String sal_i_cd,
                                                              HttpSession session) throws Exception {
-
-        System.out.println("page : " + page);
-        System.out.println("pageSize : " + pageSize);
-        System.out.println("addr_cd : " + addr_cd);
-        System.out.println("sal_i_cd : " + sal_i_cd);
-
 
         // 선택하는 지역에 따른 List 반환
         try {

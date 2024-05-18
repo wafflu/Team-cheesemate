@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import team.cheese.dao.*;
+import team.cheese.dao.MyPage.UserInfoDao;
+import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.domain.SaleDto;
 import team.cheese.domain.SaleTagDto;
 import team.cheese.domain.TagDto;
 
-import javax.servlet.http.HttpSession;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,9 +31,8 @@ public class SaleService {
     AddrCdDao addrCdDao;
     @Autowired
     SaleTagDao saleTagDao;
-
     @Autowired
-    TestSession testSession;
+    UserInfoDao userInfoDao;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -298,12 +297,25 @@ public class SaleService {
         return saleDao.selectSearchCount(sc);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updateSaleSCd(Long no, String sal_s_cd, String seller_id) throws Exception {
         Map map = new HashMap();
         map.put("no", no);
         map.put("sal_s_cd", sal_s_cd);
         map.put("seller_id", seller_id);
-        saleDao.updateSaleSCd(map);
+
+        int result = saleDao.updateSaleSCd(map);
+
+        if(sal_s_cd.equals("C")) {
+            increamentCompleteCnt(seller_id);
+        }
+
+        System.out.println("update됨? : " + result);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void increamentCompleteCnt(String ur_id) throws Exception {
+        userInfoDao.incrementCompleteCnt(ur_id);
     }
 }
 

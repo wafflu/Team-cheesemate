@@ -3,6 +3,7 @@ package team.cheese.dao;
 import java.util.List;
 import java.util.Map;
 
+import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.domain.SaleDto;
 
 public interface SaleDao {

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -437,20 +437,62 @@ public class SaleDaoImplTest {
 
     @Test
     public void testUpdateSaleSCd() throws Exception {
-        Long no = (long) (Math.random() * saleDao.countUse()+ 1);
-        SaleDto saleDto = saleDao.select(no);
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+
+        saleDao.insertSale(saleDto);
+
+        // saleDto가 null이 아닌지 확인
+        assertNotNull(saleDto);
+
+        System.out.println(saleDto);
+
         String sal_s_cd = "C";
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
+
+        // saleDto의 각 필드가 null이 아닌지 확인
+        assertNotNull(saleDto.getNo());
+        assertNotNull(saleDto.getSeller_id());
+
         map.put("no", saleDto.getNo());
         map.put("sal_s_cd", sal_s_cd);
         map.put("seller_id", saleDto.getSeller_id());
 
+        System.out.println("no : " + saleDto.getNo());
+        System.out.println("sal_s_cd : " + sal_s_cd);
+        System.out.println("seller_id : " + saleDto.getSeller_id());
+
         int result = saleDao.updateSaleSCd(map);
 
         assertTrue(result == 1);
+        System.out.println("result : " + result);
 
-        SaleDto newSaleDto = saleDao.select(no);
+        SaleDto newSaleDto = saleDao.select(saleDto.getNo());
+
+        // newSaleDto가 null이 아닌지 확인
+        assertNotNull(newSaleDto);
 
         assertTrue(newSaleDto.getSal_s_cd().equals(sal_s_cd));
     }
+
 }

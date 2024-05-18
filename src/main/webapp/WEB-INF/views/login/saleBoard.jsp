@@ -12,7 +12,7 @@
     <form id="form" action="" method="post">
         <c:choose>
             <c:when test="${sessionScope.userId == Sale.seller_id}">
-                <select id="sal_s_cd" onchange="updateSaleCd()">
+                <select id="sal_s_cd">
                     <option value="S" ${Sale.sal_s_cd == 'S' ? 'selected' : ''}>판매중</option>
                     <option value="R" ${Sale.sal_s_cd == 'R' ? 'selected' : ''}>예약중</option>
                     <option value="C" ${Sale.sal_s_cd == 'C' ? 'selected' : ''}>거래완료</option>
@@ -33,18 +33,26 @@
         <p>행정동 코드 : ${Sale.addr_cd}</p>
         <p>주소명 : ${Sale.addr_name}</p>
         <p>판매자id : ${Sale.seller_id}</p>
-        <p>판매자닉네임 : ${Sale.seller_nick}</p>
+        <p>판매자닉네임 : <a href="/userInfo/${Sale.seller_id}">${Sale.seller_nick}</a></p>
         <p>판매 카테고리 : ${Sale.sal_i_cd}</p>
         <p>판매 카테고리명 : ${Sale.sal_name}</p>
         <p>사용상태 : ${Sale.pro_s_cd}</p>
         <p>판매/나눔 : ${Sale.tx_s_cd}</p>
-        <p>거래방식1 : ${Sale.trade_s_cd_2}</p>
+        <p>거래방식1 : ${Sale.trade_s_cd_1}</p>
         <p>거래방식2 : ${Sale.trade_s_cd_2}</p>
 <%--        <p>거래상태 : ${Sale.sal_s_cd}</p>--%>
         <p>제목 : ${Sale.title}</p>
-        내용 : <textarea>${Sale.contents}</textarea>
+        <br>내용 : <div style="white-space:pre;">${Sale.contents}</div>
         <p>가격 : ${Sale.price}</p>
         <p>가격제시/나눔신청 : ${Sale.bid_cd}</p>
+        <c:choose>
+            <c:when test="${Sale.bid_cd == 'P'}">
+                <button type="button">가격제시</button>
+            </c:when>
+            <c:when test="${Sale.bid_cd == 'T'}">
+                <button type="button">나눔신청</button>
+            </c:when>
+        </c:choose>
         <p>희망행성구역코드 : ${Sale.pickup_addr_cd}</p>
         <p>희망주소명 : ${Sale.pickup_addr_name}</p>
         <p>희망거래장소 : ${Sale.detail_addr}</p>

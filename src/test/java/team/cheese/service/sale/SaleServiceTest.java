@@ -446,4 +446,38 @@ public class SaleServiceTest extends TestCase {
 
         return contents;
     }
+
+    @Test
+    public void testUpdateSaleSCd() throws Exception {
+        // 글을 작성
+        SaleDto saleDto = new SaleDto();
+        saleDto.setAddr_cd("11060710");
+        saleDto.setAddr_name("서울특별시 동대문구 회기동");
+        saleDto.setSeller_id("asdf");
+        saleDto.setSeller_nick("닉네임");
+        saleDto.setSal_i_cd("016001005");
+        saleDto.setSal_name("학습/사전/참고서");
+        saleDto.setPro_s_cd("C");
+        saleDto.setTx_s_cd("S");
+        // 거래방법 1개만 작성
+        saleDto.setTrade_s_cd_1("F");
+        saleDto.setPrice(28000);
+        saleDto.setSal_s_cd("S");
+        saleDto.setTitle("서적 팔아요");
+        saleDto.setContents("서적 팝니다.");
+        saleDto.setBid_cd("N");
+        saleDto.setPickup_addr_cd("11060710");
+        saleDto.setDetail_addr("회기역 1번출구 앞(20시 이후만 가능)");
+        saleDto.setBrand("oo북스");
+        saleDto.setReg_price(30000);
+        saleDto.setFirst_id("asdf");
+        saleDto.setLast_id("asdf");
+        saleDao.insertSale(saleDto);
+
+        Long no = saleDto.getNo();
+        String sal_s_cd = "C";
+        String seller_id = saleDto.getSeller_id();
+
+        saleService.updateSaleSCd(no, sal_s_cd, seller_id);
+    }
 }
