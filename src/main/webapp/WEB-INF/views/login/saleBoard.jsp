@@ -10,6 +10,25 @@
 <body>
 <div>
     <form id="form" action="" method="post">
+        <c:choose>
+            <c:when test="${sessionScope.userId == Sale.seller_id}">
+                <select id="sal_s_cd" onchange="updateSaleCd()">
+                    <option value="S" ${Sale.sal_s_cd == 'S' ? 'selected' : ''}>판매중</option>
+                    <option value="R" ${Sale.sal_s_cd == 'R' ? 'selected' : ''}>예약중</option>
+                    <option value="C" ${Sale.sal_s_cd == 'C' ? 'selected' : ''}>거래완료</option>
+                </select>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    <c:choose>
+                        <c:when test="${Sale.sal_s_cd == 'S'}">판매중</c:when>
+                        <c:when test="${Sale.sal_s_cd == 'R'}">예약중</c:when>
+                        <c:when test="${Sale.sal_s_cd == 'C'}">거래완료</c:when>
+                    </c:choose>
+                </p>
+            </c:otherwise>
+        </c:choose>
+
         <p>sale : ${Sale.no}</p>
         <p>행정동 코드 : ${Sale.addr_cd}</p>
         <p>주소명 : ${Sale.addr_name}</p>
@@ -21,7 +40,7 @@
         <p>판매/나눔 : ${Sale.tx_s_cd}</p>
         <p>거래방식1 : ${Sale.trade_s_cd_2}</p>
         <p>거래방식2 : ${Sale.trade_s_cd_2}</p>
-        <p>거래상태 : ${Sale.sal_s_cd}</p>
+<%--        <p>거래상태 : ${Sale.sal_s_cd}</p>--%>
         <p>제목 : ${Sale.title}</p>
         내용 : <textarea>${Sale.contents}</textarea>
         <p>가격 : ${Sale.price}</p>
@@ -63,55 +82,47 @@
 <script>
     $(document).ready(function () {
         $("#removeBtn").on("click", function () {
-            if (confirm("삭제 하시겠습니까?")) { // 삭제 여부 확인
-                $.ajax({
-                    type: "POST",
-                    url: "<c:url value='/sale/remove?no=${Sale.no}'/>",
-                    success: function (data) {
-                        alert("삭제되었습니다.");
-                        // alert(data);
-                        window.location.replace(data); // 페이지 새로고침
-                    },
-                    error: function (xhr, status, error) {
-                        alert("삭제 중 오류가 발생했습니다.");
-                    }
-                });
+            if (confirm("삭제 하시겠습니까?")) {
+                $("#form").attr("action", "/sale/remove?no=${Sale.no}");
+                $("#form").submit();
             }
         });
 
         $("#modifyBtn").on("click", function () {
             if (confirm("수정 하시겠습니까?")) {
-                // Sale.no 값을 읽어와서 hidden input을 추가
-                var saleNo = "${Sale.no}";
+                let saleNo = "${Sale.no}";
                 $("<input>").attr({
                     type: "hidden",
                     name: "no",
                     value: saleNo
                 }).appendTo("#form");
-                // action 속성 설정
                 $("#form").attr("action", "/sale/modify");
-
-                // form submit
                 $("#form").submit();
             }
         });
 
         $("#returnBtn").on("click", function () {
-            if (confirm("목록으로 돌아가시겠습니까?")) { // 삭제 여부 확인
-                $.ajax({
-                    type: "POST",
-                    url: "<c:url value='/sale/list'/>",
-                    success: function (data) {
-                        window.location.href = "/sale/list";
-                    },
-                    error: function (xhr, status, error) {
-                        alert("오류가 발생했습니다.");
-                    }
-                });
+            if (confirm("목록으로 돌아가시겠습니까?")) {
+                window.location.href = "<c:url value='/sale/list'/>";
             }
         });
-    });
 
+        $("#sal_s_cd").on("change", function () {
+            let selectedValue = $(this).val();
+            let sal_s_name = $("#sal_s_cd option:checked").text();
+            $.ajax({
+                type: "POST",
+                url: "/sale/updateSaleSCd",
+                data: {no: "${Sale.no}", sal_s_cd: selectedValue, seller_id: "${Sale.seller_id}"},
+                success: function (data) {
+                    alert("판매글 상태가 " + sal_s_name + "(으)로 변경되었습니다.");
+                },
+                error: function (xhr, status, error) {
+                    alert("판매글 상태 변경이 실패하였습니다.");
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

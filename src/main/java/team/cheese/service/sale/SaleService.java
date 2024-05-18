@@ -290,5 +290,13 @@ public class SaleService {
 
         return totalCnt;
     }
+
+    public void updateSaleSCd(Long no, String sal_s_cd, String seller_id) throws Exception {
+        Map map = new HashMap();
+        map.put("no", no);
+        map.put("sal_s_cd", sal_s_cd);
+        map.put("seller_id", seller_id);
+        saleDao.updateSaleSCd(map);
+    }
 }
 

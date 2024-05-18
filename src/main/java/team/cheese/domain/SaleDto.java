@@ -45,7 +45,7 @@ public class SaleDto {
     @Size(max = 2000)
     private String contents;
 
-    @NotBlank
+    @NotNull
     @Min(0)
     private Integer price;
 
@@ -76,9 +76,7 @@ public class SaleDto {
     public SaleDto() {
     }
 
-    public SaleDto(String seller_id, String seller_nick ,String addr_cd, String addr_name) {
-        this.seller_id = seller_id;
-        this.seller_nick = seller_nick;
+    public SaleDto(String addr_cd, String addr_name) {
         this.addr_cd = addr_cd;
         this.addr_name = addr_name;
     }

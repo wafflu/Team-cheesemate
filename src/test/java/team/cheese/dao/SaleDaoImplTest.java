@@ -434,4 +434,23 @@ public class SaleDaoImplTest {
         System.out.println(saleList.size());
 //        assert( saleList);
     }
+
+    @Test
+    public void testUpdateSaleSCd() throws Exception {
+        Long no = (long) (Math.random() * saleDao.countUse()+ 1);
+        SaleDto saleDto = saleDao.select(no);
+        String sal_s_cd = "C";
+        Map map = new HashMap();
+        map.put("no", saleDto.getNo());
+        map.put("sal_s_cd", sal_s_cd);
+        map.put("seller_id", saleDto.getSeller_id());
+
+        int result = saleDao.updateSaleSCd(map);
+
+        assertTrue(result == 1);
+
+        SaleDto newSaleDto = saleDao.select(no);
+
+        assertTrue(newSaleDto.getSal_s_cd().equals(sal_s_cd));
+    }
 }

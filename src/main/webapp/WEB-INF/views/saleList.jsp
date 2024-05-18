@@ -50,6 +50,7 @@
     <tr>
         <th class="no">번호</th>
         <th class="title">제목</th>
+        <th class="sal_s_cd">판매상태</th>
         <th class="writer">이름</th>
         <th class="addr_name">주소명</th>
         <th class="regdate">등록일</th>
@@ -72,6 +73,7 @@
     // };
 
     let sessionId = "${sessionScope.userId}";
+    let saleStatusText;
 
     function loadCategory2() {
         let category1Value = $('#category1').val();
@@ -245,11 +247,28 @@
     function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
         // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
         $("#saleList").empty();
+
         if (saleList.length > 0) {
+        // 판매 상태에 따라 텍스트 설정
             saleList.forEach(function (sale) {
+                switch (sale.sal_s_cd) {
+                    case 'S':
+                        saleStatusText = '판매중';
+                        break;
+                    case 'R':
+                        saleStatusText = '예약중';
+                        break;
+                    case 'C':
+                        saleStatusText = '거래완료';
+                        break;
+                    default:
+                        saleStatusText = '';
+                }
+
                 let row = $("<tr>");
                 row.append($("<td>").text(sale.no)); // 판매 번호
                 row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
+                row.append($("<td>").text(saleStatusText)); // 판매 상태
                 row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임
                 row.append($("<td>").text(sale.addr_name)); // 주소명
 

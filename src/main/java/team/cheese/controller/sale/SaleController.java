@@ -54,7 +54,6 @@ public class SaleController {
         if(ur_id == null) {
             model.addAttribute("addrCdList", administrativeDao.selectAll());
         } else {
-            String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
             // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
@@ -96,7 +95,7 @@ public class SaleController {
             List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
             String addr_name = addrCdDtoList.get(0).getAddr_name();
 
-            SaleDto saleDto = new SaleDto(user_id, user_nick, addr_cd, addr_name);
+            SaleDto saleDto = new SaleDto(addr_cd, addr_name);
             model.addAttribute("Sale", saleDto);
             model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
             return "/login/saleWrite";
@@ -109,10 +108,17 @@ public class SaleController {
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
     @PostMapping("/modify")
     public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-
+        System.out.println("no값 확인 " + no);
         Map map = saleService.modify(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         String tagContents = (String) map.get("tagContents");
+        HttpSession session = request.getSession();
+        String user_id = (String) session.getAttribute("userId");
+        String user_nick = (String) session.getAttribute("userNick");
+
+        saleDto.setSeller_id(user_id);
+        saleDto.setSeller_nick(user_nick);
+
         System.out.println("modify 판매글 번호 : " + saleDto.getNo());
 
         model.addAttribute("Sale", saleDto);
@@ -137,26 +143,43 @@ public class SaleController {
         // 작성 실패하면?
         // 필수로 써야되는거 안썼으면? -> view에서 여기로 전송못하게하기
 
-//        String seller_id = (String) session.getAttribute("userId");
-//        String seller_nick = (String) session.getAttribute("userNick");
+        String seller_id = (String) session.getAttribute("userId");
+        String seller_nick = (String) session.getAttribute("userNick");
 
         // ObjectMapper : JSON 형태를 JAVA 객체로 변환
         System.out.println(map.get("sale"));
         System.out.println(map.get("tag"));
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+        saleDto.setSeller_id(seller_id);
+        saleDto.setSeller_nick(seller_nick);
 
-        
         // 유효성 검사 진행
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<SaleDto>> violations = validator.validate(saleDto);
 
+//        // 유효성 검사 결과 확인
+//        if (!violations.isEmpty()) {
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
+//            return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
+//        }
+
         // 유효성 검사 결과 확인
         if (!violations.isEmpty()) {
+            StringBuilder errorMessage = new StringBuilder("등록 중 오류가 발생하였습니다: ");
+
+            for (ConstraintViolation<SaleDto> violation : violations) {
+                errorMessage.append(violation.getPropertyPath())
+                        .append(" ")
+                        .append(violation.getMessage())
+                        .append(". ");
+            }
+
             HttpHeaders headers = new HttpHeaders();
             headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
-            return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errorMessage.toString(), headers, HttpStatus.BAD_REQUEST);
         }
 
 //        saleDto.setAddrSeller(seller_id, seller_nick);
@@ -238,13 +261,14 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
 }
 
     @RequestMapping("/remove")
-    public ResponseEntity<String> remove(@RequestParam Long no, Model model, HttpSession session) throws Exception {
+    public String remove(@RequestParam Long no, Model model, HttpSession session) throws Exception {
+        System.out.println("remove 들어옴");
         String seller_id = (String) session.getAttribute("userId");
         saleService.remove(no, seller_id);
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
-        String page = "/sale/list";
-        return new ResponseEntity<>(page, HttpStatus.OK);
+//        String page = "/sale/list";
+        return "redirect:/sale/list";
     }
 
 //  ajax 요청을 처리해주는 URL등
@@ -336,6 +360,25 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(Collections.emptyMap(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // ajax 주소 검색
+    @RequestMapping("/updateSaleSCd")
+    @ResponseBody
+    public ResponseEntity<String> updateSaleSCd(@RequestParam Long no,
+                                                @RequestParam  String sal_s_cd,
+                                                @RequestParam String seller_id) throws Exception {
+        System.out.println("no : " + no);
+        System.out.println("sal_s_cd : " + sal_s_cd);
+        System.out.println("seller_id : " + seller_id);
+        // 검색어를 이용하여 주소를 검색
+        try{
+            saleService.updateSaleSCd(no, sal_s_cd, seller_id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

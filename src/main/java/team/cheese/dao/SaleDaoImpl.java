@@ -97,16 +97,13 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
-    public List<SaleDto> selectStandardAddr(String ur_id, int check_addr_cd) throws Exception {
-        Map map = new HashMap();
-		map.put("ur_id", ur_id);
-        map.put("check_addr_cd", check_addr_cd);
-        return session.selectList(namespace + "selectStandardAddr");
+    public List<SaleDto> selectList(Map map) throws Exception {
+        return session.selectList(namespace + "selectPage", map);
     }
 
     @Override
-    public List<SaleDto> selectList(Map map) throws Exception {
-        return session.selectList(namespace + "selectPage", map);
+    public int updateSaleSCd(Map map) {
+        return session.update(namespace + "updateSaleSCd", map);
     }
 
 }
