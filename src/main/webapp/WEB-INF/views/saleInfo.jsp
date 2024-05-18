@@ -259,8 +259,12 @@
 			tmp += '</section>';
 
 			// footer 부분 생성
-			tmp += '<footer>';
-			tmp += '<button color="secondaryRed">후기 남기기</button>';
+			if (option === 'buyer' && sal_s_cd === 'C') {
+				tmp += '<footer>'; // 구매내역 버튼이 클릭된 경우에만 hidden 속성 추가하지 않음
+			} else {
+				tmp += '<footer hidden>'; // 그 외의 경우 hidden 속성 추가
+			}
+			tmp += '<button onclick="redirectToMain(\'' + item.seller_id + '\')">후기 남기기</button>'; // seller_id 값을 함수에 넘겨줌
 			tmp += '</footer>';
 
 			tmp += '</article>';
@@ -289,6 +293,13 @@
 		}
 		return tmp;
 	}
+	// 페이지 이동 함수 정의
+	function redirectToMain(sellerId) {
+		const url = "/myPage/main?ur_id=" + encodeURIComponent(sellerId);
+		console.log('Redirecting to:', url);
+		window.location.href = url;
+	}
+
 	$(document).ready(function(){
 		showList();
 
@@ -310,7 +321,7 @@
 			showList(1, 5, option);
 		});
 
-		// 판매상태 버튼 클릭 이벤트 설정
+		// 판매,구매상태 버튼 클릭 이벤트 설정
 		$(".purchase-info .bun-ui-tab").click(function () {
 			// 같은 div 내의 모든 버튼에서 bun-ui-tab-selected 클래스를 제거
 			$(".purchase-info .bun-ui-tab").removeClass("bun-ui-tab-selected");

@@ -1,11 +1,13 @@
 package team.cheese.controller.img;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import team.cheese.dao.MyPage.UserInfoDao;
 import team.cheese.entity.ImgFactory;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
@@ -24,6 +26,9 @@ public class ImgController {
     @Autowired
     SaleDao saleDao;
 
+    @Autowired
+    UserInfoDao userInfoDao;
+
     ImgFactory ifc = new ImgFactory();
 
     @RequestMapping ("/test")
@@ -34,7 +39,12 @@ public class ImgController {
     //이미지 업로드 과정
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
-        return imgService.uploadimg(uploadFiles);
+        return imgService.uploadimg(uploadFiles, true);
+    }
+
+    @PostMapping(value="/uploadoneimg", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<ImgDto>> uploadoneimg(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
+        return imgService.uploadimg(uploadFiles, false);
     }
 
     //이미지 보여주기용
@@ -43,5 +53,7 @@ public class ImgController {
         return imgService.display(fileName);
     }
 
+
     //위에까지는 공용
+
 }

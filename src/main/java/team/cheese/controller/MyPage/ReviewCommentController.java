@@ -25,7 +25,7 @@ public class ReviewCommentController {
         reviewCommentDTO.setNo(no);
         // 세션객체에서 buy_id 값을 가져온다
         //      String buy_id = (String)session.getAttribute("id");
-        String buy_id = "1";
+        String buy_id = "asdf";
         reviewCommentDTO.setBuy_id(buy_id);
 
         rvService.modify(reviewCommentDTO);
@@ -39,8 +39,8 @@ public class ReviewCommentController {
         //        String buy_id = (String)session.getAttribute("id");
         // 1. 세션 객체에서 buy_nick값 받아오기
         //        String buy_nick = (String)session.getAttribute("nick");
-        String buy_id = "1";
-        String buy_nick = "1";
+        String buy_id = "asdf";
+        String buy_nick = "asdf";
         reviewCommentDTO.setBuy_id(buy_id);
         reviewCommentDTO.setBuy_nick(buy_nick);
 
@@ -51,7 +51,7 @@ public class ReviewCommentController {
     @DeleteMapping("/comments/{no}")
     public ResponseEntity<String> remove(@PathVariable Integer no, String sal_id, HttpSession session) throws Exception{
         // String buy_id = (String)session.getAttribute("id");
-        String buy_id = "1";
+        String buy_id = "asdf";
 
         rvService.remove(sal_id,buy_id,no);
         return new ResponseEntity<>("DEL_OK", HttpStatus.OK);

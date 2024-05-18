@@ -14,6 +14,8 @@ import team.cheese.domain.ImgDto;
 import team.cheese.exception.DataFailException;
 import team.cheese.exception.ImgNullException;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,11 +37,11 @@ public class ImgService {
         this.imgDao = imgdao2;
     }
 
-    public ResponseEntity<List<ImgDto>> uploadimg(MultipartFile[] uploadFiles){
+    public ResponseEntity<List<ImgDto>> uploadimg(MultipartFile[] uploadFiles, boolean check){
         if(!ifc.CheckImg(uploadFiles)){
             return null;
         }
-        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", 78, 78);
+        List<ImgDto> list = ifc.makeImg(uploadFiles, "r", check);
 
         if(list == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -65,12 +67,15 @@ public class ImgService {
         }
     }
 
+    //이미지 등록
     @Transactional
-    public String reg_img(ArrayList<ImgDto> imgList, int gno, boolean check) throws Exception {
+    public String reg_img(ArrayList<ImgDto> imgList, int gno, String userid) throws Exception {
 
         if (imgList.isEmpty()) {
             throw new Exception("이미지 리스트가 비어 있습니다.");
         }
+
+        System.out.println(userid);
 
         boolean cnt = true;
         String spath = "";
@@ -78,39 +83,57 @@ public class ImgService {
 
         for(ImgDto idto : imgList){
             if (idto.getW_size() < 0 || idto.getH_size() < 0) {
-                throw new ImgNullException("이미지 사이즈가 올바르지 않습니다.");
+                throw new Exception("이미지 사이즈가 올바르지 않습니다.");
             }
 
             File file = new File(folderpath, idto.getO_name()+idto.getE_name());
-            if(!check){
-                ImgDto originalimg = ifc.makeImg(file, "original", gno, 0, 0);
-                spath = originalimg.getImg_full_rt();
-                return spath;
-            }
             if(cnt) {
                 // 썸네일은 한개만
                 ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);
                 spath = simg.getImg_full_rt();
                 imgDao.insert(simg);
-                imgDao.insert(imggroup(gno, simg.getNo()));
+                imgDao.insert(imggroup(gno, simg.getNo(), userid));
                 cnt = false;
             }
 
             //미리보기
             imgDao.insert(idto);
-            imgDao.insert(imggroup(gno, idto.getNo()));
+            imgDao.insert(imggroup(gno, idto.getNo(), userid));
 
             //본문
             ImgDto wimg = ifc.makeImg(file, "w", gno, 856, 856);
             imgDao.insert(wimg);
-            imgDao.insert(imggroup(gno, wimg.getNo()));
+            imgDao.insert(imggroup(gno, wimg.getNo(), userid));
         }
 
         return spath;
     }
 
     @Transactional
-    public String modify_img(ArrayList<ImgDto> imgList, int gno, int salegno) {
+    public ImgDto reg_img_one(String filename, String userid) throws IOException {
+        String folderpath = ifc.getFolderPath() + File.separator + ifc.getDatePath();
+
+        int gno = imgDao.select_group_max()+1;
+
+        File file = new File(folderpath, filename);
+        BufferedImage bi = ImageIO.read(file);
+
+        int width = (int) bi.getWidth();
+        int height = (int) bi.getHeight();
+
+        ImgDto originalimg = ifc.setImginfo(file, filename,"profile", width, height);
+        originalimg.setFirst_id(userid);
+        originalimg.setLast_id(userid);
+
+        imgDao.insert(originalimg);
+        imgDao.insert(imggroup(gno, originalimg.getNo(), userid));
+        //임시적
+        originalimg.setGroup_no(gno);
+        return originalimg;
+    }
+
+    @Transactional
+    public String modify_img(ArrayList<ImgDto> imgList, int gno, int salegno, String userid) {
         if (imgList.isEmpty()) {
             throw new IllegalArgumentException("이미지 리스트가 비어 있습니다.");
         }
@@ -144,7 +167,7 @@ public class ImgService {
                 ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);
                 spath = simg.getImg_full_rt();
                 imgDao.insert(simg);
-                imgDao.insert(imggroup(gno, simg.getNo()));
+                imgDao.insert(imggroup(gno, simg.getNo(), userid));
                 cnt = false;
             }
 
@@ -152,16 +175,16 @@ public class ImgService {
             if(idto.getU_name() == null){
                 ImgDto rimg = ifc.makeImg(file, "r", gno, 78, 78);
                 imgDao.insert(rimg);
-                imgDao.insert(imggroup(gno, rimg.getNo()));
+                imgDao.insert(imggroup(gno, rimg.getNo(), userid));
             } else {
                 imgDao.insert(idto);
-                imgDao.insert(imggroup(gno, idto.getNo()));
+                imgDao.insert(imggroup(gno, idto.getNo(), userid));
             }
 
             //본문
             ImgDto wimg = ifc.makeImg(file, "w", gno, 856, 856);
             imgDao.insert(wimg);
-            imgDao.insert(imggroup(gno, wimg.getNo()));
+            imgDao.insert(imggroup(gno, wimg.getNo(), userid));
         }
 
         return spath;
@@ -184,12 +207,12 @@ public class ImgService {
 
     //rollbackFor = 지정된 예외
     @Transactional
-    public boolean reg_img(int gno, ImgDto idto) throws Exception {
+    public boolean reg_img(int gno, ImgDto idto, String userid) throws Exception {
         if(idto == null){
             throw new ImgNullException("이미지가 비어 있습니다.");
         }
         int img = imgDao.insert(idto);
-        int img2 = imgDao.insert(imggroup(gno, idto.getNo()));
+        int img2 = imgDao.insert(imggroup(gno, idto.getNo(), userid));
         if (img <= 0 || img2 <= 0) {
             throw new DataFailException("이미지 등록 오류");
         }
@@ -200,10 +223,11 @@ public class ImgService {
         return imgDao.update(map);
     }
 
-    private HashMap imggroup(int gno, int imgno){
+    private HashMap imggroup(int gno, int imgno, String userid){
         HashMap map = new HashMap<>();
         map.put("group_no", gno);
         map.put("img_no", imgno);
+        map.put("userid", userid);
         return map;
     }
 

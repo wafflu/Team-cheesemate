@@ -43,8 +43,9 @@ public class MyPageController {
     }
 
     // 마이페이지 메인화면
-    @RequestMapping("/main")
+    @GetMapping("/main")
     public String main(@RequestParam(required = false)String ur_id, HttpSession session, Model model) throws Exception{
+        System.out.println("main() method called");  // 로그 추가
         if(!loginCheck(session))
             return "home";
         // 다른 페이지에서 사용자를 클릭해서 /myPage/main?ur_id=rudtlr 으로 타고들어왔을때,
@@ -53,19 +54,19 @@ public class MyPageController {
         // 1. 세션에서 session_id 값 받아오기
         // String session_id = (String) session.getAttribute("id");
         // test를 위한 session_id값
-        System.out.println("1");
-        String session_id = "1";
+        // test를 위해 model에 session_id값 담기
+        String session_id = "asdf";
+        model.addAttribute("session_id",session_id);
 
         // 소개글 읽어오기
         UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id);
-        System.out.println(userInfoDTO);
         model.addAttribute("userInfoDTO",userInfoDTO);
 
         // 오늘날짜 모델에 담기
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         model.addAttribute("startOfToday", startOfToday.toEpochMilli());
         model.addAttribute("msg","MyPage Read Complete");
-        System.out.println("2");
+        System.out.println("main() method processing complete");  // 로그 추가
         return "main";
     }
 

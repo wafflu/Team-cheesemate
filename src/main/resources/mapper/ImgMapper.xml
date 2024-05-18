@@ -4,13 +4,14 @@
 
 <mapper namespace="team.cheese.dao.ImgDao">
     <insert id="insert_img" parameterType="ImgDto" useGeneratedKeys="true" keyProperty="no">
-        insert into img (imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt)
-        values (#{imgtype}, #{file_rt}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt});
+        insert into img (imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt, first_id, last_id)
+        values (#{imgtype}, #{file_rt}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt}, #{first_id}, #{last_id});
     </insert>
 
     <insert id="insert_group_img" parameterType="map">
-        INSERT INTO img_group (group_no, img_no) values (#{group_no}, #{img_no});
+        INSERT INTO img_group (group_no, img_no, first_id, last_id) values (#{group_no}, #{img_no}, #{userid}, #{userid});
     </insert>
+
 
     <select id="select_group_max" resultType="int">
         SELECT COALESCE(MAX(group_no), 0) AS max_group_no FROM img_group;

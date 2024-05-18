@@ -71,4 +71,9 @@ public class UserInfoDaoImpl implements UserInfoDao {
     public int stateChange(String ur_id) throws Exception {
         return sqlSession.update(namespace+"stateChange",ur_id);
     }
+    //이미지 파일 등록
+    public int updateProfile(HashMap map){
+        return  sqlSession.update(namespace+"updateprofile", map);
+    }
+
 }

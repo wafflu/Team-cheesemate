@@ -2,6 +2,8 @@ package team.cheese.dao.MyPage;
 
 import team.cheese.domain.MyPage.UserInfoDTO;
 
+import java.util.HashMap;
+
 public interface UserInfoDao {
     int count() throws Exception;
 
@@ -26,5 +28,7 @@ public interface UserInfoDao {
     int deleteAll() throws Exception;
 
     int stateChange(String ur_id) throws Exception;
+
+     int updateProfile(HashMap map) throws Exception;
 }
 

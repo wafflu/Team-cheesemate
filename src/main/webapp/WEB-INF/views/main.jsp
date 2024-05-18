@@ -2,8 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
-<%--<c:set var="loginId" value="${sessionScope.id}"/>--%>
-<c:set var="loginId" value="${userInfoDTO.ur_id}"/>
+<c:set var="loginId" value="${session_id}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -226,12 +225,6 @@
 		<li><a href="/contact">회원 탈퇴</a></li>
 	</ul>
 </div>
-<%--<div id="register_img">--%>
-<%--	<p>--%>
-<%--		프로필이미지--%>
-<%--		<input type="file" id="imageBtn" name="imagename">--%>
-<%--	</p>--%>
-<%--</div>--%>
 <div class="register_img">
 	<img src="#" class="profile">
 	<input type="file" id="imageBtn" name="imagename">
@@ -293,7 +286,7 @@
 </div>
 <div id="commentList" ></div>
 <script>
-	let ur_id = $("textarea[name=contents]").attr('id'); // 해당 유저아이디 변수선언
+	let ur_id = $("textarea[name=contents]").attr('id'); // 해당 소개글 유저아이디
 
 	let addZero = function(value=1){
 		return value > 9 ? value : "0"+value;
@@ -373,11 +366,11 @@
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType : 'json',
 			success : function(result){
-				// 후기글 목록과 페이징 정보 가져오기
 				let comments = result.comments;
 				let ph = result.ph;
 				$("#commentList").html(toHtml(comments,ph,sal_id));
 				closeModal();
+				showUserInfo(ur_id);
 			},
 			error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 		}); // $.ajax()
@@ -443,7 +436,7 @@
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType : 'json',
 			success : function(result){
-				alert("Success Change");
+				// alert("Success Change");
 				toChange(result);
 			},
 			error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
@@ -537,12 +530,10 @@
 				type:'POST',       // 요청 메서드
 				url: '/comments',  // 요청 URI
 				headers : { "content-type": "application/json"}, // 요청 헤더
-				// dataType : 'json', // 전송받을 데이터의 타입
 				data: JSON.stringify({sal_id : ur_id,contents:contents,reviewStar: selectedStar}),
 				success: function(result) {
 					alert(result);
 					showList(ur_id);
-					showUserInfo(ur_id);
 				},
 				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
