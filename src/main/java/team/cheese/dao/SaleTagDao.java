@@ -1,9 +1,7 @@
 package team.cheese.dao;
 
-import org.apache.ibatis.annotations.Param;
 import team.cheese.domain.SaleTagDto;
 
-import javax.servlet.jsp.tagext.Tag;
 import java.util.List;
 
 public interface SaleTagDao {

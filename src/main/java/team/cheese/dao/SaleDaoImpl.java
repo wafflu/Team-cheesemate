@@ -106,4 +106,14 @@ public class SaleDaoImpl implements SaleDao {
         return session.update(namespace + "updateSaleSCd", map);
     }
 
+    @Override
+    public List<SaleDto> selectSearchPage(SearchCondition sc) throws Exception {
+        return session.selectList(namespace+"selectSearchPage",sc);
+    }
+    @Override
+    public int selectSearchCount(SearchCondition sc) throws Exception {
+        return session.selectOne(namespace+"selectSearchCount",sc);
+    }
+
+
 }

@@ -46,4 +46,9 @@ public interface SaleDao {
     List<SaleDto> selectList(Map map) throws Exception;
 
     int updateSaleSCd(Map map) throws Exception;
+
+    // 조건대로 판매글 목록 조회
+    List<SaleDto> selectSearchPage(SearchCondition sc) throws Exception;
+
+    int selectSearchCount(SearchCondition sc) throws Exception;
 }

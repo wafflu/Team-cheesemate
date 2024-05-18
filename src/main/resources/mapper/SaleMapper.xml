@@ -139,18 +139,6 @@
           and seller_id = #{seller_id}
     </update>
 
-    <!--  U : 판매글 작성자가 판매 상태 변경하는 경우  -->
-    <update id="updateSaleSCd" parameterType="map">
-        UPDATE sale
-        SET sal_s_cd = #{sal_s_cd},
-            m_date    = now(),
-            last_id   = #{seller_id},
-            last_date = now()
-        WHERE
-            no = #{no}
-          and seller_id = #{seller_id}
-    </update>
-
     <!--  D : 관리자가 판매글에 관여하는 경우_데이터 보존을 위해서 삭제하지 않고 사용 여부만 변경해줌(너무길어요)  -->
     <update id="adminState" parameterType="SaleDto">
         UPDATE sale

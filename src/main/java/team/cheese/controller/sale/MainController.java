@@ -1,45 +1,35 @@
 package team.cheese.controller.sale;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.dao.*;
-import team.cheese.domain.AddrCdDto;
-import team.cheese.domain.AdministrativeDto;
-import team.cheese.domain.SaleCategoryDto;
-import team.cheese.domain.SaleDto;
 import team.cheese.service.sale.SaleService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.*;
 
 @Controller
 public class MainController {
     @Autowired
     SaleDao saleDao;
     @Autowired
-    SaleCategoryDao saleCategoryDao;
+    team.cheese.dao.SaleCategoryDao saleCategoryDao;
     @Autowired
-    AdministrativeDao administrativeDao;
+    team.cheese.dao.AdministrativeDao administrativeDao;
     @Autowired
-    TagDao tagDao;
+    team.cheese.dao.TagDao tagDao;
     @Autowired
-    AddrCdDao addrCdDao;
+    team.cheese.dao.AddrCdDao addrCdDao;
 
     @Autowired
     SaleService saleService;
 
     @Autowired
-    TestSession testSession;
+    team.cheese.dao.TestSession testSession;
 
     @RequestMapping(value = "/saleLoginTest", method = RequestMethod.GET)
     public String main(Model model, HttpSession session) throws Exception {

@@ -291,6 +291,13 @@ public class SaleService {
         return totalCnt;
     }
 
+    public List<SaleDto> getSearchPage(SearchCondition sc) throws Exception {
+        return saleDao.selectSearchPage(sc);
+    }
+    public int getSearchCnt(SearchCondition sc) throws Exception {
+        return saleDao.selectSearchCount(sc);
+    }
+
     public void updateSaleSCd(Long no, String sal_s_cd, String seller_id) throws Exception {
         Map map = new HashMap();
         map.put("no", no);

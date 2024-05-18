@@ -7,7 +7,6 @@ import team.cheese.domain.ChatMessageDto;
 import team.cheese.domain.ChatRoomDto;
 import team.cheese.domain.SaleDto;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Repository

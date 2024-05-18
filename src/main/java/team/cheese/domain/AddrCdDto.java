@@ -1,6 +1,5 @@
 package team.cheese.domain;
 
-import java.math.BigInteger;
 import java.security.Timestamp;
 import java.util.Objects;
 

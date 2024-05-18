@@ -17,6 +17,13 @@
         </layout>
     </appender>
 
+    <!-- Log4jdbc Appender -->
+    <appender name="log4jdbc" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %-5p [%t] %c{2} %x - %m%n" />
+        </layout>
+    </appender>
+
     <!-- Application Loggers -->
     <logger name="team.cheese">
         <level value="info" />

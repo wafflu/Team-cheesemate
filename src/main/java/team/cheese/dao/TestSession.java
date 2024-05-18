@@ -1,10 +1,7 @@
 package team.cheese.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ResponseBody;
-import team.cheese.dao.AddrCdDao;
 import team.cheese.domain.AddrCdDto;
 
 import javax.servlet.http.HttpSession;
