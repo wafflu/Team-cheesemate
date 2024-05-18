@@ -2,81 +2,123 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>자주묻는질문</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>치즈마켓</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
         }
-        ul {
-            list-style-type: none;
-            padding: 0;
+        header, footer {
+            background-color: #f8f9fa;
+            padding: 1rem;
         }
-        li {
-            padding: 8px;
-            margin-bottom: 2px;
-            background-color: #f0f0f0;
-            border: 1px solid #ddd;
+        .container {
+            display: flex;
+            flex: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        aside {
+            width: 200px;
+            background-color: #eee;
+            padding: 1rem;
+        }
+        main {
+            flex: 1;
+            padding: 1rem;
         }
         .faq-prefix {
-            color: green;   /* 초록색으로 설정 */
-            font-weight: bold; /* 글씨를 굵게 */
-            margin-right: 10px; /* 오른쪽 여백 추가 */
+            color: green;
+            font-weight: bold;
+            margin-right: 10px;
         }
         .title {
-            display: flex; /* Flexbox를 사용하여 내용을 한 줄에 나열 */
-            align-items: center; /* 세로 중앙 정렬 */
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 10px;
+            background-color: #fff; /* 질문 배경을 흰색으로 설정 */
+            border-bottom: 1px solid #ddd;
+        }
+        .title:hover {
+            background-color: #e7e7e7;
+        }
+        .content-row {
+            display: none;
+            background-color: #f9f9f9; /* 답변 배경 색상 유지 */
+            border-bottom: 1px solid #ddd;
+        }
+        .content {
+            padding: 10px;
         }
         .category-button {
-            background-color: #4CAF50; /* 버튼 배경색 */
-            border: none; /* 테두리 없앰 */
-            color: white; /* 글자색 */
-            padding: 10px 20px; /* 패딩 */
-            text-align: center; /* 텍스트 중앙 정렬 */
-            text-decoration: none; /* 밑줄 없앰 */
-            display: inline-block; /* 인라인 블록으로 표시 */
-            font-size: 16px; /* 글자 크기 */
-            margin: 4px 2px; /* 마진 */
-            cursor: pointer; /* 커서 포인터 */
-            border-radius: 10px; /* 모서리 둥글게 */
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 10px;
         }
         .category-container {
-            margin-bottom: 20px; /* 카테고리와 테이블 사이 여백 */
+            margin-bottom: 20px;
         }
     </style>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-
 <body>
-<div class="search-container">
-    <input type="text" id="searchInput" placeholder="검색어 입력">
-    <button id="searchButton">검색</button>
+<header>
+    <!-- 헤더 내용 추가 -->
+</header>
+<div class="container">
+    <aside>
+        <h3>고객센터</h3>
+        <ul class="QnaSide">
+            <li><a href="<c:url value='/faq/list'/>">FAQ</a></li>
+            <li><a href="<c:url value='/qna/new'/>">1:1 문의하기</a></li>
+            <li><a href="<c:url value='/qna/list'/>">나의 문의내역</a></li>
+        </ul>
+    </aside>
+    <main>
+        <div>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="검색어 입력">
+                <button id="searchButton">검색</button>
+            </div>
+            <div class="category-container">
+                <button class="category-button" value="6">전체</button>
+                <button class="category-button" value="1">거래문의</button>
+                <button class="category-button" value="2">이용/운영정책 문의</button>
+                <button class="category-button" value="3">신고접수</button>
+                <button class="category-button" value="4">회원계정/이용문의</button>
+                <button class="category-button" value="5">기타</button>
+            </div>
+            <table class="table">
+                <thead>
+                <tr><th>제목</th></tr>
+                </thead>
+                <tbody id="faq-table-body">
+                <!-- AJAX 동적 삽입 -->
+                </tbody>
+            </table>
+        </div>
+    </main>
 </div>
-<div class="category-container">
-    <button class="category-button" value="6">전체</button>
-    <button class="category-button" value="1">거래문의</button>
-    <button class="category-button" value="2">이용/운영정책 문의</button>
-    <button class="category-button" value="3">신고접수</button>
-    <button class="category-button" value="4">회원계정/이용문의</button>
-    <button class="category-button" value="5">기타</button>
-</div>
-
-<table>
-    <thead>
-    <tr><th>제목</th></tr>
-    </thead>
-    <tbody id="faq-table-body">
-    <!-- AJAX 동적 삽입 -->
-    <tbody id="">
-    </tbody>
-</table>
-
+<footer>
+    <!-- 푸터 내용 추가 -->
+</footer>
 <script>
     $(document).ready(function() {
-        // queId == 6 이면 전체 목록, 1~5이면 각각의 카테고리로 이동한다.
         function categoryFaq(queId) {
             $.ajax({
                 url: "/faq/major",
@@ -84,11 +126,9 @@
                 data: { queId: queId },
                 dataType: "json",
                 success: function(data) {
-                    var tbody = $("#faq-table-body"); // FAQ 목록을 표시할 테이블
-                    // 기존에 표시된 내용을 비운다
+                    var tbody = $("#faq-table-body");
                     tbody.empty();
                     data.forEach(function(faq) {
-                        // 새 tr 생성 후 td생성하고 title클래스 추가한다.
                         var tr = $("<tr></tr>");
                         var td = $("<td></td>").addClass('title');
                         var span = $("<span></span>").addClass('faq-prefix').text('Q');
@@ -97,61 +137,55 @@
                         tr.append(td);
                         tbody.append(tr);
 
-                        // 내용을 위한 숨겨진 행 추가
-                        var contentTr = $("<tr style='display:none;'></tr>").addClass("content-row");
+                        var contentTr = $("<tr class='content-row'></tr>");
                         var contentTd = $("<td></td>").attr("colspan", "1").addClass("content");
                         contentTr.append(contentTd);
                         tbody.append(contentTr);
-                        tr.data('no', faq.no); // 행에 FAQ의 고유 번호 저장한다.
+                        tr.data('no', faq.no);
                     });
                 },
-                error: function(error) { // 요청이 실패했을 때 실행할 함수
+                error: function(error) {
                     console.error("Error", error);
                 }
             });
         }
 
-        // 카테고리 버튼을 클릭하면 이벤트 처리한다.
         $(".category-button").click(function() {
-            var queId = $(this).val(); // 클릭된 버튼의 value 속성(카테고리 ID) 읽기
-            categoryFaq(queId); // 해당 카테고리 ID로 FAQ 데이터 요청
+            var queId = $(this).val();
+            categoryFaq(queId);
         });
 
-        // 제목 클릭 시 이벤트 처리
         $(document).on('click', '.title', function() {
-            var tr = $(this).closest('tr'); // 클릭된 제목이 속한 행 선택
-            var contentTr = tr.next(".content-row"); // 해당 제목의 내용이 담긴 행 선택
-            var no = tr.data('no'); // 행에 저장된 FAQ 번호 가져오기
+            var tr = $(this).closest('tr');
+            var contentTr = tr.next(".content-row");
+            var no = tr.data('no');
 
-            if (!contentTr.is(':visible')) { // 내용 행이 현재 숨겨져 있으면
-                $(".content-row").hide(); // 모든 내용 행을 숨김
-                if (contentTr.find('.content').html().trim() === "") { // 내용이 아직 로드되지 않았으면
-                    // 서버에서 내용 가져오기
+            if (!contentTr.is(':visible')) {
+                $(".content-row").hide();
+                if (contentTr.find('.content').html().trim() === "") {
                     $.ajax({
                         url: '/faq/getContents',
                         method: 'GET',
                         data: { no: no },
                         success: function(content) {
-                            contentTr.find('.content').html(content); // 내용 행에 데이터 삽입
-                            contentTr.show(); // 내용 행 표시
+                            contentTr.find('.content').html(content);
+                            contentTr.show();
                         },
                         error: function(xhr) {
                             console.error("Error fetching content:", xhr.responseText);
                         }
                     });
                 } else {
-                    contentTr.show(); // 이미 로드된 내용이 있으면 그냥 표시
+                    contentTr.show();
                 }
             } else {
-                contentTr.hide(); // 내용 행이 이미 보이는 상태면 숨김
+                contentTr.hide();
             }
         });
 
-        // 검색 버튼 클릭 시 이벤트 처리한다.
         $("#searchButton").click(function() {
-            // 입력에서 검색어 읽기는다.
             var keyword = $("#searchInput").val().trim();
-            if (keyword) { // 검색어가 비어있지 않으면
+            if (keyword) {
                 $.ajax({
                     url: '/faq/search',
                     type: 'GET',
@@ -159,10 +193,10 @@
                     dataType: 'json',
                     success: function(data) {
                         var tbody = $("#faq-table-body");
-                        tbody.empty(); // 기존 목록 제거
-                        if (data.length === 0) { // 검색 결과가 없으면
+                        tbody.empty();
+                        if (data.length === 0) {
                             tbody.append('<tr><td colspan="1">해당 검색어가 없습니다.</td></tr>');
-                        } else { // 검색 결과가 있으면
+                        } else {
                             data.forEach(function(faq) {
                                 var tr = $("<tr></tr>");
                                 var td = $("<td></td>").addClass('title');
@@ -172,8 +206,7 @@
                                 tr.append(td);
                                 tbody.append(tr);
 
-                                // 내용을 위한 숨겨진 행 추가
-                                var contentTr = $("<tr style='display:none;'></tr>").addClass("content-row");
+                                var contentTr = $("<tr class='content-row'></tr>");
                                 var contentTd = $("<td></td>").attr("colspan", "1").addClass("content");
                                 contentTr.append(contentTd);
                                 tbody.append(contentTr);
@@ -187,7 +220,7 @@
                 });
             }
         });
-        // 초기 페이지 로드 시 전체 FAQ 목록 로드
+
         categoryFaq(6);
     });
 </script>

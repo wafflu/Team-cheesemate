@@ -8,6 +8,7 @@ import team.cheese.domain.QnaCategoryDto;
 import team.cheese.domain.QnaDto;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class QnaService {
@@ -46,5 +47,13 @@ public class QnaService {
     public int modify(QnaDto qnaDto) throws Exception {
         return qnaDao.update(qnaDto);
     }
+//    나의 문의 내역 페이징
+    public List<QnaDto> selectPageByUserId(Map<String, Object> params) throws Exception {
+        return qnaDao.selectPageByUserId(params);
+    }
+//    나의 문의 내역 전체 카운트
+    public int countQnasByUserId(String ur_id) throws Exception {
+        return qnaDao.countQnasByUserId(ur_id);
 
+    }
 }

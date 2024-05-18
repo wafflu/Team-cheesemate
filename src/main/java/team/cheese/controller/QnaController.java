@@ -5,13 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.cheese.domain.QnaCategoryDto;
 import team.cheese.domain.QnaDto;
+import team.cheese.entity.PageHandler;
 import team.cheese.service.QnaService;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/qna")
@@ -53,11 +58,15 @@ public class QnaController {
         서비스에 write() 메서드를 호출하여 db에 저장한다.
         완료되면 나의 문의목록으로 페이지를 이동시킨다.
      */
-
     @PostMapping("/send")
-    public String write(@ModelAttribute QnaDto qnaDto, HttpSession session) throws Exception {
-        String ur_id = (String) session.getAttribute("userId");
+    public String write(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+        if (result.hasErrors()) {
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.qnaDto", result);
+            redirectAttributes.addFlashAttribute("qnaDto", qnaDto);
+            return "redirect:/qna/new";
+        }
 
+        String ur_id = (String) session.getAttribute("userId");
         qnaDto.setUr_id(ur_id); // 세션에서 사용자 ID 설정
         qnaDto.setFirst_id(ur_id);
         qnaDto.setQ_s_cd("Q001U");
@@ -65,6 +74,7 @@ public class QnaController {
 
         return "redirect:/qna/list"; // 성공 페이지로 리다이렉트
     }
+
     /*
     나의 문의 내역 조회하기
         로그인 여부를 세션으로 확인한다.
@@ -77,13 +87,22 @@ public class QnaController {
      */
 
     @GetMapping("/list")
-    public String listUserQnas(Model model, HttpSession session) {
+    public String listUserQnas(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Model model, HttpSession session) {
         String ur_id = (String) session.getAttribute("userId");
         try {
-            List<QnaDto> myQnaList = qnaService.select(ur_id);
+            int totalCnt = qnaService.countQnasByUserId(ur_id);
+            PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+            Map<String, Object> map = new HashMap<>();
+            map.put("ur_id", ur_id);
+            map.put("offset", pageHandler.getOffset());
+            map.put("pageSize", pageSize);
+            List<QnaDto> myQnaList = qnaService.selectPageByUserId(map);
+
             model.addAttribute("qnaList", myQnaList);
-            return "qnaBoardList"; // JSP 페이지 이름
+            model.addAttribute("ph", pageHandler);
+            return "qnaBoardList";
         } catch (Exception e) {
+            model.addAttribute("errorMessage", "문의 목록을 불러오는 중 오류가 발생했습니다.");
             return "errorPage"; // 에러 시 보여줄 페이지
         }
     }

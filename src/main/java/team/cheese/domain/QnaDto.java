@@ -6,18 +6,23 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class QnaDto {
-    @NotNull
     private Long no;
-    @NotNull
+
+    @NotNull(message = "사용자 ID는 필수 입력 항목입니다.")
     private String ur_id;
-    @NotNull
+
+    @NotNull(message = "상세 유형은 필수 선택 항목입니다.")
     private Long que_i_cd;
-    @NotNull
+
+    @NotNull(message = "상태 코드는 필수 입력 항목입니다.")
     private String q_s_cd;
-    @NotNull
+
+    @NotNull(message = "제목은 필수 입력 항목입니다.")
     private String title;
-    @NotNull
+
+    @NotNull(message = "내용은 필수 입력 항목입니다.")
     private String contents;
+
     private Timestamp r_date;
     private Timestamp m_date;
     private String ad_id;

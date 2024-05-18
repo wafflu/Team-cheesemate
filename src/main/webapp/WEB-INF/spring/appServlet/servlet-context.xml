@@ -34,4 +34,13 @@
     <!-- 아래는 자동 -->
     <context:component-scan base-package="team.cheese" />
 
+    <interceptors>
+        <interceptor>
+            <mapping path="/qna/new"/>
+            <mapping path="/qna/list"/>
+            <beans:bean id="qnanew" class="team.cheese.controller.interceptor.LoginCheckInterceptor" ></beans:bean>
+        </interceptor>
+    </interceptors>
+
+
 </beans:beans>

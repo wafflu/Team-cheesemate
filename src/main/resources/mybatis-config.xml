@@ -33,6 +33,7 @@
 		<typeAlias alias="QnaCategoryDto" type="team.cheese.domain.QnaCategoryDto"/>
 		<typeAlias alias="FaqDto" type="team.cheese.domain.FaqDto"/>
 		<typeAlias alias="QnaDto" type="team.cheese.domain.QnaDto"/>
-		<typeAlias alias="QnaDao" type="team.cheese.dao.QnaDao"/>
+		<typeAlias alias="QnaDao" type="team.cheese.dao.QnaDaoImpl"/>
+		<typeAlias alias="PageHandler" type="team.cheese.entity.PageHandler"/>
 	</typeAliases>
 </configuration>

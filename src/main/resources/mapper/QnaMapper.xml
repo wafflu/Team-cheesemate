@@ -50,4 +50,21 @@
         order by r_date desc
     </select>
 
+    <!--    사용자 목록 조회에 대한 페이징-->
+    <select id="selectPageByUserId" parameterType="map" resultType="QnaDto">
+        SELECT qb.*, qc.name AS categoryName
+        FROM question_board qb
+                 JOIN question_category qc ON qb.que_i_cd = qc.que_cd
+        WHERE ur_id=#{ur_id}
+        ORDER BY r_date DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 총 문의 내역 개수 조회 쿼리 -->
+    <select id="countQnasByUserId" parameterType="String" resultType="Integer">
+        SELECT COUNT(*)
+        FROM question_board
+        WHERE ur_id = #{ur_id}
+    </select>
+
 </mapper>
