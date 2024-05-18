@@ -132,7 +132,13 @@
                     $('#heart').data('count-like', response.totalLikeCount); // 데이터 속성도 업데이트
                 },
                 error: function (xhr, status, error) {
-                    console.error("좋아요 실패", error.responseText)
+                   if(xhr.status ===401){
+                       alert("로그인 먼저 해주세요");
+                    } else if (xhr.status === 500) {
+                       alert("서버 에러가 발생했습니다.");
+                    } else {
+                       alert("좋아요 실패: " + xhr.responseText);
+                 }
                 }
 
 
