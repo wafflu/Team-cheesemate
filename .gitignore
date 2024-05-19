@@ -11,6 +11,13 @@ target/
 *.iws
 *.iml
 *.ipr
+pom.xml
+web.xml
+servlet-context.xml
+root-context.xml
+log4j.xml
+.idea
+.gitignore
 
 ### Eclipse ###
 .apt_generated
