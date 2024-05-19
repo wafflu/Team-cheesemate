@@ -28,6 +28,9 @@
                 </p>
             </c:otherwise>
         </c:choose>
+        <div id="saleBoard">
+
+        </div>
 
         <p>sale : ${Sale.no}</p>
         <p>행정동 코드 : ${Sale.addr_cd}</p>
@@ -89,6 +92,25 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
+        loadSaleInfo();
+        // 판매 정보를 불러오는 함수
+        function loadSaleInfo() {
+            $.ajax({
+                type: "GET",
+                url: "/sale/read?no=${Sale.no}",
+                success: function (data) {
+                    alert(Sale);
+
+                    // 성공적으로 데이터를 받아오면 saleInfo 엘리먼트에 출력
+                    $("#saleBoard").html("확인");
+                },
+                error: function (xhr, status, error) {
+                    alert("판매 정보를 불러오는데 실패하였습니다.");
+                }
+            });
+        }
+
+
         $("#removeBtn").on("click", function () {
             if (confirm("삭제 하시겠습니까?")) {
                 $("#form").attr("action", "/sale/remove?no=${Sale.no}");
