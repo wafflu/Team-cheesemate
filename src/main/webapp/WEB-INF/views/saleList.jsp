@@ -4,8 +4,9 @@
 <% // 세션에 sessionId가 존재하는지 확인
 //    String sessionId = request.getParameter("userId");
 %>
+<!DOCTYPE html>
 <html>
-
+<meta charset="UTF-8">
 <head>
     <title>판매/나눔</title>
     <style>
@@ -24,13 +25,13 @@
 <body>
 <button type="button" onclick="writeBtn()">글쓰기</button>
 <select id="addr_cd">
-    <option id="selectAll" value="" selected>전체</option>
+    <option id="selectAll" value="null" selected>전체</option>
     <c:forEach var="AddrCd" items="${addrCdList}">
         <option value="${AddrCd.addr_cd}">${AddrCd.addr_name}</option>
     </c:forEach>
 </select><br>
 <select id="category1" onchange="loadCategory2()">
-    <option value="" disabled selected>대분류</option>
+    <option value="null" selected>대분류(전체)</option>
     <c:forEach var="category" items="${saleCategory1}">
         <option value="${category.sal_cd}">${category.name}</option>
     </c:forEach>
@@ -51,6 +52,7 @@
         <th class="no">번호</th>
         <th class="img">이미지</th>
         <th class="title">제목</th>
+        <th class="sal_s_cd">판매상태</th>
         <th class="writer">이름</th>
         <th class="addr_name">주소명</th>
         <th class="regdate">등록일</th>
@@ -73,6 +75,7 @@
     // };
 
     let sessionId = "${sessionScope.userId}";
+    let saleStatusText;
 
     function loadCategory2() {
         let category1Value = $('#category1').val();
@@ -185,7 +188,7 @@
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $(this).val();
             let sal_i_cd = null;
-            $("#category1").val('').prop('selected', true);
+            $("#category1").val('null').prop('selected', true);
             $("#category2").val('').prop('selected', true);
             $("#category3").val('').prop('selected', true);
             $("#sal_name").text("전체");
@@ -224,40 +227,66 @@
     function writeBtn() {
         // 선택된 주소 코드(addr_cd) 값 가져오기
         let addrCdValue = $('#addr_cd').val();
+        let addrCdName = $("#addr_cd option:checked").text();
 
         // form 엘리먼트 생성
         let form = $('<form>', {
-            method: 'POST', // POST 방식 설정
-            action: '/sale/write' // 전송할 URL 설정
+            method: 'POST',
+            action: '/sale/write',
+            acceptCharset: 'UTF-8'
         });
 
-        // hidden input 엘리먼트 생성
+        // hidden input 생성
         $('<input>').attr({
             type: 'hidden',
             name: 'addr_cd',
             value: addrCdValue
         }).appendTo(form);
 
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'addr_name',
+            value: addrCdName
+        }).appendTo(form);
+
         // form을 body에 추가하고 자동으로 submit
         form.appendTo('body').submit();
     }
+
 
     // 업데이트된 saleList를 화면에 출력하는 함수
     function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
         // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
         $("#saleList").empty();
+
         if (saleList.length > 0) {
+        // 판매 상태에 따라 텍스트 설정
             saleList.forEach(function (sale) {
+                switch (sale.sal_s_cd) {
+                    case 'S':
+                        saleStatusText = '판매중';
+                        break;
+                    case 'R':
+                        saleStatusText = '예약중';
+                        break;
+                    case 'C':
+                        saleStatusText = '거래완료';
+                        break;
+                    default:
+                        saleStatusText = '';
+                }
+
                 let row = $("<tr>");
                 row.append($("<td>").text(sale.no)); // 판매 번호
-                row.append($("<td>").addClass("Thumbnail_ima").html("<img src='/img/display?fileName=" + sale.img_full_rt + "'/>")); // 이미지
+                row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" +"<img src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
                 row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
+                row.append($("<td>").text(saleStatusText)); // 판매 상태
                 row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임
                 row.append($("<td>").text(sale.addr_name)); // 주소명
 
-                let saleDate = new Date(sale.r_date);
+                let saleDate = new Date(sale.h_date);
 
-                row.append($("<td>").addClass("regdate").text(dateToString(sale.r_date, startOfToday)));
+                row.append($("<td>").addClass("regdate").text(dateToString(sale.h_date, startOfToday)));
                 row.append($("<td>").text(sale.view_cnt)); // 조회수
                 $("#saleList").append(row);
             });
@@ -303,10 +332,24 @@
         let MM = addZero(date.getMinutes());
         let ss = addZero(date.getSeconds());
 
+        let now = new Date();
+
         if (date.getTime() >= startOfToday) {
-            return HH + ":" + MM + ":" + ss;
+            let secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
+            if (secondsAgo < 60) {
+                return secondsAgo + "초 전";
+            } else {
+                let minutesAgo = Math.floor(secondsAgo / 60);
+                if (minutesAgo < 60) {
+                    return minutesAgo + "분 전";
+                } else {
+                    let hoursAgo = Math.floor(minutesAgo / 60);
+                    return hoursAgo + "시간 전";
+                }
+            }
         }
-        return yyyy+"."+mm+"."+dd+ " " + HH + ":" + MM + ":" + ss;
+        let daysAgo = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        return daysAgo + "일 전";
     }
 
 

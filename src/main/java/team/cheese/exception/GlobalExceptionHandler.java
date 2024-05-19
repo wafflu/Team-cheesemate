@@ -1,4 +1,4 @@
-package team.cheese.controller.MyPage;
+package team.cheese.exception;
 
 import org.springframework.dao.*;
 import org.springframework.http.HttpHeaders;

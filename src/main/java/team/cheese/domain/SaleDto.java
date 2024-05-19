@@ -1,78 +1,62 @@
 package team.cheese.domain;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class SaleDto {
 
-    @NotBlank
-    @NotEmpty
-    @NotNull
     private Long no;
 
     @NotBlank
-    @NotEmpty
-    @NotNull
     private String addr_cd;
 
     @NotBlank
-    @NotEmpty
-    @NotNull
     private String addr_name;
 
     @NotBlank
-    @NotEmpty
-    @NotNull
     private String seller_id;
 
     @NotBlank
-    @NotEmpty
-    @NotNull
     private String seller_nick;
 
     @NotBlank
-    @NotEmpty
-    @NotNull(message = "판매카테고리를 선택해 주세요.")
     private String sal_i_cd;
 
     @NotBlank
-    @NotEmpty
-    @NotNull
     private String sal_name;
     private int group_no;
     private String img_full_rt;
     private String pro_s_cd;
+
+    @NotBlank
     private String tx_s_cd;
+
+    @NotBlank
     private String trade_s_cd_1;
     private String trade_s_cd_2;
     private String sal_s_cd;
 
     @NotBlank
-    @NotEmpty
-    @NotNull(message = "제목을 입력해주세요.")
-    @Size(max = 100)
+    @Size(max = 40)
     private String title;
 
     @NotBlank
-    @NotEmpty
-    @NotNull(message = "내용을 입력해주세요.")
     @Size(max = 2000)
     private String contents;
 
+    @NotNull
+    @Min(1)
     private Integer price;
 
     @NotBlank
-    @NotEmpty
-    @NotNull
     private String bid_cd;
     private String pickup_addr_cd;
     private String pickup_addr_name;
     private String detail_addr;
     private String brand;
+
+    @Min(0)
     private Integer reg_price;
     private String buyer_id;
     private String buyer_nick;
