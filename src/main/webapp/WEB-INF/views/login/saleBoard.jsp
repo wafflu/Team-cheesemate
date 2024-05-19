@@ -9,6 +9,11 @@
 </head>
 <body>
 <div>
+    <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'w'}">
+            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+        </c:if>
+    </c:forEach>
     <form id="form" action="" method="post">
         <c:choose>
             <c:when test="${sessionScope.userId == Sale.seller_id}">

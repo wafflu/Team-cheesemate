@@ -134,12 +134,21 @@
     <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
         <p>상품 정보</p>
         <div class="sale-division-line"></div>
-        <div id="register_img">
-            <p>
-                상품이미지(<span id="img_count">0</span>/10) <input type="file" id="imageBtn" name="imagename"
-                                                               multiple='multiple'>
-            </p>
+
+        <div class="form_section_content">
+            <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
         </div>
+        <div id = "uploadResult">
+            <c:forEach items="${imglist}" var="img">
+                <c:if test="${img.imgtype eq 'r'}">
+                    <div id='result_card'>
+                        <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">
+                        <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+
         <p>
             제목 <input id="title" name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" value="${Sale.title}"
                       minlength="1" maxlength="40"/>
@@ -228,6 +237,8 @@
                 </div>
             </div>
         </div>
+<%--        <input name="addr_cd" value="${Sale.addr_cd}">--%>
+<%--        <input name="addr_name" value="${Sale.addr_name}">--%>
         <p>거래장소
             <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="${Sale.pickup_addr_cd}" hidden>
             <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="${Sale.pickup_addr_name}" disabled>
@@ -241,6 +252,7 @@
             브랜드(선택)
             <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." value="${Sale.brand}"/>
         </p>
+        <!-- <input type="button" id="submitBtn" value="등록하기" onclick="write()"/> -->
         <input type="button" id="submitBtn" value="등록하기"/>
     </form>
 </div>
@@ -248,6 +260,29 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
+
+    let Image = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     let submitURL = '/sale/insert';
 
     let category2Check = true; // 중분류 카테고리 유효성 검사를 위한 변수
@@ -295,7 +330,7 @@
             // Sale의 bid_cd 값 : 가격제시/나눔신청
             let bid_cd = "${Sale.bid_cd}";
             if (bid_cd === "P") {
-                $(".proposal").show();
+                $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
             } else if (bid_cd === "T") {
                 $(".trade").show();
                 $("input[name='price']").val("");
@@ -758,6 +793,7 @@
         let brand = $('input[name="brand"]').val(); // 브랜드
         let addr_cd = "${Sale.addr_cd}"; // 행정구역코드
         let addr_name = "${Sale.addr_name}"; // 주소명
+        let group_no = "${Sale.group_no}"; // 이미지
 
         // category1, category2, category3의 값 추출
         let category1Value = $("#category1").val();
@@ -808,7 +844,8 @@
             "sal_i_cd": sal_i_cd_value,
             "sal_name": sal_name_value,
             "addr_cd": addr_cd,
-            "addr_name": addr_name
+            "addr_name": addr_name,
+            "group_no" : group_no
         }
 
         // trade_s_cd 파라미터 설정
@@ -829,7 +866,8 @@
         let map =
             {
                 "sale": sale,
-                "tag": tag
+                "tag": tag,
+                "imgList" : ImageUploader.getImgInfo()
             };
 
 
@@ -935,5 +973,7 @@
     }
 
 </script>
+
+<script src="/resources/js/img.js"></script>
 
 </html>

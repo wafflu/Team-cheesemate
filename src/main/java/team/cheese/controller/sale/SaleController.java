@@ -1,5 +1,6 @@
 package team.cheese.controller.sale;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.*;
 import team.cheese.dao.*;
+import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
+import team.cheese.service.ImgService;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +45,9 @@ public class SaleController {
     @Autowired
     TestSession testSession;
 
+    @Autowired
+    ImgService imgService;
+
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
     public String getList(Model model, HttpServletRequest request) throws Exception {
@@ -54,6 +60,7 @@ public class SaleController {
         if(ur_id == null) {
             model.addAttribute("addrCdList", administrativeDao.selectAll());
         } else {
+            String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
             // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
@@ -72,9 +79,11 @@ public class SaleController {
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
+        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto); // model로 값 전달
         model.addAttribute("tagList", tagDto); // model로 값 전달
+        model.addAttribute("imglist", imglist); // model로 값 전달
 
         return "/login/saleBoard";
     }
@@ -108,7 +117,7 @@ public class SaleController {
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
     @PostMapping("/modify")
     public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-        System.out.println("no값 확인 " + no);
+
         Map map = saleService.modify(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         String tagContents = (String) map.get("tagContents");
@@ -120,144 +129,137 @@ public class SaleController {
         saleDto.setSeller_nick(user_nick);
 
         System.out.println("modify 판매글 번호 : " + saleDto.getNo());
+        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto);
         model.addAttribute("Tag", tagContents);
+        model.addAttribute("imglist", imglist); // model로 값 전달
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
 
         return "/login/saleWrite";
     }
 
-//    // 서비스로 분리
-//    // 글쓰기 완료하고 글을 등록하는 경우
-//    @PostMapping("/insert")
-//    @ResponseBody
-//    public ResponseEntity<String> write(@RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
-//        System.out.println("POST write");
-//        // service 호출
-//        // 서비스단 작성 필요함
-////        System.out.println(formData);
-//
-//        // 1. 사용자가 글작성
-//        // 동시에 작성버튼 누르면?
-//        // 작성 실패하면?
-//        // 필수로 써야되는거 안썼으면? -> view에서 여기로 전송못하게하기
-//
-//        String seller_id = (String) session.getAttribute("userId");
-//        String seller_nick = (String) session.getAttribute("userNick");
-//
-//        // ObjectMapper : JSON 형태를 JAVA 객체로 변환
-//        System.out.println(map.get("sale"));
-//        System.out.println(map.get("tag"));
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
-//        saleDto.setSeller_id(seller_id);
-//        saleDto.setSeller_nick(seller_nick);
-//
-//        // 유효성 검사 진행
-//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//        Validator validator = factory.getValidator();
-//        Set<ConstraintViolation<SaleDto>> violations = validator.validate(saleDto);
-//
-//        // 유효성 검사 결과 확인
-//        if (!violations.isEmpty()) {
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
-//            return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        System.out.println("값 들어왔는지 확인 : " + saleDto);
-//
-//        Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
-//        List<String> tagContents = (List<String>) tagMap.get("contents");
-//        System.out.println("tag값 확인 : " + tagMap.size());
-//
-//        // 각 해시태그를 반복하여 TagDto 객체 생성 및 tagList에 추가
-//        List<String> tagList = new ArrayList<>();
-//        for (String content : tagContents) {
-//            // '#' 기호를 제거하여 태그 내용만 추출
-//            String tagContent = content.substring(1);
-//            // TagDto 객체 생성
-//            // 생성된 TagDto를 tagList에 추가
-//            tagList.add(tagContent);
-//        }
-//
-//        Map mapDto = new HashMap();
-//        mapDto.put("saleDto", saleDto);
-//        mapDto.put("tagList", tagList);
-//
-//        // Service를 통해 글 등록 처리
-//        Long sal_no = saleService.write(mapDto);
-//
-//        System.out.println("글 번호 : " + sal_no);
-//        String page = "/sale/read?no=" + sal_no;
-//
-//        // 등록 후에는 다시 글 목록 페이지로 리다이렉트
-//        return new ResponseEntity<>(page, HttpStatus.OK);
-//    }
-//
-//// 글 수정을 완료하고 글을 등록하는 경우
-//@PostMapping("/update")
-//@ResponseBody
-//public ResponseEntity<String> update(@RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
-//    System.out.println("POST update");
-//
-//    String seller_id = (String) session.getAttribute("userId");
-//    String seller_nick = (String) session.getAttribute("userNick");
-//
-//    // ObjectMapper : JSON 형태를 JAVA 객체로 변환
-//    System.out.println(map.get("sale"));
-//    System.out.println(map.get("tag"));
-//    ObjectMapper objectMapper = new ObjectMapper();
-//    SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
-//
-//
-//    saleDto.setAddrSeller(seller_id, seller_nick);
-//    System.out.println("값 들어왔는지 확인 : " + saleDto);
-//
-//    // 유효성 검사 진행
-//    ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//    Validator validator = factory.getValidator();
-//    Set<ConstraintViolation<SaleDto>> violations = validator.validate(saleDto);
-//
-//    // 유효성 검사 결과 확인
-//    if (!violations.isEmpty()) {
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
-//        return new ResponseEntity<>("등록 중 오류가 발생하였습니다.", headers, HttpStatus.BAD_REQUEST);
-//    }
-//
-//    Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
-//    List<String> tagContents = (List<String>) tagMap.get("contents");
-//    System.out.println("tag값 확인 : " + tagMap.size());
-//
-//    // 각 해시태그를 반복하여 TagDto 객체 생성 및 tagList에 추가
-//    List<String> tagList = new ArrayList<>();
-//    for (String content : tagContents) {
-//        // '#' 기호를 제거하여 태그 내용만 추출
-//        String tagContent = content.substring(1);
-//        // TagDto 객체 생성
-//        // 생성된 TagDto를 tagList에 추가
-//        tagList.add(tagContent);
-//    }
-//
-//    Map mapDto = new HashMap();
-//    mapDto.put("saleDto", saleDto);
-//    mapDto.put("tagList", tagList);
-//
-//    // Service를 통해 글 등록 처리
-//    Long sal_no = saleService.update(mapDto);
-//
-//    System.out.println("글 번호 : " + sal_no);
-//    String page = "/sale/read?no=" + sal_no;
-//
-//    // 등록 후에는 다시 글 목록 페이지로 리다이렉트
-//    return new ResponseEntity<>(page, HttpStatus.OK);
-//}
+    // 서비스로 분리
+    // 글쓰기 완료하고 글을 등록하는 경우
+    @PostMapping("/insert")
+    @ResponseBody
+    public ResponseEntity<String> write(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+        System.out.println("POST write");
+        // service 호출
+        // 서비스단 작성 필요함
+//        System.out.println(formData);
+
+        // 1. 사용자가 글작성
+        // 동시에 작성버튼 누르면?
+        // 작성 실패하면?
+        // 필수로 써야되는거 안썼으면? -> view에서 여기로 전송못하게하기
+
+        String seller_id = (String) session.getAttribute("userId");
+        String seller_nick = (String) session.getAttribute("userNick");
+
+        // ObjectMapper : JSON 형태를 JAVA 객체로 변환
+        System.out.println(map.get("sale"));
+        System.out.println(map.get("tag"));
+        ObjectMapper objectMapper = new ObjectMapper();
+        SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+
+        //이미지영역
+        ImgFactory ifc = new ImgFactory();
+        //이미지 유효성검사 하는곳
+        ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
+        if(imgList == null){
+            return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        saleDto.setAddrSeller(seller_id, seller_nick);
+        System.out.println("값 들어왔는지 확인 : " + saleDto);
+
+        Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
+        List<String> tagContents = (List<String>) tagMap.get("contents");
+        System.out.println("tag값 확인 : " + tagMap.size());
+
+        // 각 해시태그를 반복하여 TagDto 객체 생성 및 tagList에 추가
+        List<String> tagList = new ArrayList<>();
+        for (String content : tagContents) {
+            // '#' 기호를 제거하여 태그 내용만 추출
+            String tagContent = content.substring(1);
+            // TagDto 객체 생성
+            // 생성된 TagDto를 tagList에 추가
+            tagList.add(tagContent);
+        }
+
+        Map mapDto = new HashMap();
+        mapDto.put("saleDto", saleDto);
+        mapDto.put("tagList", tagList);
+        mapDto.put("imgList", imgList);
+
+        // Service를 통해 글 등록 처리
+        Long sal_no = saleService.write(mapDto);
+
+        System.out.println("글 번호 : " + sal_no);
+        String page = "/sale/read?no=" + sal_no;
+
+        // 등록 후에는 다시 글 목록 페이지로 리다이렉트
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+// 글 수정을 완료하고 글을 등록하는 경우
+@PostMapping("/update")
+@ResponseBody
+public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+    System.out.println("POST update");
+
+    String seller_id = (String) session.getAttribute("userId");
+    String seller_nick = (String) session.getAttribute("userNick");
+
+    // ObjectMapper : JSON 형태를 JAVA 객체로 변환
+    System.out.println(map.get("sale"));
+    System.out.println(map.get("tag"));
+    ObjectMapper objectMapper = new ObjectMapper();
+    SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
+
+    //이미지영역
+    ImgFactory ifc = new ImgFactory();
+    //이미지 유효성검사 하는곳
+    ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
+    if(imgList == null){
+        return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    saleDto.setAddrSeller(seller_id, seller_nick);
+    System.out.println("값 들어왔는지 확인 : " + saleDto);
+
+    Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
+    List<String> tagContents = (List<String>) tagMap.get("contents");
+    System.out.println("tag값 확인 : " + tagMap.size());
+
+    // 각 해시태그를 반복하여 TagDto 객체 생성 및 tagList에 추가
+    List<String> tagList = new ArrayList<>();
+    for (String content : tagContents) {
+        // '#' 기호를 제거하여 태그 내용만 추출
+        String tagContent = content.substring(1);
+        // TagDto 객체 생성
+        // 생성된 TagDto를 tagList에 추가
+        tagList.add(tagContent);
+    }
+
+    Map mapDto = new HashMap();
+    mapDto.put("saleDto", saleDto);
+    mapDto.put("tagList", tagList);
+    mapDto.put("imgList", imgList);
+
+    // Service를 통해 글 등록 처리
+    Long sal_no = saleService.update(mapDto);
+
+    System.out.println("글 번호 : " + sal_no);
+    String page = "/sale/read?no=" + sal_no;
+
+    // 등록 후에는 다시 글 목록 페이지로 리다이렉트
+    return new ResponseEntity<>(page, HttpStatus.OK);
+}
 
     @RequestMapping("/remove")
-    public String remove(@RequestParam Long no, Model model, HttpSession session) throws Exception {
-        System.out.println("remove 들어옴");
+    public ResponseEntity<String> remove(@RequestParam Long no, Model model, HttpSession session) throws Exception {
         String seller_id = (String) session.getAttribute("userId");
         saleService.remove(no, seller_id);
 
@@ -265,116 +267,79 @@ public class SaleController {
         return "redirect:/sale/list";
     }
 
-////  ajax 요청을 처리해주는 URL등
-//    @PostMapping("/saleCategory2")
-//    @ResponseBody
-//    public ResponseEntity<List<SaleCategoryDto>> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
-//        try{
-//            return new ResponseEntity<>(saleCategoryDao.selectCategory2(category1), HttpStatus.OK);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // ajax 판매 카테고리 처리(중분류)
-//    @RequestMapping("/saleCategory3")
-//    @ResponseBody
-//    public  ResponseEntity<List<SaleCategoryDto>> getSaleCategory3(@RequestParam String category2, Model model) throws Exception {
-//        try{
-//            return new ResponseEntity<>(saleCategoryDao.selectCategory3(category2), HttpStatus.OK);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // ajax 주소 검색
-//    @RequestMapping("/searchLetter")
-//    @ResponseBody
-//    public ResponseEntity<List<AdministrativeDto>> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
-//        // 검색어를 이용하여 주소를 검색
-//        try{
-//            return new ResponseEntity<>(administrativeDao.searchLetter(searchLetter), HttpStatus.OK);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // ajax 지역에 따른 List 반환
-//    @RequestMapping("/salePage")
-//    @ResponseBody
-//    public ResponseEntity<Map<String, Object>> getSearchList(@RequestParam(defaultValue ="1") int page,
-//                                                             @RequestParam(defaultValue = "10") int pageSize,
-//                                                             @RequestParam(required = false) String addr_cd,
-//                                                             @RequestParam(required = false) String sal_i_cd,
-//                                                             HttpSession session) throws Exception {
-//
-//        // 선택하는 지역에 따른 List 반환
-//        try {
-//            if(addr_cd.equals("null")) {
-//                addr_cd = null;
-//            }
-//            if(sal_i_cd.equals("null")) {
-//                sal_i_cd = null;
-//            }
-//
-//            Map map = new HashMap();
-//            map.put("addr_cd", addr_cd);
-//            map.put("sal_i_cd", sal_i_cd);
-//
-//            int totalCnt = saleService.getCount(map);
-//            System.out.println("totalCnt : " + totalCnt);
-//
-//            PageHandler ph = new PageHandler(totalCnt, page, pageSize);
-//
-//            map.put("offset", ph.getOffset());
-//            map.put("pageSize", pageSize);
-//
-//            List<SaleDto> saleList = saleService.getList(map);
-//
-//            System.out.println(saleList);
-//
-//            Map result = new HashMap();
-//
-//            long startOfToday = getStartOfToday();
-//
-//            result.put("ph", ph);
-//            result.put("saleList", saleList);
-//            result.put("startOfToday", startOfToday);
-//
-//            return new ResponseEntity<>(result, HttpStatus.OK);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new ResponseEntity<>(Collections.emptyMap(), HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//    // ajax 주소 검색
-//    @RequestMapping("/updateSaleSCd")
-//    @ResponseBody
-//    public ResponseEntity<String> updateSaleSCd(@RequestParam Long no,
-//                                                @RequestParam  String sal_s_cd,
-//                                                @RequestParam String seller_id) throws Exception {
-//        System.out.println("no : " + no);
-//        System.out.println("sal_s_cd : " + sal_s_cd);
-//        System.out.println("seller_id : " + seller_id);
-//        // 검색어를 이용하여 주소를 검색
-//        try{
-//            saleService.updateSaleSCd(no, sal_s_cd, seller_id);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        }catch(Exception e){
-//            e.printStackTrace();
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
-//
-//    public long getStartOfToday() {
-//        Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
-//        return startOfToday.toEpochMilli();
-//    }
+    // ajax 판매 카테고리 처리(소분류)
+    @RequestMapping("/searchLetter")
+    @ResponseBody
+    public ResponseEntity<List<AdministrativeDto>> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
+        // 검색어를 이용하여 주소를 검색
+        try{
+            return new ResponseEntity<>(administrativeDao.searchLetter(searchLetter), HttpStatus.OK);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // ajax 지역에 따른 List 반환
+    @RequestMapping("/salePage")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getSearchList(@RequestParam(defaultValue ="1") int page,
+                                                             @RequestParam(defaultValue = "10") int pageSize,
+                                                             @RequestParam(required = false) String addr_cd,
+                                                             @RequestParam(required = false) String sal_i_cd,
+                                                             HttpSession session) throws Exception {
+
+        System.out.println("page : " + page);
+        System.out.println("pageSize : " + pageSize);
+        System.out.println("addr_cd : " + addr_cd);
+        System.out.println("sal_i_cd : " + sal_i_cd);
+
+
+        // 선택하는 지역에 따른 List 반환
+        try {
+            if(addr_cd.equals("null")) {
+                addr_cd = null;
+            }
+            if(sal_i_cd.equals("null")) {
+                sal_i_cd = null;
+            }
+
+            Map map = new HashMap();
+            map.put("addr_cd", addr_cd);
+            map.put("sal_i_cd", sal_i_cd);
+
+            int totalCnt = saleService.getCount(map);
+            System.out.println("totalCnt : " + totalCnt);
+
+            PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+
+            map.put("offset", ph.getOffset());
+            map.put("pageSize", pageSize);
+
+            List<SaleDto> saleList = saleService.getList(map);
+
+            System.out.println(saleList);
+
+            Map result = new HashMap();
+
+            long startOfToday = getStartOfToday();
+
+            result.put("ph", ph);
+            result.put("saleList", saleList);
+            result.put("startOfToday", startOfToday);
+
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(Collections.emptyMap(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    public long getStartOfToday() {
+        Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        return startOfToday.toEpochMilli();
+    }
 
 
 }

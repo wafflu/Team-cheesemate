@@ -121,6 +121,8 @@
             reg_price        = #{reg_price},                                                             -- 상품 정가
             m_date           = NOW(),                                                                    -- 수정 날짜
             ur_state         = 'Y',                                                                      -- 사용자 상태
+            img_full_rt         = #{img_full_rt},                                                        -- 이미지
+            group_no         = #{group_no},                                                              -- 이미지 그룹번호
             last_date        = NOW(),
             last_id          = #{seller_id}
         WHERE no = #{no} -- 판매글 번호

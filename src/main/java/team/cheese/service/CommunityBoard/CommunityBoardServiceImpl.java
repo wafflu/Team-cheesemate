@@ -7,17 +7,24 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
+import team.cheese.domain.ImgDto;
+import team.cheese.service.ImgService;
 
 
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommunityBoardServiceImpl implements CommunityBoardService {
     @Autowired
     CommunityBoardDao communityBoardDao;
+
+    @Autowired
+    ImgService imgService;
 
 
     @Override
@@ -40,13 +47,28 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public int write(CommunityBoardDto communityBoardDto) throws Exception {
+    public int write(Map map) throws Exception {
+        CommunityBoardDto communityBoardDto = (CommunityBoardDto) map.get("communityBoardDto");
+
+        ArrayList<ImgDto> imgList = (ArrayList<ImgDto>) map.get("imgList");
+
         if(communityBoardDto.getTitle()==null || communityBoardDto.getTitle().isEmpty()){
             throw new IllegalArgumentException("제목입력하지않았습니다");
         }
         if(communityBoardDto.getContents() == null|| communityBoardDto.getContents().isEmpty()){
             throw new IllegalArgumentException("내용을입력하지않았습니다");
         }
+
+        if(imgList != null){
+            int gno = imgService.getGno()+1;
+            String img_full_rt = imgService.reg_img(imgList, gno, communityBoardDto.getur_id());
+            communityBoardDto.setImg_full_rt(img_full_rt);
+            communityBoardDto.setGroup_no(gno);
+        } else {
+            communityBoardDto.setImg_full_rt("0");
+            communityBoardDto.setGroup_no(0);
+        }
+
         return communityBoardDao.insert(communityBoardDto);
     }
 
@@ -62,15 +84,32 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     }
 
     @Override
-    public int modify(CommunityBoardDto communityBoardDto) throws Exception {
+    public int modify(Map map) throws Exception {
         //1. 예외체크
             //1.1 null일 경우
             //1.2둘 중 하나가 null인 경우
-          if(communityBoardDto == null){
+        CommunityBoardDto communityBoardDto = (CommunityBoardDto) map.get("communityBoardDto");
+
+        if(communityBoardDto == null){
             throw new IllegalArgumentException("null값 입력");
-          } else if (communityBoardDto.getTitle()==null || communityBoardDto.getContents()==null) {
-              throw new IllegalArgumentException("제목 또는 컨텐츠 널");
-          }
+        } else if (communityBoardDto.getTitle()==null || communityBoardDto.getContents()==null) {
+            throw new IllegalArgumentException("제목 또는 컨텐츠 널");
+        }
+
+        //이미지 영역
+        ArrayList<ImgDto> imgList = (ArrayList<ImgDto>) map.get("imgList");
+
+        if(imgList != null){
+            int gno = imgService.getGno()+1;
+            String img_full_rt = imgService.modify_img(imgList, gno, communityBoardDto.getGroup_no(), communityBoardDto.getur_id());
+            communityBoardDto.setImg_full_rt(img_full_rt);
+            communityBoardDto.setGroup_no(gno);
+        } else {
+            communityBoardDto.setImg_full_rt("0");
+            communityBoardDto.setGroup_no(0);
+        }
+
+        System.out.println("serivce modify : "+communityBoardDto);
 
         return communityBoardDao.update(communityBoardDto);
     }

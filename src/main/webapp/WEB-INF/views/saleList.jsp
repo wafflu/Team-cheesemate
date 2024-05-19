@@ -49,6 +49,7 @@
 <table id="saleListTB">
     <tr>
         <th class="no">번호</th>
+        <th class="img">이미지</th>
         <th class="title">제목</th>
         <th class="sal_s_cd">판매상태</th>
         <th class="writer">이름</th>
@@ -267,6 +268,7 @@
 
                 let row = $("<tr>");
                 row.append($("<td>").text(sale.no)); // 판매 번호
+                row.append($("<td>").addClass("Thumbnail_ima").html("<img src='/img/display?fileName=" + sale.img_full_rt + "'/>")); // 이미지
                 row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
                 row.append($("<td>").text(saleStatusText)); // 판매 상태
                 row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임
