@@ -4,8 +4,9 @@
 <% // 세션에 sessionId가 존재하는지 확인
 //    String sessionId = request.getParameter("userId");
 %>
+<!DOCTYPE html>
 <html>
-
+<meta charset="UTF-8">
 <head>
     <title>판매/나눔</title>
     <style>
@@ -230,12 +231,12 @@
 
         // form 엘리먼트 생성
         let form = $('<form>', {
-            method: 'POST', // POST 방식 설정
-            action: '/sale/write', // 전송할 URL 설정
-            'accept-charset': 'UTF-8', // 인코딩 설정
+            method: 'POST',
+            action: '/sale/write',
+            acceptCharset: 'UTF-8'
         });
 
-        // hidden input 엘리먼트 생성
+        // hidden input 생성
         $('<input>').attr({
             type: 'hidden',
             name: 'addr_cd',
@@ -251,6 +252,7 @@
         // form을 body에 추가하고 자동으로 submit
         form.appendTo('body').submit();
     }
+
 
     // 업데이트된 saleList를 화면에 출력하는 함수
     function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
