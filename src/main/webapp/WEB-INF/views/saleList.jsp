@@ -226,11 +226,13 @@
     function writeBtn() {
         // 선택된 주소 코드(addr_cd) 값 가져오기
         let addrCdValue = $('#addr_cd').val();
+        let addrCdName = $("#addr_cd option:checked").text();
 
         // form 엘리먼트 생성
         let form = $('<form>', {
             method: 'POST', // POST 방식 설정
-            action: '/sale/write' // 전송할 URL 설정
+            action: '/sale/write', // 전송할 URL 설정
+            'accept-charset': 'UTF-8', // 인코딩 설정
         });
 
         // hidden input 엘리먼트 생성
@@ -238,6 +240,12 @@
             type: 'hidden',
             name: 'addr_cd',
             value: addrCdValue
+        }).appendTo(form);
+
+        $('<input>').attr({
+            type: 'hidden',
+            name: 'addr_name',
+            value: addrCdName
         }).appendTo(form);
 
         // form을 body에 추가하고 자동으로 submit

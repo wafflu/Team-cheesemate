@@ -90,7 +90,8 @@ public class SaleController {
 
     // 글쓰기 버튼 누른 경우
     @PostMapping("/write")
-    public String write(@RequestParam String addr_cd, Model model, HttpServletRequest request) throws Exception {
+    public String write(@RequestParam("addr_cd") String addr_cd,
+                        @RequestParam("addr_name") String addr_name, Model model, HttpServletRequest request) throws Exception {
         // 로그인 한 경우
 
         HttpSession session = request.getSession();
@@ -100,7 +101,8 @@ public class SaleController {
 
         if(user_id != null) {
             List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
-            String addr_name = addrCdDtoList.get(0).getAddr_name();
+
+            System.out.println("addr_name" + addr_name);
 
             SaleDto saleDto = new SaleDto(addr_cd, addr_name);
             model.addAttribute("Sale", saleDto);
