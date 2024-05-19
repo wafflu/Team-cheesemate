@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.EventDao">
+<!--    insert 테스트를 위한 전체 테이블 삭제-->
+    <delete id="deleteAll">
+        delete from event;
+    </delete>
+<!--    전체 게시글 조회 및 페이지 핸들링 을 위한 카운트-->
+    <select id="count" parameterType="String" resultType="int">
+        SELECT count(*) FROM event
+        <if test="_parameter != null and _parameter != ''">
+            WHERE active_s_cd = #{_parameter}
+        </if>
+    </select>
+<!--    테이블 조회-->
+    <select id="select" parameterType="String" resultType="EventDto">
+        select * from event
+        <if test="cd != null and cd != ''">
+            where active_s_cd = #{_parameter}
+        </if>
+        order by evt_no desc
+    </select>
+    <select id="selectPage" parameterType="map" resultType="EventDto">
+        SELECT *
+        FROM event
+        <if test="cd != null and cd != ''">
+            WHERE active_s_cd = #{cd}
+        </if>
+        ORDER BY evt_no DESC
+        LIMIT #{maxContents} OFFSET #{startNum}
+    </select>
+    <select id="selectContent" parameterType="long" resultType = "EventDto">
+        select * from event where evt_no = #{evt_no}
+    </select>
+    <insert id="insert" parameterType="EventDto">
+        insert into event(evt_cd, active_s_cd, title, contents, s_date, e_date, group_no,img_full_rt, prize, ad_id, first_id, last_id)
+        values ( #{evt_cd}, #{active_s_cd}, #{title}, #{contents}, #{s_date}, #{e_date},#{group_no},#{img_full_rt},
+                   #{prize}, #{ad_id}, #{first_id}, #{last_id});
+    </insert>
+    <update id="updateState" parameterType="EventDto">
+        update event
+        set active_s_cd = #{active_s_cd}, ad_id = #{ad_id}
+        where evt_no = #{evt_no}
+    </update>
+    <update id="updatecontents" parameterType="EventDto">
+        update event
+        set evt_cd = #{evt_cd}, active_s_cd = #{active_s_cd}, title = #{title}, contents = #{contents}, s_date = #{s_date}, e_date = #{e_date}, group_no = #{group_no}, prize = #{prize}
+        where  evt_no = #{evt_no}
+    </update>
+
+    <sql id="searchCondition">
+        <choose>
+            <when test='searchCd=="title"'>where title like concat('%',#{searchContent},'%')</when>
+            <when test='searchCd=="contents"'>where contents like concat('%',#{searchContent},'%')</when>
+            <otherwise>where ad_id like concat('%', #{searchContent}, '%')</otherwise>
+        </choose>
+    </sql>
+    <select id="searchCount" parameterType="map" resultType="int">
+        select count(*) from event
+        <include refid="searchCondition" />
+    </select>
+    <select id="selectSearch" parameterType="map" resultType="EventDto">
+        select * from event
+        <include refid="searchCondition" />
+        order by evt_no desc
+        limit 8 offset #{startnum}
+    </select>
+    <update id="autoIncreasereset">
+        ALTER TABLE event auto_increment=1;
+    </update>
+
+</mapper>

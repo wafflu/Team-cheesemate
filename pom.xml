@@ -177,7 +177,7 @@
                     <artifactId>jmxri</artifactId>
                 </exclusion>
             </exclusions>
-<!--            <scope>runtime</scope>-->
+            <!--            <scope>runtime</scope>-->
         </dependency>
 
         <dependency>
