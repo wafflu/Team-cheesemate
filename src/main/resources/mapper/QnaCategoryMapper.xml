@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.QnaCategoryDao">
+    <!--테스트를 위한 전체 카운트 쿼리-->
+    <select id="count" resultType="int">
+        select count(*) from question_category
+    </select>
+
+    <!--테스트를 위한 대분류 카운트 쿼리-->
+    <select id="MajorCount" resultType="int">
+        select count(*) from question_category
+        where que_cd <![CDATA[<]]> 11
+    </select>
+
+    <!--대분류 select 쿼리-->
+    <select id="selectMajorCategory" resultType="QnaCategoryDto">
+        <![CDATA[
+        select * from question_category
+        -- 대분류의 자리수는 한자리수
+        where que_cd < 10
+        ]]>
+    </select>
+
+    <!--중분류 select 쿼리-->
+    <select id="selectSubCategory" parameterType="long" resultType="QnaCategoryDto">
+        select * from question_category
+        where que_cd LIKE CONCAT(#{que_cd}, '___')
+    </select>
+</mapper>

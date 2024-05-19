@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import team.cheese.domain.ImgDto;
 import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
 import team.cheese.domain.SaleDto;
 import team.cheese.domain.SaleTagDto;
 import team.cheese.domain.TagDto;
+import team.cheese.entity.ImgFactory;
+import team.cheese.service.ImgService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,19 +23,22 @@ public class SaleService {
     @Autowired
     SaleDao saleDao;
     @Autowired
-    team.cheese.dao.SaleCategoryDao saleCategoryDao;
+    SaleCategoryDao saleCategoryDao;
     @Autowired
-    team.cheese.dao.AdministrativeDao administrativeDao;
+    AdministrativeDao administrativeDao;
 
     @Autowired
-    team.cheese.dao.TagDao tagDao;
+    TagDao tagDao;
     @Autowired
-    team.cheese.dao.AddrCdDao addrCdDao;
+    AddrCdDao addrCdDao;
     @Autowired
-    team.cheese.dao.SaleTagDao saleTagDao;
+    SaleTagDao saleTagDao;
 
     @Autowired
-    team.cheese.dao.TestSession testSession;
+    TestSession testSession;
+
+    @Autowired
+    ImgService imgService;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -84,6 +90,15 @@ public class SaleService {
         // TestSession 클래스를 사용하여 세션을 설정
         String ur_id = saleDto.getSeller_id();
         System.out.println("판매자id : " + ur_id);
+
+        //이미지 영역
+        ArrayList<ImgDto> imgList = (ArrayList<ImgDto>) map.get("imgList");
+        int gno = imgService.getGno()+1;
+        System.out.println("gno : "+gno);
+        String img_full_rt = imgService.reg_img(imgList, gno, ur_id);
+        saleDto.setImg_full_rt(img_full_rt);
+        saleDto.setGroup_no(gno);
+
 
         int insertSale = 0;
         try {
@@ -142,6 +157,13 @@ public class SaleService {
         //      세션에서 ID 값을 가지고 옴
         // TestSession 클래스를 사용하여 세션을 설정
         String ur_id = saleDto.getSeller_id();
+
+        //이미지 영역
+        ArrayList<ImgDto> imgList = (ArrayList<ImgDto>) map.get("imgList");
+        int gno = imgService.getGno()+1;
+        String img_full_rt = imgService.modify_img(imgList, gno, saleDto.getGroup_no(), ur_id);
+        saleDto.setImg_full_rt(img_full_rt);
+        saleDto.setGroup_no(gno);
 
         int update = saleDao.update(saleDto);
         System.out.println("sale update 성공? :  " + update);

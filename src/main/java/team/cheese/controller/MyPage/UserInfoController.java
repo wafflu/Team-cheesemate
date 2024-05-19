@@ -10,6 +10,7 @@ import team.cheese.service.MyPage.UserInfoService;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @RestController
 public class UserInfoController {

@@ -208,7 +208,7 @@
 			border: 1px solid;
 		}
 
-		/* 이미지 영역	*/
+	/* 이미지 영역	*/
 		#profileimg{
 			width: 250px;
 			height: 250px;
@@ -314,7 +314,7 @@
 	</div>
 	<div id = "uploadResult">
 
-		<%--		<img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
+<%--		<img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
 	</div>
 	<div id="profilesave_btn_area">
 
@@ -379,10 +379,19 @@
 </div>
 <div id="commentList" ></div>
 
-<script src="/resources/js/img.js"></script>
-
 <script>
 	//이미지 등록하기
+
+	let Image = (function() {
+		let imginfo = [];
+
+		return {
+			getImgInfo: function() {
+				return imginfo;
+			}
+		};
+	})();
+
 	$(document).on("click", "#profilesave_btn", function(e) {
 		e.preventDefault();
 		$.ajax({
@@ -390,7 +399,7 @@
 			type : 'POST',
 			contentType : 'application/json; charset=UTF-8',
 			dataType : 'text',
-			data : JSON.stringify(imginfo),
+			data : JSON.stringify(Image.getImgInfo()),
 			success: function (result) {
 				location.replace(result);
 			},
@@ -735,5 +744,7 @@
 		uploadResult.append(str);
 	});
 </script>
+
+<script src="/resources/js/img.js"></script>
 </body>
 </html>

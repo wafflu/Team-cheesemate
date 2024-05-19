@@ -83,7 +83,7 @@ public class ImgFactory {
     }
 
     /* 파일등록으로 파일 만들때 */
-    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, boolean ckeck){
+    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, boolean ckeck, String userid){
         File uploadPath = new File(getFolderPath(), getDatePath());
 
         List<ImgDto> list = new ArrayList();
@@ -102,7 +102,7 @@ public class ImgFactory {
                     int width = (int) bi.getWidth();
                     int height = (int) bi.getHeight();
 
-                    img = setImginfo(saveFile, fileName, "original", width, height);
+                    img = setImginfo(saveFile, fileName, "original", width, height, userid);
                     list.add(img);
                     return list;
                 }
@@ -122,7 +122,7 @@ public class ImgFactory {
                 ImageIO.write(image, "jpg", img_name);
 
                 //이미지 객체 만들기
-                img = setImginfo(img_name, fileName, imgtype, 78, 78);
+                img = setImginfo(img_name, fileName, imgtype, 78, 78, userid);
                 list.add(img);
             } catch (Exception e) {
                 System.out.println("fail");
@@ -133,7 +133,7 @@ public class ImgFactory {
     }
 
     /* 등록하기 누를시 파일 제작 */
-    public ImgDto makeImg(File file, String imgtype, int gno, int wsize, int hsize){
+    public ImgDto makeImg(File file, String imgtype, int gno, int wsize, int hsize, String userid){
         long currentTimeMillis = System.currentTimeMillis();
         ImgDto img = null;
         /* 파일 저장 */
@@ -162,7 +162,7 @@ public class ImgFactory {
 
             ImageIO.write(rgbImage, "jpg", img_name);
 
-            img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
+            img = setImginfo(img_name, fileName, imgtype, wsize, hsize, userid);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,7 +170,7 @@ public class ImgFactory {
     }
 
     //이미지 파일 정보 셋팅
-    public ImgDto setImginfo(File imgfile, String orifilename, String imgtype, int wsize, int hsize){
+    public ImgDto setImginfo(File imgfile, String orifilename, String imgtype, int wsize, int hsize, String userid){
         ImgDto img = new ImgDto();
         String uploadFileName = imgfile.getName();
         String fullrt = datePath+File.separator+uploadFileName;
@@ -182,6 +182,8 @@ public class ImgFactory {
         img.setImg_full_rt(fullrt);
         img.setW_size(wsize);
         img.setH_size(hsize);
+        img.setFirst_id(userid);
+        img.setLast_id(userid);
         return img;
     }
 

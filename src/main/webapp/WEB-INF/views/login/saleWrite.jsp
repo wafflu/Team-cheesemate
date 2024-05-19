@@ -129,12 +129,21 @@
     <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
         <p>상품 정보</p>
         <div class="sale-division-line"></div>
-        <div id="register_img">
-            <p>
-                상품이미지(<span id="img_count">0</span>/10) <input type="file" id="imageBtn" name="imagename"
-                                                               multiple='multiple'>
-            </p>
+
+        <div class="form_section_content">
+            <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
         </div>
+        <div id = "uploadResult">
+            <c:forEach items="${imglist}" var="img">
+                <c:if test="${img.imgtype eq 'r'}">
+                    <div id='result_card'>
+                        <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">
+                        <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+
         <p>
             제목 <input name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" value="${Sale.title}"/>
         </p>
@@ -229,7 +238,44 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <script>
+    <%--let imginfo = [];--%>
+
+    <%--<c:forEach items="${imglist}" var="img">--%>
+    <%--<c:if test="${img.imgtype eq 'r'}">--%>
+    <%--imginfo.push(--%>
+    <%--    {--%>
+    <%--        "file_rt" : "${img.file_rt}",--%>
+    <%--        "o_name" : "${img.o_name}",--%>
+    <%--        "e_name" : "${img.e_name}"--%>
+    <%--    }--%>
+    <%--)--%>
+    <%--</c:if>--%>
+    <%--</c:forEach>--%>
+
+    let Image = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     let submitURL = '/sale/insert';
     $(document).ready(function () {
         // 현재 URL에서 addr_cd 매개변수를 제거하고 페이지를 다시로드하지 않음
@@ -375,40 +421,6 @@
 
     });
 
-    // 이미지 등록 개수 한도 정하기
-    $(document).ready(function () {
-        let img_count = 0;
-        let max_images = 10;
-        $("#imageBtn").change(function () {
-            let files = this.files;
-            if (img_count + files.length > max_images) {
-                alert("최대 " + max_images + "개의 이미지까지만 등록할 수 있습니다.");
-                return;
-            }
-            for (let i = 0; i < files.length; i++) {
-                let reader = new FileReader();
-                reader.onload = function (event) {
-                    let imageUrl = event.target.result;
-                    let imagePreview =
-                        "<div class='sale-preview-image'><img src='" +
-                        imageUrl +
-                        "' width='150'><span class='delete-icon'>x</span></div>";
-                    $("#register_img").append(imagePreview);
-                };
-                reader.readAsDataURL(files[i]);
-                img_count++;
-                $("#img_count").text(img_count);
-            }
-        });
-
-
-        // 이미지 삭제시 이미지 카운트 수 줄이기
-        $(document).on("click", ".delete-icon", function () {
-            $(this).closest(".sale-preview-image").remove();
-            img_count--;
-            $("#img_count").text(img_count);
-        });
-    });
 
     // 거래방법 선택 최대 2개까지 한도 주기
     $(".trade_s_cd").change(function () {
@@ -695,6 +707,7 @@
         let brand = $('input[name="brand"]').val(); // 브랜드
         let addr_cd = $('input[name="addr_cd"]').val(); // 행정구역코드
         let addr_name = $('input[name="addr_name"]').val(); // 주소명
+        let group_no = "${Sale.group_no}"; // 이미지
 
         // category1, category2, category3의 값 추출
         let category1Value = $("#category1").val();
@@ -742,7 +755,8 @@
             "sal_i_cd": sal_i_cd_value,
             "sal_name": sal_name_value,
             "addr_cd": addr_cd,
-            "addr_name": addr_name
+            "addr_name": addr_name,
+            "group_no" : group_no
         }
 
         // trade_s_cd 파라미터 설정
@@ -763,7 +777,8 @@
         let map =
             {
                 "sale": sale,
-                "tag": tag
+                "tag": tag,
+                "imgList" : ImageUploader.getImgInfo()
             };
 
 
@@ -795,5 +810,7 @@
     })
 
 </script>
+
+<script src="/resources/js/img.js"></script>
 
 </html>

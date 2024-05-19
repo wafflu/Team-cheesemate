@@ -13,11 +13,15 @@ import team.cheese.service.ImgService;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import team.cheese.service.ImgService;
+
+import java.util.HashMap;
 
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
     UserInfoDao userInfoDao;
+
     @Autowired
     ImgService imgService;
 
@@ -120,21 +124,20 @@ public class UserInfoServiceImpl implements UserInfoService {
         Double starAverage = userInfoDao.starAverage(ur_id);
         // 1. 소개글을 읽었을때 null이면
         if(starAverage==null)
-            throw new Exception("평균별점수를 조회 중 오류가 발생했습니다.");
-        // 2. null이 아니면 starAverage를 반환
+            starAverage = 0d;
+//            throw new Exception("평균별점수를 조회 중 오류가 발생했습니다.");
+        // 2. null이 아니면 userInfoDTO를 반환
         return starAverage;
     }
 
     //프로필 이미지 저장
     public ResponseEntity<String> profileimgchange (String imgname, String userid) throws Exception {
-        ImgDto profileimg = imgService.reg_img_one(imgname, userid);
+        ImgDto profileimg = imgService.reg_img_one(imgname, "p", userid);
         HashMap map = new HashMap<>();
         map.put("img_full_rt", profileimg.getImg_full_rt());
         map.put("group_no", profileimg.getGroup_no());
         map.put("ur_id", userid);
-        System.out.println(map);
         userInfoDao.updateProfile(map);
         return new ResponseEntity<String>("/myPage/main", HttpStatus.OK);
     }
-
 }

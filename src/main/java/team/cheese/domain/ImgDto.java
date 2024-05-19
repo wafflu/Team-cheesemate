@@ -63,6 +63,10 @@ public class ImgDto {
                 ", state='" + state + '\'' +
                 ", img_full_rt='" + img_full_rt + '\'' +
                 ", group_no=" + group_no +
+                ", first_date='" + first_date + '\'' +
+                ", first_id='" + first_id + '\'' +
+                ", last_date='" + last_date + '\'' +
+                ", last_id='" + last_id + '\'' +
                 '}';
     }
 

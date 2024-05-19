@@ -14,6 +14,7 @@ import team.cheese.domain.ImgDto;
 import team.cheese.service.ImgService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 @Controller
@@ -38,13 +39,15 @@ public class ImgController {
 
     //이미지 업로드 과정
     @PostMapping(value="/uploadAjaxAction", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
-        return imgService.uploadimg(uploadFiles, true);
+    public ResponseEntity<List<ImgDto>> uploadImage(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpSession session) {
+        String userid = (String) session.getAttribute("userId");
+        return imgService.uploadimg(uploadFiles, true, userid);
     }
 
     @PostMapping(value="/uploadoneimg", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<ImgDto>> uploadoneimg(@RequestParam("uploadFile") MultipartFile[] uploadFiles) {
-        return imgService.uploadimg(uploadFiles, false);
+    public ResponseEntity<List<ImgDto>> uploadoneimg(@RequestParam("uploadFile") MultipartFile[] uploadFiles, HttpSession session) {
+        String userid = (String) session.getAttribute("userId");
+        return imgService.uploadimg(uploadFiles, false, userid);
     }
 
     //이미지 보여주기용
