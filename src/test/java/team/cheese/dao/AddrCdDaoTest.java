@@ -8,7 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import team.cheese.domain.AddrCdDto;
-import team.cheese.domain.UserDto;
+
+//import team.cheese.Domain.UserDto;
 
 import java.util.List;
 
@@ -19,9 +20,6 @@ public class AddrCdDaoTest extends TestCase {
 
     @Autowired
     AddrCdDao addrCdDao;
-
-    @Autowired
-    UserDao userDao;
 
     // *** 모든 addr_cd를 셀 수 있는지 테스트 ***
     @Test
@@ -49,20 +47,17 @@ public class AddrCdDaoTest extends TestCase {
     // 2. 모든 유저 불러오기
     // 3. 랜덤 유저의 아이디 선택
     // 4. 유저의 아이디로 특정 addr_cd 검색
+
     @Test
     public void testGetAddrCdByUserId() {
         System.out.println("*** testGetAllAddrCd 테스트 시작 ***");
 
-        String userId = "User_0";
+
+        String userId = "asdf";
 
         List<AddrCdDto> addrCdDtoList = addrCdDao.getAddrCdByUserId(userId);
         System.out.printf("%s addrCdDtoList.size() = %d\n", userId, addrCdDtoList.size());
         assertTrue(addrCdDtoList.size() == 2);
     }
 
-    // *** 모든 관리자의 아이디만을 가져오는지 테스트 ***
-    @Test
-    public void testGetAllAdminsId() {
-
-    }
 }

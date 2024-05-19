@@ -378,18 +378,27 @@
 </div>
 <div id="commentList" ></div>
 
-<script src="/resources/js/img.js"></script>
-
 <script>
 	//이미지 등록하기
+
+	let Image = (function() {
+		let imginfo = [];
+
+		return {
+			getImgInfo: function() {
+				return imginfo;
+			}
+		};
+	})();
+
 	$(document).on("click", "#profilesave_btn", function(e) {
 		e.preventDefault();
 		$.ajax({
-			url: '/img/saveporfile',
+			url: '/saveporfile',
 			type : 'POST',
 			contentType : 'application/json; charset=UTF-8',
 			dataType : 'text',
-			data : JSON.stringify(imginfo),
+			data : JSON.stringify(Image.getImgInfo()),
 			success: function (result) {
 				location.replace(result);
 			},
@@ -759,5 +768,7 @@
 		uploadResult.append(str);
 	});
 </script>
+
+<script src="/resources/js/img.js"></script>
 </body>
 </html>

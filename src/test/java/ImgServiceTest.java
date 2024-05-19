@@ -56,12 +56,14 @@ public class ImgServiceTest {
 
     ImgFactory ifc = new ImgFactory();
     String datePath = "";
+
+    String userid = "1";
     // 테스트용 패스 찾기용
 
 //    @Test
     @Test
     @Rollback(false)
-    @DisplayName("황정하삭제")
+    @DisplayName("판매+이미지 = 삭제")
     public void delete(){
         if(imgService.count("sale") != 0){
             imgService.delete("sale");
@@ -83,9 +85,9 @@ public class ImgServiceTest {
     @Rollback(false)
     public void nr_reg_img() throws Exception {
         File file = new File("test 아보카도.png");
-        ImgDto img = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+        ImgDto img = ifc.setImginfo(file, file.getName(), "s", 292, 292, userid);
         int gno = imgService.getGno()+1;
-        assertTrue(imgService.reg_img(gno, img));
+        assertTrue(imgService.reg_img(gno, img, userid));
         List<ImgDto> list = imgService.readall();
         assertTrue(list != null);
 
@@ -102,9 +104,9 @@ public class ImgServiceTest {
             ImgDto simg = makeImg(i, "s");
             int gno = imgServiceMock.getGno()+1;
 
-            imgServiceMock.reg_img(gno, simg);
+            imgServiceMock.reg_img(gno, simg, userid);
             imglist.add(simg);
-            verify(imgServiceMock, times(1)).reg_img(gno, simg);
+            verify(imgServiceMock, times(1)).reg_img(gno, simg, userid);
         }
 
         ArrayList<ImgDto> mocklist = imgServiceMock.readall();
@@ -143,10 +145,10 @@ public class ImgServiceTest {
 
         for(int i = 1; i<=10; i++){
             File file = new File("test 아보카도.png");
-            ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+            ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292, userid);
             int gno = imgService.getGno()+1;
 
-            imgService.reg_img(gno, simg);
+            imgService.reg_img(gno, simg, userid);
             imglist.add(simg);
         }
 
@@ -167,7 +169,7 @@ public class ImgServiceTest {
         ImgDto img = imginfo("아보카도.png");
         img.setImg_full_rt(null);
         try {
-            imgService.reg_img(1, img);
+            imgService.reg_img(1, img, userid);
             System.out.println("Expected DataFailException was not thrown");
         } catch (DataIntegrityViolationException e) {
             // 예외가 발생했을 때의 처리
@@ -182,7 +184,7 @@ public class ImgServiceTest {
     public void Ex_reg_img2() throws Exception {
         ImgDto img = null;
         try {
-            imgService.reg_img(1, img);
+            imgService.reg_img(1, img, userid);
             System.out.println("Expected DataFailException was not thrown");
         } catch (DataFailException e) {
             System.out.println("데이터 입력 오류");
@@ -203,7 +205,7 @@ public class ImgServiceTest {
 
         // when
         try {
-            imgServiceMock.reg_img(1, imgDto); // 예외 발생할 것을 예상하므로 예외가 발생하는지 확인하는 테스트
+            imgServiceMock.reg_img(1, imgDto, userid); // 예외 발생할 것을 예상하므로 예외가 발생하는지 확인하는 테스트
         } catch (Exception e) {
             // 예외 메시지를 콘솔에 출력
             System.out.println("Caught exception: " + e.getMessage());
@@ -331,7 +333,7 @@ public class ImgServiceTest {
                 multipartFiles[i++] = multipartFile;
             }
 
-            list = ifc.makeImg(multipartFiles, "r",true);
+            list = ifc.makeImg(multipartFiles, "r",true, userid);
 
             // 변환된 파일들을 사용하여 멀티파트 테스트 수행
             for (MultipartFile multipartFile : multipartFileList) {
@@ -378,15 +380,15 @@ public class ImgServiceTest {
             if(cnt) {
                 spath = img.getImg_full_rt();
                 // 썸네일은 한개만
-                ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292);
-                assertTrue(imgService.reg_img(gno, simg));
+                ImgDto simg = ifc.makeImg(file, "s", gno, 292, 292, userid);
+                assertTrue(imgService.reg_img(gno, simg, userid));
                 cnt = false;
             }
-            ImgDto wimg = ifc.makeImg(file, "w", gno, 856, 856);
-            assertTrue(imgService.reg_img(gno, img));
-            assertTrue(imgService.reg_img(gno, wimg));
+            ImgDto wimg = ifc.makeImg(file, "w", gno, 856, 856, userid);
+            assertTrue(imgService.reg_img(gno, img, userid));
+            assertTrue(imgService.reg_img(gno, wimg, userid));
         }
-        saleDao.insert_sale(makesale("테스트", "테스트내용", gno, spath));
+//        saleDao.insert_sale(makesale("테스트", "테스트내용", gno, spath));
         System.out.println(spath);
     }
 

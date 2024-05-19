@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import team.cheese.domain.MyPage.CommentPageHandler;
+import team.cheese.entity.PageHandler;
 import team.cheese.domain.MyPage.ReviewCommentDTO;
 import team.cheese.service.MyPage.ReviewCommentService;
 
@@ -63,7 +63,7 @@ public class ReviewCommentController {
 
         // 사용자의 후기글 갯수 가져오기 & 페이징핸들러 객체생성
         int totalCnt = rvService.getCount(sal_id);
-        CommentPageHandler ph = new CommentPageHandler(totalCnt, page, pageSize);
+        PageHandler ph = new PageHandler(totalCnt, page, pageSize);
 
         // 후기글 목록과 페이징 핸들러 객체를 모델에 담기
         Map<String, Object> response = new HashMap<>();
@@ -73,5 +73,4 @@ public class ReviewCommentController {
         // ResponseEntity객체에 Map을 담아서 반환
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 }

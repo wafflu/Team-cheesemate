@@ -2,7 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="true" %>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
 <html>
 <head>
     <title>Title</title>
@@ -13,6 +12,10 @@
         }
     </style>
 </head>
+<script>
+	let msg ="${msg}"
+	// alert(msg);
+</script>
 <body>
 
 <div class="center">
@@ -57,6 +60,14 @@
 
     <form action="/board_2" method="get">
         <button id="board_2_Bnt">Board_2</button>
+    </form>
+
+    <form action="/sale" method="get">
+        <button id="SaleBnt">판매/나눔</button>
+    </form>
+
+    <form action="/community/home" method="get">
+        <button id="community-home">커뮤니티</button>
     </form>
 </div>
 

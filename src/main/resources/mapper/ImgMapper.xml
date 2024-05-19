@@ -3,14 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="team.cheese.dao.ImgDao">
-
     <insert id="insert_img" parameterType="ImgDto" useGeneratedKeys="true" keyProperty="no">
-        insert into img (imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt)
-        values (#{imgtype}, #{file_rt}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt});
+        insert into img (imgtype, file_rt, u_name, o_name, e_name, w_size, h_size, img_full_rt, first_id, last_id)
+        values (#{imgtype}, #{file_rt}, #{u_name}, #{o_name}, #{e_name}, #{w_size}, #{h_size}, #{img_full_rt}, #{first_id}, #{last_id});
     </insert>
 
     <insert id="insert_group_img" parameterType="map">
-        INSERT INTO img_group (group_no, img_no) values (#{group_no}, #{img_no});
+        INSERT INTO img_group (group_no, img_no, first_id, last_id) values (#{group_no}, #{img_no}, #{userid}, #{userid});
     </insert>
 
     <select id="select_group_max" resultType="int">
@@ -48,4 +47,29 @@
         delete from ${tb_name};
     </delete>
 
+    <sql id="selectFromImg">
+        SELECT no, tb_name, tb_no, imgtype, file_rt, u_name, o_name, w_size, h_size
+        FROM img
+    </sql>
+
+    <!--  R : 전체 테이블 읽어오기  -->
+    <select id="selectAll" resultType="ImgDto">
+        <include refid="selectFromImg"/>
+    </select>
+
+    <!--  R : 사용하는 행만 읽어오기  -->
+    <select id="selectUse" resultType="ImgDto">
+        <include refid="selectFromImg"/>
+        WHERE
+        state = 'Y'
+    </select>
+
+    <!--  D : 데이터 전체 삭제  -->
+    <delete id="deleteAll">
+        DELETE FROM img
+    </delete>
+
+    <update id="resetAutoIncrement" parameterType="map">
+        alter table img auto_increment = 1
+    </update>
 </mapper>

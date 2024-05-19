@@ -21,9 +21,9 @@ public class EventServiceImp {
         String S_Cd = isWithinRange(dto.getS_date(),dto.getE_date());
         dto.setActive_s_cd(S_Cd);
 
-        ImgDto Eventimg = imgService.reg_img_one(imgname);
-        dto.setImg_full_rt(Eventimg.getImg_full_rt());
-        dto.setGroup_no(Eventimg.getGroup_no());
+//        ImgDto Eventimg = imgService.reg_img_one(imgname);
+//        dto.setImg_full_rt(Eventimg.getImg_full_rt());
+//        dto.setGroup_no(Eventimg.getGroup_no());
         dto.setAd_id("asd0");
         dto.setFirst_id("asd1");
         dto.setLast_id("asd2");

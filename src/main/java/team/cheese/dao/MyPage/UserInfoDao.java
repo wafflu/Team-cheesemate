@@ -31,3 +31,4 @@ public interface UserInfoDao {
 
     int updateProfile(HashMap map) throws Exception;
 }
+

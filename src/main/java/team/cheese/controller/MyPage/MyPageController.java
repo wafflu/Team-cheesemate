@@ -6,31 +6,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import team.cheese.domain.MyPage.CommentPageHandler;
+import org.springframework.web.bind.annotation.*;
+import team.cheese.service.sale.SaleService;
+import team.cheese.entity.PageHandler;
+
+import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.domain.MyPage.UserInfoDTO;
-import team.cheese.service.MyPage.ReviewCommentService;
+import team.cheese.domain.SaleDto;
 import team.cheese.service.MyPage.UserInfoService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/myPage")
 public class MyPageController {
 
     UserInfoService userInfoService;
-    ReviewCommentService reviewCommentService;
+    SaleService saleService;
 
     @Autowired
-    public MyPageController(UserInfoService userInfoService, ReviewCommentService reviewCommentService){
+    public MyPageController(UserInfoService userInfoService, SaleService saleService){
         this.userInfoService = userInfoService;
-        this.reviewCommentService = reviewCommentService;
+        this.saleService = saleService;
     }
 
     @ExceptionHandler(Exception.class)
@@ -51,9 +54,11 @@ public class MyPageController {
         // String session_id = (String) session.getAttribute("id");
         // test를 위한 session_id값
         String session_id = "1";
+
         // 소개글 읽어오기
         UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id);
         model.addAttribute("userInfoDTO",userInfoDTO);
+
         // 오늘날짜 모델에 담기
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         model.addAttribute("startOfToday", startOfToday.toEpochMilli());
@@ -63,8 +68,32 @@ public class MyPageController {
 
     // 마이페이지 판매,구매내역 화면
     @RequestMapping("/saleInfo")
-    public String saleInfo() throws Exception {
+    public String saleInfo(HttpSession session, Model model) throws Exception {
+        // 1. 세션에서 session_id 값 받아오기
+        // String session_id = (String) session.getAttribute("id");
+        // test를 위한 session_id값
+        String session_id = "asdf";
+        model.addAttribute("ur_id",session_id);
+
         return "saleInfo";
+    }
+
+    // 조건객체에 따른 목록과 페이징정보를 Map에 담아 전달
+    @PostMapping("/saleHistorys")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> list(@RequestBody SearchCondition sc) throws Exception {
+        // 조건객체에 따른 목록전체 카운트수
+        int totalCnt = saleService.getSearchCnt(sc);
+
+        // 페이징 객체 생성 각 매개변수에 값 전달
+        PageHandler ph = new PageHandler(totalCnt,sc.getPage(),sc.getPageSize());
+        List<SaleDto> list = saleService.getSearchPage(sc);
+
+        // 목록과 페이징을 하기 위해 PageHandler객체를 Map에 저장
+        Map<String, Object> response = new HashMap<>();
+        response.put("list", list);
+        response.put("ph", ph);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
