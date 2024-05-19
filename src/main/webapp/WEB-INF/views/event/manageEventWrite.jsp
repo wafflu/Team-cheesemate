@@ -55,7 +55,7 @@
 </head>
 <body>
     <h2>이벤트 글쓰기</h2>
-    <form id="form" action="/event/write" method="post">
+    <form id="form" action="${requestScope['javax.servlet.forward.servlet_path']=='/Manage/modify'?'/Manage/modify':'/Manage/write'}?evt_no=${dto.evt_no}" method="post">
         <div class="form-group">
             <label for="title">제목</label>
             <!-- placeholder 속성 입력한 데이터가 없는 경우 배경으로 나타난다.실제적으로 입력을 100자까지로 지정 -->
@@ -79,7 +79,7 @@
         <div id = "uploadResult"></div>
         <div class="form-group">
             <label>작성자</label>
-            <input type="text" class="form-control" id="nickname"
+            <input type="text" class="form-control" id="ad_id"
                    placeholder="작성자(2자-10자)" name="ad_id" ${readonly} value=${ad_id==null?dto.ad_id:ad_id}>
         </div>
         <div class="form-group">
@@ -104,15 +104,16 @@
             <input type="text" class="form-control" id="prize"
                    placeholder="경품(2자-10자)" name="prize" ${readonly} value=${dto.prize}>
         </div>
+        <h3>
+            ${dto.evt_no}
+        </h3>
         <c:choose>
-            <c:when test="${requestScope['javax.servlet.forward.servlet_path']=='/read'}">
+            <c:when test="${requestScope['javax.servlet.forward.servlet_path']=='/Manage/read'}">
                 <button type="button" class="btn btn-default" onclick="location.href='modify?evt_no=${dto.evt_no}'">수정</button>
                 <button type="button" class="btn btn-default" onclick="location.href='remove?evt_no=${dto.evt_no}'">삭제</button>
             </c:when>
             <c:otherwise>
-                <c:if test="${requestScope['javax.servlet.forward.servlet_path']!='/read'}">
-                    <button id= "submitform" class="btn btn-default">등록</button>
-                </c:if>
+                <button id= "submitform" class="btn btn-default">등록</button>
             </c:otherwise>
         </c:choose>
     </form>

@@ -29,6 +29,14 @@
     </beans:bean>
     <!-- 설정부분이 명확하게 표기된다 (잘안바뀌는건 수동)-->
     <!-- bean 객체 위에는 수동-->
+    <interceptors>
+        <interceptor>
+            <mapping path="/event/"/>
+            <mapping path="/event/read"/>
+            <mapping path="/event/write"/>
+            <beans:bean id="qnanew" class="team.cheese.controller.interceptor.LoginCheckInterceptor" ></beans:bean>
+        </interceptor>
+    </interceptors>
 
     <aop:aspectj-autoproxy/>
     <!-- 아래는 자동 -->

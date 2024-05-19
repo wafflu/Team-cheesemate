@@ -1,9 +1,10 @@
-package team.cheese.service;
+package team.cheese.service.event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import team.cheese.dao.EventDaoImp;
-import team.cheese.domain.EventDto;
+import team.cheese.dao.event.EventDaoImp;
+import team.cheese.domain.event.EventDto;
+import team.cheese.service.ImgService;
 
 import java.io.IOException;
 import java.util.*;
@@ -48,13 +49,10 @@ public class EventServiceImp implements EventService {
     }
     @Override
     public int eventRegister(EventDto dto, String imgname) throws IOException {
-        System.out.println("register imgDto: " +dto);
         String S_Cd = isWithinRange(dto.getS_date(),dto.getE_date());
-        System.out.println("S_Cd: " + S_Cd);
         dto.setActive_s_cd(S_Cd);
 
         int result=dao.insert(dto);
-        System.out.println("imgname : "+imgname);
 //        String fullrt = imgService.reg_img_one(imgname);
 //        dto.setImg_full_rt(fullrt);
 
@@ -64,19 +62,17 @@ public class EventServiceImp implements EventService {
     public EventDto getContent(Long evt_no){
         return dao.selectContent(evt_no);
     }
-    @Override
-    public int updateContent(EventDto dto){
-        int result=dao.updatecontent(dto);
-        return result;
-    }
+
     @Override
     public int changeState(EventDto dto){
 
         return dao.updatestate(dto);
     }
-
+    @Override
     public int modifyEvent(EventDto dto){
-        return dao.updatecontent(dto);
+        String S_Cd = isWithinRange(dto.getS_date(),dto.getE_date());
+        dto.setActive_s_cd(S_Cd);
+        return dao.updateContent(dto);
     }
 
     public String isWithinRange(Date startDate ,Date endDate){

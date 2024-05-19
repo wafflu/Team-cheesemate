@@ -1,18 +1,15 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page session="true" %>
-
 <html>
 
 <head>
-    <title>Board</title>
+    <title>Board_2</title>
 </head>
 <body>
 
-<h1>*** BOARD ***</h1>
-<h1>BOARD</h1>
-<h1>BOARD</h1>
-<h1>BOARD</h1>
+<h1>*** BOARD_2 ***</h1>
+<h1>Board_2</h1>
+<h1>Board_2</h1>
+<h1>Board_2</h1>
 
 <c:if test="${sessionScope.userId != null}">
     <p>일반 유저 입니다.</p>
@@ -33,5 +30,6 @@
 <form action="/home" method="get">
     <button name="homeBnt">Home</button>
 </form>
+
 </body>
 </html>

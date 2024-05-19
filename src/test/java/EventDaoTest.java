@@ -1,14 +1,13 @@
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import team.cheese.dao.EventDao;
-import team.cheese.domain.EventDto;
-import team.cheese.domain.EventPageHanddler;
+import team.cheese.dao.event.EventDao;
+import team.cheese.domain.event.EventDto;
+import team.cheese.entity.PageHandler;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -91,11 +90,12 @@ public class EventDaoTest {
         int pageSize = 8;
         int maxnum = eventDao.count("P");
         int nowpage = (int)(Math.random()*(maxnum/8)+1);
-        EventPageHanddler ph = new EventPageHanddler(maxnum,nowpage);
-        ph.setMAXCONTENT(pageSize);
-        ArrayList<EventDto> arr = eventDao.selectPage(ph.getStartBno(),"P",pageSize);
+        PageHandler ph = new PageHandler(maxnum,nowpage, pageSize);
+        ph.setPageSize(pageSize);
+
+        ArrayList<EventDto> arr = eventDao.selectPage(ph.getOffset(),"P",pageSize);
         assertTrue(pageSize== arr.size());
-        for(int i=ph.getStartBno(); i<ph.getStartBno()-pageSize; i--){
+        for(int i=ph.getOffset(); i<ph.getOffset()-pageSize; i--){
             assertTrue(dtoList.get(i % 4 +((( i / 4 ) * 6))).equals(arr.get(i)));
         }
     }
@@ -115,11 +115,11 @@ public class EventDaoTest {
         int pageSize = 8;
         int maxnum = eventDao.count("");
         int nowpage = (int)(Math.random()*(maxnum/8)+1);
-        EventPageHanddler ph = new EventPageHanddler(maxnum,nowpage);
-        ph.setMAXCONTENT(pageSize);
-        ArrayList<EventDto> arr = eventDao.selectPage(ph.getStartBno(),"P",pageSize);
+        PageHandler ph = new PageHandler(maxnum,nowpage);
+        ph.setPageSize(pageSize);
+        ArrayList<EventDto> arr = eventDao.selectPage(ph.getOffset(),"P",pageSize);
         assertTrue(pageSize== arr.size());
-        for(int i=ph.getStartBno(); i<ph.getStartBno()-pageSize; i--){
+        for(int i=ph.getOffset(); i<ph.getOffset()-pageSize; i--){
             assertTrue(dtoList.get(i % 6).equals(arr.get(i)));
         }
     }

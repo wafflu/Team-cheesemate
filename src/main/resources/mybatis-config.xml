@@ -11,6 +11,6 @@
         <typeAlias alias="ImgDao" type="team.cheese.dao.ImgDao"/>
         <typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
         <typeAlias alias="SaleDao" type="team.cheese.dao.SaleDao"/>
-        <typeAlias alias="EventDto" type="team.cheese.domain.EventDto"/>
+        <typeAlias alias="EventDto" type="team.cheese.domain.event.EventDto"/>
     </typeAliases>
 </configuration>

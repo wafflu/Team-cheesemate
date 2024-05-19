@@ -23,12 +23,12 @@
 <main>
     <div class="wrapper">
         <div class="nav">
-            <a class="Allarr" href='event?cd='>전체 이벤트</a>
-            <a class="Beforearr" href='event?cd=B'>시작전 이벤트</a>
-            <a class="activearr" href='event?cd=P'>활성 이벤트</a>
-            <a class="finisharr" href='event?cd=F'>종료 이벤트</a>
-            <a class="cancelarr" href='event?cd=C'>취소 이벤트</a>
-            <a href="/event/write">작성</a>
+            <a class="Allarr" href='/Manage/event?cd='>전체 이벤트</a>
+            <a class="Beforearr" href='/Manage/event?cd=B'>시작전 이벤트</a>
+            <a class="activearr" href='/Manage/event?cd=P'>활성 이벤트</a>
+            <a class="finisharr" href='/Manage/event?cd=F'>종료 이벤트</a>
+            <a class="cancelarr" href='/Manage/event?cd=C'>취소 이벤트</a>
+            <a href="/Manage/write">작성</a>
             <div id="search">
                 <form id="searchform" name="searchform" method="post">
                     <fieldset>
@@ -46,7 +46,7 @@
         </div>
         <c:forEach items="${eventarr}" var="event">
         <div class="imgbox">
-            <a href="/event/read?evt_no=${event.evt_no}">
+            <a href="/Manage/read?evt_no=${event.evt_no}">
                 <img src='${event.img_full_rt}' alt="">
             </a>
             <p class="title">${event.title}</p>
@@ -55,17 +55,17 @@
             </p>
         </div>
         </c:forEach>
-        <c:if test="${ph.isNotFirstPage()}">
-        <a href="/event?page=1&cd=${cd}"><<</a>
-        <a href="/event?page=${ph.getstartPage()-1}&cd=${cd}"><</a>
+        <c:if test="${ph.prevPage}">
+        <a href="Manage/event?page=1&cd=${cd}"><<</a>
+        <a href="Manage/event?page=${ph.offset-1}&cd=${cd}"><</a>
         </c:if>
-        <c:forEach var="page" begin="${ph.getstartPage()}" end="${ph.getEndPage()}">
-        <a href="/event?page=${page}&cd=${cd}">${page}</a>
+        <c:forEach var="page" begin="${ph.beginPage}" end="${ph.endPage}">
+        <a href="Manage/event?page=${page}&cd=${cd}">${page}</a>
         </c:forEach>
         <!-- Add more page links here -->
-        <c:if test="${ph.isNotLastPage()}">
-        <a href="/event?page=${ph.getEndPage()+1}&cd=${cd}">></a>
-        <a href="/event?page=${ph.getMaxPageNum()}&cd=${cd}">>></a>
+        <c:if test="${ph.nextPage}">
+        <a href="/Manage/event?page=${ph.getEndPage()+1}&cd=${cd}">></a>
+        <a href="/Manage/event?page=${ph.getMaxPageNum()}&cd=${cd}">>></a>
         </c:if>
         </div>
 </main>
@@ -91,7 +91,7 @@
         console.log(formData);
         console.log(JSON.stringify(formData));
         $.ajax({
-            url: "/event/search",
+            url: "/Manage/search",
             type : "POST",
             contentType: "application/json;",
             dataType : "json",
@@ -102,7 +102,7 @@
                 for(let i of arrdata){
                     str+="<tr>";
                     str+="<td>" + i.evt_no + "</td>";
-                    str+="<td><a href='/event/read?evt_no=" + i.evt_no + "'>" + i.title + "</a></td>";
+                    str+="<td><a href='/Manage/read?evt_no=" + i.evt_no + "'>" + i.title + "</a></td>";
                     str+="<td><p>" + i.contents + "</p></td>";
                     str+="</tr>"
                 }

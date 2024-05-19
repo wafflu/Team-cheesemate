@@ -1,6 +1,6 @@
-package team.cheese.dao;
+package team.cheese.dao.event;
 
-import team.cheese.domain.EventDto;
+import team.cheese.domain.event.EventDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public interface EventDao {
     public int insert(EventDto dto);
     public List<EventDto> selectSearch(Map<String,String> map);
     public EventDto selectContent(Long evt_no);
-    public int updatecontent(EventDto dto);
+    public int updateContent(EventDto dto);
     public int updatestate(EventDto dto);
     public  int deleteAll();
     public void autoIncreaseReset();

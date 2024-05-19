@@ -86,8 +86,8 @@ public class UserService {
     }
 
     // *** 회원가입 기능 ***
-    public void insertNewUser(UserDto dto) {
+    public int insertNewUser(UserDto dto) {
         System.out.println("*** UserService에서 insertNewUser 기능을 수행합니다. ***");
-        userDao.insertNewUser(dto);
+        return userDao.insertNewUser(dto);
     }
 }

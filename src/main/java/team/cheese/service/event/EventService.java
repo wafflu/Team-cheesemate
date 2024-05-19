@@ -1,6 +1,6 @@
-package team.cheese.service;
+package team.cheese.service.event;
 
-import team.cheese.domain.EventDto;
+import team.cheese.domain.event.EventDto;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public interface EventService {
 
     EventDto getContent(Long evt_no);
 
-    int updateContent(EventDto dto);
+    int modifyEvent(EventDto dto);
 
     int changeState(EventDto dto);
 }

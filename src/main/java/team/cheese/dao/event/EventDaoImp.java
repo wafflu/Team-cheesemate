@@ -1,9 +1,9 @@
-package team.cheese.dao;
+package team.cheese.dao.event;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import team.cheese.domain.EventDto;
+import team.cheese.domain.event.EventDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class EventDaoImp implements EventDao{
+public class EventDaoImp implements EventDao {
     @Autowired
     private SqlSession session;
 
-    private static String namespace  = "team.cheese.dao.EventDao.";
+    private static String namespace  = "team.cheese.dao.event.EventDao.";
     @Override
     public int count(String nowcd){
         return session.selectOne(namespace + "count", nowcd);
@@ -53,7 +53,7 @@ public class EventDaoImp implements EventDao{
     }
 
     @Override
-    public int updatecontent(EventDto dto) {
+    public int updateContent(EventDto dto) {
         return session.update(namespace + "updateContent", dto);
     }
 
