@@ -188,7 +188,7 @@
             // 선택된 AddrCd 값 가져오기
             let addr_cd = $(this).val();
             let sal_i_cd = null;
-            $("#category1").val('').prop('selected', true);
+            $("#category1").val('null').prop('selected', true);
             $("#category2").val('').prop('selected', true);
             $("#category3").val('').prop('selected', true);
             $("#sal_name").text("전체");

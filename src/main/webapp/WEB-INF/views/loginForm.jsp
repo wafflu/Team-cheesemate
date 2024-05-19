@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page session="false" %>
 
@@ -19,36 +20,87 @@
 <html>
 <head>
     <title>loginForm</title>
+
+    <style>
+
+        input:invalid {
+            border: 2px solid red;
+        }
+
+        form {
+            border: 3px solid #959595;
+            padding: 20px;
+            width: 50%;
+            margin: 0 auto;
+            display: block;
+        }
+
+        label{
+            display: inline;
+            text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+            margin: 10px 0; /* 레이블과 다른 요소 사이의 여백을 줌 */
+        }
+
+        .inputPadding {
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        .inputBox {
+            padding-top: 5px;
+            padding-bottom: 5px;
+
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+    </style>
+
 </head>
 <body>
-
-<h1>*** LOGIN FORM ***</h1>
 
 <p>
     <%= cookieUserId%>
     <%= cookieUserPw%>
 </p>
 
-<form action="/login" method="post">
-    아이디 : <input name="inputId" value="<%= cookieUserId %>"></input>
-    <br>
-    비밀번호 : <input type="password" name="inputPw" value="<%= cookieUserPw %>"></input>
-    <br>
-    <input type="checkbox" name="rememberAccountBnt" checked> 아이디 저장
+<form class="center" action="/login" method="post">
+    <h1>로그인</h1>
 
-    <input type="checkbox" name="keepLoginState"> 로그인 상태 유지
-
-    ${loginErrorMSG}
+    <input class="inputBox" name="inputId" value="<%= cookieUserId %>" placeholder="아이디"></input>
     <br>
-    <button>로그인</button>
+    <input class="inputBox" type="password" name="inputPw" value="<%= cookieUserPw %>" placeholder="비밀번호"></input>
+    <br>
+    <input class="inputPadding" type="checkbox" name="rememberAccountBnt" checked> 아이디 저장
+
+    <input class="inputPadding" type="checkbox" name="keepLoginState"> 로그인 상태 유지
+
+    <c:if test="${loginErrorMSG != null}">
+        <br>
+        <p style="color: red";>
+                ${loginErrorMSG}
+        </p>
+    </c:if>
+
+    <br>
+    <input class="inputPadding" type="hidden" name="from" value="${param.from}">
+    <button class="inputPadding">로그인</button>
 </form>
-
 <br>
-<button ></button>
-<form action="/resisterForm", method="get">
-    <button name="resisterFormBnt">회원가입</button>
-</form>
+
+<div style="text-align: center;">
+    <button name="resisterFormBnt" onclick="goToResisterForm()">회원가입</button>
+</div>
 
 </body>
 </html>
 
+<script>
+    function goToResisterForm() {
+        window.location.href = "/resisterForm";
+    }
+</script>

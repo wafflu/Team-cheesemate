@@ -25,6 +25,9 @@ public interface SaleDao {
     // 판매글 조회수 증가시키기
     int increaseViewCnt(Long no) throws  Exception;
 
+    // 판매글 끌어올리기 횟수 증가시키기
+    int increaseHoistingCnt(Long no) throws Exception;
+
     // 판매글 작성하는 경우(세션고려X)
     int insert(SaleDto saleDto) throws  Exception;
 
