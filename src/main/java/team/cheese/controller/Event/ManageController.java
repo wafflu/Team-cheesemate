@@ -1,4 +1,4 @@
-package team.cheese.controller.event;
+package team.cheese.controller.Event;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
