@@ -20,10 +20,8 @@ public class UserInfoController {
     // 소개글 읽기
     @GetMapping("/userInfo/{ur_id}") // controller -> service
     public ResponseEntity<UserInfoDTO> read(@PathVariable String ur_id,HttpSession session) throws Exception{
-        UserInfoDTO userInfoDTO = null;
         // ur_id에 해당하는 소개글 읽어오기
-        userInfoDTO = userInfoService.read(ur_id);
-        System.out.println(userInfoDTO);
+        UserInfoDTO userInfoDTO = userInfoService.read(ur_id);
         return new ResponseEntity<UserInfoDTO>(userInfoDTO,HttpStatus.OK);
     }
 
@@ -45,25 +43,6 @@ public class UserInfoController {
         return new ResponseEntity<>("MOD_OK", HttpStatus.OK);
     }
 
-    // 소개글 좋아요 수 증가
-//    @PatchMapping("/userInfo/like/{ur_id}")
-//    public ResponseEntity<String> changeLikeCnt(@PathVariable String ur_id) {
-//        if(!userInfoService.clickedLike(ur_id))
-//            return new ResponseEntity<>("Like MOD_ERR", HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//        return new ResponseEntity<>("Like MOD_OK", HttpStatus.OK);
-//    }
-
-    // 소개글 싫어요 수 증가
-//    @PatchMapping("/userInfo/hate/{ur_id}")
-//    public ResponseEntity<String> changeHateCnt(@PathVariable String ur_id) {
-//        if(!userInfoService.clickedHate(ur_id))
-//            return new ResponseEntity<>("Hate MOD_ERR", HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//        return new ResponseEntity<>("Hate MOD_OK", HttpStatus.OK);
-//    }
-
-
     //프로필 이미지 저장
     @RequestMapping(value = "/saveporfile", produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -79,5 +58,5 @@ public class UserInfoController {
 
         return userInfoService.profileimgchange(imgname, ur_id);
     }
-    
+
 }

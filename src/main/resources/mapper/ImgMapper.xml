@@ -12,6 +12,7 @@
         INSERT INTO img_group (group_no, img_no, first_id, last_id) values (#{group_no}, #{img_no}, #{userid}, #{userid});
     </insert>
 
+
     <select id="select_group_max" resultType="int">
         SELECT COALESCE(MAX(group_no), 0) AS max_group_no FROM img_group;
     </select>

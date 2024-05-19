@@ -119,5 +119,9 @@ public class SaleDaoImpl implements SaleDao {
         return session.selectOne(namespace+"selectSearchCount",sc);
     }
 
-
+    // 새로 추가한거!!!!
+    @Override
+    public int reviewState(Long no) throws Exception {
+        return session.update(namespace+"reviewState",no);
+    }
 }
