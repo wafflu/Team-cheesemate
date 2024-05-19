@@ -26,7 +26,7 @@ $("input[type='file']").on("change", function(e){
     });
     e.target.value = "";
 });
-
+var fileCallPath
 /* 이미지 출력 */
 function showUploadImage(uploadResultArr){
     /* 전달받은 데이터 검증 */
@@ -38,7 +38,7 @@ function showUploadImage(uploadResultArr){
     for(let i = 0; i<uploadResultArr.length; i++){
         let obj = uploadResultArr[i];
         imginfo.push(obj);
-        let fileCallPath = encodeURIComponent(obj.img_full_rt);
+        fileCallPath = encodeURIComponent(obj.img_full_rt);
 
         str += "<div id='result_card'>";
         str += "<img src='/img/display?fileName=" + fileCallPath +"'>";

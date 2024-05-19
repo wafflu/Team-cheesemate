@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="team.cheese.dao.EventDao">
+<mapper namespace="team.cheese.dao.event.EventDao">
 <!--    insert 테스트를 위한 전체 테이블 삭제-->
     <delete id="deleteAll">
         delete from event;
@@ -30,11 +30,15 @@
         </if>
         ORDER BY evt_no DESC
         LIMIT #{maxContents} OFFSET #{startNum}
+
     </select>
     <select id="selectContent" parameterType="long" resultType = "EventDto">
         select * from event where evt_no = #{evt_no}
     </select>
-    <insert id="insert" parameterType="EventDto">
+    <insert id="insert" parameterType="EventDto" useGeneratedKeys="true" keyProperty="evt_no">
+        <selectKey keyProperty="evt_no" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         insert into event(evt_cd, active_s_cd, title, contents, s_date, e_date, group_no,img_full_rt, prize, ad_id, first_id, last_id)
         values ( #{evt_cd}, #{active_s_cd}, #{title}, #{contents}, #{s_date}, #{e_date},#{group_no},#{img_full_rt},
                    #{prize}, #{ad_id}, #{first_id}, #{last_id});
@@ -44,9 +48,9 @@
         set active_s_cd = #{active_s_cd}, ad_id = #{ad_id}
         where evt_no = #{evt_no}
     </update>
-    <update id="updatecontents" parameterType="EventDto">
+    <update id="updateContent" parameterType="EventDto">
         update event
-        set evt_cd = #{evt_cd}, active_s_cd = #{active_s_cd}, title = #{title}, contents = #{contents}, s_date = #{s_date}, e_date = #{e_date}, group_no = #{group_no}, prize = #{prize}
+        set evt_cd = #{evt_cd}, active_s_cd = #{active_s_cd}, title = #{title}, contents = #{contents}, s_date = #{s_date}, e_date = #{e_date}, prize = #{prize}, img_full_rt = #{img_full_rt}, group_no = #{group_no}
         where  evt_no = #{evt_no}
     </update>
 
