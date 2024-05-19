@@ -53,7 +53,8 @@ public class ImgService {
     }
 
     public ResponseEntity<byte[]> display(String fileName){
-        String folderPath = ifc.getFolderPath()+ File.separator;
+
+        String folderPath = ifc.getFolderPath()+File.separator;
 
         File file = new File(folderPath+fileName);
 

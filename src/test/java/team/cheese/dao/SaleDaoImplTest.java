@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import team.cheese.domain.AddrCdDto;
+import team.cheese.domain.HoistingDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.entity.PageHandler;
 
@@ -136,7 +137,7 @@ public class SaleDaoImplTest {
         // 3. count로 게시글이 100개 들어갔는지 확인
 
         // 1. 게시글 전체 삭제
-//        deleteDao.deleteAll();
+        deleteDao.deleteAll();
 
         // 2. 반복문으로 동일한 게시글 100개 insert
         SaleDto saleDto = new SaleDto();
@@ -493,6 +494,69 @@ public class SaleDaoImplTest {
         assertNotNull(newSaleDto);
 
         assertTrue(newSaleDto.getSal_s_cd().equals(sal_s_cd));
+    }
+
+    @Test
+    public void testHoistingSale() throws Exception {
+        String user_id = "asdf";
+
+        Long no = (long) (Math.random() * saleDao.count() + 1);
+        System.out.println(no);
+        SaleDto saleDto = saleDao.select(no);
+
+        Map map = new HashMap();
+
+        map.put("seller_id", user_id);
+        map.put("no", no);
+
+        assertTrue(saleDao.hoistingSale(map) == 1);
+    }
+
+    @Test
+    public void testSaleHoistingANDIncreaseHoistingCnt() throws Exception {
+        String user_id = "asdf";
+
+        Long no = (long) (Math.random() * saleDao.count() + 1);
+        System.out.println(no);
+        SaleDto saleDto = saleDao.select(no);
+
+        Map map = new HashMap();
+
+        map.put("seller_id", user_id);
+        map.put("no", no);
+
+        assertTrue(saleDao.hoistingSale(map) == 1);
+        assertTrue(saleDao.increaseHoistingCnt(no) == 1);
+
+    }
+
+    @Test
+    public void testSaleHoisting() throws Exception {
+        String user_id = "asdf";
+
+        Long no = (long) (Math.random() * saleDao.count() + 1);
+        System.out.println(no);
+        SaleDto saleDto = saleDao.select(no);
+        System.out.println(saleDto);
+
+        Map map = new HashMap();
+
+        map.put("seller_id", user_id);
+        map.put("no", no);
+
+        Long sal_no = saleDto.getNo();
+        String addr_cd = saleDto.getAddr_cd();
+        String addr_name = saleDto.getAddr_name();
+        String seller_id = saleDto.getSeller_id();
+        String sal_i_cd = saleDto.getSal_i_cd();
+        String sal_name = saleDto.getSal_name();
+
+        HoistingDto hoistingDto = new HoistingDto(sal_no, addr_cd, addr_name, seller_id, sal_i_cd, sal_name);
+
+        assertTrue(hoistingDao.insert(hoistingDto) == 1);
+        assertTrue(saleDao.hoistingSale(map) == 1);
+        assertTrue(saleDao.increaseHoistingCnt(no) == 1);
+
     }
 
 }

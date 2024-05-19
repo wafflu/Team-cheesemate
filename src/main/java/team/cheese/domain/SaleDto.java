@@ -46,7 +46,7 @@ public class SaleDto {
     private String contents;
 
     @NotNull
-    @Min(0)
+    @Min(1)
     private Integer price;
 
     @NotBlank

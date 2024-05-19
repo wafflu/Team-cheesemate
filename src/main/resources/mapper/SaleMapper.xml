@@ -40,7 +40,7 @@
         <include refid="selectFromSale"/>
         where
         ur_state = 'Y'
-        ORDER BY no DESC
+        ORDER BY h_date DESC, no DESC
     </select>
 
     <!--  처음에 판매/나눔 들어 갈 때  -->
@@ -53,7 +53,7 @@
         <if test="sal_i_cd != null and sal_i_cd != ''">
             AND sal_i_cd LIKE CONCAT(#{sal_i_cd}, '%')
         </if>
-        ORDER BY no DESC
+        ORDER BY h_date DESC, no DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -75,6 +75,14 @@
         WHERE no = #{no}
     </update>
 
+    <!--  U : 판매글 끌어올리기 할 때마다 끌어올리기 횟수 늘려주기  -->
+    <update id="increaseHoistingCnt" parameterType="Long">
+        UPDATE sale
+        SET hoist_cnt = hoist_cnt + 1,
+            h_date = now()
+        WHERE no = #{no}
+    </update>
+
     <!--  R : 관리자가 관여한 게시글을 전체선택  -->
     <select id="selectAdmin" resultType="SaleDto">
         <include refid="selectFromSale"/>
@@ -87,13 +95,13 @@
         INSERT INTO sale(addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name,
                          group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2,
                          title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr,
-                         brand, reg_price,
+                         brand, reg_price, h_date,
                          first_date, first_id, last_date, last_id)
         values (#{addr_cd}, #{addr_name}, #{seller_id}, #{seller_nick}, #{sal_i_cd}, #{sal_name},
                 #{group_no}, #{img_full_rt}, #{pro_s_cd}, #{tx_s_cd}, #{trade_s_cd_1}, #{trade_s_cd_2},
                 #{title}, #{contents}, #{price}, #{bid_cd}, #{pickup_addr_cd}, #{pickup_addr_name},
                 #{detail_addr},
-                #{brand}, #{reg_price},
+                #{brand}, #{reg_price}, now(),
                 now(), #{seller_id}, now(), #{seller_id})
     </insert>
 
@@ -143,6 +151,16 @@
         UPDATE sale
         SET m_date    = now(),
             ur_state  = 'N',
+            last_id   = #{seller_id},
+            last_date = now()
+        WHERE
+            no = #{no}
+          and seller_id = #{seller_id}
+    </update>
+
+    <update id="hoisting" parameterType="map">
+        UPDATE sale
+        SET h_date  = now(),
             last_id   = #{seller_id},
             last_date = now()
         WHERE

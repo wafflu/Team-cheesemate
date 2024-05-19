@@ -1,4 +1,4 @@
-package team.cheese.controller.MyPage;
+package team.cheese.exception;
 
 import org.springframework.dao.*;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
-@ControllerAdvice("team.cheese.Controller.MyPage")
+@ControllerAdvice("team.cheese.Controller")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)

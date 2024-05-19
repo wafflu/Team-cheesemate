@@ -322,11 +322,16 @@
 
             // Sale의 tx_s_cd값 : 판매/나눔
             let tx_s_cd = "${Sale.tx_s_cd}";
-            if (tx_s_cd) {
+            if (tx_s_cd === "S") {
                 $("#txMsg").text(""); // 메시지 제거
                 $("input[name='tx_s_cd'][value='" + tx_s_cd + "']").prop("checked", true);
+            } else {
+                $("#txMsg").text(""); // 메시지 제거
+                $("input[name='tx_s_cd'][value='" + tx_s_cd + "']").prop("checked", true);
+                $("input[name='price']").val("");
+                $("input[name='price']").attr("placeholder", "나눔글입니다.");
+                $("input[name='price']").prop("disabled", true); // 상품 가격 입력란 비활성화
             }
-
             // Sale의 bid_cd 값 : 가격제시/나눔신청
             let bid_cd = "${Sale.bid_cd}";
             if (bid_cd === "P") {
@@ -338,6 +343,7 @@
                 $("input[name='price']").prop("disabled", true); // 상품 가격 입력란 비활성화
             }
             $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
+
 
             // Sale의 category 값
             let sal_i_cd = "${Sale.sal_i_cd}";
@@ -959,6 +965,11 @@
             document.getElementsByName("price")[0].focus();
             document.getElementsByName("price")[0].style.borderColor = 'red';
             alert("음수를 제외한 정확한 가격을 입력하세요.");
+            return false;
+        } else if (tx_s_cd === 'S' && price == 0) {
+            document.getElementsByName("price")[0].focus();
+            document.getElementsByName("price")[0].style.borderColor = 'red';
+            alert("1원 이상의 가격을 입력하세요.");
             return false;
         }
 

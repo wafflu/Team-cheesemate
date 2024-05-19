@@ -54,6 +54,10 @@ public class SaleService {
         return saleDao.selectList(map);
     }
 
+    public SaleDto getSale(Long no) throws Exception {
+        return saleDao.select(no);
+    }
+
     // 판매자가 자신의 게시글을 삭제할 때
     @Transactional(propagation = Propagation.REQUIRED)
     public int remove(Long no, String seller_id) throws Exception {

@@ -24,13 +24,13 @@
 <body>
 <button type="button" onclick="writeBtn()">글쓰기</button>
 <select id="addr_cd">
-    <option id="selectAll" value="" selected>전체</option>
+    <option id="selectAll" value="null" selected>전체</option>
     <c:forEach var="AddrCd" items="${addrCdList}">
         <option value="${AddrCd.addr_cd}">${AddrCd.addr_name}</option>
     </c:forEach>
 </select><br>
 <select id="category1" onchange="loadCategory2()">
-    <option value="" disabled selected>대분류</option>
+    <option value="null" selected>대분류(전체)</option>
     <c:forEach var="category" items="${saleCategory1}">
         <option value="${category.sal_cd}">${category.name}</option>
     </c:forEach>
@@ -268,15 +268,15 @@
 
                 let row = $("<tr>");
                 row.append($("<td>").text(sale.no)); // 판매 번호
-                row.append($("<td>").addClass("Thumbnail_ima").html("<img src='/img/display?fileName=" + sale.img_full_rt + "'/>")); // 이미지
+                row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" +"<img src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
                 row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
                 row.append($("<td>").text(saleStatusText)); // 판매 상태
                 row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임
                 row.append($("<td>").text(sale.addr_name)); // 주소명
 
-                let saleDate = new Date(sale.r_date);
+                let saleDate = new Date(sale.h_date);
 
-                row.append($("<td>").addClass("regdate").text(dateToString(sale.r_date, startOfToday)));
+                row.append($("<td>").addClass("regdate").text(dateToString(sale.h_date, startOfToday)));
                 row.append($("<td>").text(sale.view_cnt)); // 조회수
                 $("#saleList").append(row);
             });
@@ -322,10 +322,24 @@
         let MM = addZero(date.getMinutes());
         let ss = addZero(date.getSeconds());
 
+        let now = new Date();
+
         if (date.getTime() >= startOfToday) {
-            return HH + ":" + MM + ":" + ss;
+            let secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
+            if (secondsAgo < 60) {
+                return secondsAgo + "초 전";
+            } else {
+                let minutesAgo = Math.floor(secondsAgo / 60);
+                if (minutesAgo < 60) {
+                    return minutesAgo + "분 전";
+                } else {
+                    let hoursAgo = Math.floor(minutesAgo / 60);
+                    return hoursAgo + "시간 전";
+                }
+            }
         }
-        return yyyy+"."+mm+"."+dd+ " " + HH + ":" + MM + ":" + ss;
+        let daysAgo = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        return daysAgo + "일 전";
     }
 
 

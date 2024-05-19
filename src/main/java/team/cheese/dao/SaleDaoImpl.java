@@ -53,6 +53,11 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
+    public int increaseHoistingCnt(Long no) throws Exception {
+        return session.update(namespace+"increaseHoistingCnt", no);
+    }
+
+    @Override
     public int insert(SaleDto saleDto) throws Exception {
         String tx_s_cd = saleDto.getTx_s_cd();
 
@@ -71,6 +76,7 @@ public class SaleDaoImpl implements SaleDao {
 
         return session.update(namespace + "update", saleDto);
     }
+
 
     @Override
     public int delete(Long no, String seller_id) throws Exception {
@@ -114,6 +120,11 @@ public class SaleDaoImpl implements SaleDao {
     @Override
     public int selectSearchCount(SearchCondition sc) throws Exception {
         return session.selectOne(namespace+"selectSearchCount",sc);
+    }
+
+    @Override
+    public int hoistingSale(Map map) throws Exception {
+        return session.update(namespace + "hoisting", map);
     }
 
 
