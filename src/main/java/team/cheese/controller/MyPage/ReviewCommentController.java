@@ -34,7 +34,7 @@ public class ReviewCommentController {
     }
     // 후기글 작성
     @PostMapping("/comments")
-    public ResponseEntity<String> write(@RequestBody ReviewCommentDTO reviewCommentDTO, HttpSession session) throws Exception{
+    public ResponseEntity<String> write(@RequestBody ReviewCommentDTO reviewCommentDTO, Long no, HttpSession session) throws Exception{
         // 1. 세션 객체에서 buy_id값 받아오기
         //        String buy_id = (String)session.getAttribute("id");
         // 1. 세션 객체에서 buy_nick값 받아오기
@@ -44,7 +44,7 @@ public class ReviewCommentController {
         reviewCommentDTO.setBuy_id(buy_id);
         reviewCommentDTO.setBuy_nick(buy_nick);
 
-        rvService.write(reviewCommentDTO);
+        rvService.write(reviewCommentDTO,no);
         return new ResponseEntity<>("WRT_OK", HttpStatus.OK);
     }
     // 후기글 삭제

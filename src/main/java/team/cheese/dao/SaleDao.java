@@ -53,4 +53,7 @@ public interface SaleDao {
     List<SaleDto> selectSearchPage(SearchCondition sc) throws Exception;
 
     int selectSearchCount(SearchCondition sc) throws Exception;
+
+    //새로 추가!!!! 후기글 작성시 상태 업데이트
+    int reviewState(Long no) throws Exception;
 }

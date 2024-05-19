@@ -45,7 +45,6 @@ public class MyPageController {
     // 마이페이지 메인화면
     @GetMapping("/main")
     public String main(@RequestParam(required = false)String ur_id, HttpSession session, Model model) throws Exception{
-        System.out.println("main() method called");  // 로그 추가
         if(!loginCheck(session))
             return "home";
         // 다른 페이지에서 사용자를 클릭해서 /myPage/main?ur_id=rudtlr 으로 타고들어왔을때,
@@ -54,19 +53,18 @@ public class MyPageController {
         // 1. 세션에서 session_id 값 받아오기
         // String session_id = (String) session.getAttribute("id");
         // test를 위한 session_id값
-        // test를 위해 model에 session_id값 담기
         String session_id = "asdf";
+        // test를 위해 model에 session_id값 담기
         model.addAttribute("session_id",session_id);
 
         // 소개글 읽어오기
-        UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id);
+        UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id,session);
         model.addAttribute("userInfoDTO",userInfoDTO);
 
         // 오늘날짜 모델에 담기
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         model.addAttribute("startOfToday", startOfToday.toEpochMilli());
         model.addAttribute("msg","MyPage Read Complete");
-        System.out.println("main() method processing complete");  // 로그 추가
         return "main";
     }
 
@@ -88,7 +86,7 @@ public class MyPageController {
     public ResponseEntity<Map<String, Object>> list(@RequestBody SearchCondition sc) throws Exception {
         // 조건객체에 따른 목록전체 카운트수
         int totalCnt = saleService.getSearchCnt(sc);
-        System.out.println(sc);
+
         // 페이징 객체 생성 각 매개변수에 값 전달
         PageHandler ph = new PageHandler(totalCnt,sc.getPage(),sc.getPageSize());
         List<SaleDto> list = saleService.getSearchPage(sc);

@@ -130,6 +130,95 @@
 		.page-space {
 			margin: 0 5px;
 		}
+		.modal {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0, 0, 0, 0.6);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1000;
+		}
+
+		.modal-content {
+			background-color: #fff;
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			width: auto;
+			max-width: 600px;
+			margin: auto;
+		}
+
+		.close {
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+			cursor: pointer;
+		}
+
+		#myform fieldset {
+			display: block;
+			direction: rtl;
+			border: 0;
+			text-align: center;
+			margin: 20px 0;
+		}
+
+		#starRating {
+			display: flex;
+			justify-content: center;
+		}
+
+		#myform input[type=radio] {
+			position: absolute;
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+
+		#myform label {
+			font-size: 3em;
+			color: #ccc;
+			cursor: pointer;
+			transition: color 0.3s ease;
+		}
+
+		#myform input[type=radio]:checked ~ label,
+		#myform label:hover,
+		#myform label:hover ~ label {
+			color: rgba(250, 208, 0, 0.99);
+		}
+
+		#reviewContents {
+			width: calc(100% - 20px);
+			height: 150px;
+			padding: 10px;
+			box-sizing: border-box;
+			border: solid 1.5px #D3D3D3;
+			border-radius: 5px;
+			font-size: 16px;
+			resize: none;
+			outline: none;
+		}
+
+		.commentBtn {
+			background-color: #007BFF;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			font-size: 16px;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+
+		.commentBtn:hover {
+			background-color: #0056b3;
+		}
 	</style>
 </head>
 <body>
@@ -145,16 +234,16 @@
 	<hr class="bun-ui-divider">
 	<section class="purchase-info">
 		<div>
-			<button class="bun-ui-tab bun-ui-tab-selected" id="A">
+			<button class="bun-ui-tab bun-ui-tab-selected" id="A" data-label-seller="전체" data-label-buyer="전체">
 				<span class="bun-ui-tab-label">전체</span>
 			</button>
-			<button class="bun-ui-tab" id="R">
+			<button class="bun-ui-tab" id="R" data-label-seller="예약중" data-label-buyer="예약중">
 				<span class="bun-ui-tab-label">예약중</span>
 			</button>
-			<button class="bun-ui-tab" id="S">
+			<button class="bun-ui-tab" id="S" data-label-seller="판매중" data-label-buyer="구매중">
 				<span class="bun-ui-tab-label">판매중</span>
 			</button>
-			<button class="bun-ui-tab" id="C">
+			<button class="bun-ui-tab" id="C" data-label-seller="거래완료" data-label-buyer="구매완료">
 				<span class="bun-ui-tab-label">거래완료</span>
 			</button>
 		</div>
@@ -176,11 +265,79 @@
 	</section>
 	<section id="historyList">
 	</section>
+	<div id="myModal" class="modal" >
+		<div class="modal-content">
+			<!-- 후기글 작성 폼 -->
+			<form class="mb-3" name="myform" id="myform">
+				<fieldset>
+					<span class="text-bold">별점을 선택해주세요</span>
+					<div id="starRating">
+						<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
+						<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
+						<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
+						<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
+						<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
+					</div>
+				</fieldset>
+				<div>
+					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+				</div>
+				<button class="commentBtn" id="comment-sendBtn" type="button">등록</button>
+				<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
+			</form>
+		</div>
+	</div>
 </div>
 </body>
 <script>
 	// 세션id 변수로 선언
 	let ur_id = "${loginId}";
+
+	// 선택된 별점 값 담을 변수
+	let selectedStar;
+
+	// 판매자 ID
+	let seller_id;
+
+	// 판매글 no
+	let no;
+
+	// 별점 클릭시 변수에 값 담기
+	$("input[name='reviewStar']").on("click", function() {
+		var clickedStar = $(this).val(); // 클릭된 별점 값
+
+		// 클릭한 별점이 이미 선택된 경우
+		if ($(this).is(":checked")) {
+			// 선택된 별점과 이전에 선택된 별점이 같은 경우
+			if (clickedStar === selectedStar) {
+				// 이전에 선택된 별점을 취소하여 0점으로 설정
+				$(this).prop("checked", false);
+				selectedStar = 0;
+			} else {
+				// 클릭한 별점 값으로 설정
+				selectedStar = clickedStar;
+			}
+		} else {
+			// 선택되지 않은 경우는 0점으로 설정
+			selectedStar = 0;
+		}
+		// 선택된 별점 값을 콘솔에 출력하여 확인
+		alert("선택된 별점 값: " + selectedStar);
+	});
+
+	// 모달 창
+	var modal = document.getElementById("myModal");
+
+	// 모달 창을 닫는 함수
+	function closeModal() {
+		modal.style.display = "none";
+	}
+
+	// 취소 버튼 기능 추가
+	var cancelBtn = document.getElementById("cancelBtn");
+	cancelBtn.onclick = function() {
+		closeModal();
+	}
 
 	let addZero = function(value=1){
 		return value > 9 ? value : "0"+value;
@@ -214,7 +371,7 @@
 				option: option,
 				sal_s_cd: sal_s_cd,
 				keyword: keyword
-		}),
+			}),
 			success: function (result) {
 				// 내역 목록과 페이징 정보 가져오기
 				let list = result.list;
@@ -259,12 +416,12 @@
 			tmp += '</section>';
 
 			// footer 부분 생성
-			if (option === 'buyer' && sal_s_cd === 'C') {
+			if (item.rv_state === 'Y' && option === 'buyer' && item.sal_s_cd === 'C') {
 				tmp += '<footer>'; // 구매내역 버튼이 클릭된 경우에만 hidden 속성 추가하지 않음
 			} else {
 				tmp += '<footer hidden>'; // 그 외의 경우 hidden 속성 추가
 			}
-			tmp += '<button onclick="redirectToMain(\'' + item.seller_id + '\')">후기 남기기</button>'; // seller_id 값을 함수에 넘겨줌
+			tmp += '<button class="writeBtn" type="button" data-id="' + item.seller_id + '"  data-no="' + item.no + '">후기 남기기</button>';
 			tmp += '</footer>';
 
 			tmp += '</article>';
@@ -293,22 +450,22 @@
 		}
 		return tmp;
 	}
-	// 페이지 이동 함수 정의
-	function redirectToMain(sellerId) {
-		const url = "/myPage/main?ur_id=" + encodeURIComponent(sellerId);
-		console.log('Redirecting to:', url);
-		window.location.href = url;
-	}
 
 	$(document).ready(function(){
 		showList();
+		modal.style.display = "none"; // 모달창 숨기기
+		let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
+		updateButtonLabels(option);
 
 		// 판매내역, 구매내역 버튼 클릭 이벤트 설정
 		$(".bun-ui-divider .bun-ui-tab").click(function () {
 			// 같은 div 내의 모든 버튼에서 bun-ui-tab-selected 클래스를 제거
-			$(".bun-ui-tab").removeClass("bun-ui-tab-selected");
+			$(".bun-ui-divider .bun-ui-tab").removeClass("bun-ui-tab-selected");
 			// 클릭한 버튼에 bun-ui-tab-selected 클래스 추가
 			$(this).addClass("bun-ui-tab-selected");
+
+			// searchInput 값을 초기화
+			$("#searchInput").val('');
 
 			// '전체' 버튼에 bun-ui-tab-selected 클래스 추가
 			$("#A").addClass("bun-ui-tab-selected");
@@ -319,6 +476,9 @@
 			// 내역 목록 업데이트
 			let option = $(this).attr('id');
 			showList(1, 5, option);
+
+			// 버튼 레이블 업데이트
+			updateButtonLabels(option);
 		});
 
 		// 판매,구매상태 버튼 클릭 이벤트 설정
@@ -328,10 +488,11 @@
 			// 클릭한 버튼에 bun-ui-tab-selected 클래스 추가
 			$(this).addClass("bun-ui-tab-selected");
 
-			// 각 버튼의 id에 맞는 showList 호출
 			let id = $(this).attr('id');
 			let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
 			let searchValue = $("#searchInput").val();
+
+			updateButtonLabels(option);
 
 			if (id === 'R') {
 				showList(1, 5, option, 'R', searchValue);
@@ -344,8 +505,16 @@
 			}
 		});
 
-		// 검색 폼 제출 이벤트 설정
-		$("#searchForm").submit(function(event) {
+		function updateButtonLabels(option) {
+			const buttons = $(".purchase-info .bun-ui-tab");
+			buttons.each(function() {
+				const button = $(this);
+				const label = option === 'buyer' ? button.attr('data-label-buyer') : button.attr('data-label-seller');
+				button.find('.bun-ui-tab-label').text(label);
+			});
+		}
+
+		$("#searchForm").submit(function (event) {
 			event.preventDefault();
 			let searchValue = $("#searchInput").val();
 			let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
@@ -355,6 +524,42 @@
 			} else {
 				showList(1, 5, option, sal_s_cd, searchValue);
 			}
+		});
+
+		// 후기글 쓰기 버튼 클릭 이벤트 설정
+		$(document).on("click", ".writeBtn", function() {
+			seller_id = $(this).data("id");
+			no = $(this).data("no");
+			$('#reviewContents').val('');
+			$("input[name='reviewStar']").prop("checked", false);
+			selectedStar = undefined;
+			modal.style.display = "block";
+		});
+
+		// 후기글 전송 버튼
+		$(document).on("click", "#comment-sendBtn", function() {
+			let contents = $("#reviewContents").val();
+
+			if(contents.trim()==''){
+				alert("글을 작성해주세요");
+				$("#reviewContents").focus()
+				return;
+			}
+
+			$.ajax({
+				type: 'POST',
+				url: "/comments?no=" + no,
+				headers: { "content-type": "application/json" },
+				data: JSON.stringify({ sal_id: seller_id, contents: contents, reviewStar: selectedStar }),
+				success: function(result) {
+					alert(result);
+					const url = "/myPage/main?ur_id=" + encodeURIComponent(seller_id);
+					window.location.href = url;
+				},
+				error: function(result) {
+					alert(result.responseText);
+				}
+			});
 		});
 	});
 </script>
