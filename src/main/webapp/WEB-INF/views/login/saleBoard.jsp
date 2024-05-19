@@ -59,6 +59,7 @@
         <button type="button" id="removeBtn">삭제하기</button>
         <button type="button" id="modifyBtn">수정하기</button>
         <button type="button" id="returnBtn">목록</button>
+        <button type="button" id="charbtn">채팅하기</button>
     </form>
 </div>
 <div>
@@ -133,6 +134,37 @@
                     }
                 });
             }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#charbtn").on("click", function () {
+            let saleNo = "${Sale.no}";
+            let sellerid = "${Sale.seller_id}";
+            let seller_nick = "${Sale.seller_nick}";
+            $("<input>").attr({
+                type: "hidden",
+                name: "sno",
+                value: saleNo
+            }).appendTo("#form");
+
+            $("<input>").attr({
+                type: "hidden",
+                name: "id",
+                value: sellerid
+            }).appendTo("#form");
+
+            $("<input>").attr({
+                type: "hidden",
+                name: "nick",
+                value: seller_nick
+            }).appendTo("#form");
+
+            // action 속성 설정
+            $("#form").attr("action", "/callchat");
+
+            // form submit
+            $("#form").submit();
         });
     });
 

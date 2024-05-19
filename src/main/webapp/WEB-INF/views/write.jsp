@@ -118,7 +118,7 @@
     </form>
 
     <a href="write" class="btn btn-default">쓰기</a>
-    <script src="/resources/js/img.js"></script>
+    <script src="/js/img.js"></script>
     <script>
         document.getElementById("submitform").onclick = function (){
             // $("#submitform").on("click","#submitform",function() {

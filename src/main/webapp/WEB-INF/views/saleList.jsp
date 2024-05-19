@@ -1,27 +1,19 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<% // 세션에 sessionId가 존재하는지 확인
-//    String sessionId = request.getParameter("userId");
-%>
-<html>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="fixed/header.jsp"%>
 
-<head>
-    <title>판매/나눔</title>
-    <style>
-        #saleListTB {
-            margin: 0 auto; /* 수평 가운데 정렬 */
-            width: 80%; /* 테이블의 너비 설정 */
-            text-align: center; /* 텍스트 가운데 정렬 */
-        }
+<style>
+    #saleListTB {
+        margin: 0 auto; /* 수평 가운데 정렬 */
+        width: 80%; /* 테이블의 너비 설정 */
+        text-align: center; /* 텍스트 가운데 정렬 */
+    }
 
-        .page-space {
-            margin: 0 5px; /* 공백 크기 조절 */
-        }
-    </style>
-</head>
+    .page-space {
+        margin: 0 5px; /* 공백 크기 조절 */
+    }
+</style>
 
-<body>
+<div class="maincontent">
 <button type="button" onclick="writeBtn()">글쓰기</button>
 <select id="addr_cd">
     <option id="selectAll" value="" selected>전체</option>
@@ -63,9 +55,7 @@
 <div id="pageContainer" style="text-align: center">
 </div>
 <br>
-</body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</div>
 <script>
     // window.onload = function() {
     //     // 페이지가 로드될 때 실행할 코드 작성
@@ -308,9 +298,6 @@
         }
         return yyyy+"."+mm+"."+dd+ " " + HH + ":" + MM + ":" + ss;
     }
-
-
-
 </script>
 
-</html>
+<%@include file="fixed/footer.jsp"%>

@@ -22,7 +22,7 @@
 
 </div>
 
-<script src="/resources/js/img.js"></script>
+<script src="/js/img.js"></script>
 <script>
 
   //이미지 등록하기
