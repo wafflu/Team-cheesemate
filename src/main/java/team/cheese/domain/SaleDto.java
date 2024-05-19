@@ -69,6 +69,7 @@ public class SaleDto {
     private int bid_cnt;
     private char ur_state;
     private char ad_state;
+    private char rv_state;
     private Timestamp first_date;
     private String first_id;
     private Timestamp last_date;
@@ -360,6 +361,14 @@ public class SaleDto {
         this.ad_state = ad_state;
     }
 
+    public char getRv_state() {
+        return rv_state;
+    }
+
+    public void setRv_state(char rv_state) {
+        this.rv_state = rv_state;
+    }
+
     public Timestamp getFirst_date() {
         return first_date;
     }
@@ -442,6 +451,7 @@ public class SaleDto {
                 ", bid_cnt=" + bid_cnt +
                 ", ur_state=" + ur_state +
                 ", ad_state=" + ad_state +
+                ", rv_state=" + rv_state +
                 ", first_date=" + first_date +
                 ", first_id='" + first_id + '\'' +
                 ", last_date=" + last_date +

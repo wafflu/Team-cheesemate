@@ -3,12 +3,14 @@ package team.cheese.service.MyPage;
 import org.springframework.http.ResponseEntity;
 import team.cheese.domain.MyPage.UserInfoDTO;
 
+import javax.servlet.http.HttpSession;
+
 public interface UserInfoService {
     // count -> getCount
     int getCount() throws Exception;
 
     // select -> read , incrementViewCnt
-    UserInfoDTO read(String ur_id,String session_id) throws Exception;
+    UserInfoDTO read(String ur_id, String session_id, HttpSession session) throws Exception;
 
     UserInfoDTO read(String ur_id) throws Exception;
 

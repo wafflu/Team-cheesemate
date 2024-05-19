@@ -30,10 +30,10 @@
     </delete>
 
     <!--    사용자가 작성한 문의글을 등록한다.-->
-    <insert id="insert" parameterType="QnaDto" >
-        INSERT INTO question_board (ur_id, q_s_cd, que_i_cd, title, contents, r_date, m_date, ad_id, ad_name,ans_contents, ans_p_date, ans_m_date, ans_sat, state, first_date, first_id)
+    <insert id="insert" parameterType="QnaDto" useGeneratedKeys="true" keyProperty="no" >
+        INSERT INTO question_board (ur_id, q_s_cd, que_i_cd, title, contents, r_date, m_date, ad_id, ad_name,ans_contents, ans_p_date, ans_m_date, ans_sat, state, first_date, first_id,last_date, last_id)
         VALUES (#{ur_id}, #{q_s_cd}, #{que_i_cd}, #{title}, #{contents}, now(), null, null, null,
-                null, null, null, null, 'Y', now(), #{first_id})
+                null, null, null, null, 'Y', now(), #{ur_id}, now(), #{ur_id})
     </insert>
 
     <!--    사용자가 작성한 문의글을 수정한다.-->

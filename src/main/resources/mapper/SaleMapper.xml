@@ -4,7 +4,7 @@
 
 <mapper namespace="team.cheese.dao.SaleMapper">
     <sql id="selectFromSale">
-        SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state
+        SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state,rv_state
         FROM sale
     </sql>
 
@@ -178,6 +178,14 @@
         WHERE
             no = #{no}
     </update>
+
+    <!--  새로 추가한거!!!!!!!!!!!!!!!!!   후기글 작성시 상태 변경 -->
+    <update id="reviewState" parameterType="Long">
+        UPDATE sale
+        SET rv_state = 'N'
+        WHERE no = #{no}
+    </update>
+    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   -->
 
 
     <!-- 전체 삭제  -->

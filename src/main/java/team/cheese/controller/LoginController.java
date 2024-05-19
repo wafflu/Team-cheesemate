@@ -49,59 +49,8 @@ public class LoginController {
     //          1.3.1 로그인 화면(loginForm.jsp)으로 이동
     @PostMapping("/login")
     public String login(Model m, HttpSession session, String inputId, String inputPw, boolean rememberAccountBnt, boolean keepLoginState, HttpServletRequest request, HttpServletResponse res) {
-
-        UserDto userDto = userService.login(inputId, inputPw);
-        AdminDto adminDto = adminService.login(inputId, inputPw);
-
-        if(userDto != null) { // 1.1 유저가 로그인한 경우
-            sessionSetting(session, userDto);
-
-            // *** 쿠키로 자동 로그인 만들기 ***
-            // 1. 체크박스 체크 여부 불러오기
-            // 2. 체크한 경우 입력된 아이디와 비밀번호를 쿠키로 저장하기
-            // 3. 다시 로그인 폼으로 갔을 때, 아이디와 비밀번호를 쿠키에서 불러와 자동입력되도록 만들기
-            if(rememberAccountBnt) {
-                Cookie userIdCookie = new Cookie("userId", userDto.getId());
-
-                userIdCookie.setMaxAge(60);
-                userIdCookie.setPath("/");
-
-                res.addCookie(userIdCookie);
-            }
-
-            // *** 로그인 유지 쿠키 생성 ***
-            if(keepLoginState) {
-                Cookie keepLoginStateCookie = new Cookie("keepLoginState", userDto.getId());
-
-                keepLoginStateCookie.setMaxAge(60);
-                keepLoginStateCookie.setPath("/");
-
-                res.addCookie(keepLoginStateCookie);
-            }
-
-            String fromUri = request.getParameter("from");
-            System.out.printf("fromUri=%s\n", fromUri);
-
-            if(fromUri.isEmpty()) {
-                System.out.println("fromUri에는 아무것도 없음으로 home으로 이동합니다.");
-                return "redirect:" + "home";
-            }
-            else {
-                System.out.println("fromUri에는 " + fromUri + " 이 있어 이동합니다.");
-                return "redirect:" + fromUri;
-            }
-        }
-        else if(adminDto != null) { // 1.2 관리자가 로그인한 경우
-            session.setAttribute("adminId", adminDto.getId());
-
-            return request.getParameter("from");
-        }
-        else { // 1.3 로그인 실패할 경우
-
-            m.addAttribute("loginErrorMSG", "아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.");
-            return "loginForm";
-        }
-
+        session.setAttribute("userId", "asdf");
+        return "";
     }
 
     // *** 로그아웃 기능, 홈(home.jsp)으로 이동 ***
