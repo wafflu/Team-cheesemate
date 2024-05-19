@@ -207,6 +207,86 @@
 			float: left;
 			border: 1px solid;
 		}
+
+	/* 이미지 영역	*/
+		#profileimg{
+			width: 250px;
+			height: 250px;
+			margin-left: 220px;
+			position: relative;
+		}
+		.form_section_content{
+			position: absolute;
+			width: 250px;
+			height: 250px;
+			right: 0;
+			top: 0;
+			z-index: 1;
+		}
+
+		#uploadResult{
+			position: absolute;
+			width: 250px;
+			height: 250px;
+			border-radius: 100%;
+			border: 1px solid #000;
+			overflow: hidden;
+
+		}
+		.profileimg{
+			/*추후 js로 수정*/
+			width: 250px;
+			height: 250px;
+		}
+
+		.btn-upload {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 250px;
+			height: 250px;
+			background: transparent;
+			border-radius: 100%;
+			cursor: pointer;
+
+		}
+
+		.btn-upload::before{
+			content: '프로필 수정';
+			display: block;
+			width: 250px;
+			text-align: center;
+			line-height: 250px;
+			border-radius: 100%;
+			transition: all 0.2s ease-out;
+			opacity: 0;
+			box-sizing: border-box;
+			font-size: 20px;
+			color:#fff;
+		}
+
+		.btn-upload:hover::before{
+			background-color: rgba(105, 105, 105, 0.5);
+			opacity: 1;
+		}
+
+		#profile {
+			display: none;
+		}
+
+		#profilesave_btn{
+			position: absolute;
+			bottom: -34px;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 3;
+			background-color: transparent;
+			border: 1px solid #FFA500;
+			border-radius: 5px;
+			padding: 5px;
+			cursor: pointer;
+		}
+
 	</style>
 </head>
 <script>
@@ -226,16 +306,21 @@
 		<li><a href="/contact">회원 탈퇴</a></li>
 	</ul>
 </div>
-<%--<div id="register_img">--%>
-<%--	<p>--%>
-<%--		프로필이미지--%>
-<%--		<input type="file" id="imageBtn" name="imagename">--%>
-<%--	</p>--%>
-<%--</div>--%>
-<div class="register_img">
-	<img src="#" class="profile">
-	<input type="file" id="imageBtn" name="imagename">
+
+<div id="profileimg">
+	<div class="form_section_content">
+		<label for="profile" class="btn-upload"></label>
+		<input type="file" id ="profile" name='uploadFile'>
+	</div>
+	<div id = "uploadResult">
+
+<%--		<img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
+	</div>
+	<div id="profilesave_btn_area">
+
+	</div>
 </div>
+
 <div class="container">
 	<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
 	<div class="info-container">
@@ -292,7 +377,45 @@
 	</div>
 </div>
 <div id="commentList" ></div>
+
 <script>
+	//이미지 등록하기
+
+	let Image = (function() {
+		let imginfo = [];
+
+		return {
+			getImgInfo: function() {
+				return imginfo;
+			}
+		};
+	})();
+
+	$(document).on("click", "#profilesave_btn", function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: '/saveporfile',
+			type : 'POST',
+			contentType : 'application/json; charset=UTF-8',
+			dataType : 'text',
+			data : JSON.stringify(Image.getImgInfo()),
+			success: function (result) {
+				location.replace(result);
+			},
+			error: function(xhr, status, error) {
+				// 오류 발생 시 처리
+				var errorMessage = xhr.responseText;
+				console.error('Error:', error);
+				alert("오류 발생: " + errorMessage); // 서버에서 전달된 예외 메시지를 알림창으로 표시
+			}
+		});
+		alert("등록되었습니다.")
+		// 나머지 코드를 여기에 추가하세요.
+	});
+
+	//
+
+
 	let ur_id = $("textarea[name=contents]").attr('id'); // 해당 유저아이디 변수선언
 
 	let addZero = function(value=1){
@@ -490,6 +613,8 @@
 
 
 	$(document).ready(function() {
+
+
 		showList(ur_id); // 후기글 목록 읽어오기
 		modal.style.display = "none"; // 모달창 숨기기
 
@@ -624,7 +749,26 @@
 				} // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
 		});
+
+
+
+		let userprofile = "${userInfoDTO.img_full_rt}";
+		let uploadResult = $("#uploadResult");
+
+
+		uploadResult.children().remove();
+		let str = "";
+		if(!userprofile){
+			str += "<img src='/img/display?fileName=Noneprofile.png' class='profileimg'>";
+			// alert("1")
+		} else {
+			str += "<img src='/img/display?fileName=" + userprofile + "' class='profileimg'>";
+			// alert("2")
+		}
+		uploadResult.append(str);
 	});
 </script>
+
+<script src="/resources/js/img.js"></script>
 </body>
 </html>

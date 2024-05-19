@@ -40,12 +40,12 @@
     </div>
 
     <p>${communityBoardDto.contents}</p>
-    <c:if test="${not empty communityBoardDto.img_full_rt}">
-        <img src="/resources/img/${communityBoardDto.img_full_rt}" alt="Post Image" style="max-width: 200px; max-height: 200px;"/>
-    </c:if>
-    <c:if test="${empty communityBoardDto.img_full_rt}">
-        <p>이미지가 없습니다.</p>
-    </c:if>
+
+        <c:forEach items="${imglist}" var="img">
+            <c:if test="${img.imgtype eq 'w'}">
+                <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+            </c:if>
+        </c:forEach>
 
 
         <div style="display:none;"  id ="alertDiv">
@@ -101,6 +101,8 @@
 
         })
         $('#edit').on("click",function (){
+            var confirmation = confirm("이 게시물을 수정하시겠습니까?");
+            alert(confirmation);
             window.location.href = '/community/edit?no=${communityBoardDto.no}';
 
         })

@@ -53,19 +53,16 @@ public class MyPageController {
         // 1. 세션에서 session_id 값 받아오기
         // String session_id = (String) session.getAttribute("id");
         // test를 위한 session_id값
-        System.out.println("1");
         String session_id = "1";
 
         // 소개글 읽어오기
         UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id);
-        System.out.println(userInfoDTO);
         model.addAttribute("userInfoDTO",userInfoDTO);
 
         // 오늘날짜 모델에 담기
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         model.addAttribute("startOfToday", startOfToday.toEpochMilli());
         model.addAttribute("msg","MyPage Read Complete");
-        System.out.println("2");
         return "main";
     }
 

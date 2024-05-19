@@ -83,4 +83,9 @@
         set state = 'N'
         where ur_id = #{ur_id}
     </update>
+
+    <update id="updateprofile" parameterType="map">
+        update user_info
+        set img_full_rt = #{img_full_rt}, group_no = #{group_no} where ur_id = #{ur_id};
+    </update>
 </mapper>

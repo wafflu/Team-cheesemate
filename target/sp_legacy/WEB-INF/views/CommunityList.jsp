@@ -1,3 +1,12 @@
+
+
+<%--
+  Created by IntelliJ IDEA.
+  User: gominjeong
+  Date: 4/28/24
+  Time: 2:22 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -6,9 +15,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/mystyle.css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/communitylist.css">
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/communitylist.css">
+<%--    <link rel="stylesheet" href="/css/mystyle.css">--%>
+<%--    <script src="/js/img.js"></script>--%>
+<%--    --%>
+
     <title>CommunityList</title>
     <style>
         /* Add some basic styling for the pagination buttons */

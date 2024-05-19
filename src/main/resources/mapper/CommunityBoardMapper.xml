@@ -10,8 +10,8 @@
     </select>
 
     <insert id="insert_community_board" parameterType="CommunityBoardDto" useGeneratedKeys="true" keyProperty="no">
-        insert into community_board(ur_id,addr_cd,addr_no,commu_cd,commu_name, addr_name,title,contents, nick, img_full_rt, group_no)
-        values (#{ur_id},#{addr_cd},#{addr_no},#{commu_cd},#{commu_name},#{addr_name},#{title},#{contents},#{nick},#{img_full_rt},#{group_no})
+        insert into community_board(ur_id,addr_cd,addr_no,commu_cd,commu_name, addr_name,title,contents, nick, img_full_rt, group_no, first_id, last_id)
+        values (#{ur_id},#{addr_cd},#{addr_no},#{commu_cd},#{commu_name},#{addr_name},#{title},#{contents},#{nick},#{img_full_rt},#{group_no},#{first_id},#{last_id})
     </insert>
 
 
@@ -22,7 +22,7 @@
     </select>
 
     <select id="selectPage" parameterType="map" resultType="CommunityBoardDto">
-        select * from community_board where ur_state = #{ur_state} order by r_date desc
+        select * from community_board where ur_state = 'y' order by r_date desc
         LIMIT #{offset},#{pageSize};
     </select>
 
@@ -32,7 +32,8 @@
 
 
     <update id = "update" parameterType="CommunityBoardDto">
-        update community_board set title = #{title} , contents = #{contents},m_date = #{m_date}
+        update community_board
+        set title = #{title} , contents = #{contents}, m_date = #{m_date}, group_no=#{group_no}, img_full_rt=#{img_full_rt}
         where no = #{no}
     </update>
 
@@ -90,8 +91,9 @@
 
     <select id="selectPageByCategory" parameterType="map" resultType="CommunityBoardDto">
         SELECT * FROM community_board
+        WHERE ur_state = 'y'
         <if test="category != 'commu_A'">
-            WHERE commu_cd = #{category}
+            AND commu_cd = #{category}
         </if>
         ORDER BY no DESC
         LIMIT #{pageSize} OFFSET #{offset}
@@ -99,8 +101,9 @@
 
     <select id="selectCountByCategory" parameterType="string" resultType="int">
         SELECT COUNT(*) FROM community_board
+        WHERE ur_state = 'y'
         <if test="category != 'commu_A'">
-            WHERE commu_cd = #{category}
+            AND commu_cd = #{category}
         </if>
     </select>
 

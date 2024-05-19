@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.TagMapper">
+    <sql id="selectFromTag">
+        SELECT no, contents, state,
+            first_date, first_id, last_date, last_id
+        FROM tag
+    </sql>
+
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM tag
+    </select>
+
+    <select id="select" resultType="TagDto">
+        <include refid="selectFromTag"/>
+        WHERE no = #{no}
+    </select>
+
+<!--  R : 전체 테이블 읽어오기  -->
+    <select id="selectAll" resultType="TagDto">
+        <include refid="selectFromTag"/>
+    </select>
+
+<!--  R : 사용하는 행만 읽어오기  -->
+    <select id="selectUse" resultType="TagDto">
+        <include refid="selectFromTag"/>
+        WHERE
+        state = 'Y'
+    </select>
+
+<!--  R : 태그명 조회하기(태그 번호만 반환)  -->
+    <select id="selectTagContents" parameterType="TagDto" resultType="TagDto">
+        <include refid="selectFromTag"/>
+        WHERE
+        state = 'Y'
+        and contents = #{contents}
+    </select>
+
+<!--  C : 태그 존재하지 않을 때 삽입  -->
+    <insert id="insert" parameterType="TagDto" useGeneratedKeys="true" keyProperty="no">
+        INSERT INTO tag (contents, first_date, first_id, last_date, last_id)
+        values (#{contents}, now(), #{first_id}, now(), #{last_id})
+    </insert>
+
+    <!--  R : 선택한 판매글의 해시태그 값을 읽어오기(join문)  -->
+    <select id="getTagsBySaleNo" resultMap="TagResultMap">
+        SELECT t.*
+        FROM tag t
+                 RIGHT JOIN sale_tag st ON t.no = st.tag_no
+        WHERE st.sal_no = #{sal_no}
+    </select>
+
+    <!-- 태그 정보를 매핑하기 위한 resultMap -->
+    <resultMap id="TagResultMap" type="TagDto">
+        <id property="no" column="no"/>
+        <result property="contents" column="contents"/>
+    </resultMap>
+
+<!--  U : 태그 존재할 때 시스템 컬럼 업데이트  -->
+    <update id="updateSys" parameterType="TagDto">
+        UPDATE tag
+        SET last_date = now(),
+            last_id = #{last_id}
+        WHERE no = #{no}
+    </update>
+
+<!--  U : 글 수정할 때 해시태그도 수정하는 경우  -->
+    <update id="update" parameterType="TagDto">
+        UPDATE tag
+        SET last_date = now(),
+            last_id = #{last_id}
+        WHERE no = #{no}
+    </update>
+
+<!--  D : 데이터 전체 삭제  -->
+    <delete id="deleteAll">
+        DELETE FROM tag
+    </delete>
+
+    <update id="resetAutoIncrement" parameterType="map">
+        alter table tag auto_increment = 1
+    </update>
+</mapper>
