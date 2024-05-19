@@ -2,32 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="team.cheese.dao.Chat">
-    <insert id="insert_chatroom" parameterType="SaleDto" useGeneratedKeys="true" keyProperty="no">
-        insert into chat_room (sale_no, seller_id, seller_nk, buyer_id, buyer_nk)
-        values (#{no}, #{seller_id}, #{seller_nick}, #{buyer_id}, #{buyer_nick})
-    </insert>
-
-    <insert id="insert_chatmsg" parameterType="ChatMessageDto">
-        insert into chat_msg (cr_no, acid, nick, message)
-        values (#{cr_no}, #{acid}, #{nick}, #{message})
-    </insert>
-    
-    <select id="select_buyer" parameterType="SaleDto" resultType="ChatRoomDto">
-        select *
-        from chat_room
-        where sale_no = #{no} and buyer_id = #{buyer_id};
-    </select>
-
-    <select id="select_chatlist" parameterType="string" resultType="ChatRoomDto">
-        select *
-        from chat_room
-        where (seller_id = #{acid} or buyer_id = #{acid}) and seller_state = 'Y' and buyer_state = 'Y'
-    </select>
-
-    <select id="select_chatmsglog" parameterType="int" resultType="ChatMessageDto">
-        select *
-        from chat_msg
-        where cr_no = #{cr_no}
-    </select>
+<mapper namespace="team.cheese.dao.ChatMapper">
+<!--    방에 따른 채팅 보여주기-->
+<!--    <select id="selectRoom" parameterType="Long" resultType="ChatDto">-->
+<!--        select * from chat_msg-->
+<!--        where cr_no = #{cr_no} and  del_state ='N'-->
+<!--        order by msg desc-->
+<!--    </select>-->
+<!--&lt;!&ndash;    채팅 입력&ndash;&gt;-->
+<!--    <insert id="insert" parameterType="chatDto">-->
+<!--        insert into chat_msg(cr_no, nick, content, first_id, last_id) value(#{cr_no}, #{nick}, #{content}, #{first_id}, #{last_id})-->
+<!--    </insert>-->
 </mapper>
