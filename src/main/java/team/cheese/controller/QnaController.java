@@ -85,18 +85,19 @@ public class QnaController {
     public String listUserQnas(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Model model, HttpSession session) {
         String ur_id = (String) session.getAttribute("userId");
 
-            int totalCnt = qnaService.countQnasByUserId(ur_id);
-            PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
-            Map<String, Object> map = new HashMap<>();
-            map.put("ur_id", ur_id);
-            map.put("offset", pageHandler.getOffset());
-            map.put("pageSize", pageSize);
-            List<QnaDto> myQnaList = qnaService.selectPageByUserId(map);
+        int totalCnt = qnaService.countQnasByUserId(ur_id);
+        PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+        Map<String, Object> map = new HashMap<>();
+        map.put("ur_id", ur_id);
+        map.put("offset", pageHandler.getOffset());
+        map.put("pageSize", pageSize);
+        List<QnaDto> myQnaList = qnaService.selectPageByUserId(map);
 
-            model.addAttribute("qnaList", myQnaList);
-            model.addAttribute("ph", pageHandler);
-            return "qnaBoardList";
+        model.addAttribute("qnaList", myQnaList);
+        model.addAttribute("ph", pageHandler);
+        return "qnaBoardList";
     }
+
     /*
     나의 문의 내역 읽기(read)
         로그인 체크
@@ -106,10 +107,11 @@ public class QnaController {
      */
     @GetMapping("/read")
     public String read(@RequestParam("no") long no, Model model) {
-            QnaDto qnaDto = qnaService.read(no);
-            model.addAttribute("qna", qnaDto);
-            return "qnaBoard"; // 문의글 상세 정보를 보여줄 JSP 페이지
+        QnaDto qnaDto = qnaService.read(no);
+        model.addAttribute("qna", qnaDto);
+        return "qnaBoard"; // 문의글 상세 정보를 보여줄 JSP 페이지
     }
+
     /*
     나의 문의 내역 삭제하기
         qnaBoard페이지에서 삭제 버튼을 누른다.
@@ -120,8 +122,8 @@ public class QnaController {
     @PostMapping("/delete")
     public String deleteQna(@RequestParam("no") long no, HttpSession session) { // 변경된 부분
         String ur_id = (String) session.getAttribute("userId");
-            qnaService.remove(no, ur_id); // 변경된 부분
-            return "redirect:/qna/list";
+        qnaService.remove(no, ur_id); // 변경된 부분
+        return "redirect:/qna/list";
     }
 
     /*
@@ -134,14 +136,7 @@ public class QnaController {
         현재 게시글 read 상태로 이동한다.
      */
     @PostMapping("/modify")
-    public String modify(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes rattr) {
-        if (result.hasErrors()) {
-            // 유효성 검사 실패 시 다시 수정 페이지로 리다이렉트
-            rattr.addFlashAttribute("org.springframework.validation.BindingResult.qnaDto", result);
-            rattr.addFlashAttribute("qnaDto", qnaDto);
-            return "redirect:/qna/edit?no=" + qnaDto.getNo();
-        }
-
+    public String modify(QnaDto qnaDto, HttpSession session, RedirectAttributes rattr) {
         String ur_id = (String) session.getAttribute("userId");
         qnaDto.setUr_id(ur_id);
         qnaDto.setLast_id(ur_id);
@@ -149,10 +144,8 @@ public class QnaController {
         int rowCnt = qnaService.modify(qnaDto);
         if (rowCnt == 1) {
             rattr.addFlashAttribute("msg", "수정 완료");
-            return "redirect:/qna/read?no=" + qnaDto.getNo();
-        } else {
-            rattr.addFlashAttribute("errorMessage", "수정에 실패했습니다. 다시 시도해주세요.");
-            return "redirect:/qna/edit?no=" + qnaDto.getNo();
+            return "redirect:/qna/read?no=" + qnaDto.getNo(); // 수정이 성공하면 다시 게시글 조회 페이지로 리다이렉트
         }
+        return "redirect:/qna/read?no=" + qnaDto.getNo();
     }
 }

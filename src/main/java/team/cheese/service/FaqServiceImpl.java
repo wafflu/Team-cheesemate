@@ -17,33 +17,54 @@ public class FaqServiceImpl implements FaqService {
     // faq 전체 목록을 가져온다.
     @Override
     public List<FaqDto> getList() {
-        return faqDao.selectAllFaq();
+        try{
+            return faqDao.selectAllFaq();
+        } catch (Exception e) {
+            throw new RuntimeException("faq 목록 조회 에러", e);
+        }
     }
 
     // 카테고리별 faq 목록을 가져온다.
     @Override
-    public List<FaqDto> getMajorFaqs(long que_id) { // 변경된 부분
-        return faqDao.selectMajorFaq(que_id); // 변경된 부분
+    public List<FaqDto> getMajorFaqs(long que_id) {
+        try {
+            return faqDao.selectMajorFaq(que_id);
+        } catch (Exception e) {
+            throw new RuntimeException("faq 목록 조회 에러", e);
+        }
     }
 
     @Override
-    public List<FaqDto> getFaqsByCategoryId(long categoryId) { // 변경된 부분
-        if (categoryId == 6) {
-            return faqDao.selectAllFaq();
-        } else {
-            return faqDao.selectMajorFaq(categoryId); // 변경된 부분
+    public List<FaqDto> getFaqsByCategoryId(long categoryId) {
+        try {
+            if (categoryId == 6) {
+                return faqDao.selectAllFaq();
+            } else {
+                return faqDao.selectMajorFaq(categoryId);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("faq 카테고리 조회 에러", e);
         }
     }
 
     // 검색어가 제목과 내용에 포함된 faq 목록을 가져온다.
     @Override
     public List<FaqDto> searchFaqs(Map<String, Object> search) {
-        return faqDao.searchFaqs(search);
+        try{
+            return faqDao.searchFaqs(search);
+        } catch (Exception e) {
+            throw new RuntimeException("faq 검색어 조회 에러", e);
+        }
     }
+
 
     // faq 번호로 내용을 가져온다.
     @Override
-    public String selectContents(long no) { // 변경된 부분
-        return faqDao.selectContents(no); // 변경된 부분
+    public String selectContents(long no) {
+        try {
+            return faqDao.selectContents(no);
+        } catch (Exception e) {
+            throw new RuntimeException("faq 번호 조회 에러", e);
+        }
     }
 }

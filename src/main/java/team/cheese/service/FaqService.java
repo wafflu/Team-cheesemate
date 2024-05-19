@@ -7,13 +7,13 @@ import java.util.Map;
 
 public interface FaqService {
 
-    List<FaqDto> getList() throws Exception;
+    List<FaqDto> getList() ;
 
-    List<FaqDto> getMajorFaqs(long que_id) throws Exception; // 변경된 부분
+    List<FaqDto> getMajorFaqs(long que_id); // 변경된 부분
 
     List<FaqDto> getFaqsByCategoryId(long categoryId); // 변경된 부분
 
-    List<FaqDto> searchFaqs(Map<String, Object> search) throws Exception;
+    List<FaqDto> searchFaqs(Map<String, Object> search) ;
 
     String selectContents(long no);
 }
