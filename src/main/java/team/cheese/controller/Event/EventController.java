@@ -26,24 +26,14 @@ public class EventController {
         model.addAttribute("eventarr", arr);
         model.addAttribute("ph", ph);
         model.addAttribute("cd", nowcd);
-        return "event";
+        return "/event/event";
     }
+
     @GetMapping(value = "read")
     public String read(Long evt_no, Model model) {
         EventDto dto = service.getContent(evt_no);
         model.addAttribute("dto", dto);
-        model.addAttribute("readonly", "readonly");
-        return "write";
-    }
-    @GetMapping(value = "modify")
-    public String modify(Long evt_no, Model model) {
-        EventDto dto = service.getContent(evt_no);
-        model.addAttribute("dto", dto);
-        return "write";
-    }
-    @GetMapping(value = "write")
-    public String write() {
-        return "write";
+        return "/event/read";
     }
 
 //    @PostMapping(value = "write")

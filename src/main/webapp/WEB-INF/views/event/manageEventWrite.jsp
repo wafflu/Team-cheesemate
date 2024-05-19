@@ -104,9 +104,6 @@
             <input type="text" class="form-control" id="prize"
                    placeholder="경품(2자-10자)" name="prize" ${readonly} value=${dto.prize}>
         </div>
-        <h3>
-            ${dto.evt_no}
-        </h3>
         <c:choose>
             <c:when test="${requestScope['javax.servlet.forward.servlet_path']=='/Manage/read'}">
                 <button type="button" class="btn btn-default" onclick="location.href='modify?evt_no=${dto.evt_no}'">수정</button>

@@ -31,7 +31,7 @@ public class ManageController {
         model.addAttribute("eventarr", arr);
         model.addAttribute("ph", ph);
         model.addAttribute("cd", nowcd);
-        return "/event/event";
+        return "/event/manageEvent";
     }
     @GetMapping(value = "/read")
     public String read(Long evt_no, Model model) {

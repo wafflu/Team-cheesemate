@@ -31,9 +31,7 @@
     <!-- bean 객체 위에는 수동-->
     <interceptors>
         <interceptor>
-            <mapping path="/event/"/>
-            <mapping path="/event/read"/>
-            <mapping path="/event/write"/>
+            <mapping path="/Manage/*"/>
             <beans:bean id="qnanew" class="team.cheese.controller.interceptor.LoginCheckInterceptor" ></beans:bean>
         </interceptor>
     </interceptors>
