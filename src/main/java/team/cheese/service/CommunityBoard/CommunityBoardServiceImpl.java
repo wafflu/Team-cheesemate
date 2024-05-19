@@ -5,14 +5,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
+import team.cheese.domain.MyPage.ReviewCommentDTO;
 
 
 import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommunityBoardServiceImpl implements CommunityBoardService {
@@ -21,19 +25,54 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public List<CommunityBoardDto> readAll() throws Exception {
         Character fixedUrState = 'y';
-        try{
-            List<CommunityBoardDto> list = communityBoardDao.selectAll(fixedUrState);
-
-            if(list==null){
-                throw new Exception();
-            }
-        }catch (Exception e){
-            throw e;
+        List<CommunityBoardDto> list = communityBoardDao.selectAll(fixedUrState);
+        if(list==null){
+            throw new Exception("게시물 목록을 불러오는데 실패햇습니다");
         }
-        return communityBoardDao.selectAll(fixedUrState);
+
+        return list;
     }
+
+//    @Override
+//    public List<CommunityBoardDto> getPage(Integer page, Integer pageSize) throws Exception {
+//        Map map = new HashMap();
+//        map.put("offset",(page-1)*pageSize);
+//        map.put("pageSize",pageSize);
+//        List<CommunityBoardDto> list = communityBoardDao.selectPage(map);
+//        if(list==null)
+//            throw new Exception("목록 조회 중 오류가 발생했습니다");
+//        return list;
+//    }
+
+    public List<CommunityBoardDto> getPageByCategory(int page, int pageSize, String category) throws Exception {
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        params.put("offset", (page - 1) * pageSize);
+        params.put("pageSize", pageSize);
+
+        // 디버그 로그 추가
+        System.out.println("Page: " + page);
+        System.out.println("PageSize: " + pageSize);
+        System.out.println("offset: " + (page - 1) * pageSize);
+        System.out.println("Category: " + category);
+
+
+        List<CommunityBoardDto> list = communityBoardDao.selectPageByCategory(params);
+        if(list==null){
+            throw new Exception("게시글 목록 조회 중 오류 발생했습니다.");
+        }
+
+        return list;
+    }
+
+    public int getCountByCategory(String category) {
+        return communityBoardDao.selectCountByCategory(category);
+    }
+
 
 
 
@@ -41,13 +80,12 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public int write(CommunityBoardDto communityBoardDto) throws Exception {
-        if(communityBoardDto.getTitle()==null || communityBoardDto.getTitle().isEmpty()){
-            throw new IllegalArgumentException("제목입력하지않았습니다");
-        }
-        if(communityBoardDto.getContents() == null|| communityBoardDto.getContents().isEmpty()){
-            throw new IllegalArgumentException("내용을입력하지않았습니다");
-        }
-        return communityBoardDao.insert(communityBoardDto);
+       int insertPost = communityBoardDao.insert(communityBoardDto);
+       if(insertPost != 1){
+           throw new Exception("게시글 작성 중 오류가 발생했습니다");
+       }
+       return insertPost;
+
     }
 
 
@@ -63,37 +101,23 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 
     @Override
     public int modify(CommunityBoardDto communityBoardDto) throws Exception {
-        //1. 예외체크
-            //1.1 null일 경우
-            //1.2둘 중 하나가 null인 경우
-          if(communityBoardDto == null){
-            throw new IllegalArgumentException("null값 입력");
-          } else if (communityBoardDto.getTitle()==null || communityBoardDto.getContents()==null) {
-              throw new IllegalArgumentException("제목 또는 컨텐츠 널");
+          int modifyPost = communityBoardDao.update(communityBoardDto);
+          if(modifyPost != 1){
+              throw new Exception("수정 중 오류사항 발생");
           }
 
-        return communityBoardDao.update(communityBoardDto);
+        return modifyPost;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public CommunityBoardDto read(Integer no) throws Exception {
-        //1. 예외체크
-            //1.1  no가 null일경우
-            //1.2 제목,내용, 작성자, 일자 등이 null일 경우
-        //2. 제목,내용,작성자,일자 등을 시간안에 받아오지 못할 경우
-        if(no == null){
-            throw  new IllegalArgumentException("게시글 번호를 받아오지 못했다.");
-        }
-        CommunityBoardDto communityBoardDto = communityBoardDao.select(no);
-        if (communityBoardDto == null) {
-            throw new IllegalArgumentException(no + "에 해당하는 글이 존재하지 않습니다.");
-        }
-        if(communityBoardDto.getTitle()==null || communityBoardDto.getContents()==null){
-            throw new IllegalArgumentException("글의 제목이나 내용이 없습니다.");
-        }
+        CommunityBoardDto readCommunity = communityBoardDao.select(no);
         communityBoardDao.increaseViewCnt(no);
-        return communityBoardDto;
+        if(readCommunity==null){
+            throw new Exception("읽어오는 도중 예외가 발생했습니다");
+        }
+        return readCommunity;
     }
 
     @Override
@@ -113,7 +137,7 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         //현재 상태를 읽어온다.
         CommunityBoardDto existingDto = communityBoardDao.select(communityBoardDto.getno());
         if(existingDto == null) {
-           throw new Exception();
+           throw new Exception("존재하지않는 게시글");
 
         }
         //반대 상태로 바꾼다.
@@ -125,32 +149,17 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         int updateResult = communityBoardDao.userChangeState(existingDto);
 
         if(updateResult != 1) {
-            throw new Exception();
+            throw new Exception("삭제 실패");
         }
         return updateResult;
     }
 
-    @Override
-    public String saveFile(MultipartFile file) throws Exception {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss-");
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String baseFileName = file.getOriginalFilename();
-        String timestampPart = sdf.format(timestamp);
-        String fileName = timestampPart + baseFileName;
-        File saveFile = new File( "/Users/gominjeong/Desktop/cheese/TeamProject/src/main/webapp/resources/img"+ "/" +fileName);
-        try{
-            file.transferTo(saveFile);
-        }catch (Exception e){
-            throw new RuntimeException("File saving failed", e);
-        }
-        return fileName;
-    }
-
+    //편집(수정/삭제)
     @Override
     public CommunityBoardDto findCommunityBoardById(Integer no) throws Exception {
         CommunityBoardDto entity = communityBoardDao.select(no);
         if (entity == null) {
-            throw new Exception();
+            throw new Exception("존재하지 않는 게시글");
         }
         return entity;
     }

@@ -2,19 +2,20 @@ package team.cheese.controller.CommunityBoard;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.Comment.CommentDto;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.entity.PageHandler;
 import team.cheese.service.Comment.CommentService;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
@@ -44,16 +45,17 @@ public  class CommunityBoardController {
     //community메인페이지
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String communityBoardHome(Model m) throws Exception {
-        try {
-            List<CommunityBoardDto> list = communityBoardService.readAll();
-            m.addAttribute("list", list);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "/ErrorPage";
-        }
+
+        List<CommunityBoardDto> list = communityBoardService.readAll();
+        m.addAttribute("list", list);
+
         return "/CommunityHome";
 
     }
+
+
+
+
 
     //community세부 리스트 페이지
     @RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -64,14 +66,34 @@ public  class CommunityBoardController {
         return "/CommunityList";
     }
 
-    //community세부 리스트 페이지ajax
-    @RequestMapping(value = "/story", method = RequestMethod.GET)
+//    community세부 리스트 페이지ajax
+    @RequestMapping(value = "/home/story", method = RequestMethod.GET)
     @ResponseBody
     public List test(Character ur_state) throws Exception {
         List<CommunityBoardDto> list = communityBoardService.readAll();
 
         return list;
     }
+
+
+    @GetMapping("/story")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getBoards(@RequestParam(defaultValue = "1") int page,
+                                                         @RequestParam(defaultValue = "5") int pageSize,
+                                                         @RequestParam(defaultValue = "commu_A") String category) throws Exception {
+        List<CommunityBoardDto> list = communityBoardService.getPageByCategory(page, pageSize, category);
+        int totalCount = communityBoardService.getCountByCategory(category);
+        PageHandler ph = new PageHandler(totalCount, page, pageSize);
+        System.out.println("Page: " + page + ", PageSize: " + pageSize + ", Category: " + category);
+        System.out.println(ph);
+        System.out.println(list);
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", list);
+        response.put("ph", ph);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 
     //글쓰기 페이지로 이동
     @RequestMapping(value = "/write", method = RequestMethod.GET)

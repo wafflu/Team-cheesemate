@@ -10,25 +10,150 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf3a9cb8-6169-4b19-8c0e-325469b027b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c/storage_v2/_src_/schema/TeamProject.3FWb9Q.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c/storage_v2/_src_/schema/TeamProject.3FWb9Q.zip" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c/storage_v2/_src_/schema/TeamProject.3FWb9Q.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c/storage_v2/_src_/schema/TeamProject.3FWb9Q.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/CommunityBoard/CommunityBoardDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/CommunityBoard/CommunityBoardDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/CommunityBoard/CommunityBoardDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/CommunityBoard/CommunityBoardDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/CommunityBoardMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/CommunityBoardMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DBConnectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/domain/DBConnectionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityBoardDaoImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityBoardDaoImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/chat/CustomWebSocketHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/chat/WebSocketConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/ChatController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/CommunityBoard/CommunityBoardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/HomeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/MyPageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/ReviewCommentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/UserInfoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/ResisterController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/img/ImgController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/interceptor/LoginCheckInterceptor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/MainController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/SaleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AddrCdDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AddrCdDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdminDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdminImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdministrativeDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdministrativeDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/BidingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/ChatDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Comment/CommentDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Comment/CommentDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Commu/CommuDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Commu/CommuDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityBoard/CommunityBoardDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityBoard/CommunityBoardDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityHeart/CommunityHeartDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityHeart/CommunityHeartDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/DeleteDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/HoistingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/ImgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/ImgDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/ReviewCommentDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/ReviewCommentDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/UserInfoDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/UserInfoDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleCategoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleCategoryDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleHistoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleImgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleTagDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleTagDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/TagDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/TagDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/TestSession.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/UserDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/AddrCdDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/AdminDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/AdministrativeDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/BidingDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatMessageDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatRoomDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/Comment/CommentDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/Commu/CommuDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityBoard/CommunityBoardDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityHeart/CommunityHeartDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/HoistingDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ImgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/ReviewCommentDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/SearchCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/UserInfoDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/PageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleCategoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleHistoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleImgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleTagDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/TagDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/UserDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/entity/ImgFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/entity/PageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/exception/DataExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/exception/DataFailException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/exception/ImgExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/exception/ImgNullException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/AddrCdService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/AdminService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/ChatService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/Comment/CommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/Comment/CommentServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityBoard/CommunityBoardService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityHeart/CommunityHeartService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityHeart/CommunityHeartServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/ImgService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/ReviewCommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/ReviewCommentServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/UserInfoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/UserInfoServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/sale/SaleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AddrCdDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AdminDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AdministrativeDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommentDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommuDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommunityBoardDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommunityHeartDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/MyPage/ReviewCommentDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/MyPage/UserInfoDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleCategoryDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleTagDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/TagDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/UserDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/domain/DBConnectionTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/domain/Testdb.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/AddrCdServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/AdminServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/CommentServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/CommunityBoardServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/CommunityHeartServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/MyPage/ReviewCommentServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/MyPage/UserInfoServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/SaleServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/UserServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/sale/SaleServiceTest.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,9 +166,9 @@
         <option value="JUnit3 Test Class" />
         <option value="JUnit4 Test Class" />
         <option value="Interface" />
-        <option value="Jsp File" />
         <option value="CSS File" />
         <option value="Class" />
+        <option value="Jsp File" />
       </list>
     </option>
   </component>
@@ -92,8 +217,11 @@
     &quot;JUnit.CommunityBoardDaoImplTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityBoardDaoImplTest.increaseViewCnt.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityBoardDaoImplTest.insert.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.pageNation.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityBoardDaoImplTest.select.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityBoardDaoImplTest.selectAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.testSelectCountByCategory.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.testSelectPageByCategory.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityBoardDaoImplTest.totalLkeCount.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityBoardDaoImplTest.update.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityBoardDaoImplTest.userChangeState.executor&quot;: &quot;Run&quot;,
@@ -127,6 +255,7 @@
     &quot;JUnit.CommunityHeartServiceImplTest.doLike2.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityHeartServiceImplTest.doLike3.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.CommunityHeartServiceImplTest.findByUserId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBConnectionTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PostDaoImplTest.countAll.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PostDaoImplTest.delete.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PostDaoImplTest.deleteAll.executor&quot;: &quot;Run&quot;,
@@ -145,6 +274,7 @@
     &quot;JUnit.PostServiceImplTest.remove.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PostServiceImplTest.selectAll.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.PostServiceImplTest.write.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.Testdb.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.commuDaoTest.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.commuDaoTest.testCount.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.commuDaoTest.testDelete.executor&quot;: &quot;Run&quot;,
@@ -164,6 +294,7 @@
     &quot;database.data.extractors.current.export.id&quot;: &quot;SQL Inserts&quot;,
     &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;/Users/gominjeong/Desktop/cheese/TeamProject/src/test/java/team/cheese/domain&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/gominjeong/Desktop/cheese/TeamProject&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -182,7 +313,13 @@
     ]
   }
 }</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
       <recent name="junit.framework.TestCase" />
@@ -207,71 +344,7 @@
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.86">
-    <configuration name="CommentDaoImplTest.findMaxNoByPostNo" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="sp_legacy" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="team.cheese.dao.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="team.cheese.dao" />
-      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommentDaoImplTest" />
-      <option name="METHOD_NAME" value="findMaxNoByPostNo" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommentServiceImplTest.read" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="sp_legacy" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="team.cheese.service.CommunityBoard.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="team.cheese.service.CommunityBoard" />
-      <option name="MAIN_CLASS_NAME" value="team.cheese.service.CommunityBoard.CommentServiceImplTest" />
-      <option name="METHOD_NAME" value="read" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommentServiceImplTest.readAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="sp_legacy" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="team.cheese.service.CommunityBoard.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="team.cheese.service.CommunityBoard" />
-      <option name="MAIN_CLASS_NAME" value="team.cheese.service.CommunityBoard.CommentServiceImplTest" />
-      <option name="METHOD_NAME" value="readAll" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommentServiceImplTest.userStateChange" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="sp_legacy" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="team.cheese.service.CommunityBoard.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="team.cheese.service.CommunityBoard" />
-      <option name="MAIN_CLASS_NAME" value="team.cheese.service.CommunityBoard.CommentServiceImplTest" />
-      <option name="METHOD_NAME" value="userStateChange" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="CommunityBoardDaoImplTest.deleteAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CommunityBoardDaoImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sp_legacy" />
       <extension name="coverage">
         <pattern>
@@ -281,8 +354,70 @@
       </extension>
       <option name="PACKAGE_NAME" value="team.cheese.dao" />
       <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
-      <option name="METHOD_NAME" value="deleteAll" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommunityBoardDaoImplTest.pageNation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.dao" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
+      <option name="METHOD_NAME" value="pageNation" />
       <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommunityBoardDaoImplTest.testSelectCountByCategory" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.dao" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
+      <option name="METHOD_NAME" value="testSelectCountByCategory" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommunityBoardDaoImplTest.testSelectPageByCategory" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.dao" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
+      <option name="METHOD_NAME" value="testSelectPageByCategory" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Testdb" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.domain" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.domain.Testdb" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -297,7 +432,7 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="55c52f52-e99e-49b5-9632-c1a84c400268" />
+        <option name="BASE_DIRECTORY_NAME" value="9ee814a6-b510-4ea0-b218-1fa16406c4ae" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -305,7 +440,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="49419" />
+        <option name="DEBUG_PORT" value="59848" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -375,20 +510,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.CommunityBoardDaoImplTest.deleteAll" />
-      <item itemvalue="JUnit.CommentDaoImplTest.findMaxNoByPostNo" />
-      <item itemvalue="JUnit.CommentServiceImplTest.read" />
-      <item itemvalue="JUnit.CommentServiceImplTest.readAll" />
-      <item itemvalue="JUnit.CommentServiceImplTest.userStateChange" />
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest" />
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest.pageNation" />
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectCountByCategory" />
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectPageByCategory" />
+      <item itemvalue="JUnit.Testdb" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.86" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.CommunityBoardDaoImplTest.deleteAll" />
-        <item itemvalue="JUnit.CommentDaoImplTest.findMaxNoByPostNo" />
-        <item itemvalue="JUnit.CommentServiceImplTest.userStateChange" />
-        <item itemvalue="JUnit.CommentServiceImplTest.readAll" />
-        <item itemvalue="JUnit.CommentServiceImplTest.read" />
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest.pageNation" />
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest" />
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectCountByCategory" />
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectPageByCategory" />
+        <item itemvalue="JUnit.Testdb" />
       </list>
     </recent_temporary>
   </component>
@@ -511,6 +646,14 @@
       <workItem from="1715992978727" duration="10596000" />
       <workItem from="1716003983769" duration="49000" />
       <workItem from="1716004079709" duration="38000" />
+      <workItem from="1716004167934" duration="2585000" />
+      <workItem from="1716006766737" duration="1167000" />
+      <workItem from="1716008143200" duration="7927000" />
+      <workItem from="1716020158622" duration="3112000" />
+      <workItem from="1716077686182" duration="13399000" />
+      <workItem from="1716092288156" duration="77000" />
+      <workItem from="1716092829193" duration="1147000" />
+      <workItem from="1716103610795" duration="3191000" />
     </task>
     <servers />
   </component>
@@ -550,18 +693,9 @@
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityBoardDaoImplTest.java</url>
-          <line>190</line>
-          <properties class="team.cheese.dao.CommunityBoardDaoImplTest" method="deleteAll">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/test/java/team/cheese/service/CommunityBoardServiceImplTest.java</url>
           <line>139</line>
-          <properties class="team.cheese.service.CommunityBoardServiceImplTest" method="read">
+          <properties class="team.cheese.service.CommunityBoardServiceImplTest">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
@@ -624,23 +758,18 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityBoardDaoImplTest.java</url>
-          <line>24</line>
+          <line>25</line>
           <option name="timeStamp" value="12" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityBoardDaoImplTest.java</url>
-          <line>281</line>
+          <line>282</line>
           <option name="timeStamp" value="13" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityBoardDaoImplTest.java</url>
-          <line>96</line>
+          <line>97</line>
           <option name="timeStamp" value="25" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.java</url>
-          <line>136</line>
-          <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityHeartDaoImplTest.java</url>
@@ -659,7 +788,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/team/cheese/dao/CommunityBoardDaoImplTest.java</url>
-          <line>175</line>
+          <line>176</line>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
