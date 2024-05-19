@@ -27,8 +27,7 @@
         <typeAlias alias="CommunityBoardDto" type="team.cheese.domain.CommunityBoard.CommunityBoardDto"/>
         <typeAlias alias="CommunityHeartDto" type="team.cheese.domain.CommunityHeart.CommunityHeartDto"/>
         <typeAlias alias="CommentDto" type="team.cheese.domain.Comment.CommentDto"/>
-		<typeAlias alias="ChatMessageDto" type="team.cheese.domain.ChatMessageDto"/>
-		<typeAlias alias="ChatRoomDto" type="team.cheese.domain.ChatRoomDto"/>
+        <typeAlias alias="EventDto" type="team.cheese.domain.EventDto"/>
 		<typeAlias alias="QnaCategoryDto" type="team.cheese.domain.QnaCategoryDto"/>
 		<typeAlias alias="FaqDto" type="team.cheese.domain.FaqDto"/>
 		<typeAlias alias="QnaDto" type="team.cheese.domain.QnaDto"/>

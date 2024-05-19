@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import team.cheese.domain.ImgDto;
 import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.service.MyPage.UserInfoService;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @RestController
 public class UserInfoController {
@@ -59,5 +62,22 @@ public class UserInfoController {
 //
 //        return new ResponseEntity<>("Hate MOD_OK", HttpStatus.OK);
 //    }
+
+
+    //프로필 이미지 저장
+    @RequestMapping(value = "/saveporfile", produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public ResponseEntity<String> saveporfile(@RequestBody ArrayList<ImgDto> imgList, HttpSession session) throws Exception {
+        String ur_id = (String) session.getAttribute("userId");
+        ImgDto profile = imgList.get(0);
+
+        if(profile == null){
+            return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        String imgname = profile.getO_name()+profile.getE_name();
+
+        return userInfoService.profileimgchange(imgname, ur_id);
+    }
     
 }

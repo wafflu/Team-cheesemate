@@ -1,5 +1,6 @@
 package team.cheese.controller.CommunityBoard;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.cheese.domain.Comment.CommentDto;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.domain.CommunityHeart.CommunityHeartDto;
+import team.cheese.domain.ImgDto;
+import team.cheese.entity.ImgFactory;
 import team.cheese.service.Comment.CommentService;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
+import team.cheese.service.ImgService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -38,6 +42,9 @@ public  class CommunityBoardController {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    ImgService imgService;
 
 
 
@@ -89,9 +96,7 @@ public  class CommunityBoardController {
                         HttpServletRequest request) throws Exception {
 
         HttpSession session = request.getSession();
-        String postOwnerUser = (String) session.getAttribute("ur_id");
-
-
+        String postOwnerUser = (String) session.getAttribute("userId");
 
 
         // ObjectMapper : JSON 형태를 JAVA 객체로 변환
@@ -99,18 +104,40 @@ public  class CommunityBoardController {
         ObjectMapper objectMapper = new ObjectMapper();
         CommunityBoardDto communityBoardDto = objectMapper.convertValue(map.get("communityBoardDto"), CommunityBoardDto.class);
 
+        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("imgList"), new TypeReference<ArrayList<ImgDto>>() {});
+
+        if(imgList.size() != 0){
+            //이미지영역
+            ImgFactory ifc = new ImgFactory();
+            //이미지 유효성검사 하는곳
+            imgList = ifc.checkimgfile(map);
+        }
+
         //유효성 검사를 위한임의의값
         communityBoardDto.setur_id(postOwnerUser);
         communityBoardDto.setNick("skyLee");
         communityBoardDto.setaddr_cd("11010720");
         communityBoardDto.setaddr_no(2);
         communityBoardDto.setaddr_name("서울특별시 종로구 사직동");
+        //필수
+        communityBoardDto.setfirst_id(postOwnerUser);
+        communityBoardDto.setlast_id(postOwnerUser);
 
-        System.out.println(communityBoardDto);
      //    유효성 검사 수행
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<CommunityBoardDto>> violations = validator.validate(communityBoardDto);
+
+        for (ConstraintViolation<CommunityBoardDto> violation : violations) {
+            String propertyPath = violation.getPropertyPath().toString();
+            String message = violation.getMessage();
+            Object invalidValue = violation.getInvalidValue();
+            CommunityBoardDto rootBean = violation.getRootBean();
+
+            System.out.println("Field: " + propertyPath + " - Error: " + message);
+            System.out.println("Invalid Value: " + invalidValue);
+            System.out.println("Root Bean: " + rootBean);
+        }
 
 //         유효성 검사 결과 확인
         if (!violations.isEmpty()) {
@@ -118,11 +145,13 @@ public  class CommunityBoardController {
         }
 
         try {
-            communityBoardService.write(communityBoardDto);
+            Map mapDto = new HashMap();
+            mapDto.put("communityBoardDto", communityBoardDto);
+            mapDto.put("imgList", imgList);
+            communityBoardService.write(mapDto);
             return new ResponseEntity<>("/community/list",HttpStatus.OK);
 
         } catch (Exception e) {
-
             return new ResponseEntity<>("필수값을 입력해주세요",HttpStatus.BAD_REQUEST);
         }
     }
@@ -137,7 +166,8 @@ public  class CommunityBoardController {
             //이미지 지움
 //            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
 //            m.addAttribute("imagePath", imagePath);
-
+            List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
+            m.addAttribute("imglist", imglist);
 
             //하트수
             String totalLikeCount = communityHeartService.countLike(no);
@@ -159,9 +189,6 @@ public  class CommunityBoardController {
     }
 
 
-
-
-
     //세션값 필요
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
@@ -173,17 +200,43 @@ public  class CommunityBoardController {
         ObjectMapper objectMapper = new ObjectMapper();
         CommunityBoardDto communityBoardDto = objectMapper.convertValue(map.get("communityBoardDto"), CommunityBoardDto.class);
 
+        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("imgList"), new TypeReference<ArrayList<ImgDto>>() {});
+
+        if(imgList.size() != 0){
+            //이미지영역
+            ImgFactory ifc = new ImgFactory();
+            //이미지 유효성검사 하는곳
+            imgList = ifc.checkimgfile(map);
+            if (imgList == null) {
+                return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
         //    유효성 검사 수행
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<CommunityBoardDto>> violations = validator.validate(communityBoardDto);
 
+        for (ConstraintViolation<CommunityBoardDto> violation : violations) {
+            String propertyPath = violation.getPropertyPath().toString();
+            String message = violation.getMessage();
+            Object invalidValue = violation.getInvalidValue();
+            CommunityBoardDto rootBean = violation.getRootBean();
+
+            System.out.println("Field: " + propertyPath + " - Error: " + message);
+            System.out.println("Invalid Value: " + invalidValue);
+            System.out.println("Root Bean: " + rootBean);
+        }
+
          // 유효성 검사 결과 확인
         if (!violations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
         try{
-            communityBoardService.modify(communityBoardDto);
+            Map mapDto = new HashMap();
+            mapDto.put("communityBoardDto", communityBoardDto);
+            mapDto.put("imgList", imgList);
+            communityBoardService.modify(mapDto);
             return new ResponseEntity<>("/community/list",HttpStatus.OK);
 
         }catch (Exception e) {
@@ -216,19 +269,14 @@ public  class CommunityBoardController {
         }
     }
 
-//    private String loadImagePath(String imgPath) {
-//        if (imgPath == null || imgPath.isEmpty()) {
-//            return "";
-//        }
-//        return imgPath;
-//    }
-
-
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
     public String Edit(Integer no, Model m, HttpServletRequest request) throws Exception {
-        System.out.println(no);
         CommunityBoardDto communityBoardDto = communityBoardService.findCommunityBoardById(no);
         m.addAttribute("communityBoardDto", communityBoardDto);
+
+        List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
+        m.addAttribute("imglist", imglist);
+
         return "CommunityWriteBoard";
     }
 

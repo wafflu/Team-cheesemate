@@ -10,6 +10,11 @@
 </head>
 <body>
 <div>
+    <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'w'}">
+            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+        </c:if>
+    </c:forEach>
     <form id="form" action="" method="post">
         <p>sale : ${Sale.no}</p>
         <p>행정동 코드 : ${Sale.addr_cd}</p>

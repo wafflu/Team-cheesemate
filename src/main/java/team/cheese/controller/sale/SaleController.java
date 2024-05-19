@@ -1,5 +1,6 @@
 package team.cheese.controller.sale;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.*;
 import team.cheese.dao.*;
+import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
+import team.cheese.service.ImgService;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +42,9 @@ public class SaleController {
 
     @Autowired
     TestSession testSession;
+
+    @Autowired
+    ImgService imgService;
 
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
@@ -71,9 +77,11 @@ public class SaleController {
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
+        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto); // model로 값 전달
         model.addAttribute("tagList", tagDto); // model로 값 전달
+        model.addAttribute("imglist", imglist); // model로 값 전달
 
         return "/login/saleBoard";
     }
@@ -111,9 +119,11 @@ public class SaleController {
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         String tagContents = (String) map.get("tagContents");
         System.out.println("modify 판매글 번호 : " + saleDto.getNo());
+        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto);
         model.addAttribute("Tag", tagContents);
+        model.addAttribute("imglist", imglist); // model로 값 전달
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
 
         return "/login/saleWrite";
@@ -143,6 +153,13 @@ public class SaleController {
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
 
+        //이미지영역
+        ImgFactory ifc = new ImgFactory();
+        //이미지 유효성검사 하는곳
+        ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
+        if(imgList == null){
+            return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         saleDto.setAddrSeller(seller_id, seller_nick);
         System.out.println("값 들어왔는지 확인 : " + saleDto);
@@ -164,6 +181,7 @@ public class SaleController {
         Map mapDto = new HashMap();
         mapDto.put("saleDto", saleDto);
         mapDto.put("tagList", tagList);
+        mapDto.put("imgList", imgList);
 
         // Service를 통해 글 등록 처리
         Long sal_no = saleService.write(mapDto);
@@ -190,6 +208,13 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
     ObjectMapper objectMapper = new ObjectMapper();
     SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
 
+    //이미지영역
+    ImgFactory ifc = new ImgFactory();
+    //이미지 유효성검사 하는곳
+    ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
+    if(imgList == null){
+        return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     saleDto.setAddrSeller(seller_id, seller_nick);
     System.out.println("값 들어왔는지 확인 : " + saleDto);
@@ -211,6 +236,7 @@ public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map
     Map mapDto = new HashMap();
     mapDto.put("saleDto", saleDto);
     mapDto.put("tagList", tagList);
+    mapDto.put("imgList", imgList);
 
     // Service를 통해 글 등록 처리
     Long sal_no = saleService.update(mapDto);

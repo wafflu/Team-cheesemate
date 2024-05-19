@@ -37,6 +37,8 @@ public class ImgDaoTest {
     String folderPath = ifc.getFolderPath()+ifc.getDatePath();
     String datePath = ifc.getDatePath();
 
+    String userid = "1";
+
     //    @Test
     public void delete(){
         if(imgDao.count("sale") != 0){
@@ -79,7 +81,7 @@ public class ImgDaoTest {
                 map.put("group_no", gno);
                 if(scheck){
                     //이미지 제작
-                    ImgDto simg = ifc.makeImg(file, "s", gno, 292,292);
+                    ImgDto simg = ifc.makeImg(file, "s", gno, 292,292, userid);
                     //이미지 디비 등록
                     assertTrue(imgDao.insert(simg) == 1);
                     map.put("img_no", simg.getNo());
@@ -88,7 +90,7 @@ public class ImgDaoTest {
                     list.add(simg);
                     scheck = false;
                 }
-                ImgDto rimg = ifc.makeImg(file, "r", gno, 78,78);
+                ImgDto rimg = ifc.makeImg(file, "r", gno, 78,78, userid);
                 //이미지 디비 등록
                 assertTrue(imgDao.insert(rimg) == 1);
                 map.put("img_no", rimg.getNo());
@@ -96,7 +98,7 @@ public class ImgDaoTest {
                 assertTrue(imgDao.insert(map) == 1);
                 list.add(rimg);
 
-                ImgDto wimg = ifc.makeImg(file, "w", gno, 856,856);
+                ImgDto wimg = ifc.makeImg(file, "w", gno, 856,856, userid);
                 //이미지 디비 등록
                 assertTrue(imgDao.insert(wimg) == 1);
                 map.put("img_no", wimg.getNo());
@@ -125,27 +127,30 @@ public class ImgDaoTest {
             map.put("group_no", gno);
             if(scheck){
                 //이미지 제작
-                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292, userid);
                 //이미지 디비 등록
                 assertTrue(imgDao.insert(simg) == 1);
                 map.put("img_no", simg.getNo());
+                map.put("userid", userid);
                 //이미지 그룹 디비 등록
                 assertTrue(imgDao.insert(map) == 1);
                 list.add(simg);
                 scheck = false;
             }
-            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(rimg) == 1);
             map.put("img_no", rimg.getNo());
+            map.put("userid", userid);
             //이미지 그룹 디비 등록
             assertTrue(imgDao.insert(map) == 1);
             list.add(rimg);
 
-            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(wimg) == 1);
             map.put("img_no", wimg.getNo());
+            map.put("userid", userid);
             //이미지 그룹 디비 등록
             assertTrue(imgDao.insert(map) == 1);
             list.add(wimg);
@@ -170,7 +175,7 @@ public class ImgDaoTest {
             map.put("group_no", gno);
             if(scheck){
                 //이미지 제작
-                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292, userid);
                 //이미지 디비 등록
                 assertTrue(imgDao.insert(simg) == 1);
                 map.put("img_no", simg.getNo());
@@ -179,7 +184,7 @@ public class ImgDaoTest {
                 list.add(simg);
                 scheck = false;
             }
-            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(rimg) == 1);
             map.put("img_no", rimg.getNo());
@@ -187,7 +192,7 @@ public class ImgDaoTest {
             assertTrue(imgDao.insert(map) == 1);
             list.add(rimg);
 
-            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(wimg) == 1);
             map.put("img_no", wimg.getNo());
@@ -215,7 +220,7 @@ public class ImgDaoTest {
             map.put("group_no", gno);
             if(scheck){
                 //이미지 제작
-                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292, userid);
                 //이미지 디비 등록
                 assertTrue(imgDao.insert(simg) == 1);
                 map.put("img_no", simg.getNo());
@@ -224,7 +229,7 @@ public class ImgDaoTest {
                 list.add(simg);
                 scheck = false;
             }
-            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(rimg) == 1);
             map.put("img_no", rimg.getNo());
@@ -232,7 +237,7 @@ public class ImgDaoTest {
             assertTrue(imgDao.insert(map) == 1);
             list.add(rimg);
 
-            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(wimg) == 1);
             map.put("img_no", wimg.getNo());
@@ -270,7 +275,7 @@ public class ImgDaoTest {
             map.put("group_no", gno);
             if(scheck){
                 //이미지 제작
-                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292, userid);
                 //이미지 디비 등록
                 assertTrue(imgDao.insert(simg) == 1);
                 map.put("img_no", simg.getNo());
@@ -279,7 +284,7 @@ public class ImgDaoTest {
                 list.add(simg);
                 scheck = false;
             }
-            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(rimg) == 1);
             map.put("img_no", rimg.getNo());
@@ -287,7 +292,7 @@ public class ImgDaoTest {
             assertTrue(imgDao.insert(map) == 1);
             list.add(rimg);
 
-            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(wimg) == 1);
             map.put("img_no", wimg.getNo());
@@ -326,7 +331,7 @@ public class ImgDaoTest {
             map.put("group_no", gno);
             if(scheck){
                 //이미지 제작
-                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292);
+                ImgDto simg = ifc.setImginfo(file, file.getName(), "s", 292, 292, userid);
                 //이미지 디비 등록
                 assertTrue(imgDao.insert(simg) == 1);
                 map.put("img_no", simg.getNo());
@@ -336,7 +341,7 @@ public class ImgDaoTest {
                 list.add(simg);
                 scheck = false;
             }
-            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78);
+            ImgDto rimg = ifc.setImginfo(file, file.getName(), "r", 78,78, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(rimg) == 1);
             map.put("img_no", rimg.getNo());
@@ -344,7 +349,7 @@ public class ImgDaoTest {
             assertTrue(imgDao.insert(map) == 1);
             list.add(rimg);
 
-            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856);
+            ImgDto wimg = ifc.setImginfo(file, file.getName(), "w", 856,856, userid);
             //이미지 디비 등록
             assertTrue(imgDao.insert(wimg) == 1);
             map.put("img_no", wimg.getNo());
@@ -378,10 +383,7 @@ public class ImgDaoTest {
     //선택한 게시물에 대한 이미지 불러오기
 
     public void select_saleimg(int gno){
-        HashMap map = new HashMap();
-        map.put("tb_name", "sale");
-        map.put("no", gno);
-        List<ImgDto> list = imgDao.select_img(1);
+        List<ImgDto> list = imgDao.select_img(gno);
 
         assertTrue(list != null);
 

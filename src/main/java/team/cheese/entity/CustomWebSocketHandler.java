@@ -1,4 +1,4 @@
-package team.cheese.chat;
+package team.cheese.entity;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
