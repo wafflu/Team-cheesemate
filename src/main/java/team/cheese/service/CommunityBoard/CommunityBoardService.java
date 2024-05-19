@@ -4,18 +4,19 @@ import org.springframework.web.multipart.MultipartFile;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CommunityBoardService {
     List<CommunityBoardDto> readAll() throws Exception;
 
 
-    public int write(CommunityBoardDto communityBoardDto) throws Exception;
+    public int write(Map map) throws Exception;
 
     public int remove(Integer no) throws Exception;
 
     public int removeAll() throws Exception;
 
-    public int modify(CommunityBoardDto communityBoardDto) throws Exception;
+    public int modify(Map map) throws Exception;
 
     public CommunityBoardDto read(Integer no) throws Exception;
 

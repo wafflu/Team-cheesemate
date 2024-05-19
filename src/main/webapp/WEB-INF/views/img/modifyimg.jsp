@@ -57,7 +57,6 @@
               "e_name" : "${img.e_name}"
             }
     )
-  <%--imginfo.push("${img}");--%>
   </c:if>
   </c:forEach>
 

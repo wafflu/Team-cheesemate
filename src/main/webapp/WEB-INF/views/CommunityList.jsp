@@ -59,6 +59,9 @@
             s+="<tr>"
             s+="<td>" + result[i].no+ "</td>"
             s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/community/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
+              if(result[i].img_full_rt != 0){
+                  s+="<td>" +  "<img src='/img/display?fileName=" + result[i].img_full_rt + "'/></td>"
+              }
             s+="<td>" + result[i].nick+ "</td>"
             s+="<td>" + result[i].view_cnt+ "</td>"
             s+="<td>" + result[i].addr_name+ "</td>"

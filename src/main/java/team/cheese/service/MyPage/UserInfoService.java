@@ -1,5 +1,6 @@
 package team.cheese.service.MyPage;
 
+import org.springframework.http.ResponseEntity;
 import team.cheese.domain.MyPage.UserInfoDTO;
 
 public interface UserInfoService {
@@ -25,4 +26,6 @@ public interface UserInfoService {
     void reportView(String ur_id) throws Exception;
 
     Double starRating(String ur_id) throws Exception;
+
+    ResponseEntity<String> profileimgchange (String imgname, String userid) throws Exception;
 }

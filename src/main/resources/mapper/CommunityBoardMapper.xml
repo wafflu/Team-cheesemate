@@ -10,8 +10,8 @@
     </select>
 
     <insert id="insert_community_board" parameterType="CommunityBoardDto" useGeneratedKeys="true" keyProperty="no">
-        insert into community_board(ur_id,addr_cd,addr_no,commu_cd,commu_name, addr_name,title,contents, nick, img_full_rt, group_no)
-        values (#{ur_id},#{addr_cd},#{addr_no},#{commu_cd},#{commu_name},#{addr_name},#{title},#{contents},#{nick},#{img_full_rt},#{group_no})
+        insert into community_board(ur_id,addr_cd,addr_no,commu_cd,commu_name, addr_name,title,contents, nick, img_full_rt, group_no, first_id, last_id)
+        values (#{ur_id},#{addr_cd},#{addr_no},#{commu_cd},#{commu_name},#{addr_name},#{title},#{contents},#{nick},#{img_full_rt},#{group_no},#{first_id},#{last_id})
     </insert>
 
 
@@ -27,7 +27,8 @@
 
 
     <update id = "update" parameterType="CommunityBoardDto">
-        update community_board set title = #{title} , contents = #{contents},m_date = #{m_date}
+        update community_board
+        set title = #{title} , contents = #{contents}, m_date = #{m_date}, group_no=#{group_no}, img_full_rt=#{img_full_rt}
         where no = #{no}
     </update>
 
