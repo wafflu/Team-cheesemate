@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import team.cheese.domain.EventDto;
-import team.cheese.domain.EventPageHanddler;
-import team.cheese.domain.SearchDto;
-import team.cheese.service.EventService;
+
+import team.cheese.domain.event.EventDto;
+import team.cheese.entity.PageHandler;
+import team.cheese.service.event.EventService;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping(value = "/event")
@@ -22,8 +21,8 @@ public class EventController {
     public String event(String cd,Integer page, Model model) {
         String nowcd = cd==null?"P":cd;
         int nowpage = page==null?1:page;
-        EventPageHanddler ph = new EventPageHanddler(service.count(nowcd),nowpage);
-        ArrayList<EventDto> arr = service.getPageList(ph.getStartBno(), nowcd, ph.getMAXCONTENT());
+        PageHandler ph = new PageHandler(service.count(nowcd),nowpage);
+        ArrayList<EventDto> arr = service.getPageList(ph.getOffset(), nowcd, ph.getPageSize());
         model.addAttribute("eventarr", arr);
         model.addAttribute("ph", ph);
         model.addAttribute("cd", nowcd);
@@ -47,38 +46,12 @@ public class EventController {
         return "write";
     }
 
-    @PostMapping(value = "write")
-    public String write(EventDto dto) {
-        System.out.println(dto);
-        service.eventRegister(dto);
-        return "redirect:/event";
-    }
-    @PostMapping(value = "modify")
-    public String modify(Long evt_no,EventDto dto) throws Exception {
-        dto.setEvt_no(evt_no);
-        int result=service.updateContent(dto);
-        if(result==1) {
-            throw new Exception("업데이트 실패");
-        }
-        else{
-            return "redirect:/read?evt_no="+dto.getEvt_no();
-        }
-    }
-    @GetMapping(value = "remove")
-    public String remove(Long evt_no) {
-        EventDto dto=service.getContent(evt_no);
-        dto.setActive_s_cd("C");
-        service.changeState(dto);
-        return "redirect:/event";
-    }
-    @PostMapping(value = "search")
-    @ResponseBody
-    public List<EventDto> SearchAjax(@RequestBody SearchDto dto) {
-        System.out.println("Welcom Ajax");
-        System.out.println(dto);
-        int nowpage = 1;
-        EventPageHanddler ph = new EventPageHanddler(service.searchCount(dto.getCd(),dto.getContents()),nowpage);
-        List<EventDto> arr=service.getSearchList(dto.getCd(), dto.getContents(), ph.getStartBno());
-        return arr;
-    }
+//    @PostMapping(value = "write")
+//    public String write(EventDto dto) {
+//        System.out.println(dto);
+//        service.eventRegister(dto);
+//        return "redirect:/event";
+//    }
+
+
 }
