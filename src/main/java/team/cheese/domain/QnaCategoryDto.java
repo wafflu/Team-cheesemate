@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class QnaCategoryDto {
-    private Integer que_cd;
+    private long que_cd; // 변경된 부분
     private String name;
     private char st;
     private Timestamp firstDate;
@@ -12,18 +12,19 @@ public class QnaCategoryDto {
     private Timestamp lastDate;
     private String lastId;
 
-    public QnaCategoryDto(){}
-    public QnaCategoryDto(char st, String name, Integer que_cd) {
+    public QnaCategoryDto() {}
+
+    public QnaCategoryDto(char st, String name, long que_cd) { // 변경된 부분
         this.st = st;
         this.name = name;
-        this.que_cd = que_cd;
+        this.que_cd = que_cd; // 변경된 부분
     }
 
-    public Integer getQue_cd() {
+    public long getQue_cd() { // 변경된 부분
         return que_cd;
     }
 
-    public void setQue_cd(Integer que_cd) {
+    public void setQue_cd(long que_cd) { // 변경된 부분
         this.que_cd = que_cd;
     }
 
@@ -80,7 +81,7 @@ public class QnaCategoryDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         QnaCategoryDto that = (QnaCategoryDto) o;
-        return st == that.st && Objects.equals(que_cd, that.que_cd) && Objects.equals(name, that.name) && Objects.equals(firstId, that.firstId) && Objects.equals(lastId, that.lastId);
+        return que_cd == that.que_cd && st == that.st && Objects.equals(name, that.name) && Objects.equals(firstId, that.firstId) && Objects.equals(lastId, that.lastId);
     }
 
     @Override
