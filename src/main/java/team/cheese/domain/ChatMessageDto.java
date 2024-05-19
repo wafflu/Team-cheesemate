@@ -1,8 +1,5 @@
 package team.cheese.domain;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class ChatMessageDto {
     private Long cr_no;
     private Long sale_no;

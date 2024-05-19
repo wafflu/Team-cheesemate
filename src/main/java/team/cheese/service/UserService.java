@@ -3,7 +3,6 @@ package team.cheese.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import team.cheese.dao.AdminDao;
 import team.cheese.dao.UserDao;
 import team.cheese.domain.UserDto;
 

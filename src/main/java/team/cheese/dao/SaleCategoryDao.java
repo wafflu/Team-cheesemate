@@ -1,7 +1,6 @@
 package team.cheese.dao;
 
 import team.cheese.domain.SaleCategoryDto;
-import team.cheese.domain.SaleDto;
 
 import java.util.List;
 

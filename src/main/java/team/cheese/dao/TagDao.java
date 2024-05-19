@@ -2,8 +2,6 @@ package team.cheese.dao;
 
 import team.cheese.domain.TagDto;
 
-import javax.servlet.jsp.tagext.Tag;
-import java.math.BigInteger;
 import java.util.List;
 
 public interface TagDao {

@@ -2,14 +2,8 @@ package team.cheese.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import team.cheese.domain.AddrCdDto;
-import team.cheese.domain.AdminDto;
 import team.cheese.domain.UserDto;
 import team.cheese.service.AddrCdService;
 import team.cheese.service.AdminService;
@@ -19,10 +13,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 public class HomeController {

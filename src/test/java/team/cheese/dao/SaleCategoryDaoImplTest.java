@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import team.cheese.domain.SaleCategoryDto;
-import team.cheese.domain.SaleDto;
 
 import java.util.List;
 

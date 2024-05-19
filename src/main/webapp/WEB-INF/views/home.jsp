@@ -12,6 +12,10 @@
         }
     </style>
 </head>
+<script>
+	let msg ="${msg}"
+	// alert(msg);
+</script>
 <body>
 
 <div class="center">
@@ -60,6 +64,10 @@
 
     <form action="/sale" method="get">
         <button id="SaleBnt">판매/나눔</button>
+    </form>
+
+    <form action="/community/home" method="get">
+        <button id="community-home">커뮤니티</button>
     </form>
 </div>
 
