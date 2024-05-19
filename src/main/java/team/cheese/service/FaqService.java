@@ -8,10 +8,12 @@ import java.util.Map;
 public interface FaqService {
 
     List<FaqDto> getList() throws Exception;
-    List<FaqDto> getMajorFaqs(Integer que_id) throws Exception;
 
-    List<FaqDto> getFaqsByCategoryId(Integer categoryId);
+    List<FaqDto> getMajorFaqs(long que_id) throws Exception; // 변경된 부분
+
+    List<FaqDto> getFaqsByCategoryId(long categoryId); // 변경된 부분
 
     List<FaqDto> searchFaqs(Map<String, Object> search) throws Exception;
-    String selectContents(Integer no);
+
+    String selectContents(long no);
 }

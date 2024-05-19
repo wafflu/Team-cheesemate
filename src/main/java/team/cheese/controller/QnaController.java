@@ -26,28 +26,22 @@ public class QnaController {
     private QnaService qnaService;
 
     @GetMapping("/new")
-    public String qnaForm() {return "qnaForm";}
+    public String qnaForm() {
+        return "qnaForm";
+    }
 
     // 대분류 목록 불러오기
     @GetMapping("/major")
     public ResponseEntity<List<QnaCategoryDto>> getMajorCategories() {
-        try {
-            List<QnaCategoryDto> categories = qnaService.getMajorCategories();
-            return ResponseEntity.ok(categories);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        List<QnaCategoryDto> categories = qnaService.getMajorCategories();
+        return ResponseEntity.ok(categories);
     }
 
     // 선택된 대분류에 따른 상세 유형 목록 불러오기
     @GetMapping("/sub/{majorId}")
-    public ResponseEntity<List<QnaCategoryDto>> getSubCategories(@PathVariable Integer majorId) {
-        try {
-            List<QnaCategoryDto> subCategories = qnaService.getSubCategories(majorId);
-            return ResponseEntity.ok(subCategories);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<List<QnaCategoryDto>> getSubCategories(@PathVariable long majorId) {
+        List<QnaCategoryDto> subCategories = qnaService.getSubCategories(majorId);
+        return ResponseEntity.ok(subCategories);
     }
 
     /*
@@ -61,18 +55,20 @@ public class QnaController {
     @PostMapping("/send")
     public String write(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
         if (result.hasErrors()) {
+            // 유효성 검사 실패 시 다시 작성 페이지로 리다이렉트
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.qnaDto", result);
             redirectAttributes.addFlashAttribute("qnaDto", qnaDto);
             return "redirect:/qna/new";
         }
-
-        String ur_id = (String) session.getAttribute("userId");
-        qnaDto.setUr_id(ur_id); // 세션에서 사용자 ID 설정
-        qnaDto.setFirst_id(ur_id);
-        qnaDto.setQ_s_cd("Q001U");
         qnaService.write(qnaDto);
-
         return "redirect:/qna/list"; // 성공 페이지로 리다이렉트
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String handleException(Exception ex, RedirectAttributes redirectAttributes) {
+        // 예외 발생 시 에러 메시지를 플래시 속성에 추가
+        redirectAttributes.addFlashAttribute("errorMessage", "양식을 다시 작성해주세요. 오류: " + ex.getMessage());
+        return "redirect:/qna/new"; // 예외 발생 시 리다이렉트할 페이지
     }
 
     /*
@@ -85,11 +81,10 @@ public class QnaController {
         조회된 문의 내역을 모델에 담아 뷰에 전달한다.
         에러 발생 시 에러 페이지로 리다이렉트한다.
      */
-
     @GetMapping("/list")
     public String listUserQnas(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Model model, HttpSession session) {
         String ur_id = (String) session.getAttribute("userId");
-        try {
+
             int totalCnt = qnaService.countQnasByUserId(ur_id);
             PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
             Map<String, Object> map = new HashMap<>();
@@ -101,12 +96,7 @@ public class QnaController {
             model.addAttribute("qnaList", myQnaList);
             model.addAttribute("ph", pageHandler);
             return "qnaBoardList";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "문의 목록을 불러오는 중 오류가 발생했습니다.");
-            return "errorPage"; // 에러 시 보여줄 페이지
-        }
     }
-
     /*
     나의 문의 내역 읽기(read)
         로그인 체크
@@ -114,18 +104,12 @@ public class QnaController {
             제목, 최종 수정일시, 카테고리, 내용이 표출된다.
             답변이 존재할 경우 답변일시 답변 내용이 표출된다.
      */
-
     @GetMapping("/read")
-    public String read(Long no, Model model) {
-        try {
+    public String read(@RequestParam("no") long no, Model model) {
             QnaDto qnaDto = qnaService.read(no);
-            model.addAttribute("qna",qnaDto);
+            model.addAttribute("qna", qnaDto);
             return "qnaBoard"; // 문의글 상세 정보를 보여줄 JSP 페이지
-        } catch (Exception e) {
-            return "errorPage"; // 에러 페이지로 리다이렉트
-        }
     }
-
     /*
     나의 문의 내역 삭제하기
         qnaBoard페이지에서 삭제 버튼을 누른다.
@@ -133,45 +117,42 @@ public class QnaController {
             확인을 누르면 삭제된다.
             삭제 완료 후 /list로 이동한다.
      */
-
     @PostMapping("/delete")
-    public String deleteQna(@RequestParam("no") Long no, HttpSession session) {
+    public String deleteQna(@RequestParam("no") long no, HttpSession session) { // 변경된 부분
         String ur_id = (String) session.getAttribute("userId");
-        try {
-            qnaService.remove(no, ur_id);
+            qnaService.remove(no, ur_id); // 변경된 부분
             return "redirect:/qna/list";
-        } catch (Exception e) {
-            return "redirect:/errorPage"; // 에러 페이지로 리다이렉션
-        }
     }
 
-        /*
-        나의 문의 내역 수정하기
-            로그인 체크
-                qnaBoard페이지에서 수정 버튼을 누른다.
-                readonly가 false된다.
-                해당 제목과 내용을 수정한다.
-                저장 버튼을 클릭 시 업데이트가 된다.
-                현재 게시글 read 상태로 이동한다.
-         */
-
-        @PostMapping("/modify")
-        public String modify(QnaDto qnaDto, HttpSession session, RedirectAttributes rattr) {
-            String ur_id = (String) session.getAttribute("userId");
-            qnaDto.setUr_id(ur_id);
-            qnaDto.setLast_id(ur_id);
-
-            try {
-                int rowCnt = qnaService.modify(qnaDto);
-                if (rowCnt == 1) {
-                    rattr.addFlashAttribute("msg", "수정 완료");
-                    return "redirect:/qna/read?no=" + qnaDto.getNo(); // 수정이 성공하면 다시 게시글 조회 페이지로 리다이렉트
-                } else {
-                    throw new Exception("Modify failed");
-                }
-            } catch (Exception e) {
-                rattr.addFlashAttribute("msg", "수정 실패: " + e.getMessage());
-                return "redirect:/qna/read?no=" + qnaDto.getNo();
-            }
+    /*
+    나의 문의 내역 수정하기
+        로그인 체크
+        qnaBoard페이지에서 수정 버튼을 누른다.
+        readonly가 false된다.
+        해당 제목과 내용을 수정한다.
+        저장 버튼을 클릭 시 업데이트가 된다.
+        현재 게시글 read 상태로 이동한다.
+     */
+    @PostMapping("/modify")
+    public String modify(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes rattr) {
+        if (result.hasErrors()) {
+            // 유효성 검사 실패 시 다시 수정 페이지로 리다이렉트
+            rattr.addFlashAttribute("org.springframework.validation.BindingResult.qnaDto", result);
+            rattr.addFlashAttribute("qnaDto", qnaDto);
+            return "redirect:/qna/edit?no=" + qnaDto.getNo();
         }
+
+        String ur_id = (String) session.getAttribute("userId");
+        qnaDto.setUr_id(ur_id);
+        qnaDto.setLast_id(ur_id);
+
+        int rowCnt = qnaService.modify(qnaDto);
+        if (rowCnt == 1) {
+            rattr.addFlashAttribute("msg", "수정 완료");
+            return "redirect:/qna/read?no=" + qnaDto.getNo();
+        } else {
+            rattr.addFlashAttribute("errorMessage", "수정에 실패했습니다. 다시 시도해주세요.");
+            return "redirect:/qna/edit?no=" + qnaDto.getNo();
+        }
+    }
 }

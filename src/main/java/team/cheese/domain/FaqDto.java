@@ -1,20 +1,18 @@
 package team.cheese.domain;
 
-import jdk.jfr.Category;
-
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class FaqDto {
 
-    private Integer no;
-    private Integer que_i_cd;
+    private long no; // 변경된 부분
+    private long que_i_cd; // 변경된 부분
     private String title;
     private String contents;
     private String ad_id;
     private Timestamp r_date;
     private Timestamp m_date;
-    private Integer view_cnt = 0;
+    private int view_cnt = 0;
     private char state = 'Y';
     private Timestamp first_date;
     private String first_id;
@@ -23,7 +21,7 @@ public class FaqDto {
 
     public FaqDto(){}
 
-    public FaqDto(Integer no, Integer que_i_cd, String title, String contents, String ad_id, Integer view_cnt, char state, String first_id, String last_id) {
+    public FaqDto(long no, long que_i_cd, String title, String contents, String ad_id, int view_cnt, char state, String first_id, String last_id) { // 변경된 부분
         this.no = no;
         this.que_i_cd = que_i_cd;
         this.title = title;
@@ -35,19 +33,19 @@ public class FaqDto {
         this.last_id = last_id;
     }
 
-    public Integer getNo() {
+    public long getNo() { // 변경된 부분
         return no;
     }
 
-    public void setNo(Integer no) {
+    public void setNo(long no) { // 변경된 부분
         this.no = no;
     }
 
-    public Integer getQue_i_cd() {
+    public long getQue_i_cd() { // 변경된 부분
         return que_i_cd;
     }
 
-    public void setQue_i_cd(Integer que_i_cd) {
+    public void setQue_i_cd(long que_i_cd) { // 변경된 부분
         this.que_i_cd = que_i_cd;
     }
 
@@ -91,11 +89,11 @@ public class FaqDto {
         this.m_date = m_date;
     }
 
-    public Integer getView_cnt() {
+    public int getView_cnt() {
         return view_cnt;
     }
 
-    public void setView_cnt(Integer view_cnt) {
+    public void setView_cnt(int view_cnt) {
         this.view_cnt = view_cnt;
     }
 
@@ -144,7 +142,7 @@ public class FaqDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FaqDto faqDto = (FaqDto) o;
-        return state == faqDto.state && Objects.equals(no, faqDto.no) && Objects.equals(que_i_cd, faqDto.que_i_cd) && Objects.equals(title, faqDto.title) && Objects.equals(contents, faqDto.contents) && Objects.equals(ad_id, faqDto.ad_id) && Objects.equals(view_cnt, faqDto.view_cnt) && Objects.equals(first_id, faqDto.first_id) && Objects.equals(last_id, faqDto.last_id);
+        return no == faqDto.no && que_i_cd == faqDto.que_i_cd && state == faqDto.state && view_cnt == faqDto.view_cnt && Objects.equals(title, faqDto.title) && Objects.equals(contents, faqDto.contents) && Objects.equals(ad_id, faqDto.ad_id) && Objects.equals(first_id, faqDto.first_id) && Objects.equals(last_id, faqDto.last_id);
     }
 
     @Override
