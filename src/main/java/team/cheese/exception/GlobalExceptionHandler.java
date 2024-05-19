@@ -12,7 +12,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
-@ControllerAdvice("team.cheese.Controller.MyPage")
+@ControllerAdvice("team.cheese.Controller")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)

@@ -1,7 +1,10 @@
 package team.cheese.domain;
 
+import org.checkerframework.common.value.qual.MinLen;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -21,6 +24,7 @@ public class QnaDto {
     private String title;
 
     @NotNull(message = "내용은 필수 입력 항목입니다.")
+    @Size(min = 20, message = "내용은 최소 20자 이상이어야 합니다.")
     private String contents;
 
     private Timestamp r_date;
