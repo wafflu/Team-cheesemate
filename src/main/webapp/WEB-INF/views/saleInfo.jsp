@@ -10,216 +10,7 @@
 	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>saleInfo</title>
-	<style>
-		/* 탭 스타일 */
-		.bun-ui-tab {
-			background-color: transparent;
-			border: none;
-			cursor: pointer;
-			padding: 10px 20px;
-			font-size: 16px;
-			color: #555;
-		}
-
-		.bun-ui-tab-selected {
-			border-bottom: 2px solid #D80C18;
-			color: #D80C18;
-		}
-
-		/* 수평선 스타일 */
-		.bun-ui-divider {
-			border-top: 1px solid #ccc;
-		}
-
-		/* 기사 스타일 */
-		article header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
-		article header h3 {
-			margin: 0;
-			font-size: 18px;
-			color: #333;
-		}
-
-		article footer button {
-			background-color: #D80C18;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			font-size: 16px;
-			cursor: pointer;
-		}
-		/* article 요소의 크기 조정 */
-		article {
-			margin-top: 10px; /* 기존 20px에서 10px로 줄임 */
-			margin-bottom: 10px; /* 기존 20px에서 10px로 줄임 */
-			padding: 5px; /* 기존 10px에서 5px로 줄임 */
-			border: 1px solid #ccc;
-			width: 100%; /* 가로 길이는 원래대로 100%로 유지 */
-			margin-left: auto; /* 가운데 정렬을 위한 왼쪽 여백 자동 조절 */
-			margin-right: auto; /* 가운데 정렬을 위한 오른쪽 여백 자동 조절 */
-		}
-
-		/* article 안의 section 요소의 크기 조정 */
-		article section {
-			padding: 2px; /* 기존 5px에서 2px로 줄임 */
-		}
-
-		/* article 안의 section 안의 section 요소의 크기 조정 */
-		article section section {
-			padding: 2px 0; /* 기존 5px에서 2px로 줄임 */
-		}
-
-
-
-		/* 섹션 간격 */
-		section {
-			margin-bottom: 5px;
-		}
-		.mainContainer {
-			width: 40%;
-			margin: 0 auto; /* 가로 중앙 정렬 */
-			position: absolute;
-			top: 0;
-			left: 50%;
-			transform: translateX(-50%);
-		}
-
-		.bun-ui-divider {
-			display: flex; /* 내부 요소를 가로로 배치합니다. */
-			justify-content: center; /* 가로 방향으로 정중앙에 배치합니다. */
-		}
-		.sc-57cf470b-1.fFtTgD {
-			--bun-ui-sat: env(safe-area-inset-top);
-			--bun-ui-sar: env(safe-area-inset-right);
-			--bun-ui-sab: env(safe-area-inset-bottom);
-			--bun-ui-sal: env(safe-area-inset-left);
-			word-break: keep-all;
-			-webkit-font-smoothing: inherit;
-			font-size: 16px;
-			line-height: 1.5;
-			box-sizing: border-box;
-			font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-			margin: 0px;
-			border: 0px;
-			vertical-align: baseline;
-			position: relative;
-			display: flex;
-			flex-direction: row;
-			padding: 0px 20px 8px;
-			-webkit-box-pack: justify;
-			justify-content: space-between;
-		}
-		/* 판매내역 및 구매내역 전용 CSS */
-		.purchase-info {
-			/* 구매내역에 대한 CSS */
-			/* 필요한 스타일 추가 */
-		}
-		p {
-			margin: 0;
-		}
-		.paging-active {
-			background-color: rgb(216, 216, 216);
-			border-radius: 5px;
-			color: rgb(24, 24, 24);
-		}
-
-		.page-space {
-			margin: 0 5px;
-		}
-		.modal {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.6);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			z-index: 1000;
-		}
-
-		.modal-content {
-			background-color: #fff;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			width: auto;
-			max-width: 600px;
-			margin: auto;
-		}
-
-		.close {
-			float: right;
-			font-size: 28px;
-			font-weight: bold;
-			cursor: pointer;
-		}
-
-		#myform fieldset {
-			display: block;
-			direction: rtl;
-			border: 0;
-			text-align: center;
-			margin: 20px 0;
-		}
-
-		#starRating {
-			display: flex;
-			justify-content: center;
-		}
-
-		#myform input[type=radio] {
-			position: absolute;
-			opacity: 0;
-			width: 0;
-			height: 0;
-		}
-
-		#myform label {
-			font-size: 3em;
-			color: #ccc;
-			cursor: pointer;
-			transition: color 0.3s ease;
-		}
-
-		#myform input[type=radio]:checked ~ label,
-		#myform label:hover,
-		#myform label:hover ~ label {
-			color: rgba(250, 208, 0, 0.99);
-		}
-
-		#reviewContents {
-			width: calc(100% - 20px);
-			height: 150px;
-			padding: 10px;
-			box-sizing: border-box;
-			border: solid 1.5px #D3D3D3;
-			border-radius: 5px;
-			font-size: 16px;
-			resize: none;
-			outline: none;
-		}
-
-		.commentBtn {
-			background-color: #007BFF;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			font-size: 16px;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
-
-		.commentBtn:hover {
-			background-color: #0056b3;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/saleInfo.css">
 </head>
 <body>
 <div class="mainContainer">
@@ -280,7 +71,7 @@
 					</div>
 				</fieldset>
 				<div>
-					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!" <c:out value=''/>></textarea>
 				</div>
 				<button class="commentBtn" id="comment-sendBtn" type="button">등록</button>
 				<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
@@ -393,7 +184,7 @@
 			// header 부분 생성
 			tmp += '<header>';
 			tmp += '<h3>' + dateToString(item.r_date) + '</h3>';
-			tmp += '<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">';
+			tmp += '<svg class="clickable" data-no="' + item.no + '" width="12" height="12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">';
 			tmp += '<path d="M5.262 19.536a.9.9 0 0 0 1.273 0l9-8.974a.905.905 0 0 0 .265-.636.904.904 0 0 0-.263-.637l-9-9.024a.9.9 0 1 0-1.275 1.27l8.365 8.388-8.363 8.34a.9.9 0 0 0-.002 1.273" fill="#7f7f7f" fill-rule="evenodd"></path>';
 			tmp += '</svg>';
 			tmp += '</header>';
@@ -403,11 +194,20 @@
 
 			// section 부분 생성
 			tmp += '<section>';
-			tmp += '<p>판매상태(R-예약중/S-판매중/C-거래완료) : ' + item.sal_s_cd + '</p>';
+			if (option === 'seller') {
+				tmp += '<p>판매상태(R-예약중/S-판매중/C-거래완료) : ' + item.sal_s_cd + '</p>';
+			}else {
+				tmp += '<p>구매상태(R-예약중/C-구매완료) : ' + item.sal_s_cd + '</p>';
+			}
 			tmp += '<p>판매글번호 : ' + item.no + '</p>';
 			tmp += '<section>';
 			tmp += '<!-- 여기에 이미지가 들어갑니다. -->';
 			tmp += '<section>';
+			if (option === 'buyer') {
+				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_id + '</a></p>';
+			}else {
+				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_id + '</a></p>';
+			}
 			tmp += '<p>가격: ' + item.price + '</p>';
 			tmp += '<p>제목: ' + item.title + '</p>';
 			tmp += '<p>판매(S)/나눔(F) : '+item.tx_s_cd+' / 거래방법: ' + item.trade_s_cd_1 + '</p>';
@@ -512,7 +312,27 @@
 				const label = option === 'buyer' ? button.attr('data-label-buyer') : button.attr('data-label-seller');
 				button.find('.bun-ui-tab-label').text(label);
 			});
+			// 구매내역일 때 "판매중" 버튼 숨기기
+			if (option === 'buyer') {
+				$("#S").hide();
+			} else {
+				$("#S").show();
+			}
 		}
+
+		// SVG 클릭 이벤트 처리
+		$("#historyList").on("click", ".clickable", function() {
+			let no = $(this).data("no");
+			window.location.href = '/sale/read?no=' + no;
+		});
+
+		// 판매자ID,구매자ID 클릭 이벤트 처리
+		$(document).on('click', '.seller-link', function (e) {
+			e.preventDefault();  // 기본 동작을 막음
+			const sellerId = $(this).data('seller-id');
+			window.location.href = '/myPage/main?ur_id=' + sellerId;
+		});
+
 
 		$("#searchForm").submit(function (event) {
 			event.preventDefault();
