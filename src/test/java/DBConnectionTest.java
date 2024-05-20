@@ -1,5 +1,3 @@
-package team.cheese.domain;
-
 import static junit.framework.TestCase.assertTrue;
 
 import java.sql.Connection;

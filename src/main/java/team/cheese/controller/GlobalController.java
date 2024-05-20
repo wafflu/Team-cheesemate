@@ -1,7 +1,6 @@
 package team.cheese.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import team.cheese.domain.ImgDto;
@@ -19,7 +18,7 @@ public class GlobalController {
     @ModelAttribute("imglist")
     public List<ImgDto> populateImgList() {
         ArrayList<ImgDto> list = (ArrayList<ImgDto>) imgService.load_cssimg("home");
-        System.out.println("list : "+list);
+//        System.out.println("list : "+list);
         return list;
     }
 }

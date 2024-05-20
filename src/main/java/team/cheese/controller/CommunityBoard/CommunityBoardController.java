@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import team.cheese.domain.Comment.CommentDto;
@@ -45,8 +43,6 @@ public  class CommunityBoardController {
 
     @Autowired
     ImgService imgService;
-
-
 
     //community메인페이지
     @RequestMapping(value = "/home", method = RequestMethod.GET)

@@ -5,15 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import team.cheese.dao.*;
-import team.cheese.dao.MyPage.UserInfoDao;
 import team.cheese.domain.*;
-import team.cheese.domain.MyPage.SearchCondition;
-import team.cheese.service.ImgService;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class HoistingService {

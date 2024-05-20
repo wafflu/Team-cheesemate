@@ -8,13 +8,12 @@ import team.cheese.domain.ImgDto;
 import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
 import team.cheese.dao.MyPage.UserInfoDao;
-import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.domain.SaleTagDto;
 import team.cheese.domain.TagDto;
-import team.cheese.entity.ImgFactory;
 import team.cheese.service.ImgService;
+import team.cheese.service.ImgServiceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -29,8 +29,7 @@ public class ChatController {
 
     @Autowired
     SaleDao saleDao;
-
-
+    
     @GetMapping("/chat2")
     public String chat(Model model, HttpSession session,@RequestParam(defaultValue = "0") int no) {
         //임시 테스트용

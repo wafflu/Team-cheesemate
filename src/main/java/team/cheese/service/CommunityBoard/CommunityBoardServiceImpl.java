@@ -9,6 +9,7 @@ import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.dao.CommunityBoard.CommunityBoardDao;
 import team.cheese.domain.ImgDto;
 import team.cheese.service.ImgService;
+import team.cheese.service.ImgServiceImpl;
 
 
 import java.io.File;
@@ -25,7 +26,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 
     @Autowired
     ImgService imgService;
-
 
     @Override
     public List<CommunityBoardDto> readAll() throws Exception {
