@@ -40,7 +40,7 @@
         <p>sale : ${Sale.no}</p>
         <p>행정동 코드 : ${Sale.addr_cd}</p>
         <p>주소명 : ${Sale.addr_name}</p>
-        <p>판매자닉네임 : <a href="/userInfo/${Sale.seller_id}">${Sale.seller_nick}</a></p>
+        <p>판매자닉네임 : <a href="/myPage/main/${Sale.seller_id}">${Sale.seller_nick}</a></p>
         <p>판매 카테고리명 : ${Sale.sal_name}</p>
         <p>
             사용상태 :
