@@ -12,6 +12,7 @@
         INSERT INTO img_group (group_no, img_no, first_id, last_id) values (#{group_no}, #{img_no}, #{userid}, #{userid});
     </insert>
 
+
     <select id="select_group_max" resultType="int">
         SELECT COALESCE(MAX(group_no), 0) AS max_group_no FROM img_group;
     </select>
@@ -47,29 +48,7 @@
         delete from ${tb_name};
     </delete>
 
-    <sql id="selectFromImg">
-        SELECT no, tb_name, tb_no, imgtype, file_rt, u_name, o_name, w_size, h_size
-        FROM img
-    </sql>
-
-    <!--  R : 전체 테이블 읽어오기  -->
-    <select id="selectAll" resultType="ImgDto">
-        <include refid="selectFromImg"/>
+    <select id="select_css" parameterType="string" resultType="ImgDto">
+        select * from img where imgtype = #{imgtype}
     </select>
-
-    <!--  R : 사용하는 행만 읽어오기  -->
-    <select id="selectUse" resultType="ImgDto">
-        <include refid="selectFromImg"/>
-        WHERE
-        state = 'Y'
-    </select>
-
-    <!--  D : 데이터 전체 삭제  -->
-    <delete id="deleteAll">
-        DELETE FROM img
-    </delete>
-
-    <update id="resetAutoIncrement" parameterType="map">
-        alter table img auto_increment = 1
-    </update>
 </mapper>

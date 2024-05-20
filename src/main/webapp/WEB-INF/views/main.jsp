@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
 <%--<c:set var="loginId" value="${sessionScope.id}"/>--%>
-<c:set var="loginId" value="${userInfoDTO.ur_id}"/>
+<c:set var="loginId" value="${session_id}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -352,7 +352,7 @@
 			☆
 		</c:forEach>
 </span></h4>
-<button id="writeBtn" type="button">후기글 작성</button>
+<%--<button id="writeBtn" type="button">후기글 작성</button>--%>
 <!-- 모달 창 -->
 <div id="myModal" class="modal" >
 	<div class="modal-content">
@@ -373,6 +373,7 @@
 				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
 			</div>
 			<button class="commentBtn" id="" type="button"></button>
+			<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
 		</form>
 	</div>
 </div>
@@ -476,16 +477,10 @@
 		alert("선택된 별점 값: " + selectedStar);
 	});
 
-	// 후기글 작성 버튼 클릭 시 모달 창 열기
-	writeBtn.onclick = function() {
-		modal.style.display = "block";
-		$('#reviewContents').val(''); // 리뷰내용초기화
-		// 등록버튼으로 바꾸기
-		$(".commentBtn").text("등록");
-		$(".commentBtn").attr("id", "comment-sendBtn");
-		// 별점 초기화
-		$("input[name='reviewStar']").prop("checked", false);
-		selectedStar = undefined; // 선택된 별점 초기화
+	// 취소 버튼 기능 추가
+	var cancelBtn = document.getElementById("cancelBtn");
+	cancelBtn.onclick = function() {
+		closeModal();
 	}
 
 	// 후기글 목록 보여주기
@@ -526,9 +521,12 @@
 				tmp += '☆';
 			}
 			tmp += ' 작성날짜 =' + dateToString(comment.m_date)
-			tmp += '<button class="deleteBtn" data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '">삭제</button>'
+			// 수정 및 삭제 버튼 추가 (JSTL을 사용하여 서버 측에서 조건부로 렌더링)
+			tmp += '<button class="deleteBtn" data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '"' +
+					(comment.buy_id === "${loginId}" ? '' : ' style="display:none;"') + '>삭제</button>';
 			tmp += '<button class="modifyBtn" data-reviewStar="' + comment.reviewStar + '"' +
-					'data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '">수정</button>'; // data-reviewStar 속성 추가
+					'data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '"' +
+					(comment.buy_id === "${loginId}" ? '' : ' style="display:none;"') + '>수정</button>';
 			tmp += '</li>'
 		});
 		// 페이지 링크 추가
@@ -613,8 +611,6 @@
 
 
 	$(document).ready(function() {
-
-
 		showList(ur_id); // 후기글 목록 읽어오기
 		modal.style.display = "none"; // 모달창 숨기기
 
@@ -643,31 +639,6 @@
 				success : function(result){
 					alert(result);
 					showList(ur_id,page,pageSize);
-				},
-				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
-			}); // $.ajax()
-		});
-
-		// 후기글 쓰기
-		$(document).on("click", "#comment-sendBtn", function() {
-			let contents = $("#reviewContents").val();
-
-			if(contents.trim()==''){
-				alert("글을 작성해주세요");
-				$("#reviewContents").focus()
-				return;
-			}
-
-			$.ajax({
-				type:'POST',       // 요청 메서드
-				url: '/comments',  // 요청 URI
-				headers : { "content-type": "application/json"}, // 요청 헤더
-				// dataType : 'json', // 전송받을 데이터의 타입
-				data: JSON.stringify({sal_id : ur_id,contents:contents,reviewStar: selectedStar}),
-				success: function(result) {
-					alert(result);
-					showList(ur_id);
-					showUserInfo(ur_id);
 				},
 				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
@@ -705,22 +676,27 @@
 
 
 		// 후기글 삭제 버튼 클릭시
-		$("#commentList").on("click",".deleteBtn",function(){
+		$("#commentList").on("click", ".deleteBtn", function(){
 			let no = $(this).parent().attr("data-no");
 			let sal_id = $(this).parent().attr("data-sal_id");
 			let page = $(this).data("page");
 			let pageSize = $(this).data("pageSize");
 
-			$.ajax({
-				type:'DELETE',       // 요청 메서드
-				url: '/comments/'+no+'?sal_id='+sal_id,  // 요청 URI
-				success : function(result){
-					alert(result);
-					showList(sal_id,page,pageSize);
-					showUserInfo(ur_id);
-				},
-				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
-			}); // $.ajax()
+			// confirm 메시지로 삭제 여부 묻기
+			if (confirm("후기글 재작성이 불가능합니다. 그래도 삭제하시겠습니까?")) {
+				$.ajax({
+					type: 'DELETE',       // 요청 메서드
+					url: '/comments/' + no + '?sal_id=' + sal_id,  // 요청 URI
+					success: function(result){
+						alert(result);
+						showList(sal_id, page, pageSize);
+						showUserInfo(ur_id);
+					},
+					error: function(result){
+						alert(result.responseText); // 에러가 발생했을 때, 호출될 함수
+					}
+				}); // $.ajax()
+			}
 		});
 
 		// 소개글 수정 버튼 클릭시
@@ -769,6 +745,6 @@
 	});
 </script>
 
-<script src="/resources/js/img.js"></script>
+<script src="/js/img.js"></script>
 </body>
 </html>

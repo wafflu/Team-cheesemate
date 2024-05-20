@@ -7,14 +7,15 @@
     <select id="count" resultType="int">
         select count(*) from question_category
     </select>
-    <!--테스트를 위한 대분류 카운 쿼리-->
+
+    <!--테스트를 위한 대분류 카운트 쿼리-->
     <select id="MajorCount" resultType="int">
         select count(*) from question_category
         where que_cd <![CDATA[<]]> 11
     </select>
 
     <!--대분류 select 쿼리-->
-    <select id="selectMajorCategory" parameterType="Integer" resultType="QnaCategoryDto">
+    <select id="selectMajorCategory" resultType="QnaCategoryDto">
         <![CDATA[
         select * from question_category
         -- 대분류의 자리수는 한자리수
@@ -23,8 +24,8 @@
     </select>
 
     <!--중분류 select 쿼리-->
-    <select id="selectSubCategory" parameterType="Integer" resultType="QnaCategoryDto">
+    <select id="selectSubCategory" parameterType="long" resultType="QnaCategoryDto">
         select * from question_category
-        where que_cd LIKE  CONCAT(#{que_cd}, '___')
+        where que_cd LIKE CONCAT(#{que_cd}, '___')
     </select>
 </mapper>

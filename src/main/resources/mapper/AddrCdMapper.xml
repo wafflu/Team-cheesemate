@@ -21,6 +21,7 @@
         SELECT *
         FROM addr_cd
         WHERE ur_id = #{userId}
+        AND state = 'Y'
     </select>
 
 <!--    *** 유저의 주소코드 추가 ***-->

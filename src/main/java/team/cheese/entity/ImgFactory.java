@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,7 +29,7 @@ import java.util.List;
 
 public class ImgFactory {
 
-    private static String folderPath = System.getProperty("user.home")+File.separator+"Desktop"+File.separator;
+    private static String folderPath = System.getProperty("user.home")+"/"+"Desktop"+"/";
     private static String foldername = "ImgRepository";
     private String datePath = "";
 
@@ -46,7 +47,7 @@ public class ImgFactory {
         this.userid = userid;
     }
 
-    // File.separator -> /
+    // "/" -> /
 
     //바탕화면에 이미지 폴더 없을시 이미지저장소 폴더 생성
     public void checkimgfolder(){
@@ -91,7 +92,7 @@ public class ImgFactory {
         for(MultipartFile multipartFile : uploadFiles) {
             String fileName = multipartFile.getOriginalFilename();
 
-            File saveFile = new File(getFolderPath()+File.separator+getDatePath(), fileName);
+            File saveFile = new File(getFolderPath()+"/"+getDatePath(), fileName);
             ImgDto img = null;
             /* 파일 저장 */
             try {
@@ -140,7 +141,7 @@ public class ImgFactory {
         try {
             String fileName = file.getName();
 
-            String fullrt = folderPath+foldername+File.separator+datePath;
+            String fullrt = folderPath+foldername+"/"+datePath;
             String imgname = (gno+currentTimeMillis)+ ".jpg";
 
             File img_name = new File(fullrt, imgname);
@@ -173,7 +174,7 @@ public class ImgFactory {
     public ImgDto setImginfo(File imgfile, String orifilename, String imgtype, int wsize, int hsize, String userid){
         ImgDto img = new ImgDto();
         String uploadFileName = imgfile.getName();
-        String fullrt = datePath+File.separator+uploadFileName;
+        String fullrt = datePath+"/"+uploadFileName;
         img.setImgtype(imgtype);
         img.setFile_rt(datePath);
         img.setU_name(uploadFileName);

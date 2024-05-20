@@ -43,7 +43,7 @@ public class MyPageController {
     }
 
     // 마이페이지 메인화면
-    @RequestMapping("/main")
+    @GetMapping("/main")
     public String main(@RequestParam(required = false)String ur_id, HttpSession session, Model model) throws Exception{
         if(!loginCheck(session))
             return "home";
@@ -53,10 +53,12 @@ public class MyPageController {
         // 1. 세션에서 session_id 값 받아오기
         // String session_id = (String) session.getAttribute("id");
         // test를 위한 session_id값
-        String session_id = "1";
+        String session_id = "asdf";
+        // test를 위해 model에 session_id값 담기
+        model.addAttribute("session_id",session_id);
 
         // 소개글 읽어오기
-        UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id);
+        UserInfoDTO userInfoDTO = userInfoService.read(ur_id,session_id,session);
         model.addAttribute("userInfoDTO",userInfoDTO);
 
         // 오늘날짜 모델에 담기

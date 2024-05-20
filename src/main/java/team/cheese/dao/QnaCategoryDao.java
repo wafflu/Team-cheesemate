@@ -11,5 +11,5 @@ public interface QnaCategoryDao {
 
     List<QnaCategoryDto> selectMajorCategory() throws Exception;
 
-    List<QnaCategoryDto> selectSubCategory(Integer que_cd) throws Exception;
+    List<QnaCategoryDto> selectSubCategory(long que_cd) throws Exception; // 변경된 부분
 }
