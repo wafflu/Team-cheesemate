@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import team.cheese.dao.event.EventDaoImp;
 import team.cheese.domain.event.EventDto;
 import team.cheese.service.ImgService;
+import team.cheese.service.ImgServiceImpl;
 
 import java.io.IOException;
 import java.util.*;

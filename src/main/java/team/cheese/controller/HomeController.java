@@ -2,12 +2,11 @@ package team.cheese.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.UserDto;
-import team.cheese.service.AddrCdService;
-import team.cheese.service.AdminService;
-import team.cheese.service.UserService;
+import team.cheese.service.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -27,17 +26,21 @@ public class HomeController {
     @Autowired
     AdminService adminService;
 
-    // *** 홈(home.jsp)으로 이동 ***
-    @GetMapping("/")
-    public String index(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        return isKeepLoginState(session, request, response);
-    }
+    @Autowired
+    ImgService imgService;
 
     // *** 홈(home.jsp)으로 이동 ***
-    @GetMapping("/home")
-    public String home(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-        return isKeepLoginState(session, request, response);
+    @GetMapping({"/", "/home"})
+    public String index(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model m) {
+        return isKeepLoginState(session, request, response, m);
     }
+
+
+    // *** 홈(home.jsp)으로 이동 ***
+//    @GetMapping("/home")
+//    public String home(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model m) {
+//        return isKeepLoginState(session, request, response, Model m);
+//    }
 
     // *** 보드(board.jsp)로 이동 ***
     @GetMapping("/board")
@@ -54,7 +57,7 @@ public class HomeController {
     // 1. 쿠키에 있는 아이디를 가져온다
     // 2. 해당 아이디로 로그인 처리
     // 3. home으로 이동
-    private String isKeepLoginState(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+    private String isKeepLoginState(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model m) {
 
         Cookie[] cookies = request.getCookies();
         String keepLoginStateUserId = "";

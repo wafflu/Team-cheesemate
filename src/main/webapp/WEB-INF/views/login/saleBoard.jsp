@@ -2,6 +2,7 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
+<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,6 +111,7 @@
             <button type="button" id="modifyBtn">수정하기</button>
         </c:if>
         <button type="button" id="returnBtn">목록</button>
+        <button type="button" id="charbtn">채팅하기</button>
     </form>
 </div>
 <div>
@@ -168,6 +170,7 @@
                 $("#form").submit();
             }
         });
+    });
 
         $("#returnBtn").on("click", function () {
             if (confirm("목록으로 돌아가시겠습니까?")) {
@@ -191,6 +194,47 @@
             });
         });
     });
+
+    $(document).ready(function () {
+        $("#charbtn").on("click", function () {
+            let saleNo = "${Sale.no}";
+            let sellerid = "${Sale.seller_id}";
+            let seller_nick = "${Sale.seller_nick}";
+            $("<input>").attr({
+                type: "hidden",
+                name: "sno",
+                value: saleNo
+            }).appendTo("#form");
+
+            $("<input>").attr({
+                type: "hidden",
+                name: "id",
+                value: sellerid
+            }).appendTo("#form");
+
+            $("<input>").attr({
+                type: "hidden",
+                name: "nick",
+                value: seller_nick
+            }).appendTo("#form");
+
+            // action 속성 설정
+            $("#form").attr("action", "/callchat");
+
+            // form submit
+            $("#form").submit();
+        });
+    });
+
+
+    <%--$("#returnBtn").on("click", function() {--%>
+    <%--    let form = $("#form");--%>
+    <%--    form.attr("action", "<c:url value='/sale/list'/>");--%>
+    <%--    form.attr("method", "post");--%>
+    <%--    confirm("목록으로 돌아가시겠습니까?");--%>
+    <%--    form.submit();--%>
+    <%--});--%>
+
 </script>
 </body>
 </html>

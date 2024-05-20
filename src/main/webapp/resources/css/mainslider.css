@@ -1,0 +1,46 @@
+.slick-list{
+    margin-top: 50px;
+}
+
+
+#slider-div{
+    width: 100%;
+    height: 300px;
+}
+
+.slick-prev{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.slick-next{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.slick-dots{
+    position: absolute;
+    left: 50%;
+    bottom: -50px;
+    transform: translateX(-50%);
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    border: 1px solid red;
+}
+
+.slick-dots>li{
+    display: inline-block;
+    width: 15px;
+    border: 1px solid #000;
+    margin: 0 5px;
+}
+
+.slick-slide{
+    height: 300px;
+    border: 1px solid greenyellow;
+    margin: 0 10px;
+}

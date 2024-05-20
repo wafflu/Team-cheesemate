@@ -60,4 +60,9 @@ public class ImgDaoImpl implements ImgDao {
         return session.selectOne(namespace+"count", tb_name);
     }
 
+    @Override
+    public List<ImgDto> select_css(String imgtype){
+        return session.selectList(namespace+"select_css", imgtype);
+    }
+
 }
