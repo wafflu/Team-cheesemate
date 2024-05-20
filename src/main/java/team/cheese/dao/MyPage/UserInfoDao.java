@@ -29,6 +29,6 @@ public interface UserInfoDao {
 
     int stateChange(String ur_id) throws Exception;
 
-    int updateProfile(HashMap map) throws Exception;
+     int updateProfile(HashMap map) throws Exception;
 }
 

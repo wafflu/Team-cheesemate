@@ -37,12 +37,8 @@ FAQ 목록 조회하기
 */
 @GetMapping("/major")
 public ResponseEntity<List<FaqDto>> getFaqsByCategoryId(@RequestParam("queId") Integer queId) {
-    try {
         List<FaqDto> faqs = faqService.getFaqsByCategoryId(queId);
         return ResponseEntity.ok(faqs);
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-    }
 }
 
     /*
@@ -59,11 +55,7 @@ public ResponseEntity<List<FaqDto>> getFaqsByCategoryId(@RequestParam("queId") I
         Map<String, Object> searchKeywords = new HashMap<>();
         searchKeywords.put("keyword", keyword);
         List<FaqDto> searchResults = null;
-        try {
-            searchResults = faqService.searchFaqs(searchKeywords);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        searchResults = faqService.searchFaqs(searchKeywords);
         return ResponseEntity.ok(searchResults);
     }
 
@@ -81,6 +73,5 @@ public ResponseEntity<List<FaqDto>> getFaqsByCategoryId(@RequestParam("queId") I
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
                 .body(content);
         //return ResponseEntity.ok().body(content); // 위 코드 시 문자열 인코딩 문제발생
-
     }
 }

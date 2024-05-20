@@ -25,6 +25,9 @@ public interface SaleDao {
     // 판매글 조회수 증가시키기
     int increaseViewCnt(Long no) throws  Exception;
 
+    // 판매글 끌어올리기 횟수 증가시키기
+    int increaseHoistingCnt(Long no) throws Exception;
+
     // 판매글 작성하는 경우(세션고려X)
     int insert(SaleDto saleDto) throws  Exception;
 
@@ -44,13 +47,18 @@ public interface SaleDao {
     // 판매글 관리자가 삭제하는 경우
     int adminState(SaleDto saleDto) throws  Exception;
 
-    // 판매/나눔을 클릭 했을 때 사용자의 첫번째 주소로 조회되는 경우
-    List<SaleDto> selectStandardAddr(String ur_id, int check_addr_cd) throws Exception;
-
     List<SaleDto> selectList(Map map) throws Exception;
+
+    int updateSaleSCd(Map map) throws Exception;
 
     // 조건대로 판매글 목록 조회
     List<SaleDto> selectSearchPage(SearchCondition sc) throws Exception;
 
     int selectSearchCount(SearchCondition sc) throws Exception;
+
+    // 판매글 끌어올리기
+    int hoistingSale(Map map) throws Exception;
+
+    //새로 추가!!!! 후기글 작성시 상태 업데이트
+    int reviewState(Long no) throws Exception;
 }

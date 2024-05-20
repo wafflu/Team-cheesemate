@@ -62,7 +62,7 @@
     <delete id="deleteAll" parameterType="String">
         delete from review_comment where sal_id = #{sal_id}
     </delete>
-    <update id="stateChange" parameterType="String">
+    <update id="stateChange" parameterType="Integer">
         update review_comment
             set ur_state = 'N'
         where no = #{no}

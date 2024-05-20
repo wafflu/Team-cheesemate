@@ -54,8 +54,9 @@
     </style>
 </head>
 <body>
+<div class="container">
     <h2>이벤트 글쓰기</h2>
-    <form id="form" action="/event/write" method="post">
+    <form action="/event/write" method="post">
         <div class="form-group">
             <label for="title">제목</label>
             <!-- placeholder 속성 입력한 데이터가 없는 경우 배경으로 나타난다.실제적으로 입력을 100자까지로 지정 -->
@@ -72,15 +73,11 @@
             <!--  textarea 안에 있는 모든 글자는 그대로 나타난다. 공백문자, tag, enter -->
             <textarea class="form-control" rows="5" id="contents"
                       name="contents" placeholder="내용 작성" ${readonly}>${dto.contents}</textarea>
-        </div>
-        <div class="form_section_content">
-            <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
-        </div>
-        <div id = "uploadResult"></div>
+        ty</div>
         <div class="form-group">
             <label>작성자</label>
             <input type="text" class="form-control" id="nickname"
-                   placeholder="작성자(2자-10자)" name="EventDto.ad_id" ${readonly} value=${ad_id==null?dto.ad_id:ad_id}>
+                   placeholder="작성자(2자-10자)" name="ad_id" ${readonly} value=${ad_id==null?dto.ad_id:ad_id}>
         </div>
         <div class="form-group">
             <label>시작일</label>
@@ -111,7 +108,7 @@
             </c:when>
             <c:otherwise>
                 <c:if test="${requestScope['javax.servlet.forward.servlet_path']!='/read'}">
-                    <div id= "submitform" class="btn btn-default">123등록</div>
+                    <button type="submit" class="btn btn-default">등록</button>
                 </c:if>
             </c:otherwise>
         </c:choose>
@@ -120,24 +117,35 @@
     <a href="write" class="btn btn-default">쓰기</a>
     <script src="/js/img.js"></script>
     <script>
-        document.getElementById("submitform").onclick = function (){
-            // $("#submitform").on("click","#submitform",function() {
-                alert("asdasd");
-                let form = document.getElementById("form");
-                let newInput = document.createElement("input");
-                let newInput1 = document.createElement("input");
-                newInput.type = 'hidden'; // 타입은 hidden으로 설정합니다.
-                newInput.name = 'img_full_rt'; // 이름을 설정합니다.
-                newInput.value = imginfo[0].img_full_rt; // 이름을 설정합니다.
-                // newInput.value = fileCallPath;
-                form.appendChild(newInput);
-                newInput1.type = 'hidden';
-                newInput1.name = 'imgname';
-                newInput1.value = imginfo[0].o_name + imginfo[0].e_name;
-                form.appendChild(newInput1);
-                console.log(form)
-                form.submit();
-            }
+
+        // function writeData() {
+        //     var title = document.getElementById("title").value;
+        //     var contents = document.getElementById("contents").value;
+        //     var ad_id = document.getElementById("nickname").value;
+        //     var s_date = document.getElementById("s_date").value;
+        //     var e_date = document.getElementById("e_date").value;
+        //     var evt_cd = document.getElementById("user_select").value;
+        //     var prize = document.getElementById("prize").value;
+        //     var eventDto = {
+        //         title: title,
+        //         contents: contents,
+        //         ad_id: ad_id,
+        //         s_date: s_date,
+        //         e_date: e_date,
+        //         evt_cd: evt_cd,
+        //         prize: prize
+        //     };
+        //     $.ajax({
+        //         url : "event/write",
+        //         type: "POST",
+        //         contentType: 'application/json',
+        //         dataType: "json",
+        //         data: JSON.stringify(eventDto),
+        //         success: function (data){
+        //
+        //         }
+        //         })
+        // }
     </script>
 
 <%--        // function writeData() {--%>
