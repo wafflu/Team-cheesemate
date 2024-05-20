@@ -40,6 +40,8 @@
         <p>아이디 : ${sessionScope.adminId}</p>
     </c:if>
 
+    ${sessionScope.userId}
+    ${sessionScope.adminId}
 
     <c:choose>
         <c:when test="${sessionScope.userId == null && sessionScope.adminId == null}">

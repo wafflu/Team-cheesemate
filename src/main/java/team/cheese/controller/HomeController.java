@@ -58,7 +58,7 @@ public class HomeController {
         }
 
         for(int i = 0; i < cookies.length; i++) {
-            if (cookies[i].getName().equals("keepLoginState")) {
+            if (cookies[i].getName().equals("keepLoginStateId")) {
                 keepLoginStateUserId = cookies[i].getValue();
                 cookies[i].setMaxAge(60);
                 response.addCookie(cookies[i]);
@@ -74,6 +74,7 @@ public class HomeController {
     }
 
     private void sessionSetting(HttpSession session, UserDto loginUserDto) {
+        System.out.println("@@@ 세션 설정 됩니다.");
         session.setAttribute("userId", loginUserDto.getId()); // -> 세션에 아이디 저장
         session.setAttribute("userNick", loginUserDto.getNick()); // -> 세션에 닉네임 저장
 
