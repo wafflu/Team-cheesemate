@@ -27,45 +27,31 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        System.out.println("LoginCheckInterceptor - preHandle 호출되었습니다.");
-
-        // *** 로그인상태 유지 확인 ***
-        // 1. 로그인상태유지가 켜져있으면 해당 유저를 세션에 추가 해야함
-        //      1.1 쿠키 확인
-        //      1.2 세션 세팅
         HttpSession session = request.getSession();
 
         if (isKeepLoginState(session, request, response)) {
-            System.out.println("로그인상태유지가 켜져있는 상태");
-            System.out.println("from URI : " + request.getRequestURI());
-
             return true;
         }
 
         if(session.getAttribute("userId") == null) {
-            System.out.println("요청한 화면 -> " + request.getRequestURI());
-
             String redirectUri = "/login?from=" + request.getRequestURI();
             response.sendRedirect(redirectUri);
-
-            System.out.println("로그인 정보가 없습니다.");
             return false;
         }
         else {
             String userId = session.getAttribute("userId").toString();
-            System.out.println("로그인 정보가 있습니다. -> " + userId);
             return true;
         }
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println("LoginCheckInterceptor - postHandle 호출되었습니다.");
+
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        System.out.println("LoginCheckInterceptor - afterHandle 호출되었습니다.");
+
     }
 
     private boolean isKeepLoginState(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
@@ -98,8 +84,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
                 UserDto userDto = userService.getUserById(keepLoginStateUserId);
                 sessionSetting(session, userDto);
-
-                System.out.println("쿠키 다시 설정");
 
                 return true;
             }

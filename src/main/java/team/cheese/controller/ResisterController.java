@@ -38,7 +38,6 @@ public class ResisterController {
     @GetMapping("/resisterForm")
     public String resisterForm(Model m) throws Exception {
 
-        // 회원가입 화면에 대분류 리스트를 전송
         List<AdministrativeDto> largeCategory = administrativeDao.selectLargeCategory();
         m.addAttribute("largeCategory", largeCategory);
 
@@ -52,10 +51,6 @@ public class ResisterController {
             System.out.println(result.toString());
             return "resisterForm";
         }
-
-        System.out.println("HomeController에서 createAccount를 실행합니다.");
-
-        System.out.println(inputUserDto.getForeigner());
 
         UserDto userDto = new UserDto(inputUserDto.getId(),
                 inputUserDto.getPw(),
@@ -76,15 +71,9 @@ public class ResisterController {
         );
 
         if(userService.insertNewUser(userDto) == 1) {
-            System.out.println("회원가입 정상 완료");
 
-            System.out.println("tradingPlace_A_small : " + tradingPlace_A_small); // tradingPlace_A_small : 37390310
-
-            System.out.println("check 1");
             AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
-            System.out.println("check 2");
             AddrCdDto addrCdDto = new AddrCdDto();
-            System.out.println("check 3");
 
             addrCdDto.setUr_id(userDto.getId());
             addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
@@ -95,14 +84,11 @@ public class ResisterController {
             addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
             addrCdDto.setLast_id("admin");
 
-            System.out.println(addrCdDto.toString());
             addrCdService.insertAddrCd(addrCdDto);
-            System.out.println("addr_cd 추가 완료");
 
             return "loginForm";
         }
         else {
-            System.out.println("회원가입 실패");
             return "resisterForm";
         }
     }
