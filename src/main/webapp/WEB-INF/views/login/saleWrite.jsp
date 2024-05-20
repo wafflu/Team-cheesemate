@@ -811,6 +811,6 @@
 
 </script>
 
-<script src="/resources/js/img.js"></script>
+<script src="/js/img.js"></script>
 
 </html>
