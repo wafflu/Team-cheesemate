@@ -54,19 +54,19 @@
     <h1>회원가입</h1>
     <hr>
 
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+    <input type="hidden" name="${_csrf.parameterName}" value="<c:out value='${_csrf.token}' />"/>
 
 
-    <input placeholder="아이디" class="inputBox" type="text" id="id" name="id" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,25}$" minlength="5" maxlength="25" title="아이디는 영어와 숫자가 포함되어야하며, 길이는 6글자이상 20글자까지 가능합니다." onchange="checkIdDuplication()">
+    <input placeholder="아이디" class="inputBox" type="text" id="id" name="id" value="<c:out value='${userDto.id}' />" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,25}$" minlength="5" maxlength="25" title="아이디는 영어와 숫자가 포함되어야하며, 길이는 6글자이상 20글자까지 가능합니다." onchange="checkIdDuplication()">
     <p id="idCheckResult"></p>
 
-    <input placeholder="비밀번호" class="inputBox" type="password" id="pw" name="pw" pattern="^[A-Za-z\d@$!%*?&]*$" minlength="5" maxlength="16" title="비밀번호는 영어,숫자 및 특수문자로 가능하며 최소 6자리부터 최대 16자리까지 가능합니다.">
+    <input placeholder="비밀번호" class="inputBox" type="password" id="pw" name="pw" value="<c:out value='${userDto.pw}' />" pattern="^[A-Za-z\d@$!%*?&]*$" minlength="5" maxlength="16" title="비밀번호는 영어,숫자 및 특수문자로 가능하며 최소 6자리부터 최대 16자리까지 가능합니다.">
     <br>
 
-    <input placeholder="비밀번호 확인" class="inputBox" type="password" id="inputPwCheck" name="inputPwCheck" pattern="^[A-Za-z\d@$!%*?&]*$" minlength="5" maxlength="16"  title="동일한 비밀번호를 입력해주세요.">
+    <input placeholder="비밀번호 확인" class="inputBox" type="password" id="inputPwCheck" name="inputPwCheck" value="<c:out value='${userDto.pw}' />" pattern="^[A-Za-z\d@$!%*?&]*$" minlength="5" maxlength="16"  title="동일한 비밀번호를 입력해주세요.">
     <br>
 
-    <input placeholder="이메일" class="inputBox" type="email" id="email" name="email" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" minlength="5" maxlength="50" title="이메일 주소를 정확하게 입력해주세요.">
+    <input placeholder="이메일" class="inputBox" type="email" id="email" value="<c:out value='${userDto.email}' />" name="email" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" minlength="5" maxlength="50" title="이메일 주소를 정확하게 입력해주세요.">
     <br>
 
     주소 :
@@ -83,32 +83,31 @@
     </select>
     <br>
 
-    <input placeholder="상세주소" class="inputBox" type="text" id="addr_det" name="addr_det" pattern="^[A-Za-z가-힣\d]+$" minlength="6" maxlength="50" title="거주하고 있는 주소를 정확하게 입력해주세요.">
+    <input placeholder="상세주소" class="inputBox" type="text" id="addr_det" name="addr_det" value="<c:out value='${userDto.addr_det}' />" pattern="^[가-힣a-zA-Z0-9]+$" minlength="6" maxlength="50" title="거주하고 있는 주소를 정확하게 입력해주세요.">
     <br>
     <br>
 
-    <input placeholder="이름" class="inputBox" type="text" id="name" name="name" minlength="2" maxlength="30" pattern="^[A-Za-z가-힣]+$" title="이름은 2글자 이상 30자 이하입니다.">
+    <input placeholder="이름" class="inputBox" type="text" id="name" name="name" value="<c:out value='${userDto.name}' />" minlength="2" maxlength="30" pattern="^[A-Za-z가-힣]+$" title="이름은 2글자 이상 30자 이하입니다.">
     <br>
 
-    <input placeholder="별명" class="inputBox" type="text" id="nick" name="nick" minlength="2" maxlength="20" pattern="^[A-Za-z가-힣]+$" title="별명은 2자리 이상 20자 이하입니다.">
+    <input placeholder="별명" class="inputBox" type="text" id="nick" name="nick" value="<c:out value='${userDto.nick}' />" minlength="2" maxlength="20" pattern="^[A-Za-z가-힣]+$" title="별명은 2자리 이상 20자 이하입니다.">
     <br>
 
-    <input placeholder="생년월일" class="inputBox" type="date" id="birth" name="birth" title="생년월일을 입력해주세요">
+    <input placeholder="생년월일" class="inputBox" type="date" id="birth" name="birth" value="<c:out value='${userDto.birth}' />" title="생년월일을 입력해주세요">
     <br>
 
-    <input placeholder="휴대전화번호" class="inputBox" type="text" id="phone_num" name="phone_num" minlength="11" maxlength="11" pattern="^[0-9]+$" title="하이픈(-)을 뺀 전화번호 11자리를 입력해주세요">
+    <input placeholder="휴대전화번호" class="inputBox" type="text" id="phone_num" name="phone_num" value="<c:out value='${userDto.phone_num}' />" minlength="11" maxlength="11" pattern="^[0-9]+$" title="하이픈(-)을 뺀 전화번호 11자리를 입력해주세요">
     <br>
 
 
 
-    <label id="gender">성별   </label>
-    <input type="radio" id="genderM" name="gender" value="M" title="성별 하나를 선택 해주세요">남자
-    <input type="radio" id="genderF" name="gender" value="F" title="성별 하나를 선택 해주세요">여자<br>
+    <label id="gender">성별</label>
+    <input type="radio" id="genderM" name="gender" value="<c:out value='M' />" ${userDto.gender == 'M' ? 'checked' : ''} title="성별 하나를 선택 해주세요">남자
+    <input type="radio" id="genderF" name="gender" value="<c:out value='F' />" ${userDto.gender == 'F' ? 'checked' : ''} title="성별 하나를 선택 해주세요">여자<br>
 
-    <label>내외국인   </label>
-    <input type="radio" name="foreigner" value="Y" checked>내국인
-    <input type="radio" name="foreigner" value="N">외국인<br>
-    <br>
+    <label>내외국인</label>
+    <input type="radio" name="foreigner" value=<c:out value='Y' /> ${userDto.foreigner == 'Y' ? 'checked' : ''} checked>내국인
+    <input type="radio" name="foreigner" value=<c:out value='N' /> ${userDto.foreigner == 'N' ? 'checked' : ''}>외국인<br>
 
     <button type="submit">제출</button>
 </form>

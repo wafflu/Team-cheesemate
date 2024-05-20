@@ -66,9 +66,9 @@
 <form class="center" action="/login" method="post">
     <h1>로그인</h1>
 
-    <input class="inputBox" name="inputId" value="<%= cookieUserId %>" placeholder="아이디"></input>
+    <input class="inputBox" name="inputId" value="<c:out value='<%= cookieUserId %>' />" placeholder="아이디"></input>
     <br>
-    <input class="inputBox" type="password" name="inputPw" value="<%= cookieUserPw %>" placeholder="비밀번호"></input>
+    <input class="inputBox" type="password" name="inputPw" value="<c:out value='<%= cookieUserPw %>' />" placeholder="비밀번호"></input>
     <br>
     <input class="inputPadding" type="checkbox" name="rememberAccountBnt" checked> 아이디 저장
 
@@ -82,7 +82,7 @@
     </c:if>
 
     <br>
-    <input class="inputPadding" type="hidden" name="from" value="${param.from}">
+    <input class="inputPadding" type="hidden" name="from" value="<c:out value='${param.from}' />">
     <button class="inputPadding">로그인</button>
 </form>
 <br>
