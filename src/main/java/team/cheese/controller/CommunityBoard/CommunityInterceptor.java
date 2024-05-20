@@ -1,0 +1,53 @@
+package team.cheese.controller.CommunityBoard;
+
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class CommunityInterceptor implements HandlerInterceptor {
+
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        //인증 검사 등의 로직을 구현
+        System.out.println("preHandle1");
+
+
+        //1.세션값에 저장된 아이디와 세션이 일치하는지 확인해아햔다.->현재 임의 설정
+        HttpSession session = request.getSession(true);
+        session.setAttribute("ur_id", "user123");
+        session.setAttribute("nick", "skyLee");
+        String ur_id = (String) session.getAttribute("ur_id");
+        String nick = (String) session.getAttribute("nick");
+
+
+        String currentLoginUser = (String) session.getAttribute("ur_id");
+        String currentLoginNick = (String) session.getAttribute("nick");
+//        System.out.println(currentLoginUser);
+//        System.out.println(nick);
+
+        //2.세션값에 저장된 아이디가 일치하지않거나 없는 경우 예외처리
+        if(ur_id==null || !ur_id.equals(currentLoginUser)){
+            return false;
+        }
+
+
+
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        //컨트롤러가 실행된 후의 로직을 구현
+        System.out.println("postHandle1");
+
+    }
+
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        //요청이 완료된 후의 로직을 구현
+    }
+}

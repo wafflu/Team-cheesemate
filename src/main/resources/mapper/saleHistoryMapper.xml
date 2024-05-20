@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.SaleHistoryMapper">
+    <sql id="selectFromHistory">
+        SELECT no, sal_no, addr_cd, addr_name, seller_id, sal_id_cd,
+            tx_s_cd, trade_s_cd_1,  trade_s_cd_2, stat_s_cd, price,
+            pickup_addr_cd, pickup_addr_name, detail_addr, buy_id, buy_nick,
+            r_date, m_date, ur_state, ad_state
+        FROM sale_history
+    </sql>
+
+<!--  데이터의 개수 확인  -->
+    <select id="count" resultType="int">
+        SELECT count(*)
+        FROM sale_history
+    </select>
+
+<!--  CRUD   -->
+<!--  C:   -->
+<!--  R:   -->
+<!--  U:   -->
+
+<!--  D : 전체 삭제   -->
+    <delete id="deleteAll">
+        DELETE FROM sale_history
+    </delete>
+
+    <update id="resetAutoIncrement" parameterType="map">
+        alter table sale_history auto_increment = 1
+    </update>
+
+</mapper>
