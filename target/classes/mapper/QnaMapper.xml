@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.QnaDao">
+
+    <!--    모든 사용자가 작성한 목록을 조회한다.-->
+    <select id="selectAll" resultType="QnaDto">
+        SELECT * FROM question_board
+    </select>
+
+    <!--    사용자의 글번호로 조회한다. -->
+    <select id="selectByNo" parameterType="long" resultType="QnaDto">
+        SELECT * FROM question_board
+        WHERE no = #{no}
+    </select>
+
+    <!--    사용자의 아이디로 작성한 목록을 조회한다.-->
+    <select id="selectByUserId" parameterType="String" resultType="QnaDto">
+        SELECT qb.*, qc.name AS categoryName
+        FROM question_board qb
+                 JOIN question_category qc ON qb.que_i_cd = qc.que_cd
+        WHERE ur_id=#{ur_id}
+        ORDER BY r_date DESC
+    </select>
+
+    <!--    사용자가 작성한 문의글을 취소(삭제)한다.-->
+    <delete id="delete" parameterType="map">
+        DELETE FROM question_board WHERE no = #{no} and ur_id=#{ur_id}
+    </delete>
+
+    <!--    사용자가 작성한 문의글을 등록한다.-->
+    <insert id="insert" parameterType="QnaDto" useGeneratedKeys="true" keyProperty="no" >
+        INSERT INTO question_board (ur_id, q_s_cd, que_i_cd, title, contents, r_date, m_date, ad_id, ad_name,ans_contents, ans_p_date, ans_m_date, ans_sat, state, first_date, first_id,last_date, last_id)
+        VALUES (#{ur_id}, #{q_s_cd}, #{que_i_cd}, #{title}, #{contents}, now(), null, null, null,
+                null, null, null, null, 'Y', now(), #{ur_id}, now(), #{ur_id})
+    </insert>
+
+    <!--    사용자가 작성한 문의글을 수정한다.-->
+    <update id="update" parameterType="QnaDto">
+        UPDATE question_board
+        SET  title = #{title} , contents=#{contents}, m_date = now(), last_date=now(), last_id=#{ur_id}
+        WHERE no = #{no} and ur_id=#{ur_id};
+    </update>
+
+<!--    관리자가 모든 Qna 문의글을 조회한다. -->
+    <select id="selectAllQnaAdmin" resultType="QnaDto">
+        select no, title, r_date, ur_id, q_s_cd,que_i_cd, ad_id from question_board
+        where no=#{no}
+        order by r_date desc
+    </select>
+
+    <!--    사용자 목록 조회에 대한 페이징-->
+    <select id="selectPageByUserId" parameterType="map" resultType="QnaDto">
+        SELECT qb.*, qc.name AS categoryName
+        FROM question_board qb
+                 JOIN question_category qc ON qb.que_i_cd = qc.que_cd
+        WHERE ur_id=#{ur_id}
+        ORDER BY r_date DESC
+        LIMIT #{offset}, #{pageSize}
+    </select>
+
+    <!-- 총 문의 내역 개수 조회 쿼리 -->
+    <select id="countQnasByUserId" parameterType="String" resultType="Integer">
+        SELECT COUNT(*)
+        FROM question_board
+        WHERE ur_id = #{ur_id}
+    </select>
+
+</mapper>

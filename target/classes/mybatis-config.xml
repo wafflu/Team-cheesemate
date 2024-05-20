@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <typeAlias alias="UserInfoDto" type="team.cheese.domain.MyPage.UserInfoDTO"/>
+        <typeAlias alias="ReviewCommentDto" type="team.cheese.domain.MyPage.ReviewCommentDTO"/>
+        <typeAlias alias="SearchCondition" type="team.cheese.domain.MyPage.SearchCondition"/>
+		<typeAlias alias="UserDto" type="team.cheese.domain.UserDto"/>
+		<typeAlias alias="AdminDto" type="team.cheese.domain.AdminDto"/>
+		<typeAlias alias="SaleDto" type="team.cheese.domain.SaleDto"/>
+		<typeAlias alias="SaleCategoryDto" type="team.cheese.domain.SaleCategoryDto"/>
+		<typeAlias alias="AdministrativeDto" type="team.cheese.domain.AdministrativeDto"/>
+		<typeAlias alias="BidingDto" type="team.cheese.domain.BidingDto"/>
+		<typeAlias alias="HoistingDto" type="team.cheese.domain.HoistingDto"/>
+		<typeAlias alias="ImgDto" type="team.cheese.domain.ImgDto"/>
+		<typeAlias alias="SaleHistoryDto" type="team.cheese.domain.SaleHistoryDto"/>
+		<typeAlias alias="SaleImgDto" type="team.cheese.domain.SaleImgDto"/>
+		<typeAlias alias="SaleTagDto" type="team.cheese.domain.SaleTagDto"/>
+		<typeAlias alias="TagDto" type="team.cheese.domain.TagDto"/>
+		<typeAlias alias="AddrCdDto" type="team.cheese.domain.AddrCdDto"/>
+        <typeAlias alias="ChatMessageDto" type="team.cheese.domain.ChatMessageDto"/>
+        <typeAlias alias="ChatRoomDto" type="team.cheese.domain.ChatRoomDto"/>
+        <typeAlias alias="CommuDto" type="team.cheese.domain.Commu.CommuDto"/>
+        <typeAlias alias="CommunityBoardDto" type="team.cheese.domain.CommunityBoard.CommunityBoardDto"/>
+        <typeAlias alias="CommunityHeartDto" type="team.cheese.domain.CommunityHeart.CommunityHeartDto"/>
+        <typeAlias alias="CommentDto" type="team.cheese.domain.Comment.CommentDto"/>
+        <typeAlias alias="EventDto" type="team.cheese.domain.event.EventDto"/>
+		<typeAlias alias="QnaCategoryDto" type="team.cheese.domain.QnaCategoryDto"/>
+		<typeAlias alias="FaqDto" type="team.cheese.domain.FaqDto"/>
+		<typeAlias alias="QnaDto" type="team.cheese.domain.QnaDto"/>
+	</typeAliases>
+</configuration>

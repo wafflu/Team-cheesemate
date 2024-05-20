@@ -27,7 +27,9 @@ import java.util.Map;
 @RequestMapping("/myPage")
 public class MyPageController {
 
+    @Autowired
     UserInfoService userInfoService;
+    @Autowired
     SaleService saleService;
 
     @Autowired
