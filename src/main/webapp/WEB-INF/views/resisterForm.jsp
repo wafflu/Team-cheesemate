@@ -54,6 +54,8 @@
     <h1>회원가입</h1>
     <hr>
 
+    <textarea name="content" rows="20" placeholder=" 내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"}> <c:out value=''/> </textarea><br>
+
     <input type="hidden" name="${_csrf.parameterName}" value="<c:out value='${_csrf.token}' />"/>
 
 
