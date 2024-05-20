@@ -2,8 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
-<%--<c:set var="loginId" value="${sessionScope.id}"/>--%>
-<c:set var="loginId" value="${ur_id}"/>
+<c:set var="loginId" value="${sessionScope.userId}"/>
+<%--<c:set var="loginId" value="${ur_id}"/>--%>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -71,7 +71,7 @@
 					</div>
 				</fieldset>
 				<div>
-					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!" <c:out value=''/>></textarea>
+					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
 				</div>
 				<button class="commentBtn" id="comment-sendBtn" type="button">등록</button>
 				<button class="cancelBtn" id="cancelBtn" type="button">취소</button>

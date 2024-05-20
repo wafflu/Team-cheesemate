@@ -2,8 +2,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
-<%--<c:set var="loginId" value="${sessionScope.id}"/>--%>
-<c:set var="loginId" value="${session_id}"/>
+<c:set var="loginId" value="${sessionScope.userId}"/>
+<%--<c:set var="loginId" value="${session_id}"/>--%>
 <!DOCTYPE html>
 <html>
 <head>

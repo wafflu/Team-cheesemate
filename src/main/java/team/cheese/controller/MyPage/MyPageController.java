@@ -49,15 +49,15 @@ public class MyPageController {
         // 로그인이 안되어있을떄
         if(!loginCheck(session)) {
             // ur_id값도 null이면 로그인 폼으로
-            if(ur_id==null)
-                return "loginForm";
+//            if(ur_id==null)
+//                return "loginForm";
             userInfoDTO = userInfoService.read(ur_id);
             model.addAttribute("userInfoDTO",userInfoDTO);
         // 로그인이 되어있을떄
         }else {
             // 1. 세션에서 session_id 값 받아오기
-            // String session_id = (String) session.getAttribute("id");
-            String session_id = "asdf";
+            String session_id = (String) session.getAttribute("userId");
+//            String session_id = "asdf";
             model.addAttribute("session_id",session_id);
             // 소개글 읽어오기
             userInfoDTO = userInfoService.read(ur_id,session_id,session);
@@ -79,9 +79,7 @@ public class MyPageController {
     @RequestMapping("/saleInfo")
     public String saleInfo(HttpSession session, Model model) throws Exception {
         // 1. 세션에서 session_id 값 받아오기
-        // String session_id = (String) session.getAttribute("id");
-        // test를 위한 session_id값
-        String session_id = "asdf";
+        String session_id = (String) session.getAttribute("userId");
         model.addAttribute("ur_id",session_id);
 
         return "saleInfo";
@@ -108,8 +106,7 @@ public class MyPageController {
 
     private boolean loginCheck(HttpSession session) {
         // 2. 세션에 id가 있는지 확인, 있으면 true를 반환
-//        return session.getAttribute("id")!=null;
-        return true;
+        return session.getAttribute("userId")!=null;
     }
 
 }
