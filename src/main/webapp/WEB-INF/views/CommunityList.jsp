@@ -25,7 +25,7 @@
     <title>CommunityList</title>
     <style>
         /* Add some basic styling for the pagination buttons */
-        #pagenation {
+        #pagination {
             margin: 20px 0;
             text-align: center;
         }
@@ -64,7 +64,7 @@
 <h3 id="commu_W" class="topic-slide">고민/상담</h3>
 
 <article></article>
-<div id="pagenation"></div>
+<div id="pagination"></div>
 <input type="hidden" id="current-commu-cd" value="">
 <footer></footer>
 
@@ -115,8 +115,8 @@
             });
         };
 
-        const generatePagination = function (pagenation) {
-            console.log("페이지확인:", JSON.stringify(pagenation));
+        const generatePagination = function (pagination) {
+            console.log("페이지확인:", JSON.stringify(pagination));
 
 
 
