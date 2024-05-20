@@ -21,6 +21,11 @@
         select * from community_board where ur_state = #{ur_state} order by r_date desc;
     </select>
 
+    <select id="selectPage" parameterType="map" resultType="CommunityBoardDto">
+        select * from community_board where ur_state = 'y' order by r_date desc
+        LIMIT #{offset},#{pageSize};
+    </select>
+
     <select id = "select" resultType="CommunityBoardDto">
         select * from community_board where no = #{no}
     </select>
@@ -82,5 +87,25 @@
         SET b.comment_count = b.comment_count + #{cnt}
         WHERE b.no = #{no};
     </update>
+
+
+    <select id="selectPageByCategory" parameterType="map" resultType="CommunityBoardDto">
+        SELECT * FROM community_board
+        WHERE ur_state = 'y'
+        <if test="category != 'commu_A'">
+            AND commu_cd = #{category}
+        </if>
+        ORDER BY no DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="selectCountByCategory" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM community_board
+        WHERE ur_state = 'y'
+        <if test="category != 'commu_A'">
+            AND commu_cd = #{category}
+        </if>
+    </select>
+
 
 </mapper>

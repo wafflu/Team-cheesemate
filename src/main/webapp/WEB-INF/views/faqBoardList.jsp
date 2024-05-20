@@ -22,54 +22,54 @@
     <script src="/js/faq.js"></script> <!-- faq.js 파일 포함 -->
 </head>
 <body>
-<%--<header id="header_box">--%>
-<%--    <div id="herder_top">--%>
-<%--        <div id="logobox">--%>
-<%--            <a href="#" id="cheezmate"><img src="icon/logo.png" alt="우리들의 팀메이트 치즈마켓" id="logoimg"></a>--%>
-<%--        </div>--%>
-<%--        <div id="searchbox">--%>
-<%--            <input type="text" name="search" id="search" autocomplete="off">--%>
-<%--        </div>--%>
-<%--        <div id="subnavbox">--%>
-<%--            <div id="subnavinnerbox">--%>
-<%--                    <span class="subnavspan">--%>
-<%--                        <a href="#" id="chatlink" class="subnavlink">--%>
-<%--                            <img src="icon/chat.png" alt="chatting" id="chaticon" class="subnavicon">--%>
-<%--                            <span class="subnavtext">치즈톡</span>--%>
-<%--                        </a>--%>
-<%--                    </span>--%>
-<%--                <span class="subnavspan">--%>
-<%--                        <a href="#" id="storelink" class="subnavlink">--%>
-<%--                            <img src="icon/store.png" alt="sell" id="storeicon" class="subnavicon">--%>
-<%--                            <span class="subnavtext">판매하기</span>--%>
-<%--                        </a>--%>
-<%--                    </span>--%>
-<%--                <span class="subnavspan">--%>
-<%--                        <a href="#" id="userlink" class="subnavlink">--%>
-<%--                            <img src="icon/person.png" alt="user" id="usericon" class="subnavicon">--%>
-<%--                            <span class="subnavtext">마이</span>--%>
-<%--                        </a>--%>
-<%--                    </span>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div id="nav">--%>
-<%--        <ul id="navlist">--%>
-<%--            <li class="navli">--%>
-<%--                <a href="#"><span class="navtext">판매/나눔</span></a>--%>
-<%--            </li>--%>
-<%--            <li class="navli">--%>
-<%--                <a href="#"><span class="navtext">이벤트</span></a>--%>
-<%--            </li>--%>
-<%--            <li class="navli">--%>
-<%--                <a href="#"><span class="navtext">커뮤니티</span></a>--%>
-<%--            </li>--%>
-<%--            <li class="navli">--%>
-<%--                <a href="#"><span class="navtext">고객센터</span></a>--%>
-<%--            </li>--%>
-<%--        </ul>--%>
-<%--    </div>--%>
-<%--</header>--%>
+<header id="header_box">
+    <div id="herder_top">
+        <div id="logobox">
+            <a href="#" id="cheezmate"><img src="icon/logo.png" alt="우리들의 팀메이트 치즈마켓" id="logoimg"></a>
+        </div>
+        <div id="searchbox">
+            <input type="text" name="search" id="search" autocomplete="off">
+        </div>
+        <div id="subnavbox">
+            <div id="subnavinnerbox">
+                    <span class="subnavspan">
+                        <a href="#" id="chatlink" class="subnavlink">
+                            <img src="icon/chat.png" alt="chatting" id="chaticon" class="subnavicon">
+                            <span class="subnavtext">치즈톡</span>
+                        </a>
+                    </span>
+                <span class="subnavspan">
+                        <a href="#" id="storelink" class="subnavlink">
+                            <img src="icon/store.png" alt="sell" id="storeicon" class="subnavicon">
+                            <span class="subnavtext">판매하기</span>
+                        </a>
+                    </span>
+                <span class="subnavspan">
+                        <a href="#" id="userlink" class="subnavlink">
+                            <img src="icon/person.png" alt="user" id="usericon" class="subnavicon">
+                            <span class="subnavtext">마이</span>
+                        </a>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div id="nav">
+        <ul id="navlist">
+            <li class="navli">
+                <a href="#"><span class="navtext">판매/나눔</span></a>
+            </li>
+            <li class="navli">
+                <a href="#"><span class="navtext">이벤트</span></a>
+            </li>
+            <li class="navli">
+                <a href="#"><span class="navtext">커뮤니티</span></a>
+            </li>
+            <li class="navli">
+                <a href="#"><span class="navtext">고객센터</span></a>
+            </li>
+        </ul>
+    </div>
+</header>
 <div class="container">
     <aside>
         <h3>고객센터</h3>
@@ -83,7 +83,7 @@
         <div>
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="검색어 입력">
-                    <button id="searchButton">검색</button>
+                <button id="searchButton">검색</button>
             </div>
             <div class="category-container">
                 <button class="category-button" value="6">전체</button>

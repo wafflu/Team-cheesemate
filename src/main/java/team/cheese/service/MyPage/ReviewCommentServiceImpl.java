@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.cheese.dao.MyPage.ReviewCommentDao;
 import team.cheese.dao.MyPage.UserInfoDao;
+import team.cheese.dao.SaleDao;
 import team.cheese.domain.MyPage.ReviewCommentDTO;
 
 import java.util.HashMap;
@@ -16,10 +17,12 @@ import java.util.Map;
 public class ReviewCommentServiceImpl implements ReviewCommentService {
     ReviewCommentDao rvdao;
     UserInfoDao userInfoDao;
+    SaleDao saleDao;
     @Autowired
-    public ReviewCommentServiceImpl( ReviewCommentDao rvdao,UserInfoDao userInfoDao) {
+    public ReviewCommentServiceImpl( ReviewCommentDao rvdao,UserInfoDao userInfoDao,SaleDao saleDao) {
         this.rvdao = rvdao;
         this.userInfoDao = userInfoDao;
+        this.saleDao = saleDao;
     }
 
     // count -> getCount
@@ -67,10 +70,11 @@ public class ReviewCommentServiceImpl implements ReviewCommentService {
     // insert -> write
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void write(ReviewCommentDTO reviewCommentDTO) throws Exception {
+    public void write(ReviewCommentDTO reviewCommentDTO,Long no) throws Exception {
             int updateCnt = userInfoDao.updateRvCmtCnt(reviewCommentDTO.getSal_id(), 1);
+            int updateCnt2 = saleDao.reviewState(no);
             int insertCnt = rvdao.insert(reviewCommentDTO);
-            if(updateCnt + insertCnt!=2)
+            if(updateCnt + updateCnt2+ insertCnt != 3)
                 throw new Exception("후기글 작성 중 오류가 발생했습니다");
     }
     // delete -> remove

@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class
-
-FaqDaoImpl implements FaqDao {
+public class FaqDaoImpl implements FaqDao {
 
     @Autowired
     private SqlSession session;

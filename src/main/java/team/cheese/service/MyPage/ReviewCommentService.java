@@ -21,7 +21,7 @@ public interface ReviewCommentService {
 
     // insert -> write
     @Transactional(rollbackFor = Exception.class)
-    void write(ReviewCommentDTO reviewCommentDTO) throws Exception;
+    void write(ReviewCommentDTO reviewCommentDTO,Long no) throws Exception;
 
     // delete -> remove
     @Transactional(rollbackFor = Exception.class)

@@ -23,7 +23,7 @@ public class DeleteDao {
     ImgDao imgDao;
 
     public void deleteAll() throws Exception {
-        saleImgDao.deleteAll();
+//        saleImgDao.deleteAll();
 //        imgDao.deleteAll();
         saleTagDao.deleteAll();
         tagDao.deleteAll();

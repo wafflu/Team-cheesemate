@@ -11,6 +11,10 @@ import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.dao.MyPage.UserInfoDao;
 import team.cheese.service.ImgService;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import team.cheese.service.ImgService;
+
 import java.util.HashMap;
 
 @Service
@@ -32,23 +36,29 @@ public class UserInfoServiceImpl implements UserInfoService {
     // => MyPageController에서 호출
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public UserInfoDTO read(String ur_id,String session_id) throws Exception {
+    public UserInfoDTO read(String ur_id, String session_id, HttpSession session) throws Exception {
         // 자신의 소개글을 읽을땐 방문자수를 늘리면 안됨
         // 자신의 소개글인지 다른 사람의 소개글인지 판단
-            // 1. ur_id값이 null이면 -> 자신의 소개글 -> 방문자수 증가 없이 읽어오기
-            if(ur_id==null) {
-                // 1-1. ur_id값이 null 이면 ur_id값도 세션객체의 id
-                ur_id = session_id;
-            } else {
-                // 2. 다른 사람의 소개글이라면 해당 소개글 방문자수를 증가
-                //  2-2. 방문자수 증가
-                int rowCnt =userInfoDao.incrementViewCnt(ur_id);
-                // 2-3. rowCnt가 1이 아니면 예외발생
-                if(rowCnt!=1)
+        // 1. ur_id값이 null이면 -> 자신의 소개글 -> 방문자수 증가 없이 읽어오기
+        if (ur_id == null) {
+            // 1-1. ur_id값이 null 이면 ur_id값도 세션객체의 id
+            ur_id = session_id;
+        } else {
+            String visitKey = "hasVisited_" + session_id;
+            // 해당 visitKey가 session에 있는지
+            // 없으면 session에 visitKey를 저장
+            // 있으면 방문자수 증가 하지않음
+            if (session.getAttribute(visitKey) == null || !(boolean) session.getAttribute(visitKey)) {
+                session.setAttribute(visitKey,true);
+                // 다른 사람의 소개글이라면 해당 소개글 방문자수를 증가
+                int rowCnt = userInfoDao.incrementViewCnt(ur_id);
+                // rowCnt가 1이 아니면 예외발생
+                if (rowCnt != 1)
                     throw new Exception("소개글 조회 중 오류가 발생했습니다.");
             }
-            // 3. 해당 ur_id에 따른 소개글 읽어오기
-            return read(ur_id);
+        }
+        // 3. 해당 ur_id에 따른 소개글 읽어오기
+        return read(ur_id);
     }
 
     // 소개글을 읽어오기 위한 메서드 (오버로딩)

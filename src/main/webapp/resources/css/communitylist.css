@@ -4,33 +4,33 @@
     border: 1px solid #000;
 
 }
-.topic-container {
-    margin: 0 auto;
-    left:100px;
-    position: relative;
-    overflow: hidden;
-    list-style: none;
-    padding: 0;
-    z-index: 1;
-}
-.topic-wrapper {
-    display: flex;
-    transition-duration: 0ms;
+/*.topic-container {*/
+/*    margin: 0 auto;*/
+/*    left:100px;*/
+/*    position: relative;*/
+/*    overflow: hidden;*/
+/*    list-style: none;*/
+/*    padding: 0;*/
+/*    z-index: 1;*/
+/*}*/
+/*.topic-wrapper {*/
+/*    display: flex;*/
+/*    transition-duration: 0ms;*/
 
 
 
-}
+/*}*/
 
-.topic-slide {
-    flex-shrink: 0;
-    width: auto; /* 자동 너비 */
-    height: 100%;
-    position: relative;
-    -webkit-font-smoothing: subpixel-antialiased;
-    font-smoothing: subpixel-antialiased;
-    padding: 0 10px; /* 좌우 패딩 추가 */
-    display: block;
-    border: 1px solid #000;
-    border-radius: 5px;
-    margin: 10px;
-}
+/*.topic-slide {*/
+/*    flex-shrink: 0;*/
+/*    width: auto; !* 자동 너비 *!*/
+/*    height: 100%;*/
+/*    position: relative;*/
+/*    -webkit-font-smoothing: subpixel-antialiased;*/
+/*    font-smoothing: subpixel-antialiased;*/
+/*    padding: 0 10px; !* 좌우 패딩 추가 *!*/
+/*    display: block;*/
+/*    border: 1px solid #000;*/
+/*    border-radius: 5px;*/
+/*    margin: 10px;*/
+/*}*/
