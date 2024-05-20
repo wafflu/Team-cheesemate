@@ -52,7 +52,7 @@
     $(document).ready(function(){
 
         $.ajax({
-            url:'/community/story',
+            url:'/community/home/story',
             type:"GET",
             dataType:"json",
             success:function(response){

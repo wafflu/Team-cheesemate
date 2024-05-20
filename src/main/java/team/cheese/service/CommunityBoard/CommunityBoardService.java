@@ -2,6 +2,7 @@ package team.cheese.service.CommunityBoard;
 
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
+import team.cheese.domain.MyPage.ReviewCommentDTO;
 
 import java.util.List;
 import java.util.Map;
@@ -34,4 +35,10 @@ public interface CommunityBoardService {
     public CommunityBoardDto findCommunityBoardById(Integer no) throws Exception;
 
     public int totalLike(Integer no) throws Exception;
+
+        //paging
+
+    public List<CommunityBoardDto> getPageByCategory(int page, int pageSize, String category) throws Exception;
+
+    public int getCountByCategory(String category) throws Exception;
 }
