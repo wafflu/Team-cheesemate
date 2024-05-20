@@ -115,6 +115,7 @@
     </form>
 
     <a href="write" class="btn btn-default">쓰기</a>
+    <script src="/js/img.js"></script>
     <script>
 
         // function writeData() {
@@ -146,5 +147,34 @@
         //         })
         // }
     </script>
+
+<%--        // function writeData() {--%>
+<%--        //     var title = document.getElementById("title").value;--%>
+<%--        //     var contents = document.getElementById("contents").value;--%>
+<%--        //     var ad_id = document.getElementById("nickname").value;--%>
+<%--        //     var s_date = document.getElementById("s_date").value;--%>
+<%--        //     var e_date = document.getElementById("e_date").value;--%>
+<%--        //     var evt_cd = document.getElementById("user_select").value;--%>
+<%--        //     var prize = document.getElementById("prize").value;--%>
+<%--        //     var eventDto = {--%>
+<%--        //         title: title,--%>
+<%--        //         contents: contents,--%>
+<%--        //         ad_id: ad_id,--%>
+<%--        //         s_date: s_date,--%>
+<%--        //         e_date: e_date,--%>
+<%--        //         evt_cd: evt_cd,--%>
+<%--        //         prize: prize--%>
+<%--        //     };--%>
+<%--        //     $.ajax({--%>
+<%--        //         url : "event/write",--%>
+<%--        //         type: "POST",--%>
+<%--        //         contentType: 'application/json',--%>
+<%--        //         dataType: "json",--%>
+<%--        //         data: JSON.stringify(eventDto),--%>
+<%--        //         success: function (data){--%>
+<%--        //--%>
+<%--        //         }--%>
+<%--        //         })--%>
+<%--        // }--%>
 </body>
 </html>

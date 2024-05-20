@@ -39,14 +39,14 @@ public class ChatController {
         }
 //        String userid = (String) session.getAttribute("userId");
         String usernick = (String) session.getAttribute("userNick");
-        //로그인 체
+
         model.addAttribute("roomid", no);
         model.addAttribute("usernick", usernick);
         log.info("채팅방 입장 : "+no);
         return "/chat2";
     }
 
-    @GetMapping("/callchat")
+    @PostMapping("/callchat")
     public String callchat(Model model, HttpSession session, Long sno, String id, String nick) {
         //임시 테스트용
         if(session.getAttribute("userId") == null){
@@ -55,12 +55,16 @@ public class ChatController {
         String userid = (String) session.getAttribute("userId");
         String usernick = (String) session.getAttribute("userNick");
 
+        System.out.println(sno+"/"+id+"/"+nick);
+
         SaleDto sdto = new SaleDto();
         sdto.setNo(sno);
         sdto.setSeller_id(id);
         sdto.setSeller_nick(nick);
         sdto.setBuyer_id(userid);
         sdto.setBuyer_nick(usernick);
+        sdto.setFirst_id(userid);
+        sdto.setLast_id(userid);
 
         Long cr_no = chatService.checkChat(sdto);
         log.info("방 넘버 : "+cr_no);
@@ -81,6 +85,8 @@ public class ChatController {
     public ResponseEntity<String> savemessage(@RequestBody ChatMessageDto cmto, HttpSession session) {
         String userid = (String) session.getAttribute("userId");
         cmto.setAcid(userid);
+        cmto.setFirst_id(userid);
+        cmto.setLast_id(userid);
         return chatService.savemessage(cmto);
     }
 

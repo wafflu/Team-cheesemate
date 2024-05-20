@@ -53,7 +53,6 @@ public class ImgService {
     }
 
     public ResponseEntity<byte[]> display(String fileName){
-
         String folderPath = ifc.getFolderPath()+File.separator;
 
         File file = new File(folderPath+fileName);
@@ -230,6 +229,10 @@ public class ImgService {
 
     public int getGno(){
         return imgDao.select_group_max();
+    }
+
+    public List<ImgDto> load_cssimg(String imgtype){
+        return imgDao.select_css(imgtype);
     }
 }
 
