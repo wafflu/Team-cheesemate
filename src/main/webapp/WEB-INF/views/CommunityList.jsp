@@ -15,223 +15,159 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/communitylist.css">
+<%--    <link rel="stylesheet" href="/css/mystyle.css">--%>
+<%--    <script src="/js/img.js"></script>--%>
+<%--    --%>
 
-    <link rel="stylesheet" type="text/css" href="/resources/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/communitylist.css">
     <title>CommunityList</title>
+    <style>
+        /* Add some basic styling for the pagination buttons */
+        #pagenation {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .page-link {
+            display: inline-block;
+            padding: 8px 16px;
+            margin: 0 4px;
+            border: 1px solid #ddd;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .page-link.active {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .page-link.disabled {
+            color: #ddd;
+            cursor: not-allowed;
+        }
+
+        .page-link:hover:not(.disabled) {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body id="community-list">
 
-     <div class="topic-container">
-        <div class="topic-wrapper">
-        <h3 id = "all" class="topic-slide">전체</h3>
-        <h3 id = "hot" class="topic-slide">인기글</h3>
-        <h3 id = "bla" class="topic-slide">블라블라</h3>
-        <h3 id = "love" class="topic-slide">연애/썸</h3>
-        <h3 id = "worry" class="topic-slide">고민/상담</h3>
-        </div>
-     </div>
+<h3 id="commu_A" class="topic-slide">전체</h3>
+<%--<h3 id="commu_H" class="topic-slide">인기글</h3>--%>
+<h3 id="commu_B" class="topic-slide">블라블라</h3>
+<h3 id="commu_L" class="topic-slide">연애/썸</h3>
+<h3 id="commu_W" class="topic-slide">고민/상담</h3>
 
-     <article>
-
-
-
-    </article>
-
-
-<footer>
-</footer>
-
+<article></article>
+<div id="pagenation"></div>
+<input type="hidden" id="current-commu-cd" value="">
+<footer></footer>
 
 <script>
-    $(document).ready(function(){
 
-      $.ajax({
-        type:"GET",
-        url:'/community/story',
-        dataType:"json",
-        success:function(result){
-          let s= " ";
-          s+="<table>"
-          for(let i = 0; i<result.length; i++){
-            console.log(result[i]);
-            s+="<tr>"
-            s+="<td>" + result[i].no+ "</td>"
-            s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/community/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
-            s+="<td>" + result[i].nick+ "</td>"
-            s+="<td>" + result[i].view_cnt+ "</td>"
-            s+="<td>" + result[i].addr_name+ "</td>"
-            s+="<td>" + "👁️"+result[i].view_cnt+ "</td>"
-            s+="<td>" + "💬"+result[i].comment_count+"</td>"
-            s+="<td>" + "❤️"+result[i].like_cnt+"</td>"
-          }
-          s+="</table>";
-          $('article').html(s);
-        },
-        error:function(){alert("error")}
-      })
+    $(document).ready(function () {
+        const contextPath = '${pageContext.request.contextPath}';
 
-
-
-        $("#all").click(function(){
-            <%--let allData = ${communityBoardDto.list};--%>
-
-
+        const loadArticles = function (category, page, pageSize = 5) {
+            console.log("Requesting page: " + page + ", Category: " + category); // 로그 추가
             $.ajax({
-                type:"GET",
-                url:'/community/story',
-                dataType:"json",
-                success:function(result){
-                    let s= " ";
-                    s+="<table>"
-                    for(let i = 0; i<result.length; i++){
-                        console.log(result[i]);
-                        s+="<tr>"
-                        s+="<td>" + result[i].no+ "</td>"
-                        s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/community/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
-                        s+="<td>" + result[i].nick+ "</td>"
-                        s+="<td>" + result[i].view_cnt+ "</td>"
-                        s+="<td>" + result[i].addr_name+ "</td>"
-                      s+="<td>" + "👁️"+result[i].view_cnt+ "</td>"
-                      s+="<td>" + "💬"+result[i].comment_count+"</td>"
-                      s+="<td>" + "❤️"+result[i].like_cnt+"</td>"
-                    }
-                    s+="</table>";
-                    $('article').html(s);
+                type: "GET",
+                url: `${contextPath}/community/story`,
+                data: {
+                    category: category,
+                    page: page,
+                    pageSize: pageSize
                 },
-                error:function(){alert("error")}
-            })
-            // alert("asdasd");
-        })
-
-      $(document).ready(function(){
-        $("#hot").click(function(){
-          <%--let allData = ${communityBoardDto.list};--%>
-
-
-          $.ajax({
-            type:"GET",
-            url:'/community/story',
-            dataType:"json",
-            success:function(result){
-              let s= " ";
-              s+="<table>"
-
-              result.sort(function(a,b){
-                return b.view_cnt - a.view_cnt;
-              })
-              for(let i = 0; i<result.length; i++){
-                console.log(result[i]);
-                s+="<tr>"
-                s+="<td>" + result[i].no+ "</td>"
-                s+="<td>" + result[i].commu_name+"</td>"
-                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/community/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
-                s+="<td>" + result[i].nick+ "</td>"
-                s+="<td>" + result[i].view_cnt+ "</td>"
-                s+="<td>" + result[i].addr_name+ "</td>"
-
-
-              }
-              s+="</table>";
-              $('article').html(s);
-            },
-            error:function(){alert("error")}
-          })
-          alert("hot");
-        })
-
-
-
-        $("#bla").click(function(){
-            $.ajax({
-                type:"GET",
-                url:'/community/story',
                 dataType: "json",
-                success: function(result){
-                    let s = " ";
-                    s+= "<table>"
-                    for (let i = 0; i < result.length; i++) {
-                        if(result[i].commu_cd === 'commu_B'){
-                            console.log(result[i])
-                            s+="<tr>"
-                            s+="<td>" + result[i].no+ "</td>"
-                            s+="<td>" + result[i].addr_cd + "</td>"
-                            s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/community/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
-                            s+="<td>" + result[i].nick+ "</td>"
-                            s+="<td>" + result[i].view_cnt+ "</td>"
-                            s+="<td>" + result[i].addr_name+ "</td>"
-                        }
+                success: function (result) {
+                    console.log("Response: ", result); // 로그 추가
+                    let s = "";
+                    s += "<table>";
+                    for (let i = 0; i < result.content.length; i++) {
+                        let item = result.content[i];
+                        console.log(item);
+                        s += "<tr>";
+                        s += "<td>" + item.no + "</td>";
+                        s += "<td><a href='" + contextPath + "/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
+                        s += "<td>" + item.nick + "</td>";
+                        s += "<td>" + item.view_cnt + "</td>";
+                        s += "<td>" + item.addr_name + "</td>";
+                        s += "<td>👁️" + item.view_cnt + "</td>";
+                        s += "<td>💬" + item.comment_count + "</td>";
+                        s += "<td>❤️" + item.like_cnt + "</td>";
+                        s += "</tr>";
                     }
-                    s+="</table>";
+                    s += "</table>";
+                    console.log(s);
                     $('article').html(s);
+                    // Update pagination
+                    $('#pagination').html(generatePagination(result.ph));
 
+                },
+                error: function () {
+                    alert("error");
                 }
-            })
-          alert("click bla");
-        })
+            });
+        };
+
+        const generatePagination = function (pagenation) {
+            console.log("페이지확인:", JSON.stringify(pagenation));
 
 
 
-      $("#love").click(function(){
-        $.ajax({
-          type:"GET",
-          url:'/community/story',
-          dataType: "json",
-          success: function(result){
-            let s = " ";
-            s+= "<table>"
-            for (let i = 0; i < result.length; i++) {
-              if(result[i].commu_cd === 'commu_L'){
-                console.log(result[i])
-                s+="<tr>"
-                s+="<td>" + result[i].no+ "</td>"
-                s+="<td>" + result[i].addr_cd + "</td>"
-                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/community/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
-                s+="<td>" + result[i].nick+ "</td>"
-                s+="<td>" + result[i].view_cnt+ "</td>"
-                s+="<td>" + result[i].addr_name+ "</td>"
-              }
+
+            let paginationHtml = '';
+            if (pagination.prevPage) {
+                paginationHtml += `<span class="page-link" data-page="1">First</span>`;
+                paginationHtml += `<span class="page-link" data-page="${pagination.page - 1}">Previous</span>`;
+            } else {
+                paginationHtml += `<span class="page-link disabled">First</span>`;
+                paginationHtml += `<span class="page-link disabled">Previous</span>`;
             }
-            s+="</table>";
-            $('article').html(s);
 
-          }
-        })
-        alert("click love");
-      })
-
-
-      $("#worry").click(function(){
-        $.ajax({
-          type:"GET",
-          url:'/community/story',
-          dataType: "json",
-          success: function(result){
-            let s = " ";
-            s+= "<table>"
-            for (let i = 0; i < result.length; i++) {
-              if(result[i].commu_cd === 'commu_W'){
-                console.log(result[i])
-                s+="<tr>"
-                s+="<td>" + result[i].no+ "</td>"
-                s+="<td>" + result[i].addr_cd + "</td>"
-                s+="<td>" +  "<a href='"+"${pageContext.request.contextPath}/community/read?no="+result[i].no+"'>" + result[i].title + "</a></td>"
-                s+="<td>" + result[i].nick+ "</td>"
-                s+="<td>" + result[i].view_cnt+ "</td>"
-                s+="<td>" + result[i].addr_name+ "</td>"
-              }
+            for (let i = 1; i <= pagination.totalPage; i++) {
+                if (i === pagination.page) {
+                    paginationHtml += `<span class="page-link active" data-page="${i}">${i}</span>`;
+                } else {
+                    paginationHtml += `<span class='page-link' data-page='${i}'>${i}</span>`;
+                }
             }
-            s+="</table>";
-            $('article').html(s);
 
-          }
-        })
-        alert("click worry");
-      })
-    })
-    })
+            <%--if (pagination.nextPage) {--%>
+            <%--    paginationHtml += `<span class="page-link" data-page="${pagination.page + 1}">Next</span>`;--%>
+            <%--    paginationHtml += `<span class="page-link" data-page="${pagination.totalPage}">Last</span>`;--%>
+            <%--} else {--%>
+            <%--    paginationHtml += `<span class="page-link disabled">Next</span>`;--%>
+            <%--    paginationHtml += `<span class="page-link disabled">Last</span>`;--%>
+            <%--}--%>
 
+            return paginationHtml;
+        };
+
+        // Load initial data
+        loadArticles('commu_A',1);
+
+        // Click events for category buttons
+        $(".topic-slide").click(function () {
+            const category = $(this).attr('id');
+            $(".topic-slide").removeClass('active');
+            $(this).addClass('active');
+            loadArticles(category,1);
+        });
+
+        // Click events for pagination links
+        $(document).on('click', '.page-link', function () {
+            let page = $(this).data('page');
+            console.log("ClickedPAge" + page);
+            const category = $(".topic-slide.active").attr('id') || 'commu_A';
+            loadArticles(category, page);
+        });
+    });
 
 </script>
 </body>

@@ -40,12 +40,12 @@
     </div>
 
     <p>${communityBoardDto.contents}</p>
-    <c:if test="${not empty communityBoardDto.img_full_rt}">
-        <img src="/resources/img/${communityBoardDto.img_full_rt}" alt="Post Image" style="max-width: 200px; max-height: 200px;"/>
-    </c:if>
-    <c:if test="${empty communityBoardDto.img_full_rt}">
-        <p>이미지가 없습니다.</p>
-    </c:if>
+
+        <c:forEach items="${imglist}" var="img">
+            <c:if test="${img.imgtype eq 'w'}">
+                <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+            </c:if>
+        </c:forEach>
 
 
         <div style="display:none;"  id ="alertDiv">
@@ -101,6 +101,8 @@
 
         })
         $('#edit').on("click",function (){
+            var confirmation = confirm("이 게시물을 수정하시겠습니까?");
+            alert(confirmation);
             window.location.href = '/community/edit?no=${communityBoardDto.no}';
 
         })
@@ -132,7 +134,13 @@
                     $('#heart').data('count-like', response.totalLikeCount); // 데이터 속성도 업데이트
                 },
                 error: function (xhr, status, error) {
-                    console.error("좋아요 실패", error.responseText)
+                   if(xhr.status ===401){
+                       alert("로그인 먼저 해주세요");
+                    } else if (xhr.status === 500) {
+                       alert("서버 에러가 발생했습니다.");
+                    } else {
+                       alert("좋아요 실패: " + xhr.responseText);
+                 }
                 }
 
 

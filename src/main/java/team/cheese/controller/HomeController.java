@@ -2,12 +2,14 @@ package team.cheese.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.UserDto;
 import team.cheese.service.AddrCdService;
 import team.cheese.service.AdminService;
 import team.cheese.service.UserService;
+import team.cheese.service.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,9 @@ public class HomeController {
 
     @Autowired
     AdminService adminService;
+
+    @Autowired
+    ImgService imgService;
 
     // *** 홈(home.jsp)으로 이동 ***
     @GetMapping({"/", "/home"})

@@ -1,0 +1,36 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+header, footer {
+    background-color: #f8f9fa;
+    padding: 1rem;
+}
+.container {
+    display: flex;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    margin-top: 150px; /* 헤더 높이만큼 여백 추가 */
+}
+aside {
+    width: 200px;
+    background-color: #eee;
+    padding: 1rem;
+}
+main {
+    flex: 1;
+    padding: 1rem;
+}
+form {
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px #ccc;
+    background: #fff;
+}
+div {
+    margin-bottom: 10px;
+}

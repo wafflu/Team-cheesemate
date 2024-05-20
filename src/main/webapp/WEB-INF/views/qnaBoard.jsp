@@ -1,13 +1,6 @@
-<%@ page import="org.springframework.util.StringUtils" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page session="true" %>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="fixed/header.jsp"%>
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>QnA 게시판</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         body {
@@ -45,12 +38,7 @@
             margin-bottom: 20px;
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-<header>
-    <!-- 헤더 내용 추가 -->
-</header>
+
 <div class="container">
     <aside>
         <h3>고객센터</h3>
@@ -118,5 +106,4 @@
         return confirm('정말 삭제하시겠습니까?');
     }
 </script>
-</body>
-</html>
+<%@include file="fixed/footer.jsp"%>

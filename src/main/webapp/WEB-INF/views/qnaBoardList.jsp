@@ -1,12 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>문의 목록</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="fixed/header.jsp"%>
+
     <style>
         body {
             display: flex;
@@ -37,11 +31,7 @@
             margin-top: 20px;
         }
     </style>
-</head>
-<body>
-<header>
-    <!-- 헤더 내용 추가 -->
-</header>
+
 <div class="container">
     <aside>
         <h3>고객센터</h3>
@@ -99,6 +89,5 @@
     <!-- 푸터 내용 추가 -->
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
-</html>
+
+<%@include file="fixed/footer.jsp"%>

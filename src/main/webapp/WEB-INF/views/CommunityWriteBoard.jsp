@@ -1,17 +1,7 @@
-
-
-<%--
-  Created by IntelliJ IDEA.
-  User: gominjeong
-  Date: 4/25/24
-  Time: 8:50 AM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="false" %>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <html>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,11 +35,21 @@
         <div>
             <input id="title" type="text" name="title" value="${communityBoardDto.title}">
         </div>
-<%--        <div class="form-group" style="height: 150px; width: 200px;">--%>
-<%--            <label>이미지 파일 첨부</label>--%>
-<%--            <input type="file" name="image" id="image"/>--%>
-<%--            <img id="preview" src="#" alt="Image preview" style="max-width: 200px; max-height: 200px;"/>--%>
-<%--        </div>--%>
+
+        <div class="form_section_content">
+            <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
+        </div>
+        <div id = "uploadResult">
+            <c:forEach items="${imglist}" var="img">
+                <c:if test="${img.imgtype eq 'r'}">
+                    <div id='result_card'>
+                        <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">
+                        <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+
     </div>
     <div class="main">
         <textarea name="contents" id="contents">${communityBoardDto.contents}</textarea>
@@ -58,14 +58,32 @@
 </form>
 
 <script>
+
+    let Image = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     $(document).ready(function(){
         $('#register').on("click", function (e){
             e.preventDefault(); // 기본 폼 제출을 막음
-
-            if ($('#title').val() === '' || $('#contents').val() === '') {
-                alert('제목과 내용을 작성하였는지 확인해주세요.');
-                return false; // 유효성 검사 실패 시 폼 제출 중단
-            }
 
             let no = "${communityBoardDto.no}";
             let ur_id = "${communityBoardDto.ur_id}";
@@ -75,8 +93,9 @@
             let nick = "${communityBoardDto.nick}";
             let commu_cd = $('select[name="commu_cd"]').val();
             let commu_name = commuName(commu_cd);
-            let title = $('input[name="title"]').val();
-            let contents = $('textarea[name="contents"]').val();
+            let title = $('#title').val()//$('input[name="title"]').val();
+            let contents = $('#contents').val() //$('textarea[name="contents"]').val();
+            let group_no = "${communityBoardDto.group_no}";
 
             let communityBoardDto = {
                 "no": no,
@@ -88,12 +107,20 @@
                 "addr_name": addr_name,
                 "title": title,
                 "contents": contents,
-                "nick": nick
+                "nick": nick,
+                "group_no": group_no
             };
 
             let map = {
-                "communityBoardDto": communityBoardDto
+                "communityBoardDto": communityBoardDto,
+                "imgList" : Image.getImgInfo()
             };
+
+            if ($('#title').val() === '' || $('#contents').val() === '') {
+                alert('제목과 내용을 작성하였는지 확인해주세요.');
+                return false; // 유효성 검사 실패 시 폼 제출 중단
+            }
+
             let jsonString = JSON.stringify(map);
 
             $.ajax({
@@ -102,7 +129,6 @@
                 contentType: 'application/json; charset=utf-8',
                 data: jsonString,
                 dataType: 'text',
-
                 success: function (data) {
                     console.log(data);
                     window.location.replace(data);
@@ -118,11 +144,6 @@
 
             e.preventDefault(); // 기본 폼 제출을 막음
 
-            if ($('#title').val() === '' || $('#contents').val() === '') {
-                alert('제목과 내용을 작성하였는지 확인해주세요.');
-                return false; // 유효성 검사 실패 시 폼 제출 중단
-            }
-
             let no = "${communityBoardDto.no}";
             let ur_id = "${communityBoardDto.ur_id}";
             let addr_cd = "${communityBoardDto.addr_cd}";
@@ -131,8 +152,9 @@
             let nick = "${communityBoardDto.nick}";
             let commu_cd = $('select[name="commu_cd"]').val();
             let commu_name = commuName(commu_cd);
-            let title = $('input[name="title"]').val();
-            let contents = $('textarea[name="contents"]').val();
+            let title = $('#title').val()//$('input[name="title"]').val();
+            let contents = $('#contents').val() //$('textarea[name="contents"]').val();
+            let group_no = "${communityBoardDto.group_no}";
 
             let communityBoardDto = {
                 "no": no,
@@ -144,12 +166,18 @@
                 "addr_name": addr_name,
                 "title": title,
                 "contents": contents,
-                "nick": nick
+                "nick": nick,
+                "group_no": group_no
             };
+
             let map = {
-                "communityBoardDto": communityBoardDto
+                "communityBoardDto": communityBoardDto,
+                "imgList" : Image.getImgInfo()
             };
+
             let jsonString = JSON.stringify(map);
+
+            console.log(map)
 
             $.ajax({
                 type: 'POST',
@@ -165,7 +193,7 @@
                 },
                 error: function (xhr, status, error) {
                     console.log(xhr.responseText);
-                    alert(xhr.responseText);
+                    alert("에러 : "+xhr.responseText);
                 }
             });
         });
@@ -231,5 +259,6 @@
 
     });
 </script>
+<script src="/js/img.js"></script>
 </body>
 </html>

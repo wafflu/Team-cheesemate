@@ -17,23 +17,37 @@ public class FaqDaoImpl implements FaqDao {
     private String namespace = "team.cheese.dao.FaqDao.";
 
     @Override
-    public int count(){
-        return session.selectOne(namespace+"count");
+    public int count() {
+        return session.selectOne(namespace + "count");
     }
+
     @Override
-    public List<FaqDto> selectAllFaq(){
-        return session.selectList(namespace+"faqSelectAll");
+    public List<FaqDto> selectAllFaq() {
+        return session.selectList(namespace + "faqSelectAll");
     }
+
     @Override
-    public List<FaqDto> selectMajorFaq(Integer que_id){
-        return session.selectList(namespace+"faqSelectMajor",que_id);
+    public List<FaqDto> selectMajorFaq(long que_id) { // 변경된 부분
+        return session.selectList(namespace + "faqSelectMajor", que_id); // 변경된 부분
     }
+
     @Override
-    public List<FaqDto> searchFaqs(Map<String, Object> search){return session.selectList(namespace + "searchSelect", search);}
+    public List<FaqDto> searchFaqs(Map<String, Object> search) {
+        return session.selectList(namespace + "searchSelect", search);
+    }
+
     @Override
-    public String selectContents(Integer no){return session.selectOne(namespace + "selectGetContentByTitle", no);}
+    public String selectContents(long no) { // 변경된 부분
+        return session.selectOne(namespace + "selectGetContentByTitle", no); // 변경된 부분
+    }
+
     @Override
-    public int deleteAdmin(Integer no){return session.delete(namespace + "deleteAdmin", no);}
+    public int deleteAdmin(long no) { // 변경된 부분
+        return session.delete(namespace + "deleteAdmin", no); // 변경된 부분
+    }
+
     @Override
-    public int insertAdmin(FaqDto faq){return session.insert(namespace + "insertAdmin",faq);}
+    public int insertAdmin(FaqDto faq) {
+        return session.insert(namespace + "insertAdmin", faq);
+    }
 }

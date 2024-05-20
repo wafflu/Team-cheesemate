@@ -158,7 +158,7 @@ public class CommunityHeartServiceImplTest {
         communityBoardDto.setNick("skyLee");
         communityBoardDto.setur_state('y'); // 상태 설정
 
-        communityBoardService.write(communityBoardDto);
+//        communityBoardService.write(communityBoardDto);
         return communityBoardDto;
     }
 

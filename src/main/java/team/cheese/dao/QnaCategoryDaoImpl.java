@@ -16,11 +16,22 @@ public class QnaCategoryDaoImpl implements QnaCategoryDao {
     private String namespace = "team.cheese.dao.QnaCategoryDao.";
 
     @Override
-    public int count() throws Exception{return session.selectOne(namespace+"count");}
+    public int count() throws Exception {
+        return session.selectOne(namespace + "count");
+    }
+
     @Override
-    public int MajorCount() throws Exception{return session.selectOne(namespace+"MajorCount");}
+    public int MajorCount() throws Exception {
+        return session.selectOne(namespace + "MajorCount");
+    }
+
     @Override
-    public List<QnaCategoryDto> selectMajorCategory() throws Exception{return session.selectList(namespace+"selectMajorCategory");}
+    public List<QnaCategoryDto> selectMajorCategory() throws Exception {
+        return session.selectList(namespace + "selectMajorCategory");
+    }
+
     @Override
-    public List<QnaCategoryDto> selectSubCategory(Integer que_cd)throws Exception{return session.selectList(namespace+"selectSubCategory",que_cd);}
+    public List<QnaCategoryDto> selectSubCategory(long que_cd) throws Exception { // 변경된 부분
+        return session.selectList(namespace + "selectSubCategory", que_cd); // 변경된 부분
+    }
 }

@@ -3,7 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
 <%--<c:set var="loginId" value="${sessionScope.id}"/>--%>
-<c:set var="loginId" value="${userInfoDTO.ur_id}"/>
+<c:set var="loginId" value="${session_id}"/>
 <!DOCTYPE html>
 <html>
 <head>
@@ -207,6 +207,86 @@
 			float: left;
 			border: 1px solid;
 		}
+
+	/* 이미지 영역	*/
+		#profileimg{
+			width: 250px;
+			height: 250px;
+			margin-left: 220px;
+			position: relative;
+		}
+		.form_section_content{
+			position: absolute;
+			width: 250px;
+			height: 250px;
+			right: 0;
+			top: 0;
+			z-index: 1;
+		}
+
+		#uploadResult{
+			position: absolute;
+			width: 250px;
+			height: 250px;
+			border-radius: 100%;
+			border: 1px solid #000;
+			overflow: hidden;
+
+		}
+		.profileimg{
+			/*추후 js로 수정*/
+			width: 250px;
+			height: 250px;
+		}
+
+		.btn-upload {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 250px;
+			height: 250px;
+			background: transparent;
+			border-radius: 100%;
+			cursor: pointer;
+
+		}
+
+		.btn-upload::before{
+			content: '프로필 수정';
+			display: block;
+			width: 250px;
+			text-align: center;
+			line-height: 250px;
+			border-radius: 100%;
+			transition: all 0.2s ease-out;
+			opacity: 0;
+			box-sizing: border-box;
+			font-size: 20px;
+			color:#fff;
+		}
+
+		.btn-upload:hover::before{
+			background-color: rgba(105, 105, 105, 0.5);
+			opacity: 1;
+		}
+
+		#profile {
+			display: none;
+		}
+
+		#profilesave_btn{
+			position: absolute;
+			bottom: -34px;
+			left: 50%;
+			transform: translateX(-50%);
+			z-index: 3;
+			background-color: transparent;
+			border: 1px solid #FFA500;
+			border-radius: 5px;
+			padding: 5px;
+			cursor: pointer;
+		}
+
 	</style>
 </head>
 <script>
@@ -226,16 +306,21 @@
 		<li><a href="/contact">회원 탈퇴</a></li>
 	</ul>
 </div>
-<%--<div id="register_img">--%>
-<%--	<p>--%>
-<%--		프로필이미지--%>
-<%--		<input type="file" id="imageBtn" name="imagename">--%>
-<%--	</p>--%>
-<%--</div>--%>
-<div class="register_img">
-	<img src="#" class="profile">
-	<input type="file" id="imageBtn" name="imagename">
+
+<div id="profileimg">
+	<div class="form_section_content">
+		<label for="profile" class="btn-upload"></label>
+		<input type="file" id ="profile" name='uploadFile'>
+	</div>
+	<div id = "uploadResult">
+
+<%--		<img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
+	</div>
+	<div id="profilesave_btn_area">
+
+	</div>
 </div>
+
 <div class="container">
 	<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
 	<div class="info-container">
@@ -267,7 +352,7 @@
 			☆
 		</c:forEach>
 </span></h4>
-<button id="writeBtn" type="button">후기글 작성</button>
+<%--<button id="writeBtn" type="button">후기글 작성</button>--%>
 <!-- 모달 창 -->
 <div id="myModal" class="modal" >
 	<div class="modal-content">
@@ -288,11 +373,50 @@
 				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
 			</div>
 			<button class="commentBtn" id="" type="button"></button>
+			<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
 		</form>
 	</div>
 </div>
 <div id="commentList" ></div>
+
 <script>
+	//이미지 등록하기
+
+	let Image = (function() {
+		let imginfo = [];
+
+		return {
+			getImgInfo: function() {
+				return imginfo;
+			}
+		};
+	})();
+
+	$(document).on("click", "#profilesave_btn", function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: '/saveporfile',
+			type : 'POST',
+			contentType : 'application/json; charset=UTF-8',
+			dataType : 'text',
+			data : JSON.stringify(Image.getImgInfo()),
+			success: function (result) {
+				location.replace(result);
+			},
+			error: function(xhr, status, error) {
+				// 오류 발생 시 처리
+				var errorMessage = xhr.responseText;
+				console.error('Error:', error);
+				alert("오류 발생: " + errorMessage); // 서버에서 전달된 예외 메시지를 알림창으로 표시
+			}
+		});
+		alert("등록되었습니다.")
+		// 나머지 코드를 여기에 추가하세요.
+	});
+
+	//
+
+
 	let ur_id = $("textarea[name=contents]").attr('id'); // 해당 유저아이디 변수선언
 
 	let addZero = function(value=1){
@@ -353,16 +477,10 @@
 		alert("선택된 별점 값: " + selectedStar);
 	});
 
-	// 후기글 작성 버튼 클릭 시 모달 창 열기
-	writeBtn.onclick = function() {
-		modal.style.display = "block";
-		$('#reviewContents').val(''); // 리뷰내용초기화
-		// 등록버튼으로 바꾸기
-		$(".commentBtn").text("등록");
-		$(".commentBtn").attr("id", "comment-sendBtn");
-		// 별점 초기화
-		$("input[name='reviewStar']").prop("checked", false);
-		selectedStar = undefined; // 선택된 별점 초기화
+	// 취소 버튼 기능 추가
+	var cancelBtn = document.getElementById("cancelBtn");
+	cancelBtn.onclick = function() {
+		closeModal();
 	}
 
 	// 후기글 목록 보여주기
@@ -403,9 +521,12 @@
 				tmp += '☆';
 			}
 			tmp += ' 작성날짜 =' + dateToString(comment.m_date)
-			tmp += '<button class="deleteBtn" data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '">삭제</button>'
+			// 수정 및 삭제 버튼 추가 (JSTL을 사용하여 서버 측에서 조건부로 렌더링)
+			tmp += '<button class="deleteBtn" data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '"' +
+					(comment.buy_id === "${loginId}" ? '' : ' style="display:none;"') + '>삭제</button>';
 			tmp += '<button class="modifyBtn" data-reviewStar="' + comment.reviewStar + '"' +
-					'data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '">수정</button>'; // data-reviewStar 속성 추가
+					'data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '"' +
+					(comment.buy_id === "${loginId}" ? '' : ' style="display:none;"') + '>수정</button>';
 			tmp += '</li>'
 		});
 		// 페이지 링크 추가
@@ -523,31 +644,6 @@
 			}); // $.ajax()
 		});
 
-		// 후기글 쓰기
-		$(document).on("click", "#comment-sendBtn", function() {
-			let contents = $("#reviewContents").val();
-
-			if(contents.trim()==''){
-				alert("글을 작성해주세요");
-				$("#reviewContents").focus()
-				return;
-			}
-
-			$.ajax({
-				type:'POST',       // 요청 메서드
-				url: '/comments',  // 요청 URI
-				headers : { "content-type": "application/json"}, // 요청 헤더
-				// dataType : 'json', // 전송받을 데이터의 타입
-				data: JSON.stringify({sal_id : ur_id,contents:contents,reviewStar: selectedStar}),
-				success: function(result) {
-					alert(result);
-					showList(ur_id);
-					showUserInfo(ur_id);
-				},
-				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
-			}); // $.ajax()
-		});
-
 		// 후기글 수정 버튼 클릭시
 		$("#commentList").on("click", ".modifyBtn", function() {
 			let no = $(this).parent().attr("data-no");
@@ -580,22 +676,27 @@
 
 
 		// 후기글 삭제 버튼 클릭시
-		$("#commentList").on("click",".deleteBtn",function(){
+		$("#commentList").on("click", ".deleteBtn", function(){
 			let no = $(this).parent().attr("data-no");
 			let sal_id = $(this).parent().attr("data-sal_id");
 			let page = $(this).data("page");
 			let pageSize = $(this).data("pageSize");
 
-			$.ajax({
-				type:'DELETE',       // 요청 메서드
-				url: '/comments/'+no+'?sal_id='+sal_id,  // 요청 URI
-				success : function(result){
-					alert(result);
-					showList(sal_id,page,pageSize);
-					showUserInfo(ur_id);
-				},
-				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
-			}); // $.ajax()
+			// confirm 메시지로 삭제 여부 묻기
+			if (confirm("후기글 재작성이 불가능합니다. 그래도 삭제하시겠습니까?")) {
+				$.ajax({
+					type: 'DELETE',       // 요청 메서드
+					url: '/comments/' + no + '?sal_id=' + sal_id,  // 요청 URI
+					success: function(result){
+						alert(result);
+						showList(sal_id, page, pageSize);
+						showUserInfo(ur_id);
+					},
+					error: function(result){
+						alert(result.responseText); // 에러가 발생했을 때, 호출될 함수
+					}
+				}); // $.ajax()
+			}
 		});
 
 		// 소개글 수정 버튼 클릭시
@@ -624,7 +725,26 @@
 				} // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
 		});
+
+
+
+		let userprofile = "${userInfoDTO.img_full_rt}";
+		let uploadResult = $("#uploadResult");
+
+
+		uploadResult.children().remove();
+		let str = "";
+		if(!userprofile){
+			str += "<img src='/img/display?fileName=Noneprofile.png' class='profileimg'>";
+			// alert("1")
+		} else {
+			str += "<img src='/img/display?fileName=" + userprofile + "' class='profileimg'>";
+			// alert("2")
+		}
+		uploadResult.append(str);
 	});
 </script>
+
+<script src="/js/img.js"></script>
 </body>
 </html>

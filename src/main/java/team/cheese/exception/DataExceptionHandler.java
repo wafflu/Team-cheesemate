@@ -12,7 +12,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @ControllerAdvice
 public class DataExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> DataIntegrityViolationException(DataIntegrityViolationException e) {
+    public ResponseEntity<String> DataIntegrityVio오lationException(DataIntegrityViolationException e) {
         // 예외 메시지를 응답으로 반환
         return new ResponseEntity<>("등록에 오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
     }

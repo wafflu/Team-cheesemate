@@ -1,11 +1,21 @@
 package team.cheese.entity;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.checkerframework.checker.units.qual.C;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartFile;
 import team.cheese.domain.ImgDto;
 
 import javax.imageio.ImageIO;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -14,15 +24,17 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 
 public class ImgFactory {
 
-    private static String folderPath = System.getProperty("user.home")+File.separator+"Desktop"+File.separator;
+    private static String folderPath = System.getProperty("user.home")+"/"+"Desktop"+"/";
     private static String foldername = "ImgRepository";
     private String datePath = "";
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
 
     private String userid = "";
     public ImgFactory(){
@@ -35,7 +47,7 @@ public class ImgFactory {
         this.userid = userid;
     }
 
-    // File.separator -> /
+    // "/" -> /
 
     //바탕화면에 이미지 폴더 없을시 이미지저장소 폴더 생성
     public void checkimgfolder(){
@@ -72,41 +84,46 @@ public class ImgFactory {
     }
 
     /* 파일등록으로 파일 만들때 */
-    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, int wsize, int hsize){
+    public List<ImgDto> makeImg(MultipartFile[] uploadFiles, String imgtype, boolean ckeck, String userid){
         File uploadPath = new File(getFolderPath(), getDatePath());
 
         List<ImgDto> list = new ArrayList();
 
         for(MultipartFile multipartFile : uploadFiles) {
             String fileName = multipartFile.getOriginalFilename();
-            String ename = fileName.substring(fileName.lastIndexOf('.'));
 
-            File saveFile = new File(getFolderPath()+File.separator+getDatePath(), fileName);
+            File saveFile = new File(getFolderPath()+"/"+getDatePath(), fileName);
             ImgDto img = null;
             /* 파일 저장 */
             try {
                 /* 원본 파일 저장 */
                 multipartFile.transferTo(saveFile);
+                if(!ckeck) {
+                    BufferedImage bi = ImageIO.read( saveFile );
+                    int width = (int) bi.getWidth();
+                    int height = (int) bi.getHeight();
+
+                    img = setImginfo(saveFile, fileName, "original", width, height, userid);
+                    list.add(img);
+                    return list;
+                }
+
 
                 // 판매, 커뮤니티만 아래 만들기 허용
-//                if(make) {
-                    // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-                    BufferedImage image = Thumbnails.of(saveFile)
-                            .size(wsize, hsize)
-                            .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-                            .imageType(BufferedImage.TYPE_INT_RGB)
-                            .asBufferedImage();
+                // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
+                BufferedImage image = Thumbnails.of(saveFile)
+                        .size(78, 78)
+                        .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
+                        .imageType(BufferedImage.TYPE_INT_RGB)
+                        .asBufferedImage();
 
-                    long currentTimeMillis = System.currentTimeMillis();
-                    //이미지 jpg로 변환
-                    File img_name = new File(uploadPath, hash(currentTimeMillis + fileName) + ".jpg");
-                    ImageIO.write(image, "jpg", img_name);
+                long currentTimeMillis = System.currentTimeMillis();
+                //이미지 jpg로 변환
+                File img_name = new File(uploadPath, hash(currentTimeMillis + fileName) + ".jpg");
+                ImageIO.write(image, "jpg", img_name);
 
-                    //이미지 객체 만들기
-                    img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
-//                } else {
-//                    img = setImginfo(saveFile, fileName, imgtype, wsize, hsize);
-//                }
+                //이미지 객체 만들기
+                img = setImginfo(img_name, fileName, imgtype, 78, 78, userid);
                 list.add(img);
             } catch (Exception e) {
                 System.out.println("fail");
@@ -117,14 +134,14 @@ public class ImgFactory {
     }
 
     /* 등록하기 누를시 파일 제작 */
-    public ImgDto makeImg(File file, String imgtype, int gno, int wsize, int hsize){
+    public ImgDto makeImg(File file, String imgtype, int gno, int wsize, int hsize, String userid){
         long currentTimeMillis = System.currentTimeMillis();
         ImgDto img = null;
         /* 파일 저장 */
         try {
             String fileName = file.getName();
 
-            String fullrt = folderPath+foldername+File.separator+datePath;
+            String fullrt = folderPath+foldername+"/"+datePath;
             String imgname = (gno+currentTimeMillis)+ ".jpg";
 
             File img_name = new File(fullrt, imgname);
@@ -146,7 +163,7 @@ public class ImgFactory {
 
             ImageIO.write(rgbImage, "jpg", img_name);
 
-            img = setImginfo(img_name, fileName, imgtype, wsize, hsize);
+            img = setImginfo(img_name, fileName, imgtype, wsize, hsize, userid);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,10 +171,10 @@ public class ImgFactory {
     }
 
     //이미지 파일 정보 셋팅
-    public ImgDto setImginfo(File imgfile, String orifilename, String imgtype, int wsize, int hsize){
+    public ImgDto setImginfo(File imgfile, String orifilename, String imgtype, int wsize, int hsize, String userid){
         ImgDto img = new ImgDto();
         String uploadFileName = imgfile.getName();
-        String fullrt = datePath+File.separator+uploadFileName;
+        String fullrt = datePath+"/"+uploadFileName;
         img.setImgtype(imgtype);
         img.setFile_rt(datePath);
         img.setU_name(uploadFileName);
@@ -166,43 +183,11 @@ public class ImgFactory {
         img.setImg_full_rt(fullrt);
         img.setW_size(wsize);
         img.setH_size(hsize);
+        img.setFirst_id(userid);
+        img.setLast_id(userid);
         return img;
     }
 
-
-//
-//    public void Makeimg(File imageFile, String imgtype, int wsize, int hsize){
-//        String datastr = todaystr();
-//
-//        File uploadPath = new File(folderPath, datastr);
-//
-//        BCryptPasswordEncoder nameEncoder = new BCryptPasswordEncoder();
-//
-////        String uploadFileName = imgtype+"_"+datastr+"_"+imageFile.getName();
-//        String uploadFileName = nameEncoder.encode(imageFile.getName());
-//
-//        /* 파일 위치, 파일 이름을 합친 File 객체 */
-//        File saveFile = new File(uploadPath, uploadFileName);
-//
-//        /* 파일 저장 */
-//        try {
-//            File img_name = new File(uploadPath, uploadFileName);
-//
-//            // 이미지 비율 유지하며 크기 조정하여 1:1 비율로 만들기
-//            BufferedImage image = Thumbnails.of(imageFile)
-//                    .size(wsize, hsize)
-//                    .crop(Positions.CENTER)  // 이미지 중앙을 기준으로 자르기
-//                    .asBufferedImage();
-//
-//            Thumbnails.of(image)
-//                    .size(wsize, hsize)
-//                    .outputQuality(1.0)  // 품질 유지
-//                    .toFile(img_name);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     // 이미지 파일체크
     public boolean CheckImg(MultipartFile[] uploadFiles){
@@ -240,5 +225,43 @@ public class ImgFactory {
             hexString.append(hex);
         }
         return hexString.toString();
+    }
+
+    public ArrayList<ImgDto> checkimgfile(Map map){
+        ArrayList<ImgDto> imgList;
+        try {
+            imgList = objectMapper.convertValue(map.get("imgList"), new TypeReference<ArrayList<ImgDto>>() {});
+        } catch (Exception e) {
+            return null;
+        }
+
+        // Null 및 빈 리스트 검사
+        if (imgList == null || imgList.isEmpty()) {
+            return null;
+        }
+
+        // Validator 설정
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        // 개별 객체 유효성 검사
+        for (ImgDto img : imgList) {
+            if (img == null) {
+                //ImgDto object is null
+                return null;
+            }
+
+            // Bean Validation 검사
+            Set<ConstraintViolation<ImgDto>> violations = validator.validate(img);
+            if (!violations.isEmpty()) {
+                return null;
+            }
+
+            // 추가 필드 유효성 검사
+            if (img.getO_name().equals("") || img.getE_name().equals("")) {
+                return null;
+            }
+        }
+        return imgList;
     }
 }
