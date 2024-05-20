@@ -9,8 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import team.cheese.domain.AddrCdDto;
 
-//import team.cheese.Domain.UserDto;
-
 import java.util.List;
 
 @WebAppConfiguration
@@ -20,6 +18,9 @@ public class AddrCdDaoTest extends TestCase {
 
     @Autowired
     AddrCdDao addrCdDao;
+
+    @Autowired
+    UserDao userDao;
 
     // *** 모든 addr_cd를 셀 수 있는지 테스트 ***
     @Test
@@ -60,4 +61,26 @@ public class AddrCdDaoTest extends TestCase {
         assertTrue(addrCdDtoList.size() == 2);
     }
 
+    // *** 유저의 거래희망장소 insert 테스트 ***
+    @Test
+    public void testInsertAddrCd() {
+        AddrCdDto newAddrCdDto = new AddrCdDto();
+
+        newAddrCdDto.setUr_id("qwerqwer");
+        newAddrCdDto.setAddr_cd("11010530");
+        newAddrCdDto.setAddr_name("서울특별시 종로구 사직동");
+        newAddrCdDto.setState('Y');
+        newAddrCdDto.setFirst_id("admin");
+//        newAddrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
+//        newAddrCdDto.setLast_id("admin");
+//        newAddrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
+
+//        assertTrue(addrCdDao.insertAddrCd(newAddrCdDto) == 1);
+    }
+
+    // *** 모든 관리자의 아이디만을 가져오는지 테스트 ***
+    @Test
+    public void testGetAllAdminsId() {
+
+    }
 }

@@ -10,11 +10,9 @@ import team.cheese.domain.ImgDto;
 import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.dao.MyPage.UserInfoDao;
 import team.cheese.service.ImgService;
+import team.cheese.service.ImgServiceImpl;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import team.cheese.service.ImgService;
-
 import java.util.HashMap;
 
 @Service

@@ -63,11 +63,6 @@
 </head>
 <body>
 
-<p>
-    <%= cookieUserId%>
-    <%= cookieUserPw%>
-</p>
-
 <form class="center" action="/login" method="post">
     <h1>로그인</h1>
 

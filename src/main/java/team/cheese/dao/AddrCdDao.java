@@ -12,4 +12,5 @@ public interface AddrCdDao {
     public int getAddrCdCnt ();
     public List<AddrCdDto> getAllAddrCd();
     public List<AddrCdDto> getAddrCdByUserId (String userId);
+    public int insertAddrCd(AddrCdDto addrCdDto);
 }

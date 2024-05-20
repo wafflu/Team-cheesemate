@@ -20,9 +20,8 @@ aside{
     float:left;
 }
 main{
-    margin-top: 300px;
-    width: 75%;
-    height: 80vh;
+    margin-top: 10vh;
+    width: 1200px;
     min-height: 1000px;
     float:right;
 }
@@ -74,4 +73,9 @@ footer{
     color: rgba(121, 163, 173, 0.1);
     position: relative;
     bottom: 0;
+}
+.wrapper>a {
+    display: block;
+    bottom: 0;
+
 }
