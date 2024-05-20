@@ -1,4 +1,4 @@
-package team.cheese.controller.MyPage;
+package team.cheese.exception;
 
 import org.springframework.dao.*;
 import org.springframework.http.HttpHeaders;
@@ -7,10 +7,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.Date;
 
 @ControllerAdvice("team.cheese.Controller")
 public class GlobalExceptionHandler {
@@ -65,4 +67,6 @@ public class GlobalExceptionHandler {
         headers.setContentType(new MediaType("text", "plain", StandardCharsets.UTF_8));
         return new ResponseEntity<>(ex.getMessage(), headers, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
 }

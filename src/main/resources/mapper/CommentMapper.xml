@@ -13,8 +13,8 @@
 
 <!--    댓글-->
 <insert id = "insert" parameterType="CommentDto" useGeneratedKeys="true" keyProperty="no">
-    insert into comment(post_no,no,psn,nick,ur_id,contents)
-    values (#{post_no},#{no},#{psn},#{nick},#{ur_id},#{contents});
+    insert into comment(post_no,no,psn,nick,ur_id,contents, first_id, last_id)
+    values (#{post_no},#{no},#{psn},#{nick},#{ur_id},#{contents},#{first_id},#{last_id});
 </insert>
 
 

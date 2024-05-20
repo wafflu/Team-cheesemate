@@ -4,6 +4,7 @@ import team.cheese.domain.ImgDto;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public interface ImgDao {
     //이미지 테이블 작성
@@ -24,4 +25,6 @@ public interface ImgDao {
     int delete(String tb_name);
 
     int count(String tb_name);
+
+    List<ImgDto> select_css(String imgtype);
 }

@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import team.cheese.domain.ImgDto;
 import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
+import team.cheese.dao.MyPage.UserInfoDao;
+import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.domain.SaleTagDto;
 import team.cheese.domain.TagDto;
-import team.cheese.entity.ImgFactory;
 import team.cheese.service.ImgService;
+import team.cheese.service.ImgServiceImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +35,8 @@ public class SaleService {
     AddrCdDao addrCdDao;
     @Autowired
     SaleTagDao saleTagDao;
-
     @Autowired
-    TestSession testSession;
+    UserInfoDao userInfoDao;
 
     @Autowired
     ImgService imgService;
@@ -50,6 +51,10 @@ public class SaleService {
         System.out.println("Service map startPage : " + map.get("startPage"));
         System.out.println("Service map endPage : " + map.get("endPage"));
         return saleDao.selectList(map);
+    }
+
+    public SaleDto getSale(Long no) throws Exception {
+        return saleDao.select(no);
     }
 
     // 판매자가 자신의 게시글을 삭제할 때
@@ -317,6 +322,37 @@ public class SaleService {
     }
     public int getSearchCnt(SearchCondition sc) throws Exception {
         return saleDao.selectSearchCount(sc);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateSaleSCd(Long no, String sal_s_cd, String seller_id) throws Exception {
+        Map map = new HashMap();
+        map.put("no", no);
+        map.put("sal_s_cd", sal_s_cd);
+        map.put("seller_id", seller_id);
+
+        int result = saleDao.updateSaleSCd(map);
+
+        if(sal_s_cd.equals("C")) {
+            increamentCompleteCnt(seller_id);
+        }
+
+        System.out.println("update됨? : " + result);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void increamentCompleteCnt(String ur_id) throws Exception {
+        userInfoDao.incrementCompleteCnt(ur_id);
+    }
+
+    public List<SaleCategoryDto> selectCategory2(String category) throws Exception{
+        List<SaleCategoryDto> saleCategory = saleCategoryDao.selectCategory2(category);
+        return saleCategory;
+    }
+
+    public List<SaleCategoryDto> selectCategory3(String category) throws Exception{
+        List<SaleCategoryDto> saleCategory = saleCategoryDao.selectCategory3(category);
+        return saleCategory;
     }
 }
 
