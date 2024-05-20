@@ -6,6 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.AddrCdDto;
 import team.cheese.domain.UserDto;
+import team.cheese.service.AddrCdService;
+import team.cheese.service.AdminService;
+import team.cheese.service.UserService;
 import team.cheese.service.*;
 
 import javax.servlet.http.Cookie;
@@ -31,18 +34,10 @@ public class HomeController {
 
     // *** 홈(home.jsp)으로 이동 ***
     @GetMapping({"/", "/home"})
-    public String index(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model m) {
-        return isKeepLoginState(session, request, response, m);
+    public String index(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+        return isKeepLoginState(session, request, response);
     }
 
-
-    // *** 홈(home.jsp)으로 이동 ***
-//    @GetMapping("/home")
-//    public String home(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model m) {
-//        return isKeepLoginState(session, request, response, Model m);
-//    }
-
-    // *** 보드(board.jsp)로 이동 ***
     @GetMapping("/board")
     public String board() {
         return "board";
@@ -53,11 +48,7 @@ public class HomeController {
         return "board_2";
     }
 
-    // *** 로그인 상태 유지 쿠키가 있는 경우 ***
-    // 1. 쿠키에 있는 아이디를 가져온다
-    // 2. 해당 아이디로 로그인 처리
-    // 3. home으로 이동
-    private String isKeepLoginState(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model m) {
+    private String isKeepLoginState(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
 
         Cookie[] cookies = request.getCookies();
         String keepLoginStateUserId = "";
@@ -67,15 +58,13 @@ public class HomeController {
         }
 
         for(int i = 0; i < cookies.length; i++) {
-            if (cookies[i].getName().equals("keepLoginState")) {
+            if (cookies[i].getName().equals("keepLoginStateId")) {
                 keepLoginStateUserId = cookies[i].getValue();
                 cookies[i].setMaxAge(60);
                 response.addCookie(cookies[i]);
 
                 UserDto userDto = userService.getUserById(keepLoginStateUserId);
                 sessionSetting(session, userDto);
-
-                System.out.println("쿠키 다시 설정");
 
                 return "home";
             }
@@ -84,8 +73,6 @@ public class HomeController {
         return "home";
     }
 
-    // *** 유저가 로그인 성공한 경우 ***
-    // 1. 유저의 정보를 세션에 저장한다
     private void sessionSetting(HttpSession session, UserDto loginUserDto) {
         session.setAttribute("userId", loginUserDto.getId()); // -> 세션에 아이디 저장
         session.setAttribute("userNick", loginUserDto.getNick()); // -> 세션에 닉네임 저장

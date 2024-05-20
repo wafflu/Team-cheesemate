@@ -4,30 +4,30 @@
 
 <mapper namespace="team.cheese.dao.AddrCdDao">
 
-<!--    *** 모든 addr_cd를 개수를 가져온다 ***-->
+    <!--    *** 모든 addr_cd를 개수를 가져온다 ***-->
     <select id="getAddrCdCnt" resultType="int">
         SELECT count(*)
         FROM addr_cd
     </select>
 
-<!--    *** 모든 addr_cd를 가져온다-->
+    <!--    *** 모든 addr_cd를 가져온다-->
     <select id="getAllAddrCd" resultType="AddrCdDto">
         SELECT *
         FROM addr_cd
     </select>
 
-<!--    *** 아이디로 특정 데이터만 가져온다 ***-->
+    <!--    *** 아이디로 특정 데이터만 가져온다 ***-->
     <select id="getAddrCdByUserId" parameterType="String" resultType="AddrCdDto">
         SELECT *
         FROM addr_cd
         WHERE ur_id = #{userId}
-        AND state = 'Y'
     </select>
 
-<!--    *** 유저의 주소코드 추가 ***-->
-<!--    <insert id="insertNewAddrCd" parameterType="AddrCdDto">-->
-<!--        INSERT INTO addr_cd-->
-<!--        VALUES (#{no}, #{ur_id}, #{addr_cd}, #{addr_name}, #{state}, #{first_date}, #{first_id}, #{last_date}, #{last_id})-->
-<!--    </insert>-->
+    <!--    *** 유저의 주소코드 추가 ***-->
+    <insert id="insertAddrCd" parameterType="AddrCdDto">
+        INSERT INTO addr_cd (ur_id, addr_cd, addr_name, state, first_date, first_id, last_date, last_id)
+        VALUES (#{ur_id}, #{addr_cd}, #{addr_name}, #{state}, #{first_date, jdbcType=TIMESTAMP}, #{first_id}, #{last_date, jdbcType=TIMESTAMP}, #{last_id})
+    </insert>
+
 
 </mapper>
