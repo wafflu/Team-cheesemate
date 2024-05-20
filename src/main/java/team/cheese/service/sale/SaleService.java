@@ -4,17 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import team.cheese.domain.ImgDto;
+import team.cheese.domain.*;
 import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
 import team.cheese.dao.MyPage.UserInfoDao;
-import team.cheese.domain.SaleCategoryDto;
-import team.cheese.domain.SaleDto;
-import team.cheese.domain.SaleTagDto;
-import team.cheese.domain.TagDto;
 import team.cheese.service.ImgService;
 import team.cheese.service.ImgServiceImpl;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -208,7 +205,6 @@ public class SaleService {
         saleTagDao.delete(sal_no);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getList(Map map) throws Exception {
         List<SaleDto> saleList = saleDao.selectSaleList(map);
 
@@ -353,6 +349,14 @@ public class SaleService {
     public List<SaleCategoryDto> selectCategory3(String category) throws Exception{
         List<SaleCategoryDto> saleCategory = saleCategoryDao.selectCategory3(category);
         return saleCategory;
+    }
+
+    public List<AdministrativeDto> selectAddrCdList(String user_id) throws Exception {
+        return administrativeDao.selectAll();
+    }
+
+    public List<SaleCategoryDto> selectCategory1() throws Exception {
+        return saleCategoryDao.selectCategory1();
     }
 }
 

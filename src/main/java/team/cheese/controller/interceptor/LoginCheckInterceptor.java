@@ -27,6 +27,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             // 주소창에 직접 주소를 입력할 경우 일단 home으로 가도록 설정
             if(request.getRequestURI() == "") {
                 response.sendRedirect("/loginForm" + "?from=" + "home");
+            } else if(request.getRequestURI().equals("/sale/write")) {
+                response.sendRedirect("/loginForm" + "?from=" + "/sale");
             }
             else {
                 response.sendRedirect("/loginForm" + "?from=" + request.getRequestURI());
