@@ -11,13 +11,19 @@
     .page-space {
         margin: 0 5px; /* 공백 크기 조절 */
     }
+
+    /* 임시로 style 추가 : css 수정 필요*/
+    .imgClass {
+        width: 100px;
+        height: 100px;
+    }
 </style>
 
 <div class="maincontent">
 <button type="button" onclick="writeBtn()">글쓰기</button>
     <c:choose>
         <c:when test="${empty sessionScope.userId}">
-            <select id="addr_cd" style="display: none;">
+            <select id="addr_cd" style="display: none;" hidden>
                 <option id="selectAll" value="null" selected>전체</option>
                 <c:forEach var="AddrCd" items="${addrCdList}">
                     <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
@@ -268,7 +274,7 @@
 
                     let row = $("<tr>");
                     row.append($("<td>").text(sale.no)); // 판매 번호
-                    row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
+                    row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
                     row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
                     row.append($("<td>").text(saleStatusText)); // 판매 상태
                     row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임

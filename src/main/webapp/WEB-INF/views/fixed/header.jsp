@@ -65,8 +65,13 @@
                     </span>
                 <span class="subnavspan">
                     <form id="postForm" action="/sale/write" method="POST" style="display: none;">
-                        <input type="hidden" name="addr_cd" value="${sessionScope.userAddrCdDtoList.get(0).addr_cd}">
-                        <input type="hidden" name="addr_name" value="${sessionScope.userAddrCdDtoList.get(0).addr_name}">
+                        <!-- userAddrCdDtoList가 비어있지 않은 경우에만 파라미터를 추가 -->
+                        <c:if test="${not empty sessionScope.userAddrCdDtoList}">
+                            <input type="hidden" name="addr_cd"
+                                   value="${not empty sessionScope.userAddrCdDtoList ? sessionScope.userAddrCdDtoList[0].addr_cd : ''}">
+                            <input type="hidden" name="addr_name"
+                                   value="${not empty sessionScope.userAddrCdDtoList ? sessionScope.userAddrCdDtoList[0].addr_name : ''}">
+                        </c:if>
                     </form>
 
                     <a href="#" id="storelink" class="subnavlink" onclick="document.getElementById('postForm').submit(); return false;">

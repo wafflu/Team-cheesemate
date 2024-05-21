@@ -285,8 +285,8 @@
 
     let submitURL = '/sale/insert';
 
-    let category2Check = true; // 중분류 카테고리 유효성 검사를 위한 변수
-    let category3Check = true; // 소분류 카테고리 유효성 검사를 위한 변수
+    let category2Check = false; // 중분류 카테고리 유효성 검사를 위한 변수
+    let category3Check = false; // 소분류 카테고리 유효성 검사를 위한 변수
     let titlelength = 40; // 제목 글자 수
     let contentslength = 2000; // 내용 글자 수
     let t_contents = []; // tag값 을 담을 배열
@@ -367,7 +367,7 @@
             $("#submitBtn").val("수정하기");
             submitURL = '/sale/update';
         } // modify일 경우
-        else {
+
             $("#category1").on("click", function () {
                 let category1Value = $('#category1').val();
                 if (category1Value !== "") {
@@ -391,6 +391,8 @@
                                 });
                             } else {
                                 $("#salecategoryMsg").text("");
+                                category2Check = true;
+                                category3Check = true;
                             }
                         },
                         error: function (xhr, status, error) {
@@ -421,6 +423,7 @@
                                 });
                             } else {
                                 $("#salecategoryMsg").text("");
+                                category3Check = true;
                             }
                         },
                         error: function (xhr, status, error) {
@@ -429,7 +432,7 @@
                     });
                 }
             });
-        }
+
 
         // 판매글 제목 처리
         handleInputLimit('#title', '#titleCounter', titlelength, '글자수는 ' + titlelength + '자까지 입력 가능합니다.');
@@ -536,6 +539,7 @@
                     category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
                     if (data.length > 0) {
                         category2Check = false;
+                        category3Check = false;
                         data.forEach(function (category) {
                             if (category.sal_cd.startsWith(category1Value)) {
                                 let option = new Option(category.name, category.sal_cd);
@@ -543,6 +547,8 @@
                             }
                         });
                     } else {
+                        category2Check = true;
+                        category3Check = true;
                         $("#salecategoryMsg").text("");
                     }
 
@@ -565,6 +571,7 @@
                                         }
                                     });
                                 } else {
+                                    category3Check = true;
                                     $("#salecategoryMsg").text("");
                                 }
                                 $("#category3").val(category3Value).trigger("change");
@@ -592,6 +599,8 @@
     $("#category1").change(function () {
         $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
         $("#sal_name").text($("#category1 option:checked").text());
+        category2Check = false;
+        category3Check = false;
     });
 
     // 중분류 선택 시 대분류 카테고리와 함께 중분류 카테고리의 이름을 sal_name에 업데이트
@@ -603,6 +612,7 @@
             $("#sal_name").text(category1Name + " > " + category2Name);
         }
         category2Check = true;
+        category3Check = false;
     });
 
     // 소분류 선택 시 대분류, 중분류 카테고리와 함께 소분류 카테고리의 이름을 sal_name에 업데이트
@@ -858,6 +868,7 @@
             alert("중분류 상태를 선택하세요.");
             return false;
         }
+
         if (!category3Check) {
             $("#categoryContainer").attr('tabindex', 0).focus();
             $("#categoryContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
@@ -910,11 +921,13 @@
             return false;
         }
 
-        if (!reg_price || reg_price < 0) {
-            document.getElementsByName("reg_price")[0].focus();
-            document.getElementsByName("reg_price")[0].style.borderColor = 'red';
-            alert("음수를 제외한 정확한 가격을 입력하세요.");
-            return false;
+        if (!!reg_price) {
+            if(reg_price < 0) {
+                document.getElementsByName("reg_price")[0].focus();
+                document.getElementsByName("reg_price")[0].style.borderColor = 'red';
+                alert("음수를 제외한 정확한 가격을 입력하세요.");
+                return false;
+            }
         }
 
         return true;
