@@ -1,25 +1,9 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- 구글 폰트 영역 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    <!-- 기본 리셋 영역 -->
-    <link rel="stylesheet" href="/css/reset.css">
-    <!-- 사용자 영역 -->
-    <link rel="stylesheet" href="/css/mystyle.css">
-    <link rel="stylesheet" href="/css/faq.css"> <!-- faq.css 파일 포함 -->
+<%@include file="fixed/header.jsp"%>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="/js/faq.js"></script> <!-- faq.js 파일 포함 -->
-</head>
 <body>
+<link rel="stylesheet" href="/css/faq.css">
+
 <div class="faq-container">
     <aside class="faq-aside">
         <h3>고객센터</h3>
@@ -54,6 +38,9 @@
         </div>
     </main>
 </div>
-</body>
-</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="/js/faq.js"></script> <!-- faq.js 파일 포함 -->
+<%@include file="fixed/footer.jsp"%>
+
 
