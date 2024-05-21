@@ -36,11 +36,39 @@
     <!-- CRUD  -->
     <!--  R : 전체 게시글 선택  -->
     <!--  유저의 주소를 기준으로 조회되어야 됨  -->
-    <select id="selectAll" resultType="SaleDto">
+    <!--    and 제목으로 검색조건도 추가해야함-->
+    <select id="selectSearchPage" parameterType="SearchCondition" resultType="SaleDto">
         <include refid="selectFromSale"/>
-        where
-        ur_state = 'Y'
-        ORDER BY h_date DESC, no DESC
+        where true
+        and ur_state = 'Y'
+        <if test='option=="seller"'>
+            and seller_id = #{ur_id}
+        </if>
+        <if test='option=="buyer"'>
+            and buyer_id = #{ur_id}
+        </if>
+        <if test='sal_s_cd!=""'>
+            and sal_s_cd = #{sal_s_cd}
+        </if>
+        and title like concat('%',#{keyword},'%')
+        ORDER BY no DESC
+        LIMIT #{offset},#{pageSize}
+    </select>
+    <select id="selectSearchCount" parameterType="SearchCondition" resultType="int">
+        SELECT count(*)
+        FROM sale
+        where true
+        and ur_state = 'Y'
+        <if test='option=="seller"'>
+            and seller_id = #{ur_id}
+        </if>
+        <if test='option=="buyer"'>
+            and buyer_id = #{ur_id}
+        </if>
+        <if test='sal_s_cd!=""'>
+            and sal_s_cd = #{sal_s_cd}
+        </if>
+        and title like concat('%',#{keyword},'%')
     </select>
 
     <!--  처음에 판매/나눔 들어 갈 때  -->
@@ -198,10 +226,37 @@
         alter table sale auto_increment = 1
     </update>
 
+<!--  U : 구매자가 판매글 구매시   -->
+    <update id="buySale" parameterType="SaleDto">
+        UPDATE sale
+        SET sal_s_cd = #{sal_s_cd},
+            buyer_id   = #{buyer_id},
+            buyer_nick   = #{buyer_nick},
+            last_id   = #{buyer_id},
+            last_date = now()
+        WHERE
+            no = #{no}
+    </update>
+
     <!--  검색 기능(추후 추가)   -->
     <!--  R : 카테고리를 기준으로 조회할 수 있어야 됨  -->
     <!--   1. 판매카테고리(대/중/소)    -->
     <!--   2. 지역을 기준으로 조회  -->
     <!--   3.   -->
+    <select id="searchSale" parameterType="String" resultType="SaleDto">
+        SELECT no, addr_name, sal_name, title, contents
+        FROM sale
+        WHERE ur_state = 'Y'
+        <if test="text != null and text != ''">
+            AND (
+            addr_name LIKE CONCAT('%', #{text}, '%') OR
+            sal_name LIKE CONCAT('%', #{text}, '%') OR
+            title LIKE CONCAT('%', #{text}, '%') OR
+            contents LIKE CONCAT('%', #{text}, '%')
+            )
+        </if>
+        ORDER BY h_date DESC, no DESC
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
 
 </mapper>

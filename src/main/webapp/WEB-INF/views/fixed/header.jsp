@@ -19,7 +19,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script>
-        let Image = (function() {
+        const Image = (function() {
             let imginfo = [];
 
             return {
@@ -29,11 +29,11 @@
             };
         })();
 
-        let cssImage = (function() {
+        const cssImage = (function() {
             let imginfo = {};
 
             <c:forEach items="${imglist}" var="img">
-                imginfo['${img.o_name}'] = "${img.img_full_rt}";
+            imginfo['${img.o_name}'] = "${img.img_full_rt}";
             </c:forEach>
 
             return {
@@ -42,6 +42,7 @@
                 }
             };
         })();
+
     </script>
 
 </head>
@@ -63,11 +64,21 @@
                         </a>
                     </span>
                 <span class="subnavspan">
-                        <a href="" id="storelink" class="subnavlink">
-                            <img src="" alt="sell" id="storeicon" class="subnavicon">
-                            <span class="subnavtext">판매하기</span>
-                        </a>
-                    </span>
+                    <form id="postForm" action="/sale/write" method="POST" style="display: none;">
+                        <!-- userAddrCdDtoList가 비어있지 않은 경우에만 파라미터를 추가 -->
+                        <c:if test="${not empty sessionScope.userAddrCdDtoList}">
+                            <input type="hidden" name="addr_cd"
+                                   value="${not empty sessionScope.userAddrCdDtoList ? sessionScope.userAddrCdDtoList[0].addr_cd : ''}">
+                            <input type="hidden" name="addr_name"
+                                   value="${not empty sessionScope.userAddrCdDtoList ? sessionScope.userAddrCdDtoList[0].addr_name : ''}">
+                        </c:if>
+                    </form>
+
+                    <a href="#" id="storelink" class="subnavlink" onclick="document.getElementById('postForm').submit(); return false;">
+                        <img src="" alt="sell" id="storeicon" class="subnavicon">
+                        <span class="subnavtext">판매하기</span>
+                    </a>
+                </span>
                 <span class="subnavspan">
                         <a href="/myPage/main" id="userlink" class="subnavlink">
                             <img src="" alt="user" id="usericon" class="subnavicon">
@@ -80,10 +91,10 @@
     <div id="nav">
         <ul id="navlist">
             <li class="navli">
-                <a href="/sale"><span class="navtext">판매/나눔</span></a>
+                <a href="/sale/list"><span class="navtext">판매/나눔</span></a>
             </li>
             <li class="navli">
-                <a href="#"><span class="navtext">이벤트</span></a>
+                <a href="/event"><span class="navtext">이벤트</span></a>
             </li>
             <li class="navli">
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
@@ -98,7 +109,7 @@
 <div id="headerspace"></div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    $(document).ready(function (){
         let imgInfo = cssImage.getImgInfo();
         $("#logoimg").attr("src", "/img/display?fileName=" + imgInfo['logo']);
         $("#chaticon").attr("src", "/img/display?fileName=" + imgInfo['chat']);
@@ -106,4 +117,8 @@
         $("#usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
         $("#search").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
     });
+    // document.addEventListener("DOMContentLoaded", function() {
+    //
+    // });
 </script>
+

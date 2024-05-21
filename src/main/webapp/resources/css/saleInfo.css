@@ -1,0 +1,238 @@
+/* 탭 스타일 */
+.bun-ui-tab {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.bun-ui-tab-selected {
+    border-bottom: 2px solid #D80C18;
+    color: #D80C18;
+}
+
+/* 수평선 스타일 */
+.bun-ui-divider {
+    border-top: 1px solid #ccc;
+}
+
+/* 기사 스타일 */
+article header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+article header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+article footer button {
+    background-color: #D80C18;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+/* article 요소의 크기 조정 */
+article {
+    margin-top: 10px; /* 기존 20px에서 10px로 줄임 */
+    margin-bottom: 10px; /* 기존 20px에서 10px로 줄임 */
+    padding: 5px; /* 기존 10px에서 5px로 줄임 */
+    border: 1px solid #ccc;
+    width: 100%; /* 가로 길이는 원래대로 100%로 유지 */
+    margin-left: auto; /* 가운데 정렬을 위한 왼쪽 여백 자동 조절 */
+    margin-right: auto; /* 가운데 정렬을 위한 오른쪽 여백 자동 조절 */
+}
+
+/* article 안의 section 요소의 크기 조정 */
+article section {
+    padding: 2px; /* 기존 5px에서 2px로 줄임 */
+}
+
+/* article 안의 section 안의 section 요소의 크기 조정 */
+article section section {
+    padding: 2px 0; /* 기존 5px에서 2px로 줄임 */
+}
+
+
+
+/* 섹션 간격 */
+section {
+    margin-bottom: 5px;
+}
+.mainContainer {
+    width: 40%;
+    margin: 0 auto; /* 가로 중앙 정렬 */
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.bun-ui-divider {
+    display: flex; /* 내부 요소를 가로로 배치합니다. */
+    justify-content: center; /* 가로 방향으로 정중앙에 배치합니다. */
+}
+.sc-57cf470b-1.fFtTgD {
+    --bun-ui-sat: env(safe-area-inset-top);
+    --bun-ui-sar: env(safe-area-inset-right);
+    --bun-ui-sab: env(safe-area-inset-bottom);
+    --bun-ui-sal: env(safe-area-inset-left);
+    word-break: keep-all;
+    -webkit-font-smoothing: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    margin: 0px;
+    border: 0px;
+    vertical-align: baseline;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding: 0px 20px 8px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+}
+/* 판매내역 및 구매내역 전용 CSS */
+.purchase-info {
+    /* 구매내역에 대한 CSS */
+    /* 필요한 스타일 추가 */
+}
+p {
+    margin: 0;
+}
+.paging-active {
+    background-color: rgb(216, 216, 216);
+    border-radius: 5px;
+    color: rgb(24, 24, 24);
+}
+
+.page-space {
+    margin: 0 5px;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: auto;
+    max-width: 600px;
+    margin: auto;
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#myform fieldset {
+    display: block;
+    direction: rtl;
+    border: 0;
+    text-align: center;
+    margin: 20px 0;
+}
+
+#starRating {
+    display: flex;
+    justify-content: center;
+}
+
+#myform input[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+#myform label {
+    font-size: 3em;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#myform input[type=radio]:checked ~ label,
+#myform label:hover,
+#myform label:hover ~ label {
+    color: rgba(250, 208, 0, 0.99);
+}
+
+#reviewContents {
+    width: calc(100% - 20px);
+    height: 150px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: solid 1.5px #D3D3D3;
+    border-radius: 5px;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+}
+
+.commentBtn {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.commentBtn:hover {
+    background-color: #0056b3;
+}
+
+
+.navigation {
+    background-color: #333;
+    color: white;
+    width: 200px;
+    float: left;
+}
+
+.navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation ul li {
+    display: block;
+}
+
+.navigation ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: white;
+}
+
+.navigation ul li a:hover {
+    background-color: #111;
+}

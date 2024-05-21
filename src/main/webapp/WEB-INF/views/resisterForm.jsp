@@ -98,6 +98,8 @@
     <input placeholder="휴대전화번호" class="inputBox" type="text" id="phone_num" name="phone_num" value="<c:out value='${userDto.phone_num}' />" minlength="11" maxlength="11" pattern="^[0-9]+$" title="하이픈(-)을 뺀 전화번호 11자리를 입력해주세요">
     <br>
 
+
+
     <label id="gender">성별</label>
     <input type="radio" id="genderM" name="gender" value="M" title="성별 하나를 선택 해주세요">남자
     <input type="radio" id="genderF" name="gender" value="F" title="성별 하나를 선택 해주세요">여자<br>

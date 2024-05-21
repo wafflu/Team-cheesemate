@@ -5,7 +5,7 @@
 //     }
 // };
 // })(imginfo);
-let ImageUploader = (function() {
+const ImageUploader = (function() {
     // let imginfo = moimg.getImgInfo() || [];
     let imginfo =  Image.getImgInfo() || [];
     let img_count = 0;
