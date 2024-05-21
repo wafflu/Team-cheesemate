@@ -10,13 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import team.cheese.domain.FaqDto;
 import team.cheese.service.FaqService;
-
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-//만약 FAQ 글이 활성화 STATE = Y이면 표출, N면 표출안함
 
 @Controller
 @RequestMapping("/faq")
@@ -29,17 +26,17 @@ public class FaqController {
     @GetMapping("/list")
     public String list() {return "faqBoardList";}
 
-/*
-FAQ 목록 조회하기
-    카테고리 번호에 따라 FAQ 목록을 조회한다.
-    카테고리 번호가 6인 경우 전체 목록을 조회하고, 1-5 사이의 번호인 경우 해당 카테고리의 목록을 조회한다.
-    조회된 목록을 ResponseEntity 객체로 반환한다.
-*/
-@GetMapping("/major")
-public ResponseEntity<List<FaqDto>> getFaqsByCategoryId(@RequestParam("queId") Integer queId) {
+    /*
+    FAQ 목록 조회하기
+        카테고리 번호에 따라 FAQ 목록을 조회한다.
+        카테고리 번호가 6인 경우 전체 목록을 조회하고, 1-5 사이의 번호인 경우 해당 카테고리의 목록을 조회한다.
+        조회된 목록을 ResponseEntity 객체로 반환한다.
+    */
+    @GetMapping("/major")
+    public ResponseEntity<List<FaqDto>> getFaqsByCategoryId(@RequestParam("queId") Integer queId) {
         List<FaqDto> faqs = faqService.getFaqsByCategoryId(queId);
         return ResponseEntity.ok(faqs);
-}
+    }
 
     /*
      * 키워드를 입력받아 해당 키워드가 포함된 FAQ 목록을 조회한다.
@@ -72,6 +69,6 @@ public ResponseEntity<List<FaqDto>> getFaqsByCategoryId(@RequestParam("queId") I
         return ResponseEntity.ok()
                 .contentType(new MediaType(MediaType.TEXT_PLAIN, StandardCharsets.UTF_8))
                 .body(content);
-        //return ResponseEntity.ok().body(content); // 위 코드 시 문자열 인코딩 문제발생
+        //return ResponseEntity.ok().body(content); // 코드 시 문자열 인코딩 문제발생
     }
 }
