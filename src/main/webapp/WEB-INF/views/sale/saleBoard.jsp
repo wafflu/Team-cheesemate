@@ -174,7 +174,6 @@
                     alert("판매글 상태 변경이 실패하였습니다.");
                 }
             });
-        });
     });
 
     $(document).ready(function () {

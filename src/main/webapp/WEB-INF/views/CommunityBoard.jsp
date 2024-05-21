@@ -34,10 +34,10 @@
     </div>
 
     <%--제목--%>
-    <div class="title-container">
-        <h1>${communityBoardDto.title}</h1>
-        <p class="detail-button" data-user-id="${communityBoardDto.ur_id}">:</p>
-    </div>
+        <div class="title-container">
+            <h1>${communityBoardDto.title}</h1>
+            <p class="detail-button" data-user-id="${communityBoardDto.ur_id}">✏️편집✏️</p>
+        </div>
 
     <p>${communityBoardDto.contents}</p>
 

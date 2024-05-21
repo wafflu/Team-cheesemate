@@ -83,25 +83,19 @@ public class SaleController {
     public String write(@RequestParam("addr_cd") String addr_cd,
                         @RequestParam("addr_name") String addr_name, Model model, HttpServletRequest request) throws Exception {
         // 로그인 한 경우
-
         HttpSession session = request.getSession();
         String user_id = (String) session.getAttribute("userId");
         String user_nick = (String) session.getAttribute("userNick");
 
+        List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
-//        if(user_id != null) {
-            List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
+        System.out.println("addr_name" + addr_name);
 
-            System.out.println("addr_name" + addr_name);
+        SaleDto saleDto = new SaleDto(addr_cd, addr_name);
+        model.addAttribute("Sale", saleDto);
+        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+        return "/sale/saleWrite";
 
-            SaleDto saleDto = new SaleDto(addr_cd, addr_name);
-            model.addAttribute("Sale", saleDto);
-            model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-            return "/sale/saleWrite";
-//        } else {
-//            // 로그인 안한 경우
-//            return "loginForm";
-//        }
     }
 
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달

@@ -71,10 +71,11 @@
                         s += "</tr>";
                     }
                     s += "</table>";
+                    console.log(s);
                     $('article').html(s);
 
                     console.log("ㄹㅣ절트 ㅍ;" + result.ph.totalPage);
-                    
+
                     $("#pagination").html(generatePagination(result.ph));
 
                 },

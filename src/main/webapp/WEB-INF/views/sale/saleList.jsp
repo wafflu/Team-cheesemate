@@ -15,12 +15,25 @@
 
 <div class="maincontent">
 <button type="button" onclick="writeBtn()">글쓰기</button>
-<select id="addr_cd">
-    <option id="selectAll" value="null" selected>전체</option>
-    <c:forEach var="AddrCd" items="${addrCdList}">
-        <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
-    </c:forEach>
-</select><br>
+    <c:choose>
+        <c:when test="${empty sessionScope.userId}">
+            <select id="addr_cd" style="display: none;">
+                <option id="selectAll" value="null" selected>전체</option>
+                <c:forEach var="AddrCd" items="${addrCdList}">
+                    <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                </c:forEach>
+            </select>
+        </c:when>
+        <c:otherwise>
+            <select id="addr_cd">
+                <option id="selectAll" value="null" selected>전체</option>
+                <c:forEach var="AddrCd" items="${addrCdList}">
+                    <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                </c:forEach>
+            </select>
+        </c:otherwise>
+    </c:choose>
+    <br>
 <select id="category1" onchange="loadCategory2()">
     <option value="null" selected>대분류(전체)</option>
     <c:forEach var="category" items="${saleCategory1}">
