@@ -910,7 +910,7 @@
             return false;
         }
 
-        if (!reg_price && reg_price < 0) {
+        if (!reg_price || reg_price < 0) {
             document.getElementsByName("reg_price")[0].focus();
             document.getElementsByName("reg_price")[0].style.borderColor = 'red';
             alert("음수를 제외한 정확한 가격을 입력하세요.");
