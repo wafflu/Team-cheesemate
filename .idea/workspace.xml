@@ -10,30 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf3a9cb8-6169-4b19-8c0e-325469b027b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/ChatDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/ChatServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/ImgServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/log4j.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/ChatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/ChatController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communityWriteBoard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/Event/ManageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/Event/ManageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/GlobalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/GlobalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/MyPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/MyPageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/img/ImgController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/img/ImgController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/sale/HoistingController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/sale/HoistingController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/sale/SaleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/sale/SaleController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/ChatDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/ChatDaoImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/ChatRoomDao.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/entity/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/entity/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/ChatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/ChatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/ImgService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/ImgService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/MyPage/UserInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/MyPage/UserInfoServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/event/EventServiceImp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/event/EventServiceImp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/sale/HoistingService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/sale/HoistingService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/sale/SaleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/sale/SaleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoardList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoardList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityBoard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityWriteBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityWriteBoard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/footer.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/footer.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/communityhome.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communityhome.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,11 +36,14 @@
         <option value="JUnit3 Test Class" />
         <option value="JUnit4 Test Class" />
         <option value="Interface" />
-        <option value="CSS File" />
         <option value="Class" />
+        <option value="CSS File" />
         <option value="Jsp File" />
       </list>
     </option>
+  </component>
+  <component name="Git.Merge.Settings">
+    <option name="BRANCH" value="master" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -164,6 +157,7 @@
     &quot;JUnit.commuDaoTest.testUpdate.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.commuDaoTest.testUpdate2.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.dbtest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.pagetest.page.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.testdb.executor&quot;: &quot;Run&quot;,
     &quot;JUnit.testdb.jdbcConnectionTest.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -184,7 +178,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.43678162&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
@@ -208,11 +202,11 @@
       <recent name="junit.framework.TestCase" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/main/webapp/resources/css" />
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/resources" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
-      <recent name="$PROJECT_DIR$/src/main/webapp" />
-      <recent name="$PROJECT_DIR$/src/main/resources/img" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="team.cheese.Controller.CommunityBoard" />
@@ -293,11 +287,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="testdb" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="pagetest.page" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sp_legacy" />
       <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="testdb" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="pagetest" />
+      <option name="METHOD_NAME" value="page" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -390,20 +385,20 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="JUnit.pagetest.page" />
       <item itemvalue="JUnit.dbtest" />
       <item itemvalue="JUnit.DBConnectionTest" />
       <item itemvalue="JUnit.DBConnectionTest (1)" />
-      <item itemvalue="JUnit.testdb" />
       <item itemvalue="JUnit.Testdb" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.86" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.pagetest.page" />
         <item itemvalue="JUnit.DBConnectionTest (1)" />
         <item itemvalue="JUnit.dbtest" />
         <item itemvalue="JUnit.DBConnectionTest" />
         <item itemvalue="JUnit.Testdb" />
-        <item itemvalue="JUnit.testdb" />
       </list>
     </recent_temporary>
   </component>
@@ -540,6 +535,9 @@
       <workItem from="1716166908835" duration="6816000" />
       <workItem from="1716173744348" duration="743000" />
       <workItem from="1716175123817" duration="323000" />
+      <workItem from="1716176731575" duration="30267000" />
+      <workItem from="1716248737546" duration="6003000" />
+      <workItem from="1716256348169" duration="716000" />
     </task>
     <servers />
   </component>
@@ -579,6 +577,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/team/cheese/domain/Testdb.java</url>
           <line>22</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/pagetest.java</url>
+          <line>24</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
