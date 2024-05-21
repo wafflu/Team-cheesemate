@@ -52,11 +52,19 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
 //        return list;
 //    }
 
-    public List<CommunityBoardDto> getPageByCategory(String category, int page, int pageSize) throws Exception {
+    public List<CommunityBoardDto> getPageByCategory(String category, int offset, int pageSize) throws Exception {
         Map<String, Object> params = new HashMap<>();
         params.put("category", category);
-        params.put("offset", page);
+        params.put("offset",offset);
         params.put("pageSize", pageSize);
+
+
+        // 디버그 로그 추가
+//        System.out.println("Page: " + page);
+//        System.out.println("PageSize: " + pageSize);
+//        System.out.println("offset: " + (page - 1) * pageSize);
+//        System.out.println("Category: " + category);
+
 
         List<CommunityBoardDto> list = communityBoardDao.selectPageByCategory(params);
         if(list==null){

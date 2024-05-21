@@ -44,17 +44,5 @@
     </div>
 </footer>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        let imgInfo = cssImage.getImgInfo();
-        $("#logoimg").attr("src", "/img/display?fileName=" + imgInfo['logo']);
-        $("#chaticon").attr("src", "/img/display?fileName=" + imgInfo['chat']);
-        $("#storeicon").attr("src", "/img/display?fileName=" + imgInfo['store']);
-        $("#usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
-        $("#search").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
-    });
-</script>
-
-
 </body>
 </html>

@@ -75,21 +75,25 @@ public  class CommunityBoardController {
         return list;
     }
 
+
     @GetMapping("/story")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getBoards(@RequestParam(defaultValue = "1") int page,
-                                                         @RequestParam(defaultValue = "5") int pageSize,
+                                                         @RequestParam(defaultValue = "6") int pageSize,
                                                          @RequestParam(defaultValue = "commu_A") String category) throws Exception {
 
         int totalCount = communityBoardService.getCountByCategory(category);
         PageHandler ph = new PageHandler(totalCount, page, pageSize);
 
+
         List<CommunityBoardDto> list = communityBoardService.getPageByCategory(category, ph.getOffset(), pageSize);
-        System.out.println("Page: " + ph.getOffset() + ", PageSize: " + pageSize + ", Category: " + category);
-        System.out.println("PageHandler : "+ph);
+        System.out.println("Page: " +  ph.getOffset() + ", PageSize: " + pageSize + ", Category: " + category);
+        System.out.println(ph);
+//        System.out.println(list);
         Map<String, Object> response = new HashMap<>();
         response.put("content", list);
         response.put("ph", ph);
+
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -113,8 +117,12 @@ public  class CommunityBoardController {
         String userId = (String) session.getAttribute("userId");
         String userNick = (String) session.getAttribute("userNick");
 
+
+
         List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
-        System.out.println(addrCdList);
+        System.out.println("addr : "+addrCdList);
+
+
 
 
         if (userId == null || userNick == null) {
@@ -366,6 +374,9 @@ public  class CommunityBoardController {
         CommunityHeartDto communityHeartDto = new CommunityHeartDto();
         communityHeartDto.setUr_id(userId);
         communityHeartDto.setPost_no(postNo);
+
+
+
         communityHeartService.doLike(communityHeartDto);
 
 

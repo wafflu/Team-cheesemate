@@ -9,7 +9,7 @@ $(document).ready(function() {
         type: 'GET',
         dataType: 'json',
         success: function(categories) {
-            var typeSelect = $('#type');
+            var typeSelect = $('#qnaForm_type');
             categories.forEach(function(category) {
                 var option = $('<option>', {
                     value: category.que_cd,
@@ -30,7 +30,7 @@ $(document).ready(function() {
             type: 'GET',
             dataType: 'json',
             success: function(subCategories) {
-                var detailTypeSelect = $('#detailType');
+                var detailTypeSelect = $('#qnaForm_detailType');
                 detailTypeSelect.empty().append($('<option>', { text: '상세 유형을 선택해주세요' }));
                 subCategories.forEach(function(subCategory) {
                     var option = $('<option>', {
@@ -45,15 +45,21 @@ $(document).ready(function() {
             }
         });
     }
+    // 마우스 클릭과 엔터 중복 입력을 방지
+    $("#qnaForm_submit").on('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+        }
+    });
 
-    $('#type').change(function() {
+    $('#qnaForm_type').change(function() {
         let majorId = $(this).val();
         $.ajax({
             url: '/qna/sub/' + majorId,
             type: 'GET',
             dataType: 'json',
             success: function(subCategories) {
-                let select = $('#detailType');
+                let select = $('#qnaForm_detailType');
                 select.empty().append($('<option>', { text: '상세 유형을 선택해주세요' }));
                 subCategories.forEach(function(category) {
                     select.append($('<option>', { value: category.que_cd, text: category.name }));
@@ -64,13 +70,14 @@ $(document).ready(function() {
             }
         });
     });
+
 });
 
-function submitCheck() {
-    var type = $('#type').val();
-    var detailType = $('#detailType').val();
-    var title = $('#title').val().trim();
-    var content = $('#content').val().trim();
+function qnaForm_submitCheck(e) {
+    var type = $('#qnaForm_type').val();
+    var detailType = $('#qnaForm_detailType').val();
+    var title = $('#qnaForm_title').val().trim();
+    var content = $('#qnaForm_content').val().trim();
 
     if (!type) {
         alert('유형을 선택해주세요.');

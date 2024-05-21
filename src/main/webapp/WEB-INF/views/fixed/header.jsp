@@ -86,7 +86,7 @@
     <div id="nav">
         <ul id="navlist">
             <li class="navli">
-                <a href="/sale"><span class="navtext">판매/나눔</span></a>
+                <a href="/sale/list"><span class="navtext">판매/나눔</span></a>
             </li>
             <li class="navli">
                 <a href="/event"><span class="navtext">이벤트</span></a>
@@ -102,4 +102,18 @@
 </header>
 
 <div id="headerspace"></div>
+
+<script>
+    $(document).ready(function (){
+        let imgInfo = cssImage.getImgInfo();
+        $("#logoimg").attr("src", "/img/display?fileName=" + imgInfo['logo']);
+        $("#chaticon").attr("src", "/img/display?fileName=" + imgInfo['chat']);
+        $("#storeicon").attr("src", "/img/display?fileName=" + imgInfo['store']);
+        $("#usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
+        $("#search").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
+    });
+    // document.addEventListener("DOMContentLoaded", function() {
+    //
+    // });
+</script>
 

@@ -34,10 +34,10 @@
     </div>
 
     <%--제목--%>
-    <div class="title-container">
-        <h1>${communityBoardDto.title}</h1>
-        <p class="detail-button" data-user-id="${communityBoardDto.ur_id}">:</p>
-    </div>
+        <div class="title-container">
+            <h1>${communityBoardDto.title}</h1>
+            <p class="detail-button" data-user-id="${communityBoardDto.ur_id}">✏️편집✏️</p>
+        </div>
 
     <p>${communityBoardDto.contents}</p>
 
@@ -71,7 +71,7 @@
 <div id="comment_insert">
 
     <div id = "comment">
-        <input type="hidden" id = "post_no" name="post_no" value="${communityBoardDto.no}">
+        <input type="hidden" id = "post_no" name="post_no" value="<c:out value='${communityBoardDto.no}'/>">;
     </div>
     <p>
         <textarea id="content" rows="5" cols="80" name="content"
