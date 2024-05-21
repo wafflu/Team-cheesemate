@@ -44,17 +44,17 @@ public class SaleDaoImpl implements SaleDao {
 
     @Override
     public SaleDto select(Long no) throws Exception {
-        return session.selectOne(namespace+"select", no);
+        return session.selectOne(namespace + "select", no);
     }
 
     @Override
     public int increaseViewCnt(Long no) throws Exception {
-        return session.update(namespace+"increaseViewCnt", no);
+        return session.update(namespace + "increaseViewCnt", no);
     }
 
     @Override
     public int increaseHoistingCnt(Long no) throws Exception {
-        return session.update(namespace+"increaseHoistingCnt", no);
+        return session.update(namespace + "increaseHoistingCnt", no);
     }
 
     @Override
@@ -115,11 +115,12 @@ public class SaleDaoImpl implements SaleDao {
 
     @Override
     public List<SaleDto> selectSearchPage(SearchCondition sc) throws Exception {
-        return session.selectList(namespace+"selectSearchPage",sc);
+        return session.selectList(namespace + "selectSearchPage", sc);
     }
+
     @Override
     public int selectSearchCount(SearchCondition sc) throws Exception {
-        return session.selectOne(namespace+"selectSearchCount",sc);
+        return session.selectOne(namespace + "selectSearchCount", sc);
     }
 
     @Override
@@ -131,17 +132,17 @@ public class SaleDaoImpl implements SaleDao {
     // 새로 추가한거!!!!
     @Override
     public int reviewState(Long no) throws Exception {
-        return session.update(namespace+"reviewState",no);
+        return session.update(namespace + "reviewState", no);
     }
 
     @Override
     public List<SaleDto> searchText(String text) throws Exception {
-        return session.selectList(namespace+"searchSale", text);
+        return session.selectList(namespace + "searchSale", text);
     }
 
-//    @Override
-//    public SaleDto buySale(SaleDto) throws Exception {
-//        return null;
-//    }
+    @Override
+    public int buySale(SaleDto saleDto) throws Exception {
+        return session.update(namespace + "buySale", saleDto);
+    }
 
 }

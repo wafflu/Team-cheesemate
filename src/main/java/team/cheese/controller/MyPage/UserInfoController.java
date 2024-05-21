@@ -28,9 +28,9 @@ public class UserInfoController {
     // 소개글 쓰기
     @PostMapping("/userInfo")
     public ResponseEntity<String> write(@RequestBody UserInfoDTO userInfoDTO, HttpSession session) throws Exception {
-//       String ur_id = (String) session.getAttribute("id");
+       String ur_id = (String) session.getAttribute("userId");
 //       String ur_id = "rudtlr";
-//       userInfoDTO.setUr_id(ur_id);
+       userInfoDTO.setUr_id(ur_id);
         userInfoService.write(userInfoDTO);
         return new ResponseEntity<>("WRT_OK", HttpStatus.OK);
     }

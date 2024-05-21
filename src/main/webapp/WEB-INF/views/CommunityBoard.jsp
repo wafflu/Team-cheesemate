@@ -71,7 +71,7 @@
 <div id="comment_insert">
 
     <div id = "comment">
-        <input type="hidden" id = "post_no" name="post_no" value="${communityBoardDto.no}">
+        <input type="hidden" id = "post_no" name="post_no" value="<c:out value='${communityBoardDto.no}'/>">;
     </div>
     <p>
         <textarea id="content" rows="5" cols="80" name="content"

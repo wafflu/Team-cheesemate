@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@include file="fixed/header.jsp"%>
+<%@include file="../fixed/header.jsp"%>
 
 <style>
     #saleListTB {
@@ -330,4 +330,4 @@
 </script>
 
 
-<%@include file="fixed/footer.jsp"%>
+<%@include file="../fixed/footer.jsp"%>

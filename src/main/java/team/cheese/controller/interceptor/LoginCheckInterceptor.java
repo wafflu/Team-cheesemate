@@ -1,56 +1,105 @@
 package team.cheese.controller.interceptor;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import team.cheese.domain.AddrCdDto;
+import team.cheese.domain.UserDto;
+import team.cheese.service.AddrCdService;
+import team.cheese.service.UserService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
+@Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    AddrCdService addrCdService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        System.out.println("LoginCheckInterceptor - preHandle 호출되었습니다.");
+        HttpSession session = request.getSession();
 
-        // *** 로그인을 한 상태인지 체크한다 ***
-        // 1. 로그인 상태 체크
-        //      1.1 세션에 로그인 정보가 있는 경우 true 리턴
-        //      1.2 세션에 로그인 정보가 없는 경우 false 리턴
+        if (isKeepLoginState(session, request, response)) {
+            return true;
+        }
 
-        HttpSession session = request.getSession(false);
-
-        if(session == null || session.getAttribute("userId") == null) {
-            System.out.println("요청한 화면 -> " + request.getRequestURI());
-
-            // 주소창에 직접 주소를 입력할 경우 일단 home으로 가도록 설정
-            if(request.getRequestURI() == "") {
-                response.sendRedirect("/loginForm" + "?from=" + "home");
-            } else if(request.getRequestURI().equals("/sale/write")) {
-                response.sendRedirect("/loginForm" + "?from=" + "/sale");
+        if(session.getAttribute("userId") == null) {
+            String redirectUri = "";
+            redirectUri = "/login?from=" + request.getRequestURI();
+            if(request.getRequestURI().equals("/sale/write")) {
+                redirectUri = "/login?from=/sale/list";
             }
-            else {
-                response.sendRedirect("/loginForm" + "?from=" + request.getRequestURI());
-            }
-
-            System.out.println("로그인 정보가 없습니다.");
+            response.sendRedirect(redirectUri);
             return false;
         }
         else {
             String userId = session.getAttribute("userId").toString();
-            System.out.println("로그인 정보가 있습니다. -> " + userId);
             return true;
         }
     }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println("LoginCheckInterceptor - postHandle 호출되었습니다.");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        System.out.println("LoginCheckInterceptor - afterHandle 호출되었습니다.");
+
+    }
+
+    private boolean isKeepLoginState(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+        String keepLoginStateUserId = "";
+        String keepLoginStateUserPw = "";
+
+        if (cookies == null) {
+            return false;
+        }
+
+        for(int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals("keepLoginStateId")) {
+                keepLoginStateUserId = cookies[i].getValue();
+                keepLoginStateUserPw = cookies[i+1].getValue();
+
+                if(!userService.getUserById(keepLoginStateUserId).getPw().equals(keepLoginStateUserPw)) {
+                    return false;
+                }
+
+                cookies[i].setMaxAge(60);
+                cookies[i+1].setMaxAge(60);
+                cookies[i].setPath("/"); // 쿠키의 경로 설정
+                cookies[i+1].setPath("/"); // 쿠키의 경로 설정
+                cookies[i].setDomain(request.getServerName()); // 쿠키의 도메인 설정
+                cookies[i+1].setDomain(request.getServerName()); // 쿠키의 도메인 설정
+                response.addCookie(cookies[i]);
+                response.addCookie(cookies[i+1]);
+
+                UserDto userDto = userService.getUserById(keepLoginStateUserId);
+                sessionSetting(session, userDto);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void sessionSetting(HttpSession session, UserDto loginUserDto) {
+        session.setAttribute("userId", loginUserDto.getId()); // -> 세션에 아이디 저장
+        session.setAttribute("userNick", loginUserDto.getNick()); // -> 세션에 닉네임 저장
+
+        List<AddrCdDto> userAddrCdDtoList = addrCdService.getAddrCdByUserId(loginUserDto.getId());
+        session.setAttribute("userAddrCdDtoList", userAddrCdDtoList); // -> 세션에 유저 주소 저장
     }
 }

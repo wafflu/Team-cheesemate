@@ -43,4 +43,33 @@
             addr_cd = #{addr_cd}
     </update>
 
+<!--    대분류만 불러오기-->
+    <select id="selectLargeCategory" resultType="AdministrativeDto">
+        <![CDATA[
+        SELECT *
+        FROM administrative
+        WHERE addr_cd < 100;
+        ]]>
+    </select>
+
+<!--    대분류에 해당하는 중분류 불러오기-->
+    <select id="selectMediumCategory" parameterType="String" resultType="AdministrativeDto">
+        SELECT *
+        FROM administrative
+        WHERE addr_cd LIKE CONCAT(#{addr_cd},'___');
+    </select>
+
+<!--    중분류에 해당하는 소분류 불러오기-->
+    <select id="selectSmallCategory" parameterType="String" resultType="AdministrativeDto">
+        SELECT *
+        FROM administrative
+        WHERE addr_cd LIKE CONCAT(#{addr_cd}, '___')
+    </select>
+
+<!--    유저가 선택한 addrCd 불러오기-->
+    <select id="selectAddrCdByAddrCd" parameterType="String" resultType="AdministrativeDto">
+        SELECT *
+        FROM administrative
+        WHERE addr_cd = #{addr_cd}
+    </select>
 </mapper>

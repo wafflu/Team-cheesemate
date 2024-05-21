@@ -86,7 +86,7 @@
     <div id="nav">
         <ul id="navlist">
             <li class="navli">
-                <a href="/sale"><span class="navtext">판매/나눔</span></a>
+                <a href="/sale/list"><span class="navtext">판매/나눔</span></a>
             </li>
             <li class="navli">
                 <a href="#"><span class="navtext">이벤트</span></a>
@@ -95,7 +95,7 @@
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
             </li>
             <li class="navli">
-                <a href="/qna/list"><span class="navtext">고객센터</span></a>
+                <a href="/faq/list"><span class="navtext">고객센터</span></a>
             </li>
         </ul>
     </div>

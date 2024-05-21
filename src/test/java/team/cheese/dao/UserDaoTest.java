@@ -156,4 +156,18 @@ public class UserDaoTest extends TestCase {
     // *** 모든 유저의 아이디를 가져오는지 테스트(2) ***
     // 1. 새 유저를 하나 추가
     // 2. 새 유저의 아이디를 불러오는지 테스트
+    @Test
+    public void testInsertNewUserTest() {
+        System.out.println("*** testGetAllUserId 테스트 시작 ***");
+
+        String userId = "insertDaoTest";
+        UserDto newUser = new UserDto(userId, "12341234", userId, userId, "1999-01-02", 'M', "01012345678", "05012345678", 'Y', "inserDaoTest@google.com", 'O', "풍무동-2", new Timestamp(System.currentTimeMillis()), "", new Timestamp(System.currentTimeMillis()), "");
+        System.out.println("새로 생성한 유저의 아이디 : " + newUser.getId());
+
+        userDao.insertNewUser(newUser);
+        UserDto searchUserId = userDao.getUserById(newUser.getId());
+        System.out.println("새로 유저를 추가하고 아이디 검색으로 새로운 유저 찾기 " + searchUserId.getId());
+
+        assertTrue(newUser.getId().equals(searchUserId.getId()));
+    }
 }

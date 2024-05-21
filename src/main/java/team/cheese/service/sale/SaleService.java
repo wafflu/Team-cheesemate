@@ -219,15 +219,6 @@ public class SaleService {
         return saleList;
     }
 
-//    // 사용자가 속한 주소의 전체 게시글 list를 가지고 올 때
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public List<SaleDto> getUserAddrCdList(String addr_cd) throws Exception {
-//        List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
-//        System.out.println(saleList.size());
-//
-//        return saleList;
-//    }
-
     // 판매글 하나에 들어가서 게시글을 읽을 때
     @Transactional(propagation = Propagation.REQUIRED)
     public Map read(Long no) throws Exception {
@@ -357,6 +348,11 @@ public class SaleService {
 
     public List<SaleCategoryDto> selectCategory1() throws Exception {
         return saleCategoryDao.selectCategory1();
+    }
+
+    public void buySale(SaleDto saleDto) throws Exception {
+        if(saleDao.buySale(saleDto)!=1)
+            throw new Exception("구매/예약시 예외발생");
     }
 }
 

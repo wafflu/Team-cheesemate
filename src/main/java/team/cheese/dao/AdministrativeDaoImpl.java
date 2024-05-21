@@ -37,4 +37,24 @@ public class AdministrativeDaoImpl implements AdministrativeDao {
     public int notUse(AdministrativeDto administrativeDto) throws Exception {
         return session.update(namespace + "update", administrativeDto);
     }
+
+    @Override
+    public List<AdministrativeDto> selectLargeCategory() {
+        return session.selectList(namespace + "selectLargeCategory");
+    }
+
+    @Override
+    public List<AdministrativeDto> selectMediumCategory(String largeAddrCd) {
+        return session.selectList(namespace + "selectMediumCategory", largeAddrCd);
+    }
+
+    @Override
+    public List<AdministrativeDto> selectSmallCategory(String largeAddrCd) {
+        return session.selectList(namespace + "selectSmallCategory", largeAddrCd);
+    }
+
+    @Override
+    public AdministrativeDto selectAddrCdByAddrCd(String addr_cd) {
+        return session.selectOne(namespace + "selectAddrCdByAddrCd", addr_cd);
+    }
 }

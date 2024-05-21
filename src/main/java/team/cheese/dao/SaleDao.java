@@ -65,6 +65,6 @@ public interface SaleDao {
     // 판매글 검색어로 조회
     List<SaleDto> searchText(String text) throws Exception;
 
-    // 판매글 구매했을 때 구매자 등록
-//    SaleDto buySale(String buyer_id) throws Exception;
+    //구매자가 판매글 예약/구매시
+    int buySale(SaleDto saleDto) throws Exception;
 }

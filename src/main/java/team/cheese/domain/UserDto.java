@@ -10,7 +10,7 @@ import java.util.Objects;
 public class UserDto {
 
     @NotNull
-    @Pattern(regexp = "^[A-Za-z\\d]{6,25}$")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,25}$")
     @Size(min = 6, max = 25)
     private String id;
 
@@ -21,10 +21,12 @@ public class UserDto {
 
     @NotNull
     @Pattern(regexp = "^[A-Za-z가-힣]+$")
+    @Size(min = 2, max = 30)
     private String name;
 
     @NotNull
     @Pattern(regexp = "[A-Za-z가-힣]{2,}")
+    @Size(min = 2, max = 20)
     private String nick;
 
     @NotNull
@@ -34,8 +36,8 @@ public class UserDto {
     private char gender;
 
     @NotNull
+    @Size(min = 11, max = 11)
     private String phone_num;
-
 
     private String safe_num;
 
@@ -44,12 +46,14 @@ public class UserDto {
 
     @NotNull
     @Email
+    @Size(min = 6, max = 50)
     private String email;
 
     @NotNull
     private char s_cd;
 
     @NotNull
+    @Size(min = 6, max = 50)
     private String addr_det;
 
     private Timestamp first_date;

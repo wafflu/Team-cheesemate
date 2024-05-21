@@ -59,7 +59,7 @@ public class SaleController {
 
         model.addAttribute("saleCategory1", saleCategory);
 
-        return "/saleList";
+        return "/sale/saleList";
     }
 
     // 게시글 리스트 중 하나를 클릭한 경우
@@ -75,7 +75,7 @@ public class SaleController {
         model.addAttribute("tagList", tagDto); // model로 값 전달
         model.addAttribute("imglist", imglist); // model로 값 전달
 
-        return "/login/saleBoard";
+        return "/sale/saleBoard";
     }
 
     // 글쓰기 버튼 누른 경우
@@ -97,7 +97,7 @@ public class SaleController {
             SaleDto saleDto = new SaleDto(addr_cd, addr_name);
             model.addAttribute("Sale", saleDto);
             model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-            return "/login/saleWrite";
+            return "/sale/saleWrite";
 //        } else {
 //            // 로그인 안한 경우
 //            return "loginForm";
@@ -126,7 +126,7 @@ public class SaleController {
         model.addAttribute("imglist", imglist); // model로 값 전달
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
 
-        return "/login/saleWrite";
+        return "/sale/saleWrite";
     }
 
     @RequestMapping("/remove")
