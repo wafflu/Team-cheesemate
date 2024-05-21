@@ -44,7 +44,7 @@
 
     </style>
 
-    <title>ResisterForm</title>
+    <title>치즈메이트 - 회원가입</title>
 </head>
 <body>
 
@@ -54,10 +54,7 @@
     <h1>회원가입</h1>
     <hr>
 
-    <textarea name="content" rows="20" placeholder=" 내용을 입력해 주세요." ${mode=="new" ? "" : "readonly='readonly'"}> <c:out value=''/> </textarea><br>
-
     <input type="hidden" name="${_csrf.parameterName}" value="<c:out value='${_csrf.token}' />"/>
-
 
     <input placeholder="아이디" class="inputBox" type="text" id="id" name="id" value="<c:out value='${userDto.id}' />" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,25}$" minlength="5" maxlength="25" title="아이디는 영어와 숫자가 포함되어야하며, 길이는 6글자이상 20글자까지 가능합니다." onchange="checkIdDuplication()">
     <p id="idCheckResult"></p>
@@ -85,7 +82,7 @@
     </select>
     <br>
 
-    <input placeholder="상세주소" class="inputBox" type="text" id="addr_det" name="addr_det" value="<c:out value='${userDto.addr_det}' />" pattern="^[가-힣a-zA-Z0-9]+$" minlength="6" maxlength="50" title="거주하고 있는 주소를 정확하게 입력해주세요.">
+    <input placeholder="상세주소" class="inputBox" type="text" id="addr_det" name="addr_det" value="<c:out value='${userDto.addr_det}' />" pattern="^[가-힣a-zA-Z0-9\s]+$" minlength="6" maxlength="50" title="거주하고 있는 주소를 정확하게 입력해주세요.">
     <br>
     <br>
 
@@ -101,15 +98,13 @@
     <input placeholder="휴대전화번호" class="inputBox" type="text" id="phone_num" name="phone_num" value="<c:out value='${userDto.phone_num}' />" minlength="11" maxlength="11" pattern="^[0-9]+$" title="하이픈(-)을 뺀 전화번호 11자리를 입력해주세요">
     <br>
 
-
-
     <label id="gender">성별</label>
-    <input type="radio" id="genderM" name="gender" value="<c:out value='M' />" ${userDto.gender == 'M' ? 'checked' : ''} title="성별 하나를 선택 해주세요">남자
-    <input type="radio" id="genderF" name="gender" value="<c:out value='F' />" ${userDto.gender == 'F' ? 'checked' : ''} title="성별 하나를 선택 해주세요">여자<br>
+    <input type="radio" id="genderM" name="gender" value="M" title="성별 하나를 선택 해주세요">남자
+    <input type="radio" id="genderF" name="gender" value="F" title="성별 하나를 선택 해주세요">여자<br>
 
     <label>내외국인</label>
-    <input type="radio" name="foreigner" value=<c:out value='Y' /> ${userDto.foreigner == 'Y' ? 'checked' : ''} checked>내국인
-    <input type="radio" name="foreigner" value=<c:out value='N' /> ${userDto.foreigner == 'N' ? 'checked' : ''}>외국인<br>
+    <input type="radio" name="foreigner" value="Y" checked>내국인
+    <input type="radio" name="foreigner" value="N">외국인<br>
 
     <button type="submit">제출</button>
 </form>
@@ -121,8 +116,8 @@
     // *** 아이디 중복 확인(Ajax) ***
     function checkIdDuplication() {
 
-        var inputId = document.getElementById("id").value;
-        var resultElement = document.getElementById("idCheckResult");
+        let inputId = document.getElementById("id").value;
+        let resultElement = document.getElementById("idCheckResult");
 
         if (inputId.length > 5) {
             fetch('/checkIdDuplication?id=' + encodeURIComponent(inputId))
@@ -144,10 +139,11 @@
 
     // *** 생년월일 입력시 미래 날짜 사용 불가능 ***
     document.addEventListener('DOMContentLoaded', function() {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1;
+        let yyyy = today.getFullYear();
+
         if (dd < 10) {
             dd = '0' + dd;
         }
@@ -156,23 +152,26 @@
         }
         today = yyyy + '-' + mm + '-' + dd;
 
-        var minDate = '1950-01-01';
+        let minDate = '1950-01-01';
 
-        var birthInput = document.getElementById("birth");
+        let birthInput = document.getElementById("birth");
         birthInput.setAttribute("max", today);
         birthInput.setAttribute("min", minDate);
     });
 
     // 중분류를 동적으로 가져오는 함수
     function fetchMediumCategories() {
-        var tradingPlace_A = document.getElementById("tradingPlace_A_large").value;
+        let tradingPlace_A = document.getElementById("tradingPlace_A_large").value;
         fetch('/mediumCategory?tradingPlace_A_large=' + encodeURIComponent(tradingPlace_A))
             .then(response => response.json())
             .then(data => {
-                var mediumCategorySelect = document.getElementById("tradingPlace_A_medium");
+                let smallCategorySelect = document.getElementById("tradingPlace_A_small");
+                smallCategorySelect.innerHTML = ""; // 기존 옵션들을 제거합니다.
+
+                let mediumCategorySelect = document.getElementById("tradingPlace_A_medium");
                 mediumCategorySelect.innerHTML = ""; // 기존 옵션들을 제거합니다.
                 data.forEach(function(category) {
-                    var option = document.createElement("option");
+                    let option = document.createElement("option");
                     option.value = category.addr_cd;
                     option.text = category.addr_name;
                     mediumCategorySelect.add(option);
@@ -182,14 +181,14 @@
 
     // 소분류를 동적으로 가져오는 함수
     function fetchSmallCategories() {
-        var tradingPlace_A = document.getElementById("tradingPlace_A_medium").value;
+        let tradingPlace_A = document.getElementById("tradingPlace_A_medium").value;
         fetch('/smallCategory?tradingPlace_A_medium=' + encodeURIComponent(tradingPlace_A))
             .then(response => response.json())
             .then(data => {
-                var smallCategorySelect = document.getElementById("tradingPlace_A_small");
+                let smallCategorySelect = document.getElementById("tradingPlace_A_small");
                 smallCategorySelect.innerHTML = ""; // 기존 옵션들을 제거합니다.
                 data.forEach(function(category) {
-                    var option = document.createElement("option");
+                    let option = document.createElement("option");
                     option.value = category.addr_cd;
                     option.text = category.addr_name;
                     smallCategorySelect.add(option);
@@ -200,17 +199,17 @@
 
     // *** 확인 버튼 누를 시 부적합한 입력을 화면에 표시 ***
     function submitCheck() {
-        var check = true;
+        let check = true;
 
-        var inputId = document.getElementById("id").value;
-        var inputPw = document.getElementById("pw").value;
-        var inputPwCheck = document.getElementById("inputPwCheck").value;
-        var inputEmail = document.getElementById("email").value;
-        var inputAddress = document.getElementById("addr_det").value.trim();
-        var inputName = document.getElementById("name").value;
-        var inputNick = document.getElementById("nick").value;
-        var inputBirth = document.getElementById("birth").value;
-        var inputPhoneNum = document.getElementById("phone_num").value;
+        let inputId = document.getElementById("id").value;
+        let inputPw = document.getElementById("pw").value;
+        let inputPwCheck = document.getElementById("inputPwCheck").value;
+        let inputEmail = document.getElementById("email").value;
+        let inputAddress = document.getElementById("addr_det").value.trim();
+        let inputName = document.getElementById("name").value;
+        let inputNick = document.getElementById("nick").value;
+        let inputBirth = document.getElementById("birth").value;
+        let inputPhoneNum = document.getElementById("phone_num").value;
 
         if(inputId === "" && inputId.trim().length !== inputId.length) {
             document.getElementById("id").style.borderColor = 'red';
@@ -241,7 +240,7 @@
             document.getElementById("email").style.borderColor = '';
         }
 
-        if(inputAddress === "" && inputAddress.length < 6 ) {
+        if(inputAddress.trim() === "" || inputAddress.replace(/\s/g, "").length < 6) {
             document.getElementById("addr_det").style.borderColor = 'red';
             check = false;
         }

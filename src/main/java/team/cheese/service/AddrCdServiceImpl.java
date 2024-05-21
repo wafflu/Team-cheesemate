@@ -46,7 +46,7 @@ public class AddrCdServiceImpl implements AddrCdService {
 
     // *** 유저의 주소코드 추가 ***
     @Override
-    public void insertAddrCd(AddrCdDto addrCdDto) {
-        addrCdDao.insertAddrCd(addrCdDto);
+    public int insertAddrCd(AddrCdDto addrCdDto) {
+        return addrCdDao.insertAddrCd(addrCdDto);
     }
 }

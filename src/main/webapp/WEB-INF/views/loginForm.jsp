@@ -19,7 +19,7 @@
 
 <html>
 <head>
-    <title>loginForm</title>
+    <title>치즈메이트-로그인화면</title>
 
     <style>
 

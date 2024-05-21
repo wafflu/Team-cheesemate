@@ -15,5 +15,5 @@ public interface AddrCdService {
     List<AddrCdDto> getAddrCdByUserId(String userId);
 
     // *** 유저의 주소코드 추가 ***
-    void insertAddrCd(AddrCdDto addrCdDto);
+    int insertAddrCd(AddrCdDto addrCdDto);
 }
