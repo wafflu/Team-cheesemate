@@ -1,53 +1,26 @@
-
-<%--
-  Created by IntelliJ IDEA.
-  User: gominjeong
-  Date: 5/2/24
-  Time: 11:12 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session="false" %>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
-<html>
-<head>
-
-    <link rel="stylesheet" href="/css/reset.css">
-    <link rel="stylesheet" href="/css/mystyle.css">
-    <link rel="stylesheet" href="/css/communityhome.css">
-    <title>Title</title>
-</head>
-<body>
-<article id="community-home">
-
-    <div class = "topic-best">
-        <h2 class = "topic-name">실시간 우리 지역 인기글</h2>
-        <p class="btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<link rel="stylesheet" href="/css/mycommustyle.css">
+<article class="maincontent community-home-box">
+    <div class = "topic-best tobic-commuhome">
+        <h2 class ="topic-name topic-best-h2">실시간 우리 지역 인기글</h2>
+        <p class="commuhome-btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
         <hr id = "topic-best-horizon"/>
-        <input type = "button" value = "글쓰기" onclick = "location.href='<c:url value="/community/write"/>'" id="write-btn">
-
     </div>
-    <div class = "topic-bla">
+    <div class = "topic-bla tobic-commuhome">
         <h3  class = "topic-name">블라블라</h3>
-        <p class = "btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
+        <p class = "commuhome-btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
     </div>
-    <div class = "topic-worry">
+    <div class = "topic-worry tobic-commuhome">
         <h3  class = "topic-name">고민/상담</h3>
-        <p class = "btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
-
+        <p class = "commuhome-btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
     </div>
-
-    <div class = "topic-love">
+    <div class = "topic-love tobic-commuhome">
         <h3  class = "topic-name">연애/썸</h3>
-        <p class = "btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
+        <p class = "commuhome-btn-more"><a href = "${pageContext.request.contextPath}/community/list">더보기></a></p>
     </div>
 
 </article>
-</body>
+
 <script>
     $(document).ready(function(){
 
@@ -172,4 +145,3 @@
     })
 
 </script>
-</html>

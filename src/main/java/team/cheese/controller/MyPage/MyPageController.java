@@ -74,7 +74,7 @@ public class MyPageController {
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         model.addAttribute("startOfToday", startOfToday.toEpochMilli());
         model.addAttribute("msg","MyPage Read Complete");
-        return "main";
+        return "myPage";
     }
 
     // 마이페이지 판매,구매내역 화면

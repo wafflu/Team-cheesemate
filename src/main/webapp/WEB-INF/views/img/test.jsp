@@ -22,8 +22,16 @@
 
 </div>
 
-<script src="/js/img.js"></script>
 <script>
+  const Image = (function() {
+    let imginfo = [];
+
+    return {
+      getImgInfo: function() {
+        return imginfo;
+      }
+    };
+  })();
 
   //이미지 등록하기
   $("#reg_img").click(function (){
@@ -62,5 +70,7 @@
     alert("등록되었습니다.")
   })
 </script>
+
+<script src="/js/img.js"></script>
 </body>
 </html>

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -133,10 +134,12 @@ public class ImgFactory {
         return list;
     }
 
+
     /* 등록하기 누를시 파일 제작 */
     public ImgDto makeImg(File file, String imgtype, int gno, int wsize, int hsize, String userid){
         long currentTimeMillis = System.currentTimeMillis();
         ImgDto img = null;
+
         /* 파일 저장 */
         try {
             String fileName = file.getName();
