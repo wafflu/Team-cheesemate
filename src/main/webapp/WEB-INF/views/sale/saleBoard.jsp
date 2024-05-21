@@ -2,7 +2,6 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ page session="false" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +40,8 @@
         <p>sale : ${Sale.no}</p>
         <p>행정동 코드 : ${Sale.addr_cd}</p>
         <p>주소명 : ${Sale.addr_name}</p>
-        <p>판매자닉네임 : <a href="/userInfo/${Sale.seller_id}">${Sale.seller_nick}</a></p>
+<%--        --%>
+        <p>판매자닉네임 : <a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
         <p>판매 카테고리명 : ${Sale.sal_name}</p>
         <p>
             사용상태 :
@@ -95,7 +95,7 @@
         <%--    <p>판매글 노출여부 : ${Sale.ur_state}</p>--%>
         <%--    <p>관리자 관리상태 : ${Sale.ad_state}</p>--%>
 
-        <c:if test="${Sale.seller_id == sessionScope.userId && Sale.hoist_cnt != 3}">
+        <c:if test="${(Sale.seller_id == sessionScope.userId) && Sale.hoist_cnt != 3}">
             <button type="button" id="hoistingBtn">끌어올리기</button>
         </c:if>
 
@@ -120,23 +120,6 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        <%--    loadSaleInfo();--%>
-        <%--    // 판매 정보를 불러오는 함수--%>
-        <%--    function loadSaleInfo() {--%>
-        <%--        $.ajax({--%>
-        <%--            type: "GET",--%>
-        <%--            url: "/sale/read?no=${Sale.no}",--%>
-        <%--            success: function (data) {--%>
-        <%--                alert(data);--%>
-
-        <%--                // 성공적으로 데이터를 받아오면 saleInfo 엘리먼트에 출력--%>
-        <%--                // $("#saleBoard").html("확인");--%>
-        <%--            },--%>
-        <%--            error: function (xhr, status, error) {--%>
-        <%--                alert("판매 정보를 불러오는데 실패하였습니다.");--%>
-        <%--            }--%>
-        <%--        });--%>
-        <%--    }--%>
 
         $("#hoistingBtn").on("click", function () {
             if (confirm("끌어올리겠습니까?")) {
@@ -170,7 +153,6 @@
                 $("#form").submit();
             }
         });
-    });
 
         $("#returnBtn").on("click", function () {
             if (confirm("목록으로 돌아가시겠습니까?")) {
@@ -192,7 +174,6 @@
                     alert("판매글 상태 변경이 실패하였습니다.");
                 }
             });
-        });
     });
 
     $(document).ready(function () {
@@ -225,15 +206,6 @@
             $("#form").submit();
         });
     });
-
-
-    <%--$("#returnBtn").on("click", function() {--%>
-    <%--    let form = $("#form");--%>
-    <%--    form.attr("action", "<c:url value='/sale/list'/>");--%>
-    <%--    form.attr("method", "post");--%>
-    <%--    confirm("목록으로 돌아가시겠습니까?");--%>
-    <%--    form.submit();--%>
-    <%--});--%>
 
 </script>
 </body>

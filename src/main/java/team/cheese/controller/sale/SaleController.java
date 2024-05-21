@@ -40,15 +40,14 @@ public class SaleController {
 
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
-    public String getList(Model model, HttpServletRequest request) throws Exception {
-        HttpSession session = request.getSession();
+    public String getList(Model model, HttpSession session, HttpServletRequest request) throws Exception {
+//        HttpSession session = request.getSession();
         String ur_id = (String) session.getAttribute("userId");
 
-
         if(ur_id == null) {
-            model.addAttribute("addrCdList", administrativeDao.selectAll());
+            List<AdministrativeDto> addrCdList = saleService.selectAddrCdList(ur_id);
+            model.addAttribute("addrCdList", addrCdList);
         } else {
-            String addr_cd = addrCdDao.getAddrCdByUserId(ur_id).get(0).getAddr_cd();
             // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
@@ -56,9 +55,11 @@ public class SaleController {
             model.addAttribute("addrCdList", addrCdList);
         }
 
-        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+        List<SaleCategoryDto> saleCategory = saleService.selectCategory1();
 
-        return "/saleList";
+        model.addAttribute("saleCategory1", saleCategory);
+
+        return "/sale/saleList";
     }
 
     // 게시글 리스트 중 하나를 클릭한 경우
@@ -74,7 +75,7 @@ public class SaleController {
         model.addAttribute("tagList", tagDto); // model로 값 전달
         model.addAttribute("imglist", imglist); // model로 값 전달
 
-        return "/login/saleBoard";
+        return "/sale/saleBoard";
     }
 
     // 글쓰기 버튼 누른 경우
@@ -82,25 +83,19 @@ public class SaleController {
     public String write(@RequestParam("addr_cd") String addr_cd,
                         @RequestParam("addr_name") String addr_name, Model model, HttpServletRequest request) throws Exception {
         // 로그인 한 경우
-
         HttpSession session = request.getSession();
         String user_id = (String) session.getAttribute("userId");
         String user_nick = (String) session.getAttribute("userNick");
 
+        List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
-        if(user_id != null) {
-            List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
+        System.out.println("addr_name" + addr_name);
 
-            System.out.println("addr_name" + addr_name);
+        SaleDto saleDto = new SaleDto(addr_cd, addr_name);
+        model.addAttribute("Sale", saleDto);
+        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+        return "/sale/saleWrite";
 
-            SaleDto saleDto = new SaleDto(addr_cd, addr_name);
-            model.addAttribute("Sale", saleDto);
-            model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-            return "/login/saleWrite";
-        } else {
-            // 로그인 안한 경우
-            return "loginForm";
-        }
     }
 
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
@@ -125,7 +120,7 @@ public class SaleController {
         model.addAttribute("imglist", imglist); // model로 값 전달
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
 
-        return "/login/saleWrite";
+        return "/sale/saleWrite";
     }
 
     @RequestMapping("/remove")

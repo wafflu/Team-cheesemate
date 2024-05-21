@@ -12,23 +12,23 @@
 	<link rel="stylesheet" href="/css/myPage.css">
 </head>
 <%--<script>--%>
-<%--	let msg ="${msg}"--%>
-<%--	if(msg=="MyPage Read Complete") alert("메인페이지 접근 성공");--%>
+<%--   let msg ="${msg}"--%>
+<%--   if(msg=="MyPage Read Complete") alert("메인페이지 접근 성공");--%>
 <%--</script>--%>
 <body>
 <c:if test="${userInfoDTO.ur_id eq loginId}">
-<div class="navigation">
-	<ul>
-		<li><a href="/myPage/main">마이페이지</a></li>
-		<li><a href="/about">거래정보</a></li>
-		<li><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
-		<li><a href="/contact">찜한 상품</a></li>
-		<li><a href="/contact">내 정보 관리</a></li>
-		<li><a href="/contact">개인 정보 수정</a></li>
-		<li><a href="/contact">비밀번호 변경</a></li>
-		<li><a href="/contact">회원 탈퇴</a></li>
-	</ul>
-</div>
+	<div class="navigation">
+		<ul>
+			<li><a href="/myPage/main">마이페이지</a></li>
+			<li><a href="/about">거래정보</a></li>
+			<li><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
+			<li><a href="/contact">찜한 상품</a></li>
+			<li><a href="/contact">내 정보 관리</a></li>
+			<li><a href="/contact">개인 정보 수정</a></li>
+			<li><a href="/contact">비밀번호 변경</a></li>
+			<li><a href="/contact">회원 탈퇴</a></li>
+		</ul>
+	</div>
 </c:if>
 <div id="profileimg">
 	<div class="form_section_content">
@@ -37,7 +37,7 @@
 	</div>
 	<div id = "uploadResult">
 
-<%--		<img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
+		<%--      <img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
 	</div>
 	<div id="profilesave_btn_area">
 

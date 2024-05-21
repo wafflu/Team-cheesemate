@@ -38,7 +38,7 @@ public interface CommunityBoardService {
 
         //paging
 
-    public List<CommunityBoardDto> getPageByCategory(int page, int pageSize, String category) throws Exception;
+    public List<CommunityBoardDto> getPageByCategory(String category,int page, int pageSize) throws Exception;
 
     public int getCountByCategory(String category) throws Exception;
 }

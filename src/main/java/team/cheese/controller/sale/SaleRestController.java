@@ -221,6 +221,7 @@ public class SaleRestController {
         map.put("pageSize", pageSize);
 
         List<SaleDto> saleList = saleService.getList(map);
+        System.out.println("salePages saleList : " + saleList);
 
         Map result = new HashMap();
 

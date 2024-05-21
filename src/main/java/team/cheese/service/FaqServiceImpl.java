@@ -18,7 +18,11 @@ public class FaqServiceImpl implements FaqService {
     @Override
     public List<FaqDto> getList() {
         try{
-            return faqDao.selectAllFaq();
+            List<FaqDto> faqs = faqDao.selectAllFaq();
+            if (faqs == null || faqs.isEmpty()) {
+                throw new RuntimeException("FAQ 목록이 없습니다.");
+            }
+            return faqs;
         } catch (Exception e) {
             throw new RuntimeException("faq 목록 조회 에러", e);
         }
@@ -28,7 +32,14 @@ public class FaqServiceImpl implements FaqService {
     @Override
     public List<FaqDto> getMajorFaqs(long que_id) {
         try {
-            return faqDao.selectMajorFaq(que_id);
+            if (que_id <= 0) {
+                throw new IllegalArgumentException("유효하지 않은 카테고리 ID입니다.");
+            }
+            List<FaqDto> faqs = faqDao.selectMajorFaq(que_id);
+            if (faqs == null || faqs.isEmpty()) {
+                throw new RuntimeException("해당 카테고리에 FAQ가 없습니다.");
+            }
+            return faqs;
         } catch (Exception e) {
             throw new RuntimeException("faq 목록 조회 에러", e);
         }
@@ -37,11 +48,19 @@ public class FaqServiceImpl implements FaqService {
     @Override
     public List<FaqDto> getFaqsByCategoryId(long categoryId) {
         try {
-            if (categoryId == 6) {
-                return faqDao.selectAllFaq();
-            } else {
-                return faqDao.selectMajorFaq(categoryId);
+            if (categoryId < 1 || categoryId > 6) {
+                throw new IllegalArgumentException("유효하지 않은 카테고리 ID입니다.");
             }
+            List<FaqDto> faqs;
+            if (categoryId == 6) {
+                faqs = faqDao.selectAllFaq();
+            } else {
+                faqs = faqDao.selectMajorFaq(categoryId);
+            }
+            if (faqs == null || faqs.isEmpty()) {
+                throw new RuntimeException("해당 카테고리에 FAQ가 없습니다.");
+            }
+            return faqs;
         } catch (Exception e) {
             throw new RuntimeException("faq 카테고리 조회 에러", e);
         }
@@ -57,12 +76,18 @@ public class FaqServiceImpl implements FaqService {
         }
     }
 
-
     // faq 번호로 내용을 가져온다.
     @Override
     public String selectContents(long no) {
         try {
-            return faqDao.selectContents(no);
+            if (no <= 0) {
+                throw new IllegalArgumentException("유효하지 않은 FAQ 번호입니다.");
+            }
+            String content = faqDao.selectContents(no);
+            if (content == null || content.trim().isEmpty()) {
+                throw new RuntimeException("FAQ 내용이 없습니다.");
+            }
+            return content;
         } catch (Exception e) {
             throw new RuntimeException("faq 번호 조회 에러", e);
         }
