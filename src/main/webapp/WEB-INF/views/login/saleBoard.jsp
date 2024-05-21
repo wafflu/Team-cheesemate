@@ -120,23 +120,6 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        <%--    loadSaleInfo();--%>
-        <%--    // 판매 정보를 불러오는 함수--%>
-        <%--    function loadSaleInfo() {--%>
-        <%--        $.ajax({--%>
-        <%--            type: "GET",--%>
-        <%--            url: "/sale/read?no=${Sale.no}",--%>
-        <%--            success: function (data) {--%>
-        <%--                alert(data);--%>
-
-        <%--                // 성공적으로 데이터를 받아오면 saleInfo 엘리먼트에 출력--%>
-        <%--                // $("#saleBoard").html("확인");--%>
-        <%--            },--%>
-        <%--            error: function (xhr, status, error) {--%>
-        <%--                alert("판매 정보를 불러오는데 실패하였습니다.");--%>
-        <%--            }--%>
-        <%--        });--%>
-        <%--    }--%>
 
         $("#hoistingBtn").on("click", function () {
             if (confirm("끌어올리겠습니까?")) {
@@ -192,7 +175,6 @@
                     alert("판매글 상태 변경이 실패하였습니다.");
                 }
             });
-        });
     });
 
     $(document).ready(function () {
@@ -225,15 +207,6 @@
             $("#form").submit();
         });
     });
-
-
-    <%--$("#returnBtn").on("click", function() {--%>
-    <%--    let form = $("#form");--%>
-    <%--    form.attr("action", "<c:url value='/sale/list'/>");--%>
-    <%--    form.attr("method", "post");--%>
-    <%--    confirm("목록으로 돌아가시겠습니까?");--%>
-    <%--    form.submit();--%>
-    <%--});--%>
 
 </script>
 </body>

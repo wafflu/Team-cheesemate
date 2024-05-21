@@ -1,28 +1,25 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<html>
-<head>
-    <title>Title</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="fixed/header.jsp"%>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <style>
         #chatbox{
             position: relative;
-            width: 1000px;
-            border: 1px solid red;
+            width: 800px;
+            margin: 50px auto 0;
             height: 800px;
         }
         #chatlist{
             position: absolute;
             left: 0;
-            width: 50%;
+            width: 400px;
+            border: 1px solid red;
         }
         #conversationDiv{
             position: absolute;
             right: 0;
-            width: 50%;
+            width: 400px;
+            border: 1px solid red;
         }
         #response{
             width: 100%;
@@ -36,9 +33,7 @@
             text-align: left;
         }
     </style>
-</head>
-<body>
-<div id="chatbox">
+<div id="chatbox" class="maincontent">
 
     <div id = "chatlist">
 
@@ -231,5 +226,4 @@
     }
 </script>
 
-</body>
-</html>
+<%@include file="fixed/footer.jsp"%>
