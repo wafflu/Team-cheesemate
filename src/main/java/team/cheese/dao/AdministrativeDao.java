@@ -14,4 +14,12 @@ public interface AdministrativeDao {
     List<AdministrativeDto> searchLetter(String letter) throws Exception;
 
     int notUse(AdministrativeDto administrativeDto) throws Exception;
+
+    List<AdministrativeDto> selectLargeCategory() throws Exception;
+
+    List<AdministrativeDto> selectMediumCategory(String largeAddrCd) throws Exception;
+
+    List<AdministrativeDto> selectSmallCategory(String mediumAddrCd) throws Exception;
+
+    AdministrativeDto selectAddrCdByAddrCd(String addr_cd);
 }

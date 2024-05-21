@@ -291,9 +291,6 @@
             <scope>test</scope>
         </dependency>
 
-
-        <!-- AspectJ -->
-
     </dependencies>
 
     <build>

@@ -3,7 +3,10 @@ package team.cheese.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import team.cheese.dao.MyPage.UserInfoDao;
 import team.cheese.dao.UserDao;
+import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.domain.UserDto;
 
 import java.security.MessageDigest;
@@ -15,6 +18,9 @@ public class UserService {
 
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserInfoDao userInfoDao;
 
     // *** 모든 유저를 삭제하는 메서드 ***
     public void deleteAllUsers() {
@@ -92,8 +98,20 @@ public class UserService {
     }
 
     // *** 회원가입 기능 ***
+    @Transactional
     public int insertNewUser(UserDto dto) throws NoSuchAlgorithmException {
         System.out.println("*** UserService에서 insertNewUser 기능을 수행합니다. ***");
+
+        // 소개글 작성 (insert)
+        UserInfoDTO userInfoDTO = new UserInfoDTO(dto.getId(),dto.getNick(),"");
+
+        try {
+            int rowCnt = userInfoDao.insert(userInfoDTO);
+            if(rowCnt!=1)
+                throw new RuntimeException("소개글 작성 중 예외가 발생했습니다");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         dto.setPw(hashPassword(dto.getPw()));
 

@@ -10,20 +10,278 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf3a9cb8-6169-4b19-8c0e-325469b027b4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communityWriteBoard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityBoard.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityWriteBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityWriteBoard.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/footer.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/footer.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/QnaServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/main.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/saleInfo.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ImgDaoTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/ImgServiceTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/SaleDaoTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/dbtest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/log4j.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/AddrCdMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/AdminMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/ChatMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/CommentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/CommuMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/CommunityBoardMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/CommunityHeartMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/EventMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/FaqMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/HoistingMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/ImgMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/PublicMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/QnaCategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/QnaMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/RoomMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/SaleMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/administrativeMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/bidingMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/reviewCommentMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/saleCategoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/saleHistoryMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/saleImgMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/saleTagMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/tagMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mapper/userInfoMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/mybatis-config.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/ChatController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/CommunityBoard/CommunityBoardController$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/CommunityBoard/CommunityBoardController$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/CommunityBoard/CommunityBoardController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/Event/EventController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/Event/ManageController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/FaqController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/GlobalController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/HomeController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/KakaoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/LoginController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/MyPageController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/ReviewCommentController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/UserInfoController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/QnaController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/ResisterController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/img/ImgController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/interceptor/LoginCheckInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/HoistingController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/MainController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/SaleController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/SaleRestController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/AddrCdDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/AddrCdDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdminDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdminImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdministrativeDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdministrativeDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/BidingDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/ChatDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/ChatDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/Chat_msgDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/Comment/CommentDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/Comment/CommentDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/Commu/CommuDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/Commu/CommuDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityBoard/CommunityBoardDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityBoard/CommunityBoardDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityHeart/CommunityHeartDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityHeart/CommunityHeartDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/DeleteDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/FaqDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/FaqDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/HoistingDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/ImgDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/ImgDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/ReviewCommentDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/ReviewCommentDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/UserInfoDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/UserInfoDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/PublicDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaCategoryDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaCategoryDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleCategoryDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleCategoryDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleHistoryDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleImgDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleTagDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleTagDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/TagDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/TagDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/TestSession.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/UserDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/UserDaoImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/event/EventDao.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/dao/event/EventDaoImp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/AddrCdDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/AdminDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/AdministrativeDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/BidingDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatMessageDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatRoomDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/Comment/CommentDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/Commu/CommuDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityBoard/CommunityBoardDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityBoardDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityHeart/CommunityHeartDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/FaqDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/HoistingDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/ImgDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/CommentPageHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/ReviewCommentDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/SaleDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/SearchCondition.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/UserInfoDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/PageHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/QnaCategoryDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/QnaDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/RoomDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleCategoryDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleHistoryDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleImgDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleTagDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/SearchDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/TagDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/UserDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/UserInfoDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/event/EventDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/domain/event/PageHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/entity/AddrFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/entity/CustomWebSocketHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/entity/ImgFactory$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/entity/ImgFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/entity/PageHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/entity/WebSocketConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/exception/DataExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/exception/DataFailException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/exception/GlobalExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/exception/ImgExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/exception/ImgNullException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/AddrCdService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/AdminService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/ChatService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/ChatServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/Comment/CommentService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/Comment/CommentServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityBoard/CommunityBoardService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityHeart/CommunityHeartService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityHeart/CommunityHeartServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/FaqService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/FaqServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/ImgService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/ImgServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/KakaoService$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/KakaoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/ReviewCommentService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/ReviewCommentServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/UserInfoService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/UserInfoServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/QnaService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/UserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/event/EventService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/event/EventServiceImp.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/sale/HoistingService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/team/cheese/service/sale/SaleService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/EventServiceTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/publicDaoTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AddrCdDaoTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AdminDaoTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AdministrativeDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommentDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommuDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommunityBoardDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommunityHeartDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/FaqDaoTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/MyPage/ReviewCommentDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/MyPage/UserInfoDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/QnaCategoryDaoTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/QnaDaoTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleCategoryDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleTagDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/TagDaoImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/UserDaoTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/domain/DBConnectionTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/domain/Testdb.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/AddrCdServiceTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/AdminServiceTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/CommentServiceImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/CommunityHeartServiceImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/FaqServiceImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/SaleServiceImplTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/UserServiceTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/cheese/service/sale/SaleServiceTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/test-classes/team/userinfo_dao_test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/FaqController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/FaqController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/MyPageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/MyPageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/ReviewCommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/ReviewCommentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/UserInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/MyPage/UserInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/QnaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/QnaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/ResisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/ResisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/interceptor/LoginCheckInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/interceptor/LoginCheckInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AddrCdDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AddrCdDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AddrCdDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AddrCdDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AdministrativeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AdministrativeDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AdministrativeDaoImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/dao/AdministrativeDaoImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/domain/AddrCdDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/domain/AddrCdDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/domain/MyPage/CommentPageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/domain/MyPage/CommentPageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/domain/MyPage/SaleDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/domain/MyPage/SaleDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/domain/PageHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/domain/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/domain/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/exception/DataExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/exception/DataFailException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/exception/ImgExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/exception/ImgNullException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/AddrCdService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/AddrCdService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/FaqServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/FaqServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/ImgServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/ImgServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/MyPage/UserInfoServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/MyPage/UserInfoServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/QnaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/QnaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/AddrCdMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/AddrCdMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/SaleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/SaleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/administrativeMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/administrativeMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mybatis-config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/root-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/board.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/board_2.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/chating.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/event.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/faqBoardList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/faqBoardList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/header.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/home.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/communityhome.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communityhome.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/loginForm.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/loginForm.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoardList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoardList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaForm.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaForm.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/resisterForm.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/resisterForm.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/saleInfo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/saleInfo.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/faq.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/faq.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoardList.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoardList.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaForm.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaForm.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/faq.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/faq.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaBoard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaBoard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DBConnectionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DBConnectionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/dao/AddrCdDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/AddrCdDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/dao/AdministrativeDaoImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/AdministrativeDaoImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/dao/QnaDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/QnaDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/dao/UserDaoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/UserDaoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/service/MyPage/UserInfoServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/service/MyPage/UserInfoServiceImplTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -394,8 +652,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.pagetest.page" />
         <item itemvalue="JUnit.DBConnectionTest (1)" />
+        <item itemvalue="JUnit.pagetest.page" />
         <item itemvalue="JUnit.dbtest" />
         <item itemvalue="JUnit.DBConnectionTest" />
         <item itemvalue="JUnit.Testdb" />
