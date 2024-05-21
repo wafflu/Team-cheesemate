@@ -36,6 +36,45 @@
     <!-- CRUD  -->
     <!--  R : 전체 게시글 선택  -->
     <!--  유저의 주소를 기준으로 조회되어야 됨  -->
+    <!--    and 제목으로 검색조건도 추가해야함-->
+    <select id="selectSearchPage" parameterType="SearchCondition" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        where true
+        and ur_state = 'Y'
+        <if test='option=="seller"'>
+            and seller_id = #{ur_id}
+        </if>
+        <if test='option=="buyer"'>
+            and buyer_id = #{ur_id}
+        </if>
+        <if test='sal_s_cd!=""'>
+            and sal_s_cd = #{sal_s_cd}
+        </if>
+        and title like concat('%',#{keyword},'%')
+        ORDER BY no DESC
+        LIMIT #{offset},#{pageSize}
+    </select>
+
+    <select id="selectSearchCount" parameterType="SearchCondition" resultType="int">
+        SELECT count(*)
+        FROM sale
+        where true
+        and ur_state = 'Y'
+        <if test='option=="seller"'>
+            and seller_id = #{ur_id}
+        </if>
+        <if test='option=="buyer"'>
+            and buyer_id = #{ur_id}
+        </if>
+        <if test='sal_s_cd!=""'>
+            and sal_s_cd = #{sal_s_cd}
+        </if>
+        and title like concat('%',#{keyword},'%')
+    </select>
+
+    <!-- CRUD  -->
+    <!--  R : 전체 게시글 선택  -->
+    <!--  유저의 주소를 기준으로 조회되어야 됨  -->
     <select id="selectAll" resultType="SaleDto">
         <include refid="selectFromSale"/>
         where
