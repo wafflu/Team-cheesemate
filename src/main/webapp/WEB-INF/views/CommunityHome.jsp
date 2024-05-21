@@ -16,9 +16,9 @@
 <html>
 <head>
 
-    <link rel="stylesheet" type="text/css" href="/resources/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/mystyle.css">
-    <link rel="stylesheet" type="text/css" href="/resources/css/communityhome.css">
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <link rel="stylesheet" href="/css/communityhome.css">
     <title>Title</title>
 </head>
 <body>
