@@ -3,7 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
 <c:set var="loginId" value="${sessionScope.userId}"/>
-<%--<c:set var="loginId" value="${ur_id}"/>--%>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -13,6 +12,18 @@
 	<link rel="stylesheet" href="/css/saleInfo.css">
 </head>
 <body>
+<div class="navigation">
+	<ul>
+		<li><a href="/myPage/main">마이페이지</a></li>
+		<li><a href="/about">거래정보</a></li>
+		<li><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
+		<li><a href="/contact">찜한 상품</a></li>
+		<li><a href="/contact">내 정보 관리</a></li>
+		<li><a href="/contact">개인 정보 수정</a></li>
+		<li><a href="/contact">비밀번호 변경</a></li>
+		<li><a href="/contact">회원 탈퇴</a></li>
+	</ul>
+</div>
 <div class="mainContainer">
 	<div class="bun-ui-divider">
 		<button class="bun-ui-tab bun-ui-tab-selected" id="seller">

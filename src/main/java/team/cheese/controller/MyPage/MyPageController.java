@@ -48,9 +48,6 @@ public class MyPageController {
         UserInfoDTO userInfoDTO = null;
         // 로그인이 안되어있을떄
         if(!loginCheck(session)) {
-            // ur_id값도 null이면 로그인 폼으로
-//            if(ur_id==null)
-//                return "loginForm";
             userInfoDTO = userInfoService.read(ur_id);
             model.addAttribute("userInfoDTO",userInfoDTO);
         // 로그인이 되어있을떄
@@ -72,12 +69,12 @@ public class MyPageController {
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         model.addAttribute("startOfToday", startOfToday.toEpochMilli());
         model.addAttribute("msg","MyPage Read Complete");
-        return "main";
+        return "myPage";
     }
 
     // 마이페이지 판매,구매내역 화면
     @RequestMapping("/saleInfo")
-    public String saleInfo(HttpSession session, Model model) throws Exception {
+    public String saleInfo(HttpSession session, Model model) {
         // 1. 세션에서 session_id 값 받아오기
         String session_id = (String) session.getAttribute("userId");
         model.addAttribute("ur_id",session_id);

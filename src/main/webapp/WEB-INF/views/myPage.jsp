@@ -3,19 +3,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
 <c:set var="loginId" value="${sessionScope.userId}"/>
-<%--<c:set var="loginId" value="${session_id}"/>--%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 	<title>My Page</title>
-	<link rel="stylesheet" href="/css/main.css">
+	<link rel="stylesheet" href="/css/myPage.css">
 </head>
-<script>
-	let msg ="${msg}"
-	if(msg=="MyPage Read Complete") alert("메인페이지 접근 성공");
-</script>
+<%--<script>--%>
+<%--	let msg ="${msg}"--%>
+<%--	if(msg=="MyPage Read Complete") alert("메인페이지 접근 성공");--%>
+<%--</script>--%>
 <body>
 <c:if test="${userInfoDTO.ur_id eq loginId}">
 <div class="navigation">
@@ -64,7 +63,12 @@
 	<c:if test="${userInfoDTO.ur_id eq loginId}">
 		<button id="modBtn">소개글 수정</button><br>
 	</c:if>
-	<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 내용을 입력해 주세요." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
+	<c:if test="${userInfoDTO.ur_id eq loginId}">
+		<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 내용을 입력해 주세요." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
+	</c:if>
+	<c:if test="${userInfoDTO.ur_id ne loginId}">
+		<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 소개글이 없습니다." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
+	</c:if>
 </div>
 <h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
 <h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
@@ -197,7 +201,7 @@
 			selectedStar = 0;
 		}
 		// 선택된 별점 값을 콘솔에 출력하여 확인
-		alert("선택된 별점 값: " + selectedStar);
+		// alert("선택된 별점 값: " + selectedStar);
 	});
 
 	// 취소 버튼 기능 추가
@@ -229,12 +233,10 @@
 		let tmp = "<ul>";
 
 		comments.forEach(function (comment) {
-			let contents =  "<c:out value='${comment.contents}'/>";
 			tmp += '<li data-no=' + comment.no
 			tmp += ' data-sal_id=' + comment.sal_id + '>'
 			tmp += ' buy_id = <span class="buy_id clickable" data-buy_id="' + comment.buy_id + '">' + comment.buy_id + '</span>'
-			tmp += ' contents = <span class="contents">' + contents + '</span>'
-			<c:out value='${comment.contents}'/>
+			tmp += ' contents = <span class="contents">' + comment.contents + '</span>'
 			tmp += ' 별점 ='; // 별점 표시 부분 추가
 
 			// 별표(★) 개수만큼 추가
@@ -289,7 +291,6 @@
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType : 'json',
 			success : function(result){
-				alert("Success Change");
 				toChange(result);
 			},
 			error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
@@ -316,7 +317,7 @@
 
 		// 빈 별표(☆) 표시하는 HTML 생성
 		let emptyStarHtml = '';
-		for (let i = endValue; i <= 5; i++) {
+		for (let i = endValue; i <5; i++) {
 			emptyStarHtml += ' ☆';
 		}
 
@@ -361,8 +362,9 @@
 				// dataType : 'text', // 전송받을 데이터의 타입
 				data : JSON.stringify({no:no,contents:contents,reviewStar: selectedStar}),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
 				success : function(result){
-					alert(result);
+					// alert(result);
 					showList(ur_id,page,pageSize);
+					showUserInfo(ur_id);
 				},
 				error   : function(result){ alert(result.responseText) } // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
@@ -412,7 +414,7 @@
 					type: 'DELETE',       // 요청 메서드
 					url: '/comments/' + no + '?sal_id=' + sal_id,  // 요청 URI
 					success: function(result){
-						alert(result);
+						// alert(result);
 						showList(sal_id, page, pageSize);
 						showUserInfo(ur_id);
 					},
@@ -447,7 +449,7 @@
 				// dataType : 'text', // 전송받을 데이터의 타입
 				data: JSON.stringify({contents: contents}),  // 서버로 전송할 데이터. stringify()로 직렬화 필요.
 				success: function (result) {
-					alert(result);
+					// alert(result);
 					showUserInfo(ur_id);
 				},
 				error: function (result) {

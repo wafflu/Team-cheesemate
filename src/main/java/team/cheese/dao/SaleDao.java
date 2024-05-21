@@ -61,4 +61,7 @@ public interface SaleDao {
 
     //새로 추가!!!! 후기글 작성시 상태 업데이트
     int reviewState(Long no) throws Exception;
+
+    //구매자가 판매글 예약/구매시
+    int buySale(SaleDto saleDto) throws Exception;
 }

@@ -193,6 +193,7 @@ public class SaleServiceTest extends TestCase {
 
         // 글을 작성
         SaleDto saleDto = new SaleDto();
+        saleDto.setNo(Long.valueOf(85));
         saleDto.setAddr_cd("11060710");
         saleDto.setAddr_name("서울특별시 동대문구 회기동");
         saleDto.setSeller_id("1");
@@ -206,7 +207,7 @@ public class SaleServiceTest extends TestCase {
         saleDto.setPrice(28000);
         saleDto.setBuyer_id("asdf");
         saleDto.setBuyer_nick("asdf");
-        saleDto.setSal_s_cd("C");
+        saleDto.setSal_s_cd("R");
         saleDto.setTitle("토비의 스프링");
         saleDto.setContents("서적 팝니다.");
         saleDto.setBid_cd("N");
@@ -216,9 +217,9 @@ public class SaleServiceTest extends TestCase {
         saleDto.setReg_price(30000);
         saleDto.setFirst_id("asdf");
         saleDto.setLast_id("asdf");
-        for(int i=0; i<3; i++) {
-            saleDao.insertSale(saleDto);
-        }
+
+            saleDao.buySale(saleDto);
+
 
 //        Long sal_no = saleDto.getNo();
 //        String ur_id = saleDto.getSeller_id();

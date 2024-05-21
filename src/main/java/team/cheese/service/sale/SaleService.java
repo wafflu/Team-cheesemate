@@ -354,5 +354,10 @@ public class SaleService {
         List<SaleCategoryDto> saleCategory = saleCategoryDao.selectCategory3(category);
         return saleCategory;
     }
+
+    public void buySale(SaleDto saleDto) throws Exception {
+        if(saleDao.buySale(saleDto)!=1)
+            throw new Exception("구매/예약시 예외발생");
+    }
 }
 
