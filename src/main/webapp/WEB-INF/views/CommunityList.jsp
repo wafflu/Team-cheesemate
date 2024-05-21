@@ -1,80 +1,29 @@
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="fixed/header.jsp"%>
 
+<link rel="stylesheet" href="/css/reset.css">
+<link rel="stylesheet" href="/css/mystyle.css">
+<link rel="stylesheet" type="text/css" href="/css/communitylist.css">
+<div class="topic-container maincontent">
+    <div id="commu_A" class="topic-slide">전체</div>
+    <%--<h3 id="commu_H" class="topic-slide">인기글</h3>--%>
+    <div id="commu_B" class="topic-slide">블라블라</div>
+    <div id="commu_L" class="topic-slide">연애/썸</div>
+    <div id="commu_W" class="topic-slide">고민/상담</div>
+    <input type = "button" value = "글쓰기" onclick = "location.href='<c:url value="/community/write"/>'" id="write-btn">
 
-<%--
-  Created by IntelliJ IDEA.
-  User: gominjeong
-  Date: 4/28/24
-  Time: 2:22 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session="false" %>
+    <article></article>
+    <div id="pagination"></div>
+    <input type="hidden" id="current-commu-cd" value="">
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<html>
-<head>
-    <link rel="stylesheet" type="text/css" href="/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="/css/mystyle.css">
-    <link rel="stylesheet" type="text/css" href="/css/communitylist.css">
-<%--    <link rel="stylesheet" href="/css/mystyle.css">--%>
-<%--    <script src="/js/img.js"></script>--%>
-<%--    --%>
-
-    <title>CommunityList</title>
-    <style>
-        /* Add some basic styling for the pagination buttons */
-        #pagenation {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .page-link {
-            display: inline-block;
-            padding: 8px 16px;
-            margin: 0 4px;
-            border: 1px solid #ddd;
-            color: #333;
-            cursor: pointer;
-        }
-
-        .page-link.active {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        .page-link.disabled {
-            color: #ddd;
-            cursor: not-allowed;
-        }
-
-        .page-link:hover:not(.disabled) {
-            background-color: #ddd;
-        }
-    </style>
-</head>
-<body id="community-list">
-
-<h3 id="commu_A" class="topic-slide">전체</h3>
-<%--<h3 id="commu_H" class="topic-slide">인기글</h3>--%>
-<h3 id="commu_B" class="topic-slide">블라블라</h3>
-<h3 id="commu_L" class="topic-slide">연애/썸</h3>
-<h3 id="commu_W" class="topic-slide">고민/상담</h3>
-
-<article></article>
-<div id="pagenation"></div>
-<input type="hidden" id="current-commu-cd" value="">
-<footer></footer>
-
+</div>
 <script>
 
     $(document).ready(function () {
-        const contextPath = '${pageContext.request.contextPath}';
+        const contextPath = "<c:out value='${pageContext.request.contextPath}' />";
 
-        const loadArticles = function (category, page, pageSize = 5) {
-            console.log("Requesting page: " + page + ", Category: " + category); // 로그 추가
+        const loadArticles = function (category, page, pageSize = 6) {
+
             $.ajax({
                 type: "GET",
                 url: `${contextPath}/community/story`,
@@ -85,28 +34,49 @@
                 },
                 dataType: "json",
                 success: function (result) {
-                    console.log("Response: ", result); // 로그 추가
                     let s = "";
-                    s += "<table>";
-                    for (let i = 0; i < result.content.length; i++) {
-                        let item = result.content[i];
-                        console.log(item);
-                        s += "<tr>";
-                        s += "<td>" + item.no + "</td>";
-                        s += "<td><a href='" + contextPath + "/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
-                        s += "<td>" + item.nick + "</td>";
-                        s += "<td>" + item.view_cnt + "</td>";
-                        s += "<td>" + item.addr_name + "</td>";
-                        s += "<td>👁️" + item.view_cnt + "</td>";
-                        s += "<td>💬" + item.comment_count + "</td>";
-                        s += "<td>❤️" + item.like_cnt + "</td>";
+                    s += "<table class = 'article-table'>";
+                    for (let i = 0; i < result.content.length; i += 2) {
+                        let item1 = result.content[i];
+                        let item2 = result.content[i + 1];
+                        console.log("i2 : "+(item2!== undefined))
+                        s += "<tr class='article-row'>";
+
+                        s += "<td class='article-section'>";
+                        s += "<p class='article-no'>" + item1.no + "</p>";
+                        s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + item1.title + "</a></p>";
+                        s += "<p class='article-nick'>" + item1.nick + "</p>";
+                        s += "<p class='article-view_cnt'>" + item1.view_cnt + "</p>";
+                        s += "<p class='article-addr_name'>" + item1.addr_name + "</p>";
+                        s += "<p class='article-view_cnt'>👁️" + item1.view_cnt + "</p>";
+                        s += "<p class='article-comment_cnt'>💬" + item1.comment_count + "</p>";
+                        s += "<p class='article-like_cnt'>❤️" + item1.like_cnt + "</p>";
+                        s += "</td>";
+
+                        if (item2 !== undefined) {
+                            s += "<td class='article-section'>";
+                            s += "<p class='article-no'>" + item2.no + "</p>";
+                            s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + item2.title + "</a></p>";
+                            s += "<p class='article-nick'>" + item2.nick + "</p>";
+                            s += "<p class='article-view_cnt'>" + item2.view_cnt + "</p>";
+                            s += "<p class='article-addr_name'>" + item2.addr_name + "</p>";
+                            s += "<p class='article-view_cnt'>👁️" + item2.view_cnt + "</p>";
+                            s += "<p class='article-comment_cnt'>💬" + item2.comment_count + "</p>";
+                            s += "<p class='article-like_cnt'>❤️" + item2.like_cnt + "</p>";
+                            s += "</td>";
+                        // } else {
+                        //     s += "<td class='article-section'></td>"; // 두 번째 열이 없는 경우 빈 열 추가
+                        }
+
                         s += "</tr>";
                     }
                     s += "</table>";
                     console.log(s);
                     $('article').html(s);
-                    // Update pagination
-                    $('#pagination').html(generatePagination(result.ph));
+
+                    console.log("ㄹㅣ절트 ㅍ;" + result.ph.totalPage);
+
+                    $("#pagination").html(generatePagination(result.ph));
 
                 },
                 error: function () {
@@ -115,28 +85,17 @@
             });
         };
 
-        const generatePagination = function (pagenation) {
-            console.log("페이지확인:", JSON.stringify(pagenation));
-
-
-
+        const generatePagination = function (pagination) {
+            console.log(pagination);
+            console.log(pagination.totalCnt);
 
             let paginationHtml = '';
-            if (pagination.prevPage) {
-                paginationHtml += `<span class="page-link" data-page="1">First</span>`;
-                paginationHtml += `<span class="page-link" data-page="${pagination.page - 1}">Previous</span>`;
-            } else {
-                paginationHtml += `<span class="page-link disabled">First</span>`;
-                paginationHtml += `<span class="page-link disabled">Previous</span>`;
-            }
 
-            for (let i = 1; i <= pagination.totalPage; i++) {
-                if (i === pagination.page) {
-                    paginationHtml += `<span class="page-link active" data-page="${i}">${i}</span>`;
-                } else {
-                    paginationHtml += `<span class='page-link' data-page='${i}'>${i}</span>`;
-                }
-            }
+
+            <%--paginationHtml += '<span class="page-space">${pagenation.page}</span>';--%>
+            // for (let i = 1; i <= pagenation.totalPage; i++) {
+            //
+            // }
 
             <%--if (pagination.nextPage) {--%>
             <%--    paginationHtml += `<span class="page-link" data-page="${pagination.page + 1}">Next</span>`;--%>
@@ -146,7 +105,32 @@
             <%--    paginationHtml += `<span class="page-link disabled">Last</span>`;--%>
             <%--}--%>
 
-            return paginationHtml;
+
+            $("#pagination").empty(); // 기존에 있는 페이지 내용 비우기
+
+
+            if (pagination.totalCnt != null && pagination.totalCnt != 0) {
+                let pageContainer = $('<div>').attr('id', 'pageNumber').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
+                if (pagination.prevPage) {
+                    // pageContainer.append('<a href="#" class="page-link">&lt;</a>');
+                    pageContainer.append('<a href="#" class="page-link" data-page="' + (pagination.beginPage - 1) + '">&lt;</a>');
+                }
+                for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
+                    // 페이지 번호 사이에 공백 추가
+                    pageContainer.append('<span class="page-space"></span>');
+                    // pageContainer.append('<a href="#" class="page-link">' + i + '</a>');
+                    pageContainer.append('<a href="#" class="page-link" data-page="' + i + '">' + i + '</a>');
+                }
+                if (pagination.nextPage) {
+                    pageContainer.append('<span class="page-space"></span>');
+                    // pageContainer.append('<a href="#" class="page-link">&gt;</a>');
+                    pageContainer.append('<a href="#" class="page-link" data-page="' + (pagination.endPage + 1) + '">&gt;</a>');
+                }
+                $("#pagination").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
+            }
+
+
+
         };
 
         // Load initial data
@@ -163,12 +147,11 @@
         // Click events for pagination links
         $(document).on('click', '.page-link', function () {
             let page = $(this).data('page');
-            console.log("ClickedPAge" + page);
+            console.log("Clicked page : " + page);
             const category = $(".topic-slide.active").attr('id') || 'commu_A';
             loadArticles(category, page);
         });
     });
 
 </script>
-</body>
-</html>
+<%@include file="fixed/footer.jsp"%>

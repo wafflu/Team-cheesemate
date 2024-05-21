@@ -206,3 +206,33 @@ p {
 .commentBtn:hover {
     background-color: #0056b3;
 }
+
+
+.navigation {
+    background-color: #333;
+    color: white;
+    width: 200px;
+    float: left;
+}
+
+.navigation ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation ul li {
+    display: block;
+}
+
+.navigation ul li a {
+    display: block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: white;
+}
+
+.navigation ul li a:hover {
+    background-color: #111;
+}

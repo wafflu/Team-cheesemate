@@ -1,5 +1,3 @@
-package team.cheese.domain;
-
 import static junit.framework.TestCase.assertTrue;
 
 import java.sql.Connection;
@@ -13,7 +11,7 @@ import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
+
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
