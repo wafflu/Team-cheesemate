@@ -133,4 +133,15 @@ public class SaleDaoImpl implements SaleDao {
     public int reviewState(Long no) throws Exception {
         return session.update(namespace+"reviewState",no);
     }
+
+    @Override
+    public List<SaleDto> searchText(String text) throws Exception {
+        return session.selectList(namespace+"searchSale", text);
+    }
+
+//    @Override
+//    public SaleDto buySale(SaleDto) throws Exception {
+//        return null;
+//    }
+
 }
