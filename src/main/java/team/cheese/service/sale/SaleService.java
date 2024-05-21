@@ -4,17 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import team.cheese.domain.ImgDto;
+import team.cheese.domain.*;
 import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
 import team.cheese.dao.MyPage.UserInfoDao;
-import team.cheese.domain.SaleCategoryDto;
-import team.cheese.domain.SaleDto;
-import team.cheese.domain.SaleTagDto;
-import team.cheese.domain.TagDto;
 import team.cheese.service.ImgService;
 import team.cheese.service.ImgServiceImpl;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -208,7 +205,6 @@ public class SaleService {
         saleTagDao.delete(sal_no);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getList(Map map) throws Exception {
         List<SaleDto> saleList = saleDao.selectSaleList(map);
 
@@ -222,15 +218,6 @@ public class SaleService {
 
         return saleList;
     }
-
-//    // 사용자가 속한 주소의 전체 게시글 list를 가지고 올 때
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public List<SaleDto> getUserAddrCdList(String addr_cd) throws Exception {
-//        List<SaleDto> saleList = saleDao.selectUserAddrCd(addr_cd);
-//        System.out.println(saleList.size());
-//
-//        return saleList;
-//    }
 
     // 판매글 하나에 들어가서 게시글을 읽을 때
     @Transactional(propagation = Propagation.REQUIRED)
@@ -353,6 +340,19 @@ public class SaleService {
     public List<SaleCategoryDto> selectCategory3(String category) throws Exception{
         List<SaleCategoryDto> saleCategory = saleCategoryDao.selectCategory3(category);
         return saleCategory;
+    }
+
+    public List<AdministrativeDto> selectAddrCdList(String user_id) throws Exception {
+        return administrativeDao.selectAll();
+    }
+
+    public List<SaleCategoryDto> selectCategory1() throws Exception {
+        return saleCategoryDao.selectCategory1();
+    }
+
+    public void buySale(SaleDto saleDto) throws Exception {
+        if(saleDao.buySale(saleDto)!=1)
+            throw new Exception("구매/예약시 예외발생");
     }
 }
 

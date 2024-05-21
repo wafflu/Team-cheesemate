@@ -16,28 +16,29 @@
     <!-- 사용자 영역 -->
     <link rel="stylesheet" href="/css/mystyle.css">
     <link rel="stylesheet" href="/css/mainslider.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script>
-        let Image = (function() {
+        let Image = (function () {
             let imginfo = [];
 
             return {
-                getImgInfo: function() {
+                getImgInfo: function () {
                     return imginfo;
                 }
             };
         })();
 
-        let cssImage = (function() {
+        let cssImage = (function () {
             let imginfo = {};
 
             <c:forEach items="${imglist}" var="img">
-                imginfo['${img.o_name}'] = "${img.img_full_rt}";
+            imginfo['${img.o_name}'] = "${img.img_full_rt}";
             </c:forEach>
 
             return {
-                getImgInfo: function() {
+                getImgInfo: function () {
                     return imginfo;
                 }
             };
@@ -63,7 +64,12 @@
                         </a>
                     </span>
                 <span class="subnavspan">
-                        <a href="" id="storelink" class="subnavlink">
+                        <form id="postForm" action="/sale/write" method="POST" style="display: none;">
+                            <input type="hidden" name="addr_cd" value="${sessionScope.userAddrCdDtoList.get(0).addr_cd}">
+                            <input type="hidden" name="addr_name" value="${sessionScope.userAddrCdDtoList.get(0).addr_name}">
+                        </form>
+
+                        <a href="#" id="storelink" class="subnavlink" onclick="document.getElementById('postForm').submit(); return false;">
                             <img src="" alt="sell" id="storeicon" class="subnavicon">
                             <span class="subnavtext">판매하기</span>
                         </a>
@@ -80,7 +86,7 @@
     <div id="nav">
         <ul id="navlist">
             <li class="navli">
-                <a href="/sale"><span class="navtext">판매/나눔</span></a>
+                <a href="/sale/list"><span class="navtext">판매/나눔</span></a>
             </li>
             <li class="navli">
                 <a href="#"><span class="navtext">이벤트</span></a>
@@ -98,7 +104,7 @@
 <div id="headerspace"></div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         let imgInfo = cssImage.getImgInfo();
         $("#logoimg").attr("src", "/img/display?fileName=" + imgInfo['logo']);
         $("#chaticon").attr("src", "/img/display?fileName=" + imgInfo['chat']);

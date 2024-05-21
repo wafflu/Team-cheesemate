@@ -67,7 +67,28 @@
         WHERE no = #{no}
     </update>
 
-<!--  U : 글 수정할 때 해시태그도 수정하는 경우  -->
+<!-- tag를 text로 조회   -->
+    <select id="searchSaleByTagContents" parameterType="String" resultType="SaleDto">
+        SELECT s.*
+        FROM sale s
+                 JOIN sale_tag st ON s.no = st.sal_no
+                 JOIN tag t ON st.tag_no = t.no
+        WHERE t.contents LIKE CONCAT('%', #{text}, '%')
+          AND s.ur_state = 'Y'
+        ORDER BY s.h_date DESC, s.no DESC
+            LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+    <resultMap id="SaleResultMap" type="SaleDto">
+        <id property="no" column="no"/>
+        <result property="addrName" column="addr_name"/>
+        <result property="salName" column="sal_name"/>
+        <result property="title" column="title"/>
+        <result property="contents" column="contents"/>
+        <!-- Add other necessary fields here -->
+    </resultMap>
+
+
+    <!--  U : 글 수정할 때 해시태그도 수정하는 경우  -->
     <update id="update" parameterType="TagDto">
         UPDATE tag
         SET last_date = now(),
