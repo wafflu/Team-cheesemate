@@ -48,7 +48,7 @@
                         s += "<p class='article-nick'>" + item1.nick + "</p>";
                         s += "<p class='article-view_cnt'>" + item1.view_cnt + "</p>";
                         s += "<p class='article-addr_name'>" + item1.addr_name + "</p>";
-                        s += "<p class='article-view_cnt'>👁️" + item1.view_cnt + "</p>";
+                        s += "<p class='article-view_cnt'>😀" + item1.view_cnt + "</p>";
                         s += "<p class='article-comment_cnt'>💬" + item1.comment_count + "</p>";
                         s += "<p class='article-like_cnt'>❤️" + item1.like_cnt + "</p>";
                         s += "</td>";
@@ -60,7 +60,7 @@
                             s += "<p class='article-nick'>" + item2.nick + "</p>";
                             s += "<p class='article-view_cnt'>" + item2.view_cnt + "</p>";
                             s += "<p class='article-addr_name'>" + item2.addr_name + "</p>";
-                            s += "<p class='article-view_cnt'>👁️" + item2.view_cnt + "</p>";
+                            s += "<p class='article-view_cnt'>😀" + item2.view_cnt + "</p>";
                             s += "<p class='article-comment_cnt'>💬" + item2.comment_count + "</p>";
                             s += "<p class='article-like_cnt'>❤️" + item2.like_cnt + "</p>";
                             s += "</td>";

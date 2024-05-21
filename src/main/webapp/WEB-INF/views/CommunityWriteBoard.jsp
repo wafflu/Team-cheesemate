@@ -218,6 +218,6 @@
         }
     });
 </script>
-<%--푸터 영역--%>
+
 <%@ include file="fixed/footer.jsp" %>
 </body>

@@ -107,9 +107,9 @@ public  class CommunityBoardController {
 
 
     //세션값 필요
+
     @ResponseBody
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, Object> map,
+    @PostMapping("/register")public ResponseEntity<String> register(@RequestBody Map<String, Object> map,
                                            Model m,
                                            HttpServletRequest request) throws Exception {
 
