@@ -54,14 +54,18 @@ public class QnaController {
      */
     @PostMapping("/send")
     public String write(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+        // 유효성 검사 실패 시 "QnaForm"로 리다이렉트
         if (result.hasErrors()) {
-            // 유효성 검사 실패 시 다시 작성 페이지로 리다이렉트
+            System.out.println("유효성검사에 걸림");
+            System.out.println("========");
+            System.out.println(qnaDto.toString());
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.qnaDto", result);
             redirectAttributes.addFlashAttribute("qnaDto", qnaDto);
             return "redirect:/qna/new";
         }
         qnaService.write(qnaDto);
-        return "redirect:/qna/list"; // 성공 페이지로 리다이렉트
+        // 성공 페이지로 리다이렉트
+        return "redirect:/qna/list";
     }
 
     @ExceptionHandler(Exception.class)
@@ -120,9 +124,9 @@ public class QnaController {
             삭제 완료 후 /list로 이동한다.
      */
     @PostMapping("/delete")
-    public String deleteQna(@RequestParam("no") long no, HttpSession session) { // 변경된 부분
+    public String deleteQna(@RequestParam("no") long no, HttpSession session) {
         String ur_id = (String) session.getAttribute("userId");
-        qnaService.remove(no, ur_id); // 변경된 부분
+        qnaService.remove(no, ur_id);
         return "redirect:/qna/list";
     }
 
@@ -136,14 +140,14 @@ public class QnaController {
         현재 게시글 read 상태로 이동한다.
      */
     @PostMapping("/modify")
-    public String modify(QnaDto qnaDto, HttpSession session, RedirectAttributes rattr) {
+    public String modify(QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes rattr) {
         String ur_id = (String) session.getAttribute("userId");
         qnaDto.setUr_id(ur_id);
         qnaDto.setLast_id(ur_id);
 
         int rowCnt = qnaService.modify(qnaDto);
         if (rowCnt == 1) {
-            rattr.addFlashAttribute("msg", "수정 완료");
+            rattr.addFlashAttribute("msg", "수정 완료하였습니다.");
             return "redirect:/qna/read?no=" + qnaDto.getNo(); // 수정이 성공하면 다시 게시글 조회 페이지로 리다이렉트
         }
         return "redirect:/qna/read?no=" + qnaDto.getNo();

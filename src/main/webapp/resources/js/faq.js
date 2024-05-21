@@ -1,4 +1,3 @@
-// faq.js
 $(document).ready(function() {
     function categoryFaq(queId) {
         $.ajax({
@@ -11,15 +10,15 @@ $(document).ready(function() {
                 tbody.empty();
                 data.forEach(function(faq) {
                     var tr = $("<tr></tr>");
-                    var td = $("<td></td>").addClass('title');
+                    var td = $("<td></td>").addClass('faq-title');
                     var span = $("<span></span>").addClass('faq-prefix').text('Q');
                     td.append(span);
                     td.append(document.createTextNode(faq.title));
                     tr.append(td);
                     tbody.append(tr);
 
-                    var contentTr = $("<tr class='content-row'></tr>");
-                    var contentTd = $("<td></td>").attr("colspan", "1").addClass("content");
+                    var contentTr = $("<tr class='faq-content-row'></tr>");
+                    var contentTd = $("<td></td>").attr("colspan", "1").addClass("faq-content");
                     contentTr.append(contentTd);
                     tbody.append(contentTr);
                     tr.data('no', faq.no);
@@ -31,25 +30,25 @@ $(document).ready(function() {
         });
     }
 
-    $(".category-button").click(function() {
+    $(".faq-category-button").click(function() {
         var queId = $(this).val();
         categoryFaq(queId);
     });
 
-    $(document).on('click', '.title', function() {
+    $(document).on('click', '.faq-title', function() {
         var tr = $(this).closest('tr');
-        var contentTr = tr.next(".content-row");
+        var contentTr = tr.next(".faq-content-row");
         var no = tr.data('no');
 
         if (!contentTr.is(':visible')) {
-            $(".content-row").hide();
-            if (contentTr.find('.content').html().trim() === "") {
+            $(".faq-content-row").hide();
+            if (contentTr.find('.faq-content').html().trim() === "") {
                 $.ajax({
                     url: '/faq/getContents',
                     method: 'GET',
                     data: { no: no },
                     success: function(content) {
-                        contentTr.find('.content').html(content);
+                        contentTr.find('.faq-content').html(content);
                         contentTr.show();
                     },
                     error: function(xhr) {
@@ -80,15 +79,15 @@ $(document).ready(function() {
                     } else {
                         data.forEach(function(faq) {
                             var tr = $("<tr></tr>");
-                            var td = $("<td></td>").addClass('title');
+                            var td = $("<td></td>").addClass('faq-title');
                             var span = $("<span></span>").addClass('faq-prefix').text('Q');
                             td.append(span);
                             td.append(document.createTextNode(faq.title));
                             tr.append(td);
                             tbody.append(tr);
 
-                            var contentTr = $("<tr class='content-row'></tr>");
-                            var contentTd = $("<td></td>").attr("colspan", "1").addClass("content");
+                            var contentTr = $("<tr class='faq-content-row'></tr>");
+                            var contentTd = $("<td></td>").attr("colspan", "1").addClass("faq-content");
                             contentTr.append(contentTd);
                             tbody.append(contentTr);
                             tr.data('no', faq.no);
@@ -101,6 +100,5 @@ $(document).ready(function() {
             });
         }
     });
-
     categoryFaq(6);
 });

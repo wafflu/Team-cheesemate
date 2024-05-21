@@ -31,7 +31,7 @@ public class QnaDaoTest {
         List<QnaDto> list = qnaDao.selectAll();
 
         int cnt = list.size();
-        assertTrue(cnt == 13);
+        assertTrue(cnt == 33);
     }
 
     //  1-2.존재하는 row를 no를 검색해서 NotNull여부를 확인한다.
@@ -70,8 +70,26 @@ public class QnaDaoTest {
         qnaDto.setFirst_id("user123");
 
         System.out.println(qnaDto);
+        for(int i = 0; i < 100; i++){
+            qnaDao.insert(qnaDto);
+        }
         int cnt = qnaDao.insert(qnaDto);
         assertTrue(cnt == 1);
+    }
+
+    public void insertByfor(){
+        assertTrue("QnaDao is null",qnaDao !=null);
+        QnaDto qnaDto = new QnaDto();
+
+
+            qnaDto.setUr_id("user123");
+            qnaDto.setQ_s_cd("Q001U");
+            qnaDto.setQue_i_cd(2002L);
+            qnaDto.setTitle("TDD 문의" );
+            qnaDto.setContents("TDD TEST입니다.");
+            qnaDto.setFirst_id("user123");
+            qnaDao.insert(qnaDto);
+
     }
 
     //  2-2.insert 실행 시 NotNull로 들어오면 안되는 값에 null을 넣어 insert한다.

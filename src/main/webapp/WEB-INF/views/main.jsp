@@ -2,298 +2,22 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page session="true"%>
-<%--<c:set var="loginId" value="${sessionScope.id}"/>--%>
-<c:set var="loginId" value="${session_id}"/>
+<c:set var="loginId" value="${sessionScope.userId}"/>
+<%--<c:set var="loginId" value="${session_id}"/>--%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 	<title>My Page</title>
-	<style>
-		.navigation {
-			background-color: #333;
-			color: white;
-			width: 200px;
-			float: left;
-		}
-
-		.navigation ul {
-			list-style-type: none;
-			margin: 0;
-			padding: 0;
-		}
-
-		.navigation ul li {
-			display: block;
-		}
-
-		.navigation ul li a {
-			display: block;
-			text-align: center;
-			padding: 14px 16px;
-			text-decoration: none;
-			color: white;
-		}
-
-		.navigation ul li a:hover {
-			background-color: #111;
-		}
-
-		.container {
-			margin-left: 220px; /* 네비게이션 바 폭과 여백 고려하여 컨테이너 위치 조정 */
-			padding: 20px;
-		}
-		.container h4 {
-			margin-bottom: 10px; /* 기존 h4의 하단 여백 조정 */
-		}
-
-		.container p {
-			display: inline-block; /* 요소를 인라인 블록 요소로 변경하여 가로 정렬 */
-			margin-right: 20px; /* 각 정보 사이의 우측 여백 조정 */
-		}
-
-		.container textarea {
-			resize: none;
-			width: 500px;
-			height: 200px;
-		}
-
-		#commentList {
-			width: 100%;
-			text-align: center;
-		}
-
-		input[type="text"] {
-			width: calc(100% - 140px);
-			margin-bottom: 10px;
-			padding: 8px;
-			border: 1px solid #ccc;
-			border-radius: 4px;
-			box-sizing: border-box;
-		}
-
-		button[type="button"] {
-			padding: 10px 20px;
-			background-color: #2199e8;
-			border: none;
-			color: white;
-			border-radius: 4px;
-			cursor: pointer;
-		}
-
-		button[type="button"]:hover {
-			background-color: #0c7dbd;
-		}
-
-		.modal {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(0, 0, 0, 0.6);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			z-index: 1000;
-		}
-
-		.modal-content {
-			background-color: #fff;
-			padding: 20px;
-			border-radius: 8px;
-			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-			width: auto;
-			max-width: 600px;
-			margin: auto;
-		}
-
-		.close {
-			float: right;
-			font-size: 28px;
-			font-weight: bold;
-			cursor: pointer;
-		}
-
-		#myform fieldset {
-			display: block;
-			direction: rtl;
-			border: 0;
-			text-align: center;
-			margin: 20px 0;
-		}
-
-		#starRating {
-			display: flex;
-			justify-content: center;
-		}
-
-		#myform input[type=radio] {
-			position: absolute;
-			opacity: 0;
-			width: 0;
-			height: 0;
-		}
-
-		#myform label {
-			font-size: 3em;
-			color: #ccc;
-			cursor: pointer;
-			transition: color 0.3s ease;
-		}
-
-		#myform input[type=radio]:checked ~ label,
-		#myform label:hover,
-		#myform label:hover ~ label {
-			color: rgba(250, 208, 0, 0.99);
-		}
-
-		#reviewContents {
-			width: calc(100% - 20px);
-			height: 150px;
-			padding: 10px;
-			box-sizing: border-box;
-			border: solid 1.5px #D3D3D3;
-			border-radius: 5px;
-			font-size: 16px;
-			resize: none;
-			outline: none;
-		}
-
-		.commentBtn {
-			background-color: #007BFF;
-			color: white;
-			border: none;
-			padding: 10px 20px;
-			font-size: 16px;
-			border-radius: 5px;
-			cursor: pointer;
-			transition: background-color 0.3s;
-		}
-
-		.commentBtn:hover {
-			background-color: #0056b3;
-		}
-
-		.paging-active {
-			background-color: rgb(216, 216, 216);
-			border-radius: 5px;
-			color: rgb(24, 24, 24);
-		}
-
-		.page-space {
-			margin: 0 5px;
-		}
-
-
-		.info-container {
-			display: flex;
-			align-items: center;
-		}
-
-		.info-container p {
-			margin-right: 10px; /* 각 정보 사이의 오른쪽 여백 조정 */
-		}
-
-		.info-container p:last-child {
-			margin-right: 0; /* 마지막 요소의 오른쪽 여백 제거 */
-		}
-		.profile {
-			border-radius: 20%;
-		}
-		div register_img{
-			width: 300px;
-			float: left;
-			border: 1px solid;
-		}
-
-	/* 이미지 영역	*/
-		#profileimg{
-			width: 250px;
-			height: 250px;
-			margin-left: 220px;
-			position: relative;
-		}
-		.form_section_content{
-			position: absolute;
-			width: 250px;
-			height: 250px;
-			right: 0;
-			top: 0;
-			z-index: 1;
-		}
-
-		#uploadResult{
-			position: absolute;
-			width: 250px;
-			height: 250px;
-			border-radius: 100%;
-			border: 1px solid #000;
-			overflow: hidden;
-
-		}
-		.profileimg{
-			/*추후 js로 수정*/
-			width: 250px;
-			height: 250px;
-		}
-
-		.btn-upload {
-			position: absolute;
-			right: 0;
-			bottom: 0;
-			width: 250px;
-			height: 250px;
-			background: transparent;
-			border-radius: 100%;
-			cursor: pointer;
-
-		}
-
-		.btn-upload::before{
-			content: '프로필 수정';
-			display: block;
-			width: 250px;
-			text-align: center;
-			line-height: 250px;
-			border-radius: 100%;
-			transition: all 0.2s ease-out;
-			opacity: 0;
-			box-sizing: border-box;
-			font-size: 20px;
-			color:#fff;
-		}
-
-		.btn-upload:hover::before{
-			background-color: rgba(105, 105, 105, 0.5);
-			opacity: 1;
-		}
-
-		#profile {
-			display: none;
-		}
-
-		#profilesave_btn{
-			position: absolute;
-			bottom: -34px;
-			left: 50%;
-			transform: translateX(-50%);
-			z-index: 3;
-			background-color: transparent;
-			border: 1px solid #FFA500;
-			border-radius: 5px;
-			padding: 5px;
-			cursor: pointer;
-		}
-
-	</style>
+	<link rel="stylesheet" href="/css/main.css">
 </head>
 <script>
 	let msg ="${msg}"
 	if(msg=="MyPage Read Complete") alert("메인페이지 접근 성공");
 </script>
 <body>
+<c:if test="${userInfoDTO.ur_id eq loginId}">
 <div class="navigation">
 	<ul>
 		<li><a href="/myPage/main">마이페이지</a></li>
@@ -306,7 +30,7 @@
 		<li><a href="/contact">회원 탈퇴</a></li>
 	</ul>
 </div>
-
+</c:if>
 <div id="profileimg">
 	<div class="form_section_content">
 		<label for="profile" class="btn-upload"></label>
@@ -352,7 +76,6 @@
 			☆
 		</c:forEach>
 </span></h4>
-<%--<button id="writeBtn" type="button">후기글 작성</button>--%>
 <!-- 모달 창 -->
 <div id="myModal" class="modal" >
 	<div class="modal-content">
@@ -438,13 +161,13 @@
 	}
 
 	// 후기글 작성 버튼
-	var writeBtn = document.getElementById("writeBtn");
+	let writeBtn = document.getElementById("writeBtn");
 
 	// 모달 창
-	var modal = document.getElementById("myModal");
+	const modal = document.getElementById("myModal");
 
 	// 모달 창 닫기 버튼
-	var closeBtn = document.getElementsByClassName("close")[0];
+	let closeBtn = document.getElementsByClassName("close")[0];
 
 	// 모달 창을 닫는 함수
 	function closeModal() {
@@ -452,7 +175,7 @@
 	}
 
 	// 선택된 별점 값 담을 변수
-	var selectedStar;
+	let selectedStar;
 
 	// 별점 클릭시 변수에 값 담기
 	$("input[name='reviewStar']").on("click", function() {
@@ -506,10 +229,12 @@
 		let tmp = "<ul>";
 
 		comments.forEach(function (comment) {
+			let contents =  "<c:out value='${comment.contents}'/>";
 			tmp += '<li data-no=' + comment.no
 			tmp += ' data-sal_id=' + comment.sal_id + '>'
-			tmp += ' buy_id = <span class="buy_id">' + comment.buy_id + '</span>'
-			tmp += ' cotents = <span class="contents">' + comment.contents + '</span>'
+			tmp += ' buy_id = <span class="buy_id clickable" data-buy_id="' + comment.buy_id + '">' + comment.buy_id + '</span>'
+			tmp += ' contents = <span class="contents">' + contents + '</span>'
+			<c:out value='${comment.contents}'/>
 			tmp += ' 별점 ='; // 별점 표시 부분 추가
 
 			// 별표(★) 개수만큼 추가
@@ -609,7 +334,6 @@
 		}
 	}
 
-
 	$(document).ready(function() {
 		showList(ur_id); // 후기글 목록 읽어오기
 		modal.style.display = "none"; // 모달창 숨기기
@@ -697,6 +421,12 @@
 					}
 				}); // $.ajax()
 			}
+		});
+
+		// buy_id 클릭 이벤트 처리
+		$("#commentList").on("click", ".clickable", function() {
+			let buyId = $(this).data("buy_id");
+			window.location.href = '/myPage/main?ur_id=' + buyId;
 		});
 
 		// 소개글 수정 버튼 클릭시

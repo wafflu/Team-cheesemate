@@ -23,50 +23,45 @@
 
     <style>
 
-        input:invalid {
-            border: 2px solid red;
-        }
+    input:invalid {
+        border: 2px solid red;
+    }
 
-        form {
-            border: 3px solid #959595;
-            padding: 20px;
-            width: 50%;
-            margin: 0 auto;
-            display: block;
-        }
+    form {
+        border: 3px solid #959595;
+        padding: 20px;
+        width: 50%;
+        margin: 0 auto;
+        display: block;
+    }
 
-        label{
-            display: inline;
-            text-align: left; /* 텍스트를 왼쪽으로 정렬 */
-            margin: 10px 0; /* 레이블과 다른 요소 사이의 여백을 줌 */
-        }
+    label{
+        display: inline;
+        text-align: left; /* 텍스트를 왼쪽으로 정렬 */
+        margin: 10px 0; /* 레이블과 다른 요소 사이의 여백을 줌 */
+    }
 
-        .inputPadding {
-            margin-top: 3px;
-            margin-bottom: 3px;
-        }
+    .inputPadding {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
 
-        .inputBox {
-            padding-top: 5px;
-            padding-bottom: 5px;
+    .inputBox {
+        padding-top: 5px;
+        padding-bottom: 5px;
 
-            margin-top: 3px;
-            margin-bottom: 3px;
-        }
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
 
-        .center {
-            text-align: center;
-        }
+    .center {
+        text-align: center;
+    }
 
     </style>
 
 </head>
 <body>
-
-<p>
-    <%= cookieUserId%>
-    <%= cookieUserPw%>
-</p>
 
 <form class="center" action="/login" method="post">
     <h1>로그인</h1>
@@ -82,7 +77,7 @@
     <c:if test="${loginErrorMSG != null}">
         <br>
         <p style="color: red";>
-                ${loginErrorMSG}
+            ${loginErrorMSG}
         </p>
     </c:if>
 
