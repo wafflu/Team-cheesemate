@@ -10,11 +10,9 @@ import team.cheese.domain.ImgDto;
 import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.dao.MyPage.UserInfoDao;
 import team.cheese.service.ImgService;
+import team.cheese.service.ImgServiceImpl;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import team.cheese.service.ImgService;
-
 import java.util.HashMap;
 
 @Service
@@ -44,11 +42,11 @@ public class UserInfoServiceImpl implements UserInfoService {
             // 1-1. ur_id값이 null 이면 ur_id값도 세션객체의 id
             ur_id = session_id;
         } else {
-            String visitKey = "hasVisited_" + session_id;
+            String visitKey = ur_id + "hasVisited_" + session_id;
             // 해당 visitKey가 session에 있는지
             // 없으면 session에 visitKey를 저장
             // 있으면 방문자수 증가 하지않음
-            if (session.getAttribute(visitKey) == null || !(boolean) session.getAttribute(visitKey)) {
+            if (session.getAttribute(visitKey) == null) {
                 session.setAttribute(visitKey,true);
                 // 다른 사람의 소개글이라면 해당 소개글 방문자수를 증가
                 int rowCnt = userInfoDao.incrementViewCnt(ur_id);
@@ -91,9 +89,8 @@ public class UserInfoServiceImpl implements UserInfoService {
     public void modify(UserInfoDTO userInfoDTO) throws Exception{
             int rowCnt = userInfoDao.update(userInfoDTO);
             // 1. rowCnt가 1이 아니면 예외발생
-            if (rowCnt != 1) {
+            if (rowCnt != 1)
                 throw new Exception("소개글 수정 중 오류가 발생했습니다.");
-            }
     }
     // delete -> remove
     // 소개글을 삭제하기 위한 메서드

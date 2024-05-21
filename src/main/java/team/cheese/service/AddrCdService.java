@@ -40,4 +40,9 @@ public class AddrCdService {
             return null;
         }
     }
+
+    // *** 유저의 주소코드 추가 ***
+    public void insertAddrCd(AddrCdDto addrCdDto) {
+        addrCdDao.insertAddrCd(addrCdDto);
+    }
 }

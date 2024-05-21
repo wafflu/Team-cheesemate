@@ -34,4 +34,9 @@ public class AddrCdDaoImpl implements AddrCdDao {
     public List<AddrCdDto> getAddrCdByUserId(String userId) {
         return sqlSession.selectList(namespace + "getAddrCdByUserId", userId);
     }
+
+    @Override
+    public int insertAddrCd (AddrCdDto addrCdDto) {
+        return sqlSession.insert(namespace + "insertAddrCd", addrCdDto);
+    }
 }
