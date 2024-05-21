@@ -11,8 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import team.cheese.entity.ImgFactory;
 import team.cheese.dao.ImgDao;
 import team.cheese.domain.ImgDto;
-import team.cheese.exception.DataFailException;
-import team.cheese.exception.ImgNullException;
+
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -197,12 +196,12 @@ public class ImgService {
     @Transactional
     public boolean reg_img(int gno, ImgDto idto, String userid) throws Exception {
         if(idto == null){
-            throw new ImgNullException("이미지가 비어 있습니다.");
+            throw new Exception("이미지가 비어 있습니다.");
         }
         int img = imgDao.insert(idto);
         int img2 = imgDao.insert(imggroup(gno, idto.getNo(), userid));
         if (img <= 0 || img2 <= 0) {
-            throw new DataFailException("이미지 등록 오류");
+            throw new Exception("이미지 등록 오류");
         }
         return true;
     }

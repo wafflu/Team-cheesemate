@@ -1,16 +1,16 @@
-function modify() {
-    $('#title').attr('contenteditable', 'true');
-    $('#title').on('input', function() {
-        $('#hiddenTitle').val($(this).text());
+function qnaBoard_modify() {
+    $('#qnaBoard_title').removeAttr('readonly');
+    $('#qnaBoard_title').on('input', function() {
+        $('#qnaBoard_hiddenTitle').val($(this).val());
     });
-    $('#content').removeAttr('readonly');
-    $('#editBtn').hide();
-    $('#saveBtn').show();
+    $('#qnaBoard_content').removeAttr('readonly');
+    $('#qnaBoard_editBtn').hide();
+    $('#qnaBoard_saveBtn').show();
 }
 
-function validateForm() {
-    var title = $('#hiddenTitle').val().trim();
-    var content = $('#content').val().trim();
+function qnaBoard_validateForm() {
+    var title = $('#qnaBoard_hiddenTitle').val().trim();
+    var content = $('#qnaBoard_content').val().trim();
 
     if (!title) {
         alert('제목을 입력해주세요.');
@@ -23,6 +23,13 @@ function validateForm() {
     return true; // 모든 검사가 통과하면 폼 제출을 허용
 }
 
-function confirmDelete() {
+function qnaBoard_confirmDelete() {
     return confirm('정말 삭제하시겠습니까?');
 }
+
+$(document).ready(function() {
+    var msg = $('#flashMsg').val();
+    if (msg) {
+        alert(msg);
+    }
+});

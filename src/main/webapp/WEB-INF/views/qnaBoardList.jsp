@@ -1,50 +1,20 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="fixed/header.jsp"%>
 
-<%--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">--%>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            margin: 0;
-        }
-        header, footer {
-            background-color: #f8f9fa;
-            padding: 1rem;
-        }
-        .container {
-            display: flex;
-            flex: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        aside {
-            width: 200px;
-            background-color: #eee;
-            padding: 1rem;
-        }
-        main {
-            flex: 1;
-            padding: 1rem;
-        }
-        .table {
-            margin-top: 20px;
-        }
-    </style>
+<link rel="stylesheet" href="/css/qnaBoardList.css">
 
-<div class="container">
-    <aside>
+<div id="qnaBoardList_container">
+    <aside id="qnaBoardList_aside">
         <h3>고객센터</h3>
-        <ul class="QnaSide">
+        <ul id="qnaBoardList_QnaSide">
             <li><a href="<c:url value='/faq/list'/>">FAQ</a></li>
             <li><a href="<c:url value='/qna/new'/>">1:1 문의하기</a></li>
             <li><a href="<c:url value='/qna/list'/>">나의 문의내역</a></li>
         </ul>
     </aside>
-    <main>
+    <main id="qnaBoardList_main">
         <h1>문의 목록</h1>
-        <table class="table">
+        <table id="qnaBoardList_table">
             <thead>
             <tr>
                 <th>제목</th>
@@ -73,7 +43,7 @@
             </c:forEach>
             </tbody>
         </table>
-        <div class="pagination">
+        <div id="qnaBoardList_pagination">
             <c:if test="${ph.prevPage}">
                 <a href="?page=${ph.beginPage - 1}&pageSize=${ph.pageSize}" class="btn btn-primary">이전</a>
             </c:if>
@@ -84,12 +54,11 @@
                 <a href="?page=${ph.endPage + 1}&pageSize=${ph.pageSize}" class="btn btn-primary">다음</a>
             </c:if>
         </div>
-</div>
     </main>
+</div>
 <footer>
     <!-- 푸터 내용 추가 -->
 </footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+<script src="/js/qnaBoardList.js"></script>
 <%@include file="fixed/footer.jsp"%>

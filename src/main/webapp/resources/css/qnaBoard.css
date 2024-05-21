@@ -8,27 +8,27 @@ header, footer {
     background-color: #f8f9fa;
     padding: 1rem;
 }
-.container {
+.qnaBoard_container {
     display: flex;
     flex: 1;
     max-width: 1200px;
     margin: 0 auto;
 }
-aside {
+.qnaBoard_aside {
     width: 200px;
     background-color: #eee;
     padding: 1rem;
 }
-main {
+.qnaBoard_main {
     flex: 1;
     padding: 1rem;
 }
-.header {
+.qnaBoard_header {
     margin-bottom: 20px;
 }
-.contents {
+.qnaBoard_contents {
     margin-bottom: 20px;
 }
-.buttons {
+.qnaBoard_buttons {
     margin-bottom: 20px;
 }
