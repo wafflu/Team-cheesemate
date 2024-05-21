@@ -222,7 +222,7 @@
                 <div class="sale_modal_content">
                     <button id="closeModalBtn">x</button>
                     <h1 id="sale_search_addr">주소 검색</h1>
-                    <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
+                    <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요(enter).">
                     <div class="sale-table-wrapper">
                         <table id="addrTable" class="table text-center">
                             <thead>
@@ -482,32 +482,39 @@
             $("#sal_name").text($("#category1 option:checked").text());
         }
 
-        $("#saleSearchInput").on("input", function () {
-            let searchLetter = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "/searchLetter",
-                // url: "/sale/searchLetter",
-                data: {searchLetter: searchLetter},
-                dataType: "json",
-                success: function (data) {
-                    // 검색 결과를 처리하여 addrTable에 추가
-                    $("#addrList").empty(); // 기존 내용 초기화
-                    if (data.length > 0) {
-                        data.forEach(function (addr) {
-                            let row = $("<tr class='sale-addr-tr'>");
-                            row.append($("<td>").text(addr.addr_cd)); // 행정구역 코드
-                            row.append($("<td>").text(addr.addr_name)); // 주소명
-                            $("#addrList").append(row);
-                        });
-                    } else {
+        $("#saleSearchInput").on("keydown", function (event) {
+            // 엔터 키(키 코드 13)가 눌렸는지 확인
+            if (event.which === 13 || event.keycode === 13) {
+                event.preventDefault(); // 기본 엔터 동작(폼 제출 등)을 막기 위해 추가
+
+                let searchLetter = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/searchLetter",
+                    data: { searchLetter: searchLetter },
+                    dataType: "json",
+                    success: function (data) {
+                        // 검색 결과를 처리하여 addrTable에 추가
+                        $("#addrList").empty(); // 기존 내용 초기화
+                        if (data.length > 0) {
+                            data.forEach(function (addr) {
+                                let row = $("<tr class='sale-addr-tr'>");
+                                row.append($("<td>").text(addr.addr_cd)); // 행정구역 코드
+                                row.append($("<td>").text(addr.addr_name)); // 주소명
+                                $("#addrList").append(row);
+                            });
+                        } else {
+                            $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                        }
+                    },
+                    error: function (xhr, status, error) {
                         $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                        alert("주소 검색에 실패하였습니다.");
                     }
-                },
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText);
-                }
-            });
+                });
+            } else if ( event.keyCode == 27 || event.which == 27 ) {
+                closeModal();
+            }
         });
 
         // 주소를 클릭했을 때의 이벤트 핸들러

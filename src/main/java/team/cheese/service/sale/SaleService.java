@@ -45,8 +45,6 @@ public class SaleService {
     }
 
     public List<SaleDto> getPage(Map map) throws Exception {
-        System.out.println("Service map startPage : " + map.get("startPage"));
-        System.out.println("Service map endPage : " + map.get("endPage"));
         return saleDao.selectList(map);
     }
 
@@ -86,17 +84,14 @@ public class SaleService {
         // 5. saleTag테이블에 교차정보 저장
 
         SaleDto saleDto = (SaleDto) map.get("saleDto");
-        System.out.println("service write: " + saleDto);
 
         //      세션에서 ID 값을 가지고 옴
         // TestSession 클래스를 사용하여 세션을 설정
         String ur_id = saleDto.getSeller_id();
-        System.out.println("판매자id : " + ur_id);
 
         //이미지 영역
         ArrayList<ImgDto> imgList = (ArrayList<ImgDto>) map.get("imgList");
         int gno = imgService.getGno()+1;
-        System.out.println("gno : "+gno);
         String img_full_rt = imgService.reg_img(imgList, gno, ur_id);
         saleDto.setImg_full_rt(img_full_rt);
         saleDto.setGroup_no(gno);
@@ -108,21 +103,18 @@ public class SaleService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("sale insert 성공? :  " + insertSale);
 
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
         int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
 
-        System.out.println("sal_no : " + sal_no);
         return sal_no;
     }
     
     // tag 데이터를 insert하는 트렌젝션 문
     @Transactional(propagation = Propagation.REQUIRED)
     public int insertTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
-        System.out.println("insertTagTx 들어옴");
         int insertTagTx = 0;
         int resultSaleTag = 0;
         for (String contents : tagList) {
@@ -154,7 +146,6 @@ public class SaleService {
     public Long update(Map<String, Object> map) throws Exception {
 
         SaleDto saleDto = (SaleDto) map.get("saleDto");
-        System.out.println("service write: " + saleDto);
 
         //      세션에서 ID 값을 가지고 옴
         // TestSession 클래스를 사용하여 세션을 설정
@@ -168,14 +159,12 @@ public class SaleService {
         saleDto.setGroup_no(gno);
 
         int update = saleDao.update(saleDto);
-        System.out.println("sale update 성공? :  " + update);
 
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
         updateTagTx(sal_no, ur_id, tagList);
 
-        System.out.println("sal_no : " + sal_no);
         return sal_no;
     }
 
@@ -240,14 +229,10 @@ public class SaleService {
 
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         List<SaleTagDto> saleTagList = saleTagDao.selectSalNo(no);
-        System.out.println(saleTagList);
-        System.out.println(saleTagList.size());
         List<TagDto> tagDto = null;
         if(saleTagList.size() != 0) {
             tagDto = tagRead(saleTagList);
         }
-
-        System.out.println("여기까지 완료?");
 
         return tagDto;
     }
@@ -260,7 +245,6 @@ public class SaleService {
         for( SaleTagDto saleTagDto : saleTagList) {
             Long tagNo = saleTagDto.getTag_no();
             TagDto tag = tagDao.select(tagNo);
-            System.out.println("tag값 확인 : " + tag);
             tagDto.add(tag);
         }
 
@@ -324,7 +308,6 @@ public class SaleService {
             increamentCompleteCnt(seller_id);
         }
 
-        System.out.println("update됨? : " + result);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

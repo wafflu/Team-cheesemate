@@ -66,7 +66,6 @@ public class SaleController {
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
         List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
-        System.out.println("read : " + imglist);
 
         model.addAttribute("Sale", saleDto); // model로 값 전달
         model.addAttribute("tagList", tagDto); // model로 값 전달
@@ -86,7 +85,6 @@ public class SaleController {
 
         List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
-        System.out.println("addr_name" + addr_name);
 
         SaleDto saleDto = new SaleDto(addr_cd, addr_name);
         model.addAttribute("Sale", saleDto);
@@ -110,7 +108,6 @@ public class SaleController {
         saleDto.setSeller_nick(user_nick);
 
         List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
-        System.out.println("imglist : " + imglist);
 
         model.addAttribute("Sale", saleDto);
         model.addAttribute("Tag", tagContents);
