@@ -2,9 +2,14 @@
 <%@include file="../fixed/header.jsp"%>
 
 <style>
+    .totalBox {
+        height: 1450px;
+        position: relative;
+    }
+
     .saleListBox {
         /*border: 1px solid red;*/
-        height: 100%;
+        height: 1000px;
         width: 1200px;
         margin: 0 auto;
         display: flex;
@@ -26,6 +31,14 @@
         height: 210px;
         background-color: yellow;
         margin: 0 auto;
+    }
+
+    #pageContainer {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        text-align: center;
     }
 
     .info {
@@ -56,7 +69,7 @@
     }
 </style>
 
-<div class="maincontent">
+<div class="maincontent totalBox">
 <button type="button" onclick="writeBtn()">글쓰기</button>
     <c:choose>
         <c:when test="${empty sessionScope.userId}">
@@ -95,22 +108,8 @@
 <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
 <br><br>
     <div class="saleListBox"></div>
-<%--<table id="saleListBox">--%>
-<%--    <tr>--%>
-<%--        <th class="no">번호</th>--%>
-<%--        <th class="img">이미지</th>--%>
-<%--        <th class="title">제목</th>--%>
-<%--        <th class="saleStatus">판매상태</th>--%>
-<%--        <th class="writer">이름</th>--%>
-<%--        <th class="addr_name">주소명</th>--%>
-<%--        <th class="regdate">등록일</th>--%>
-<%--        <th class="viewcnt">조회수</th>--%>
-<%--    </tr>--%>
-<%--    <tbody id="saleList">--%>
-<%--    </tbody>--%>
-<%--</table>--%>
 <br>
-<div id="pageContainer" style="text-align: center">
+<div id="pageContainer">
 </div>
 <br>
 </div>
@@ -181,7 +180,7 @@
             }
         };
 
-        window.saleList = function(addr_cd, sal_i_cd, page = 1, pageSize = 10) {
+        window.saleList = function(addr_cd, sal_i_cd, page = 1, pageSize = 20) {
             $.ajax({
                 type: 'GET',       // 요청 메서드
                 url: "/sale/salePage?page=" + page + "&pageSize=" + pageSize + "&addr_cd=" + addr_cd + "&sal_i_cd=" + sal_i_cd,  // 요청 URI
@@ -311,33 +310,20 @@
                             saleStatusText = '';
                     }
 
-                    // let row = $("<tr>");
-                    // row.append($("<td>").text(sale.no)); // 판매 번호
-                    // row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
-                    // row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
-                    // row.append($("<td>").text(saleStatusText)); // 판매 상태
-                    // row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임
-                    // row.append($("<td>").text(sale.addr_name)); // 주소명
-                    //
-                    // let saleDate = new Date(sale.h_date);
-                    //
-                    // row.append($("<td>").addClass("regdate").text(dateToString(sale.h_date, startOfToday)));
-                    // row.append($("<td>").text(sale.view_cnt)); // 조회수
-                    // $("#saleList").append(row);
-                    console.log(sale);
+                    let saleTitle = sale.title;
+                    if(saleTitle.length > 16) {
+                        saleTitle = saleTitle.substring(16) + '...';
+                    }
 
-                    <%--str += "<div class='eventsliderimg'>";--%>
-                    <%--str += `<a href="/event/read?evt_no=${event.evt_no}">`;--%>
-                    <%--str += `<img src="/img/display?fileName=${event.img_full_rt}" alt="${event.title}" class="eventImg">`;--%>
-                    <%--str += `<p class="eventImgtitle">${event.title}</p>`;--%>
-                    <%--str += `</a>`;--%>
-                    <%--str += "</div>";--%>
                     let saleDate = new Date(sale.h_date);
                     str += "<div class='smallBox'>";
                     str += "<a href='/sale/read?no=" + sale.no + "'>";
                     str += "<img class='img' src='/img/display?fileName=" + sale.img_full_rt + "'/>";
                     str += "</a>";
-                    str += "<p>" + sale.title + "</p>";
+                    str += "<div class='info'>";
+                    str += "<span>" + saleTitle + "</span>";
+                    str += "<span>" + saleStatusText + "</span>";
+                    str += "</div>";
                     str += "<div class='info'>";
                     str += "<span>" + sale.price + "</span>";
                     str += "<span>" + dateToString(sale.h_date, startOfToday) + "</span>";
@@ -345,17 +331,7 @@
                     str += "<div class='division-line'></div>";
                     str += "<p>" + sale.addr_name + "</p></div>";
 
-                    // let smallBox = $("<div class='smallBox'>");
-                    // smallBox.addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>"); // 이미지
-                    // smallBox.append("<p>" + sale.title + "</p>");
-                    // let info = $("<div class='info'>");
-                    // info.append("<span>" + sale.price + "</span>");
-                    // info.append("<span>" + sale.h_date + "</span>");
-                    // smallBox.append(info);
-                    // smallBox.append("<div class='division-line'></div>");
-                    // smallBox.append("<p>" + sale.addr_name + "</p></div>");
 
-                    // $(".saleListBox").append(str);
                     $(".saleListBox").html(str);
                 });
             } else {

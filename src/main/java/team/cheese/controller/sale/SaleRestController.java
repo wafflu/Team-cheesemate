@@ -181,7 +181,7 @@ public class SaleRestController {
     @RequestMapping("/salePage")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getSearchList(@RequestParam(defaultValue = "1") int page,
-                                                             @RequestParam(defaultValue = "30") int pageSize,
+                                                             @RequestParam(defaultValue = "20") int pageSize,
                                                              @RequestParam(required = false) String addr_cd,
                                                              @RequestParam(required = false) String sal_i_cd,
                                                              HttpSession session) throws Exception {
