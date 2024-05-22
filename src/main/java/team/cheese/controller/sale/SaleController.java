@@ -44,10 +44,7 @@ public class SaleController {
 //        HttpSession session = request.getSession();
         String ur_id = (String) session.getAttribute("userId");
 
-        if(ur_id == null) {
-            List<AdministrativeDto> addrCdList = saleService.selectAddrCdList(ur_id);
-            model.addAttribute("addrCdList", addrCdList);
-        } else {
+        if (ur_id != null) {
             // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
@@ -68,8 +65,7 @@ public class SaleController {
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
-        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
-        System.out.println("read : " + imglist);
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto); // model로 값 전달
         model.addAttribute("tagList", tagDto); // model로 값 전달
@@ -89,7 +85,6 @@ public class SaleController {
 
         List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
-        System.out.println("addr_name" + addr_name);
 
         SaleDto saleDto = new SaleDto(addr_cd, addr_name);
         model.addAttribute("Sale", saleDto);
@@ -112,8 +107,7 @@ public class SaleController {
         saleDto.setSeller_id(user_id);
         saleDto.setSeller_nick(user_nick);
 
-        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
-        System.out.println("imglist : "+ imglist);
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto);
         model.addAttribute("Tag", tagContents);

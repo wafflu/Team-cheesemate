@@ -222,7 +222,7 @@
                 <div class="sale_modal_content">
                     <button id="closeModalBtn">x</button>
                     <h1 id="sale_search_addr">주소 검색</h1>
-                    <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
+                    <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요(enter).">
                     <div class="sale-table-wrapper">
                         <table id="addrTable" class="table text-center">
                             <thead>
@@ -285,8 +285,8 @@
 
     let submitURL = '/sale/insert';
 
-    let category2Check = true; // 중분류 카테고리 유효성 검사를 위한 변수
-    let category3Check = true; // 소분류 카테고리 유효성 검사를 위한 변수
+    let category2Check = false; // 중분류 카테고리 유효성 검사를 위한 변수
+    let category3Check = false; // 소분류 카테고리 유효성 검사를 위한 변수
     let titlelength = 40; // 제목 글자 수
     let contentslength = 2000; // 내용 글자 수
     let t_contents = []; // tag값 을 담을 배열
@@ -367,7 +367,7 @@
             $("#submitBtn").val("수정하기");
             submitURL = '/sale/update';
         } // modify일 경우
-        else {
+
             $("#category1").on("click", function () {
                 let category1Value = $('#category1').val();
                 if (category1Value !== "") {
@@ -391,6 +391,8 @@
                                 });
                             } else {
                                 $("#salecategoryMsg").text("");
+                                category2Check = true;
+                                category3Check = true;
                             }
                         },
                         error: function (xhr, status, error) {
@@ -421,6 +423,7 @@
                                 });
                             } else {
                                 $("#salecategoryMsg").text("");
+                                category3Check = true;
                             }
                         },
                         error: function (xhr, status, error) {
@@ -429,7 +432,7 @@
                     });
                 }
             });
-        }
+
 
         // 판매글 제목 처리
         handleInputLimit('#title', '#titleCounter', titlelength, '글자수는 ' + titlelength + '자까지 입력 가능합니다.');
@@ -479,32 +482,39 @@
             $("#sal_name").text($("#category1 option:checked").text());
         }
 
-        $("#saleSearchInput").on("input", function () {
-            let searchLetter = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: "/searchLetter",
-                // url: "/sale/searchLetter",
-                data: {searchLetter: searchLetter},
-                dataType: "json",
-                success: function (data) {
-                    // 검색 결과를 처리하여 addrTable에 추가
-                    $("#addrList").empty(); // 기존 내용 초기화
-                    if (data.length > 0) {
-                        data.forEach(function (addr) {
-                            let row = $("<tr class='sale-addr-tr'>");
-                            row.append($("<td>").text(addr.addr_cd)); // 행정구역 코드
-                            row.append($("<td>").text(addr.addr_name)); // 주소명
-                            $("#addrList").append(row);
-                        });
-                    } else {
+        $("#saleSearchInput").on("keydown", function (event) {
+            // 엔터 키(키 코드 13)가 눌렸는지 확인
+            if (event.which === 13 || event.keycode === 13) {
+                event.preventDefault(); // 기본 엔터 동작(폼 제출 등)을 막기 위해 추가
+
+                let searchLetter = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/searchLetter",
+                    data: { searchLetter: searchLetter },
+                    dataType: "json",
+                    success: function (data) {
+                        // 검색 결과를 처리하여 addrTable에 추가
+                        $("#addrList").empty(); // 기존 내용 초기화
+                        if (data.length > 0) {
+                            data.forEach(function (addr) {
+                                let row = $("<tr class='sale-addr-tr'>");
+                                row.append($("<td>").text(addr.addr_cd)); // 행정구역 코드
+                                row.append($("<td>").text(addr.addr_name)); // 주소명
+                                $("#addrList").append(row);
+                            });
+                        } else {
+                            $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                        }
+                    },
+                    error: function (xhr, status, error) {
                         $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                        alert("주소 검색에 실패하였습니다.");
                     }
-                },
-                error: function (xhr, status, error) {
-                    alert(xhr.responseText);
-                }
-            });
+                });
+            } else if ( event.keyCode == 27 || event.which == 27 ) {
+                closeModal();
+            }
         });
 
         // 주소를 클릭했을 때의 이벤트 핸들러
@@ -536,6 +546,7 @@
                     category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
                     if (data.length > 0) {
                         category2Check = false;
+                        category3Check = false;
                         data.forEach(function (category) {
                             if (category.sal_cd.startsWith(category1Value)) {
                                 let option = new Option(category.name, category.sal_cd);
@@ -543,6 +554,8 @@
                             }
                         });
                     } else {
+                        category2Check = true;
+                        category3Check = true;
                         $("#salecategoryMsg").text("");
                     }
 
@@ -565,6 +578,7 @@
                                         }
                                     });
                                 } else {
+                                    category3Check = true;
                                     $("#salecategoryMsg").text("");
                                 }
                                 $("#category3").val(category3Value).trigger("change");
@@ -592,6 +606,8 @@
     $("#category1").change(function () {
         $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
         $("#sal_name").text($("#category1 option:checked").text());
+        category2Check = false;
+        category3Check = false;
     });
 
     // 중분류 선택 시 대분류 카테고리와 함께 중분류 카테고리의 이름을 sal_name에 업데이트
@@ -603,6 +619,7 @@
             $("#sal_name").text(category1Name + " > " + category2Name);
         }
         category2Check = true;
+        category3Check = false;
     });
 
     // 소분류 선택 시 대분류, 중분류 카테고리와 함께 소분류 카테고리의 이름을 sal_name에 업데이트
@@ -858,6 +875,7 @@
             alert("중분류 상태를 선택하세요.");
             return false;
         }
+
         if (!category3Check) {
             $("#categoryContainer").attr('tabindex', 0).focus();
             $("#categoryContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
@@ -910,11 +928,13 @@
             return false;
         }
 
-        if (!reg_price || reg_price < 0) {
-            document.getElementsByName("reg_price")[0].focus();
-            document.getElementsByName("reg_price")[0].style.borderColor = 'red';
-            alert("음수를 제외한 정확한 가격을 입력하세요.");
-            return false;
+        if (!!reg_price) {
+            if(reg_price < 0) {
+                document.getElementsByName("reg_price")[0].focus();
+                document.getElementsByName("reg_price")[0].style.borderColor = 'red';
+                alert("음수를 제외한 정확한 가격을 입력하세요.");
+                return false;
+            }
         }
 
         return true;

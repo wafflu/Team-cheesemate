@@ -40,7 +40,7 @@
         <p>sale : ${Sale.no}</p>
         <p>행정동 코드 : ${Sale.addr_cd}</p>
         <p>주소명 : ${Sale.addr_name}</p>
-<%--        --%>
+        <%--        --%>
         <p>판매자닉네임 : <a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
         <p>판매 카테고리명 : ${Sale.sal_name}</p>
         <p>
@@ -60,15 +60,15 @@
             </c:choose>
         </p>
         <p>거래방식 :
-                <c:if test="${Sale.trade_s_cd_1 == 'O'}">
-                    온라인
-                </c:if>
-                <c:if test="${Sale.trade_s_cd_1 == 'F' || Sale.trade_s_cd_2  == 'F'}">
-                    직거래
-                </c:if>
-                <c:if test="${Sale.trade_s_cd_1 == 'D' || Sale.trade_s_cd_2  == 'D'}">
-                    택배거래
-                </c:if>
+            <c:if test="${Sale.trade_s_cd_1 == 'O'}">
+                온라인
+            </c:if>
+            <c:if test="${Sale.trade_s_cd_1 == 'F' || Sale.trade_s_cd_2  == 'F'}">
+                직거래
+            </c:if>
+            <c:if test="${Sale.trade_s_cd_1 == 'D' || Sale.trade_s_cd_2  == 'D'}">
+                택배거래
+            </c:if>
         </p>
         <p>제목 : ${Sale.title}</p>
         <br>내용 :
@@ -174,39 +174,39 @@
                     alert("판매글 상태 변경이 실패하였습니다.");
                 }
             });
-    });
+        });
 
-    $(document).ready(function () {
-        $("#charbtn").on("click", function () {
-            let saleNo = "${Sale.no}";
-            let sellerid = "${Sale.seller_id}";
-            let seller_nick = "${Sale.seller_nick}";
-            $("<input>").attr({
-                type: "hidden",
-                name: "sno",
-                value: saleNo
-            }).appendTo("#form");
+        $(document).ready(function () {
+            $("#charbtn").on("click", function () {
+                let saleNo = "${Sale.no}";
+                let sellerid = "${Sale.seller_id}";
+                let seller_nick = "${Sale.seller_nick}";
+                $("<input>").attr({
+                    type: "hidden",
+                    name: "sno",
+                    value: saleNo
+                }).appendTo("#form");
 
-            $("<input>").attr({
-                type: "hidden",
-                name: "id",
-                value: sellerid
-            }).appendTo("#form");
+                $("<input>").attr({
+                    type: "hidden",
+                    name: "id",
+                    value: sellerid
+                }).appendTo("#form");
 
-            $("<input>").attr({
-                type: "hidden",
-                name: "nick",
-                value: seller_nick
-            }).appendTo("#form");
+                $("<input>").attr({
+                    type: "hidden",
+                    name: "nick",
+                    value: seller_nick
+                }).appendTo("#form");
 
-            // action 속성 설정
-            $("#form").attr("action", "/callchat");
+                // action 속성 설정
+                $("#form").attr("action", "/callchat");
 
-            // form submit
-            $("#form").submit();
+                // form submit
+                $("#form").submit();
+            });
         });
     });
-
 </script>
 </body>
 </html>

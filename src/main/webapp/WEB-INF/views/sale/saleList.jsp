@@ -2,22 +2,79 @@
 <%@include file="../fixed/header.jsp"%>
 
 <style>
-    #saleListTB {
-        margin: 0 auto; /* 수평 가운데 정렬 */
-        width: 80%; /* 테이블의 너비 설정 */
-        text-align: center; /* 텍스트 가운데 정렬 */
+    .totalBox {
+        height: 1450px;
+        position: relative;
     }
+
+    .saleListBox {
+        /*border: 1px solid red;*/
+        height: 1000px;
+        width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 20px;
+    }
+
+    .smallBox {
+        border: 1px solid black;
+        /*background-color: pink;*/
+        width: 210px;
+        height: 300px;
+        margin-bottom: 10px;
+    }
+
+    .img {
+        width: 210px;
+        height: 210px;
+        background-color: yellow;
+        margin: 0 auto;
+    }
+
+    #pageContainer {
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+        text-align: center;
+    }
+
+    .info {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .division-line {
+        border-top: 1px solid #444444;
+        margin: auto;
+    }
+
+    /*#saleListBox {*/
+    /*    margin: 0 auto; !* 수평 가운데 정렬 *!*/
+    /*    width: 80%; !* 테이블의 너비 설정 *!*/
+    /*    text-align: center; !* 텍스트 가운데 정렬 *!*/
+    /*}*/
 
     .page-space {
         margin: 0 5px; /* 공백 크기 조절 */
     }
+
+    /* 임시로 style 추가 : css 수정 필요*/
+    .imgClass {
+        width: 100px;
+        height: 100px;
+    }
+
 </style>
 
-<div class="maincontent">
-<button type="button" onclick="writeBtn()">글쓰기</button>
+<div class="maincontent totalBox">
+<button class="saleBtn" type="button" onclick="writeBtn()">글쓰기</button>
     <c:choose>
         <c:when test="${empty sessionScope.userId}">
-            <select id="addr_cd" style="display: none;">
+            <select id="addr_cd" style="display: none;" hidden>
                 <option id="selectAll" value="null" selected>전체</option>
                 <c:forEach var="AddrCd" items="${addrCdList}">
                     <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
@@ -51,22 +108,9 @@
 <p style="color: orangered;" id="salecategoryMsg"></p>
 <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
 <br><br>
-<table id="saleListTB">
-    <tr>
-        <th class="no">번호</th>
-        <th class="img">이미지</th>
-        <th class="title">제목</th>
-        <th class="saleStatus">판매상태</th>
-        <th class="writer">이름</th>
-        <th class="addr_name">주소명</th>
-        <th class="regdate">등록일</th>
-        <th class="viewcnt">조회수</th>
-    </tr>
-    <tbody id="saleList">
-    </tbody>
-</table>
+    <div class="saleListBox"></div>
 <br>
-<div id="pageContainer" style="text-align: center">
+<div id="pageContainer">
 </div>
 <br>
 </div>
@@ -137,7 +181,7 @@
             }
         };
 
-        window.saleList = function(addr_cd, sal_i_cd, page = 1, pageSize = 10) {
+        window.saleList = function(addr_cd, sal_i_cd, page = 1, pageSize = 20) {
             $.ajax({
                 type: 'GET',       // 요청 메서드
                 url: "/sale/salePage?page=" + page + "&pageSize=" + pageSize + "&addr_cd=" + addr_cd + "&sal_i_cd=" + sal_i_cd,  // 요청 URI
@@ -149,7 +193,8 @@
                     let ph = data.ph;
                     let saleList = data.saleList;
                     let startOfToday = data.startOfToday;
-                    $("#saleList").html(updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd));
+                    console.log(saleList);
+                    $(".saleListBox").html(updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd));
                 },
                 error: function (result) {
                     alert("화면 로딩 중 오류 발생");
@@ -247,9 +292,10 @@
         // 업데이트된 saleList를 화면에 출력하는 함수
         function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
             // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
-            $("#saleList").empty();
+            $(".saleListBox").empty();
 
             if (saleList.length > 0) {
+                let str = "";
                 // 판매 상태에 따라 텍스트 설정
                 saleList.forEach(function (sale) {
                     switch (sale.sal_s_cd) {
@@ -266,22 +312,32 @@
                             saleStatusText = '';
                     }
 
-                    let row = $("<tr>");
-                    row.append($("<td>").text(sale.no)); // 판매 번호
-                    row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
-                    row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
-                    row.append($("<td>").text(saleStatusText)); // 판매 상태
-                    row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임
-                    row.append($("<td>").text(sale.addr_name)); // 주소명
+                    let saleTitle = sale.title;
+                    if(saleTitle.length > 16) {
+                        saleTitle = saleTitle.substring(16) + '...';
+                    }
 
                     let saleDate = new Date(sale.h_date);
+                    str += "<div class='smallBox'>";
+                    str += "<a href='/sale/read?no=" + sale.no + "'>";
+                    str += "<img class='img' src='/img/display?fileName=" + sale.img_full_rt + "'/>";
+                    str += "</a>";
+                    str += "<div class='info'>";
+                    str += "<span>" + saleTitle + "</span>";
+                    str += "<span>" + saleStatusText + "</span>";
+                    str += "</div>";
+                    str += "<div class='info'>";
+                    str += "<span>" + sale.price + "</span>";
+                    str += "<span>" + dateToString(sale.h_date, startOfToday) + "</span>";
+                    str += "</div>";
+                    str += "<div class='division-line'></div>";
+                    str += "<p class='pag'>" + sale.addr_name + "</p></div>";
 
-                    row.append($("<td>").addClass("regdate").text(dateToString(sale.h_date, startOfToday)));
-                    row.append($("<td>").text(sale.view_cnt)); // 조회수
-                    $("#saleList").append(row);
+
+                    $(".saleListBox").html(str);
                 });
             } else {
-                $("#saleList").append("<tr><td colspan='5'>데이터가 없습니다.</td></tr>");
+                $(".saleListBox").html("<p style='font-size: 20px; text-align: center;'>데이터가 없습니다.</p>");
             }
 
             $("#pageContainer").empty(); // 기존에 있는 페이지 내용 비우기
