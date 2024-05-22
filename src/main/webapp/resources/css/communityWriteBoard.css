@@ -1,0 +1,27 @@
+.maincontent{
+    width: 1200px;
+    margin: 0 auto;
+    /*border: 1px solid #000;*/
+}
+
+/*ì¹´í…Œê³ ë¦¬ ì œëª© ë“±ë¡ ìˆ˜ì • ì‚­ì œ ë²„íŠ¼*/
+.community-write-container{
+    /*   ì½˜í…ì¸  (ë„“ì´,ë†’ì´) */
+    /*width:862px;*/
+    margin:20px;
+    height:154px;
+    box-sizing: border-box;
+    padding:20px 28px;
+    border-radius: 12px;
+    border: 1px solid#cccccc;
+    background-color: #fff;
+}
+.community-write-container .community-write-category{
+    display: block;
+}
+.community-write-category .row:nth-child(2){
+    margin-top: 0;
+}
+.community-write-category .row{
+    margin-top: 16px;
+}

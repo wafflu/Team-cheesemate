@@ -63,6 +63,7 @@ public class MyPageController {
             model.addAttribute("session_id",session_id);
             // 소개글 읽어오기
             userInfoDTO = userInfoService.read(ur_id,session_id,session);
+            System.out.println("userdto : "+userInfoDTO);
             model.addAttribute("userInfoDTO",userInfoDTO);
         }
         // 다른 페이지에서 사용자를 클릭해서 /myPage/main?ur_id=rudtlr 으로 타고들어왔을때,

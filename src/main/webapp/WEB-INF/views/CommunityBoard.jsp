@@ -5,24 +5,10 @@
   Time: 10:26 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session="false" %>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<html>
-<head>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="fixed/header.jsp" %>
+<%--<link rel="stylesheet" href="/css/communityWriteBoard.css">--%>
 
-    <title>Title</title>
-    <style>
-        .title-container{
-            display: flex;
-        }
-    </style>
-</head>
-<body>
 <form action = "${pageContext.request.contextPath}/community/read" id ="form" enctype="multipart/form-data">
 <div class="post-content">
 
@@ -88,28 +74,28 @@
 
 
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         loadComments($('#post_no').val());
 
 
-
-
-
-
-        $('.detail-button').on("click",function(){
+        $('.detail-button').on("click", function () {
             $('#alertDiv').show();
 
         })
-        $('#edit').on("click",function (){
-            var confirmation = confirm("이 게시물을 수정하시겠습니까?");
-            alert(confirmation);
-            window.location.href = '/community/edit?no=${communityBoardDto.no}';
+        $('#edit').on("click", function (e) {
+            e.preventDefault(); // 기본 링크 동작을 막음
+            if (confirm('이 게시물을 수정하시겠습니까?')) {
+                // 확인 버튼을 클릭하면 수정 페이지로 이동
+                window.location.href = '/community/edit?no=${communityBoardDto.no}';
+            } else {
+                // 취소 버튼을 클릭하면 읽기 페이지로 이동
+                window.location.href = '/community/read?no=${communityBoardDto.no}';
+            }
 
         })
 
-        $('#heart').on("click",function() {
+        $('#heart').on("click", function () {
             const postNo = $('#postNo').val();
-
 
 
             if (!postNo) {
@@ -134,13 +120,13 @@
                     $('#heart').data('count-like', response.totalLikeCount); // 데이터 속성도 업데이트
                 },
                 error: function (xhr, status, error) {
-                   if(xhr.status ===401){
-                       alert("로그인 먼저 해주세요");
+                    if (xhr.status === 401) {
+                        alert("로그인 먼저 해주세요");
                     } else if (xhr.status === 500) {
-                       alert("서버 에러가 발생했습니다.");
+                        alert("서버 에러가 발생했습니다.");
                     } else {
-                       alert("좋아요 실패: " + xhr.responseText);
-                 }
+                        alert("좋아요 실패: " + xhr.responseText);
+                    }
                 }
 
 
@@ -164,7 +150,7 @@
                 type: 'post',
                 url: '/community/writeComment',
                 cache: false,
-                headers : { "content-type": "application/json"}, // 요청 헤더
+                headers: {"content-type": "application/json"}, // 요청 헤더
                 data: JSON.stringify(
                     {
                         "post_no": post_no,
@@ -172,26 +158,26 @@
                     }
                 ),
 
-                dataType : 'json',
-                success:function (comments) {
-                        console.log(comments);
-                        loadComments(post_no);
-                    },
-                error:function (){
+                dataType: 'json',
+                success: function (comments) {
+                    console.log(comments);
+                    loadComments(post_no);
+                },
+                error: function () {
                     alert('댓글을 작성하는데 실패했습니다..');
                 }
             });
         })
 
 
-        function loadComments(postId){
+        function loadComments(postId) {
             $.ajax({
-                url:'/community/comments?postId='+postId,
-                type:'GET',
+                url: '/community/comments?postId=' + postId,
+                type: 'GET',
                 cache: false,
-                dataType:'json',
+                dataType: 'json',
                 // data:{post_no:postId},
-                success:function (comments) {
+                success: function (comments) {
                     const commentsContainer = $('#comment-container');
                     commentsContainer.empty();
 
@@ -200,18 +186,18 @@
                         console.log(
                             comment.contents
                         )
-                        str+=`<div>`;
-                        str+=`<p>`+comment.contents + `</p>`;
-                        str+=`<p>`+comment.nick+ `</p>`;
-                        str+=`<p>`+moment(comment.r_date).calendar()+`</p>`;
-                        str+=`</div>`;
+                        str += `<div>`;
+                        str += `<p>` + comment.contents + `</p>`;
+                        str += `<p>` + comment.nick + `</p>`;
+                        str += `<p>` + moment(comment.r_date).calendar() + `</p>`;
+                        str += `</div>`;
 
                     });
                     commentsContainer.append(str);
 
 
                 },
-                error:function (){
+                error: function () {
                     alert('댓글을 불러오는 데 실패했습니다.');
                 }
             });
@@ -220,6 +206,6 @@
 
     });
 </script>
-
+    <script src="/js/img.js"></script>
+<%@ include file="fixed/footer.jsp" %>
 </body>
-</html>
