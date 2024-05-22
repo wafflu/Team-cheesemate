@@ -9,7 +9,6 @@
     /*   ì½˜í…ì¸  (ë„“ì´,ë†’ì´) */
     /*width:862px;*/
     margin:20px;
-    width:100%;
     height:154px;
     box-sizing: border-box;
     padding:20px 28px;
@@ -25,56 +24,4 @@
 }
 .community-write-category .row{
     margin-top: 16px;
-}
-
- #contents{
-    margin:20px;
-     width:100%;
-    height:412px;
-    box-sizing: border-box;
-    padding:20px 28px;
-    border-radius: 12px;
-    border: 1px solid#cccccc;
-    background-color: #fff;
-    resize:none;
-}
-
-
- .row > .commu-cd{
-     /*border: 0;*/
-     /*border-bottom: 1px solid #ebecef;*/
-     /*height: 36px;*/
-
-     border: 0;
-     border-bottom: 1px solid #ebecef;
-     height: 36px;
-     width: 80%; /* 너비를 명시적으로 설정 */
-     box-sizing: border-box; /* 패딩과 테두리를 포함 */
- }
-.row > .commu-button{
-    color: #ee8703; /* 텍스트 색상 */
-    margin-left: 10px;
-    min-width: 46px;
-    height: 36px;
-    background-color: rgba(238, 135, 3, 0.3); /* 배경색에 투명도 적용 */
-    border: 0;
-    border-radius: 12px;
-}
-
-#community-write-title{
-    border: 0;
-    border-bottom: 1px solid #ebecef;
-    height: 36px;
-    width: 80%; /* 너비를 명시적으로 설정 */
-    box-sizing: border-box; /* 패딩과 테두리를 포함 */
-}
-
-
-
-
-
-
-/*커뮤니티 글 & 사진*/
-.community-write-image{
-    display: flex;
 }

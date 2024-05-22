@@ -131,130 +131,130 @@
 
 <body>
 <div>
-    <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
-        <p>상품 정보</p>
-        <div class="sale-division-line"></div>
+    <div>
+        <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
+            <p>상품 정보</p>
+            <div class="sale-division-line"></div>
 
-        <div class="form_section_content">
-            <input type="file" id ="fileItem" name='uploadFile' style="height: 30px;" multiple>
-        </div>
-        <div id = "uploadResult">
-            <c:forEach items="${imglist}" var="img">
-                <c:if test="${img.imgtype eq 'r'}">
-                    <div id='result_card'>
-                        <img src="/img/display?fileName=${img.img_full_rt}" id = "resizable">
-                        <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
-                    </div>
-                </c:if>
-            </c:forEach>
-        </div>
-
-        <p>
-            제목 <input id="title" name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" value="${Sale.title}"
-                      minlength="1" maxlength="40"/>
-            <span id="titleCounter">(0/40)</span>
-        </p>
-        <div id="categoryContainer">
-            <p>카테고리</p>
-            <select id="category1">
-                <option value="" disabled selected>대분류</option>
-                <c:forEach var="category" items="${saleCategory1}">
-                    <option value="${category.sal_cd}">${category.name}</option>
+            <div class="form_section_content">
+                <input type="file" id="fileItem" name="uploadFile" style="height: 30px;" multiple>
+            </div>
+            <div id="uploadResult">
+                <c:forEach items="${imglist}" var="img">
+                    <c:if test="${img.imgtype eq 'r'}">
+                        <div id='result_card'>
+                            <img src="/img/display?fileName=<c:out value='${img.img_full_rt}' />" id="resizable">
+                            <div class='imgDeleteBtn' data-file="<c:out value='${img.img_full_rt}' />">x</div>
+                        </div>
+                    </c:if>
                 </c:forEach>
-            </select>
+            </div>
 
-            <select id="category2">
-                <option value="" disabled selected>중분류</option>
-            </select>
-
-            <select id="category3">
-                <option value="" disabled selected>소분류</option>
-            </select>
-
-            <p style="color: orangered;" id="salecategoryMsg">대분류 > 중분류 > 소분류를 선택하세요.</p>
-            <span style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;"
-                                                       id="sal_name"></p></b></span>
-        </div>
-
-        <div id="pro_s_cdContainer">
-            <p>상품상태</p>
-            <input type="radio" name="pro_s_cd" value="S"/>새상품(미사용) <br/>
-            <input type="radio" name="pro_s_cd" value="A"/>사용감 없음 <br/>
-            <input type="radio" name="pro_s_cd" value="B"/>사용감 적음 <br/>
-            <input type="radio" name="pro_s_cd" value="C"/>사용감 많음 <br/>
-            <input type="radio" name="pro_s_cd" value="D"/>고장/파손 상품 <br/>
-        </div>
-        <div id="trade_s_cdContainer">
             <p>
-                거래방법(2개 이하)
-                <input type="checkbox" class="trade_s_cd" value="O"/> 온라인
-                <input type="checkbox" class="trade_s_cd" value="F"/> 직거래
-                <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
+                제목 <input id="title" name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" value="<c:out value='${Sale.title}' />"
+                          minlength="1" maxlength="40"/>
+                <span id="titleCounter">(0/40)</span>
             </p>
-        </div>
-        <p>설명
-            <textarea name="contents" id="contents" cols="30" rows="10" style="white-space: pre-line;"
-                      minlength="1" maxlength="2000" title="내용을 입력해 주세요.">${Sale.contents}</textarea>
-            <span id="contentCounter">(0/2000)</span>
-        </p>
-        <p>해시태그(선택) <input type="text" id="hashtagInput" name="tag" value="${Tag}"
-                           placeholder="#을 붙여서 해시태그를 입력하세요.(중복 문자는 제외하여 등록됩니다.)"/></p>
-        <div id="hashtagContainer"></div>
-        <div id="tx_s_cdContainer">
-            <input type="radio" class="tx_s_cd" name="tx_s_cd" value="S"/>판매
-            <input type="radio" class="tx_s_cd" name="tx_s_cd" value="F"/>나눔
-            <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
-        </div>
-        <p>
-            상품가격
-            <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0" value="${Sale.price}"/>
-        </p>
-        <p hidden><input type="radio" name="bid_cd" value="N" checked/> 미사용 </p>
-        <p class="proposal" hidden><input class="proposal" type="radio" name="bid_cd" value="P"/> 가격제안받기</p>
-        <p class="trade" hidden><input class="trade" type="radio" name="bid_cd" value="T"/> 나눔신청받기</p>
-        <input id="unCheckBtn" type="button" value="제안/신청 취소" onclick="unCheckBidCd()" hidden>
-        <p>
-            상품정가(선택)
-            <input type="number" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." min="0" value="${Sale.reg_price}"/>
-        </p>
-        <button id="openModalBtn">거래희망 주소 검색</button>
-        <div id="openModal" class="SaleModal SaleHidden">
-            <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
-            <div class="sale_modal_content">
-                <button id="closeModalBtn">x</button>
-                <h1 id="sale_search_addr">주소 검색</h1>
-                <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
-                <div class="sale-table-wrapper">
-                    <table id="addrTable" class="table text-center">
-                        <thead>
-                        <tr>
-                            <th style="width:150px;">행정동코드</th>
-                            <th style="width:600px;">주소명</th>
-                        </tr>
-                        </thead>
-                        <tbody id="addrList"></tbody>
-                    </table>
+            <div id="categoryContainer">
+                <p>카테고리</p>
+                <select id="category1">
+                    <option value="" disabled selected>대분류</option>
+                    <c:forEach var="category" items="${saleCategory1}">
+                        <option value="<c:out value='${category.sal_cd}' />"><c:out value='${category.name}' /></option>
+                    </c:forEach>
+                </select>
+
+                <select id="category2">
+                    <option value="" disabled selected>중분류</option>
+                </select>
+
+                <select id="category3">
+                    <option value="" disabled selected>소분류</option>
+                </select>
+
+                <p style="color: orangered;" id="salecategoryMsg">대분류 > 중분류 > 소분류를 선택하세요.</p>
+                <span style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;" id="sal_name"></p></b></span>
+            </div>
+
+            <div id="pro_s_cdContainer">
+                <p>상품상태</p>
+                <input type="radio" name="pro_s_cd" value="S"/>새상품(미사용) <br/>
+                <input type="radio" name="pro_s_cd" value="A"/>사용감 없음 <br/>
+                <input type="radio" name="pro_s_cd" value="B"/>사용감 적음 <br/>
+                <input type="radio" name="pro_s_cd" value="C"/>사용감 많음 <br/>
+                <input type="radio" name="pro_s_cd" value="D"/>고장/파손 상품 <br/>
+            </div>
+            <div id="trade_s_cdContainer">
+                <p>
+                    거래방법(2개 이하)
+                    <input type="checkbox" class="trade_s_cd" value="O"/> 온라인
+                    <input type="checkbox" class="trade_s_cd" value="F"/> 직거래
+                    <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
+                </p>
+            </div>
+            <p>설명
+                <textarea name="contents" id="contents" cols="30" rows="10" style="white-space: pre-line;" minlength="1" maxlength="2000" title="내용을 입력해 주세요."><c:out value='${Sale.contents}' /></textarea>
+                <span id="contentCounter">(0/2000)</span>
+            </p>
+            <p>해시태그(선택) <input type="text" id="hashtagInput" name="tag" value="<c:out value='${Tag}' />"
+                               placeholder="#을 붙여서 해시태그를 입력하세요.(중복 문자는 제외하여 등록됩니다.)"/></p>
+            <div id="hashtagContainer"></div>
+            <div id="tx_s_cdContainer">
+                <input type="radio" class="tx_s_cd" name="tx_s_cd" value="S"/>판매
+                <input type="radio" class="tx_s_cd" name="tx_s_cd" value="F"/>나눔
+                <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
+            </div>
+            <p>
+                상품가격
+                <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0" value="<c:out value='${Sale.price}' />"/>
+            </p>
+            <p hidden><input type="radio" name="bid_cd" value="N" checked/> 미사용 </p>
+            <p class="proposal" hidden><input class="proposal" type="radio" name="bid_cd" value="P"/> 가격제안받기</p>
+            <p class="trade" hidden><input class="trade" type="radio" name="bid_cd" value="T"/> 나눔신청받기</p>
+            <input id="unCheckBtn" type="button" value="제안/신청 취소" onclick="unCheckBidCd()" hidden>
+            <p>
+                상품정가(선택)
+                <input type="number" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." min="0" value="<c:out value='${Sale.reg_price}' />"/>
+            </p>
+            <button id="openModalBtn">거래희망 주소 검색</button>
+            <div id="openModal" class="SaleModal SaleHidden">
+                <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
+                <div class="sale_modal_content">
+                    <button id="closeModalBtn">x</button>
+                    <h1 id="sale_search_addr">주소 검색</h1>
+                    <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요.">
+                    <div class="sale-table-wrapper">
+                        <table id="addrTable" class="table text-center">
+                            <thead>
+                            <tr>
+                                <th style="width:150px;">행정동코드</th>
+                                <th style="width:600px;">주소명</th>
+                            </tr>
+                            </thead>
+                            <tbody id="addrList"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-<%--        <input name="addr_cd" value="${Sale.addr_cd}">--%>
-<%--        <input name="addr_name" value="${Sale.addr_name}">--%>
-        <p>거래장소
-            <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="${Sale.pickup_addr_cd}" hidden>
-            <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="${Sale.pickup_addr_name}" disabled>
-        </p>
+            <%--        <input name="addr_cd" value="<c:out value='${Sale.addr_cd}' />">--%>
+            <%--        <input name="addr_name" value="<c:out value='${Sale.addr_name}' />">--%>
+            <p>거래장소
+                <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="<c:out value='${Sale.pickup_addr_cd}' />" hidden>
+                <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="<c:out value='${Sale.pickup_addr_name}' />" disabled>
+            </p>
 
-        <p>
-            거래희망장소(선택)
-            <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." value="${Sale.detail_addr}"/>
-        </p>
-        <p>
-            브랜드(선택)
-            <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." value="${Sale.brand}"/>
-        </p>
-        <!-- <input type="button" id="submitBtn" value="등록하기" onclick="write()"/> -->
-        <input type="button" id="submitBtn" value="등록하기"/>
-    </form>
+            <p>
+                거래희망장소(선택)
+                <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." value="<c:out value='${Sale.detail_addr}' />"/>
+            </p>
+            <p>
+                브랜드(선택)
+                <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." value="<c:out value='${Sale.brand}' />"/>
+            </p>
+
+            <input type="button" id="submitBtn" value="등록하기"/>
+        </form>
+    </div>
 </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -698,69 +698,6 @@
         });
     }
 
-    // function loadCategory2() {
-    //     let category1Value = $('#category1').val();
-    //     if (category1Value !== "") {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "/sale/saleCategory2",
-    //             dataType: "json", // 받을 값
-    //             data: {category1: category1Value},
-    //             success: function (data) {
-    //                 let category2Select = document.getElementById("category2");
-    //                 category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-    //                 let category3Select = document.getElementById("category3");
-    //                 category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-    //                 if (data.length > 0) {
-    //                     category2Check = false;
-    //                     data.forEach(function (category) {
-    //                         if (category.sal_cd.startsWith(category1Value)) {
-    //                             let option = new Option(category.name, category.sal_cd);
-    //                             category2Select.add(option);
-    //                         }
-    //                     });
-    //                 } else {
-    //                     $("#salecategoryMsg").text("");
-    //                 }
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 alert(xhr.responseText);
-    //             }
-    //         });
-    //     }
-    // }
-    //
-    // function loadCategory3() {
-    //     let category2Value = $('#category2').val();
-    //     if (category2Value !== "") {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: "/sale/saleCategory3",
-    //             dataType: "json",
-    //             data: {category2: category2Value},
-    //             success: function (data) {
-    //                 let category3Select = document.getElementById("category3");
-    //                 category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-    //                 if (data.length > 0) {
-    //                     category3Check = false;
-    //                     data.forEach(function (category) {
-    //                         if (category.sal_cd.startsWith(category2Value)) {
-    //                             let option = new Option(category.name, category.sal_cd);
-    //                             category3Select.add(option);
-    //                         }
-    //                     });
-    //                 } else {
-    //                     $("#salecategoryMsg").text("");
-    //                 }
-    //             },
-    //             error: function (xhr, status, error) {
-    //                 alert(xhr.responseText);
-    //             }
-    //         });
-    //     }
-    // }
-
-
     const openModalBtn = document.getElementById("openModalBtn");
     const modal = document.querySelector(".SaleModal");
     const overlay = modal.querySelector(".sale_modal_overlay");
@@ -973,7 +910,7 @@
             return false;
         }
 
-        if (!reg_price && reg_price < 0) {
+        if (!reg_price || reg_price < 0) {
             document.getElementsByName("reg_price")[0].focus();
             document.getElementsByName("reg_price")[0].style.borderColor = 'red';
             alert("음수를 제외한 정확한 가격을 입력하세요.");

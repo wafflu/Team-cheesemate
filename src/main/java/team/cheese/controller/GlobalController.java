@@ -4,10 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import team.cheese.domain.ImgDto;
+import team.cheese.domain.SaleDto;
+import team.cheese.domain.event.EventDto;
 import team.cheese.service.ImgService;
+import team.cheese.service.event.EventService;
+import team.cheese.service.sale.SaleService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalController {
@@ -15,10 +21,32 @@ public class GlobalController {
     @Autowired
     ImgService imgService;
 
+    @Autowired
+    EventService eventService;
+
+    @Autowired
+    SaleService saleService;
+
     @ModelAttribute("imglist")
     public List<ImgDto> populateImgList() {
         ArrayList<ImgDto> list = (ArrayList<ImgDto>) imgService.load_cssimg("home");
-//        System.out.println("list : "+list);
         return list;
+    }
+
+    @ModelAttribute("eventlist")
+    public ArrayList<EventDto> eventList() {
+        ArrayList<EventDto> eventlist = (ArrayList<EventDto>) eventService.getPageList(1, "", 10);
+        return eventlist;
+    }
+
+    @ModelAttribute("salelist")
+    public ArrayList<SaleDto> saleList() throws Exception {
+
+        Map map = new HashMap();
+        map.put("offset", 0);
+        map.put("pageSize", 30);
+
+        ArrayList<SaleDto> saleList = (ArrayList<SaleDto>) saleService.getList(map);
+        return saleList;
     }
 }

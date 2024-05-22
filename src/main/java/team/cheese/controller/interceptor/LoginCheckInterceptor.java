@@ -34,7 +34,11 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         }
 
         if(session.getAttribute("userId") == null) {
-            String redirectUri = "/login?from=" + request.getRequestURI();
+            String redirectUri = "";
+            redirectUri = "/login?from=" + request.getRequestURI();
+            if(request.getRequestURI().equals("/sale/write")) {
+                redirectUri = "/login?from=/sale/list";
+            }
             response.sendRedirect(redirectUri);
             return false;
         }

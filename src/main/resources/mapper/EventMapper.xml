@@ -30,7 +30,6 @@
         </if>
         ORDER BY evt_no DESC
         LIMIT #{maxContents} OFFSET #{startNum}
-
     </select>
     <select id="selectContent" parameterType="long" resultType = "EventDto">
         select * from event where evt_no = #{evt_no}
