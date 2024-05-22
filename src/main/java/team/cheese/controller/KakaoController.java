@@ -28,7 +28,6 @@ public class KakaoController {
         // *** 인가코드 받기 (GET)
         // 카카오톡 서버 측에서 인가코드 넘겨줌. (-> String code)
         // code: h-Rsy9FNCPNEP9jhUsDgkRVTZwaAOe5Hzcctp6_gPGIYFxFecsY4yYn3NQYKPXUZAAABjxmtomH7Ewsnpgvovw
-        System.out.println("code = " + code);
 
         HashMap<String, Object> userInfo = kakaoService.getUserInfo(accessToken);
 

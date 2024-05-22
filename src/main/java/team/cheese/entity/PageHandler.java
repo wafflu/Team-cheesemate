@@ -39,15 +39,6 @@ public class PageHandler {
         this.nextPage = endPage != totalPage;
         this.offset = (this.page-1)*this.pageSize;
     }
-    void print() {
-        System.out.println("page = " + page);
-        System.out.println(prevPage ? "[PREV]":"");
-        for(int i =beginPage; i<=endPage; i++) {
-            System.out.println(i+" ");
-        }
-        System.out.println(nextPage ? "[NEXT]":"");
-    }
-
 
     @Override
     public boolean equals(Object o) {

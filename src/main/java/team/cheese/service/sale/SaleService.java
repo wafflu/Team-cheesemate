@@ -84,7 +84,6 @@ public class SaleService {
         // 5. saleTag테이블에 교차정보 저장
 
         SaleDto saleDto = (SaleDto) map.get("saleDto");
-
         //      세션에서 ID 값을 가지고 옴
         // TestSession 클래스를 사용하여 세션을 설정
         String ur_id = saleDto.getSeller_id();
@@ -98,18 +97,13 @@ public class SaleService {
 
         int insertSale = 0;
         try {
-            System.out.println("dto : " + saleDto);
             insertSale = saleDao.insertSale(saleDto);
-            System.out.println("번호확인 1 : " + saleDto.getNo());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         Long sal_no = saleDto.getNo();
-        System.out.println("번호확인 2 : " + saleDto.getNo());
 
         List<String> tagList = (List<String>) map.get("tagList");
-        System.out.println("번호확인 3 : " + sal_no);
         int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
 
         return sal_no;
@@ -167,7 +161,6 @@ public class SaleService {
 
         List<String> tagList = (List<String>) map.get("tagList");
         updateTagTx(sal_no, ur_id, tagList);
-
         return sal_no;
     }
 
@@ -236,7 +229,6 @@ public class SaleService {
         if(saleTagList.size() != 0) {
             tagDto = tagRead(saleTagList);
         }
-
         return tagDto;
     }
 
@@ -310,7 +302,6 @@ public class SaleService {
         if(sal_s_cd.equals("C")) {
             increamentCompleteCnt(seller_id);
         }
-
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

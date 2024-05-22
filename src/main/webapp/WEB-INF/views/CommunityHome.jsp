@@ -29,7 +29,6 @@
             type:"GET",
             dataType:"json",
             success:function(response){
-                console.log(response);
                 displayTopTen(response);
                 displayBlaBla(response);
                 displayWorry(response);
@@ -47,7 +46,6 @@
             let getTopTen = data.sort(function(a,b){
                 return b.view_cnt - a.view_cnt;
             }).slice(0,10);
-            console.log(getTopTen[0].title);
             let s = "<table>";
             // getTopTen.forEach(((item)=> s+= createTableRow(item,index)));
             getTopTen.forEach((item,index)=>{
@@ -65,7 +63,6 @@
 
             });
             s+="</table>";
-            console.log(s);
             $('.topic-best').append(s);
         }
 

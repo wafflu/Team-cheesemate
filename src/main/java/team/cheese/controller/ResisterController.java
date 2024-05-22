@@ -15,7 +15,6 @@ import team.cheese.service.AdminService;
 import team.cheese.service.UserService;
 
 import javax.validation.Valid;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -48,7 +47,6 @@ public class ResisterController {
     @Validated
     public String createAccount(@ModelAttribute @Valid UserDto inputUserDto, BindingResult result, String tradingPlace_A_small) throws Exception {
         if(result.hasErrors()) {
-            System.out.println(result.toString());
             return "resisterForm";
         }
 
@@ -69,28 +67,19 @@ public class ResisterController {
                 new Timestamp(System.currentTimeMillis()),
                 ""
         );
+        AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
+        AddrCdDto addrCdDto = new AddrCdDto();
 
-        if(userService.insertNewUser(userDto) == 1) {
-
-            AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
-            AddrCdDto addrCdDto = new AddrCdDto();
-
-            addrCdDto.setUr_id(userDto.getId());
-            addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
-            addrCdDto.setAddr_name(administrativeDto.getAddr_name());
-            addrCdDto.setState('Y');
-            addrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
-            addrCdDto.setFirst_id("admin");
-            addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
-            addrCdDto.setLast_id("admin");
-
-            addrCdService.insertAddrCd(addrCdDto);
-
-            return "loginForm";
-        }
-        else {
-            return "resisterForm";
-        }
+        addrCdDto.setUr_id(userDto.getId());
+        addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
+        addrCdDto.setAddr_name(administrativeDto.getAddr_name());
+        addrCdDto.setState('Y');
+        addrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
+        addrCdDto.setFirst_id("admin");
+        addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
+        addrCdDto.setLast_id("admin");
+        userService.insertNewUser(userDto, addrCdDto);
+        return "loginForm";
     }
 
     @GetMapping(value = "/checkIdDuplication", produces = "text/plain;charset=UTF-8")

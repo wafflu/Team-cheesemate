@@ -1,18 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="fixed/header.jsp" %>
 <%@ page session="true"%>
 <c:set var="loginId" value="${sessionScope.userId}"/>
-<%--<c:set var="loginId" value="${ur_id}"/>--%>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>saleInfo</title>
-	<link rel="stylesheet" href="/css/saleInfo.css">
-</head>
-<body>
+<link rel="stylesheet" href="/css/saleInfo.css">
+<div class="maincontent saleinfo-box">
 <div class="navigation">
 	<ul>
 		<li><a href="/myPage/main">마이페이지</a></li>
@@ -91,7 +82,7 @@
 		</div>
 	</div>
 </div>
-</body>
+</div>
 <script>
 	// 세션id 변수로 선언
 	let ur_id = "${loginId}";
@@ -206,19 +197,19 @@
 
 			// section 부분 생성
 			tmp += '<section>';
+			tmp += '<section style="display: flex;">';  // Flexbox 적용
+			tmp += "<a href='/sale/read?no=" + item.no + "' style='flex-shrink: 0; margin-right: 10px;'>" + "<img class='imgClass' src='/img/display?fileName=" + item.img_full_rt + "' style='width: 150px; height: auto;'/>" + "</a>";  // 이미지 크기 조정
+			tmp += '<section>';
 			if (option === 'seller') {
 				tmp += '<p>판매상태(R-예약중/S-판매중/C-거래완료) : ' + item.sal_s_cd + '</p>';
 			}else {
 				tmp += '<p>구매상태(R-예약중/C-구매완료) : ' + item.sal_s_cd + '</p>';
 			}
 			tmp += '<p>판매글번호 : ' + item.no + '</p>';
-			tmp += '<section>';
-			tmp += '<!-- 여기에 이미지가 들어갑니다. -->';
-			tmp += '<section>';
-			if (option === 'buyer') {
-				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_id + '</a></p>';
-			}else {
+			if ((option === 'seller'&& item.sal_s_cd == 'R')||(option === 'seller'&& item.sal_s_cd == 'C')) {
 				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_id + '</a></p>';
+			}else if(option === 'buyer'){
+				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_id + '</a></p>';
 			}
 			tmp += '<p>가격: ' + item.price + '</p>';
 			tmp += '<p>제목: ' + item.title + '</p>';
@@ -395,4 +386,6 @@
 		});
 	});
 </script>
-</html>
+
+<script src="/js/img.js"></script>
+<%@ include file="fixed/footer.jsp" %>

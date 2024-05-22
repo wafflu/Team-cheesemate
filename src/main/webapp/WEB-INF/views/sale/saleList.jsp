@@ -70,8 +70,8 @@
 
 </style>
 
-<div class="maincontent totalBox">
-<button class="saleBtn" type="button" onclick="writeBtn()">글쓰기</button>
+<div class="maincontent">
+<button type="button" onclick="writeBtn()">글쓰기</button>
     <c:choose>
         <c:when test="${empty sessionScope.userId}">
             <select id="addr_cd" style="display: none;" hidden>
