@@ -1,15 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-    String toURL = request.getParameter("toURL");
-%>
-<!DOCTYPE html>
-<html>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="../fixed/header.jsp"%>
 
-<head>
-    <title>sale</title>
     <style>
         .sale-division-line {
             border-top: 1px solid #444444;
@@ -127,9 +118,6 @@
             height: 60vh;
         }
     </style>
-</head>
-
-<body>
 <div>
     <div>
         <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
@@ -256,12 +244,10 @@
         </form>
     </div>
 </div>
-</body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <script>
 
-    let uploadImage = (function() {
+    const uploadImage = (function() {
         let imginfo = [];
 
         <c:forEach items="${imglist}" var="img">
@@ -368,7 +354,7 @@
             submitURL = '/sale/update';
         } // modify일 경우
 
-        $("#category1").on("click", function () {
+        $("#category1").on("change", function () {
             let category1Value = $('#category1').val();
             if (category1Value !== "") {
                 $.ajax({
@@ -402,7 +388,7 @@
             }
         });
 
-        $("#category2").on("click", function () {
+        $("#category2").on("change", function () {
             let category2Value = $('#category2').val();
             if (category2Value !== "") {
                 $.ajax({
@@ -947,4 +933,4 @@
 
 <script src="/js/img.js"></script>
 
-</html>
+<%@include file="../fixed/footer.jsp"%>

@@ -35,13 +35,4 @@ public class EventController {
         model.addAttribute("dto", dto);
         return "/event/read";
     }
-
-//    @PostMapping(value = "write")
-//    public String write(EventDto dto) {
-//        System.out.println(dto);
-//        service.eventRegister(dto);
-//        return "redirect:/event";
-//    }
-
-
 }

@@ -97,14 +97,24 @@
         <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매/나눔 글작성하기</button>
     </div>
 
-    <select id="addr_cd">
-        <option id="selectAll" value="null" selected>전체</option>
-        <c:forEach var="AddrCd" items="${addrCdL ist}">
-            <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
-        </c:forEach>
-    </select>
-    <%--            </c:otherwise>--%>
-    <%--        </c:choose>--%>
+    <c:choose>
+        <c:when test="${empty sessionScope.userId}">
+            <select id="addr_cd" style="display: none;" hidden>
+                <option id="selectAll" value="null" selected>전체</option>
+                <c:forEach var="AddrCd" items="${addrCdList}">
+                    <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                </c:forEach>
+            </select>
+        </c:when>
+        <c:otherwise>
+            <select id="addr_cd">
+                <option id="selectAll" value="null" selected>전체</option>
+                <c:forEach var="AddrCd" items="${addrCdList}">
+                    <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                </c:forEach>
+            </select>
+        </c:otherwise>
+    </c:choose>
     <br>
     <select id="category1" onchange="loadCategory2()">
         <option value="null" selected>대분류(전체)</option>
@@ -321,7 +331,7 @@
                             break;
                         case 'C':
                             saleStatusText = '거래완료';
-                            
+
                             break;
                         default:
                             saleStatusText = '';

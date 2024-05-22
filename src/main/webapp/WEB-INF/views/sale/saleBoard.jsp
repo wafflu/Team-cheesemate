@@ -288,7 +288,31 @@
             }
         });
 
-        // 다른 버튼 핸들러들도 여기에 추가...
+        $("#removeBtn").on("click", function () {
+            if (confirm("삭제 하시겠습니까?")) {
+                $("#form").attr("action", "/sale/remove?no=${Sale.no}");
+                $("#form").submit();
+            }
+        });
+
+        $("#modifyBtn").on("click", function () {
+            if (confirm("수정 하시겠습니까?")) {
+                let saleNo = "${Sale.no}";
+                $("<input>").attr({
+                    type: "hidden",
+                    name: "no",
+                    value: saleNo
+                }).appendTo("#form");
+                $("#form").attr("action", "/sale/modify");
+                $("#form").submit();
+            }
+        });
+
+        $("#returnBtn").on("click", function () {
+            if (confirm("목록으로 돌아가시겠습니까?")) {
+                window.location.href = "<c:url value='/sale/list'/>";
+            }
+        });
 
         $("#sal_s_cd").on("change", function () {
             let selectedValue = $(this).val();
@@ -335,6 +359,7 @@
             $("#form").submit();
         });
     });
+
 </script>
 
 </body>

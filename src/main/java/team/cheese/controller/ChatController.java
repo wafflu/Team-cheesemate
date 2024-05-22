@@ -48,13 +48,8 @@ public class ChatController {
     @PostMapping("/callchat")
     public String callchat(Model model, HttpSession session, Long sno, String id, String nick) {
         //임시 테스트용
-        if(session.getAttribute("userId") == null){
-            return "redirect:/loginForm";
-        }
         String userid = (String) session.getAttribute("userId");
         String usernick = (String) session.getAttribute("userNick");
-
-        System.out.println(sno+"/"+id+"/"+nick);
 
         SaleDto sdto = new SaleDto();
         sdto.setNo(sno);
