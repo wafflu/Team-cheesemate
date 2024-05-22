@@ -100,6 +100,7 @@ public class SaleRestController {
 
         // Service를 통해 글 등록 처리
         Long sal_no = saleService.write(mapDto);
+
         String page = "/sale/read?no=" + sal_no;
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
@@ -110,6 +111,7 @@ public class SaleRestController {
     @PostMapping("/update")
     @ResponseBody
     public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
+
         String seller_id = (String) session.getAttribute("userId");
         String seller_nick = (String) session.getAttribute("userNick");
 
@@ -149,6 +151,7 @@ public class SaleRestController {
 
         // Service를 통해 글 등록 처리
         Long sal_no = saleService.update(mapDto);
+
         String page = "/sale/read?no=" + sal_no;
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
@@ -206,6 +209,7 @@ public class SaleRestController {
         map.put("pageSize", pageSize);
 
         List<SaleDto> saleList = saleService.getList(map);
+
         Map result = new HashMap();
 
         long startOfToday = getStartOfToday();

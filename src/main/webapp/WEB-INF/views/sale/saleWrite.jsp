@@ -1,15 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%
-    String toURL = request.getParameter("toURL");
-%>
-<!DOCTYPE html>
-<html>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="../fixed/header.jsp"%>
 
-<head>
-    <title>sale</title>
     <style>
         .sale-division-line {
             border-top: 1px solid #444444;
@@ -256,12 +247,10 @@
         </form>
     </div>
 </div>
-</body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <script>
 
-    let uploadImage = (function() {
+    const uploadImage = (function() {
         let imginfo = [];
 
         <c:forEach items="${imglist}" var="img">
@@ -368,70 +357,70 @@
             submitURL = '/sale/update';
         } // modify일 경우
 
-            $("#category1").on("click", function () {
-                let category1Value = $('#category1').val();
-                if (category1Value !== "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "/sale/saleCategory2",
-                        dataType: "json", // 받을 값
-                        data: {category1: category1Value},
-                        success: function (data) {
-                            let category2Select = document.getElementById("category2");
-                            category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-                            let category3Select = document.getElementById("category3");
-                            category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                            if (data.length > 0) {
-                                category2Check = false;
-                                data.forEach(function (category) {
-                                    if (category.sal_cd.startsWith(category1Value)) {
-                                        let option = new Option(category.name, category.sal_cd);
-                                        category2Select.add(option);
-                                    }
-                                });
-                            } else {
-                                $("#salecategoryMsg").text("");
-                                category2Check = true;
-                                category3Check = true;
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText);
+        $("#category1").on("click", function () {
+            let category1Value = $('#category1').val();
+            if (category1Value !== "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/saleCategory2",
+                    dataType: "json", // 받을 값
+                    data: {category1: category1Value},
+                    success: function (data) {
+                        let category2Select = document.getElementById("category2");
+                        category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
+                        let category3Select = document.getElementById("category3");
+                        category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        if (data.length > 0) {
+                            category2Check = false;
+                            data.forEach(function (category) {
+                                if (category.sal_cd.startsWith(category1Value)) {
+                                    let option = new Option(category.name, category.sal_cd);
+                                    category2Select.add(option);
+                                }
+                            });
+                        } else {
+                            $("#salecategoryMsg").text("");
+                            category2Check = true;
+                            category3Check = true;
                         }
-                    });
-                }
-            });
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+        });
 
-            $("#category2").on("click", function () {
-                let category2Value = $('#category2').val();
-                if (category2Value !== "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "/sale/saleCategory3",
-                        dataType: "json",
-                        data: {category2: category2Value},
-                        success: function (data) {
-                            let category3Select = document.getElementById("category3");
-                            category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                            if (data.length > 0) {
-                                category3Check = false;
-                                data.forEach(function (category) {
-                                    if (category.sal_cd.startsWith(category2Value)) {
-                                        let option = new Option(category.name, category.sal_cd);
-                                        category3Select.add(option);
-                                    }
-                                });
-                            } else {
-                                $("#salecategoryMsg").text("");
-                                category3Check = true;
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText);
+        $("#category2").on("click", function () {
+            let category2Value = $('#category2').val();
+            if (category2Value !== "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/saleCategory3",
+                    dataType: "json",
+                    data: {category2: category2Value},
+                    success: function (data) {
+                        let category3Select = document.getElementById("category3");
+                        category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        if (data.length > 0) {
+                            category3Check = false;
+                            data.forEach(function (category) {
+                                if (category.sal_cd.startsWith(category2Value)) {
+                                    let option = new Option(category.name, category.sal_cd);
+                                    category3Select.add(option);
+                                }
+                            });
+                        } else {
+                            $("#salecategoryMsg").text("");
+                            category3Check = true;
                         }
-                    });
-                }
-            });
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+        });
 
 
         // 판매글 제목 처리
@@ -943,3 +932,5 @@
 </script>
 
 <script src="/js/img.js"></script>
+
+<%@include file="../fixed/footer.jsp"%>

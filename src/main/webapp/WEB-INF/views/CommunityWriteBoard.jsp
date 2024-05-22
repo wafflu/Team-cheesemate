@@ -33,7 +33,7 @@
                 <c:if test="${img.imgtype eq 'r'}">
                     <div id="result_card">
                         <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
-                        <div class="imgDeleteBtn" data-file="${img.img_full_rt}"></div>
+                        <div class="imgDeleteBtn" data-file="${img.img_full_rt}">x</div>
                     </div>
                 </c:if>
             </c:forEach>
@@ -45,6 +45,29 @@
     <div class="footer"></div>
 </form>
 <script>
+
+    const uploadImage = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     $(document).ready(function(){
         $('#register').on("click", function (e){
             e.preventDefault(); // 기본 폼 제출을 막음
@@ -77,7 +100,7 @@
 
             let map = {
                 "communityBoardDto": communityBoardDto,
-                "imgList": uploadImage.getImgInfo()
+                "imgList": ImageUploader.getImgInfo()
             };
 
             if ($('#title').val() === '' || $('#contents').val() === '') {
@@ -135,7 +158,7 @@
 
             let map = {
                 "communityBoardDto": communityBoardDto,
-                "imgList": Image.getImgInfo()
+                "imgList": ImageUploader.getImgInfo()
             };
 
             let jsonString = JSON.stringify(map);

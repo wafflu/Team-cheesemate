@@ -65,7 +65,12 @@ public class SaleController {
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
-        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
+
+        model.addAttribute("Sale", saleDto); // model로 값 전달
+        model.addAttribute("tagList", tagDto); // model로 값 전달
+        model.addAttribute("imglist", imglist); // model로 값 전달
+
         return "/sale/saleBoard";
     }
 
@@ -79,6 +84,8 @@ public class SaleController {
         String user_nick = (String) session.getAttribute("userNick");
 
         List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
+
+
         SaleDto saleDto = new SaleDto(addr_cd, addr_name);
         model.addAttribute("Sale", saleDto);
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
@@ -100,7 +107,7 @@ public class SaleController {
         saleDto.setSeller_id(user_id);
         saleDto.setSeller_nick(user_nick);
 
-        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto);
         model.addAttribute("Tag", tagContents);
