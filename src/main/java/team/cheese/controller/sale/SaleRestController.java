@@ -73,7 +73,9 @@ public class SaleRestController {
         //이미지 유효성검사 하는곳
         ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
         if (imgList == null) {
-            return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
+            return new ResponseEntity<String>("이미지를 추가하세요.", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         saleDto.setAddrSeller(seller_id, seller_nick);
@@ -122,7 +124,9 @@ public class SaleRestController {
         //이미지 유효성검사 하는곳
         ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
         if (imgList == null) {
-            return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
+            return new ResponseEntity<String>("이미지를 추가하세요.", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         saleDto.setAddrSeller(seller_id, seller_nick);

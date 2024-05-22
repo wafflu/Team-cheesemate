@@ -67,10 +67,11 @@
         width: 100px;
         height: 100px;
     }
+
 </style>
 
 <div class="maincontent totalBox">
-<button type="button" onclick="writeBtn()">글쓰기</button>
+<button class="saleBtn" type="button" onclick="writeBtn()">글쓰기</button>
     <c:choose>
         <c:when test="${empty sessionScope.userId}">
             <select id="addr_cd" style="display: none;" hidden>
@@ -192,7 +193,8 @@
                     let ph = data.ph;
                     let saleList = data.saleList;
                     let startOfToday = data.startOfToday;
-                    $("#saleList").html(updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd));
+                    console.log(saleList);
+                    $(".saleListBox").html(updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd));
                 },
                 error: function (result) {
                     alert("화면 로딩 중 오류 발생");
@@ -290,7 +292,7 @@
         // 업데이트된 saleList를 화면에 출력하는 함수
         function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
             // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
-            $("#saleList").empty();
+            $(".saleListBox").empty();
 
             if (saleList.length > 0) {
                 let str = "";
@@ -329,13 +331,13 @@
                     str += "<span>" + dateToString(sale.h_date, startOfToday) + "</span>";
                     str += "</div>";
                     str += "<div class='division-line'></div>";
-                    str += "<p>" + sale.addr_name + "</p></div>";
+                    str += "<p class='pag'>" + sale.addr_name + "</p></div>";
 
 
                     $(".saleListBox").html(str);
                 });
             } else {
-                // $("#saleList").append("<tr><td colspan='5'>데이터가 없습니다.</td></tr>");
+                $(".saleListBox").html("<p style='font-size: 20px; text-align: center;'>데이터가 없습니다.</p>");
             }
 
             $("#pageContainer").empty(); // 기존에 있는 페이지 내용 비우기

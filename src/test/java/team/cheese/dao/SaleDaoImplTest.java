@@ -137,7 +137,7 @@ public class SaleDaoImplTest {
         // 3. count로 게시글이 100개 들어갔는지 확인
 
         // 1. 게시글 전체 삭제
-        deleteDao.deleteAll();
+//        deleteDao.deleteAll();
 
         // 2. 반복문으로 동일한 게시글 100개 insert
         SaleDto saleDto = new SaleDto();

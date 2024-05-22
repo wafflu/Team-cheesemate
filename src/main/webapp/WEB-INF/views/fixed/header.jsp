@@ -32,7 +32,7 @@
         const cssImage = (function() {
             let imginfo = {};
 
-            <c:forEach items="${imglist}" var="img">
+            <c:forEach items="${headerimglist}" var="img">
                 imginfo['${img.o_name}'] = "${img.img_full_rt}";
             </c:forEach>
 

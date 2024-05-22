@@ -96,17 +96,20 @@ public class SaleService {
         saleDto.setImg_full_rt(img_full_rt);
         saleDto.setGroup_no(gno);
 
-
         int insertSale = 0;
         try {
+            System.out.println("dto : " + saleDto);
             insertSale = saleDao.insertSale(saleDto);
+            System.out.println("번호확인 1 : " + saleDto.getNo());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         Long sal_no = saleDto.getNo();
+        System.out.println("번호확인 2 : " + saleDto.getNo());
 
         List<String> tagList = (List<String>) map.get("tagList");
+        System.out.println("번호확인 3 : " + sal_no);
         int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
 
         return sal_no;
