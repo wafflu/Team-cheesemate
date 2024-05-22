@@ -1,85 +1,78 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="fixed/header.jsp" %>
 <%@ page session="true"%>
 <c:set var="loginId" value="${sessionScope.userId}"/>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-	<title>My Page</title>
-	<link rel="stylesheet" href="/css/myPage.css">
-</head>
-<%--<script>--%>
-<%--   let msg ="${msg}"--%>
-<%--   if(msg=="MyPage Read Complete") alert("메인페이지 접근 성공");--%>
-<%--</script>--%>
-<body>
+
+<link rel="stylesheet" href="/css/myPage.css">
 <c:if test="${userInfoDTO.ur_id eq loginId}">
+	<div class="maincontent mypage-box">
 	<div class="navigation">
 		<ul>
-			<li><a href="/myPage/main">마이페이지</a></li>
-			<li><a href="/about">거래정보</a></li>
-			<li><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
-			<li><a href="/contact">찜한 상품</a></li>
-			<li><a href="/contact">내 정보 관리</a></li>
-			<li><a href="/contact">개인 정보 수정</a></li>
-			<li><a href="/contact">비밀번호 변경</a></li>
-			<li><a href="/contact">회원 탈퇴</a></li>
+			<li class="main-title"><a href="/myPage/main">마이페이지</a></li>
+			<li class="main-title"><a href="/about">거래정보</a></li>
+			<li class="sub-title"><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
+			<li class="sub-title"><a href="/contact">찜한 상품</a></li>
+			<li class="main-title"><a href="/contact">내 정보 관리</a></li>
+			<li class="sub-title"><a href="/contact">개인 정보 수정</a></li>
+			<li class="sub-title"><a href="/contact">비밀번호 변경</a></li>
+			<li class="sub-title"><a href="/contact">회원 탈퇴</a></li>
 		</ul>
 	</div>
 </c:if>
-<div id="profileimg">
-	<div class="form_section_content">
-		<label for="profile" class="btn-upload"></label>
-		<input type="file" id ="profile" name='uploadFile'>
-	</div>
-	<div id = "uploadResult">
+<div class="mypageinfobox">
 
-		<%--      <img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
+	<div id="profileimg">
+		<div class="form_section_content">
+			<label for="profile" class="btn-upload"></label>
+			<input type="file" id ="profile" name='uploadFile'>
+		</div>
+		<div id = "uploadResult">
+		</div>
+		<div id="profilesave_btn_area">
+		</div>
 	</div>
-	<div id="profilesave_btn_area">
 
+	<div class="container">
+		<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
+		<div class="info-container">
+			<p>
+				<c:choose>
+					<c:when test="${userInfoDTO.r_date.time >= startOfToday}">
+						가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="HH:mm" type="time"/>
+					</c:when>
+					<c:otherwise>
+						가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="yyyy-MM-dd" type="date"/>
+					</c:otherwise>
+				</c:choose>
+			</p>
+			<p>상점방문수 : ${userInfoDTO.view_cnt}</p>
+			<p>상품 판매: ${userInfoDTO.complete_cnt}회</p>
+		</div>
+		<c:if test="${userInfoDTO.ur_id eq loginId}">
+			<button type="button" id="modBtn">소개글 수정</button><br>
+		</c:if>
+		<c:if test="${userInfoDTO.ur_id eq loginId}">
+			<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 내용을 입력해 주세요." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
+		</c:if>
+		<c:if test="${userInfoDTO.ur_id ne loginId}">
+			<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 소개글이 없습니다." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
+		</c:if>
 	</div>
 </div>
 
-<div class="container">
-	<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
-	<div class="info-container">
-		<p>
-			<c:choose>
-				<c:when test="${userInfoDTO.r_date.time >= startOfToday}">
-					가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="HH:mm" type="time"/>
-				</c:when>
-				<c:otherwise>
-					가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="yyyy-MM-dd" type="date"/>
-				</c:otherwise>
-			</c:choose>
-		</p>
-		<p>상점방문수 : ${userInfoDTO.view_cnt}</p>
-		<p>상품 판매: ${userInfoDTO.complete_cnt}회</p>
-	</div>
-	<c:if test="${userInfoDTO.ur_id eq loginId}">
-		<button id="modBtn">소개글 수정</button><br>
-	</c:if>
-	<c:if test="${userInfoDTO.ur_id eq loginId}">
-		<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 내용을 입력해 주세요." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
-	</c:if>
-	<c:if test="${userInfoDTO.ur_id ne loginId}">
-		<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 소개글이 없습니다." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
-	</c:if>
-</div>
-<h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
-<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
+<div class="review-box">
+	<h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
+	<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
         <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
 			★
 		</c:forEach>
-	<!-- 빈 별표(☆) 표시 -->
+		<!-- 빈 별표(☆) 표시 -->
         <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
 			☆
 		</c:forEach>
-</span></h4>
+	</span></h4>
+</div>
+
 <!-- 모달 창 -->
 <div id="myModal" class="modal" >
 	<div class="modal-content">
@@ -105,20 +98,9 @@
 	</div>
 </div>
 <div id="commentList" ></div>
+</div>
 
 <script>
-	//이미지 등록하기
-
-	let Image = (function() {
-		let imginfo = [];
-
-		return {
-			getImgInfo: function() {
-				return imginfo;
-			}
-		};
-	})();
-
 	$(document).on("click", "#profilesave_btn", function(e) {
 		e.preventDefault();
 		$.ajax({
@@ -126,7 +108,7 @@
 			type : 'POST',
 			contentType : 'application/json; charset=UTF-8',
 			dataType : 'text',
-			data : JSON.stringify(Image.getImgInfo()),
+			data : JSON.stringify(uploadImage.getImgInfo()),
 			success: function (result) {
 				location.replace(result);
 			},
@@ -229,38 +211,38 @@
 	}
 
 	// 후기글 목록을 보여주기 위한 함수
-	let toHtml = function (comments,ph,sal_id) {
-		let tmp = "<ul>";
+	let toHtml = function (comments, ph, sal_id) {
+		let tmp = "<ul class='comment-list'>";
 
 		comments.forEach(function (comment) {
-			tmp += '<li data-no=' + comment.no
-			tmp += ' data-sal_id=' + comment.sal_id + '>'
-			tmp += ' buy_id = <span class="buy_id clickable" data-buy_id="' + comment.buy_id + '">' + comment.buy_id + '</span>'
-			tmp += ' contents = <span class="contents">' + comment.contents + '</span>'
+			tmp += '<li class="comment-item" data-no=' + comment.no;
+			tmp += ' data-sal_id=' + comment.sal_id + '>';
+			tmp += ' 구매자ID = <span class="buy_id clickable" data-buy_id="' + comment.buy_id + '">' + comment.buy_id + '</span>';
+			tmp += ' 내용 = <span class="contents">' + comment.contents + '</span>';
 			tmp += ' 별점 ='; // 별점 표시 부분 추가
 
 			// 별표(★) 개수만큼 추가
 			for (let i = 0; i < comment.reviewStar; i++) {
-				tmp += '★';
+				tmp += '<span class="star">★</span>';
 			}
 			// 빈 별표 추가
 			for (let i = comment.reviewStar; i < 5; i++) {
-				tmp += '☆';
+				tmp += '<span class="star-empty">☆</span>';
 			}
-			tmp += ' 작성날짜 =' + dateToString(comment.m_date)
+			tmp += ' 작성날짜 = <span class="date">' + dateToString(comment.m_date) + '</span>';
 			// 수정 및 삭제 버튼 추가 (JSTL을 사용하여 서버 측에서 조건부로 렌더링)
 			tmp += '<button class="deleteBtn" data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '"' +
 					(comment.buy_id === "${loginId}" ? '' : ' style="display:none;"') + '>삭제</button>';
 			tmp += '<button class="modifyBtn" data-reviewStar="' + comment.reviewStar + '"' +
 					'data-page="' + ph.page + '" data-pageSize="' + ph.pageSize + '"' +
 					(comment.buy_id === "${loginId}" ? '' : ' style="display:none;"') + '>수정</button>';
-			tmp += '</li>'
+			tmp += '</li>';
 		});
 		// 페이지 링크 추가
-		if (ph, sal_id) {
+		if (ph && sal_id) {
 			tmp += '<div class="pageContainer" style="text-align:center">';
 			if (ph.totalCnt == null || ph.totalCnt == 0) {
-				tmp += '<div>게시물이 없습니다.</div>';
+				tmp += '<div>후기글이 없습니다.</div>';
 			}
 			if (ph.totalCnt != null && ph.totalCnt != 0) {
 				if (ph.prevPage) {
@@ -282,6 +264,7 @@
 		tmp += "</ul>";
 		return tmp;
 	}
+
 
 	// 소개글 읽기
 	let showUserInfo = function (ur_id) {
@@ -478,5 +461,4 @@
 </script>
 
 <script src="/js/img.js"></script>
-</body>
-</html>
+<%@ include file="fixed/footer.jsp" %>

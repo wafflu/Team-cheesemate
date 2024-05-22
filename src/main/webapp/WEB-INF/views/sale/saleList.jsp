@@ -11,13 +11,19 @@
     .page-space {
         margin: 0 5px; /* 공백 크기 조절 */
     }
+
+    /* 임시로 style 추가 : css 수정 필요*/
+    .imgClass {
+        width: 100px;
+        height: 100px;
+    }
 </style>
 
 <div class="maincontent">
-<button type="button" onclick="writeBtn()">글쓰기</button>
+    <button type="button" onclick="writeBtn()">글쓰기</button>
     <c:choose>
         <c:when test="${empty sessionScope.userId}">
-            <select id="addr_cd" style="display: none;">
+            <select id="addr_cd" style="display: none;" hidden>
                 <option id="selectAll" value="null" selected>전체</option>
                 <c:forEach var="AddrCd" items="${addrCdList}">
                     <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
@@ -34,41 +40,41 @@
         </c:otherwise>
     </c:choose>
     <br>
-<select id="category1" onchange="loadCategory2()">
-    <option value="null" selected>대분류(전체)</option>
-    <c:forEach var="category" items="${saleCategory1}">
-        <option value="<c:out value='${category.sal_cd}'/>"><c:out value='${category.name}'/></option>
-    </c:forEach>
-</select>
+    <select id="category1" onchange="loadCategory2()">
+        <option value="null" selected>대분류(전체)</option>
+        <c:forEach var="category" items="${saleCategory1}">
+            <option value="<c:out value='${category.sal_cd}'/>"><c:out value='${category.name}'/></option>
+        </c:forEach>
+    </select>
 
-<select id="category2" onchange="loadCategory3()">
-    <option value="" disabled selected>중분류</option>
-</select>
+    <select id="category2" onchange="loadCategory3()">
+        <option value="" disabled selected>중분류</option>
+    </select>
 
-<select id="category3">
-    <option value="" disabled selected>소분류</option>
-</select>
-<p style="color: orangered;" id="salecategoryMsg"></p>
-<span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
-<br><br>
-<table id="saleListTB">
-    <tr>
-        <th class="no">번호</th>
-        <th class="img">이미지</th>
-        <th class="title">제목</th>
-        <th class="saleStatus">판매상태</th>
-        <th class="writer">이름</th>
-        <th class="addr_name">주소명</th>
-        <th class="regdate">등록일</th>
-        <th class="viewcnt">조회수</th>
-    </tr>
-    <tbody id="saleList">
-    </tbody>
-</table>
-<br>
-<div id="pageContainer" style="text-align: center">
-</div>
-<br>
+    <select id="category3">
+        <option value="" disabled selected>소분류</option>
+    </select>
+    <p style="color: orangered;" id="salecategoryMsg"></p>
+    <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
+    <br><br>
+    <table id="saleListTB">
+        <tr>
+            <th class="no">번호</th>
+            <th class="img">이미지</th>
+            <th class="title">제목</th>
+            <th class="saleStatus">판매상태</th>
+            <th class="writer">이름</th>
+            <th class="addr_name">주소명</th>
+            <th class="regdate">등록일</th>
+            <th class="viewcnt">조회수</th>
+        </tr>
+        <tbody id="saleList">
+        </tbody>
+    </table>
+    <br>
+    <div id="pageContainer" style="text-align: center">
+    </div>
+    <br>
 </div>
 <script>
     $(document).ready(function () {
@@ -268,7 +274,7 @@
 
                     let row = $("<tr>");
                     row.append($("<td>").text(sale.no)); // 판매 번호
-                    row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
+                    row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
                     row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>")); // 제목
                     row.append($("<td>").text(saleStatusText)); // 판매 상태
                     row.append($("<td>").text(sale.seller_nick)); // 판매자 닉네임

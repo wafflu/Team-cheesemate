@@ -27,7 +27,7 @@ public class GlobalController {
     @Autowired
     SaleService saleService;
 
-    @ModelAttribute("imglist")
+    @ModelAttribute("headerimglist")
     public List<ImgDto> populateImgList() {
         ArrayList<ImgDto> list = (ArrayList<ImgDto>) imgService.load_cssimg("home");
         return list;

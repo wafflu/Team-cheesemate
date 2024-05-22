@@ -145,7 +145,7 @@
     padding: 50px 0;
 }
 
-#footersub li{
+#footersub>ul>li{
     font-size: 12px;
     padding-bottom: 8px;
     color:#787e89;
@@ -186,7 +186,7 @@
     margin: 10px 0;
 }
 
-#footergflexgroup1 li{
+#footergflexgroup1>ul>li{
     color:#191c21;
 }
 
@@ -199,4 +199,5 @@
     width: 1200px;
     /*height: 100%;*/
     margin: 0 auto;
+    position: relative;
 }

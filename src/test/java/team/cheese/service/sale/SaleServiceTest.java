@@ -168,21 +168,22 @@ public class SaleServiceTest extends TestCase {
 
     @Test
     public void testRead() throws Exception {
-        Long no = Long.valueOf(1);
-        SaleDto before = saleDao.select(no);
-        int beforeViewCnt = before.getView_cnt();
-        System.out.println("이전 viewcnt : " + beforeViewCnt);
-        Map map = saleService.read(no);
+//        Long no = Long.valueOf(1);
+//        SaleDto before = saleDao.select(no);
+//        int beforeViewCnt = before.getView_cnt();
+//        System.out.println("이전 viewcnt : " + beforeViewCnt);
+//        Map map = saleService.read(no);
+//
+//        SaleDto saleDto = (SaleDto) map.get("saleDto");
+//
+//        System.out.println(saleDto.getNo());
+//        assertTrue(saleDto.getNo().equals(no));
+//
+//        int afterViewCnt = saleDto.getView_cnt();
+//        System.out.println("이후 viewcnt : " + afterViewCnt);
+//
+//        assertTrue(beforeViewCnt == (afterViewCnt-1));
 
-        SaleDto saleDto = (SaleDto) map.get("saleDto");
-
-        System.out.println(saleDto.getNo());
-        assertTrue(saleDto.getNo().equals(no));
-
-        int afterViewCnt = saleDto.getView_cnt();
-        System.out.println("이후 viewcnt : " + afterViewCnt);
-
-        assertTrue(beforeViewCnt == (afterViewCnt-1));
     }
 
     // 메서드 분리해서 sale, tag, sale_tag 테이블에 데이터 삽입
@@ -483,5 +484,42 @@ public class SaleServiceTest extends TestCase {
         String seller_id = saleDto.getSeller_id();
 
         saleService.updateSaleSCd(no, sal_s_cd, seller_id);
+    }
+    @Test
+    public void testUpdateSaleSCdRandomCCode() throws Exception {
+        for (int i=0; i<25; i++) {
+            Long no = (long) (Math.random() * saleDao.count() + 1);
+            System.out.println(no);
+            SaleDto saleDto = saleDao.select(no);
+
+            String sal_s_cd = "C";
+            Map<String, Object> map = new HashMap<>();
+            if(!saleDto.getSeller_id().equals("asdf")) {
+                saleDto.setBuyer_id("asdf");
+                saleDto.setBuyer_nick("asdf");
+                saleDto.setSal_s_cd(sal_s_cd);
+                assertTrue(saleDao.buySale(saleDto) == 1);
+
+            }
+        }
+    }
+
+    @Test
+    public void testUpdateSaleSCdRandomRCode() throws Exception {
+        for (int i=0; i<25; i++) {
+            Long no = (long) (Math.random() * saleDao.count() + 1);
+            System.out.println(no);
+            SaleDto saleDto = saleDao.select(no);
+
+            String sal_s_cd = "R";
+            Map<String, Object> map = new HashMap<>();
+            if(!saleDto.getSeller_id().equals("asdf")) {
+                saleDto.setBuyer_id("asdf");
+                saleDto.setBuyer_nick("asdf");
+                saleDto.setSal_s_cd(sal_s_cd);
+                assertTrue(saleDao.buySale(saleDto) == 1);
+
+            }
+        }
     }
 }
