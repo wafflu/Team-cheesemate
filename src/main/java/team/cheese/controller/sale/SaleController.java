@@ -44,10 +44,7 @@ public class SaleController {
 //        HttpSession session = request.getSession();
         String ur_id = (String) session.getAttribute("userId");
 
-        if(ur_id == null) {
-            List<AdministrativeDto> addrCdList = saleService.selectAddrCdList(ur_id);
-            model.addAttribute("addrCdList", addrCdList);
-        } else {
+        if (ur_id != null) {
             // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 

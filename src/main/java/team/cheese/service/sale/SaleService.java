@@ -95,7 +95,6 @@ public class SaleService {
         saleDto.setImg_full_rt(img_full_rt);
         saleDto.setGroup_no(gno);
 
-
         int insertSale = 0;
         try {
             insertSale = saleDao.insertSale(saleDto);
