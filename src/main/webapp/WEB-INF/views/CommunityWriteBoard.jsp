@@ -1,12 +1,9 @@
 <%--헤더 영역--%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="fixed/header.jsp" %>
-<link rel="stylesheet" type="text/css" href="/css/communityWriteBoard.css">
-<%--바디영역--%>
-<body>
 <form id="form" enctype="multipart/form-data" class="maincontent">
     <div>
-        <input type="hidden" name="no" value="<c:out value='${communityBoardDto.no}'/>">
+        <input type="hidden" name="no" value="${communityBoardDto.no}">
         <div>
             <select name="commu_cd" label="카테고리를 선택해주세요">
                 <option value="commu_B">블라블라</option>
@@ -21,7 +18,7 @@
 
             <c:if test="${not empty communityBoardDto.no}">
                 <input type="button" value="수정" id="modify">
-                <input type="button" value="삭제" id="userStateChange" data-no="<c:out value='${communityBoardDto.no}'/>" data-ur_state="<c:out value='${communityBoardDto.ur_state}'/>">
+                <input type="button" value="삭제" id="userStateChange" data-no="${communityBoardDto.no}" data-ur_state="${communityBoardDto.ur_state}">
             </c:if>
         </div>
         <div>
@@ -35,8 +32,8 @@
             <c:forEach items="${imglist}" var="img">
                 <c:if test="${img.imgtype eq 'r'}">
                     <div id="result_card">
-                        <img src="/img/display?fileName=<c:out value='${img.img_full_rt}'/>" id="resizable">
-                        <div class="imgDeleteBtn" data-file="<c:out value='${img.img_full_rt}'/>">x</div>
+                        <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
+                        <div class="imgDeleteBtn" data-file="${img.img_full_rt}"></div>
                     </div>
                 </c:if>
             </c:forEach>
@@ -47,23 +44,22 @@
     </div>
     <div class="footer"></div>
 </form>
-
 <script>
     $(document).ready(function(){
         $('#register').on("click", function (e){
             e.preventDefault(); // 기본 폼 제출을 막음
 
-            let no = "<c:out value='${communityBoardDto.no}'/>";
-            let ur_id = "<c:out value='${communityBoardDto.ur_id}'/>";
-            let addr_cd = "<c:out value='${communityBoardDto.addr_cd}'/>";
-            let addr_no = "<c:out value='${communityBoardDto.addr_no}'/>";
-            let addr_name = "<c:out value='${communityBoardDto.addr_name}'/>";
-            let nick = "<c:out value='${communityBoardDto.nick}'/>";
+            let no = "${communityBoardDto.no}";
+            let ur_id = "${communityBoardDto.ur_id}";
+            let addr_cd = "${communityBoardDto.addr_cd}";
+            let addr_no = "${communityBoardDto.addr_no}";
+            let addr_name = "${communityBoardDto.addr_name}";
+            let nick = "${communityBoardDto.nick}";
             let commu_cd = $('select[name="commu_cd"]').val();
             let commu_name = commuName(commu_cd);
             let title = $('#title').val();
             let contents = $('#contents').val();
-            let group_no = "<c:out value='${communityBoardDto.group_no}'/>";
+            let group_no = "${communityBoardDto.group_no}";
 
             let communityBoardDto = {
                 "no": no,
@@ -81,7 +77,7 @@
 
             let map = {
                 "communityBoardDto": communityBoardDto,
-                "imgList": Image.getImgInfo()
+                "imgList": uploadImage.getImgInfo()
             };
 
             if ($('#title').val() === '' || $('#contents').val() === '') {
@@ -111,17 +107,17 @@
         $('#modify').on("click", function(e){
             e.preventDefault(); // 기본 폼 제출을 막음
 
-            let no = "<c:out value='${communityBoardDto.no}'/>";
-            let ur_id = "<c:out value='${communityBoardDto.ur_id}'/>";
-            let addr_cd = "<c:out value='${communityBoardDto.addr_cd}'/>";
-            let addr_no = "<c:out value='${communityBoardDto.addr_no}'/>";
-            let addr_name = "<c:out value='${communityBoardDto.addr_name}'/>";
-            let nick = "<c:out value='${communityBoardDto.nick}'/>";
+            let no = "${communityBoardDto.no}";
+            let ur_id = "${communityBoardDto.ur_id}";
+            let addr_cd = "${communityBoardDto.addr_cd}";
+            let addr_no = "${communityBoardDto.addr_no}";
+            let addr_name = "${communityBoardDto.addr_name}";
+            let nick = "${communityBoardDto.nick}";
             let commu_cd = $('select[name="commu_cd"]').val();
             let commu_name = commuName(commu_cd);
             let title = $('#title').val();
             let contents = $('#contents').val();
-            let group_no = "<c:out value='${communityBoardDto.group_no}'/>";
+            let group_no = "${communityBoardDto.group_no}";
 
             let communityBoardDto = {
                 "no": no,
@@ -143,8 +139,6 @@
             };
 
             let jsonString = JSON.stringify(map);
-
-            console.log(map);
 
             $.ajax({
                 type: 'POST',
@@ -218,6 +212,6 @@
         }
     });
 </script>
+<script src="/js/img.js"></script>
 <%--푸터 영역--%>
 <%@ include file="fixed/footer.jsp" %>
-</body>

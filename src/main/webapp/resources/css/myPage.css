@@ -27,10 +27,24 @@
     background-color: #111;
 }
 
-.container {
-    margin-left: 220px; /* 네비게이션 바 폭과 여백 고려하여 컨테이너 위치 조정 */
-    padding: 20px;
+.mypage-box{
+    height: 100%;
 }
+
+.mypageinfobox {
+    width: 800px;
+    margin-top: 20px;
+    padding: 20px;
+    position: relative;
+    float: left;
+}
+
+.container{
+    position: absolute;
+    right: 0;
+    top:0;
+}
+
 .container h4 {
     margin-bottom: 10px; /* 기존 h4의 하단 여백 조정 */
 }
@@ -199,7 +213,6 @@ div register_img{
 #profileimg{
     width: 250px;
     height: 250px;
-    margin-left: 220px;
     position: relative;
 }
 .form_section_content{
@@ -274,3 +287,8 @@ div register_img{
     cursor: pointer;
 }
 
+.review-box{
+    clear:both;
+    width: 800px;
+    margin-left: 220px;
+}

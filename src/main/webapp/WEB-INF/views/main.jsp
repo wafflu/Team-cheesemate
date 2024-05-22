@@ -29,7 +29,7 @@
 
     <div id="sale_slider_box">
         <div id="home_sale_title">방금 등록된 상품</div>
-        <a href="/sale" id="home_sale_more">더보기</a>
+        <a href="/sale/list" id="home_sale_more">더보기</a>
         <div id="sale-slider-div" class="slider-div"></div>
     </div>
 </div>

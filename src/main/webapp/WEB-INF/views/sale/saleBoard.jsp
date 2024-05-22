@@ -206,7 +206,7 @@
             $("#form").submit();
         });
     });
-
+    });
 </script>
 </body>
 </html>

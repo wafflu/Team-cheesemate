@@ -37,27 +37,19 @@ public class AdminService {
     //          1.1.2 inputPw가 유효하지 않은 경우 null 리턴
     //      1.2 inputId가 없는 경우 null 리턴
     public AdminDto login(String inputId, String inputPw) {
-        System.out.println("*** AdminService에서 login 기능을 수행합니다. ***");
-
         try {
             AdminDto dto = adminDao.getAdminById(inputId);
 
             if(dto != null) {
                 if(dto.getPw().equals(inputPw)) {
-                    System.out.println("관리자 로그인 성공.");
                     return dto;
-                }
-                else {
-                    System.out.println("유효하지 않은 관리자 비밀번호 입니다.");
+                } else {
                     return null;
                 }
-            }
-            else {
-                System.out.println("유효하지 않은 관리자 아이디 입니다.");
+            } else {
                 return null;
             }
         } catch (DataAccessException e) {
-            System.out.println("DB Access Exception");
             e.printStackTrace();
             return null;
         }
@@ -65,14 +57,11 @@ public class AdminService {
 
     // *** 모든 관리자의 아이디를 리턴 ***
     public List<String> getAllAdminsId() {
-        System.out.println("*** AdminService에서 getAllAdminsId 기능을 수행합니다. ***");
-
         try {
             List<String> adminsIdList = adminDao.getAllAdminsId();
 
             return adminsIdList;
         } catch (Exception e) {
-            System.out.println("DB Access Exception");
             e.printStackTrace();
             return null;
         }
