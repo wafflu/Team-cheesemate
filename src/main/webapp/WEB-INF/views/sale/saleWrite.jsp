@@ -261,7 +261,7 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
 
-    let Image = (function() {
+    let uploadImage = (function() {
         let imginfo = [];
 
         <c:forEach items="${imglist}" var="img">
@@ -368,70 +368,70 @@
             submitURL = '/sale/update';
         } // modify일 경우
 
-            $("#category1").on("click", function () {
-                let category1Value = $('#category1').val();
-                if (category1Value !== "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "/sale/saleCategory2",
-                        dataType: "json", // 받을 값
-                        data: {category1: category1Value},
-                        success: function (data) {
-                            let category2Select = document.getElementById("category2");
-                            category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-                            let category3Select = document.getElementById("category3");
-                            category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                            if (data.length > 0) {
-                                category2Check = false;
-                                data.forEach(function (category) {
-                                    if (category.sal_cd.startsWith(category1Value)) {
-                                        let option = new Option(category.name, category.sal_cd);
-                                        category2Select.add(option);
-                                    }
-                                });
-                            } else {
-                                $("#salecategoryMsg").text("");
-                                category2Check = true;
-                                category3Check = true;
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText);
+        $("#category1").on("click", function () {
+            let category1Value = $('#category1').val();
+            if (category1Value !== "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/saleCategory2",
+                    dataType: "json", // 받을 값
+                    data: {category1: category1Value},
+                    success: function (data) {
+                        let category2Select = document.getElementById("category2");
+                        category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
+                        let category3Select = document.getElementById("category3");
+                        category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        if (data.length > 0) {
+                            category2Check = false;
+                            data.forEach(function (category) {
+                                if (category.sal_cd.startsWith(category1Value)) {
+                                    let option = new Option(category.name, category.sal_cd);
+                                    category2Select.add(option);
+                                }
+                            });
+                        } else {
+                            $("#salecategoryMsg").text("");
+                            category2Check = true;
+                            category3Check = true;
                         }
-                    });
-                }
-            });
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+        });
 
-            $("#category2").on("click", function () {
-                let category2Value = $('#category2').val();
-                if (category2Value !== "") {
-                    $.ajax({
-                        type: "POST",
-                        url: "/sale/saleCategory3",
-                        dataType: "json",
-                        data: {category2: category2Value},
-                        success: function (data) {
-                            let category3Select = document.getElementById("category3");
-                            category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                            if (data.length > 0) {
-                                category3Check = false;
-                                data.forEach(function (category) {
-                                    if (category.sal_cd.startsWith(category2Value)) {
-                                        let option = new Option(category.name, category.sal_cd);
-                                        category3Select.add(option);
-                                    }
-                                });
-                            } else {
-                                $("#salecategoryMsg").text("");
-                                category3Check = true;
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            alert(xhr.responseText);
+        $("#category2").on("click", function () {
+            let category2Value = $('#category2').val();
+            if (category2Value !== "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/saleCategory3",
+                    dataType: "json",
+                    data: {category2: category2Value},
+                    success: function (data) {
+                        let category3Select = document.getElementById("category3");
+                        category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        if (data.length > 0) {
+                            category3Check = false;
+                            data.forEach(function (category) {
+                                if (category.sal_cd.startsWith(category2Value)) {
+                                    let option = new Option(category.name, category.sal_cd);
+                                    category3Select.add(option);
+                                }
+                            });
+                        } else {
+                            $("#salecategoryMsg").text("");
+                            category3Check = true;
                         }
-                    });
-                }
-            });
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+        });
 
 
         // 판매글 제목 처리
@@ -512,8 +512,6 @@
                         alert("주소 검색에 실패하였습니다.");
                     }
                 });
-            } else if ( event.keyCode == 27 || event.which == 27 ) {
-                closeModal();
             }
         });
 
@@ -727,6 +725,11 @@
         event.preventDefault(); // form의 기본 동작을 막음
         modal.classList.add("SaleHidden");
     }
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" || event.keyCode === 27) {
+            closeModal();
+        }
+    });
     overlay.addEventListener("click", closeModal);
     closeModalBtn.addEventListener("click", closeModal);
     openModalBtn.addEventListener("click", openModal);
