@@ -1,0 +1,97 @@
+.maincontent{
+    width: 1200px;
+    margin: 0 auto;
+    /*border: 1px solid #000;*/
+}
+.post-content + .post-image{
+    position: relative;
+    margin:20px 28px;
+    font-size: 15px;
+
+}
+.post-top-container{
+
+    padding:20px 28px;
+    border:0;
+    border-bottom:1px solid #cccccc;
+    background-color: #fff;
+
+}
+
+
+.post-title {
+    flex-grow: 1; /* 제목 영역이 가로 공간을 최대한 차지하게 만듭니다 */
+    display: flex;
+
+}
+
+.detail-button {
+    margin-top: 0;
+    width:55.09px;
+    height:30px;
+    background-size: 50px 30px;
+    background-color: rgba(238,135,3,0.2);
+    color: #ee8703;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 10px;
+    position:relative;
+    right:-950px;
+
+
+}
+
+.post-top-container .post-user{
+
+    margin-right: auto;
+}
+.post-reaction{
+    display: flex;
+}
+.post-bottom-container{
+    padding:20px 28px;
+    border:0;
+    background-color: #fff;
+}
+.post-comment-container{
+    padding:20px 38px;
+    border:0;
+    background-color: #fff;
+}
+.comment-content{
+    width: 1100px;
+    margin:12px 0 12px;
+    padding:16px 10px 10px 18px;
+    border: 2px solid #cccccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #fff;
+    resize: none;
+}
+#input_comment{
+        width:56px;
+        height:30px;
+         margin-bottom: 10px;;
+        background-size: 50px 30px;
+        background-color: rgba(238,135,3,0.2);
+        color: #ee8703;
+        border: 0;
+        box-sizing: border-box;
+        border-radius: 10px;
+        position:relative;
+
+
+}
+#comment-container .comment{
+    border-bottom:1px solid #cccccc;
+    position: relative;
+
+
+}
+#comment-container .comment .comment-contents{
+    font-weight: bold;
+    font-size: 15px;
+    max-width:800px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
