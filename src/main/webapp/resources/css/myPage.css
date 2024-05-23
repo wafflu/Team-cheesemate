@@ -237,6 +237,7 @@ div register_img{
     /*추후 js로 수정*/
     width: 250px;
     height: 250px;
+    object-fit: cover;
 }
 
 .btn-upload {

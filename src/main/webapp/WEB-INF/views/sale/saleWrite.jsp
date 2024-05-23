@@ -131,8 +131,8 @@
                 <c:forEach items="${imglist}" var="img">
                     <c:if test="${img.imgtype eq 'r'}">
                         <div id='result_card'>
-                            <img src="/img/display?fileName=<c:out value='${img.img_full_rt}' />" id="resizable">
-                            <div class='imgDeleteBtn' data-file="<c:out value='${img.img_full_rt}' />">x</div>
+                            <img src="/img/display?fileName=${img.img_full_rt}'" id="resizable">
+                            <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
                         </div>
                     </c:if>
                 </c:forEach>

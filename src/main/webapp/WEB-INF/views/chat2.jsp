@@ -32,6 +32,17 @@
         .sellermsg{
             text-align: left;
         }
+
+        .r_chatprofileimg{
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            object-fit: cover;
+        }
+
+        .chatullist{
+            position: relative;
+        }
     </style>
 <div id="chatbox" class="maincontent">
 
@@ -101,6 +112,15 @@
         loadChatRoom();
     }
 
+    function resizeImage(img) {
+        let maxWidth = 50;
+        let maxHeight = 50;
+        let ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+        img.width = img.width * ratio;
+        img.height = img.height * ratio;
+    }
+
+
     // 채팅방 리스트 불러오기
     function loadChatRoom(){
         let chatlist = $("#chatlist");
@@ -113,10 +133,9 @@
             success : function(result){
                 let str = "";
                 chatlist.children().remove();
-                str+="<ul>"
+                str+="<ul class='chatullist'>"
                 result.forEach((chat)=>{
-                    let crno = chat.no;
-                    str += '<li onclick="connect(\'' + crno + '\')"> 채팅방번호 : '+chat.no+' 닉네임 '+chat.seller_nk+'</li>';
+                    str += '<li onclick="connect(\'' + chat.id + '\')"> <img src="/img/display?fileName=' + chat.img_full_rt + '" class="r_chatprofileimg"> <span class="r_chatnick">' + chat.usernick + '</span></li>';
                 })
                 str+="</ul>"
                 chatlist.append(str);
