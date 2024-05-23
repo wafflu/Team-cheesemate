@@ -50,6 +50,8 @@ public class MyPageController {
         UserInfoDTO userInfoDTO = null;
         // 로그인이 안되어있을떄
         if(!loginCheck(session)) {
+            if(ur_id==null)
+                return "loginForm";
             userInfoDTO = userInfoService.read(ur_id);
             model.addAttribute("userInfoDTO",userInfoDTO);
         // 로그인이 되어있을떄

@@ -59,7 +59,7 @@
 		</section>
 		<section id="historyList">
 		</section>
-		<div id="myModal" class="modal" style="display: none" >
+		<div id="myModal" class="modal" style="display: none;">
 			<div class="modal-content">
 				<!-- 후기글 작성 폼 -->
 				<form class="mb-3" name="myform" id="myform">
@@ -356,16 +356,41 @@
 			}
 		});
 
-		// 후기글 쓰기 버튼 클릭 이벤트 설정
-		$(document).on("click", ".writeBtn", function() {
+		$(document).on("click", ".writeBtn", function(event) {
 			seller_id = $(this).data("id");
 			no = $(this).data("no");
 			$('#reviewContents').val('');
 			$("input[name='reviewStar']").prop("checked", false);
 			selectedStar = undefined;
-			modal.style.display = "block";
-			window.scrollTo({ top: 0, behavior: 'smooth' });
+
+			// 모달 창을 화면의 좌상단에 고정
+			var modal = $('#myModal');
+
+			modal.css({
+				top: '0px',
+				left: '0px',
+				width: '103%',
+				display: 'flex'
+			});
+
+			// .modal-content로 스크롤
+			$('.modal-content')[0].scrollIntoView({
+				behavior: 'smooth',
+				block: 'center'
+			});
 		});
+
+		$(document).on("click", "#cancelBtn, .modal", function(event) {
+			if (event.target.className === 'modal' || event.target.id === 'cancelBtn') {
+				$('#myModal').css('display', 'none');
+			}
+		});
+
+		$(document).on("click", ".modal-content", function(event) {
+			event.stopPropagation();
+		});
+
+
 
 		// 후기글 전송 버튼
 		$(document).on("click", "#comment-sendBtn", function() {

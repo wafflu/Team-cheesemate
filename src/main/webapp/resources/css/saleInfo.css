@@ -145,27 +145,27 @@ p {
     margin: 0 5px;
 }
 
+/* 모달의 CSS를 확인합니다. */
 .modal {
     position: fixed;
+    z-index: 1000;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 103%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
+    display: none; /* 초기에는 숨깁니다. */
     justify-content: center;
-    z-index: 1000;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 설정 */
 }
 
 .modal-content {
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: auto;
-    max-width: 600px;
-    margin: auto;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
 }
 
 .close {
@@ -209,7 +209,7 @@ p {
 }
 
 #reviewContents {
-    width: calc(100% - 20px);
+    width: calc(100% - 0px);
     height: 150px;
     padding: 10px;
     box-sizing: border-box;
@@ -264,19 +264,20 @@ button[type="button"]:hover {
 .navigation ul li.main-title a {
     font-weight: bold;
     font-size: 1.2em; /* 글씨 크기를 크게 조정 */
-    color: #ffd700; /* 진한 노란색으로 변경 */
+    background-color: rgba(245, 157, 28, 1);
+    color: white; /* 다른 색상으로 변경 (예시: 오렌지색) */
     margin-bottom: 5px; /* 제목 아래로 약간의 여백 추가 */
 }
 
 /* 부제목 스타일 */
 .navigation ul li.sub-title a {
     font-weight: bold;
-    color: #ff5733; /* 부제목 색상 변경 (예시: 오렌지색) */
-    background-color: #ffe4b5; /* 부제목 배경색 변경 (예시: 연한 주황색) */
-    margin-left: 10px; /* 오른쪽으로 살짝 이동 */
+    color: white; /* 부제목 색상 변경 (예시: 오렌지색) */
+    background-color: rgba(245, 157, 28, 1); /* 부제목 배경색 변경 (예시: 연한 주황색) */
     padding: 5px 10px; /* 패딩 추가 */
     border-radius: 5px; /* 라운드 처리 */
 }
+
 
 /* 나머지 링크 스타일 */
 .navigation ul li a:hover {
