@@ -7,73 +7,95 @@
 --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="fixed/header.jsp" %>
-<%--<link rel="stylesheet" href="/css/communityWriteBoard.css">--%>
-
+<link rel="stylesheet" href="/css/communityBoard.css">
+<div class="maincontent">
 <form action = "${pageContext.request.contextPath}/community/read" id ="form" enctype="multipart/form-data">
-<div class="post-content">
 
-    <%--사용자 정보--%>
-    <div>
-        ${communityBoardDto.nick}
-        <fmt:formatDate value="${communityBoardDto.r_date}" pattern="yyyy년 MM월 dd일 HH시" />
-        ${communityBoardDto.addr_name}
+    <div class="post-content">
+
+
+            <div class="post-top-container">
+                <%--제목--%>
+                <div class="post-title">
+                    <h1>${communityBoardDto.title}</h1>
+                    <input type="button" value="상세" id="modify" class="detail-button" data-user-id="${communityBoardDto.ur_id}">
+                </div>
+                    <%--사용자 정보--%>
+                <div class="post-user">
+                    <fmt:formatDate value="${communityBoardDto.r_date}" pattern="yyyy년 MM월 dd일 HH시" /><br>
+                    ${communityBoardDto.nick}<br>
+                    ${communityBoardDto.addr_name}<br>
+                </div>
+             </div>
+
+            <%-- 글 정보           --%>
+             <div class="post-bottom-container">
+            <%--내용--%>
+                 <div class="post-content">
+                 <p>${communityBoardDto.contents}</p>
+                 </div>
+
+            <%--  이미지--%>
+                <div class="post-image">
+                 <c:forEach items="${imglist}" var="img">
+                     <c:if test="${img.imgtype eq 'w'}">
+                         <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+                     </c:if>
+                 </c:forEach>
+                </div>
+                <%-- 반응--%>
+                <div class="post-reaction">
+                    <p id="heart" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
+                    <p>  </p>
+                    <input type="hidden" id="postNo" value="${communityBoardDto.no}">
+                    <p>💬 ${communityBoardDto.comment_count}</p>
+                    <p>  </p>
+                    <p>👁️${communityBoardDto.view_cnt}</p>
+                </div>
+             </div>
+
+
+
+
+
+            <div style="display:none;"  id ="alertDiv">
+                <p id = "edit">수정/삭제</p>
+                <p id="alert">신고</p>
+
+            </div>
+
+    <%--    commmunityHeart--%>
+
+    <%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
+
     </div>
+    </form>
+<%--          댓글 컨테이너  --%>
+        <div class="post-comment-container" id="comment_insert">
+                <div id = "comment">
+                    <input type="hidden" id = "post_no" name="post_no" value="<c:out value='${communityBoardDto.no}'/>">
 
-    <%--제목--%>
-        <div class="title-container">
-            <h1>${communityBoardDto.title}</h1>
-            <p class="detail-button" data-user-id="${communityBoardDto.ur_id}">✏️편집✏️</p>
+
+                    <textarea class="comment-content" id="content" rows="5" cols="80" name="content"
+                              maxlength="300" placeholder="댓글은 최대 300자까지 입력가능합니다.">
+                    </textarea>
+                    <input type = submit id ="input_comment" value="등록">
+
+
+                </div>
+
+            <input type="hidden" id = "no" name="post_no" value="${commentDto.post_no}">
+            <div id = comment-container></div>
         </div>
-
-    <p>${communityBoardDto.contents}</p>
-
-        <c:forEach items="${imglist}" var="img">
-            <c:if test="${img.imgtype eq 'w'}">
-                <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
-            </c:if>
-        </c:forEach>
-
-
-        <div style="display:none;"  id ="alertDiv">
-            <p id = "edit">수정/삭제</p>
-            <p id="alert">신고</p>
-
-        </div>
-
-<%--    commmunityHeart--%>
-
-<%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
-        <p id="heart" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
-        <input type="hidden" id="postNo" value="${communityBoardDto.no}">
-        <p>💬 ${communityBoardDto.comment_count}</p>
-        <p>👁️${communityBoardDto.view_cnt}</p>
-</div>
-
-
-
-
-</form>
-
-<div id="comment_insert">
-
-    <div id = "comment">
-        <input type="hidden" id = "post_no" name="post_no" value="<c:out value='${communityBoardDto.no}'/>">;
     </div>
-    <p>
-        <textarea id="content" rows="5" cols="80" name="content"
-                  maxlength="300" placeholder="댓글은 최대 300자까지 입력가능합니다."></textarea>
-    </p>
-    <button id ="input_comment" type = submit>댓글 작성</button>
-</div>
-
-<input type="hidden" id = "no" name="post_no" value="${commentDto.post_no}">
-<div id = comment-container>
-
-</div>
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
+
+
+    function initComment(){
+        document.getElementById("content").value="";
+    }
+
     $(document).ready(function () {
         loadComments($('#post_no').val());
 
@@ -162,9 +184,17 @@
                 success: function (comments) {
                     console.log(comments);
                     loadComments(post_no);
+                    initComment();
+
                 },
-                error: function () {
-                    alert('댓글을 작성하는데 실패했습니다..');
+                error: function (xhr,status,error) {
+                    if(xhr.status===200){
+                        alert("로그인을 먼저 해주세요.");
+                    } else if (xhr.status === 500) {
+                        alert("서버 에러가 발생했습니다.");
+                    } else {
+                        alert("댓글을 작성하는데 실패했습니다.: " + xhr.responseText);
+                    }
                 }
             });
         })
@@ -186,9 +216,9 @@
                         console.log(
                             comment.contents
                         )
-                        str += `<div>`;
-                        str += `<p>` + comment.contents + `</p>`;
+                        str += `<div class="comment">`;
                         str += `<p>` + comment.nick + `</p>`;
+                        str += `<p class="comment-contents">` + comment.contents + `</></p>`;
                         str += `<p>` + moment(comment.r_date).calendar() + `</p>`;
                         str += `</div>`;
 
