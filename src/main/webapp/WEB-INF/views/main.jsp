@@ -36,9 +36,30 @@
 
 <%@include file="CommunityHome.jsp"%>
 
-<script src="/js/img.js"></script>
 <script src="/js/Etc.js"></script>
 <script>
+    const uploadImage = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     const EventImage = (function() {
         let str = "";
 
@@ -136,3 +157,4 @@
         $(".slick-next").css("background-image", "url('/img/display?fileName=" + imgInfo['rarrow'] + "')");
     });
 </script>
+<script src="/js/img.js"></script>

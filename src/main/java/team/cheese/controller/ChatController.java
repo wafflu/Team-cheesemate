@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ChatMessageDto;
 import team.cheese.domain.ChatRoomDto;
+import team.cheese.domain.ProfileimgDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.service.ChatService;
 
@@ -62,14 +63,13 @@ public class ChatController {
 
         Long cr_no = chatService.checkChat(sdto);
         log.info("방 넘버 : "+cr_no);
-
         log.info("채팅생성");
         return "redirect:/chat2?no="+cr_no;
     }
 
     @RequestMapping(value = "/loadchatroom", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<ArrayList<ChatRoomDto>> Chatroomlist(HttpSession session) {
+    public ResponseEntity<ArrayList<ProfileimgDto>> Chatroomlist(HttpSession session) throws Exception {
         String userid = (String) session.getAttribute("userId");
         return chatService.loadChatroom(userid);
     }
