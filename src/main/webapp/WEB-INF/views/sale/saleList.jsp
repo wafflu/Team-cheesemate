@@ -1,42 +1,43 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@include file="../fixed/header.jsp"%>
+<%@include file="../fixed/header.jsp" %>
 
 <style>
     .totalBox {
-        height: 1450px;
+        height: fit-content;
         position: relative;
+        margin-bottom: 20px;
     }
 
     .saleListBox {
         /*border: 1px solid red;*/
-        height: 1000px;
+        height: 80%;
         width: 1200px;
         margin: 0 auto;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        gap: 20px;
+        gap: 10px;
     }
 
     .smallBox {
-        border: 1px solid black;
+        border: 1px solid darkgray;
         /*background-color: pink;*/
         width: 210px;
         height: 300px;
         margin-bottom: 10px;
+        background: white;
     }
 
     .img {
         width: 210px;
         height: 210px;
-        background-color: yellow;
         margin: 0 auto;
     }
 
     #pageContainer {
         position: absolute;
         left: 50%;
-        bottom: 20px;
+        /*bottom: 20px;*/
         transform: translateX(-50%);
         text-align: center;
     }
@@ -48,7 +49,7 @@
     }
 
     .division-line {
-        border-top: 1px solid #444444;
+        border-top: 1px solid darkgray;
         margin: auto;
     }
 
@@ -68,10 +69,34 @@
         height: 100px;
     }
 
+    .header-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .saleBtn {
+        padding: 5px 20px;
+        background-color: rgba(245, 157, 28, 1);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #addr_cd {
+        margin-right: auto; /* Ensures the select is on the left */
+    }
+
+
 </style>
 
-<div class="maincontent">
-<button type="button" onclick="writeBtn()">글쓰기</button>
+<div class="maincontent totalBox">
+    <div class="header-actions">
+        <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매/나눔 글작성하기</button>
+    </div>
+
     <c:choose>
         <c:when test="${empty sessionScope.userId}">
             <select id="addr_cd" style="display: none;" hidden>
@@ -91,28 +116,28 @@
         </c:otherwise>
     </c:choose>
     <br>
-<select id="category1" onchange="loadCategory2()">
-    <option value="null" selected>대분류(전체)</option>
-    <c:forEach var="category" items="${saleCategory1}">
-        <option value="<c:out value='${category.sal_cd}'/>"><c:out value='${category.name}'/></option>
-    </c:forEach>
-</select>
+    <select id="category1" onchange="loadCategory2()">
+        <option value="null" selected>대분류(전체)</option>
+        <c:forEach var="category" items="${saleCategory1}">
+            <option value="<c:out value='${category.sal_cd}'/>"><c:out value='${category.name}'/></option>
+        </c:forEach>
+    </select>
 
-<select id="category2" onchange="loadCategory3()">
-    <option value="" disabled selected>중분류</option>
-</select>
+    <select id="category2" onchange="loadCategory3()">
+        <option value="" disabled selected>중분류</option>
+    </select>
 
-<select id="category3">
-    <option value="" disabled selected>소분류</option>
-</select>
-<p style="color: orangered;" id="salecategoryMsg"></p>
-<span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
-<br><br>
+    <select id="category3">
+        <option value="" disabled selected>소분류</option>
+    </select>
+    <p style="color: orangered;" id="salecategoryMsg"></p>
+    <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
+    <br><br>
     <div class="saleListBox"></div>
-<br>
-<div id="pageContainer">
-</div>
-<br>
+    <br>
+    <div id="pageContainer">
+    </div>
+    <br>
 </div>
 <script>
     $(document).ready(function () {
@@ -122,7 +147,6 @@
 
         window.loadCategory2 = function () {
             let category1Value = $('#category1').val();
-            console.log(category1Value)
             if (category1Value !== "") {
                 $.ajax({
                     type: "POST",
@@ -134,7 +158,6 @@
                         category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
                         let category3Select = document.getElementById("category3");
                         category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                        console.log("data.length : ", data.length);
                         if (data.length > 0) {
                             data.forEach(function (category) {
                                 // console.log(typeof category);
@@ -154,7 +177,6 @@
 
         window.loadCategory3 = function () {
             let category2Value = $('#category2').val();
-            console.log(category2Value)
             if (category2Value !== "") {
                 $.ajax({
                     type: "POST",
@@ -164,7 +186,6 @@
                     success: function (data) {
                         let category3Select = document.getElementById("category3");
                         category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                        console.log("data.length : ", data.length);
                         if (data.length > 0) {
                             data.forEach(function (category) {
                                 if (category.sal_cd.startsWith(category2Value)) {
@@ -181,7 +202,7 @@
             }
         };
 
-        window.saleList = function(addr_cd, sal_i_cd, page = 1, pageSize = 20) {
+        window.saleList = function (addr_cd, sal_i_cd, page = 1, pageSize = 20) {
             $.ajax({
                 type: 'GET',       // 요청 메서드
                 url: "/sale/salePage?page=" + page + "&pageSize=" + pageSize + "&addr_cd=" + addr_cd + "&sal_i_cd=" + sal_i_cd,  // 요청 URI
@@ -193,7 +214,6 @@
                     let ph = data.ph;
                     let saleList = data.saleList;
                     let startOfToday = data.startOfToday;
-                    console.log(saleList);
                     $(".saleListBox").html(updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd));
                 },
                 error: function (result) {
@@ -204,13 +224,13 @@
         }
 
         // "전체" 옵션이 보이지 않도록 설정
-        if (!!sessionId?.trim()) {
-            document.getElementById("selectAll").style.display = "none"; // "전체" 옵션 숨기기
-
-            // 첫 번째 옵션 선택
-            let addrCdSelect = document.getElementById("addr_cd");
-            addrCdSelect.selectedIndex = 1;
-        }
+        // if (!!sessionId?.trim()) {
+        //     document.getElementById("selectAll").style.display = "none"; // "전체" 옵션 숨기기
+        //
+        //     // 첫 번째 옵션 선택
+        //     let addrCdSelect = document.getElementById("addr_cd");
+        //     addrCdSelect.selectedIndex = 1;
+        // }
 
         let addr_cd = $("#addr_cd").val();
         let sal_i_cd = $("#category1").val();
@@ -264,6 +284,10 @@
             // 선택된 주소 코드(addr_cd) 값 가져오기
             let addrCdValue = $('#addr_cd').val();
             let addrCdName = $("#addr_cd option:checked").text();
+            if (addrCdValue === "null" || addrCdValue === null) {
+                addrCdValue = "${sessionScope.userAddrCdDtoList.get(0).addr_cd}";
+                addrCdName = "${sessionScope.userAddrCdDtoList.get(0).addr_name}";
+            }
 
             // form 엘리먼트 생성
             let form = $('<form>', {
@@ -307,14 +331,23 @@
                             break;
                         case 'C':
                             saleStatusText = '거래완료';
+
                             break;
                         default:
                             saleStatusText = '';
                     }
 
                     let saleTitle = sale.title;
-                    if(saleTitle.length > 16) {
-                        saleTitle = saleTitle.substring(16) + '...';
+                    if (saleTitle.length > 13) {
+                        saleTitle = saleTitle.substring(0, 13) + '...';
+                    }
+
+                    let salePrice = sale.price;
+                    let saleTxSCd = sale.tx_s_cd;
+                    if (saleTxSCd === "S") {
+                        salePrice += " 원";
+                    } else {
+                        salePrice = "나눔";
                     }
 
                     let saleDate = new Date(sale.h_date);
@@ -327,11 +360,19 @@
                     str += "<span>" + saleStatusText + "</span>";
                     str += "</div>";
                     str += "<div class='info'>";
-                    str += "<span>" + sale.price + "</span>";
+                    str += "<span>" + salePrice + "</span>";
                     str += "<span>" + dateToString(sale.h_date, startOfToday) + "</span>";
                     str += "</div>";
                     str += "<div class='division-line'></div>";
-                    str += "<p class='pag'>" + sale.addr_name + "</p></div>";
+                    str += "<p>" + sale.addr_name + "</p>";
+
+                    let saleBidCd = sale.bid_cd;
+                    if (saleBidCd === "P") {
+                        str += "<p>" + "가격제시 가능" + "</p>";
+                    } else if (saleBidCd === "T") {
+                        str += "<p>" + "나눔신청 가능" + "</p>";
+                    }
+                    str += "</div>";
 
 
                     $(".saleListBox").html(str);
@@ -365,7 +406,6 @@
         }
 
         function dateToString(ms = 0, startOfToday) {
-            console.log(startOfToday);
             let date = new Date(ms);
 
             let yyyy = date.getFullYear();
@@ -399,4 +439,4 @@
 </script>
 
 
-<%@include file="../fixed/footer.jsp"%>
+<%@include file="../fixed/footer.jsp" %>

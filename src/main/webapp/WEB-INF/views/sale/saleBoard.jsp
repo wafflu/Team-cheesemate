@@ -2,18 +2,138 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>sale</title>
+    <style>
+        * {box-sizing: border-box}
+        body {font-family: Verdana, sans-serif; margin:0}
+        .mySlides {display: none}
+        img {vertical-align: middle; width: 200px; height: 200px;}
+
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 200px;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+        }
+
+        /* Position the "next button" to the right */
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        /* On hover, add a black background color with a little bit see-through */
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Caption text */
+        .text {
+            color: #f2f2f2;
+            font-size: 15px;
+            padding: 8px 12px;
+            position: absolute;
+            bottom: 8px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Number text (1/3 etc) */
+        .numbertext {
+            color: #f2f2f2;
+            font-size: 12px;
+            padding: 8px 12px;
+            position: absolute;
+            top: 0;
+        }
+
+        /* The dots/bullets/indicators */
+        .dot {
+            cursor: pointer;
+            height: 8px;
+            width: 8px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active, .dot:hover {
+            background-color: #717171;
+        }
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+
+        /* On smaller screens, decrease text size */
+        @media only screen and (max-width: 300px) {
+            .prev, .next,.text {font-size: 11px}
+        }
+    </style>
+
 </head>
 <body>
 <div>
-    <c:forEach items="${imglist}" var="img">
-        <c:if test="${img.imgtype eq 'w'}">
-            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
-        </c:if>
-    </c:forEach>
+    <div class="slideshow-container">
+        <c:set var="count" value="0" />
+        <c:forEach var="img" items="${imglist}">
+            <c:choose>
+                <c:when test="${img.imgtype eq 'w'}">
+                    <c:set var="count" value="${count + 1}" />
+                    <div class="mySlides fade">
+                        <div class="numbertext">${count}</div>
+                        <img src="/img/display?fileName=${img.img_full_rt}" style="width:100%">
+                    </div>
+                </c:when>
+            </c:choose>
+        </c:forEach>
+
+        <a class="prev">❮</a>
+        <a class="next">❯</a>
+    </div>
+    <br>
+
+    <div style="text-align:center">
+        <c:forEach var="img" items="${imglist}" varStatus="status">
+            <c:if test="${img.imgtype eq 'w'}">
+                <span class="dot" onclick="currentSlide(${status.index + 1})"></span>
+            </c:if>
+        </c:forEach>
+    </div>
+<%--    <c:forEach items="${imglist}" var="img">--%>
+<%--        <c:if test="${img.imgtype eq 'w'}">--%>
+<%--            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">--%>
+<%--        </c:if>--%>
+<%--    </c:forEach>--%>
     <form id="form" action="" method="post">
         <c:choose>
             <c:when test="${sessionScope.userId == Sale.seller_id}">
@@ -120,6 +240,40 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
+        $(".prev").on("click", function() {
+            plusSlides(-1);
+        });
+
+        $(".next").on("click", function() {
+            plusSlides(1);
+        });
+
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+        }
 
         $("#hoistingBtn").on("click", function () {
             if (confirm("끌어올리겠습니까?")) {
@@ -176,38 +330,37 @@
             });
         });
 
-        $(document).ready(function () {
-            $("#charbtn").on("click", function () {
-                let saleNo = "${Sale.no}";
-                let sellerid = "${Sale.seller_id}";
-                let seller_nick = "${Sale.seller_nick}";
-                $("<input>").attr({
-                    type: "hidden",
-                    name: "sno",
-                    value: saleNo
-                }).appendTo("#form");
+        $("#charbtn").on("click", function () {
+            let saleNo = "${Sale.no}";
+            let sellerid = "${Sale.seller_id}";
+            let seller_nick = "${Sale.seller_nick}";
+            $("<input>").attr({
+                type: "hidden",
+                name: "sno",
+                value: saleNo
+            }).appendTo("#form");
 
-                $("<input>").attr({
-                    type: "hidden",
-                    name: "id",
-                    value: sellerid
-                }).appendTo("#form");
+            $("<input>").attr({
+                type: "hidden",
+                name: "id",
+                value: sellerid
+            }).appendTo("#form");
 
-                $("<input>").attr({
-                    type: "hidden",
-                    name: "nick",
-                    value: seller_nick
-                }).appendTo("#form");
+            $("<input>").attr({
+                type: "hidden",
+                name: "nick",
+                value: seller_nick
+            }).appendTo("#form");
 
-                // action 속성 설정
-                $("#form").attr("action", "/callchat");
+            // action 속성 설정
+            $("#form").attr("action", "/callchat");
 
-                // form submit
-                $("#form").submit();
-            });
+            // form submit
+            $("#form").submit();
         });
     });
 
 </script>
+
 </body>
 </html>

@@ -118,9 +118,6 @@
             height: 60vh;
         }
     </style>
-</head>
-
-<body>
 <div>
     <div>
         <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
@@ -501,8 +498,6 @@
                         alert("주소 검색에 실패하였습니다.");
                     }
                 });
-            } else if ( event.keyCode == 27 || event.which == 27 ) {
-                closeModal();
             }
         });
 
@@ -716,6 +711,11 @@
         event.preventDefault(); // form의 기본 동작을 막음
         modal.classList.add("SaleHidden");
     }
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" || event.keyCode === 27) {
+            closeModal();
+        }
+    });
     overlay.addEventListener("click", closeModal);
     closeModalBtn.addEventListener("click", closeModal);
     openModalBtn.addEventListener("click", openModal);
