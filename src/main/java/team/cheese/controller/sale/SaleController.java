@@ -67,12 +67,21 @@ public class SaleController {
         if(saleDto == null) {
             return "/error/saleError";
         }
+
+        String category1Name = (String) map.get("category1Name");
+        String category2Name = (String) map.get("category2Name");
+        String category3Name = (String) map.get("category3Name");
+        System.out.println(category1Name + " > " + category2Name + " > " + category3Name );
+
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
         List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
 
-        model.addAttribute("Sale", saleDto); // model로 값 전달
-        model.addAttribute("tagList", tagDto); // model로 값 전달
-        model.addAttribute("imglist", imglist); // model로 값 전달
+        model.addAttribute("category1Name", category1Name); // 대분류 카테고리
+        model.addAttribute("category2Name", category2Name); // 중분류 카테고리
+        model.addAttribute("category3Name", category3Name); // 소분류 카테고리
+        model.addAttribute("Sale", saleDto); // 판매글 리스트
+        model.addAttribute("tagList", tagDto); // 태그 리스트
+        model.addAttribute("imglist", imglist); // 이미지 리스트
 
         return "/sale/saleBoard";
     }
@@ -132,5 +141,10 @@ public class SaleController {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public ResponseEntity<List> handleSQLException(IndexOutOfBoundsException e) {
         return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public String handleNumberFormatException(NumberFormatException e) {
+        return "/error/saleError";
     }
 }

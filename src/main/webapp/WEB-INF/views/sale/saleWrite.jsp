@@ -1,269 +1,390 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@include file="../fixed/header.jsp"%>
+<%@include file="../fixed/header.jsp" %>
 
-    <style>
-        .sale-division-line {
-            border-top: 1px solid #444444;
-            margin: 30px 0px;
+<style>
+    .totalBox {
+        height: fit-content;
+        position: relative;
+        width: 1200px;
+        margin: auto;
+        margin-bottom: 20px;
+        background: rgba(255, 0, 0, 0.1);
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    #openModalBtn {
+        all: unset;
+        background-color: rgba(245, 157, 28, 1);
+        color: white;
+        padding: 5px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .SaleModal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+    }
+
+    .sale_modal_overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+
+    .sale_modal_content {
+        background-color: white;
+        padding: 50px 100px;
+        text-align: center;
+        position: relative;
+        width: 50%;
+        top: 0px;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+        overflow-y: auto;
+        /* 세로 스크롤이 필요한 경우 스크롤 허용 */
+        max-height: 70%;
+        /* 모달 창의 최대 높이 설정 */
+    }
+
+    #closeModalBtn {
+        position: absolute;
+        top: 10px;
+        /* 원하는 위치로 조정 */
+        right: 10px;
+        /* 원하는 위치로 조정 */
+        background-color: transparent;
+        /* 배경색 설정 */
+        border: none;
+        /* 테두리 제거 */
+        cursor: pointer;
+        /* 마우스 커서를 포인터로 변경 */
+    }
+
+    .sale-table-wrapper {
+        overflow-y: auto;
+        max-height: 200px;
+    }
+
+    .sale-addr-tr:hover {
+        background-color: rgba(245, 157, 28, 0.5);
+        cursor: pointer;
+    }
+
+
+    #saleSearchInput {
+        /* 모달 창의 너비에 맞게 조정 */
+        width: 100%;
+        padding: 10px;
+        /* 내부 여백 설정 */
+        margin: 0 auto;
+        /* 가운데 정렬 */
+    }
+
+
+    #addrTable {
+        width: 100%;
+        /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
+    }
+
+    #sale_search_addr {
+        margin: 0;
+    }
+
+    .SaleHidden {
+        display: none;
+    }
+
+    /* input text 및 textarea 너비 조절 */
+    input[type="text"], input[type="number"],
+    #contents {
+        /* 전체 너비에서 여백을 뺀 값으로 설정 */
+        /*width: calc(100% - 50px);*/
+        width: 100%;
+        margin: auto;
+        padding: 5px;
+        /* 내부 여백 설정 */
+        margin-top: 10px;
+        resize: none;
+    }
+
+    select {
+        margin: auto;
+        padding: 5px;
+        margin-top: 10px;
+        resize: none;
+    }
+
+    #contents {
+        height: 60vh;
+    }
+
+    #loadingOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none;
+    }
+
+    #loadingSpinner {
+        border: 5px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 5px solid #3498db;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -25px;
+        margin-left: -25px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
         }
-
-        .sale-preview-image {
-            display: inline-block;
-            position: relative;
-            margin-right: 10px;
+        100% {
+            transform: rotate(360deg);
         }
+    }
 
-        #openModalBtn {
-            all: unset;
-            background-color: rgba(245, 157, 28, 1);
-            color: white;
-            padding: 5px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    #loadingMessage {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+    }
 
-        .SaleModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    #uploadResult {
+        display: flex;
+    }
 
-        .sale_modal_overlay {
-            background-color: rgba(0, 0, 0, 0.6);
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
+    #uploadResult > div {
+        flex: 0 0 auto; /* 자동 크기, 크기 조정 없음 */
+        margin-right: 10px; /* 간격 설정 */
+    }
 
-        .sale_modal_content {
-            background-color: white;
-            padding: 50px 100px;
-            text-align: center;
-            position: relative;
-            width: 50%;
-            top: 0px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            overflow-y: auto;
-            /* 세로 스크롤이 필요한 경우 스크롤 허용 */
-            max-height: 70%;
-            /* 모달 창의 최대 높이 설정 */
-        }
+    .btnStyle {
+        cursor: pointer;
+        padding: 5px 20px;
+        background-color: rgba(245, 157, 28, 1);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-        #closeModalBtn {
-            position: absolute;
-            top: 10px;
-            /* 원하는 위치로 조정 */
-            right: 10px;
-            /* 원하는 위치로 조정 */
-            background-color: transparent;
-            /* 배경색 설정 */
-            border: none;
-            /* 테두리 제거 */
-            cursor: pointer;
-            /* 마우스 커서를 포인터로 변경 */
-        }
+    .saleTitleText {
+        height: 100px;
+        color: rgb(25, 25, 25);
+        font-size: 26px;
+        font-weight: 400;
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        border-bottom: 2px solid rgb(25, 25, 25);
+    }
 
-        .sale-table-wrapper {
-            overflow-y: auto;
-            max-height: 200px;
-        }
+    .rightlocate {
+        float: right;
+    }
 
-        .sale-addr-tr:hover {
-            background-color: rgba(245, 157, 28, 0.5);
-            cursor: pointer;
-        }
-
-
-        #saleSearchInput {
-            /* 모달 창의 너비에 맞게 조정 */
-            width: 100%;
-            padding: 10px;
-            /* 내부 여백 설정 */
-            margin: 0 auto;
-            /* 가운데 정렬 */
-        }
-
-
-        #addrTable {
-            width: 100%;
-            /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
-        }
-
-        #sale_search_addr {
-            margin: 0;
-        }
-
-        .SaleHidden {
-            display: none;
-        }
-
-        /* input text 및 textarea 너비 조절 */
-        input[type="text"], input[type="number"],
-        #contents {
-            /* 전체 너비에서 여백을 뺀 값으로 설정 */
-            width: calc(100vw - 20px);
-            padding: 5px;
-            /* 내부 여백 설정 */
-            margin-top: 10px;
-            resize: none;
-        }
-
-        #contents {
-            height: 60vh;
-        }
-    </style>
-<div>
+</style>
+<div class="totalBox">
+    <div id="loadingOverlay">
+        <div id="loadingSpinner"></div>
+        <div id="loadingMessage">로딩 중...</div>
+    </div>
     <div>
         <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
-            <p>상품 정보</p>
-            <div class="sale-division-line"></div>
-
+            <p class="saleTitleText">상품 정보</p>
+            <br><br>
             <div class="form_section_content">
-                <input type="file" id="fileItem" name="uploadFile" style="height: 30px;" multiple>
+                <label for="fileItem" class="btnStyle">이미지 삽입</label>
+                <input type="file" id="fileItem" name="uploadFile" style="display: none;" multiple>
             </div>
+            <br>
             <div id="uploadResult">
                 <c:forEach items="${imglist}" var="img">
-                    <c:if test="${img.imgtype eq 'r'}">
-                        <div id='result_card'>
-                            <img src="/img/display?fileName=<c:out value='${img.img_full_rt}' />" id="resizable">
-                            <div class='imgDeleteBtn' data-file="<c:out value='${img.img_full_rt}' />">x</div>
-                        </div>
-                    </c:if>
+                <c:if test="${img.imgtype eq 'r'}">
+                <div id='result_card'>
+                    <img src="/img/display?fileName=" value="${img.img_full_rt}" id="resizable">
+                    <div class='imgDeleteBtn' data-file=" value="${img.img_full_rt}">x</div>
+                </div>
+                </c:if>
                 </c:forEach>
             </div>
+    <p class="font18">
+        제목</p> <input id="title" name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요"
+                      value="<c:out value='${Sale.title}' />"
+                      minlength="1" maxlength="40"/>
+    <span class="font14 rightlocate" id="titleCounter">(0/40)</span>
 
-            <p>
-                제목 <input id="title" name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요" value="<c:out value='${Sale.title}' />"
-                          minlength="1" maxlength="40"/>
-                <span id="titleCounter">(0/40)</span>
-            </p>
-            <div id="categoryContainer">
-                <p>카테고리</p>
-                <select id="category1">
-                    <option value="" disabled selected>대분류</option>
-                    <c:forEach var="category" items="${saleCategory1}">
-                        <option value="<c:out value='${category.sal_cd}' />"><c:out value='${category.name}' /></option>
-                    </c:forEach>
-                </select>
+    <div id="categoryContainer">
+        <p class="font18">카테고리</p>
+        <select id="category1">
+            <option value="" disabled selected>대분류</option>
+            <c:forEach var="category" items="${saleCategory1}">
+                <option value="<c:out value='${category.sal_cd}' />"><c:out value='${category.name}'/></option>
+            </c:forEach>
+        </select>
 
-                <select id="category2">
-                    <option value="" disabled selected>중분류</option>
-                </select>
+        <select id="category2">
+            <option value="category2" disabled selected>중분류</option>
+        </select>
 
-                <select id="category3">
-                    <option value="" disabled selected>소분류</option>
-                </select>
+        <select id="category3">
+            <option value="category3" disabled selected>소분류</option>
+        </select>
 
-                <p style="color: orangered;" id="salecategoryMsg">대분류 > 중분류 > 소분류를 선택하세요.</p>
-                <span style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;" id="sal_name"></p></b></span>
-            </div>
-
-            <div id="pro_s_cdContainer">
-                <p>상품상태</p>
-                <input type="radio" name="pro_s_cd" value="S"/>새상품(미사용) <br/>
-                <input type="radio" name="pro_s_cd" value="A"/>사용감 없음 <br/>
-                <input type="radio" name="pro_s_cd" value="B"/>사용감 적음 <br/>
-                <input type="radio" name="pro_s_cd" value="C"/>사용감 많음 <br/>
-                <input type="radio" name="pro_s_cd" value="D"/>고장/파손 상품 <br/>
-            </div>
-            <div id="trade_s_cdContainer">
-                <p>
-                    거래방법(2개 이하)
-                    <input type="checkbox" class="trade_s_cd" value="O"/> 온라인
-                    <input type="checkbox" class="trade_s_cd" value="F"/> 직거래
-                    <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
-                </p>
-            </div>
-            <p>설명
-                <textarea name="contents" id="contents" cols="30" rows="10" style="white-space: pre-line;" minlength="1" maxlength="2000" title="내용을 입력해 주세요."><c:out value='${Sale.contents}' /></textarea>
-                <span id="contentCounter">(0/2000)</span>
-            </p>
-            <p>해시태그(선택) <input type="text" id="hashtagInput" name="tag" value="<c:out value='${Tag}' />"
-                               placeholder="#을 붙여서 해시태그를 입력하세요.(중복 문자는 제외하여 등록됩니다.)"/></p>
-            <div id="hashtagContainer"></div>
-            <div id="tx_s_cdContainer">
-                <input type="radio" class="tx_s_cd" name="tx_s_cd" value="S"/>판매
-                <input type="radio" class="tx_s_cd" name="tx_s_cd" value="F"/>나눔
-                <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
-            </div>
-            <p>
-                상품가격
-                <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0" value="<c:out value='${Sale.price}' />"/>
-            </p>
-            <p hidden><input type="radio" name="bid_cd" value="N" checked/> 미사용 </p>
-            <p class="proposal" hidden><input class="proposal" type="radio" name="bid_cd" value="P"/> 가격제안받기</p>
-            <p class="trade" hidden><input class="trade" type="radio" name="bid_cd" value="T"/> 나눔신청받기</p>
-            <input id="unCheckBtn" type="button" value="제안/신청 취소" onclick="unCheckBidCd()" hidden>
-            <p>
-                상품정가(선택)
-                <input type="number" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." min="0" value="<c:out value='${Sale.reg_price}' />"/>
-            </p>
-            <button id="openModalBtn">거래희망 주소 검색</button>
-            <div id="openModal" class="SaleModal SaleHidden">
-                <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
-                <div class="sale_modal_content">
-                    <button id="closeModalBtn">x</button>
-                    <h1 id="sale_search_addr">주소 검색</h1>
-                    <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요(enter).">
-                    <div class="sale-table-wrapper">
-                        <table id="addrTable" class="table text-center">
-                            <thead>
-                            <tr>
-                                <th style="width:150px;">행정동코드</th>
-                                <th style="width:600px;">주소명</th>
-                            </tr>
-                            </thead>
-                            <tbody id="addrList"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <%--        <input name="addr_cd" value="<c:out value='${Sale.addr_cd}' />">--%>
-            <%--        <input name="addr_name" value="<c:out value='${Sale.addr_name}' />">--%>
-            <p>거래장소
-                <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="<c:out value='${Sale.pickup_addr_cd}' />" hidden>
-                <input id="pickup_addr_name" name="pickup_addr_name" type="text" value="<c:out value='${Sale.pickup_addr_name}' />" disabled>
-            </p>
-
-            <p>
-                거래희망장소(선택)
-                <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요." value="<c:out value='${Sale.detail_addr}' />"/>
-            </p>
-            <p>
-                브랜드(선택)
-                <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." value="<c:out value='${Sale.brand}' />"/>
-            </p>
-
-            <input type="button" id="submitBtn" value="등록하기"/>
-        </form>
+        <p style="color: orangered;" id="salecategoryMsg">대분류 > 중분류 > 소분류를 선택하세요.</p>
+        <span style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;" id="sal_name"></p></b></span>
     </div>
+
+    <div id="pro_s_cdContainer">
+        <p class="font18">상품상태</p>
+        <label>
+            <input type="radio" name="pro_s_cd" value="S"/>새상품(미사용) <br/>
+        </label>
+        <label>
+            <input type="radio" name="pro_s_cd" value="A"/>사용감 없음 <br>
+        </label>
+        <label>
+            <input type="radio" name="pro_s_cd" value="B"/>사용감 적음 <br>
+        </label>
+        <label>
+            <input type="radio" name="pro_s_cd" value="C"/>사용감 많음 <br>
+        </label>
+        <label>
+            <input type="radio" name="pro_s_cd" value="D"/>고장/파손 상품 <br>
+        </label>
+    </div>
+    <div id="trade_s_cdContainer">
+        <p class="font18">
+            거래방법(2개 이하)
+        </p>
+        <label>
+            <input type="checkbox" class="trade_s_cd" value="O"/> 온라인
+        </label>
+        <label>
+            <input type="checkbox" class="trade_s_cd" value="F"/> 직거래
+        </label>
+        <label>
+            <input type="checkbox" class="trade_s_cd" value="D"/> 택배거래
+        </label>
+
+    </div>
+    <p class="font18">설명</p>
+    <textarea name="contents" id="contents" cols="30" rows="10" style="white-space: pre-line;" minlength="1"
+              maxlength="2000" title="내용을 입력해 주세요."><c:out value='${Sale.contents}'/></textarea>
+    <span class="font14 rightlocate" id="contentCounter">(0/2000)</span>
+
+    <p class="font18">해시태그(선택)</p>
+    <input type="text" id="hashtagInput" name="tag" value="<c:out value='${Tag}' />"
+           placeholder="'enter' 또는 '#'을 입력하여 해시태그를 입력하세요. 단, 중복 문자는 제외하여 등록됩니다."/>
+    <div id="hashtagContainer"></div>
+    <p class="font18 saleTitleText">가격</p>
+    <div id="tx_s_cdContainer">
+        <label>
+            <input type="radio" class="tx_s_cd" name="tx_s_cd" value="S"/>판매
+        </label>ㅁㅁ
+        <label>
+            <input type="radio" class="tx_s_cd" name="tx_s_cd" value="F"/>나눔
+        </label>
+        <p style="color: red;" id="txMsg">판매, 나눔 중 한 가지를 선택해 주세요.</p>
+    </div>
+    <p>
+        상품가격
+        <input name="price" type="number" placeholder="판매할 가격을 입력해주세요." min="0"
+               value="<c:out value='${Sale.price}' />"/>
+    </p>
+    <p hidden><input type="radio" name="bid_cd" value="N" checked/> 미사용 </p>
+    <p class="proposal" hidden><input class="proposal" type="radio" name="bid_cd" value="P"/> 가격제안받기</p>
+    <p class="trade" hidden><input class="trade" type="radio" name="bid_cd" value="T"/> 나눔신청받기</p>
+    <input id="unCheckBtn" type="button" value="제안/신청 취소" onclick="unCheckBidCd()" hidden>
+    <p>
+        상품정가(선택)
+        <input type="number" name="reg_price" placeholder="상품의 정가를 입력해주세요(선택)." min="0"
+               value="<c:out value='${Sale.reg_price}' />"/>
+    </p>
+
+    <p class="saleTitleText">기타</p>
+    <button id="openModalBtn">거래희망 주소 검색</button>
+    <div id="openModal" class="SaleModal SaleHidden">
+        <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
+        <div class="sale_modal_content">
+            <button id="closeModalBtn">x</button>
+            <h1 id="sale_search_addr">주소 검색</h1>
+            <input id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요(enter).">
+            <div class="sale-table-wrapper">
+                <table id="addrTable" class="table text-center">
+                    <thead>
+                    <tr>
+                        <th style="width:150px;">행정동코드</th>
+                        <th style="width:600px;">주소명</th>
+                    </tr>
+                    </thead>
+                    <tbody id="addrList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <p>거래장소
+        <input id="pickup_addr_cd" name="pickup_addr_cd" type="text" value="<c:out value='${Sale.pickup_addr_cd}' />"
+               hidden>
+        <input id="pickup_addr_name" name="pickup_addr_name" type="text"
+               value="<c:out value='${Sale.pickup_addr_name}' />" disabled>
+    </p>
+
+    <p>
+        거래희망장소(선택)
+        <input type="text" name="detail_addr" placeholder="거래를 희망하는 상세장소를 작성하세요."
+               value="<c:out value='${Sale.detail_addr}' />"/>
+    </p>
+    <p>
+        브랜드(선택)
+        <input type="text" name="brand" placeholder="브랜드를 작성하세요(선택)." value="<c:out value='${Sale.brand}' />"/>
+    </p>
+
+    <input class="btnStyle" type="button" id="submitBtn" value="등록하기"/>
+    </form>
+</div>
 </div>
 
 <script>
 
-    const uploadImage = (function() {
+    const uploadImage = (function () {
         let imginfo = [];
 
         <c:forEach items="${imglist}" var="img">
         <c:if test="${img.imgtype eq 'r'}">
         imginfo.push(
             {
-                "file_rt" : "${img.file_rt}",
-                "o_name" : "${img.o_name}",
-                "e_name" : "${img.e_name}"
+                "file_rt": "${img.file_rt}",
+                "o_name": "${img.o_name}",
+                "e_name": "${img.e_name}"
             }
         )
         </c:if>
         </c:forEach>
 
         return {
-            getImgInfo: function() {
+            getImgInfo: function () {
                 return imginfo;
             }
         };
@@ -277,7 +398,19 @@
     let contentslength = 2000; // 내용 글자 수
     let t_contents = []; // tag값 을 담을 배열
 
-    $(document).ready(function () {
+    // 로딩 화면 표시
+    function showLoading() {
+        document.getElementById("loadingOverlay").style.display = "block";
+    }
+
+    // 로딩 화면 숨기기
+    function hideLoading() {
+        document.getElementById("loadingOverlay").style.display = "none";
+    }
+
+    // modify인 경우(판매글 수정)
+    $(document).ready(async function () {
+        showLoading();
         // 현재 URL에서 "modify" 문자열이 포함되어 있는지 확인
         if (window.location.href.indexOf("modify") != -1) {
             // 판매글 제목 글자수 세기
@@ -318,6 +451,7 @@
                 $("input[name='price']").attr("placeholder", "나눔글입니다.");
                 $("input[name='price']").prop("disabled", true); // 상품 가격 입력란 비활성화
             }
+
             // Sale의 bid_cd 값 : 가격제시/나눔신청
             let bid_cd = "${Sale.bid_cd}";
             if (bid_cd === "P") {
@@ -330,7 +464,6 @@
             }
             $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
 
-
             // Sale의 category 값
             let sal_i_cd = "${Sale.sal_i_cd}";
 
@@ -338,22 +471,91 @@
                 let category1Value = sal_i_cd.substring(0, 3);
                 let category2Value = sal_i_cd.substring(0, 6);
                 let category3Value = sal_i_cd;
-                setCategory(category1Value, category2Value, category3Value);
+                await setCategory(category1Value, category2Value, category3Value);
             } else if (sal_i_cd.length == 6) {
                 let category1Value = sal_i_cd.substring(0, 3);
                 let category2Value = sal_i_cd;
-                setCategory(category1Value, category2Value);
+                await setCategory(category1Value, category2Value);
             } else {
                 let category1Value = sal_i_cd;
-                $("#category1").val(category1Value).trigger("change");
+                await setCategory(category1Value);
             }
-
 
             // "modify" 문자열이 포함되어 있다면 버튼의 텍스트를 "수정하기"로 변경
             $("#submitBtn").val("수정하기");
             submitURL = '/sale/update';
-        } // modify일 경우
+        }
 
+        hideLoading();
+    });
+
+    async function setCategory(category1Value, category2Value = null, category3Value = null) {
+        $("#category1").val(category1Value).trigger("change");
+
+        try {
+            let data = await $.ajax({
+                type: "POST",
+                url: "/sale/saleCategory2",
+                dataType: "json",
+                data: {category1: category1Value}
+            });
+
+            let category2Select = document.getElementById("category2");
+            category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
+            let category3Select = document.getElementById("category3");
+            category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+            console.log("1번 : " + category1Value);
+            if (data.length > 0) {
+                category2Check = false;
+                category3Check = false;
+                data.forEach(function (category) {
+                    if (category.sal_cd.startsWith(category1Value)) {
+                        let option = new Option(category.name, category.sal_cd);
+                        category2Select.add(option);
+                    }
+                });
+            } else {
+                category2Check = true;
+                category3Check = true;
+                $("#salecategoryMsg").text("");
+            }
+
+            if (category2Value) {
+                $("#category2").val(category2Value).trigger("change");
+                console.log("2번 리스트 : " + data);
+                console.log("2번 선택값 : " + $("#category2 option:checked").text());
+                if (category3Value) {
+                    let data = await $.ajax({
+                        type: "POST",
+                        url: "/sale/saleCategory3",
+                        dataType: "json",
+                        data: {category2: category2Value}
+                    });
+
+                    if (data.length > 0) {
+                        category3Check = false;
+                        data.forEach(function (category) {
+                            if (category.sal_cd.startsWith(category2Value)) {
+                                let option = new Option(category.name, category.sal_cd);
+                                category3Select.add(option);
+                            }
+                        });
+                    } else {
+                        category3Check = true;
+                        $("#salecategoryMsg").text("");
+                    }
+                    $("#category3").val(category3Value).trigger("change");
+                    console.log("3번 리스트 : " + data);
+                    console.log("3번 선택값 : " + $("#category3 option:checked").text());
+                }
+            }
+        } catch (error) {
+            console.error("Category Error:", error);
+        }
+    }
+
+    // write인 경우(판매글 작성)
+    window.onload = function () {
         $("#category1").on("change", function () {
             let category1Value = $('#category1').val();
             if (category1Value !== "") {
@@ -377,6 +579,7 @@
                             });
                         } else {
                             $("#salecategoryMsg").text("");
+                            console.log("기타임");
                             category2Check = true;
                             category3Check = true;
                         }
@@ -477,7 +680,7 @@
                 $.ajax({
                     type: "POST",
                     url: "/sale/searchLetter",
-                    data: { searchLetter: searchLetter },
+                    data: {searchLetter: searchLetter},
                     dataType: "json",
                     success: function (data) {
                         // 검색 결과를 처리하여 addrTable에 추가
@@ -515,76 +718,11 @@
             closeModal();
         });
 
-        function setCategory(category1Value, category2Value, category3Value) {
-            $("#category1").val(category1Value).trigger("change");
-
-            $.ajax({
-                type: "POST",
-                url: "/sale/saleCategory2",
-                dataType: "json",
-                data: { category1: category1Value },
-                success: function (data) {
-                    let category2Select = document.getElementById("category2");
-                    category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-                    let category3Select = document.getElementById("category3");
-                    category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                    if (data.length > 0) {
-                        category2Check = false;
-                        category3Check = false;
-                        data.forEach(function (category) {
-                            if (category.sal_cd.startsWith(category1Value)) {
-                                let option = new Option(category.name, category.sal_cd);
-                                category2Select.add(option);
-                            }
-                        });
-                    } else {
-                        category2Check = true;
-                        category3Check = true;
-                        $("#salecategoryMsg").text("");
-                    }
-
-                    $("#category2").val(category2Value).trigger("change");
-                    if (category3Value) {
-                        $.ajax({
-                            type: "POST",
-                            url: "/sale/saleCategory3",
-                            dataType: "json",
-                            data: { category2: category2Value },
-                            success: function (data) {
-                                let category3Select = document.getElementById("category3");
-                                category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                                if (data.length > 0) {
-                                    category3Check = false;
-                                    data.forEach(function (category) {
-                                        if (category.sal_cd.startsWith(category2Value)) {
-                                            let option = new Option(category.name, category.sal_cd);
-                                            category3Select.add(option);
-                                        }
-                                    });
-                                } else {
-                                    category3Check = true;
-                                    $("#salecategoryMsg").text("");
-                                }
-                                $("#category3").val(category3Value).trigger("change");
-                            },
-                            error: function (xhr, status, error) {
-                                console.error("Category3 Error:", error);
-                            }
-                        });
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.error("Category2 Error:", error);
-                }
-            });
-        }
-
-
         // 신청을 취소할 때 N 옵션을 선택하도록 설정
-        unCheckBidCd = function() {
+        unCheckBidCd = function () {
             $("input[name='bid_cd'][value='N']").prop("checked", true);
         }
-    }); // document.ready 종료 부분
+    }; // document.ready 종료 부분
 
     // 대분류 선택 시 선택된 카테고리의 이름을 sal_name에 업데이트
     $("#category1").change(function () {
@@ -669,35 +807,57 @@
 
     // 해시태그 input 생성하는 함수
     function createHashtagInput() {
-        let hashtags = document.getElementById("hashtagInput").value.split("#").filter(Boolean); // #을 기준으로 문자열을 나누고 빈 문자열 제거
+        let hashtagInput = document.getElementById("hashtagInput").value;
+        let hashtags = hashtagInput.split("#").filter(tag => {
+            let trimmedTag = tag.trim();
+            return trimmedTag.length > 0 && trimmedTag.length <= 25;
+        });
 
         // 기존의 해시태그를 모두 삭제
         let container = document.getElementById("hashtagContainer");
         container.innerHTML = "";
 
         // 배열 초기화
-        t_contents = [];
+        let t_contents = [];
 
         // 각 해시태그를 별도의 input 요소에 추가하여 표시
         hashtags.forEach(function (tag) {
-            let input = document.createElement("input");
-            input.type = "text";
-            input.name = "t_contents";
-            input.value = "#" + tag; // 해시태그 앞에 #을 붙여서 표시
-            input.disabled = true; // 입력 불가능하도록 설정
-            container.appendChild(input);
+            let trimmedTag = tag.trim();
+            if (trimmedTag.length > 0 && trimmedTag.length <= 25) {
+                let input = document.createElement("input");
+                input.type = "text";
+                input.name = "t_contents";
+                input.value = "#" + trimmedTag; // 해시태그 앞에 #을 붙여서 표시
+                input.disabled = true; // 입력 불가능하도록 설정
+                container.appendChild(input);
 
-            // 해시태그 사이 간격 조절
-            // 해시태그의 글자 수에 따라 너비 동적 조절
-            input.style.width = (tag.length + 3) * 1.5 + "vw";
+                // 해시태그 사이 간격 조절
+                // 해시태그의 글자 수에 따라 너비 동적 조절
+                input.style.width = (trimmedTag.length + 3) * 1.5 + "vw";
 
-            // 해시태그를 배열에 추가
-            t_contents.push("#" + tag);
+                // 해시태그를 배열에 추가
+                t_contents.push("#" + trimmedTag);
 
-            container.appendChild(input);
-            container.appendChild(document.createTextNode(" ")); // 각 해시태그 뒤에 공백 추가
+                container.appendChild(input);
+                container.appendChild(document.createTextNode(" ")); // 각 해시태그 뒤에 공백 추가
+            }
         });
+
+        console.log(t_contents); // 디버그를 위해 콘솔에 출력
     }
+
+    // 해시태그 입력 필드에서 Enter 키를 눌렀을 때 해시태그 입력 생성 함수 호출
+    document.addEventListener('DOMContentLoaded', function () {
+        let hashtagInput = document.getElementById("hashtagInput");
+        hashtagInput.addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+                createHashtagInput();
+                // 입력 필드에 # 추가
+                hashtagInput.value += "#";
+                event.preventDefault(); // Enter 키 기본 동작 방지
+            }
+        });
+    });
 
     const openModalBtn = document.getElementById("openModalBtn");
     const modal = document.querySelector(".SaleModal");
@@ -794,7 +954,7 @@
             "sal_name": sal_name_value,
             "addr_cd": addr_cd,
             "addr_name": addr_name,
-            "group_no" : group_no
+            "group_no": group_no
         }
 
         // trade_s_cd 파라미터 설정
@@ -816,7 +976,7 @@
             {
                 "sale": sale,
                 "tag": tag,
-                "imgList" : ImageUploader.getImgInfo()
+                "imgList": ImageUploader.getImgInfo()
             };
 
 
@@ -845,7 +1005,7 @@
 
     function validationForm(title, category1Value, category2Check, category3Check,
                             contents, pro_s_cd, trade_s_cd, tx_s_cd, price, reg_price) {
-        if (!title) {
+        if (!title || title.trim().length === 0) {
             document.getElementsByName("title")[0].focus();
             document.getElementsByName("title")[0].style.borderColor = 'red';
             alert("제목을 입력하세요.");
@@ -872,7 +1032,7 @@
             return false;
         }
 
-        if (!contents) {
+        if (!contents || contents.trim().length === 0) {
             document.getElementsByName("contents")[0].focus();
             document.getElementsByName("contents")[0].style.borderColor = 'red';
             alert("내용을 입력하세요.");
@@ -918,7 +1078,7 @@
         }
 
         if (!!reg_price) {
-            if(reg_price < 0) {
+            if (reg_price < 0) {
                 document.getElementsByName("reg_price")[0].focus();
                 document.getElementsByName("reg_price")[0].style.borderColor = 'red';
                 alert("음수를 제외한 정확한 가격을 입력하세요.");
@@ -933,4 +1093,4 @@
 
 <script src="/js/img.js"></script>
 
-<%@include file="../fixed/footer.jsp"%>
+<%@include file="../fixed/footer.jsp" %>

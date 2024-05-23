@@ -83,6 +83,7 @@
             background-color: #717171;
         }
 
+        /* 페이지 로딩 */
         /* Fading animation */
         .fade {
             animation-name: fade;
@@ -98,42 +99,43 @@
         @media only screen and (max-width: 300px) {
             .prev, .next,.text {font-size: 11px}
         }
+        /*  여기까지 페이지 로딩  */
     </style>
 
 </head>
 <body>
 <div>
-    <div class="slideshow-container">
-        <c:set var="count" value="0" />
-        <c:forEach var="img" items="${imglist}">
-            <c:choose>
-                <c:when test="${img.imgtype eq 'w'}">
-                    <c:set var="count" value="${count + 1}" />
-                    <div class="mySlides fade">
-                        <div class="numbertext">${count}</div>
-                        <img src="/img/display?fileName=${img.img_full_rt}" style="width:100%">
-                    </div>
-                </c:when>
-            </c:choose>
-        </c:forEach>
+<%--    <div class="slideshow-container">--%>
+<%--        <c:set var="count" value="0" />--%>
+<%--        <c:forEach var="img" items="${imglist}">--%>
+<%--            <c:choose>--%>
+<%--                <c:when test="${img.imgtype eq 'w'}">--%>
+<%--                    <c:set var="count" value="${count + 1}" />--%>
+<%--                    <div class="mySlides fade">--%>
+<%--                        <div class="numbertext">${count}</div>--%>
+<%--                        <img src="/img/display?fileName=${img.img_full_rt}" style="width:100%">--%>
+<%--                    </div>--%>
+<%--                </c:when>--%>
+<%--            </c:choose>--%>
+<%--        </c:forEach>--%>
 
-        <a class="prev">❮</a>
-        <a class="next">❯</a>
-    </div>
-    <br>
+<%--        <a class="prev">❮</a>--%>
+<%--        <a class="next">❯</a>--%>
+<%--    </div>--%>
+<%--    <br>--%>
 
-    <div style="text-align:center">
-        <c:forEach var="img" items="${imglist}" varStatus="status">
-            <c:if test="${img.imgtype eq 'w'}">
-                <span class="dot" onclick="currentSlide(${status.index + 1})"></span>
-            </c:if>
-        </c:forEach>
-    </div>
-<%--    <c:forEach items="${imglist}" var="img">--%>
-<%--        <c:if test="${img.imgtype eq 'w'}">--%>
-<%--            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">--%>
-<%--        </c:if>--%>
-<%--    </c:forEach>--%>
+<%--    <div style="text-align:center">--%>
+<%--        <c:forEach var="img" items="${imglist}" varStatus="status">--%>
+<%--            <c:if test="${img.imgtype eq 'w'}">--%>
+<%--                <span class="dot" onclick="currentSlide(${status.index + 1})"></span>--%>
+<%--            </c:if>--%>
+<%--        </c:forEach>--%>
+<%--    </div>--%>
+    <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'w'}">
+            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+        </c:if>
+    </c:forEach>
     <form id="form" action="" method="post">
         <c:choose>
             <c:when test="${sessionScope.userId == Sale.seller_id}">
@@ -163,6 +165,13 @@
         <%--        --%>
         <p>판매자닉네임 : <a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
         <p>판매 카테고리명 : ${Sale.sal_name}</p>
+        <span> ${category1Name} </span>
+        <c:if test="${not empty category2Name}">
+            <span> > ${category2Name} </span>
+        </c:if>
+        <c:if test="${not empty category3Name}">
+            <span> > ${category3Name} </span>
+        </c:if>
         <p>
             사용상태 :
             <c:choose>
@@ -240,40 +249,40 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        $(".prev").on("click", function() {
-            plusSlides(-1);
-        });
-
-        $(".next").on("click", function() {
-            plusSlides(1);
-        });
-
-        let slideIndex = 1;
-        showSlides(slideIndex);
-
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
-
-        function currentSlide(n) {
-            showSlides(slideIndex = n);
-        }
-
-        function showSlides(n) {
-            let i;
-            let slides = document.getElementsByClassName("mySlides");
-            let dots = document.getElementsByClassName("dot");
-            if (n > slides.length) {slideIndex = 1}
-            if (n < 1) {slideIndex = slides.length}
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-            for (i = 0; i < dots.length; i++) {
-                dots[i].className = dots[i].className.replace(" active", "");
-            }
-            slides[slideIndex-1].style.display = "block";
-            dots[slideIndex-1].className += " active";
-        }
+        // $(".prev").on("click", function() {
+        //     plusSlides(-1);
+        // });
+        //
+        // $(".next").on("click", function() {
+        //     plusSlides(1);
+        // });
+        //
+        // let slideIndex = 1;
+        // showSlides(slideIndex);
+        //
+        // function plusSlides(n) {
+        //     showSlides(slideIndex += n);
+        // }
+        //
+        // function currentSlide(n) {
+        //     showSlides(slideIndex = n);
+        // }
+        //
+        // function showSlides(n) {
+        //     let i;
+        //     let slides = document.getElementsByClassName("mySlides");
+        //     let dots = document.getElementsByClassName("dot");
+        //     if (n > slides.length) {slideIndex = 1}
+        //     if (n < 1) {slideIndex = slides.length}
+        //     for (i = 0; i < slides.length; i++) {
+        //         slides[i].style.display = "none";
+        //     }
+        //     for (i = 0; i < dots.length; i++) {
+        //         dots[i].className = dots[i].className.replace(" active", "");
+        //     }
+        //     slides[slideIndex-1].style.display = "block";
+        //     dots[slideIndex-1].className += " active";
+        // }
 
         $("#hoistingBtn").on("click", function () {
             if (confirm("끌어올리겠습니까?")) {

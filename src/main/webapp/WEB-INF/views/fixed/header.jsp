@@ -127,7 +127,7 @@
     </div>
 </header>
 
-<div id="headerspace"></div>
+<%--<div id="headerspace"></div>--%>
 
 <script>
     $(document).ready(function (){
