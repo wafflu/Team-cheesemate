@@ -64,6 +64,10 @@ public class SaleController {
     public String read(Long no, Model model) throws Exception {
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
+
+        if(saleDto == null) {
+            return "/error/saleError";
+        }
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
         List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
 

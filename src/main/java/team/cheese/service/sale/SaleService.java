@@ -211,10 +211,13 @@ public class SaleService {
 
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         SaleDto saleDto = saleDao.select(no);
-        List<TagDto> tagDto = saleTagRead(no);
-
         Map map = new HashMap();
         map.put("saleDto", saleDto);
+        if(saleDto == null) {
+            return map;
+        }
+
+        List<TagDto> tagDto = saleTagRead(no);
         map.put("tagDto", tagDto);
 
         return map;
