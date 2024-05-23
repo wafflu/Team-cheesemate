@@ -101,6 +101,29 @@
 </div>
 
 <script>
+
+	const uploadImage = (function() {
+		let imginfo = [];
+
+		<c:forEach items="${imglist}" var="img">
+		<c:if test="${img.imgtype eq 'r'}">
+		imginfo.push(
+				{
+					"file_rt" : "${img.file_rt}",
+					"o_name" : "${img.o_name}",
+					"e_name" : "${img.e_name}"
+				}
+		)
+		</c:if>
+		</c:forEach>
+
+		return {
+			getImgInfo: function() {
+				return imginfo;
+			}
+		};
+	})();
+
 	$(document).on("click", "#profilesave_btn", function(e) {
 		e.preventDefault();
 		$.ajax({
@@ -264,7 +287,6 @@
 		tmp += "</ul>";
 		return tmp;
 	}
-
 
 	// 소개글 읽기
 	let showUserInfo = function (ur_id) {

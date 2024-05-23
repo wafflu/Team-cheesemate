@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+<c:set var="loginId" value="${sessionScope.userId}"/>
 <html>
 <head>
     <title>치즈메이트</title>
@@ -33,7 +36,7 @@
             let cssimginfo = {};
 
             <c:forEach items="${headerimglist}" var="img">
-            cssimginfo['${img.o_name}'] = "${img.img_full_rt}";
+                cssimginfo['${img.o_name}'] = "${img.img_full_rt}";
             </c:forEach>
             return {
                 getImgInfo: function() {
@@ -42,15 +45,15 @@
             };
         })();
 
-        const uploadImage = (function() {
-            let uploadImage = [];
-
-            return {
-                getImgInfo: function() {
-                    return uploadImage;
-                }
-            };
-        })();
+        // const uploadImage = (function() {
+        //     let uploadImage = [];
+        //
+        //     return {
+        //         getImgInfo: function() {
+        //             return uploadImage;
+        //         }
+        //     };
+        // })();
     </script>
 
 </head>
@@ -88,10 +91,20 @@
                     </a>
                 </span>
                 <span class="subnavspan">
-                        <a href="/myPage/main" id="userlink" class="subnavlink">
-                            <img src="" alt="user" id="usericon" class="subnavicon">
-                            <span class="subnavtext">마이</span>
-                        </a>
+                   <c:choose>
+                       <c:when test="${empty userId}">
+                            <a href="/myPage/main" id="userlink" class="subnavlink">
+                                <img src="" alt="user" id="usericon" class="subnavicon usericon">
+                                <span class="subnavtext">마이</span>
+                            </a>
+                       </c:when>
+                       <c:otherwise>
+                           <div class="mylogin-box">
+                                <img src="" alt="user" class="subnavicon usericon">
+                                <span class="subnavtext">마이</span>
+                           </div>
+                       </c:otherwise>
+                    </c:choose>
                     </span>
             </div>
         </div>
@@ -108,7 +121,7 @@
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
             </li>
             <li class="navli">
-                <a href="/qna/list"><span class="navtext">고객센터</span></a>
+                <a href="/faq/list"><span class="navtext">고객센터</span></a>
             </li>
         </ul>
     </div>
@@ -119,12 +132,35 @@
 <script>
     $(document).ready(function (){
         let imgInfo = cssImage.getImgInfo();
-        console.log(imgInfo)
         $("#logoimg").attr("src", "/img/display?fileName=" + imgInfo['logo']);
         $("#chaticon").attr("src", "/img/display?fileName=" + imgInfo['chat']);
         $("#storeicon").attr("src", "/img/display?fileName=" + imgInfo['store']);
-        $("#usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
+        $(".usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
         $("#search").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
+    });
+    $(document).ready(function() {
+        let isMenuVisible = false;
+        $(".mylogin-box").click(function(e) {
+            e.stopPropagation(); // 이벤트 버블링 방지
+            if (!isMenuVisible) {
+                let str = '<ul id="loginmenu">';
+                str += '<li><a href="/myPage/main" className="subnavlink homemylink">마이페이지</a></li>';
+                str += '<li><a href="/logout" className="subnavlink homemylink">로그아웃</a></li>';
+                str += '</ul>';
+                $(".mylogin-box").append(str);
+            } else {
+                $("#loginmenu").remove();
+            }
+            isMenuVisible = !isMenuVisible;
+        });
+
+        $(document).click(function() {
+            if (isMenuVisible) {
+                $("#loginmenu").remove();
+                isMenuVisible = false;
+            }
+        });
+
     });
 </script>
 <%----%>

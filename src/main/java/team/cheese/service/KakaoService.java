@@ -50,9 +50,6 @@ public class KakaoService {
             // 첫 번째 그룹에서 매칭된 값 가져오기
             // => matcher.group(0); <- access_token 들어간 문장 전체 반환
             accessToken = matcher.group(1); // access token 값만 반환
-            System.out.println("Access Token: " + accessToken);
-        } else {
-            System.out.println("Access Token not found.");
         }
 
         return accessToken;
@@ -93,7 +90,6 @@ public class KakaoService {
         userInfo.put("id", id);
         userInfo.put("nickname", nickname);
         userInfo.put("profileImage", profileImage);
-        System.out.println("result : " + result);
 
         return userInfo;
     }

@@ -1,28 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: gominjeong
-  Date: 5/3/24
-  Time: 10:26 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page session="false" %>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<html>
-<head>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="fixed/header.jsp"%>
 
-    <title>Title</title>
-    <style>
-        .title-container{
-            display: flex;
-        }
+<style>
+        /*.title-container{*/
+        /*    display: flex;*/
+        /*}*/
     </style>
-</head>
-<body>
+
 <form action = "${pageContext.request.contextPath}/community/read" id ="form" enctype="multipart/form-data">
 <div class="post-content">
 
@@ -46,7 +30,6 @@
                 <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
             </c:if>
         </c:forEach>
-
 
         <div style="display:none;"  id ="alertDiv">
             <p id = "edit">수정/삭제</p>
@@ -85,15 +68,34 @@
 
 </div>
 
-
-
 <script>
+
+    let uploadImage = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     $(document).ready(function() {
+
+
         loadComments($('#post_no').val());
-
-
-
-
 
 
         $('.detail-button').on("click",function(){
@@ -128,8 +130,6 @@
 
                 success: function (response) {
 
-                    console.log("하트");
-                    console.log(response.totalLikeCount);
                     $('#heart').text('❤️ ' + response.totalLikeCount); // HTML 요소에 좋아요 수를 업데이트
                     $('#heart').data('count-like', response.totalLikeCount); // 데이터 속성도 업데이트
                 },
@@ -197,9 +197,6 @@
 
                     let str = "";
                     comments.forEach(comment => {
-                        console.log(
-                            comment.contents
-                        )
                         str+=`<div>`;
                         str+=`<p>`+comment.contents + `</p>`;
                         str+=`<p>`+comment.nick+ `</p>`;
@@ -217,9 +214,10 @@
             });
         }
 
-
     });
 </script>
 
-</body>
-</html>
+
+<script src="/js/img.js"></script>
+
+<%@include file="fixed/footer.jsp"%>

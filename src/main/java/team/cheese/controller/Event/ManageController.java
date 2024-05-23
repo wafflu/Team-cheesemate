@@ -58,7 +58,6 @@ public class ManageController {
     }
     @PostMapping(value = "/modify")
     public String modify(Long evt_no,EventDto dto) throws Exception {
-        System.out.print(evt_no);
         dto.setEvt_no(evt_no);
         int result=eventService.modifyEvent(dto);
         return "redirect:/Manage/read?evt_no="+dto.getEvt_no();

@@ -66,7 +66,7 @@ public  class CommunityBoardController {
         return "/CommunityList";
     }
 
-//    community세부 리스트 페이지ajax
+    //    community세부 리스트 페이지ajax
     @RequestMapping(value = "/home/story", method = RequestMethod.GET)
     @ResponseBody
     public List test(Character ur_state) throws Exception {
@@ -167,7 +167,7 @@ public  class CommunityBoardController {
         communityBoardDto.setaddr_name(selectedAddr.getAddr_name());
 
         System.out.println(communityBoardDto);
-     //    유효성 검사 수행
+        //    유효성 검사 수행
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<CommunityBoardDto>> violations = validator.validate(communityBoardDto);
@@ -185,7 +185,7 @@ public  class CommunityBoardController {
 
 //         유효성 검사 결과 확인
         if (!violations.isEmpty()) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -275,7 +275,7 @@ public  class CommunityBoardController {
             System.out.println("Root Bean: " + rootBean);
         }
 
-         // 유효성 검사 결과 확인
+        // 유효성 검사 결과 확인
         if (!violations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -287,7 +287,7 @@ public  class CommunityBoardController {
             return new ResponseEntity<>("/community/list",HttpStatus.OK);
 
         }catch (Exception e) {
-           return new ResponseEntity<>("죄송합니다.글 수정에 실패했습니다.",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("죄송합니다.글 수정에 실패했습니다.",HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -371,27 +371,27 @@ public  class CommunityBoardController {
         }
 
         try{
-        CommunityHeartDto communityHeartDto = new CommunityHeartDto();
-        communityHeartDto.setUr_id(userId);
-        communityHeartDto.setPost_no(postNo);
+            CommunityHeartDto communityHeartDto = new CommunityHeartDto();
+            communityHeartDto.setUr_id(userId);
+            communityHeartDto.setPost_no(postNo);
 
 
 
-        communityHeartService.doLike(communityHeartDto);
+            communityHeartService.doLike(communityHeartDto);
 
 
-        int totalLikeCount = communityBoardService.totalLike(postNo);
-        Map<String, Object> response = new HashMap<>();
-        response.put("totalLikeCount", totalLikeCount);
-        System.out.println(response);
+            int totalLikeCount = communityBoardService.totalLike(postNo);
+            Map<String, Object> response = new HashMap<>();
+            response.put("totalLikeCount", totalLikeCount);
+            System.out.println(response);
 
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
 
 
-    }catch (Exception e) {
-        e.printStackTrace();
-        return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "서버 에러가 발생했습니다."));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "서버 에러가 발생했습니다."));
         }
     }
 
@@ -450,9 +450,3 @@ public  class CommunityBoardController {
     }
 
 }
-
-
-
-
-
-

@@ -137,7 +137,7 @@ public class SaleDaoImplTest {
         // 3. count로 게시글이 100개 들어갔는지 확인
 
         // 1. 게시글 전체 삭제
-        deleteDao.deleteAll();
+//        deleteDao.deleteAll();
 
         // 2. 반복문으로 동일한 게시글 100개 insert
         SaleDto saleDto = new SaleDto();
@@ -557,6 +557,44 @@ public class SaleDaoImplTest {
         assertTrue(saleDao.hoistingSale(map) == 1);
         assertTrue(saleDao.increaseHoistingCnt(no) == 1);
 
+    }
+
+    @Test
+    public void testUpdateSaleSCdRandomCCode() throws Exception {
+        for (int i=0; i<25; i++) {
+            Long no = (long) (Math.random() * saleDao.count() + 106);
+            System.out.println(no);
+            SaleDto saleDto = saleDao.select(no);
+
+            String sal_s_cd = "C";
+            Map<String, Object> map = new HashMap<>();
+            if(!saleDto.getSeller_id().equals("asdf")) {
+                saleDto.setBuyer_id("asdf");
+                saleDto.setBuyer_nick("asdf");
+                saleDto.setSal_s_cd(sal_s_cd);
+                assertTrue(saleDao.buySale(saleDto) == 1);
+
+            }
+        }
+    }
+
+    @Test
+    public void testUpdateSaleSCdRandomRCode() throws Exception {
+        for (int i=0; i<25; i++) {
+            Long no = (long) (Math.random() * saleDao.count() + 106);
+            System.out.println(no);
+            SaleDto saleDto = saleDao.select(no);
+
+            String sal_s_cd = "R";
+            Map<String, Object> map = new HashMap<>();
+            if(!saleDto.getSeller_id().equals("asdf")) {
+                saleDto.setBuyer_id("asdf");
+                saleDto.setBuyer_nick("asdf");
+                saleDto.setSal_s_cd(sal_s_cd);
+                assertTrue(saleDao.buySale(saleDto) == 1);
+
+            }
+        }
     }
 
 }
