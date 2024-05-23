@@ -121,7 +121,7 @@
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
             </li>
             <li class="navli">
-                <a href="/qna/list"><span class="navtext">고객센터</span></a>
+                <a href="/faq/list"><span class="navtext">고객센터</span></a>
             </li>
         </ul>
     </div>
