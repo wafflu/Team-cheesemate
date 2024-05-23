@@ -1,10 +1,9 @@
-2024_0522(10:39)
-<%--헤더 영역--%>
+
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="fixed/header.jsp" %>
 <link rel="stylesheet" href="/css/communityWriteBoard.css">
-<%--바디영역--%>
-<body>
+
 <form id="form" enctype="multipart/form-data" class="maincontent">
     <div class="community-write-container">
         <%--    카테고리,제목, 등록, 수정,삭제 버튼--%>
@@ -50,7 +49,7 @@
             <c:if test="${img.imgtype eq 'r'}">
                 <div id="result_card">
                     <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
-                    <div class="imgDeleteBtn" data-file="${img.img_full_rt}"></div>
+                    <div class="imgDeleteBtn" data-file="${img.img_full_rt}">x</div>
                 </div>
             </c:if>
         </c:forEach>
@@ -63,6 +62,30 @@
 </form>
 
 <script>
+
+
+    const uploadImage = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     //중복클릭 방지
 
     let isProcessing = false;
@@ -81,10 +104,10 @@
 
     function countingCharacters(title,contents){
         //만약
-            //제목의 글자수 100 이상
+        //제목의 글자수 100 이상
 
         //만약
-            //내용의 글자수 300이상
+        //내용의 글자수 300이상
         //alert
         //제출방지
 
@@ -134,7 +157,7 @@
 
             let map = {
                 "communityBoardDto": communityBoardDto,
-                "imgList": Image.getImgInfo()
+                "imgList": ImageUploader.getImgInfo()
             };
 
             if ($('#community-write-title').val() === '' || $('#contents').val() === '') {
@@ -209,7 +232,7 @@
 
             let map = {
                 "communityBoardDto": communityBoardDto,
-                "imgList": Image.getImgInfo()
+                "imgList": ImageUploader.getImgInfo()
             };
 
             let jsonString = JSON.stringify(map);
@@ -297,7 +320,6 @@
 <%--푸터 영역--%>
 <script src="/js/img.js"></script>
 <%@ include file="fixed/footer.jsp" %>
-</body>
 
 
 

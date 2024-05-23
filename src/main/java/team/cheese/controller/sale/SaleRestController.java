@@ -55,7 +55,6 @@ public class SaleRestController {
     public ResponseEntity<String> write(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
         // service 호출
         // 서비스단 작성 필요함
-//        System.out.println(formData);
 
         // 1. 사용자가 글작성
         // 동시에 작성버튼 누르면?
@@ -66,8 +65,6 @@ public class SaleRestController {
         String seller_nick = (String) session.getAttribute("userNick");
 
         // ObjectMapper : JSON 형태를 JAVA 객체로 변환
-        System.out.println(map.get("sale"));
-        System.out.println(map.get("tag"));
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
 
@@ -76,15 +73,15 @@ public class SaleRestController {
         //이미지 유효성검사 하는곳
         ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
         if (imgList == null) {
-            return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
+            return new ResponseEntity<String>("이미지를 추가하세요.", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         saleDto.setAddrSeller(seller_id, seller_nick);
-        System.out.println("값 들어왔는지 확인 : " + saleDto);
 
         Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
         List<String> tagContents = (List<String>) tagMap.get("contents");
-        System.out.println("tag값 확인 : " + tagMap.size());
 
         // 각 해시태그를 반복하여 TagDto 객체 생성 및 tagList에 추가
         List<String> tagList = new ArrayList<>();
@@ -104,7 +101,6 @@ public class SaleRestController {
         // Service를 통해 글 등록 처리
         Long sal_no = saleService.write(mapDto);
 
-        System.out.println("글 번호 : " + sal_no);
         String page = "/sale/read?no=" + sal_no;
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
@@ -115,14 +111,11 @@ public class SaleRestController {
     @PostMapping("/update")
     @ResponseBody
     public ResponseEntity<String> update(@Valid @RequestBody Map<String, Object> map, Model model, HttpSession session, HttpServletRequest request) throws Exception {
-        System.out.println("POST update");
 
         String seller_id = (String) session.getAttribute("userId");
         String seller_nick = (String) session.getAttribute("userNick");
 
         // ObjectMapper : JSON 형태를 JAVA 객체로 변환
-        System.out.println(map.get("sale"));
-        System.out.println(map.get("tag"));
         ObjectMapper objectMapper = new ObjectMapper();
         SaleDto saleDto = objectMapper.convertValue(map.get("sale"), SaleDto.class);
 
@@ -131,15 +124,15 @@ public class SaleRestController {
         //이미지 유효성검사 하는곳
         ArrayList<ImgDto> imgList = ifc.checkimgfile(map);
         if (imgList == null) {
-            return new ResponseEntity<String>("이미지 등록 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+            HttpHeaders headers = new HttpHeaders();
+            headers.set(HttpHeaders.CONTENT_TYPE, "text/plain; charset=UTF-8");
+            return new ResponseEntity<String>("이미지를 추가하세요.", headers, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         saleDto.setAddrSeller(seller_id, seller_nick);
-        System.out.println("값 들어왔는지 확인 : " + saleDto);
 
         Map<String, Object> tagMap = (Map<String, Object>) map.get("tag");
         List<String> tagContents = (List<String>) tagMap.get("contents");
-        System.out.println("tag값 확인 : " + tagMap.size());
 
         // 각 해시태그를 반복하여 TagDto 객체 생성 및 tagList에 추가
         List<String> tagList = new ArrayList<>();
@@ -159,7 +152,6 @@ public class SaleRestController {
         // Service를 통해 글 등록 처리
         Long sal_no = saleService.update(mapDto);
 
-        System.out.println("글 번호 : " + sal_no);
         String page = "/sale/read?no=" + sal_no;
 
         // 등록 후에는 다시 글 목록 페이지로 리다이렉트
@@ -184,6 +176,7 @@ public class SaleRestController {
     // ajax 주소 검색
     @RequestMapping("/searchLetter")
     public ResponseEntity<List<AdministrativeDto>> getAdministrative(@RequestParam String searchLetter, Model model) throws Exception {
+
         // 검색어를 이용하여 주소를 검색
         return new ResponseEntity<>(administrativeDao.searchLetter(searchLetter), HttpStatus.OK);
     }
@@ -192,15 +185,10 @@ public class SaleRestController {
     @RequestMapping("/salePage")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> getSearchList(@RequestParam(defaultValue = "1") int page,
-                                                             @RequestParam(defaultValue = "10") int pageSize,
+                                                             @RequestParam(defaultValue = "20") int pageSize,
                                                              @RequestParam(required = false) String addr_cd,
                                                              @RequestParam(required = false) String sal_i_cd,
                                                              HttpSession session) throws Exception {
-
-        System.out.println("page : " + page);
-        System.out.println("pageSize : " + pageSize);
-        System.out.println("addr_cd : " + addr_cd);
-        System.out.println("sal_i_cd : " + sal_i_cd);
 
         if (addr_cd.equals("null") || addr_cd.equals("")) {
             addr_cd = null;
@@ -221,7 +209,6 @@ public class SaleRestController {
         map.put("pageSize", pageSize);
 
         List<SaleDto> saleList = saleService.getList(map);
-        System.out.println("salePages saleList : " + saleList);
 
         Map result = new HashMap();
 

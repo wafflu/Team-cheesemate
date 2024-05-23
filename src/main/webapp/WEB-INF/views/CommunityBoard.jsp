@@ -9,9 +9,9 @@
 <%@ include file="fixed/header.jsp" %>
 <link rel="stylesheet" href="/css/communityBoard.css">
 <div class="maincontent">
-<form action = "${pageContext.request.contextPath}/community/read" id ="form" enctype="multipart/form-data">
+    <form action = "${pageContext.request.contextPath}/community/read" id ="form" enctype="multipart/form-data">
 
-    <div class="post-content">
+        <div class="post-content">
 
 
             <div class="post-top-container">
@@ -20,28 +20,28 @@
                     <h1>${communityBoardDto.title}</h1>
                     <input type="button" value="상세" id="modify" class="detail-button" data-user-id="${communityBoardDto.ur_id}">
                 </div>
-                    <%--사용자 정보--%>
+                <%--사용자 정보--%>
                 <div class="post-user">
                     <fmt:formatDate value="${communityBoardDto.r_date}" pattern="yyyy년 MM월 dd일 HH시" /><br>
                     ${communityBoardDto.nick}<br>
                     ${communityBoardDto.addr_name}<br>
                 </div>
-             </div>
+            </div>
 
             <%-- 글 정보           --%>
-             <div class="post-bottom-container">
-            <%--내용--%>
-                 <div class="post-content">
-                 <p>${communityBoardDto.contents}</p>
-                 </div>
+            <div class="post-bottom-container">
+                <%--내용--%>
+                <div class="post-content">
+                    <p>${communityBoardDto.contents}</p>
+                </div>
 
-            <%--  이미지--%>
+                <%--  이미지--%>
                 <div class="post-image">
-                 <c:forEach items="${imglist}" var="img">
-                     <c:if test="${img.imgtype eq 'w'}">
-                         <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
-                     </c:if>
-                 </c:forEach>
+                    <c:forEach items="${imglist}" var="img">
+                        <c:if test="${img.imgtype eq 'w'}">
+                            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+                        </c:if>
+                    </c:forEach>
                 </div>
                 <%-- 반응--%>
                 <div class="post-reaction">
@@ -52,7 +52,7 @@
                     <p>  </p>
                     <p>👁️${communityBoardDto.view_cnt}</p>
                 </div>
-             </div>
+            </div>
 
 
 
@@ -64,30 +64,30 @@
 
             </div>
 
-    <%--    commmunityHeart--%>
+            <%--    commmunityHeart--%>
 
-    <%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
+            <%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
 
-    </div>
-    </form>
-<%--          댓글 컨테이너  --%>
-        <div class="post-comment-container" id="comment_insert">
-                <div id = "comment">
-                    <input type="hidden" id = "post_no" name="post_no" value="<c:out value='${communityBoardDto.no}'/>">
-
-
-                    <textarea class="comment-content" id="content" rows="5" cols="80" name="content"
-                              maxlength="300" placeholder="댓글은 최대 300자까지 입력가능합니다.">
-                    </textarea>
-                    <input type = submit id ="input_comment" value="등록">
-
-
-                </div>
-
-            <input type="hidden" id = "no" name="post_no" value="${commentDto.post_no}">
-            <div id = comment-container></div>
         </div>
+    </form>
+    <%--          댓글 컨테이너  --%>
+    <div class="post-comment-container" id="comment_insert">
+        <div id = "comment">
+            <input type="hidden" id = "post_no" name="post_no" value="<c:out value='${communityBoardDto.no}'/>">
+
+
+            <textarea class="comment-content" id="content" rows="5" cols="80" name="content"
+                      maxlength="300" placeholder="댓글은 최대 300자까지 입력가능합니다.">
+                    </textarea>
+            <input type = submit id ="input_comment" value="등록">
+
+
+        </div>
+
+        <input type="hidden" id = "no" name="post_no" value="${commentDto.post_no}">
+        <div id = comment-container></div>
     </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script>
 
@@ -95,6 +95,29 @@
     function initComment(){
         document.getElementById("content").value="";
     }
+
+
+    let uploadImage = (function() {
+        let imginfo = [];
+
+        <c:forEach items="${imglist}" var="img">
+        <c:if test="${img.imgtype eq 'r'}">
+        imginfo.push(
+            {
+                "file_rt" : "${img.file_rt}",
+                "o_name" : "${img.o_name}",
+                "e_name" : "${img.e_name}"
+            }
+        )
+        </c:if>
+        </c:forEach>
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
 
     $(document).ready(function () {
         loadComments($('#post_no').val());

@@ -4,9 +4,9 @@
     /*border: 1px solid #000;*/
 }
 
-/*ì¹´í…Œê³ ë¦¬ ì œëª© ë“±ë¡ ìˆ˜ì • ì‚­ì œ ë²„íŠ¼*/
+/*Ã¬Â¹Â´Ã­â€¦Å’ÃªÂ³ Ã«Â¦Â¬ Ã¬ Å“Ã«ÂªÂ© Ã«â€œÂ±Ã«Â¡Â Ã¬Ë†ËœÃ¬ â€¢ Ã¬â€šÂ­Ã¬ Å“ Ã«Â²â€žÃ­Å Â¼*/
 .community-write-container{
-    /*   ì½˜í…ì¸  (ë„“ì´,ë†’ì´) */
+    /*   Ã¬Â½ËœÃ­â€¦ÂÃ¬Â¸  (Ã«â€žâ€œÃ¬ÂÂ´,Ã«â€ â€™Ã¬ÂÂ´) */
     /*width:862px;*/
     margin:20px;
     height:154px;
@@ -39,12 +39,20 @@
     border-radius: 12px;
 }
 
+.form_section_content{
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    right: 0;
+    top: 0;
+    z-index: 1;
+}
 
-#uploadResult{
+#uploadImage{
     padding:10px 28px;
     display:flex;
 }
- #contents{
+#contents{
     margin:20px;
     padding-left: 28px;
     padding-right:28px;
@@ -52,17 +60,17 @@
     width:1150px;
     resize: none;
     box-sizing: border-box;
-     border-radius: 12px;
+    border-radius: 12px;
 }
 
- .commu-button{
-     margin-top: 0;
+.commu-button{
+    margin-top: 0;
     width:5%;
-     height:30px;
+    height:30px;
     background-size: 50px 30px;
     background-color: rgba(238,135,3,0.2);
-     color: #ee8703;
-     border: 0;
-     box-sizing: border-box;
-     border-radius: 10px;
- }
+    color: #ee8703;
+    border: 0;
+    box-sizing: border-box;
+    border-radius: 10px;
+}

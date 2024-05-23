@@ -54,7 +54,7 @@
         .center {
             max-width: 450px;
             height: 400px;
-            margin: 10px auto;
+            margin: 30px auto;
             background-color: #fff;
             padding: 30px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
