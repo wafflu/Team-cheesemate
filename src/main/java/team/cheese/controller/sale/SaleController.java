@@ -41,7 +41,6 @@ public class SaleController {
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
     public String getList(Model model, HttpSession session, HttpServletRequest request) throws Exception {
-//        HttpSession session = request.getSession();
         String ur_id = (String) session.getAttribute("userId");
 
         if (ur_id != null) {
