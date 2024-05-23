@@ -1,11 +1,12 @@
 #header_box{
-    width: 100%;
+    width: 1200px;
     height: 150px;
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 10;
     background-color: #fff;
     border-bottom: 2px solid #f9f9f9;
+    margin: 0 auto;
 }
 
 #herder_top{
@@ -137,6 +138,7 @@
 #footer{
     width: 100%;
     background-color: rgb(247 249 250);
+    position: relative;
 }
 
 #footersub{
@@ -244,4 +246,25 @@
 .homemylink{
     display: inline-block;
     vertical-align: middle;
+}
+
+.maincolor{
+    background-color: #ee8703;
+}
+
+.fontgraycolor{
+    color:#999;
+}
+.backgraycolor{
+    color:#999;
+}
+
+.font14{
+    font-size: 14px;
+}
+.font18{
+    font-size: 18px;
+}
+.font30{
+    font-size: 30px;
 }

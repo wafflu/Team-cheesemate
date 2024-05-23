@@ -2,104 +2,96 @@
 <%@ include file="fixed/header.jsp" %>
 <%@ page session="true"%>
 <c:set var="loginId" value="${sessionScope.userId}"/>
-
 <link rel="stylesheet" href="/css/myPage.css">
 <c:if test="${userInfoDTO.ur_id eq loginId}">
-	<div class="maincontent mypage-box">
-	<div class="navigation">
-		<ul>
-			<li class="main-title"><a href="/myPage/main">마이페이지</a></li>
-			<li class="main-title"><a href="/about">거래정보</a></li>
-			<li class="sub-title"><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
-			<li class="sub-title"><a href="/contact">찜한 상품</a></li>
-			<li class="main-title"><a href="/contact">내 정보 관리</a></li>
-			<li class="sub-title"><a href="/contact">개인 정보 수정</a></li>
-			<li class="sub-title"><a href="/contact">비밀번호 변경</a></li>
-			<li class="sub-title"><a href="/contact">회원 탈퇴</a></li>
-		</ul>
-	</div>
+
 </c:if>
-<div class="mypageinfobox">
+<div class="maincontent mypage-box">
+	<div class="mypageinfobox">
 
-	<div id="profileimg">
-		<div class="form_section_content">
-			<label for="profile" class="btn-upload"></label>
-			<input type="file" id ="profile" name='uploadFile'>
-		</div>
-		<div id = "uploadResult">
-		</div>
-		<div id="profilesave_btn_area">
-		</div>
-	</div>
-
-	<div class="container">
-		<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
-		<div class="info-container">
-			<p>
-				<c:choose>
-					<c:when test="${userInfoDTO.r_date.time >= startOfToday}">
-						가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="HH:mm" type="time"/>
-					</c:when>
-					<c:otherwise>
-						가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="yyyy-MM-dd" type="date"/>
-					</c:otherwise>
-				</c:choose>
-			</p>
-			<p>상점방문수 : ${userInfoDTO.view_cnt}</p>
-			<p>상품 판매: ${userInfoDTO.complete_cnt}회</p>
-		</div>
-		<c:if test="${userInfoDTO.ur_id eq loginId}">
-			<button type="button" id="modBtn">소개글 수정</button><br>
-		</c:if>
-		<c:if test="${userInfoDTO.ur_id eq loginId}">
-			<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 내용을 입력해 주세요." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
-		</c:if>
-		<c:if test="${userInfoDTO.ur_id ne loginId}">
-			<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 소개글이 없습니다." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
-		</c:if>
-	</div>
-</div>
-
-<div class="review-box">
-	<h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
-	<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
-        <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
-			★
-		</c:forEach>
-		<!-- 빈 별표(☆) 표시 -->
-        <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
-			☆
-		</c:forEach>
-	</span></h4>
-</div>
-
-<!-- 모달 창 -->
-<div id="myModal" class="modal" >
-	<div class="modal-content">
-		<span class="close">&times;</span>
-		<!-- 후기글 작성 폼 -->
-		<form class="mb-3" name="myform" id="myform">
-			<fieldset>
-				<span class="text-bold">별점을 선택해주세요</span>
-				<div id="starRating">
-					<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
-					<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
-					<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
-					<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
-					<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
-				</div>
-			</fieldset>
-			<div>
-				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+		<div id="profileimg">
+			<div class="form_section_content">
+				<label for="profile" class="btn-upload"></label>
+				<input type="file" id ="profile" name='uploadFile'>
 			</div>
-			<button class="commentBtn" id="" type="button"></button>
-			<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
-		</form>
+			<div id = "uploadResult">
+			</div>
+			<div id="profilesave_btn_area">
+			</div>
+		</div>
+
+		<div class="container">
+			<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
+			<div class="info-container">
+				<p>
+					<c:choose>
+						<c:when test="${userInfoDTO.r_date.time >= startOfToday}">
+							가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="HH:mm" type="time"/>
+						</c:when>
+						<c:otherwise>
+							가입날짜 : <fmt:formatDate value="${userInfoDTO.r_date}" pattern="yyyy-MM-dd" type="date"/>
+						</c:otherwise>
+					</c:choose>
+				</p>
+				<p>상점방문수 : ${userInfoDTO.view_cnt}</p>
+				<p>상품 판매: ${userInfoDTO.complete_cnt}회</p>
+			</div>
+			<c:if test="${userInfoDTO.ur_id eq loginId}">
+				<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 내용을 입력해 주세요." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
+			</c:if>
+			<c:if test="${userInfoDTO.ur_id ne loginId}">
+				<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 소개글이 없습니다." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
+			</c:if>
+			<c:if test="${userInfoDTO.ur_id eq loginId}">
+				<button type="button" id="modBtn">소개글 수정</button><br>
+			</c:if>
+		</div>
+	</div>
+	<div class="sub-container">
+		<div class="btn-group" style="width:100%">
+			<button style="width:33.3%"><a href="/myPage/saleInfo">판매/나눔/구매내역</a></button>
+			<button style="width:33.3%">후기</button>
+			<button style="width:33.3%"><a href="/contact">찜한 상품</a></button>
+		</div>
+	</div>
+	<div class="review-box">
+		<h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
+		<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
+			<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
+				★
+			</c:forEach>
+			<!-- 빈 별표(☆) 표시 -->
+			<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
+				☆
+			</c:forEach>
+		</span></h4>
+	</div>
+	<div id="commentList" ></div>
+	<!-- 모달 창 -->
+	<div id="myModal" class="modal" >
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<!-- 후기글 작성 폼 -->
+			<form class="mb-3" name="myform" id="myform">
+				<fieldset>
+					<span class="text-bold">별점을 선택해주세요</span>
+					<div id="starRating">
+						<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
+						<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
+						<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
+						<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
+						<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
+					</div>
+				</fieldset>
+				<div>
+					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+				</div>
+				<button class="commentBtn" id="" type="button"></button>
+				<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
+			</form>
+		</div>
 	</div>
 </div>
-<div id="commentList" ></div>
-</div>
-
 <script>
 
 	const uploadImage = (function() {

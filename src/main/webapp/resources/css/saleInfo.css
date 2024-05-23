@@ -1,3 +1,72 @@
+:root {
+    --bun-ui-sat: env(safe-area-inset-top);
+    --bun-ui-sar: env(safe-area-inset-right);
+    --bun-ui-sab: env(safe-area-inset-bottom);
+    --bun-ui-sal: env(safe-area-inset-left);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    word-break: keep-all;
+    -webkit-font-smoothing: inherit;
+}
+
+.sc-cPiKLX {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.sc-cPiKLX svg {
+    fill: #b2b2b2;
+    margin-top: 10px; /* SVG 아이콘의 상단 여백 조절 */
+}
+
+.bun-ui-search {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    width: 396px; /* 검색 입력 필드의 너비 */
+    height: 30px; /* 검색 입력 필드의 높이 */
+}
+
+.sc-57cf470b-1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px 8px;
+    position: relative;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    margin: 0px;
+    border: 0px;
+    vertical-align: baseline;
+}
+
+.sc-57cf470b-3 {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.sc-57cf470b-3 svg {
+    fill: #1e1d29;
+}
+
+/* 중복되지 않는 다른 스타일들 */
+
 .article-container {
     position: relative;
     margin-bottom: 20px;
@@ -7,7 +76,7 @@
 
 .content-section {
     display: flex;
-    position: relative; /* Position 설정 */
+    position: relative;
 }
 
 .text-section {
@@ -38,7 +107,6 @@ footer button {
     cursor: pointer;
 }
 
-/* 아래는 기존 CSS */
 .bun-ui-tab {
     background-color: transparent;
     border: none;
@@ -49,8 +117,8 @@ footer button {
 }
 
 .bun-ui-tab-selected {
-    border-bottom: 2px solid #fbc02d; /* 더 진한 노란색 */
-    color: #f57f17; /* 어울리는 글자 색상 */
+    border-bottom: 2px solid #fbc02d;
+    color: #f57f17;
 }
 
 .bun-ui-divider {
@@ -100,31 +168,16 @@ section {
     transform: translateX(-50%);
 }
 
+.maincontent {
+    width: 1523px;
+    /* height: 100%; */
+    margin: 0 auto;
+    position: relative;
+}
+
 .bun-ui-divider {
     display: flex;
     justify-content: center;
-}
-
-.sc-57cf470b-1.fFtTgD {
-    --bun-ui-sat: env(safe-area-inset-top);
-    --bun-ui-sar: env(safe-area-inset-right);
-    --bun-ui-sab: env(safe-area-inset-bottom);
-    --bun-ui-sal: env(safe-area-inset-left);
-    word-break: keep-all;
-    -webkit-font-smoothing: inherit;
-    font-size: 16px;
-    line-height: 1.5;
-    box-sizing: border-box;
-    font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-    margin: 0px;
-    border: 0px;
-    vertical-align: baseline;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    padding: 0px 20px 8px;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
 }
 
 .purchase-info {
@@ -145,7 +198,6 @@ p {
     margin: 0 5px;
 }
 
-/* 모달의 CSS를 확인합니다. */
 .modal {
     position: fixed;
     z-index: 1000;
@@ -153,10 +205,10 @@ p {
     left: 0;
     width: 103%;
     height: 100%;
-    display: none; /* 초기에는 숨깁니다. */
+    display: none;
     justify-content: center;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* 배경 반투명 설정 */
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
@@ -221,23 +273,23 @@ p {
 }
 
 button[type="button"] {
-    padding: 5px 10px;  /* 버튼 크기 줄이기 */
-    background-color: #ffeb3b;  /* 노란색 배경 */
+    padding: 5px 10px;
+    background-color: #ffeb3b;
     border: none;
-    color: #333;  /* 어울리는 글자 색 */
+    color: #333;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;  /* 글자 크기 조절 */
+    font-size: 14px;
 }
 
 button[type="button"]:hover {
-    background-color: #fdd835;  /* 호버 시 약간 어두운 노란색 */
-    color: #111;  /* 호버 시 어울리는 글자 색 */
+    background-color: #fdd835;
+    color: #111;
 }
 
 .navigation {
-    background-color: #f7d564; /* 치즈 느낌의 배경색 */
-    color: #333; /* 어두운 텍스트 색상 */
+    background-color: #f7d564;
+    color: #333;
     width: 200px;
     float: left;
 }
@@ -257,33 +309,28 @@ button[type="button"]:hover {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-    color: #333; /* 어두운 텍스트 색상 */
+    color: #333;
 }
 
-/* 제목 스타일 */
 .navigation ul li.main-title a {
     font-weight: bold;
-    font-size: 1.2em; /* 글씨 크기를 크게 조정 */
+    font-size: 1.2em;
     background-color: rgba(245, 157, 28, 1);
-    color: white; /* 다른 색상으로 변경 (예시: 오렌지색) */
-    margin-bottom: 5px; /* 제목 아래로 약간의 여백 추가 */
+    color: white;
+    margin-bottom: 5px;
 }
 
-/* 부제목 스타일 */
 .navigation ul li.sub-title a {
     font-weight: bold;
-    color: white; /* 부제목 색상 변경 (예시: 오렌지색) */
-    background-color: rgba(245, 157, 28, 1); /* 부제목 배경색 변경 (예시: 연한 주황색) */
-    padding: 5px 10px; /* 패딩 추가 */
-    border-radius: 5px; /* 라운드 처리 */
+    color: white;
+    background-color: rgba(245, 157, 28, 1);
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-
-/* 나머지 링크 스타일 */
 .navigation ul li a:hover {
-    background-color: #e3c565; /* 호버 시 치즈 느낌의 어두운 색상 */
+    background-color: #e3c565;
 }
-
 
 .saleinfo-box {
     height: 1400px;

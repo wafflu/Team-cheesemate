@@ -1,69 +1,30 @@
-.navigation {
-    background-color: #f7d564; /* 치즈 느낌의 배경색 */
-    color: #333; /* 어두운 텍스트 색상 */
-    width: 200px;
-    float: left;
-}
-
-.navigation ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.navigation ul li {
-    display: block;
-}
-
-.navigation ul li a {
-    display: block;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    color: #333; /* 어두운 텍스트 색상 */
-}
-
-/* 제목 스타일 */
-.navigation ul li.main-title a {
-    font-weight: bold;
-    font-size: 1.2em; /* 글씨 크기를 크게 조정 */
-    background-color: rgba(245, 157, 28, 1);
-    color: white; /* 다른 색상으로 변경 (예시: 오렌지색) */
-    margin-bottom: 5px; /* 제목 아래로 약간의 여백 추가 */
-}
-
-/* 부제목 스타일 */
-.navigation ul li.sub-title a {
-    font-weight: bold;
-    color: white; /* 부제목 색상 변경 (예시: 오렌지색) */
-    background-color: rgba(245, 157, 28, 1); /* 부제목 배경색 변경 (예시: 연한 주황색) */
-    padding: 5px 10px; /* 패딩 추가 */
-    border-radius: 5px; /* 라운드 처리 */
-}
-
-
-/* 나머지 링크 스타일 */
-.navigation ul li a:hover {
-    background-color: #e3c565; /* 호버 시 치즈 느낌의 어두운 색상 */
-}
-
 
 .mypage-box{
     height: 100%;
 }
 
 .mypageinfobox {
-    width: 800px;
+    width: 1198px;
+    height: 349.6px;
+    border: 2px solid #000; /* 테두리 색상과 두께 설정 */
+    box-sizing: border-box; /* 테두리를 포함한 전체 크기를 지정 */
+    padding: 20px; /* 안쪽 여백 설정 */
+    margin: 0 auto; /* 수평 가운데 정렬 */
+    overflow: hidden; /* 내용이 넘칠 경우 숨김 */
     margin-top: 20px;
     padding: 20px;
     position: relative;
     float: left;
+    border-radius: 50px;
+    border-color: lightgoldenrodyellow;
 }
 
 .container{
     position: absolute;
     right: 0;
     top:0;
+    margin-top: 29px;
+    margin-right: 168px;
 }
 
 .container h4 {
@@ -72,13 +33,15 @@
 
 .container p {
     display: inline-block; /* 요소를 인라인 블록 요소로 변경하여 가로 정렬 */
-    margin-right: 20px; /* 각 정보 사이의 우측 여백 조정 */
+    margin-right: 180px; /* 각 정보 사이의 우측 여백 조정 */
 }
 
 .container textarea {
     resize: none;
-    width: 500px;
+    width: 714px;
     height: 200px;
+    border-radius: 10px;
+    border: 1px solid rgba(128, 128, 128, 0.5); /* 회색을 반투명하게 */
 }
 
 #commentList {
@@ -221,6 +184,7 @@ div register_img{
     width: 250px;
     height: 250px;
     position: relative;
+    margin-top: 26px;
 }
 .form_section_content{
     position: absolute;
@@ -298,4 +262,28 @@ div register_img{
     clear:both;
     width: 800px;
     margin-left: 220px;
+}
+.btn-group button {
+    background-color: rgba(245, 157, 28, 1);
+    border: 1px solid yellow; /* Green border */
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+}
+
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: rgba(245, 157, 28, 1);
 }
