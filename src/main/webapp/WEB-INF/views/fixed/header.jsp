@@ -30,19 +30,27 @@
         })();
 
         const cssImage = (function() {
-            let imginfo = {};
+            let cssimginfo = {};
 
-            <c:forEach items="${imglist}" var="img">
-                imginfo['${img.o_name}'] = "${img.img_full_rt}";
+            <c:forEach items="${headerimglist}" var="img">
+            cssimginfo['${img.o_name}'] = "${img.img_full_rt}";
             </c:forEach>
-
             return {
                 getImgInfo: function() {
-                    return imginfo;
+                    return cssimginfo;
                 }
             };
         })();
 
+        const uploadImage = (function() {
+            let uploadImage = [];
+
+            return {
+                getImgInfo: function() {
+                    return uploadImage;
+                }
+            };
+        })();
     </script>
 
 </head>
@@ -65,8 +73,13 @@
                     </span>
                 <span class="subnavspan">
                     <form id="postForm" action="/sale/write" method="POST" style="display: none;">
-                        <input type="hidden" name="addr_cd" value="${sessionScope.userAddrCdDtoList.get(0).addr_cd}">
-                        <input type="hidden" name="addr_name" value="${sessionScope.userAddrCdDtoList.get(0).addr_name}">
+                        <!-- userAddrCdDtoList가 비어있지 않은 경우에만 파라미터를 추가 -->
+                        <c:if test="${not empty sessionScope.userAddrCdDtoList}">
+                            <input type="hidden" name="addr_cd"
+                                   value="${not empty sessionScope.userAddrCdDtoList ? sessionScope.userAddrCdDtoList[0].addr_cd : ''}">
+                            <input type="hidden" name="addr_name"
+                                   value="${not empty sessionScope.userAddrCdDtoList ? sessionScope.userAddrCdDtoList[0].addr_name : ''}">
+                        </c:if>
                     </form>
 
                     <a href="#" id="storelink" class="subnavlink" onclick="document.getElementById('postForm').submit(); return false;">
@@ -95,7 +108,7 @@
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
             </li>
             <li class="navli">
-                <a href="/qna/list"><span class="navtext">고객센터</span></a>
+                <a href="/faq/list"><span class="navtext">고객센터</span></a>
             </li>
         </ul>
     </div>
@@ -106,14 +119,13 @@
 <script>
     $(document).ready(function (){
         let imgInfo = cssImage.getImgInfo();
+        console.log(imgInfo)
         $("#logoimg").attr("src", "/img/display?fileName=" + imgInfo['logo']);
         $("#chaticon").attr("src", "/img/display?fileName=" + imgInfo['chat']);
         $("#storeicon").attr("src", "/img/display?fileName=" + imgInfo['store']);
         $("#usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
         $("#search").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
     });
-    // document.addEventListener("DOMContentLoaded", function() {
-    //
-    // });
 </script>
+<%----%>
 

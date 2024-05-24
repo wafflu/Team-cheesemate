@@ -69,23 +69,19 @@ public class ResisterController {
                 new Timestamp(System.currentTimeMillis()),
                 ""
         );
+        AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
+        AddrCdDto addrCdDto = new AddrCdDto();
 
-        if(userService.insertNewUser(userDto) == 1) {
+        addrCdDto.setUr_id(userDto.getId());
+        addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
+        addrCdDto.setAddr_name(administrativeDto.getAddr_name());
+        addrCdDto.setState('Y');
+        addrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
+        addrCdDto.setFirst_id("admin");
+        addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
+        addrCdDto.setLast_id("admin");
 
-            AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
-            AddrCdDto addrCdDto = new AddrCdDto();
-
-            addrCdDto.setUr_id(userDto.getId());
-            addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
-            addrCdDto.setAddr_name(administrativeDto.getAddr_name());
-            addrCdDto.setState('Y');
-            addrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
-            addrCdDto.setFirst_id("admin");
-            addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
-            addrCdDto.setLast_id("admin");
-
-            addrCdService.insertAddrCd(addrCdDto);
-
+        if(userService.insertNewUser(userDto, addrCdDto) == 1) {
             return "loginForm";
         }
         else {

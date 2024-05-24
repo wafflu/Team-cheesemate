@@ -3,24 +3,80 @@
     flex: 1;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-    margin-top: 150px; /* 헤더 높이만큼 여백 추가 */
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .qnaForm_aside {
-    width: 200px;
+    width: 250px;
     background-color: #eee;
     padding: 1rem;
+    border-right: 1px solid #ddd;
 }
+
 .qnaForm_main {
     flex: 1;
     padding: 1rem;
 }
-.qnaForm_form {
-    border: 1px solid #ccc;
-    padding: 20px;
-    box-shadow: 0 0 10px #ccc;
-    background: #fff;
-}
+
 .qnaForm_div {
+    margin-bottom: 20px;
+}
+
+.qnaForm_div label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.qnaForm_div select,
+.qnaForm_div input[type="text"],
+.qnaForm_div textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.qnaForm_buttonContainer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.qnaForm_submitButton {
+    background-color: #fff;
+    color: black;
+    padding: 10px 20px;
+    border: 1px solid #8A8989;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.qnaForm_submitButton:hover {
+    background-color: #ee8703;
+    color: white;
+}
+
+.qnaForm_notice {
+    border-top: 1px solid #ccc;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.qnaForm_notice h3 {
+    font-size: 1.2rem;
     margin-bottom: 10px;
+}
+
+.qnaForm_notice ul {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+.qnaForm_notice ul li {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
 }

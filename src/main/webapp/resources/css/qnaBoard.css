@@ -3,22 +3,79 @@
     flex: 1;
     max-width: 1200px;
     margin: 0 auto;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 .qnaBoard_aside {
     width: 200px;
     background-color: #eee;
     padding: 1rem;
 }
+
 .qnaBoard_main {
     flex: 1;
     padding: 1rem;
 }
-.qnaBoard_header {
+
+.qnaBoard_div {
     margin-bottom: 20px;
 }
-.qnaBoard_contents {
-    margin-bottom: 20px;
+
+.qnaBoard_div label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
-.qnaBoard_buttons {
-    margin-bottom: 20px;
+
+.qnaBoard_div input[type="text"],
+.qnaBoard_div textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.qnaBoard_buttonContainer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.qnaBoard_buttonContainer button {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.qnaBoard_submitButton {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.qnaBoard_submitButton:hover {
+    background-color: #0056b3;
+}
+
+.qnaBoard_deleteButton {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.qnaBoard_deleteButton:hover {
+    background-color: #c82333;
+}
+
+.qnaBoard_inlineForm {
+    display: inline;
 }

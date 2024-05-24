@@ -45,6 +45,7 @@ $(document).ready(function() {
             }
         });
     }
+
     // 마우스 클릭과 엔터 중복 입력을 방지
     $("#qnaForm_submit").on('keydown', function(e) {
         if (e.key === 'Enter') {
@@ -95,5 +96,6 @@ function qnaForm_submitCheck(e) {
         alert('내용을 20자 이상 입력해주세요.');
         return false;
     }
+    alert("문의글이 등록되었습니다.");
     return true; // 모든 검사가 통과하면 폼 제출을 허용
 }

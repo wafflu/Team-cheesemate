@@ -11,6 +11,11 @@
     .page-space {
         margin: 0 5px; /* 공백 크기 조절 */
     }
+    /* 임시로 style 추가 : css 수정 필요*/
+    img {
+        width: 100px;
+        height: 100px;
+    }
 </style>
 
 <div class="maincontent">
