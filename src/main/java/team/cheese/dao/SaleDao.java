@@ -16,6 +16,9 @@ public interface SaleDao {
     // 판매글 전부 가져오기
     List<SaleDto> selectAll() throws Exception;
 
+    // 판매자의 판매글 가져오기
+    List<SaleDto> selectSeller() throws Exception;
+
     // 사용자가 속한 지역, 카테고리의 판매글 전부 가져오기
     List<SaleDto> selectSaleList(Map map) throws Exception;
 

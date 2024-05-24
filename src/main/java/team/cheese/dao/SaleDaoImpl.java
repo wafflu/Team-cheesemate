@@ -38,6 +38,11 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
+    public List<SaleDto> selectSeller() throws Exception {
+        return session.selectList(namespace + "selectSeller");
+    }
+
+    @Override
     public List<SaleDto> selectSaleList(Map map) throws Exception {
         return session.selectList(namespace + "selectSales", map);
     }

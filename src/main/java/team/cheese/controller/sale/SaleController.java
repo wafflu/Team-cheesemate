@@ -105,6 +105,13 @@ public class SaleController {
 
     }
 
+    // 게시글 리스트 중 하나를 클릭한 경우
+    @RequestMapping("/manage")
+    public String manage(Model model, HttpSession session, HttpServletRequest request) throws Exception {
+
+        return "/sale/saleManage";
+    }
+
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
     @PostMapping("/modify")
     public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {

@@ -92,7 +92,6 @@
 
 
 </style>
-
 <div class="maincontent totalBox">
     <div class="header-actions">
         <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매/나눔 글작성하기</button>

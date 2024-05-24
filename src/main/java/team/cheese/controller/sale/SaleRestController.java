@@ -221,6 +221,46 @@ public class SaleRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // ajax로 판매자의 판매글 list 읽어옴
+    @RequestMapping("/managePage")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getSellerList(@RequestParam(defaultValue = "1") int page,
+                                                             @RequestParam(defaultValue = "10") int pageSize,
+                                                             @RequestParam(required = false) String title,
+                                                             @RequestParam(required = false) String tx_s_cd,
+                                                             HttpSession session) throws Exception {
+
+        if (title.equals("null") || title.equals("")) {
+            title = null;
+        }
+        if (tx_s_cd.equals("null") || tx_s_cd.equals("")) {
+            tx_s_cd = null;
+        }
+
+        Map map = new HashMap();
+        map.put("addr_cd", title);
+        map.put("sal_i_cd", tx_s_cd);
+
+        int totalCnt = saleService.getCount(map);
+
+        PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+
+        map.put("offset", ph.getOffset());
+        map.put("pageSize", pageSize);
+
+        List<SaleDto> saleList = saleService.getList(map);
+
+        Map result = new HashMap();
+
+        long startOfToday = getStartOfToday();
+
+        result.put("ph", ph);
+        result.put("saleList", saleList);
+        result.put("startOfToday", startOfToday);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     // ajax 주소 검색
     @RequestMapping("/updateSaleSCd")
     public ResponseEntity<String> updateSaleSCd(@RequestParam Long no,
