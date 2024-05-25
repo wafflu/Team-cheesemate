@@ -57,20 +57,16 @@ public class UserService {
                     return dto;
                 }
                 else {
-                    System.out.println("유효하지 않은 유저 비밀번호 입니다.");
                     return null;
                 }
             }
             else {
-                System.out.println("유효하지 않은 유저 아이디 입니다.");
                 return null;
             }
         } catch (DataAccessException e) {
-            System.out.println("DB Access Exception");
             e.printStackTrace();
             return null;
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("NoSuchAlgorithmException");
             e.printStackTrace();
             return null;
 //            throw new RuntimeException(e);
@@ -86,7 +82,6 @@ public class UserService {
 
             return userIdList;
         } catch (Exception e) {
-            System.out.println("DB Access Exception");
             e.printStackTrace();
             return null;
         }

@@ -21,14 +21,12 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         super.afterConnectionEstablished(session);
         connectionCount.incrementAndGet(); // 클라이언트 연결 수 증가
-        System.out.println("클라이언트 연결 수: " + connectionCount.get());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         super.afterConnectionClosed(session, status);
         connectionCount.decrementAndGet(); // 클라이언트 연결 수 감소
-        System.out.println("클라이언트 연결 수: " + connectionCount.get());
     }
 
     @Override

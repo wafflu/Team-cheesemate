@@ -98,8 +98,6 @@ public class ImgServiceImpl implements ImgService {
             imgDao.insert(wimg);
             imgDao.insert(imggroup(gno, wimg.getNo(), userid));
         }
-        System.out.println("완료");
-
         return spath;
     }
 
@@ -130,9 +128,7 @@ public class ImgServiceImpl implements ImgService {
     public String modify_img(ArrayList<ImgDto> imgList, int gno, int salegno, String userid) {
         ArrayList<ImgDto> list = imgDao.select_img(salegno);
 
-        System.out.println("삭제할 그룹 : "+salegno);
         for(ImgDto img : list){
-            System.out.println(img.getImg_full_rt());
             deleteFile(img.getImg_full_rt());
         }
 
@@ -140,7 +136,6 @@ public class ImgServiceImpl implements ImgService {
         String spath = "";
 
         //기존 이미지 상태 전부 비활성화
-        System.out.println("비활성화 : "+salegno);
         HashMap updatestate = new HashMap<>();
         updatestate.put("state", "N");
         updatestate.put("no", salegno);

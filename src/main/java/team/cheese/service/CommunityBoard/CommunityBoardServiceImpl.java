@@ -58,14 +58,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
         params.put("offset",offset);
         params.put("pageSize", pageSize);
 
-
-        // 디버그 로그 추가
-//        System.out.println("Page: " + page);
-//        System.out.println("PageSize: " + pageSize);
-//        System.out.println("offset: " + (page - 1) * pageSize);
-//        System.out.println("Category: " + category);
-
-
         List<CommunityBoardDto> list = communityBoardDao.selectPageByCategory(params);
         if(list==null){
             throw new Exception("게시글 목록 조회 중 오류 발생했습니다.");
@@ -144,8 +136,6 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
             communityBoardDto.setImg_full_rt("0");
             communityBoardDto.setGroup_no(0);
         }
-
-        System.out.println("serivce modify : "+communityBoardDto);
 
         return communityBoardDao.update(communityBoardDto);
     }

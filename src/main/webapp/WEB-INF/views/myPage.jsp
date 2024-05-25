@@ -1,22 +1,11 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="fixed/header.jsp" %>
 <%@ page session="true"%>
 <c:set var="loginId" value="${sessionScope.userId}"/>
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-	<title>My Page</title>
-	<link rel="stylesheet" href="/css/myPage.css">
-</head>
-<%--<script>--%>
-<%--   let msg ="${msg}"--%>
-<%--   if(msg=="MyPage Read Complete") alert("메인페이지 접근 성공");--%>
-<%--</script>--%>
-<body>
+
+<link rel="stylesheet" href="/css/myPage.css">
 <c:if test="${userInfoDTO.ur_id eq loginId}">
+<div class="maincontent mypage-box">
 	<div class="navigation">
 		<ul>
 			<li><a href="/myPage/main">마이페이지</a></li>
@@ -30,19 +19,18 @@
 		</ul>
 	</div>
 </c:if>
-<div id="profileimg">
-	<div class="form_section_content">
-		<label for="profile" class="btn-upload"></label>
-		<input type="file" id ="profile" name='uploadFile'>
-	</div>
-	<div id = "uploadResult">
+<div class="mypageinfobox">
 
-		<%--      <img src="/img/display?fileName=Noneprofile.jpg" class="profileimg">--%>
+	<div id="profileimg">
+		<div class="form_section_content">
+			<label for="profile" class="btn-upload"></label>
+			<input type="file" id ="profile" name='uploadFile'>
+		</div>
+		<div id = "uploadResult">
+		</div>
+		<div id="profilesave_btn_area">
+		</div>
 	</div>
-	<div id="profilesave_btn_area">
-
-	</div>
-</div>
 
 <div class="container">
 	<h2>닉네임 : ${userInfoDTO.nick} (ID : ${userInfoDTO.ur_id})</h2>
@@ -70,16 +58,21 @@
 		<textarea id="${userInfoDTO.ur_id}" name="contents" placeholder=" 소개글이 없습니다." readonly='readonly'><c:out value='${userInfoDTO.contents}'/></textarea><br>
 	</c:if>
 </div>
-<h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
-<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
+</div>
+
+<div class="review-box">
+	<h3 style="margin-bottom: 10px;">상점 후기 <span id="rv_cmt_cnt"> ${userInfoDTO.rv_cmt_cnt}</span></h3>
+	<h4>평균 별점<span id="star_avg"> ${userInfoDTO.star_avg}</span> <span id="averageStarRating">
         <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
 			★
 		</c:forEach>
-	<!-- 빈 별표(☆) 표시 -->
+		<!-- 빈 별표(☆) 표시 -->
         <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
 			☆
 		</c:forEach>
-</span></h4>
+	</span></h4>
+</div>
+
 <!-- 모달 창 -->
 <div id="myModal" class="modal" >
 	<div class="modal-content">
@@ -105,12 +98,24 @@
 	</div>
 </div>
 <div id="commentList" ></div>
+</div>
 
 <script>
-	//이미지 등록하기
 
-	let Image = (function() {
+	const uploadImage = (function() {
 		let imginfo = [];
+
+		<c:forEach items="${imglist}" var="img">
+		<c:if test="${img.imgtype eq 'r'}">
+		imginfo.push(
+				{
+					"file_rt" : "${img.file_rt}",
+					"o_name" : "${img.o_name}",
+					"e_name" : "${img.e_name}"
+				}
+		)
+		</c:if>
+		</c:forEach>
 
 		return {
 			getImgInfo: function() {
@@ -126,7 +131,7 @@
 			type : 'POST',
 			contentType : 'application/json; charset=UTF-8',
 			dataType : 'text',
-			data : JSON.stringify(Image.getImgInfo()),
+			data : JSON.stringify(uploadImage.getImgInfo()),
 			success: function (result) {
 				location.replace(result);
 			},
@@ -478,5 +483,4 @@
 </script>
 
 <script src="/js/img.js"></script>
-</body>
-</html>
+<%@ include file="fixed/footer.jsp" %>
