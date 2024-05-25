@@ -127,11 +127,12 @@
             <div class="form_section_content">
                 <input type="file" id="fileItem" name="uploadFile" style="height: 30px;" multiple>
             </div>
+
             <div id="uploadResult">
                 <c:forEach items="${imglist}" var="img">
                     <c:if test="${img.imgtype eq 'r'}">
                         <div id='result_card'>
-                            <img src="/img/display?fileName=${img.img_full_rt}'" id="resizable">
+                            <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
                             <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
                         </div>
                     </c:if>

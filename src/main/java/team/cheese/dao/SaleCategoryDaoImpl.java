@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import team.cheese.domain.SaleCategoryDto;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class SaleCategoryDaoImpl implements SaleCategoryDao{
@@ -36,5 +37,10 @@ public class SaleCategoryDaoImpl implements SaleCategoryDao{
     @Override
     public List<SaleCategoryDto> selectCategory3(String category2) throws Exception {
         return session.selectList(namespace + "selectCategory3", category2);
+    }
+
+    @Override
+    public String categoryName(Map map) throws Exception {
+        return session.selectOne(namespace + "categoryName", map);
     }
 }

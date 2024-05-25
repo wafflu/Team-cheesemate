@@ -95,3 +95,10 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
+
+.profileimg{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100%;
+}

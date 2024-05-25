@@ -57,8 +57,11 @@ function comma(num){
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-function textlengover(txt) {
+function textlengover(txt, num) {
     let len = 20;
+    if(num !== undefined){
+        len = num;
+    }
     let lastTxt = "...";
     if (txt.length > len) {
         txt = txt.substr(0, len) + lastTxt;

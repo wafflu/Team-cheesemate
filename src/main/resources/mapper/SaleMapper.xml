@@ -226,7 +226,7 @@
         alter table sale auto_increment = 1
     </update>
 
-<!--  U : 구매자가 판매글 구매시   -->
+    <!--  U : 구매자가 판매글 구매시   -->
     <update id="buySale" parameterType="SaleDto">
         UPDATE sale
         SET sal_s_cd = #{sal_s_cd},

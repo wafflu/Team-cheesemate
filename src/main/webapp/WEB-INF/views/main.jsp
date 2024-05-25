@@ -1,5 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<link rel="stylesheet" href="/css/mainslider.css">
 <style>
     .eventImg{
         width: 100%;
@@ -29,7 +29,7 @@
 
     <div id="sale_slider_box">
         <div id="home_sale_title">방금 등록된 상품</div>
-        <a href="/sale/list" id="home_sale_more">더보기</a>
+        <a href="/sale/list" id="home_sale_more">더보기 ></a>
         <div id="sale-slider-div" class="slider-div"></div>
     </div>
 </div>
@@ -87,14 +87,16 @@
         <c:forEach items="${salelist}" var="sale">
         time = remaindTime(new Date("${sale.h_date}"));
         price = comma("${sale.price}");
-        text = textlengover("${sale.title}");
+        text = textlengover("${sale.title}", 15);
         str += "<div class='salesliderimg'>";
         str += `<a href="/sale/read?no=${sale.no}">`;
         str += `<img src="/img/display?fileName=${sale.img_full_rt}" alt="${sale.img_full_rt}" class="saleImg">`;
-        str += `<p class="home_sale_title">`+text+`</p>`;
-        str += `<p class="home_sale_h_date">`+time+`</p>`;
+        str += `<h2 class="home_sale_title home_sale">`+text+`</h2>`;
+        str += "<div class='saleinfo-info home_sale'>";
         str += `<p class="home_sale_price">`+price+`원</p>`;
-        str += `<p class="home_sale_addr_name">${sale.addr_name}</p>`;
+        str += `<p class="home_sale_h_date">`+time+`</p>`;
+        str += "</div>";
+        str += `<p class="home_sale_addr_name home_sale">${sale.addr_name}</p>`;
         str += `</a>`;
         str += "</div>";
         </c:forEach>
@@ -119,7 +121,7 @@
             arrows : true,         // 옆으로 이동하는 화살표 표시 여부
             dots : true,         // 스크롤바 아래 점으로 페이지네이션 여부
             autoplay : true,            // 자동 스크롤 사용 여부
-            autoplaySpeed : 5000,         // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+            autoplaySpeed : 3000,         // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
             pauseOnHover : false,        // 슬라이드 이동    시 마우스 호버하면 슬라이더 멈추게 설정
             vertical : false,        // 세로 방향 슬라이드 옵션
             prevArrow : "<button type='button' class='slick-prev slick-btn'></button>",        // 이전 화살표 모양 설정

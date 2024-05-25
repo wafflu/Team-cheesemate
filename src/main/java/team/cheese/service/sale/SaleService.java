@@ -108,7 +108,7 @@ public class SaleService {
 
         return sal_no;
     }
-    
+
     // tag 데이터를 insert하는 트렌젝션 문
     @Transactional(propagation = Propagation.REQUIRED)
     public int insertTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
@@ -217,10 +217,51 @@ public class SaleService {
             return map;
         }
 
+        String sal_cd = saleDto.getSal_i_cd();
+        System.out.println("sal_cd : " + sal_cd);
+
+        Map categoryMap = new HashMap();
+
+        String sal_name = "";
+        if(sal_cd.length() == 9) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            System.out.println("sal_cd 3 : " + sal_cd);
+
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category3Name", sal_name);
+
+            sal_cd = sal_cd.substring(0,6);
+        }
+
+        if(sal_cd.length() == 6) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            System.out.println("sal_cd 2 : " + sal_cd);
+
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category2Name", sal_name);
+
+            sal_cd = sal_cd.substring(0,3);
+        }
+
+        if(sal_cd.length() == 3) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category1Name", sal_name);
+            System.out.println("sal_cd 1 : " + sal_cd);
+        }
+
         List<TagDto> tagDto = saleTagRead(no);
         map.put("tagDto", tagDto);
 
         return map;
+    }
+
+    public String category1Text(Map map) throws Exception {
+        String categoryName = saleCategoryDao.categoryName(map);
+        return categoryName;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -335,4 +376,3 @@ public class SaleService {
             throw new Exception("구매/예약시 예외발생");
     }
 }
-

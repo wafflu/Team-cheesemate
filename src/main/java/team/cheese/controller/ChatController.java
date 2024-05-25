@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import team.cheese.dao.SaleDao;
 import team.cheese.domain.ChatMessageDto;
 import team.cheese.domain.ChatRoomDto;
+import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.domain.ProfileimgDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.service.ChatService;
+import team.cheese.service.MyPage.UserInfoService;
 
 import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
@@ -27,17 +29,13 @@ import java.util.Date;
 public class ChatController {
     @Autowired
     ChatService chatService;
-
-    @Autowired
-    SaleDao saleDao;
     
     @GetMapping("/chat2")
-    public String chat(Model model, HttpSession session,@RequestParam(defaultValue = "0") int no) {
+    public String chat(Model model, HttpSession session,@RequestParam(defaultValue = "0") int no) throws Exception {
         //임시 테스트용
         if(session.getAttribute("userId") == null){
             return "redirect:/loginForm";
         }
-//        String userid = (String) session.getAttribute("userId");
         String usernick = (String) session.getAttribute("userNick");
 
         model.addAttribute("roomid", no);

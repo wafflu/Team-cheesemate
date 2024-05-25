@@ -18,6 +18,16 @@
 
 </div>
 <script>
+    const uploadImage = (function() {
+        let imginfo = [];
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
     function truncateString(str, num){
         if(num < str.length){
             return str.slice(0,num) + "...";
@@ -51,7 +61,9 @@
 
                         s += "<td class='article-section'>";
                         s += "<p class='article-no'>" + item1.no + "</p>";
-                        s += "<p class='article-img'> <img src='/img/display?fileName="+ item1.img_full_rt +  "' alt='이미지'/></p>";
+                        if(item1.img_full_rt !== ""){
+                            s += "<p class='article-img'> <img src='/img/display?fileName="+ item1.img_full_rt +  "' alt='이미지'/></p>";
+                        }
                         s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + item1.title + "</a></p>";
                         s += "<p class='article-nick'>" + item1.nick + "</p>";
                         s += "<p class='article-view_cnt'>" + item1.view_cnt + "</p>";
@@ -64,7 +76,9 @@
                         if (item2 !== undefined) {
                             s += "<td class='article-section'>";
                             s += "<p class='article-no'>" + item2.no + "</p>";
-                            s += "<p class='article-img'> <img src='/img/display?fileName="+ item2.img_full_rt +  "' alt='이미지'/></p>";
+                            if(item2.img_full_rt !== ""){
+                                s += "<p class='article-img'> <img src='/img/display?fileName="+ item2.img_full_rt +  "' alt='이미지'/></p>";
+                            }
                             s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + item2.title + "</a></p>";
                             s += "<p class='article-nick'>" + item2.nick + "</p>";
                             s += "<p class='article-view_cnt'>" + item2.view_cnt + "</p>";
