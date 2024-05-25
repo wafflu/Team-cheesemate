@@ -286,31 +286,6 @@ public class SaleRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
-    @PostMapping("/modify")
-    @ResponseBody
-    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-
-        Map map = saleService.modify(no);
-        SaleDto saleDto = (SaleDto) map.get("saleDto");
-        String tagContents = (String) map.get("tagContents");
-        HttpSession session = request.getSession();
-        String user_id = (String) session.getAttribute("userId");
-        String user_nick = (String) session.getAttribute("userNick");
-
-        saleDto.setSeller_id(user_id);
-        saleDto.setSeller_nick(user_nick);
-
-        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
-
-        model.addAttribute("Sale", saleDto);
-        model.addAttribute("Tag", tagContents);
-        model.addAttribute("imglist", imglist); // model로 값 전달
-        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-
-        return "/sale/saleWrite";
-    }
-
 
     public long getStartOfToday() {
         Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();

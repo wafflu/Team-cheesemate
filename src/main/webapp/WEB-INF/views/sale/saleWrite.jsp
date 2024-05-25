@@ -316,14 +316,6 @@
 
 </style>
 <div class="totalBox">
-    <nav class="sc-krDsej dadRxL">
-        <div class="sc-eMigcr glslOQ">
-            <a class="sc-dTdPqK ldZEBw" href="/sale/write">상품등록</a>
-        </div>
-        <div class="sc-eMigcr hdRMxq">
-            <a class="sc-dTdPqK ldZEBw" href="/sale/manage">상품관리</a>
-        </div>
-    </nav>
     <div id="loadingOverlay">
         <div id="loadingSpinner"></div>
         <div id="loadingMessage">로딩 중...</div>
@@ -340,8 +332,8 @@
                 <c:forEach items="${imglist}" var="img">
                 <c:if test="${img.imgtype eq 'r'}">
                 <div id='result_card'>
-                    <img src="/img/display?fileName=" value="${img.img_full_rt}" id="resizable">
-                    <div class='imgDeleteBtn' data-file=" value="${img.img_full_rt}">x</div>
+                    <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
+                    <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
             </div>
             </c:if>
             </c:forEach>

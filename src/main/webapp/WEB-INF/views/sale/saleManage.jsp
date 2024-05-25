@@ -87,6 +87,11 @@
             margin: 0 auto;
         }
 
+        .Thumbnail_ima {
+            width: 80px;
+            height: 80px;
+        }
+
         /* 원하는 색상으로 선택된 옵션 변경 */
         .optionTx.selected {
             color: red; /* 빨간색 */
@@ -127,8 +132,6 @@
         .font16 {
             font-size: 16px;
         }
-
-
 
     </style>
 </head>
@@ -192,6 +195,7 @@
         <%--let seller_id = "${sessionScope.userId}";--%>
         let title = $('input[name="searchTitle"]').val(); // 판매글 제목 검색
         let sal_s_cd = null;
+        let pre_sal_s_cd = null;
 
         saleList(title, sal_s_cd);
 
@@ -201,6 +205,7 @@
             let title = $('input[name="searchTitle"]').val();
             let optionText = $(this).text();
             sal_s_cd = optionTextSwitch(optionText);
+            pre_sal_s_cd = sal_s_cd;
 
             // 모든 optionTx에 #7F7F7F 색상 적용
             $('.optionTx').css('color', '#7F7F7F');
@@ -245,6 +250,14 @@
                 saleList.forEach(function (sale) {
                     let optionText = $('.optionTx.selected').text();
                     let sal_s_cd = optionTextSwitch(optionText);;
+                    let price = '';
+                    if(sale.price > 0){
+                        price = comma(sale.price);
+                        price += "원";
+                    } else {
+                        price = "-";
+                    }
+                    let title = textlengover(sale.title, 25);
 
                     switch (sale.tx_s_cd) {
                         case 'S':
@@ -274,15 +287,15 @@
                     row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
 
                     // 판매상태
-                    row.append($("<td>").text(sal_s_cd)); // select option
+                    let statusSelect = createSaleStatusSelect(sale.sal_s_cd);
+                    row.append($("<td>").append(statusSelect));
 
                     // 상품명
-                    row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>"));
+                    row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + title + "</a>"));
 
                     // 가격
-                    row.append($("<td>").text(sale.price));
+                    row.append($("<td>").text(price));
 
-                    // 판매/나눔 + 가격제시/나눔신청 여부
                     // 판매/나눔 + 가격제시/나눔신청 여부
                     if(sale.bid_cd != 'N') {
                         row.append($("<td>").text(tx_name + "(" + bid_name + ")" ));
@@ -326,7 +339,6 @@
             }
         }
 
-        <%--let hoist_cnt = ${sale.hoist_cnt};--%>
         let max_hoist_cnt = 3;
 
         $(document).on("click", ".hoistingBtn", function() {
@@ -367,27 +379,21 @@
         });
 
         $(document).on("click", ".modifyBtn", function() {
-            // sal_no 값을 추출
             let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
-            alert(sal_no);
-            // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
             if (confirm("수정 하시겠습니까?")) {
-                // AJAX 요청을 사용하여 sal_no 값을 서버로 전송
-                $.ajax({
-                    type: 'POST',
-                    url: '/sale/modify',
-                    data: {
-                        no: sal_no
-                    },
-                    success: function(response) {
-                        // 서버 응답에 따라 페이지를 이동
-                        window.location.replace('/sale/modify?no=' + sal_no);
-                    },
-                    error: function(xhr, status, error) {
-                        // 요청이 실패한 경우, 오류 메시지를 알림창으로 표시
-                        alert("수정 요청에 실패했습니다. 다시 시도해주세요.");
-                    }
+                // form 엘리먼트 생성
+                let form = $('<form>').attr({
+                    method: 'POST',
+                    action: '/sale/modify'
                 });
+                // hidden input 필드 생성하여 sal_no 전달
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'no',
+                    value: sal_no
+                }).appendTo(form);
+                // form을 body에 추가하고 submit
+                form.appendTo('body').submit();
             }
         });
 
@@ -396,11 +402,11 @@
             let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
             alert(sal_no);
             // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
-            if (confirm("수정 하시겠습니까?")) {
+            if (confirm("삭제 하시겠습니까?")) {
                 // AJAX 요청을 사용하여 폼 데이터를 서버로 전송
                 $.ajax({
                     type: 'POST',
-                    url: '/sale/modify?no=' + sal_no,
+                    url: '/sale/remove?no=' + sal_no,
                     success: function(data) {
                         // 요청이 성공한 경우, saleList 함수를 호출하여 리스트를 업데이트
                         let title = $('input[name="searchTitle"]').val(); // 판매글 제목 검색
@@ -418,51 +424,38 @@
         });
 
 
-        // $(document).on("click", ".hoistingBtn", function() {
-        //     alert($(this));
-        //     let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
-        //     let hoistCntClass = $(this).closest("tr").find("td[class*='hoist_cnt_']").attr("class").split(" ").find(c => c.startsWith("hoist_cnt_"));
-        //     let hoist_cnt = hoistCntClass.replace("hoist_cnt_", "");
-        //
-        //     alert(sal_no + " " + hoist_cnt);
-        //
-        //     if (confirm("끌어올리겠습니까? 끌어올리기 한도가 " + (max_hoist_cnt-hoist_cnt) + "번 남았습니다.")) {
-        //         $("<input>").attr({
-        //             type: "hidden",
-        //             name: "no",
-        //             value: sal_no
-        //         }).appendTo("#form");
-        //         $("#form").attr("action", "/hoisting");
-        //         $("#form").submit();
-        //     }
-        // });
+        $(document).on("change", ".sal_s_cd", function() {
+            let sal_s_cd = $(this).val();
+            let sal_s_name = $(this).find("option:checked").text(); // 선택된 옵션의 텍스트 가져오기
+            let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
+            console.log("이전값 : " + pre_sal_s_cd);
+            console.log("선택값 : " + sal_s_cd);
 
-        <%--$("button[name='hoistingBtn']").on("click", function() {--%>
-        <%--    // 현재 클릭된 버튼의 부모인 <tr> 태그를 찾고 해당 클래스를 가져옵니다.--%>
-        <%--    var trClass = $(this).closest("tr").attr("class");--%>
+            $.ajax({
+                type: "POST",
+                url: "/sale/updateSaleSCd",
+                data: {no: sal_no, sal_s_cd: sal_s_cd, seller_id: "${sessionScope.userId}"},
+                success: function (data) {
+                    alert("판매글 상태가 " + sal_s_name + "(으)로 변경되었습니다.");
+                    saleList(title, pre_sal_s_cd);
+                },
+                error: function (xhr, status, error) {
+                    alert("판매글 상태 변경이 실패하였습니다.");
+                }
+            });
+        });
 
-        <%--    // 가져온 클래스를 가지고 원하는 작업을 수행합니다.--%>
-        <%--    alert("클릭된 버튼의 부모 <tr> 태그의 클래스: " + trClass);--%>
-        <%--// $("button[name='hoistingBtn']").on("click", function () {--%>
-        <%--//     let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");--%>
-        <%--//     alert(sal_no);--%>
-        <%--    // if (confirm("끌어올리겠습니까? 끌어올리기 한도가" + (max_hoist_cnt-hoist_cnt) + "남았습니다.")) {--%>
-        <%--    if (confirm("끌어올리겠습니까? 끌어올리기 한도가 남았습니다.")) {--%>
-        <%--        let saleNo = "${Sale.no}";--%>
-        <%--        $("<input>").attr({--%>
-        <%--            type: "hidden",--%>
-        <%--            name: "no",--%>
-        <%--            value: saleNo--%>
-        <%--        }).appendTo("#form");--%>
-        <%--        $("#form").attr("action", "/hoisting");--%>
-        <%--        $("#form").submit();--%>
-        <%--    }--%>
-        <%--});--%>
+        // if(saleStatusText !== "판매중"){
+        //     str += "<div class='saleStatus-box'>";
+        //     str += "<span class='saleStatusText'>" + saleStatusText + "</span>";
+        //     str += "</div>";
+        // }
+
 
 
         $("#modifyBtn").on("click", function () {
             if (confirm("수정 하시겠습니까?")) {
-                let saleNo = "${Sale.no}";
+                let saleNo = "${sale.no}";
                 $("<input>").attr({
                     type: "hidden",
                     name: "no",
@@ -529,9 +522,30 @@
             }
             return sal_s_cd;
         };
+
+        function createSaleStatusSelect(selectedValue) {
+            const options = {
+                'S': '판매중',
+                'R': '예약중',
+                'C': '거래완료'
+            };
+
+            let select = $('<select>').addClass('sal_s_cd');
+
+            $.each(options, function(value, text) {
+                let option = $('<option>').attr('value', value).text(text);
+                if (value === selectedValue) {
+                    option.attr('selected', 'selected');
+                }
+                select.append(option);
+            });
+
+            return select;
+        }
+
     });
 </script>
-
+<script src="../js/Etc.js"></script>
 
 
 <%@include file="../fixed/footer.jsp" %>
