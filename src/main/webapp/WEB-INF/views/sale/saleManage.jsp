@@ -22,11 +22,18 @@
             width: 350px;
             margin-right: 20px; /* 간격 조정 */
             padding: 5px;
+            font-size: 18px;
+        }
+
+        select {
+            font-size: 16px;
+            padding: 5px;
         }
 
         .selectOptionTx{
             display: flex;
             column-gap: 24px;
+            font-size: 18px;
         }
 
         .optionTx {
@@ -64,13 +71,14 @@
         .totalTable {
             width: 100%;
             border-top: 1px solid #787e89;
-            font-size: 14px;
             border-collapse: collapse;
+            font-size: 14px;
         }
 
         th, td {
             border-bottom: 1px solid #787e89;
             padding: 10px;
+            font-size: 16px;
         }
 
         .tableHead {
@@ -80,10 +88,10 @@
             border-color: inherit;
         }
 
-        .img {
+        .imgClass {
             width: 152px;
             height: 152px;
-            background-color: yellow;
+            /*background-color: yellow;*/
             margin: 0 auto;
         }
 
@@ -119,18 +127,13 @@
             border-radius: 2px;
             border: 1px solid rgb(195, 194, 204);
             background-color: white;
-            font-weight: 500;
+            font-weight: 800;
             line-height: normal;
             margin: 2px;
         }
 
-        .fontMarginPadding {
-            margin: auto;
-            padding: 10px;
-        }
-
-        .font16 {
-            font-size: 16px;
+        .page-space {
+            margin: 0 5px; /* 공백 크기 조절 */
         }
 
     </style>
@@ -546,6 +549,4 @@
     });
 </script>
 <script src="../js/Etc.js"></script>
-
-
 <%@include file="../fixed/footer.jsp" %>
