@@ -59,8 +59,8 @@ public class MyPageController {
         // 로그인이 안되어있을떄
         if(!loginCheck(session)) {
             // ur_id값도 null이면 로그인 폼으로
-//            if(ur_id==null)
-//                return "loginForm";
+            if(ur_id==null)
+                return "loginForm";
             userInfoDTO = userInfoService.read(ur_id);
             model.addAttribute("userInfoDTO",userInfoDTO);
         // 로그인이 되어있을떄
@@ -71,6 +71,7 @@ public class MyPageController {
             model.addAttribute("session_id",session_id);
             // 소개글 읽어오기
             userInfoDTO = userInfoService.read(ur_id,session_id,session);
+            System.out.println("userdto : "+userInfoDTO);
             model.addAttribute("userInfoDTO",userInfoDTO);
         }
         // 다른 페이지에서 사용자를 클릭해서 /myPage/main?ur_id=rudtlr 으로 타고들어왔을때,

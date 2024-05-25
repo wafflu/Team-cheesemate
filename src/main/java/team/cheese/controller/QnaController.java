@@ -56,9 +56,6 @@ public class QnaController {
     public String write(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
         // 유효성 검사 실패 시 "QnaForm"로 리다이렉트
         if (result.hasErrors()) {
-            System.out.println("유효성검사에 걸림");
-            System.out.println("========");
-            System.out.println(qnaDto.toString());
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.qnaDto", result);
             redirectAttributes.addFlashAttribute("qnaDto", qnaDto);
             return "redirect:/qna/new";

@@ -64,6 +64,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public UserInfoDTO read(String ur_id) throws Exception{
             UserInfoDTO userInfoDTO = userInfoDao.select(ur_id);
+
             // 1. 소개글을 읽었을때 null이면
             if(userInfoDTO==null)
                 throw new Exception("소개글 조회 중 오류가 발생했습니다.");

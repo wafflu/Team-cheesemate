@@ -56,4 +56,13 @@
         ORDER BY sal_cd
     </select>
 
+    <select id="categoryName" parameterType="map" resultType="String">
+        SELECT name
+        FROM sale_category
+        WHERE
+        LENGTH(sal_cd) = #{length}
+        AND state='Y'
+        AND sal_cd = #{sal_cd}
+    </select>
+
 </mapper>

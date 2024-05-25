@@ -1,13 +1,5 @@
-// let moimg = (function (imginfo){
-//     return {
-//     getImgInfo: function() {
-//         return imginfo;
-//     }
-// };
-// })(imginfo);
 const ImageUploader = (function() {
-    // let imginfo = moimg.getImgInfo() || [];
-    let imginfo =  Image.getImgInfo() || [];
+    let imginfo =  uploadImage.getImgInfo() || [];
     let img_count = 0;
     let max_images = 10;
 

@@ -137,7 +137,7 @@ public class SaleDaoImplTest {
         // 3. count로 게시글이 100개 들어갔는지 확인
 
         // 1. 게시글 전체 삭제
-        deleteDao.deleteAll();
+//        deleteDao.deleteAll();
 
         // 2. 반복문으로 동일한 게시글 100개 insert
         SaleDto saleDto = new SaleDto();
@@ -559,4 +559,77 @@ public class SaleDaoImplTest {
 
     }
 
+    @Test
+    public void testUpdateSaleSCdRandomCCode() throws Exception {
+        for (int i=0; i<25; i++) {
+            Long no = (long) (Math.random() * saleDao.count() + 106);
+            System.out.println(no);
+            SaleDto saleDto = saleDao.select(no);
+
+            String sal_s_cd = "C";
+            Map<String, Object> map = new HashMap<>();
+            if(!saleDto.getSeller_id().equals("asdf")) {
+                saleDto.setBuyer_id("asdf");
+                saleDto.setBuyer_nick("asdf");
+                saleDto.setSal_s_cd(sal_s_cd);
+                assertTrue(saleDao.buySale(saleDto) == 1);
+
+            }
+        }
+    }
+
+    @Test
+    public void testUpdateSaleSCdRandomRCode() throws Exception {
+        for (int i=0; i<25; i++) {
+            Long no = (long) (Math.random() * saleDao.count() + 106);
+            System.out.println(no);
+            SaleDto saleDto = saleDao.select(no);
+
+            String sal_s_cd = "R";
+            Map<String, Object> map = new HashMap<>();
+            if(!saleDto.getSeller_id().equals("asdf")) {
+                saleDto.setBuyer_id("asdf");
+                saleDto.setBuyer_nick("asdf");
+                saleDto.setSal_s_cd(sal_s_cd);
+                assertTrue(saleDao.buySale(saleDto) == 1);
+
+            }
+        }
+    }
+
+    @Test
+    public void testCountSelectSeller() throws Exception {
+        Map map = new HashMap();
+        map.put("seller_id", "asdf");
+        int totalCnt = saleDao.countSelectSeller(map);
+        System.out.println(totalCnt);
+        assertNotNull(totalCnt);
+    }
+
+    @Test
+    public void testSelectSellerList() throws Exception {
+        Map map = new HashMap();
+        map.put("seller_id", "asdf");
+        map.put("offset", 1);
+        map.put("pageSize", 10);
+        List<SaleDto> saleDto = saleDao.selectSaleList(map);
+        System.out.println(saleDto);
+        assertNotNull(saleDto);
+    }
+
+    @Test
+    public void testSelectSellerList2() throws Exception {
+        Map map = new HashMap();
+        map.put("seller_id", "asdf");
+        map.put("title", null);
+        map.put("sal_s_cd", "S");
+        map.put("offset", 1);
+        map.put("pageSize", 10);
+        List<SaleDto> saleList = saleDao.selectSeller(map);
+        System.out.println(saleList.size());
+        for(SaleDto salDto  : saleList) {
+            System.out.println(salDto.getSal_s_cd());
+            assertTrue(salDto.getSal_s_cd().equals("S"));
+        }
+    }
 }

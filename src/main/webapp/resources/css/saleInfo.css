@@ -236,3 +236,8 @@ p {
 .navigation ul li a:hover {
     background-color: #111;
 }
+
+
+.saleinfo-box{
+    height: 100%;
+}

@@ -140,8 +140,6 @@
     // let saletitle = $('input[name="title"]').val();
     // let salecontents = $('input[name="contents"]').val();
 
-    alert("asdasd")
-
     alert("sale : "+sale)
     let map =
             {

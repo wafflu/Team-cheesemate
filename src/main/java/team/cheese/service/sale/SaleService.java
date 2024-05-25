@@ -45,8 +45,6 @@ public class SaleService {
     }
 
     public List<SaleDto> getPage(Map map) throws Exception {
-        System.out.println("Service map startPage : " + map.get("startPage"));
-        System.out.println("Service map endPage : " + map.get("endPage"));
         return saleDao.selectList(map);
     }
 
@@ -86,21 +84,16 @@ public class SaleService {
         // 5. saleTag테이블에 교차정보 저장
 
         SaleDto saleDto = (SaleDto) map.get("saleDto");
-        System.out.println("service write: " + saleDto);
-
         //      세션에서 ID 값을 가지고 옴
         // TestSession 클래스를 사용하여 세션을 설정
         String ur_id = saleDto.getSeller_id();
-        System.out.println("판매자id : " + ur_id);
 
         //이미지 영역
         ArrayList<ImgDto> imgList = (ArrayList<ImgDto>) map.get("imgList");
         int gno = imgService.getGno()+1;
-        System.out.println("gno : "+gno);
         String img_full_rt = imgService.reg_img(imgList, gno, ur_id);
         saleDto.setImg_full_rt(img_full_rt);
         saleDto.setGroup_no(gno);
-
 
         int insertSale = 0;
         try {
@@ -108,21 +101,17 @@ public class SaleService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("sale insert 성공? :  " + insertSale);
-
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
         int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
 
-        System.out.println("sal_no : " + sal_no);
         return sal_no;
     }
-    
+
     // tag 데이터를 insert하는 트렌젝션 문
     @Transactional(propagation = Propagation.REQUIRED)
     public int insertTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
-        System.out.println("insertTagTx 들어옴");
         int insertTagTx = 0;
         int resultSaleTag = 0;
         for (String contents : tagList) {
@@ -154,7 +143,6 @@ public class SaleService {
     public Long update(Map<String, Object> map) throws Exception {
 
         SaleDto saleDto = (SaleDto) map.get("saleDto");
-        System.out.println("service write: " + saleDto);
 
         //      세션에서 ID 값을 가지고 옴
         // TestSession 클래스를 사용하여 세션을 설정
@@ -168,14 +156,11 @@ public class SaleService {
         saleDto.setGroup_no(gno);
 
         int update = saleDao.update(saleDto);
-        System.out.println("sale update 성공? :  " + update);
 
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
         updateTagTx(sal_no, ur_id, tagList);
-
-        System.out.println("sal_no : " + sal_no);
         return sal_no;
     }
 
@@ -211,6 +196,13 @@ public class SaleService {
         return saleList;
     }
 
+    public List<SaleDto> getSelectSellerList(Map map) throws Exception {
+        List<SaleDto> saleList = saleDao.selectSeller(map);
+        System.out.println(saleList);
+
+        return saleList;
+    }
+
     // 페이징된 게시글 list를 가지고 올 때
     @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getPageList(Map map) throws Exception {
@@ -226,13 +218,57 @@ public class SaleService {
 
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         SaleDto saleDto = saleDao.select(no);
-        List<TagDto> tagDto = saleTagRead(no);
-
         Map map = new HashMap();
         map.put("saleDto", saleDto);
+        if(saleDto == null) {
+            return map;
+        }
+
+        String sal_cd = saleDto.getSal_i_cd();
+        System.out.println("sal_cd : " + sal_cd);
+
+        Map categoryMap = new HashMap();
+
+        String sal_name = "";
+        if(sal_cd.length() == 9) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            System.out.println("sal_cd 3 : " + sal_cd);
+
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category3Name", sal_name);
+
+            sal_cd = sal_cd.substring(0,6);
+        }
+
+        if(sal_cd.length() == 6) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            System.out.println("sal_cd 2 : " + sal_cd);
+
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category2Name", sal_name);
+
+            sal_cd = sal_cd.substring(0,3);
+        }
+
+        if(sal_cd.length() == 3) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category1Name", sal_name);
+            System.out.println("sal_cd 1 : " + sal_cd);
+        }
+
+        List<TagDto> tagDto = saleTagRead(no);
         map.put("tagDto", tagDto);
 
         return map;
+    }
+
+    public String category1Text(Map map) throws Exception {
+        String categoryName = saleCategoryDao.categoryName(map);
+        return categoryName;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -240,15 +276,10 @@ public class SaleService {
 
         // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
         List<SaleTagDto> saleTagList = saleTagDao.selectSalNo(no);
-        System.out.println(saleTagList);
-        System.out.println(saleTagList.size());
         List<TagDto> tagDto = null;
         if(saleTagList.size() != 0) {
             tagDto = tagRead(saleTagList);
         }
-
-        System.out.println("여기까지 완료?");
-
         return tagDto;
     }
 
@@ -260,7 +291,6 @@ public class SaleService {
         for( SaleTagDto saleTagDto : saleTagList) {
             Long tagNo = saleTagDto.getTag_no();
             TagDto tag = tagDao.select(tagNo);
-            System.out.println("tag값 확인 : " + tag);
             tagDto.add(tag);
         }
 
@@ -272,12 +302,6 @@ public class SaleService {
         saleDao.increaseViewCnt(no);
     }
 
-//    // 판매 게시글을 수정할 때
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public int update(SaleDto saleDto) throws Exception {
-//        // 판매글 내용을 받아서 수정하도록 처리
-//        return saleDao.update(saleDto);
-//    }
 
     // 판매 게시글을 수정할 때
     @Transactional(propagation = Propagation.REQUIRED)
@@ -304,6 +328,13 @@ public class SaleService {
         return totalCnt;
     }
 
+    public int getSelectSellerCount(Map map) throws Exception {
+
+        int totalCnt = saleDao.countSelectSeller(map);
+
+        return totalCnt;
+    }
+
     public List<SaleDto> getSearchPage(SearchCondition sc) throws Exception {
         return saleDao.selectSearchPage(sc);
     }
@@ -323,8 +354,6 @@ public class SaleService {
         if(sal_s_cd.equals("C")) {
             increamentCompleteCnt(seller_id);
         }
-
-        System.out.println("update됨? : " + result);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -354,5 +383,18 @@ public class SaleService {
         if(saleDao.buySale(saleDto)!=1)
             throw new Exception("구매/예약시 예외발생");
     }
-}
 
+    // 상품관리 페이지에 들어간 경우
+//    public Map manage(String seller_id) throws Exception {
+        // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
+//        SaleDto saleDto = saleDao.selectSeller();
+//        Map map = new HashMap();
+//        map.put("saleDto", saleDto);
+//
+//        if(saleDto == null) {
+//            return map;
+//        }
+//
+//        return map;
+//    }
+}
