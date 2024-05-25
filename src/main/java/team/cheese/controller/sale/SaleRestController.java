@@ -227,28 +227,40 @@ public class SaleRestController {
     public ResponseEntity<Map<String, Object>> getSellerList(@RequestParam(defaultValue = "1") int page,
                                                              @RequestParam(defaultValue = "10") int pageSize,
                                                              @RequestParam(required = false) String title,
-                                                             @RequestParam(required = false) String tx_s_cd,
+                                                             @RequestParam(required = false) String sal_s_cd,
                                                              HttpSession session) throws Exception {
+
+        System.out.println("managePage 진입");
+        System.out.println("page" + page);
+        System.out.println("pageSize" + pageSize);
+        System.out.println("title" + title);
+        System.out.println("sal_s_cd" + sal_s_cd);
 
         if (title.equals("null") || title.equals("")) {
             title = null;
         }
-        if (tx_s_cd.equals("null") || tx_s_cd.equals("")) {
-            tx_s_cd = null;
+
+        if (sal_s_cd.equals("null") || sal_s_cd.equals("")) {
+            sal_s_cd = null;
         }
 
         Map map = new HashMap();
-        map.put("addr_cd", title);
-        map.put("sal_i_cd", tx_s_cd);
+        map.put("title", title);
+        map.put("sal_s_cd", sal_s_cd);
+        map.put("seller_id", session.getAttribute("userId"));
 
-        int totalCnt = saleService.getCount(map);
+        int totalCnt = saleService.getSelectSellerCount(map);
+
+        System.out.println("totalCnt : "+ totalCnt);
+
 
         PageHandler ph = new PageHandler(totalCnt, page, pageSize);
 
         map.put("offset", ph.getOffset());
         map.put("pageSize", pageSize);
 
-        List<SaleDto> saleList = saleService.getList(map);
+        List<SaleDto> saleList = saleService.getSelectSellerList(map);
+        System.out.println("list 확인" + saleList);
 
         Map result = new HashMap();
 

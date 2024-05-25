@@ -196,6 +196,13 @@ public class SaleService {
         return saleList;
     }
 
+    public List<SaleDto> getSelectSellerList(Map map) throws Exception {
+        List<SaleDto> saleList = saleDao.selectSeller(map);
+        System.out.println(saleList);
+
+        return saleList;
+    }
+
     // 페이징된 게시글 list를 가지고 올 때
     @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getPageList(Map map) throws Exception {
@@ -317,6 +324,13 @@ public class SaleService {
     public int getCount(Map map) throws Exception {
 
         int totalCnt = saleDao.countSale(map);
+
+        return totalCnt;
+    }
+
+    public int getSelectSellerCount(Map map) throws Exception {
+
+        int totalCnt = saleDao.countSelectSeller(map);
 
         return totalCnt;
     }

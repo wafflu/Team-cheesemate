@@ -1,131 +1,403 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="../fixed/header.jsp" %>
 
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .selectOptiondiv {
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            gap:10px;
+        }
 
-</style>
+        input[type="text"] {
+            width: 350px;
+            margin-right: 20px; /* 간격 조정 */
+            padding: 5px;
+        }
 
+        .selectOptionTx{
+            display: flex;
+            column-gap: 24px;
+        }
+
+        .optionTx {
+            font-weight: 500;
+            line-height: normal;
+            cursor: pointer;
+            color: rgb(216, 12, 24);
+        }
+
+        .totalBox {
+            width: 1200px;
+            margin: auto;
+        }
+
+        .totalBox table thead > tr {
+            height: 2.5rem;
+        }
+
+        .totalBox table tr > :nth-child(3) {
+            width: 218px;
+        }
+
+        .totalBox table thead > tr > th {
+            vertical-align: middle;
+        }
+        .totalBox table tr > * {
+            flex-shrink: 0;
+        }
+
+        .saleList {
+            border-bottom: 2px solid #eeeeee;
+            text-align: center;
+        }
+
+        .totalTable {
+            width: 100%;
+            border-top: 1px solid #787e89;
+            font-size: 14px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border-bottom: 1px solid #787e89;
+            padding: 10px;
+        }
+
+        .tableHead {
+            display: table-header-group;
+            vertical-align: middle;
+            unicode-bidi: isolate;
+            border-color: inherit;
+        }
+
+        .img {
+            width: 152px;
+            height: 152px;
+            background-color: yellow;
+            margin: 0 auto;
+        }
+
+        /* 원하는 색상으로 선택된 옵션 변경 */
+        .optionTx.selected {
+            color: red; /* 빨간색 */
+            font-weight: 600;
+        }
+
+        /* 선택되지 않은 옵션 색상 변경 */
+        .optionTx:not(.selected) {
+            color: #7F7F7F; /* 회색 */
+            font-weight: 600;
+        }
+
+        .btnColorRed {
+            color: rgb(216, 12, 24);
+        }
+
+        .btnColorBlue {
+            color: rgb(2, 122, 255);
+        }
+
+        .Btn {
+            width: 4.875rem;
+            height: 2rem;
+            text-align: center;
+            border-radius: 2px;
+            border: 1px solid rgb(195, 194, 204);
+            background-color: white;
+            font-weight: 500;
+            line-height: normal;
+            margin: 2px;
+        }
+
+        .fontMarginPadding {
+            margin: auto;
+            padding: 10px;
+        }
+
+        .font16 {
+            font-size: 16px;
+        }
+
+
+
+    </style>
+</head>
+<body>
 <div class="totalBox">
-        <form id="form" action="" method="post">
-            <c:choose>
-                <c:when test="${sessionScope.userId == Sale.seller_id}">
-                    <select id="sal_s_cd">
-                        <option value="S" ${Sale.sal_s_cd == 'S' ? 'selected' : ''}>판매중</option>
-                        <option value="R" ${Sale.sal_s_cd == 'R' ? 'selected' : ''}>예약중</option>
-                        <option value="C" ${Sale.sal_s_cd == 'C' ? 'selected' : ''}>거래완료</option>
-                    </select>
-                </c:when>
-                <c:otherwise>
-                    <p> 거래상태 :
-                        <c:choose>
-                            <c:when test="${Sale.sal_s_cd == 'S'}">판매중</c:when>
-                            <c:when test="${Sale.sal_s_cd == 'R'}">예약중</c:when>
-                            <c:when test="${Sale.sal_s_cd == 'C'}">거래완료</c:when>
-                        </c:choose>
-                    </p>
-                </c:otherwise>
-            </c:choose>
-            <div id="saleBoard">
-
-            </div>
-
-            <p>sale : ${Sale.no}</p>
-            <p>행정동 코드 : ${Sale.addr_cd}</p>
-            <p>주소명 : ${Sale.addr_name}</p>
-            <%--        --%>
-            <p>판매자닉네임 : <a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
-            <p>판매 카테고리명 : ${Sale.sal_name}</p>
-            <span> ${category1Name} </span>
-            <c:if test="${not empty category2Name}">
-                <span> > ${category2Name} </span>
-            </c:if>
-            <c:if test="${not empty category3Name}">
-                <span> > ${category3Name} </span>
-            </c:if>
-            <p>
-                사용상태 :
-                <c:choose>
-                    <c:when test="${Sale.pro_s_cd == 'S'}">새상품(미사용)</c:when>
-                    <c:when test="${Sale.pro_s_cd == 'A'}">사용감 없음</c:when>
-                    <c:when test="${Sale.pro_s_cd == 'B'}">사용감 적음</c:when>
-                    <c:when test="${Sale.pro_s_cd == 'C'}">사용감 많음</c:when>
-                    <c:when test="${Sale.pro_s_cd == 'D'}">고장/파손 상품</c:when>
-                </c:choose>
-            </p>
-            <p>판매/나눔 :
-                <c:choose>
-                    <c:when test="${Sale.tx_s_cd == 'S'}">판매</c:when>
-                    <c:when test="${Sale.tx_s_cd == 'F'}">나눔</c:when>
-                </c:choose>
-            </p>
-            <p>거래방식 :
-                <c:if test="${Sale.trade_s_cd_1 == 'O'}">
-                    온라인
-                </c:if>
-                <c:if test="${Sale.trade_s_cd_1 == 'F' || Sale.trade_s_cd_2  == 'F'}">
-                    직거래
-                </c:if>
-                <c:if test="${Sale.trade_s_cd_1 == 'D' || Sale.trade_s_cd_2  == 'D'}">
-                    택배거래
-                </c:if>
-            </p>
-            <p>제목 : ${Sale.title}</p>
-            <br>내용 :
-            <div style="white-space:pre;">${Sale.contents}</div>
-            <p>가격 : ${Sale.price}</p>
-            <c:choose>
-                <c:when test="${Sale.bid_cd == 'P'}">
-                    <button type="button">가격제시</button>
-                </c:when>
-                <c:when test="${Sale.bid_cd == 'T'}">
-                    <button type="button">나눔신청</button>
-                </c:when>
-            </c:choose>
-            <p>희망행성구역코드 : ${Sale.pickup_addr_cd}</p>
-            <p>희망주소명 : ${Sale.pickup_addr_name}</p>
-            <p>희망거래장소 : ${Sale.detail_addr}</p>
-            <p>브랜드 : ${Sale.brand}</p>
-            <p>정가 : ${Sale.reg_price}</p>
-            <p>찜횟수 : ${Sale.like_cnt}</p>
-            <p>조회수 : ${Sale.view_cnt}</p>
-            <p>끌올횟수 : ${Sale.hoist_cnt}</p>
-            <p>등록일 : ${Sale.h_date}</p> <%-- 끌어올리기 일도 등록하면 now()로 되기 때문에 등록일을 h_date를 기준으로 진행 --%>
-            <p>가격제안/나눔신청 인원수 : ${Sale.bid_cnt}</p>
-
-            <c:if test="${(Sale.seller_id == sessionScope.userId) && Sale.hoist_cnt != 3}">
-                <button type="button" id="hoistingBtn">끌어올리기</button>
-            </c:if>
-
-            <div id="tagDiv">
-                <c:forEach var="Tag" items="${tagList}">
-                    <span value="${Tag.no}">#${Tag.contents}</span>
-                </c:forEach>
-            </div>
-            <br>
-
-            <c:if test="${Sale.seller_id == sessionScope.userId}">
-                <button type="button" id="removeBtn">삭제하기</button>
-                <button type="button" id="modifyBtn">수정하기</button>
-            </c:if>
-            <button type="button" id="returnBtn">목록</button>
-        </form>
+    <div class="selectOptiondiv font14">
+        <input class="" name="searchTitle" type="text" placeholder="상품명을 입력해주세요." value="">
+        <div class="selectOptionTx">
+            <div class="optionTx selected" data-selected="true">전체</div>
+            <div class="optionTx" data-selected="false">판매중</div>
+            <div class="optionTx" data-selected="false">예약중</div>
+            <div class="optionTx" data-selected="false">거래완료</div>
+        </div>
     </div>
-    <div>
+    <table class="totalTable">
+        <thead class="tableHead">
+        <tr>
+            <th>사진</th>
+            <th>판매상태</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>판매/나눔</th>
+            <th>찜</th>
+            <th>등록일</th>
+            <th>기능</th>
+        </tr>
+        </thead>
+        <tbody class="saleList" id="saleList">
+        </tbody>
+    </table>
+    <br>
+    <div id="pageContainer" style="text-align: center">
+    </div>
+    <br>
 </div>
+
+</body>
+</html>
 <script>
     $(document).ready(function () {
-        $("#hoistingBtn").on("click", function () {
-            if (confirm("끌어올리겠습니까?")) {
-                let saleNo = "${Sale.no}";
-                $("<input>").attr({
-                    type: "hidden",
-                    name: "no",
-                    value: saleNo
-                }).appendTo("#form");
-                $("#form").attr("action", "/hoisting");
-                $("#form").submit();
+        window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10) {
+            $.ajax({
+                type: 'GET',       // 요청 메서드
+                url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize + "&title=" + title + "&sal_s_cd=" + sal_s_cd,  // 요청 URI
+                headers: {"content-type": "application/json"}, // 요청 헤더
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    let ph = data.ph;
+                    let saleList = data.saleList;
+                    let startOfToday = data.startOfToday;
+                    $("#saleList").html(updateSaleList(saleList, startOfToday, ph, title, sal_s_cd));
+                },
+                error: function (result) {
+                    alert("화면 로딩 중 오류 발생");
+                }
+            });
+        }
+
+
+        <%--let seller_id = "${sessionScope.userId}";--%>
+        let title = $('input[name="searchTitle"]').val(); // 판매글 제목 검색
+        let sal_s_cd = null;
+
+        saleList(title, sal_s_cd);
+
+        // optionTx 클릭했을 경우 value 지정
+        $('.optionTx').click(function() {
+            // 클릭된 optionTx 요소의 텍스트 값을 가져와서 상태에 따라 sal_s_cd 값을 할당
+            let title = $('input[name="searchTitle"]').val();
+            let optionText = $(this).text();
+            switch(optionText) {
+                case '전체':
+                    sal_s_cd = null;
+                    break;
+                case '판매중':
+                    sal_s_cd = 'S';
+                    break;
+                case '예약중':
+                    sal_s_cd = 'R';
+                    break;
+                case '거래완료':
+                    sal_s_cd = 'C';
+                    break;
+                default:
+                    sal_s_cd = null; // 기본적으로 null 할당
+            }
+
+            // 모든 optionTx에 #7F7F7F 색상 적용
+            $('.optionTx').css('color', '#7F7F7F');
+            // 클릭된 요소만 빨간색으로 변경
+            $(this).css('color', 'red');
+
+            saleList(title, sal_s_cd);
+        });
+
+        // 검색 버튼 클릭 이벤트 핸들러
+        $('#searchBtn').click(function() {
+            performSearch();
+        });
+
+        // input 창에서 엔터 키를 눌렀을 때의 이벤트 핸들러
+        $('input[name="searchTitle"]').keypress(function(event) {
+            if (event.which === 13) { // 엔터 키의 keyCode는 13입니다.
+                performSearch();
             }
         });
+
+        // 검색을 수행하는 함수
+        function performSearch() {
+            let title = $('input[name="searchTitle"]').val();
+            let optionText = $('.optionTx.selected').text();
+            let sal_s_cd;
+            switch(optionText) {
+                case '전체':
+                    sal_s_cd = null;
+                    break;
+                case '판매중':
+                    sal_s_cd = 'S';
+                    break;
+                case '예약중':
+                    sal_s_cd = 'R';
+                    break;
+                case '거래완료':
+                    sal_s_cd = 'C';
+                    break;
+                default:
+                    sal_s_cd = null;
+            }
+            saleList(title, sal_s_cd);
+        }
+
+
+        let saleFunc = '<button class="Btn btnColorRed" name="hoistingBtn">UP</button><br><button class="Btn btnColorBlue" name="modifyBtn">수정</button><br><button class="Btn btnColorBlue" name="removeBtn">삭제</button>';
+        // 업데이트된 saleList를 화면에 출력하는 함수
+        function updateSaleList(saleList, startOfToday, ph, title, sal_s_cd) {
+            // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
+            $("#saleList").empty();
+
+            let bid_name = '';
+            let tx_name = '';
+
+            if (saleList.length > 0) {
+                // 판매 상태에 따라 텍스트 설정
+                saleList.forEach(function (sale) {
+                    switch (sale.sal_s_cd) {
+                        case 'S':
+                            saleStatusText = '판매중';
+                            break;
+                        case 'R':
+                            saleStatusText = '예약중';
+                            break;
+                        case 'C':
+                            saleStatusText = '거래완료';
+                            break;
+                        default:
+                            saleStatusText = '';
+                    }
+
+                    switch (sale.tx_s_cd) {
+                        case 'S':
+                            tx_name = '판매';
+                            break;
+                        case 'F':
+                            tx_name = '나눔';
+                            break;
+                        default:
+                            tx_name = '';
+                    }
+
+                    switch (sale.bid_cd) {
+                        case 'P':
+                            bid_name = '가격제시';
+                            break;
+                        case 'T':
+                            bid_name = '나눔신청';
+                            break;
+                        default:
+                            bid_name = '';
+                    }
+
+
+                    let row = $("<tr>").addClass("sal_no_" + sale.sal_no);
+                    // 썸네일
+                    row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
+
+                    // 판매상태
+                    row.append($("<td>").text(saleStatusText)); // select option
+
+                    // 상품명
+                    row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>"));
+
+                    // 가격
+                    row.append($("<td>").text(sale.price));
+
+                    // 판매/나눔 + 가격제시/나눔신청 여부
+                    // 판매/나눔 + 가격제시/나눔신청 여부
+                    if(sale.bid_cd != 'N') {
+                        row.append($("<td>").text(tx_name + "(" + bid_name + ")" ));
+
+                    } else {
+                        row.append($("<td>").text(tx_name));
+                    }
+
+                    // 찜 횟수
+                    row.append($("<td>").text(sale.like_cnt));
+
+                    // 등록일
+                    row.append($("<td>").text(dateToString(sale.h_date, startOfToday)));
+
+                    // 기능
+                    row.append($("<td>").html(saleFunc));
+
+                    $("#saleList").append(row);
+                });
+            } else {
+                $("#saleList").append("<tr><td colspan='8'>데이터가 없습니다.</td></tr>");
+            }
+
+            $("#pageContainer").empty(); // 기존에 있는 페이지 내용 비우기
+
+            if (ph.totalCnt != null && ph.totalCnt != 0) {
+                let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
+                if (ph.prevPage) {
+                    pageContainer.append('<a onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</a>');
+                }
+                for (let i = ph.beginPage; i <= ph.endPage; i++) {
+                    // 페이지 번호 사이에 공백 추가
+                    pageContainer.append('<span class="page-space"></span>');
+                    pageContainer.append('<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + i + ', ' + ph.pageSize + ')">' + i + '</a>');
+                }
+                if (ph.nextPage) {
+                    pageContainer.append('<span class="page-space"></span>');
+                    pageContainer.append('<a onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</a>');
+                }
+                $("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
+            }
+        }
+
+
+
+        <%--let hoist_cnt = ${sale.hoist_cnt};--%>
+        // let max_hoist_cnt = 3;
+
+        $("button[name='hoistingBtn']").on("click", function() {
+            alert("확인");
+        });
+
+        <%--$("button[name='hoistingBtn']").on("click", function() {--%>
+        <%--    // 현재 클릭된 버튼의 부모인 <tr> 태그를 찾고 해당 클래스를 가져옵니다.--%>
+        <%--    var trClass = $(this).closest("tr").attr("class");--%>
+
+        <%--    // 가져온 클래스를 가지고 원하는 작업을 수행합니다.--%>
+        <%--    alert("클릭된 버튼의 부모 <tr> 태그의 클래스: " + trClass);--%>
+        <%--// $("button[name='hoistingBtn']").on("click", function () {--%>
+        <%--//     let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");--%>
+        <%--//     alert(sal_no);--%>
+        <%--    // if (confirm("끌어올리겠습니까? 끌어올리기 한도가" + (max_hoist_cnt-hoist_cnt) + "남았습니다.")) {--%>
+        <%--    if (confirm("끌어올리겠습니까? 끌어올리기 한도가 남았습니다.")) {--%>
+        <%--        let saleNo = "${Sale.no}";--%>
+        <%--        $("<input>").attr({--%>
+        <%--            type: "hidden",--%>
+        <%--            name: "no",--%>
+        <%--            value: saleNo--%>
+        <%--        }).appendTo("#form");--%>
+        <%--        $("#form").attr("action", "/hoisting");--%>
+        <%--        $("#form").submit();--%>
+        <%--    }--%>
+        <%--});--%>
 
         $("#removeBtn").on("click", function () {
             if (confirm("삭제 하시겠습니까?")) {
@@ -147,28 +419,45 @@
             }
         });
 
-        $("#returnBtn").on("click", function () {
-            if (confirm("목록으로 돌아가시겠습니까?")) {
-                window.location.href = "<c:url value='/sale/list'/>";
-            }
-        });
 
-        $("#sal_s_cd").on("change", function () {
-            let selectedValue = $(this).val();
-            let sal_s_name = $("#sal_s_cd option:checked").text();
-            $.ajax({
-                type: "POST",
-                url: "/sale/updateSaleSCd",
-                data: {no: "${Sale.no}", sal_s_cd: selectedValue, seller_id: "${Sale.seller_id}"},
-                success: function (data) {
-                    alert("판매글 상태가 " + sal_s_name + "(으)로 변경되었습니다.");
-                },
-                error: function (xhr, status, error) {
-                    alert("판매글 상태 변경이 실패하였습니다.");
+        function addZero(value = 1) {
+            return value > 9 ? value : "0" + value;
+        }
+
+        function dateToString(ms = 0, startOfToday) {
+            console.log(startOfToday);
+            let date = new Date(ms);
+
+            let yyyy = date.getFullYear();
+            let mm = addZero(date.getMonth() + 1);
+            let dd = addZero(date.getDate());
+
+            let HH = addZero(date.getHours());
+            let MM = addZero(date.getMinutes());
+            let ss = addZero(date.getSeconds());
+
+            let now = new Date();
+
+            if (date.getTime() >= startOfToday) {
+                let secondsAgo = Math.floor((now.getTime() - date.getTime()) / 1000);
+                if (secondsAgo < 60) {
+                    return secondsAgo + "초 전";
+                } else {
+                    let minutesAgo = Math.floor(secondsAgo / 60);
+                    if (minutesAgo < 60) {
+                        return minutesAgo + "분 전";
+                    } else {
+                        let hoursAgo = Math.floor(minutesAgo / 60);
+                        return hoursAgo + "시간 전";
+                    }
                 }
-            });
-        });
+            }
+            let daysAgo = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+            return daysAgo + "일 전";
+        }
+    });
 </script>
+
 
 
 <%@include file="../fixed/footer.jsp" %>

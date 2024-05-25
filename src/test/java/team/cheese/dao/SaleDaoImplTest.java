@@ -597,4 +597,39 @@ public class SaleDaoImplTest {
         }
     }
 
+    @Test
+    public void testCountSelectSeller() throws Exception {
+        Map map = new HashMap();
+        map.put("seller_id", "asdf");
+        int totalCnt = saleDao.countSelectSeller(map);
+        System.out.println(totalCnt);
+        assertNotNull(totalCnt);
+    }
+
+    @Test
+    public void testSelectSellerList() throws Exception {
+        Map map = new HashMap();
+        map.put("seller_id", "asdf");
+        map.put("offset", 1);
+        map.put("pageSize", 10);
+        List<SaleDto> saleDto = saleDao.selectSaleList(map);
+        System.out.println(saleDto);
+        assertNotNull(saleDto);
+    }
+
+    @Test
+    public void testSelectSellerList2() throws Exception {
+        Map map = new HashMap();
+        map.put("seller_id", "asdf");
+        map.put("title", null);
+        map.put("sal_s_cd", "S");
+        map.put("offset", 1);
+        map.put("pageSize", 10);
+        List<SaleDto> saleList = saleDao.selectSeller(map);
+        System.out.println(saleList.size());
+        for(SaleDto salDto  : saleList) {
+            System.out.println(salDto.getSal_s_cd());
+            assertTrue(salDto.getSal_s_cd().equals("S"));
+        }
+    }
 }

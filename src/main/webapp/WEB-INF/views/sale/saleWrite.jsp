@@ -6,7 +6,7 @@
     .totalBox {
         height: fit-content;
         position: relative;
-        width: 1000px;
+        width: 1200px;
         margin: auto;
         margin-bottom: 20px;
         /*margin-top: 20px;*/
@@ -307,7 +307,7 @@
     }
 
     .dadRxL {
-        width: 1000px;
+        width: 1200px;
         display: flex;
         height: 100%;
         font-size: 20px;
