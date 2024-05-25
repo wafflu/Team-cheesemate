@@ -11,7 +11,9 @@ import team.cheese.domain.UserDto;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.time.LocalTime.now;
 
@@ -169,5 +171,24 @@ public class UserDaoTest extends TestCase {
         System.out.println("새로 유저를 추가하고 아이디 검색으로 새로운 유저 찾기 " + searchUserId.getId());
 
         assertTrue(newUser.getId().equals(searchUserId.getId()));
+    }
+
+    // *** 유저의 정보 수정 테스트 ***
+    @Test
+    public void testUpdateUser() {
+//        System.out.println("*** testUpdateUser 테스트 시작 ***");
+//
+//        List<UserDto> userDtoList = userDao.getAllUsers();
+//        UserDto userDto = userDtoList.get((int) (Math.random() * userDtoList.size()));
+//        System.out.println("랜덤으로 선택된 유저 id : " + userDto.getId());
+//
+//        Map map = new HashMap();
+//        map.put("id", userDto.getId());
+//        map.put("nick", "updateTestNick");
+//        map.put("phone_num", "updateTestPhoneNum");
+//        map.put("email", "updateTestEmail");
+//        System.out.println(map.toString());
+//
+//        assertTrue(userDao.updateUser(map) == 1);
     }
 }

@@ -69,23 +69,19 @@ public class ResisterController {
                 new Timestamp(System.currentTimeMillis()),
                 ""
         );
+        AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
+        AddrCdDto addrCdDto = new AddrCdDto();
 
-        if(userService.insertNewUser(userDto) == 1) {
+        addrCdDto.setUr_id(userDto.getId());
+        addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
+        addrCdDto.setAddr_name(administrativeDto.getAddr_name());
+        addrCdDto.setState('Y');
+        addrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
+        addrCdDto.setFirst_id("admin");
+        addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
+        addrCdDto.setLast_id("admin");
 
-            AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
-            AddrCdDto addrCdDto = new AddrCdDto();
-
-            addrCdDto.setUr_id(userDto.getId());
-            addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
-            addrCdDto.setAddr_name(administrativeDto.getAddr_name());
-            addrCdDto.setState('Y');
-            addrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
-            addrCdDto.setFirst_id("admin");
-            addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
-            addrCdDto.setLast_id("admin");
-
-            addrCdService.insertAddrCd(addrCdDto);
-
+        if(userService.insertNewUser(userDto, addrCdDto) == 1) {
             return "loginForm";
         }
         else {
@@ -102,10 +98,23 @@ public class ResisterController {
         if(id.trim().length() != id.length()) {
             return "아이디에 띄어쓰기를 넣을 수 없습니다.";
         }
-
-        for(int i=0; i<AllUsersAdminsId.size(); i++) {
-            if(id.equals(AllUsersAdminsId.get(i))) {
-                return "이미 존재하는 아이디입니다.";
+        else if(hasMiddleSpace(id)) {
+            return "아이디에 띄어쓰기를 넣을 수 없습니다.";
+        }
+        else if(isNumeric(id)) {
+            return "아이디에는 반드시 영어와 숫자가 섞여있어야 합니다.";
+        }
+        else if(isAlphabetic(id)) {
+            return "아이디에는 반드시 영어와 숫자가 섞여있어야 합니다.";
+        }
+        else if(containsSpecialCharacter(id)) {
+            return "아이디에 한글 또는 특수문자는 불가능합니다.";
+        }
+        else {
+            for(int i=0; i<AllUsersAdminsId.size(); i++) {
+                if(id.equals(AllUsersAdminsId.get(i))) {
+                    return "이미 존재하는 아이디입니다.";
+                }
             }
         }
 
@@ -122,5 +131,21 @@ public class ResisterController {
     @ResponseBody
     public List<AdministrativeDto> smallCategory(@RequestParam("tradingPlace_A_medium") String mediumCategory) throws Exception {
         return administrativeDao.selectSmallCategory(mediumCategory);
+    }
+
+    public boolean hasMiddleSpace(String str) {
+        return str.matches(".+\\s+.+");
+    }
+
+    public boolean isNumeric(String str) {
+        return str.matches("^[0-9]+$");
+    }
+
+    public boolean isAlphabetic(String str) {
+        return str.matches("^[A-Za-z]+$");
+    }
+
+    public boolean containsSpecialCharacter(String str) {
+        return str.matches(".*[^A-Za-z0-9].*");
     }
 }

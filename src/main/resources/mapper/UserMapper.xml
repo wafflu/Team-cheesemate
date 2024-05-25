@@ -41,5 +41,26 @@
         SELECT id
         FROM user
     </select>
+
+<!--    유저의 정보를 수정한다-->
+<!--    닉네임, 전화번호, 이메일-->
+    <update id="updateUser" parameterType="map">
+        UPDATE user
+        SET nick = #{nick}, phone_num = #{phone_num}, email = #{email}
+        WHERE id = #{id}
+    </update>
+
+<!--    유저의 비밀번호만 변경된다-->
+    <update id="updateUserPw" parameterType="map">
+        UPDATE user
+        SET pw = #{pw}
+        WHERE id = #{id}
+    </update>
     
+<!--    유저의 유저상태를 변경한다-->
+    <update id="updateUser_s_cd" parameterType="map">
+        UPDATE user
+        SET s_cd = #{s_cd}
+        WHERE id = #{id}
+    </update>
 </mapper>

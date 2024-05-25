@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import team.cheese.domain.UserDto;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class UserDaoImpl implements UserDao {
@@ -44,4 +45,13 @@ public class UserDaoImpl implements UserDao {
     public List<String> getAllUsersId() {
         return sqlSession.selectList(namespace + "getAllUsersId");
     }
+
+    @Override
+    public int updateUser(Map map) { return sqlSession.update(namespace + "updateUser", map); }
+
+    @Override
+    public int updateUserPW(Map map) { return sqlSession.update(namespace + "updateUserPw", map); }
+
+    @Override
+    public int updateUser_s_cd(Map map) { return sqlSession.update(namespace + "updateUser_s_cd", map); }
 }

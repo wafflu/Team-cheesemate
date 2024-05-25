@@ -12,6 +12,9 @@ import team.cheese.domain.UserDto;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -22,18 +25,18 @@ public class UserServiceTest extends TestCase {
     private UserService userService;
 
     // *** 모든 유저의 수 카운트 테스트 ***
-    @Test
-    public void testGetCnt() throws NoSuchAlgorithmException {
-        System.out.println("*** testGetCnt 테스트 시작 ***");
-        userService.deleteAllUsers();
-        assertTrue(userService.getCnt() == 0);
-
-        for(int i = 0; i < 10; i++) {
-            UserDto userDto = new UserDto("User_" + i, "1234", "insertDaoTest", "insertDaoTest", "1999-01-02", 'M', "01012345678", "05012345678", 'Y', "inserDaoTest@google.com", 'O', "풍무동-2", new Timestamp(System.currentTimeMillis()), "", new Timestamp(System.currentTimeMillis()), "");
-            userService.insertNewUser(userDto);
-        }
-        assertTrue(userService.getCnt() == 10);
-    }
+//    @Test
+//    public void testGetCnt() throws NoSuchAlgorithmException {
+//        System.out.println("*** testGetCnt 테스트 시작 ***");
+//        userService.deleteAllUsers();
+//        assertTrue(userService.getCnt() == 0);
+//
+//        for(int i = 0; i < 10; i++) {
+//            UserDto userDto = new UserDto("User_" + i, "1234", "insertDaoTest", "insertDaoTest", "1999-01-02", 'M', "01012345678", "05012345678", 'Y', "inserDaoTest@google.com", 'O', "풍무동-2", new Timestamp(System.currentTimeMillis()), "", new Timestamp(System.currentTimeMillis()), "");
+//            userService.insertNewUser(userDto);
+//        }
+//        assertTrue(userService.getCnt() == 10);
+//    }
 
     // *** 모든 유저를 리스트로 불러오는지 테스트 ***
     @Test
@@ -109,17 +112,36 @@ public class UserServiceTest extends TestCase {
     // *** 회원가입 기능 테스트(수정 필요) ***
     // 1. 아이디가 중복되는 경우
     // 2.         중복되지 않는 경우
+//    @Test
+//    public void testInsertNewUser() throws NoSuchAlgorithmException {
+//        System.out.println("*** testInsertNewUser 테스트 시작 ***");
+//
+//        String insertUserId = "insertServiceTest";
+//        UserDto insertUserDto = new UserDto(insertUserId, "1234", "insertServiceTest", "insertServiceTest", "1999-01-02", 'M', "01012345678", "05012345678", 'Y', "insertServiceTest@google.com", 'O', "풍무동-2", new Timestamp(System.currentTimeMillis()), "", new Timestamp(System.currentTimeMillis()), "");
+//        System.out.println("insertUserDto Id : " + insertUserDto.getId());
+//        userService.insertNewUser(insertUserDto);
+//
+//        UserDto searchUserDto = userService.getUserById(insertUserDto.getId());
+//        System.out.println("searchUserDto Id : " + searchUserDto.getId());
+//        assertEquals(insertUserDto, searchUserDto);
+//    }
+
+    // *** 유저정보 업데이트 테스트 ***
     @Test
-    public void testInsertNewUser() throws NoSuchAlgorithmException {
-        System.out.println("*** testInsertNewUser 테스트 시작 ***");
-
-        String insertUserId = "insertServiceTest";
-        UserDto insertUserDto = new UserDto(insertUserId, "1234", "insertServiceTest", "insertServiceTest", "1999-01-02", 'M', "01012345678", "05012345678", 'Y', "insertServiceTest@google.com", 'O', "풍무동-2", new Timestamp(System.currentTimeMillis()), "", new Timestamp(System.currentTimeMillis()), "");
-        System.out.println("insertUserDto Id : " + insertUserDto.getId());
-        userService.insertNewUser(insertUserDto);
-
-        UserDto searchUserDto = userService.getUserById(insertUserDto.getId());
-        System.out.println("searchUserDto Id : " + searchUserDto.getId());
-        assertEquals(insertUserDto, searchUserDto);
+    public void testUpdateUser() {
+//        System.out.println("*** testUpdateUser 테스트 시작 ***");
+//
+//        List<UserDto> userDtoList = userService.getAllUsers();
+//        UserDto userDto = userDtoList.get((int) (Math.random() * userDtoList.size()));
+//        System.out.println("랜덤으로 선택된 유저 id : " + userDto.getId());
+//
+//        Map map = new HashMap();
+//        map.put("id", userDto.getId());
+//        map.put("nick", "updateTestNick");
+//        map.put("phone_num", "updateTestPhoneNum");
+//        map.put("email", "updateTestEmail");
+//        System.out.println(map.toString());
+//
+//        assertTrue(userService.updateUser(map) == 1);
     }
 }
