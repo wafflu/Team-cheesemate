@@ -22,6 +22,7 @@
                 </div>
                 <%--사용자 정보--%>
                 <div class="post-user">
+                    <img src="/img/display?fileName=${profile.img_full_rt}" class="profileimg">
                     <fmt:formatDate value="${communityBoardDto.r_date}" pattern="yyyy년 MM월 dd일 HH시" /><br>
                     ${communityBoardDto.nick}<br>
                     ${communityBoardDto.addr_name}<br>

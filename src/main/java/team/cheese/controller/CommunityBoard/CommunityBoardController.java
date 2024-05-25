@@ -16,12 +16,15 @@ import team.cheese.domain.Comment.CommentDto;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.domain.ImgDto;
+import team.cheese.domain.ProfileimgDto;
+import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
 import team.cheese.service.Comment.CommentService;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
 import team.cheese.service.ImgService;
+import team.cheese.service.MyPage.UserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,6 +48,8 @@ public  class CommunityBoardController {
     CommentService commentService;
     @Autowired
     ImgService imgService;
+    @Autowired
+    UserInfoService userInfoService;
 
     //community메인페이지
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -208,9 +213,12 @@ public  class CommunityBoardController {
             CommunityBoardDto communityBoardDto = communityBoardService.read(no);
             m.addAttribute("communityBoardDto", communityBoardDto);
 
-            //이미지 지움
-//            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
-//            m.addAttribute("imagePath", imagePath);
+            //프로필 가져옴
+            UserInfoDTO userinfo = userInfoService.read(communityBoardDto.getur_id());
+            Long num = Long.valueOf(no);
+            ProfileimgDto pdto = new ProfileimgDto(num, userinfo.getUr_id(), userinfo.getNick(), userinfo.getImg_full_rt());
+            m.addAttribute("profile", pdto);
+
             List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
             m.addAttribute("imglist", imglist);
 
@@ -218,19 +226,15 @@ public  class CommunityBoardController {
             String totalLikeCount = communityHeartService.countLike(no);
             m.addAttribute("totalLikeCount", totalLikeCount);
 
-
             //댓글수
             int totalCommentCount = communityBoardDto.getComment_count();
             m.addAttribute("totalCommentCount", totalCommentCount);
-
 
             return "/CommunityBoard";
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "/ErrorPage";
         }
-
-
     }
 
 
