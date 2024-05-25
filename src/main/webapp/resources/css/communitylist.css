@@ -5,6 +5,34 @@
 
 }
 
+/*#write-btn{*/
+/*    flex-shrink: 0;*/
+/*    position: relative;*/
+/*    left:650px;*/
+/*    width: auto !important;*/
+/*    display: inline-block;*/
+/*    height: 40px;*/
+/*    margin: 0 2px;*/
+/*    padding: 0 20px;*/
+/*    border: 0;*/
+/*    border-radius: 20px;*/
+/*    font-size: 14px;*/
+/*    font-weight: bold;*/
+/*    -webkit-font-smoothing: subpixel-antialiased;*/
+/*    -webkit-font-smoothing: antialiased;*/
+/*    line-height: 40px;*/
+/*    box-sizing: border-box;*/
+/*    cursor: pointer;*/
+/*    background-color: rgba(238,135,3,0.2);*/
+/*    color: #ee8703;*/
+/*}*/
+
+
+/*#write-btn:hover{*/
+/*    background-color: #ee8703;*/
+/*    color: rgba(238,135,3,0.2);*/
+/*}*/
+
 #write-btn{
     flex-shrink: 0;
     position: relative;
@@ -14,7 +42,7 @@
     height: 40px;
     margin: 0 2px;
     padding: 0 20px;
-    border: 1px solid #eee;
+    border: 0;
     border-radius: 20px;
     font-size: 14px;
     font-weight: bold;
@@ -23,13 +51,23 @@
     line-height: 40px;
     box-sizing: border-box;
     cursor: pointer;
+    background-color: rgba(238,135,3,0.2);
+    color: #ee8703;
 }
 
+#write-btn:hover{
+    background-color: #ee8703;
+    color: #ffffff;
+}
 
 
 .topic-container{
     padding:2px 0 4px;
     box-sizing:border-box;
+}
+.topic-slide-container {
+    margin: 20px;
+
 }
 .topic-slide{
     position: relative;
@@ -58,13 +96,152 @@
     cursor: pointer;
 }
 
+.topic-slide:hover {
+    background-color: #ccc; /* 마우스 호버 시 배경색 */
+    color: #333; /* 마우스 호버 시 글자색 */
+}
+
+.active {
+    background-color: #ccc; /* 마우스 호버 시 배경색 */
+    color: #181818; /* 마우스 호버 시 글자색 */
+}
+
+
 .article-table {
     /*border-bottom: 1px solid #ddd;*/
     width: 1000px;
-    margin: 0 auto;
+    margin: 20px auto 0;
+
     /*border: 1px solid #000;*/
 }
-.article-section{
-    border: 1px solid #000;
-    margin: 0;
+.article-row .article-section{
+    border: 1px solid #cccccc;
+    width:400px;
+    height:250px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.article-imgPart{
+    margin-left:300px;
+}
+
+
+
+
+.article-imgPart .article-img img{
+
+    width: 160px;
+    height: 160px;
+    margin-top: 20px;
+    padding-right:20px;
+    float:right;
+    resize: none;
+    object-fit: cover;
+}
+
+.article-row .article-section {
+    padding-left: 20px;
+}
+
+.article-postPart{
+    font-size: 14px;
+    /*max-width: 50%;*/
+    max-height: 250px;
+}
+.article-postPart .article-title{
+    height: 52px;
+    max-height: 52px;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 1.4em;
+
+}
+.contents-wrapper{
+    height: 54px;
+}
+.article-contents{
+    font-size:18px;
+    word-wrap: break-word; /* 단어가 길어지면 줄 바꿈 */
+    overflow-wrap: break-word; /* 오래된 브라우저 지원 */
+    width: 35%; /* 필요에 따라 너비를 조절 */
+    white-space: normal; /* 기본 줄 바꿈 동작을 허용 */
+}
+
+ .hidden-notFoundList {
+     display: none; /* 기본적으로 숨겨진 상태 */
+ }
+
+ /*.article-postPart .article-reaction{*/
+ /*    display: flex;*/
+ /*    gap: 10px; !* 각 항목 사이에 간격 추가 *!*/
+ /*    margin-top: 90px; !* 위 요소들과 간격 추가 *!*/
+ /*    margin-bottom: 5px;*/
+ /*    font-size: 14px;*/
+ /*}*/
+.article-etcPart{
+    display: flex;
+    gap: 10px; /* 각 항목 사이에 간격 추가 */
+    margin-top: 55px; /* 위 요소들과 간격 추가 */
+    font-size: 14px;
+    align-items: center; /* 세로로 정렬 */
+    height:60px;
+}
+
+/*.article-reaction {*/
+/*    display: f;*/
+    /*gap: 10px; !* 각 항목 사이에 간격 추가 *!*/
+    /*margin-top: 90px; !* 위 요소들과 간격 추가 *!*/
+    /*margin-bottom: 5px;*/
+    /*font-size: 14px;*/
+    /*align-items: center; !* 세로로 정렬 *!*/
+/*}*/
+
+.nonTime-wrapper{
+    align-items: center; /* 세로로 정렬 */
+    margin-top: -10px;
+
+}
+
+.article-reaction{
+    display: flex;
+    gap:5px;
+}
+
+.article-time {
+    /*margin-left: auto; !* 자동으로 왼쪽 마진을 추가하여 오른쪽 정렬 *!*/
+    /*margin-right: 23px;*/
+    /*font-size: 14px;*/
+    /*top:100px;*/
+    margin-left: auto;
+    margin-right: 23px;
+    font-size: 14px;
+    position: relative; /* 위치 조정 가능하도록 설정 */
+    top: 17px; /* 요소를 아래로 이동 */
+}
+
+#pagination{
+    margin-top:20px;
+    font-size: 14px;
+    display: flex; /* 추가: gap 속성을 적용하려면 flex 컨테이너로 설정 */
+    gap: 30px;
+    justify-content: center; /* 중앙 정렬을 위해 추가 */
+}
+
+
+.page-link {
+    margin: 0 3px; /* 각 페이지 링크에 간격을 추가 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: inherit; /* 링크 색상 상속 */
+}
+
+.page-space {
+    margin: 0 3px; /* 페이지 링크 사이에 공백 추가 */
+}
+
+#nonPost{
+    width:1000px;
+    height:600px;
+    padding:300px 500px 300px 500px;
+    font-size: 18px;
 }

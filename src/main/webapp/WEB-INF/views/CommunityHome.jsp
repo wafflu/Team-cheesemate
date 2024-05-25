@@ -57,7 +57,7 @@
                 s+="<td class='community-contents'>" + truncateString(item.contents,5)+"</td>";
                 s+="<td class='community-nick'>" + item.nick +"</td>";
                 // s+="<td class ='community-date'>" + moment(item.r_date).format("MMM Do YY") + "</td>";
-                s+="<td class='community-view-count'>" + "👁️"+item.view_cnt+ "</td>"
+                s+="<td class='community-view-count'>" + "😀️"+item.view_cnt+ "</td>"
                 s+="<td class ='community-comment-count'>" + "💬"+item.comment_count+"</td>"
                 s+="<td class = 'community-like-cnt'>" + "❤️"+item.like_cnt+"</td>"
 
@@ -73,7 +73,7 @@
                 getBla.forEach((item) => {
                     s += "<tr>";
                     s += "<td class='community-title'> <a href = '/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
-                    s += "<td class='community-view-count'>"+"👁️"+item.view_cnt + "</td>";
+                    s += "<td class='community-view-count'>"+"😀️"+item.view_cnt + "</td>";
                 });
 
 
@@ -94,7 +94,7 @@
                 getBla.forEach((item) => {
                     s += "<tr>";
                     s += "<td class='community-title'> <a href = '/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
-                    s += "<td class='community-view-count'>" + "👁️"+item.view_cnt + "</td>";
+                    s += "<td class='community-view-count'>" + "😀️"+item.view_cnt + "</td>";
                 });
 
 
@@ -115,7 +115,7 @@
                 getBla.forEach((item) => {
                     s += "<tr>";
                     s += "<td class='community-title'> <a href = '/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
-                    s += "<td class='community-view-count'>"+"👁️"+item.view_cnt + "</td>";
+                    s += "<td class='community-view-count'>"+"😀"+item.view_cnt + "</td>";
                 });
 
 

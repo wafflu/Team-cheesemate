@@ -2,6 +2,7 @@ package team.cheese.controller.CommunityBoard;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,16 @@ import team.cheese.domain.Comment.CommentDto;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.domain.ImgDto;
+import team.cheese.domain.MyPage.UserInfoDTO;
+import team.cheese.domain.ProfileimgDto;
 import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
 import team.cheese.service.Comment.CommentService;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
 import team.cheese.service.ImgService;
+import team.cheese.service.MyPage.UserInfoService;
+import team.cheese.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,6 +50,9 @@ public  class CommunityBoardController {
     CommentService commentService;
     @Autowired
     ImgService imgService;
+
+    @Autowired
+    UserInfoService userInfoService;
 
     //community메인페이지
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -201,6 +209,38 @@ public  class CommunityBoardController {
         }
     }
 
+//
+//    @RequestMapping(value = "/read", method = RequestMethod.GET)
+//    public String read(Integer no, Model m, RedirectAttributes redirectAttributes) throws Exception {
+//        try {
+//            CommunityBoardDto communityBoardDto = communityBoardService.read(no);
+//            m.addAttribute("communityBoardDto", communityBoardDto);
+//
+//            //이미지 지움
+////            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
+////            m.addAttribute("imagePath", imagePath);
+//            List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
+//            m.addAttribute("imglist", imglist);
+//
+//            //하트수
+//            String totalLikeCount = communityHeartService.countLike(no);
+//            m.addAttribute("totalLikeCount", totalLikeCount);
+//
+//
+//            //댓글수
+//            int totalCommentCount = communityBoardDto.getComment_count();
+//            m.addAttribute("totalCommentCount", totalCommentCount);
+//
+//
+//            return "/CommunityBoard";
+//        } catch (IllegalArgumentException e) {
+//            redirectAttributes.addFlashAttribute("message", e.getMessage());
+//            return "/ErrorPage";
+//        }
+//
+//
+//    }
+
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
     public String read(Integer no, Model m, RedirectAttributes redirectAttributes) throws Exception {
@@ -208,9 +248,12 @@ public  class CommunityBoardController {
             CommunityBoardDto communityBoardDto = communityBoardService.read(no);
             m.addAttribute("communityBoardDto", communityBoardDto);
 
-            //이미지 지움
-//            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
-//            m.addAttribute("imagePath", imagePath);
+            //프로필 가져옴
+            UserInfoDTO userinfo = userInfoService.read(communityBoardDto.getur_id());
+            Long num = Long.valueOf(no);
+            ProfileimgDto pdto = new ProfileimgDto(num, userinfo.getUr_id(), userinfo.getNick(), userinfo.getImg_full_rt());
+            m.addAttribute("profile", pdto);
+
             List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
             m.addAttribute("imglist", imglist);
 
@@ -218,23 +261,16 @@ public  class CommunityBoardController {
             String totalLikeCount = communityHeartService.countLike(no);
             m.addAttribute("totalLikeCount", totalLikeCount);
 
-
             //댓글수
             int totalCommentCount = communityBoardDto.getComment_count();
             m.addAttribute("totalCommentCount", totalCommentCount);
-
 
             return "/CommunityBoard";
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "/ErrorPage";
         }
-
-
     }
-
-
-
 
 
     //세션값 필요
@@ -426,6 +462,11 @@ public  class CommunityBoardController {
             // 댓글 작성
             commentService.write(commentDto);
 
+
+
+            //프로필 가져옴
+          
+
             // 댓글 목록 읽기
             List<CommentDto> comments = commentService.readAll(commentDto.getPost_no());
             return ResponseEntity.ok(comments);
@@ -442,6 +483,8 @@ public  class CommunityBoardController {
     @GetMapping("/comments")
     public ResponseEntity<List<CommentDto>> readComments(@RequestParam int postId) throws Exception {
         try{
+
+
             List<CommentDto> comments = commentService.readAll(postId);
             return ResponseEntity.ok(comments);
         }catch (Exception e){

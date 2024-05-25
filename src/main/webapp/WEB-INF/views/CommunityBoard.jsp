@@ -17,14 +17,34 @@
             <div class="post-top-container">
                 <%--제목--%>
                 <div class="post-title">
-                    <h1>${communityBoardDto.title}</h1>
-                    <input type="button" value="상세" id="modify" class="detail-button" data-user-id="${communityBoardDto.ur_id}">
+                    <h1 id="title">${communityBoardDto.title}</h1>
+                        <div class="button-etc">
+                    <input type="button" value="상세" id="modify" class="detail-button" data-user-id="${communityBoardDto.ur_id}" onclick="showPopup()">
+                    <input type="button" value="목록" id="list" class="list-button">
+                        </div>
                 </div>
                 <%--사용자 정보--%>
+
                 <div class="post-user">
-                    <fmt:formatDate value="${communityBoardDto.r_date}" pattern="yyyy년 MM월 dd일 HH시" /><br>
-                    ${communityBoardDto.nick}<br>
-                    ${communityBoardDto.addr_name}<br>
+
+                    <img src="/img/display?fileName=${profile.img_full_rt}" class="profileimg">
+                    <div class ="post-top">
+                        <div class="post-user-nonImage">
+                            <fmt:formatDate value="${communityBoardDto.r_date}" pattern="yyyy년 MM월 dd일 HH시" /><br>
+                            ${communityBoardDto.nick}<br>
+<%--                            ${communityBoardDto.addr_name}<br>--%>
+                        </div>
+                        <div class="post-reaction-wrapper">
+                        <div class="post-reaction">
+                            <p data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
+                            <p>  </p>
+                            <input type="hidden" value="${communityBoardDto.no}">
+                            <p>💬 ${communityBoardDto.comment_count}</p>
+                            <p>  </p>
+                            <p>😀${communityBoardDto.view_cnt}</p>
+                        </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -50,7 +70,7 @@
                     <input type="hidden" id="postNo" value="${communityBoardDto.no}">
                     <p>💬 ${communityBoardDto.comment_count}</p>
                     <p>  </p>
-                    <p>👁️${communityBoardDto.view_cnt}</p>
+<%--                    <p>😀${communityBoardDto.view_cnt}</p>--%>
                 </div>
             </div>
 
@@ -58,10 +78,12 @@
 
 
 
-            <div style="display:none;"  id ="alertDiv">
-                <p id = "edit">수정/삭제</p>
-                <p id="alert">신고</p>
-
+            <div id="alertDiv" class="popup">
+                <div class="popup-content">
+                    <span class="close" onclick="closePopup()">&times;</span>
+                    <p id="edit">수정/삭제</p>
+                    <p id="alert">신고</p>
+                </div>
             </div>
 
             <%--    commmunityHeart--%>
@@ -76,9 +98,7 @@
             <input type="hidden" id = "post_no" name="post_no" value="<c:out value='${communityBoardDto.no}'/>">
 
 
-            <textarea class="comment-content" id="content" rows="5" cols="80" name="content"
-                      maxlength="300" placeholder="댓글은 최대 300자까지 입력가능합니다.">
-                    </textarea>
+            <textarea class="comment-content" id="content" rows="5" cols="80" name="content" maxlength="300" placeholder="댓글은 최대 300자까지 입력가능합니다."></textarea>
             <input type = submit id ="input_comment" value="등록">
 
 
@@ -89,8 +109,15 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="/js/Etc.js"></script>
 <script>
+    function showPopup() {
+        document.getElementById('alertDiv').style.display = 'block';
+    }
 
+    function closePopup() {
+        document.getElementById('alertDiv').style.display = 'none';
+    }
 
     function initComment(){
         document.getElementById("content").value="";
@@ -128,7 +155,7 @@
 
         })
         $('#edit').on("click", function (e) {
-            e.preventDefault(); // 기본 링크 동작을 막음
+            e.preventDefault(); // 기본 링크 동작을 막음\
             if (confirm('이 게시물을 수정하시겠습니까?')) {
                 // 확인 버튼을 클릭하면 수정 페이지로 이동
                 window.location.href = '/community/edit?no=${communityBoardDto.no}';
@@ -242,7 +269,7 @@
                         str += `<div class="comment">`;
                         str += `<p>` + comment.nick + `</p>`;
                         str += `<p class="comment-contents">` + comment.contents + `</></p>`;
-                        str += `<p>` + moment(comment.r_date).calendar() + `</p>`;
+                        str+=   `<p>`+ remaindTime(new Date(comment.r_date))+`</p>`;
                         str += `</div>`;
 
                     });
@@ -259,6 +286,5 @@
 
     });
 </script>
+<%@ include file="fixed/footer.jsp" %>
 
-</body>
-</html>
