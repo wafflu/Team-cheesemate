@@ -17,4 +17,5 @@ public interface SaleCategoryDao {
     List<SaleCategoryDto> selectCategory3(String category2) throws Exception;
 
     String categoryName(Map map) throws Exception;
+
 }

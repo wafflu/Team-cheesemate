@@ -16,6 +16,7 @@ import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
+import team.cheese.service.ImgService;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,8 @@ public class SaleRestController {
     TagDao tagDao;
     @Autowired
     AddrCdDao addrCdDao;
+    @Autowired
+    ImgService imgService;
 
     @Autowired
     SaleService saleService;
@@ -221,6 +224,58 @@ public class SaleRestController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    // ajax로 판매자의 판매글 list 읽어옴
+    @RequestMapping("/managePage")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getSellerList(@RequestParam(defaultValue = "1") int page,
+                                                             @RequestParam(defaultValue = "10") int pageSize,
+                                                             @RequestParam(required = false) String title,
+                                                             @RequestParam(required = false) String sal_s_cd,
+                                                             HttpSession session) throws Exception {
+
+        System.out.println("managePage 진입");
+        System.out.println("page" + page);
+        System.out.println("pageSize" + pageSize);
+        System.out.println("title" + title);
+        System.out.println("sal_s_cd" + sal_s_cd);
+
+        if (title.equals("null") || title.equals("")) {
+            title = null;
+        }
+
+        if (sal_s_cd.equals("null") || sal_s_cd.equals("")) {
+            sal_s_cd = null;
+        }
+
+        Map map = new HashMap();
+        map.put("title", title);
+        map.put("sal_s_cd", sal_s_cd);
+        map.put("seller_id", session.getAttribute("userId"));
+
+        int totalCnt = saleService.getSelectSellerCount(map);
+
+        System.out.println("totalCnt : "+ totalCnt);
+
+
+        PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+
+        map.put("offset", ph.getOffset());
+        map.put("pageSize", pageSize);
+
+        List<SaleDto> saleList = saleService.getSelectSellerList(map);
+        System.out.println("list 확인" + saleList);
+
+        Map result = new HashMap();
+
+        long startOfToday = getStartOfToday();
+
+        result.put("ph", ph);
+        result.put("saleList", saleList);
+        result.put("startOfToday", startOfToday);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     // ajax 주소 검색
     @RequestMapping("/updateSaleSCd")
     public ResponseEntity<String> updateSaleSCd(@RequestParam Long no,
@@ -229,6 +284,31 @@ public class SaleRestController {
         // 검색어를 이용하여 주소를 검색
         saleService.updateSaleSCd(no, sal_s_cd, seller_id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
+    @PostMapping("/modify")
+    @ResponseBody
+    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
+
+        Map map = saleService.modify(no);
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
+        String tagContents = (String) map.get("tagContents");
+        HttpSession session = request.getSession();
+        String user_id = (String) session.getAttribute("userId");
+        String user_nick = (String) session.getAttribute("userNick");
+
+        saleDto.setSeller_id(user_id);
+        saleDto.setSeller_nick(user_nick);
+
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
+
+        model.addAttribute("Sale", saleDto);
+        model.addAttribute("Tag", tagContents);
+        model.addAttribute("imglist", imglist); // model로 값 전달
+        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+
+        return "/sale/saleWrite";
     }
 
 
