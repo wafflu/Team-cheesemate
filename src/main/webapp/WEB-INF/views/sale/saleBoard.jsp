@@ -266,7 +266,7 @@
 
 <%--        <c:if test="${Sale.seller_id == sessionScope.userId}">--%>
 <%--            <button type="button" id="removeBtn">삭제하기</button>--%>
-<%--            <button type="button" id="modifyBtn">수정하기</button>--%>
+            <button type="button" id="modifyBtn">수정하기</button>
 <%--        </c:if>--%>
 <%--        <button type="button" id="returnBtn">목록</button>--%>
 </div>
@@ -356,6 +356,22 @@
             if (confirm("삭제 하시겠습니까?")) {
                 $("#form").attr("action", "/sale/remove?no=${Sale.no}");
                 $("#form").submit();
+            }
+        });
+
+        $("#modifyBtn").on("click", function () {
+            if (confirm("수정 하시겠습니까?")) {
+                // form 생성
+                let form = $('<form>').attr({
+                    method: 'POST',
+                    action: '/sale/modify'
+                });
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'no',
+                    value: ${Sale.no}
+                }).appendTo(form);
+                form.appendTo('body').submit();
             }
         });
 

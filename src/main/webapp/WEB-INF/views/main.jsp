@@ -87,6 +87,7 @@
         <c:forEach items="${salelist}" var="sale">
         time = remaindTime(new Date("${sale.h_date}"));
         price = comma("${sale.price}");
+
         text = textlengover("${sale.title}", 15);
         str += "<div class='salesliderimg'>";
         str += `<a href="/sale/read?no=${sale.no}">`;
@@ -94,6 +95,7 @@
         str += `<h2 class="home_sale_title home_sale">`+text+`</h2>`;
         str += "<div class='saleinfo-info home_sale'>";
         str += `<p class="home_sale_price">`+price+`원</p>`;
+        str += `<p class="home_sale_h_date">`+time+`</p>`;
         str += `<p class="home_sale_h_date">`+time+`</p>`;
         str += "</div>";
         str += `<p class="home_sale_addr_name home_sale">${sale.addr_name}</p>`;

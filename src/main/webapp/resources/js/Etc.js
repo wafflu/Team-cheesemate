@@ -68,3 +68,9 @@ function textlengover(txt, num) {
     }
     return txt;
 }
+
+
+function datetime2(date){
+    let datePart = date.split(' ')[0]; // 공백으로 분리하여 날짜 부분만 추출
+    return datePart;
+}
