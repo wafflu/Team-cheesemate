@@ -30,19 +30,27 @@
         })();
 
         const cssImage = (function() {
-            let imginfo = {};
+            let cssimginfo = {};
 
-            <c:forEach items="${imglist}" var="img">
-            imginfo['${img.o_name}'] = "${img.img_full_rt}";
+            <c:forEach items="${headerimglist}" var="img">
+            cssimginfo['${img.o_name}'] = "${img.img_full_rt}";
             </c:forEach>
-
             return {
                 getImgInfo: function() {
-                    return imginfo;
+                    return cssimginfo;
                 }
             };
         })();
 
+        const uploadImage = (function() {
+            let uploadImage = [];
+
+            return {
+                getImgInfo: function() {
+                    return uploadImage;
+                }
+            };
+        })();
     </script>
 
 </head>
@@ -111,14 +119,13 @@
 <script>
     $(document).ready(function (){
         let imgInfo = cssImage.getImgInfo();
+        console.log(imgInfo)
         $("#logoimg").attr("src", "/img/display?fileName=" + imgInfo['logo']);
         $("#chaticon").attr("src", "/img/display?fileName=" + imgInfo['chat']);
         $("#storeicon").attr("src", "/img/display?fileName=" + imgInfo['store']);
         $("#usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
         $("#search").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
     });
-    // document.addEventListener("DOMContentLoaded", function() {
-    //
-    // });
 </script>
+<%----%>
 

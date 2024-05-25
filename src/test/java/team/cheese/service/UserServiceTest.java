@@ -12,6 +12,9 @@ import team.cheese.domain.UserDto;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -122,4 +125,23 @@ public class UserServiceTest extends TestCase {
 //        System.out.println("searchUserDto Id : " + searchUserDto.getId());
 //        assertEquals(insertUserDto, searchUserDto);
 //    }
+
+    // *** 유저정보 업데이트 테스트 ***
+    @Test
+    public void testUpdateUser() {
+//        System.out.println("*** testUpdateUser 테스트 시작 ***");
+//
+//        List<UserDto> userDtoList = userService.getAllUsers();
+//        UserDto userDto = userDtoList.get((int) (Math.random() * userDtoList.size()));
+//        System.out.println("랜덤으로 선택된 유저 id : " + userDto.getId());
+//
+//        Map map = new HashMap();
+//        map.put("id", userDto.getId());
+//        map.put("nick", "updateTestNick");
+//        map.put("phone_num", "updateTestPhoneNum");
+//        map.put("email", "updateTestEmail");
+//        System.out.println(map.toString());
+//
+//        assertTrue(userService.updateUser(map) == 1);
+    }
 }

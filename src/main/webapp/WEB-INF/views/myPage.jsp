@@ -24,9 +24,9 @@
 			<li><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
 			<li><a href="/contact">찜한 상품</a></li>
 			<li><a href="/contact">내 정보 관리</a></li>
-			<li><a href="/contact">개인 정보 수정</a></li>
-			<li><a href="/contact">비밀번호 변경</a></li>
-			<li><a href="/contact">회원 탈퇴</a></li>
+			<li><a href="/myPage/editMyInfo">개인 정보 수정</a></li>
+			<li><a href="/myPage/changeMyPw">비밀번호 변경</a></li>
+			<li><a href="/myPage/leaveAccountForm">회원 탈퇴</a></li>
 		</ul>
 	</div>
 </c:if>

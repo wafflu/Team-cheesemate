@@ -10,12 +10,12 @@ import java.util.Objects;
 public class UserDto {
 
     @NotNull
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,25}$")
-    @Size(min = 6, max = 25)
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,20}$")
+    @Size(min = 6, max = 20)
     private String id;
 
     @NotNull
-    @Pattern(regexp = "^[A-Za-z\\d@$!%*?&]*$")
+    @Pattern(regexp = "^[A-Za-z\\d@$!%*?&]{6,16}$")
     @Size(min = 6, max = 16)
     private String pw;
 

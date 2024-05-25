@@ -1,11 +1,12 @@
 #header_box{
-    width: 100%;
+    width: 1200px;
     height: 150px;
-    position: fixed;
+    position: sticky;
     top: 0;
     z-index: 10;
     background-color: #fff;
     border-bottom: 2px solid #f9f9f9;
+    margin: 0 auto;
 }
 
 #herder_top{
@@ -137,6 +138,7 @@
 #footer{
     width: 100%;
     background-color: rgb(247 249 250);
+    position: relative;
 }
 
 #footersub{
@@ -145,7 +147,7 @@
     padding: 50px 0;
 }
 
-#footersub li{
+#footersub>ul>li{
     font-size: 12px;
     padding-bottom: 8px;
     color:#787e89;
@@ -186,7 +188,7 @@
     margin: 10px 0;
 }
 
-#footergflexgroup1 li{
+#footergflexgroup1>ul>li{
     color:#191c21;
 }
 
@@ -199,4 +201,70 @@
     width: 1200px;
     /*height: 100%;*/
     margin: 0 auto;
+    position: relative;
+}
+
+.subnavspan{
+    position: relative;
+}
+
+.mylogin-box{
+    cursor: pointer;
+}
+
+#loginmenu{
+    display: inline-block;
+    position: absolute;
+    top: 30px;
+    left: -8px;
+    z-index: 3;
+    border: 1px solid rgb(218 222 229);
+    border-radius: 5px;
+    width: 100px;
+    height: 80px;
+    background-color: #fff;
+}
+
+#loginmenu>li{
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+}
+
+#loginmenu>li:first-child::after{
+    content: '';
+    width: 70px;
+    height: 1px;
+    position: absolute;
+    background-color: rgb(218 222 229);
+    bottom : 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.homemylink{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.maincolor{
+    background-color: #ee8703;
+}
+
+.fontgraycolor{
+    color:#999;
+}
+.backgraycolor{
+    color:#999;
+}
+
+.font14{
+    font-size: 14px;
+}
+.font18{
+    font-size: 18px;
+}
+.font30{
+    font-size: 30px;
 }
