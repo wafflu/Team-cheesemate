@@ -1,97 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="../fixed/header.jsp" %>
 
-<style>
-    .totalBox {
-        height: fit-content;
-        position: relative;
-        margin-bottom: 20px;
-    }
-
-    .saleListBox {
-        /*border: 1px solid red;*/
-        height: 80%;
-        width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 10px;
-    }
-
-    .smallBox {
-        border: 1px solid darkgray;
-        /*background-color: pink;*/
-        width: 230px;
-        height: 300px;
-        margin-bottom: 10px;
-        background: white;
-    }
-
-    .img {
-        width: 230px;
-        height: 230px;
-        margin: 0 auto;
-        object-fit: cover;
-    }
-
-    #pageContainer {
-        position: absolute;
-        left: 50%;
-        /*bottom: 20px;*/
-        transform: translateX(-50%);
-        text-align: center;
-    }
-
-    .info {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
-
-    .division-line {
-        border-top: 1px solid darkgray;
-        margin: auto;
-    }
-
-    /*#saleListBox {*/
-    /*    margin: 0 auto; !* 수평 가운데 정렬 *!*/
-    /*    width: 80%; !* 테이블의 너비 설정 *!*/
-    /*    text-align: center; !* 텍스트 가운데 정렬 *!*/
-    /*}*/
-
-    .page-space {
-        margin: 0 5px; /* 공백 크기 조절 */
-    }
-
-    /* 임시로 style 추가 : css 수정 필요*/
-    .imgClass {
-        width: 100px;
-        height: 100px;
-    }
-
-    .header-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .saleBtn {
-        padding: 5px 20px;
-        background-color: rgba(245, 157, 28, 1);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    #addr_cd {
-        margin-right: auto; /* Ensures the select is on the left */
-    }
-
-
-</style>
+<link rel="stylesheet" href="/css/salelist.css">
 <div class="maincontent totalBox">
     <div class="header-actions">
         <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매/나눔 글작성하기</button>
@@ -330,7 +240,7 @@
                             saleStatusText = '예약중';
                             break;
                         case 'C':
-                            saleStatusText = '거래완료';
+                            saleStatusText = '판매<br>완료';
 
                             break;
                         default:
@@ -345,7 +255,7 @@
                     let salePrice = sale.price;
                     let saleTxSCd = sale.tx_s_cd;
                     if (saleTxSCd === "S") {
-                        salePrice += " 원";
+                        salePrice = comma(salePrice)+"원";
                     } else {
                         salePrice = "나눔";
                     }
@@ -353,25 +263,31 @@
                     let saleDate = new Date(sale.h_date);
                     str += "<div class='smallBox'>";
                     str += "<a href='/sale/read?no=" + sale.no + "'>";
+                    str += "<div class='info-imgbox'>";
                     str += "<img class='img' src='/img/display?fileName=" + sale.img_full_rt + "'/>";
-                    str += "</a>";
-                    str += "<div class='info'>";
-                    str += "<span>" + saleTitle + "</span>";
-                    str += "<span>" + saleStatusText + "</span>";
-                    str += "</div>";
-                    str += "<div class='info'>";
-                    str += "<span>" + salePrice + "</span>";
-                    str += "<span>" + dateToString(sale.h_date, startOfToday) + "</span>";
-                    str += "</div>";
-                    str += "<div class='division-line'></div>";
-                    str += "<p>" + sale.addr_name + "</p>";
-
+                    if(saleStatusText !== "판매중"){
+                        str += "<div class='saleStatus-box'>";
+                        str += "<span class='saleStatusText'>" + saleStatusText + "</span>";
+                        str += "</div>";
+                    }
                     let saleBidCd = sale.bid_cd;
                     if (saleBidCd === "P") {
-                        str += "<p>" + "가격제시 가능" + "</p>";
+                        str += "<p class='active-nego'>" + "가격제시" + "</p>";
                     } else if (saleBidCd === "T") {
-                        str += "<p>" + "나눔신청 가능" + "</p>";
+                        str += "<p class='active-nego'>" + "나눔신청" + "</p>";
                     }
+                    str += "</div>";
+                    str += "<div class='info-title info'>";
+                    str += "<span class='saleTitle'>" + saleTitle + "</span>";
+                    str += "</div>";
+                    str += "<div class='info-sale info'>";
+                    str += "<span class='salePrice'>" + salePrice + "</span>";
+                    str += "<span class='saledate'>" + dateToString(sale.h_date, startOfToday) + "</span>";
+                    str += "</div>";
+                    str += "<div class='addr-box info'>";
+                    str += "<p class='saleaddr'>" + sale.addr_name + "</p>";
+                    str += "</div>";
+                    str += "</a>";
                     str += "</div>";
 
 
@@ -437,6 +353,6 @@
         }
     });
 </script>
-
+<script src="/js/Etc.js"></script>
 
 <%@include file="../fixed/footer.jsp" %>

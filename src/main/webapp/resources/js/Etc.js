@@ -13,12 +13,13 @@ function remaindTime(endDate) {
     // 마감 기간이 현재 시간보다 클 경우
     if (nt > et) {
         sec = parseInt(et - nt) / 1000;
-        days = parseInt(sec / 60 / 60 / 24);
+        days = parseInt(sec / 60 / 60 / 24) * -1;
         sec = sec - days * 60 * 60 * 24;
         hour = parseInt(sec / 60 / 60);
         sec = sec - hour * 60 * 60;
         min = parseInt(sec / 60);
         sec = parseInt(sec - min * 60);
+
 
         if (hour < 10) {
             if(hour < 0) {
@@ -56,8 +57,11 @@ function comma(num){
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
-function textlengover(txt) {
+function textlengover(txt, num) {
     let len = 20;
+    if(num !== undefined){
+        len = num;
+    }
     let lastTxt = "...";
     if (txt.length > len) {
         txt = txt.substr(0, len) + lastTxt;

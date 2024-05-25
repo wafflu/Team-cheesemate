@@ -108,7 +108,7 @@ public class SaleService {
 
         return sal_no;
     }
-    
+
     // tag 데이터를 insert하는 트렌젝션 문
     @Transactional(propagation = Propagation.REQUIRED)
     public int insertTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
@@ -398,4 +398,3 @@ public class SaleService {
 //        return map;
 //    }
 }
-

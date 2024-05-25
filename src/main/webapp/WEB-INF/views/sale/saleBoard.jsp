@@ -1,254 +1,309 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>sale</title>
-    <style>
-        * {box-sizing: border-box}
-        body {font-family: Verdana, sans-serif; margin:0}
-        .mySlides {display: none}
-        img {vertical-align: middle; width: 200px; height: 200px;}
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@include file="../fixed/header.jsp"%>
+<link rel="stylesheet" href="/css/saleBoard.css">
+<div class="maincontent saleboardarea">
+    <div class="saleboard-top-box">
 
-        /* Slideshow container */
-        .slideshow-container {
-            max-width: 200px;
-            position: relative;
-            margin: auto;
-        }
 
-        /* Next & previous buttons */
-        .prev, .next {
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            width: auto;
-            padding: 16px;
-            margin-top: -22px;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            transition: 0.6s ease;
-            border-radius: 0 3px 3px 0;
-            user-select: none;
-        }
-
-        /* Position the "next button" to the right */
-        .next {
-            right: 0;
-            border-radius: 3px 0 0 3px;
-        }
-
-        /* On hover, add a black background color with a little bit see-through */
-        .prev:hover, .next:hover {
-            background-color: rgba(0,0,0,0.8);
-        }
-
-        /* Caption text */
-        .text {
-            color: #f2f2f2;
-            font-size: 15px;
-            padding: 8px 12px;
-            position: absolute;
-            bottom: 8px;
-            width: 100%;
-            text-align: center;
-        }
-
-        /* Number text (1/3 etc) */
-        .numbertext {
-            color: #f2f2f2;
-            font-size: 12px;
-            padding: 8px 12px;
-            position: absolute;
-            top: 0;
-        }
-
-        /* The dots/bullets/indicators */
-        .dot {
-            cursor: pointer;
-            height: 8px;
-            width: 8px;
-            margin: 0 2px;
-            background-color: #bbb;
-            border-radius: 50%;
-            display: inline-block;
-            transition: background-color 0.6s ease;
-        }
-
-        .active, .dot:hover {
-            background-color: #717171;
-        }
-
-        /* 페이지 로딩 */
-        /* Fading animation */
-        .fade {
-            animation-name: fade;
-            animation-duration: 1.5s;
-        }
-
-        @keyframes fade {
-            from {opacity: .4}
-            to {opacity: 1}
-        }
-
-        /* On smaller screens, decrease text size */
-        @media only screen and (max-width: 300px) {
-            .prev, .next,.text {font-size: 11px}
-        }
-        /*  여기까지 페이지 로딩  */
-    </style>
-
-</head>
-<body>
-<div>
-<%--    <div class="slideshow-container">--%>
-<%--        <c:set var="count" value="0" />--%>
-<%--        <c:forEach var="img" items="${imglist}">--%>
-<%--            <c:choose>--%>
-<%--                <c:when test="${img.imgtype eq 'w'}">--%>
-<%--                    <c:set var="count" value="${count + 1}" />--%>
-<%--                    <div class="mySlides fade">--%>
-<%--                        <div class="numbertext">${count}</div>--%>
-<%--                        <img src="/img/display?fileName=${img.img_full_rt}" style="width:100%">--%>
-<%--                    </div>--%>
-<%--                </c:when>--%>
-<%--            </c:choose>--%>
-<%--        </c:forEach>--%>
-
-<%--        <a class="prev">❮</a>--%>
-<%--        <a class="next">❯</a>--%>
-<%--    </div>--%>
-<%--    <br>--%>
-
-<%--    <div style="text-align:center">--%>
-<%--        <c:forEach var="img" items="${imglist}" varStatus="status">--%>
-<%--            <c:if test="${img.imgtype eq 'w'}">--%>
-<%--                <span class="dot" onclick="currentSlide(${status.index + 1})"></span>--%>
-<%--            </c:if>--%>
-<%--        </c:forEach>--%>
-<%--    </div>--%>
-    <c:forEach items="${imglist}" var="img">
-        <c:if test="${img.imgtype eq 'w'}">
-            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
-        </c:if>
-    </c:forEach>
-    <form id="form" action="" method="post">
-        <c:choose>
-            <c:when test="${sessionScope.userId == Sale.seller_id}">
-                <select id="sal_s_cd">
-                    <option value="S" ${Sale.sal_s_cd == 'S' ? 'selected' : ''}>판매중</option>
-                    <option value="R" ${Sale.sal_s_cd == 'R' ? 'selected' : ''}>예약중</option>
-                    <option value="C" ${Sale.sal_s_cd == 'C' ? 'selected' : ''}>거래완료</option>
-                </select>
-            </c:when>
-            <c:otherwise>
-                <p> 거래상태 :
-                    <c:choose>
-                        <c:when test="${Sale.sal_s_cd == 'S'}">판매중</c:when>
-                        <c:when test="${Sale.sal_s_cd == 'R'}">예약중</c:when>
-                        <c:when test="${Sale.sal_s_cd == 'C'}">거래완료</c:when>
-                    </c:choose>
-                </p>
-            </c:otherwise>
-        </c:choose>
-        <div id="saleBoard">
-
-        </div>
-
-        <p>sale : ${Sale.no}</p>
-        <p>행정동 코드 : ${Sale.addr_cd}</p>
-        <p>주소명 : ${Sale.addr_name}</p>
-        <%--        --%>
-        <p>판매자닉네임 : <a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
-        <p>판매 카테고리명 : ${Sale.sal_name}</p>
-        <span> ${category1Name} </span>
-        <c:if test="${not empty category2Name}">
-            <span> > ${category2Name} </span>
-        </c:if>
-        <c:if test="${not empty category3Name}">
-            <span> > ${category3Name} </span>
-        </c:if>
-        <p>
-            사용상태 :
-            <c:choose>
-                <c:when test="${Sale.pro_s_cd == 'S'}">새상품(미사용)</c:when>
-                <c:when test="${Sale.pro_s_cd == 'A'}">사용감 없음</c:when>
-                <c:when test="${Sale.pro_s_cd == 'B'}">사용감 적음</c:when>
-                <c:when test="${Sale.pro_s_cd == 'C'}">사용감 많음</c:when>
-                <c:when test="${Sale.pro_s_cd == 'D'}">고장/파손 상품</c:when>
-            </c:choose>
-        </p>
-        <p>판매/나눔 :
-            <c:choose>
-                <c:when test="${Sale.tx_s_cd == 'S'}">판매</c:when>
-                <c:when test="${Sale.tx_s_cd == 'F'}">나눔</c:when>
-            </c:choose>
-        </p>
-        <p>거래방식 :
-            <c:if test="${Sale.trade_s_cd_1 == 'O'}">
-                온라인
-            </c:if>
-            <c:if test="${Sale.trade_s_cd_1 == 'F' || Sale.trade_s_cd_2  == 'F'}">
-                직거래
-            </c:if>
-            <c:if test="${Sale.trade_s_cd_1 == 'D' || Sale.trade_s_cd_2  == 'D'}">
-                택배거래
-            </c:if>
-        </p>
-        <p>제목 : ${Sale.title}</p>
-        <br>내용 :
-        <div style="white-space:pre;">${Sale.contents}</div>
-        <p>가격 : ${Sale.price}</p>
-        <c:choose>
-            <c:when test="${Sale.bid_cd == 'P'}">
-                <button type="button">가격제시</button>
-            </c:when>
-            <c:when test="${Sale.bid_cd == 'T'}">
-                <button type="button">나눔신청</button>
-            </c:when>
-        </c:choose>
-        <p>희망행성구역코드 : ${Sale.pickup_addr_cd}</p>
-        <p>희망주소명 : ${Sale.pickup_addr_name}</p>
-        <p>희망거래장소 : ${Sale.detail_addr}</p>
-        <p>브랜드 : ${Sale.brand}</p>
-        <p>정가 : ${Sale.reg_price}</p>
-        <p>찜횟수 : ${Sale.like_cnt}</p>
-        <p>조회수 : ${Sale.view_cnt}</p>
-        <p>끌올횟수 : ${Sale.hoist_cnt}</p>
-        <p>등록일 : ${Sale.h_date}</p> <%-- 끌어올리기 일도 등록하면 now()로 되기 때문에 등록일을 h_date를 기준으로 진행 --%>
-        <p>가격제안/나눔신청 인원수 : ${Sale.bid_cnt}</p>
-        <%--    <p>판매글 노출여부 : ${Sale.ur_state}</p>--%>
-        <%--    <p>관리자 관리상태 : ${Sale.ad_state}</p>--%>
-
-        <c:if test="${(Sale.seller_id == sessionScope.userId) && Sale.hoist_cnt != 3}">
-            <button type="button" id="hoistingBtn">끌어올리기</button>
-        </c:if>
-
-        <div id="tagDiv">
-            <c:forEach var="Tag" items="${tagList}">
-                <span value="${Tag.no}">#${Tag.contents}</span>
+        <div id="sale-slider-div" class="sale-img-box">
+            <c:forEach items="${imglist}" var="img">
+                <c:if test="${img.imgtype eq 'w'}">
+                <div class="sale-img">
+                    <img src="/img/display?fileName=${img.img_full_rt}" class="saleboardimg">
+                </div>
+                </c:if>
             </c:forEach>
         </div>
-        <br>
 
-        <c:if test="${Sale.seller_id == sessionScope.userId}">
-            <button type="button" id="removeBtn">삭제하기</button>
-            <button type="button" id="modifyBtn">수정하기</button>
-        </c:if>
-        <button type="button" id="returnBtn">목록</button>
-        <button type="button" id="charbtn">채팅하기</button>
-    </form>
+        <div class="saleinfobox">
+            <div class="categorybox">
+                <c:choose>
+                    <c:when test="${empty category2Name}">
+                        <span class="sel-catefory"> ${category1Name} </span>
+                    </c:when>
+                    <c:otherwise>
+                        <span> ${category1Name} </span>
+                    </c:otherwise>
+                </c:choose>
+
+                <c:if test="${not empty category2Name}">
+                    <span> > </span>
+                    <c:choose>
+                        <c:when test="${empty category3Name}">
+                            <span class="sel-catefory"> ${category2Name} </span>
+                        </c:when>
+                        <c:otherwise>
+                            <span> ${category2Name} </span>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+
+                <c:if test="${not empty category3Name}">
+                    <span> > </span>
+                    <span class="sel-catefory">${category3Name} </span>
+                </c:if>
+            </div>
+
+            
+            <div class="titleinfo-box">
+                <c:if test="${Sale.tx_s_cd == 'F'}">
+                    <span class="share-title"><c:when test="${Sale.tx_s_cd == 'F'}">나눔</c:when></span>
+                </c:if>
+                <p class="saletitle">${Sale.title}</p>
+                <p class="saleprice">${Sale.price}원</p>
+            </div>
+
+            <div class="tiem-view-box">
+                <p class="saleboard-uptime">${Sale.h_date} </p>
+                <p>·</p>
+                <p>조회 : ${Sale.view_cnt}</p>
+                <p>·</p>
+                <p>찜 : ${Sale.like_cnt}</p>
+            </div>
+
+            <div id="tradeinfo-box">
+                <div class="sb-p-state">
+                    <p class="tr-title">제품상태</p>
+                    <p class="tr-subtitle">
+                        <c:choose>
+                            <c:when test="${Sale.pro_s_cd == 'S'}">새상품(미사용)</c:when>
+                            <c:when test="${Sale.pro_s_cd == 'A'}">사용감 없음</c:when>
+                            <c:when test="${Sale.pro_s_cd == 'B'}">사용감 적음</c:when>
+                            <c:when test="${Sale.pro_s_cd == 'C'}">사용감 많음</c:when>
+                            <c:when test="${Sale.pro_s_cd == 'D'}">고장/파손 상품</c:when>
+                        </c:choose>
+                    </p>
+                </div>
+                <div class="sb-p-state">
+                    <p class="tr-title">거래방식</p>
+                    <p class="tr-subtitle">
+                        <c:if test="${Sale.trade_s_cd_1 == 'O'}">
+                            온라인
+                        </c:if>
+                        <c:if test="${Sale.trade_s_cd_1 == 'F' || Sale.trade_s_cd_2  == 'F'}">
+                            직거래
+                        </c:if>
+                        <c:if test="${Sale.trade_s_cd_1 == 'D' || Sale.trade_s_cd_2  == 'D'}">
+                            택배거래
+                        </c:if>
+                    </p>
+                </div>
+            </div>
+
+            <div class="saleetc-box">
+                <div class="tr-li">
+                    <p class="tr-title tr-title2">주소명 : </p>
+                    <p class="tr-subtitle tr-subtitle2">${Sale.addr_name}</p>
+                </div>
+
+                <div class="tr-li">
+                    <p class="tr-title tr-title2">희망주소명 : </p>
+                    <p class="tr-subtitle tr-subtitle2">
+                    <c:choose>
+                        <c:when test="${not empty Sale.pickup_addr_name}">
+                            ${Sale.pickup_addr_name}
+                        </c:when>
+                        <c:otherwise>
+                            -
+                        </c:otherwise>
+                    </c:choose>
+                    </p>
+                </div>
+
+                <div class="tr-li">
+                    <p class="tr-title tr-title2">희망거래장소 : </p>
+                    <p class="tr-subtitle tr-subtitle2">
+                        <c:choose>
+                            <c:when test="${not empty Sale.detail_addr}">
+                                ${Sale.detail_addr}
+                            </c:when>
+                            <c:otherwise>
+                                -
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+                </div>
+
+                <div class="tr-li">
+                    <p class="tr-title tr-title2">브랜드</p>
+                    <p class="tr-subtitle tr-subtitle2">
+                        <c:choose>
+                            <c:when test="${not empty Sale.brand}">
+                                ${Sale.brand}
+                            </c:when>
+                            <c:otherwise>
+                                -
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+                </div>
+
+                <div class="tr-li">
+                    <p class="tr-title tr-title2">정가 : </p>
+                    <p id="ori_price" class="tr-subtitle tr-subtitle2">
+                        <c:choose>
+                            <c:when test="${not empty Sale.reg_price}">
+                                ${Sale.reg_price}
+                            </c:when>
+                            <c:otherwise>
+                                -
+                            </c:otherwise>
+                        </c:choose>
+                    </p>
+                </div>
+            </div>
+
+            <div class="btn-box">
+                <c:choose>
+                    <c:when test="${Sale.seller_id eq sessionScope.userId}">
+                        <button type="button" id="saleboard-myshop">내 상점 관리</button>
+                    </c:when>
+                    <c:otherwise>
+                        <button type="button" id="saleboard-jjimbtn"></button>
+                        <form id="form">
+                        <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
+                        </form>
+                        <button type="button" id="payment-btn" class="btn-salestyle">안전결제</button>
+                    </c:otherwise>
+                </c:choose>
+
+<%--                <c:choose>--%>
+<%--                    <c:when test="${Sale.bid_cd == 'P'}">--%>
+<%--                        <button type="button" id="pricehaggle" class="btn-salestyle">가격제시</button>--%>
+<%--                    </c:when>--%>
+<%--                    <c:when test="${Sale.bid_cd == 'T'}">--%>
+<%--                        <button type="button" id="sharerequest" class="btn-salestyle">나눔신청</button>--%>
+<%--                    </c:when>--%>
+<%--                </c:choose>--%>
+
+            </div>
+        </div>
+    </div>
+        <div class="Productsinfobox">
+            <div class="Productinfo">
+                <div class="producttitle">
+                    <p>상품 정보</p>
+                </div>
+                <div class="productcontent">
+                    <p class="productcontent-title">${Sale.contents}</p>
+                </div>
+
+                <div class="htrade-box">
+                    <div class="tr-li2">
+                        <p class="tr-title">희망지역</p>
+                        <p class="tr-subtitle">${Sale.pickup_addr_name}</p>
+                    </div>
+
+                    <div class="tr-li2">
+                        <p class="tr-title">희망거래장소</p>
+                        <p class="tr-subtitle">${Sale.detail_addr}</p>
+                    </div>
+                </div>
+
+                <div id="tagDiv">
+                    <c:forEach var="Tag" items="${tagList}">
+                        <span class="tag-name" value="${Tag.no}">#${Tag.contents}</span>
+                    </c:forEach>
+                </div>
+            </div>
+            <div class="sallerinfo">
+                <div class="producttitle">
+                    <p>가게 정보</p>
+                </div>
+                <div class="userinfo-box">
+                    <div class="userinfo">
+                        <p class="seller_nick"><a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
+                        <div class="userprofile-box">
+                            <img src="/img/display?fileName=${user.img_full_rt}" alt="${Sale.seller_nick}" id="userprofile">
+                        </div>
+                    </div>
+
+                    <div id="userinfo-score-box">
+                        <div class="sb-p-state">
+                            <p class="tr-title">판매자 후기</p>
+                            <p class="tr-subtitle">${user.rv_cmt_cnt}</p>
+                        </div>
+                        <div class="sb-p-state">
+                            <p class="tr-title">판매자 평점</p>
+                            <p class="tr-subtitle">${user.star_avg}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+<%--    <form id="form" action="" method="post">--%>
+<%--        <c:choose>--%>
+<%--            <c:when test="${sessionScope.userId == Sale.seller_id}">--%>
+<%--                <select id="sal_s_cd">--%>
+<%--                    <option value="S" ${Sale.sal_s_cd == 'S' ? 'selected' : ''}>판매중</option>--%>
+<%--                    <option value="R" ${Sale.sal_s_cd == 'R' ? 'selected' : ''}>예약중</option>--%>
+<%--                    <option value="C" ${Sale.sal_s_cd == 'C' ? 'selected' : ''}>거래완료</option>--%>
+<%--                </select>--%>
+<%--            </c:when>--%>
+<%--            <c:otherwise>--%>
+<%--                <p> 거래상태 :--%>
+<%--                    <c:choose>--%>
+<%--                        <c:when test="${Sale.sal_s_cd == 'S'}">판매중</c:when>--%>
+<%--                        <c:when test="${Sale.sal_s_cd == 'R'}">예약중</c:when>--%>
+<%--                        <c:when test="${Sale.sal_s_cd == 'C'}">거래완료</c:when>--%>
+<%--                    </c:choose>--%>
+<%--                </p>--%>
+<%--            </c:otherwise>--%>
+<%--        </c:choose>--%>
+<%--    </form>--%>
+<%--        <!-- <p>sale : ${Sale.no}</p>--%>
+<%--        <p>행정동 코드 : ${Sale.addr_cd}</p>--%>
+<%--        <p>판매 카테고리명 : ${Sale.sal_name}</p>--%>
+<%--        <p>희망행성구역코드 : ${Sale.pickup_addr_cd}</p>--%>
+<%--        <p>끌올횟수 : ${Sale.hoist_cnt}</p>--%>
+<%--        <p>가격제안/나눔신청 인원수 : ${Sale.bid_cnt}</p>--%>
+<%--        <c:if test="${(Sale.seller_id == sessionScope.userId) && Sale.hoist_cnt != 3}">--%>
+<%--            <button type="button" id="hoistingBtn">끌어올리기</button>--%>
+<%--        </c:if>--%>
+
+<%--        <c:if test="${Sale.seller_id == sessionScope.userId}">--%>
+<%--            <button type="button" id="removeBtn">삭제하기</button>--%>
+<%--            <button type="button" id="modifyBtn">수정하기</button>--%>
+<%--        </c:if>--%>
+<%--        <button type="button" id="returnBtn">목록</button>--%>
 </div>
-<div>
-</div>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
 <script>
     $(document).ready(function () {
+        let time, price, oriprice, text;
+
+        time = remaindTime(new Date("${Sale.h_date}"));
+        price = comma("${Sale.price}");
+        oriprice = comma("${Sale.reg_price}");
+        text = textlengover("${Sale.title}", 25);
+
+        if(${Sale.reg_price > 0}){
+            $("#ori_price").text(oriprice+"원");
+        }
+        $(".saleprice").text(price+"원");
+
+        $(".saleboard-uptime").text(time);
+        $(".saletitle").text(text);
+
+        $("#saleboard-jjimbtn").on("click", function (){
+            if($("#saleboard-jjimbtn").hasClass("saleboard-jjimbtn")){
+                $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn");
+                $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+
+            } else {
+                $("#saleboard-jjimbtn").addClass("saleboard-jjimbtn");
+                $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
+            }
+        });
+
+        $(".userinfo").on("click", function (){
+            <%--location.replace("/myPage/main?ur_id=${Sale.seller_id}");--%>
+            window.location.href = "/myPage/main?ur_id=${Sale.seller_id}"
+        });
+
         // $(".prev").on("click", function() {
         //     plusSlides(-1);
         // });
@@ -339,7 +394,7 @@
             });
         });
 
-        $("#charbtn").on("click", function () {
+        $("#saleboard-charbtn").on("click", function () {
             let saleNo = "${Sale.no}";
             let sellerid = "${Sale.seller_id}";
             let seller_nick = "${Sale.seller_nick}";
@@ -363,13 +418,40 @@
 
             // action 속성 설정
             $("#form").attr("action", "/callchat");
+            $("#form").attr("method", "POST");
 
             // form submit
             $("#form").submit();
         });
+
+        const itemCount = $('#sale-slider-div').children().length;
+        if(itemCount > 0){
+            $('#sale-slider-div').slick({
+                slide: 'div',        //슬라이드 되어야 할 태그 ex) div, li
+                infinite : true,     //무한 반복 옵션
+                slidesToShow : 1,        // 한 화면에 보여질 컨텐츠 개수
+                slidesToScroll : 1,        //스크롤 한번에 움직일 컨텐츠 개수
+                speed : 300,     // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+                arrows : true,         // 옆으로 이동하는 화살표 표시 여부
+                dots : true,         // 스크롤바 아래 점으로 페이지네이션 여부
+                autoplay : false,            // 자동 스크롤 사용 여부
+                autoplaySpeed : 5000,         // 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+                pauseOnHover : false,        // 슬라이드 이동    시 마우스 호버하면 슬라이더 멈추게 설정
+                vertical : false,        // 세로 방향 슬라이드 옵션
+                prevArrow : "<button type='button' class='slick-prev slick-btn'></button>",        // 이전 화살표 모양 설정
+                nextArrow : "<button type='button' class='slick-next slick-btn'></button>",        // 다음 화살표 모양 설정
+                dotsClass : "slick-dots",     //아래 나오는 페이지네이션(점) css class 지정
+                draggable : false,     //드래그 가능 여부
+            });
+        }
+
+        let imgInfo = cssImage.getImgInfo();
+        $(".slick-prev").html('<img src="/img/display?fileName=' + imgInfo['larrow'] + '" alt="Previous" class="arrow-img prev-img">');
+        $(".slick-next").html('<img src="/img/display?fileName=' + imgInfo['rarrow'] + '" alt="Next" class="arrow-img next-img">');
     });
 
-</script>
 
-</body>
-</html>
+
+</script>
+<script src="../js/Etc.js"></script>
+<%@include file="../fixed/footer.jsp"%>

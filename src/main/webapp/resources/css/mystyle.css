@@ -1,11 +1,23 @@
 #header_box{
-    width: 1200px;
+    width: 100%;
     height: 150px;
     position: sticky;
     top: 0;
     z-index: 10;
     background-color: #fff;
-    border-bottom: 2px solid #f9f9f9;
+    border-bottom: 2px solid #dadee5;
+
+}
+
+.header-shadow{
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 8px 8px -8px rgba(0, 0, 0, 0.2);
+}
+
+#header_subbox{
+    width: 1200px;
+    height: 150px;
+    background-color: #fff;
     margin: 0 auto;
 }
 
@@ -18,7 +30,7 @@
 }
 
 #logobox{
-    width: 100px;
+    width: 200px;
     height: 100%;
     position: relative;
 }
@@ -27,14 +39,12 @@
     width: 100%;
     height:100%;
 }
-
 #logoimg{
     width: 100px;
     position: absolute;
-    left: 70%;
+    left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    margin-top: 25px;
 }
 
 #searchbox{
@@ -64,7 +74,7 @@
 
 #subnavbox{
     position: relative;
-    width: 300px;
+    width: 280px;
 }
 
 #subnavinnerbox{
@@ -72,13 +82,31 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
 }
 
 .subnavspan {
     display: inline-block;
     vertical-align: middle;
-    padding: 0 10px;
     height: 30px;
+    position: relative;
+}
+
+.subnavspan::after{
+    content: '';
+    width: 1.5px;
+    height: 65%;
+    color: #9ca3af;
+    position: absolute;
+    top: 50%;
+    right: -20%;
+    transform: translateY(-50%);
+    background-color: rgb(230 230 230);
+}
+
+.subnavspan:last-child::after{
+    display: none;
 }
 
 .subnavlink {
@@ -108,27 +136,75 @@
     width: 1200px;
     height: 50px;
     margin: 0 auto;
+    display: flex;
+}
+
+.hearder-category-list{
+    width: 100px;
+    height: 44px;
+    background-color: #ee8703;
+    border-radius: 5px;
+}
+
+.hearder-category-title{
+    font-size: 16px;
+    font-weight: 600;
+    color:#fff;
+    text-align: center;
+    line-height: 44px;
+}
+
+.hearder-category-list{
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position: 10px 44%;
+    padding-left: 20px;
 }
 
 #navlist{
-    padding-left: 200px;
-    width: 500px;
+    height: 44px;
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
+    padding-left: 10px;
 }
 
 .navli>a{
     display: inline-block;
 }
 
+.navli {
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    text-align: center;
+}
+
+.navli::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: black;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease; /* 애니메이션 설정 */
+    position: absolute;
+    bottom: -8px; /* 텍스트 바로 아래에 위치하도록 설정 */
+    left: 0;
+}
+.navli:hover::after {
+    transform: scaleX(1);
+}
+
+/* 메뉴바 선 */
+
 .navtext{
     font-family: 'Noto Sans KR', sans-serif;
     font-optical-sizing: auto;
-    font-weight: 500;
-    font-size: 18px;
-    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
     text-align: center;
-    line-height: 50px;
+    line-height: 44px;
 }
 
 #headerspace{
@@ -147,6 +223,7 @@
     width: 1200px;
     margin: 0 auto;
     padding: 50px 0;
+    background-color: rgb(247 249 250);
 }
 
 #footersub>ul>li{
@@ -206,10 +283,6 @@
     position: relative;
 }
 
-.subnavspan{
-    position: relative;
-}
-
 .mylogin-box{
     cursor: pointer;
 }
@@ -249,6 +322,8 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+/* 아래 공용 */
 
 .maincolor{
     background-color: #ee8703;

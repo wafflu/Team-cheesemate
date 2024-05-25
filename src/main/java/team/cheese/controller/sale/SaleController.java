@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.*;
 import team.cheese.dao.*;
+import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.service.ImgService;
+import team.cheese.service.MyPage.UserInfoService;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +39,9 @@ public class SaleController {
 
     @Autowired
     ImgService imgService;
+
+    @Autowired
+    UserInfoService userInfoService;
 
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")

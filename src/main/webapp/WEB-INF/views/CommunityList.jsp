@@ -18,6 +18,23 @@
 
 </div>
 <script>
+    const uploadImage = (function() {
+        let imginfo = [];
+
+        return {
+            getImgInfo: function() {
+                return imginfo;
+            }
+        };
+    })();
+
+    function truncateString(str, num){
+        if(num < str.length){
+            return str.slice(0,num) + "...";
+        }else{
+            return str;
+        }
+    }
 
     $(document).ready(function () {
         const contextPath = "<c:out value='${pageContext.request.contextPath}' />";
@@ -44,11 +61,14 @@
 
                         s += "<td class='article-section'>";
                         s += "<p class='article-no'>" + item1.no + "</p>";
+                        if(item1.img_full_rt !== ""){
+                            s += "<p class='article-img'> <img src='/img/display?fileName="+ item1.img_full_rt +  "' alt='이미지'/></p>";
+                        }
                         s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + item1.title + "</a></p>";
                         s += "<p class='article-nick'>" + item1.nick + "</p>";
                         s += "<p class='article-view_cnt'>" + item1.view_cnt + "</p>";
                         s += "<p class='article-addr_name'>" + item1.addr_name + "</p>";
-                        s += "<p class='article-view_cnt'>👁️" + item1.view_cnt + "</p>";
+                        s += "<p class='article-view_cnt'>😀" + item1.view_cnt + "</p>";
                         s += "<p class='article-comment_cnt'>💬" + item1.comment_count + "</p>";
                         s += "<p class='article-like_cnt'>❤️" + item1.like_cnt + "</p>";
                         s += "</td>";
@@ -56,11 +76,14 @@
                         if (item2 !== undefined) {
                             s += "<td class='article-section'>";
                             s += "<p class='article-no'>" + item2.no + "</p>";
+                            if(item2.img_full_rt !== ""){
+                                s += "<p class='article-img'> <img src='/img/display?fileName="+ item2.img_full_rt +  "' alt='이미지'/></p>";
+                            }
                             s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + item2.title + "</a></p>";
                             s += "<p class='article-nick'>" + item2.nick + "</p>";
                             s += "<p class='article-view_cnt'>" + item2.view_cnt + "</p>";
                             s += "<p class='article-addr_name'>" + item2.addr_name + "</p>";
-                            s += "<p class='article-view_cnt'>👁️" + item2.view_cnt + "</p>";
+                            s += "<p class='article-view_cnt'>😀" + item2.view_cnt + "</p>";
                             s += "<p class='article-comment_cnt'>💬" + item2.comment_count + "</p>";
                             s += "<p class='article-like_cnt'>❤️" + item2.like_cnt + "</p>";
                             s += "</td>";
@@ -154,4 +177,6 @@
     });
 
 </script>
+
+<script src="/js/img.js"></script>
 <%@include file="fixed/footer.jsp"%>
