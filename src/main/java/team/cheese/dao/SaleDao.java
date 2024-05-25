@@ -67,4 +67,11 @@ public interface SaleDao {
 
     //구매자가 판매글 예약/구매시
     int buySale(SaleDto saleDto) throws Exception;
+
+    // 사용자 판매글 갯수
+    int userSaleCnt(String ur_id) throws Exception;
+
+    int countSelectSeller(Map map) throws Exception;
+
+    List<SaleDto> selectSeller(Map map) throws Exception;
 }

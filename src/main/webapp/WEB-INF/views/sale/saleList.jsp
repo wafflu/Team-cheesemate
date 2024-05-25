@@ -22,16 +22,17 @@
     .smallBox {
         border: 1px solid darkgray;
         /*background-color: pink;*/
-        width: 210px;
+        width: 230px;
         height: 300px;
         margin-bottom: 10px;
         background: white;
     }
 
     .img {
-        width: 210px;
-        height: 210px;
+        width: 230px;
+        height: 230px;
         margin: 0 auto;
+        object-fit: cover;
     }
 
     #pageContainer {
@@ -91,7 +92,6 @@
 
 
 </style>
-
 <div class="maincontent totalBox">
     <div class="header-actions">
         <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매/나눔 글작성하기</button>

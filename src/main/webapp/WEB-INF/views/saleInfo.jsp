@@ -4,19 +4,12 @@
 <c:set var="loginId" value="${sessionScope.userId}"/>
 <link rel="stylesheet" href="/css/saleInfo.css">
 <div class="maincontent saleinfo-box">
-	<div class="navigation">
-		<ul>
-			<li class="main-title"><a href="/myPage/main">마이페이지</a></li>
-			<li class="main-title"><a href="/about">거래정보</a></li>
-			<li class="sub-title"><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
-			<li class="sub-title"><a href="/contact">찜한 상품</a></li>
-			<li class="main-title"><a href="/contact">내 정보 관리</a></li>
-			<li class="sub-title"><a href="/contact">개인 정보 수정</a></li>
-			<li class="sub-title"><a href="/contact">비밀번호 변경</a></li>
-			<li class="sub-title"><a href="/contact">회원 탈퇴</a></li>
-		</ul>
-	</div>
 	<div class="mainContainer">
+		<a class="sc-jxOSlx kDyrQm bun-ui-header-back-button"  onclick="window.history.back();">
+			<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img" style="position: relative; top: 37px;">
+				<path d="M14.265 19.537a.9.9 0 1 0 1.27-1.274l-8.362-8.34 8.365-8.387A.9.9 0 0 0 14.263.264l-9 9.024a.902.902 0 0 0 .002 1.273l9 8.976z" fill="#1e1d29" fill-rule="evenodd"></path>
+			</svg>
+		</a>
 		<div class="bun-ui-divider">
 			<button class="bun-ui-tab bun-ui-tab-selected" id="seller">
 				<span class="bun-ui-tab-label">판매내역</span>

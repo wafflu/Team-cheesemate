@@ -334,5 +334,23 @@ public class SaleService {
         if(saleDao.buySale(saleDto)!=1)
             throw new Exception("구매/예약시 예외발생");
     }
+
+    public int userSaleCnt(String ur_id) throws Exception {
+        return saleDao.userSaleCnt(ur_id);
+    }
+
+    public int getSelectSellerCount(Map map) throws Exception {
+
+        int totalCnt = saleDao.countSelectSeller(map);
+
+        return totalCnt;
+    }
+
+    public List<SaleDto> getSelectSellerList(Map map) throws Exception {
+        List<SaleDto> saleList = saleDao.selectSeller(map);
+
+        return saleList;
+    }
+
 }
 

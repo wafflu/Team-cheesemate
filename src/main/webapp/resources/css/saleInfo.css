@@ -9,7 +9,7 @@
     margin: 0;
     padding: 0;
     border: 0;
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
 }
 
 body {
@@ -23,12 +23,12 @@ body {
 .sc-cPiKLX {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 85%;
 }
 
 .sc-cPiKLX svg {
     fill: #b2b2b2;
-    margin-top: 10px; /* SVG 아이콘의 상단 여백 조절 */
+    margin-top: 3px; /* SVG 아이콘의 상단 여백 조절 */
 }
 
 .bun-ui-search {
@@ -38,13 +38,14 @@ body {
     font-size: 16px;
     width: 396px; /* 검색 입력 필드의 너비 */
     height: 30px; /* 검색 입력 필드의 높이 */
+    margin: 3px;
 }
 
 .sc-57cf470b-1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 20px 8px;
+    padding: 0px 0px 8px;
     position: relative;
     font-family: inherit;
     font-size: 16px;
@@ -53,6 +54,8 @@ body {
     margin: 0px;
     border: 0px;
     vertical-align: baseline;
+    width: 99%;
+    margin-top: 5px;
 }
 
 .sc-57cf470b-3 {
@@ -122,7 +125,7 @@ footer button {
 }
 
 .bun-ui-divider {
-    border-top: 1px solid #ccc;
+    border-bottom: 2px solid #f9f9f9;
 }
 
 article header {
@@ -138,8 +141,7 @@ article header h3 {
 }
 
 article {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 19px;
     padding: 5px;
     border: 1px solid #ccc;
     width: 100%;
@@ -335,3 +337,6 @@ button[type="button"]:hover {
 .saleinfo-box {
     height: 1400px;
 }
+
+
+
