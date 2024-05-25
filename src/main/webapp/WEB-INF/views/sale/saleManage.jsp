@@ -200,22 +200,7 @@
             // 클릭된 optionTx 요소의 텍스트 값을 가져와서 상태에 따라 sal_s_cd 값을 할당
             let title = $('input[name="searchTitle"]').val();
             let optionText = $(this).text();
-            switch(optionText) {
-                case '전체':
-                    sal_s_cd = null;
-                    break;
-                case '판매중':
-                    sal_s_cd = 'S';
-                    break;
-                case '예약중':
-                    sal_s_cd = 'R';
-                    break;
-                case '거래완료':
-                    sal_s_cd = 'C';
-                    break;
-                default:
-                    sal_s_cd = null; // 기본적으로 null 할당
-            }
+            sal_s_cd = optionTextSwitch(optionText);
 
             // 모든 optionTx에 #7F7F7F 색상 적용
             $('.optionTx').css('color', '#7F7F7F');
@@ -241,28 +226,12 @@
         function performSearch() {
             let title = $('input[name="searchTitle"]').val();
             let optionText = $('.optionTx.selected').text();
-            let sal_s_cd;
-            switch(optionText) {
-                case '전체':
-                    sal_s_cd = null;
-                    break;
-                case '판매중':
-                    sal_s_cd = 'S';
-                    break;
-                case '예약중':
-                    sal_s_cd = 'R';
-                    break;
-                case '거래완료':
-                    sal_s_cd = 'C';
-                    break;
-                default:
-                    sal_s_cd = null;
-            }
+            let sal_s_cd = optionTextSwitch(optionText);
             saleList(title, sal_s_cd);
         }
 
 
-        let saleFunc = '<button class="Btn btnColorRed" name="hoistingBtn">UP</button><br><button class="Btn btnColorBlue" name="modifyBtn">수정</button><br><button class="Btn btnColorBlue" name="removeBtn">삭제</button>';
+        let saleFunc = '<button class="Btn btnColorRed hoistingBtn">UP</button><br><button class="Btn btnColorBlue modifyBtn">수정</button><br><button class="Btn btnColorBlue removeBtn">삭제</button>';
         // 업데이트된 saleList를 화면에 출력하는 함수
         function updateSaleList(saleList, startOfToday, ph, title, sal_s_cd) {
             // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
@@ -274,19 +243,8 @@
             if (saleList.length > 0) {
                 // 판매 상태에 따라 텍스트 설정
                 saleList.forEach(function (sale) {
-                    switch (sale.sal_s_cd) {
-                        case 'S':
-                            saleStatusText = '판매중';
-                            break;
-                        case 'R':
-                            saleStatusText = '예약중';
-                            break;
-                        case 'C':
-                            saleStatusText = '거래완료';
-                            break;
-                        default:
-                            saleStatusText = '';
-                    }
+                    let optionText = $('.optionTx.selected').text();
+                    let sal_s_cd = optionTextSwitch(optionText);;
 
                     switch (sale.tx_s_cd) {
                         case 'S':
@@ -311,12 +269,12 @@
                     }
 
 
-                    let row = $("<tr>").addClass("sal_no_" + sale.sal_no);
+                    let row = $("<tr>").addClass("sal_no_" + sale.no);
                     // 썸네일
                     row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
 
                     // 판매상태
-                    row.append($("<td>").text(saleStatusText)); // select option
+                    row.append($("<td>").text(sal_s_cd)); // select option
 
                     // 상품명
                     row.append($("<td>").addClass("title").html("<a href='/sale/read?no=" + sale.no + "'>" + sale.title + "</a>"));
@@ -337,7 +295,7 @@
                     row.append($("<td>").text(sale.like_cnt));
 
                     // 등록일
-                    row.append($("<td>").text(dateToString(sale.h_date, startOfToday)));
+                    row.append($("<td>").addClass("hoist_cnt_" + sale.hoist_cnt).html(dateToString(sale.h_date, startOfToday)));
 
                     // 기능
                     row.append($("<td>").html(saleFunc));
@@ -368,14 +326,116 @@
             }
         }
 
-
-
         <%--let hoist_cnt = ${sale.hoist_cnt};--%>
-        // let max_hoist_cnt = 3;
+        let max_hoist_cnt = 3;
 
-        $("button[name='hoistingBtn']").on("click", function() {
-            alert("확인");
+        $(document).on("click", ".hoistingBtn", function() {
+
+            // sal_no 값을 추출
+            let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
+
+            // hoistCnt 값을 추출
+            let hoistCntClass = $(this).closest("tr").find("td[class*='hoist_cnt_']").attr("class").split(" ").find(c => c.startsWith("hoist_cnt_"));
+            let hoist_cnt = hoistCntClass.replace("hoist_cnt_", "");
+
+            // 추출된 값을 알림창으로 출력
+            alert(sal_no + " " + hoist_cnt);
+
+            // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
+            if (confirm("끌어올리겠습니까? 끌어올리기 한도가 " + (max_hoist_cnt - hoist_cnt) + "번 남았습니다.")) {
+                // AJAX 요청을 사용하여 폼 데이터를 서버로 전송
+                $.ajax({
+                    type: 'POST',
+                    url: '/hoisting',
+                    data: {
+                        no: sal_no
+                    },
+                    success: function(data) {
+                        // 요청이 성공한 경우, saleList 함수를 호출하여 리스트를 업데이트
+                        let title = $('input[name="searchTitle"]').val(); // 판매글 제목 검색
+                        let optionText = $('.optionTx.selected').text();
+                        let sal_s_cd = optionTextSwitch(optionText);
+
+                        saleList(title, sal_s_cd);
+                    },
+                    error: function(xhr, status, error) {
+                        // 요청이 실패한 경우, 오류 메시지를 알림창으로 표시
+                        alert("끌어올리기에 실패했습니다. 다시 시도해주세요.");
+                    }
+                });
+            }
         });
+
+        $(document).on("click", ".modifyBtn", function() {
+            // sal_no 값을 추출
+            let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
+            alert(sal_no);
+            // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
+            if (confirm("수정 하시겠습니까?")) {
+                // AJAX 요청을 사용하여 sal_no 값을 서버로 전송
+                $.ajax({
+                    type: 'POST',
+                    url: '/sale/modify',
+                    data: {
+                        no: sal_no
+                    },
+                    success: function(response) {
+                        // 서버 응답에 따라 페이지를 이동
+                        window.location.replace('/sale/modify?no=' + sal_no);
+                    },
+                    error: function(xhr, status, error) {
+                        // 요청이 실패한 경우, 오류 메시지를 알림창으로 표시
+                        alert("수정 요청에 실패했습니다. 다시 시도해주세요.");
+                    }
+                });
+            }
+        });
+
+        $(document).on("click", ".removeBtn", function() {
+            // sal_no 값을 추출
+            let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
+            alert(sal_no);
+            // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
+            if (confirm("수정 하시겠습니까?")) {
+                // AJAX 요청을 사용하여 폼 데이터를 서버로 전송
+                $.ajax({
+                    type: 'POST',
+                    url: '/sale/modify?no=' + sal_no,
+                    success: function(data) {
+                        // 요청이 성공한 경우, saleList 함수를 호출하여 리스트를 업데이트
+                        let title = $('input[name="searchTitle"]').val(); // 판매글 제목 검색
+                        let optionText = $('.optionTx.selected').text();
+                        let sal_s_cd = optionTextSwitch(optionText);
+
+                        saleList(title, sal_s_cd);
+                    },
+                    error: function(xhr, status, error) {
+                        // 요청이 실패한 경우, 오류 메시지를 알림창으로 표시
+                        alert("에러가 발생하였습니다. 다시 시도해 주세요.");
+                    }
+                });
+            }
+        });
+
+
+        // $(document).on("click", ".hoistingBtn", function() {
+        //     alert($(this));
+        //     let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
+        //     let hoistCntClass = $(this).closest("tr").find("td[class*='hoist_cnt_']").attr("class").split(" ").find(c => c.startsWith("hoist_cnt_"));
+        //     let hoist_cnt = hoistCntClass.replace("hoist_cnt_", "");
+        //
+        //     alert(sal_no + " " + hoist_cnt);
+        //
+        //     if (confirm("끌어올리겠습니까? 끌어올리기 한도가 " + (max_hoist_cnt-hoist_cnt) + "번 남았습니다.")) {
+        //         $("<input>").attr({
+        //             type: "hidden",
+        //             name: "no",
+        //             value: sal_no
+        //         }).appendTo("#form");
+        //         $("#form").attr("action", "/hoisting");
+        //         $("#form").submit();
+        //     }
+        // });
 
         <%--$("button[name='hoistingBtn']").on("click", function() {--%>
         <%--    // 현재 클릭된 버튼의 부모인 <tr> 태그를 찾고 해당 클래스를 가져옵니다.--%>
@@ -399,12 +459,6 @@
         <%--    }--%>
         <%--});--%>
 
-        $("#removeBtn").on("click", function () {
-            if (confirm("삭제 하시겠습니까?")) {
-                $("#form").attr("action", "/sale/remove?no=${Sale.no}");
-                $("#form").submit();
-            }
-        });
 
         $("#modifyBtn").on("click", function () {
             if (confirm("수정 하시겠습니까?")) {
@@ -455,6 +509,26 @@
             let daysAgo = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)) + 1;
             return daysAgo + "일 전";
         }
+
+        function optionTextSwitch(optionText) {
+            switch (optionText) {
+                case '전체':
+                    sal_s_cd = null;
+                    break;
+                case '판매중':
+                    sal_s_cd = 'S';
+                    break;
+                case '예약중':
+                    sal_s_cd = 'R';
+                    break;
+                case '거래완료':
+                    sal_s_cd = 'C';
+                    break;
+                default:
+                    sal_s_cd = null;
+            }
+            return sal_s_cd;
+        };
     });
 </script>
 

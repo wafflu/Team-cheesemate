@@ -16,6 +16,7 @@ import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
+import team.cheese.service.ImgService;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,8 @@ public class SaleRestController {
     TagDao tagDao;
     @Autowired
     AddrCdDao addrCdDao;
+    @Autowired
+    ImgService imgService;
 
     @Autowired
     SaleService saleService;
@@ -281,6 +284,31 @@ public class SaleRestController {
         // 검색어를 이용하여 주소를 검색
         saleService.updateSaleSCd(no, sal_s_cd, seller_id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
+    @PostMapping("/modify")
+    @ResponseBody
+    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
+
+        Map map = saleService.modify(no);
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
+        String tagContents = (String) map.get("tagContents");
+        HttpSession session = request.getSession();
+        String user_id = (String) session.getAttribute("userId");
+        String user_nick = (String) session.getAttribute("userNick");
+
+        saleDto.setSeller_id(user_id);
+        saleDto.setSeller_nick(user_nick);
+
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
+
+        model.addAttribute("Sale", saleDto);
+        model.addAttribute("Tag", tagContents);
+        model.addAttribute("imglist", imglist); // model로 값 전달
+        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+
+        return "/sale/saleWrite";
     }
 
 

@@ -272,6 +272,7 @@
         <if test="sal_s_cd != null and sal_s_cd != ''"> -- 판매글 상태(판매중/예약중/거래완료)
             AND sal_s_cd = #{sal_s_cd}
         </if>
+        ORDER BY h_date DESC, no DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -283,7 +284,7 @@
             AND seller_id = #{seller_id}
         </if>
         <if test="title != null and title != ''"> -- 판매글 제목
-            AND title LIKE CONCAT('%', #{text}, '%')
+            AND title LIKE CONCAT('%', #{title}, '%')
         </if>
         <if test="sal_s_cd != null and sal_s_cd != ''"> -- 판매글 상태(판매중/예약중/거래완료)
             AND sal_s_cd = #{sal_s_cd}
