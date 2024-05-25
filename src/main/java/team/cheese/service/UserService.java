@@ -13,6 +13,7 @@ import team.cheese.domain.UserDto;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -46,13 +47,6 @@ public class UserService {
         return userDao.getUserById(id);
     }
 
-    // *** 로그인 기능 ***
-    // - 로그인 성공, 실패를 확인하는 메서드, 성공시 로그인한 유저를 리턴한다
-    // 1. DB에 inputId가 있는지 확인한다
-    //      1.1 inputId가 있는 경우
-    //          1.1.1 inputPw가 유효한 경우 해당 유저 리턴
-    //          1.1.2 inputPw가 유효하지 않은 경우 null 리턴
-    //      1.2 inputId가 없는 경우 null 리턴
     public UserDto login(String inputId, String inputPw) {
 
         try {
@@ -81,6 +75,7 @@ public class UserService {
 
     // *** 모든 유저/관리자의 아이디를 리턴 ***
     public List<String> getAllUsersAdminsId(List<String> adminIdList) {
+
         try {
             List<String> userIdList = userDao.getAllUsersId();
             userIdList.addAll(adminIdList);
@@ -94,21 +89,42 @@ public class UserService {
 
     // *** 회원가입 기능 ***
     @Transactional
-    public void insertNewUser(UserDto dto, AddrCdDto addrCdDto) throws Exception {
+    public int insertNewUser(UserDto dto, AddrCdDto addrCdDto) throws NoSuchAlgorithmException {
         //유저
         dto.setPw(hashPassword(dto.getPw()));
+
         userDao.insertNewUser(dto);
+
         //주소
         addrCdService.insertAddrCd(addrCdDto);
+
 
         // 소개글 작성 (insert)
         UserInfoDTO userInfoDTO = new UserInfoDTO(dto.getId(),dto.getNick(),"");
         userInfoDTO.setContents("test");
-
-        int rowCnt = userInfoDao.insert(userInfoDTO);
-        if(rowCnt!=1){
-            throw new Exception("소개글 작성 중 예외가 발생했습니다");
+        try {
+            int rowCnt = userInfoDao.insert(userInfoDTO);
+            System.out.println("rowCnt"+rowCnt);
+            if(rowCnt!=1)
+                throw new RuntimeException("소개글 작성 중 예외가 발생했습니다");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+
+        return 1;
+    }
+
+    public int updateUser(Map map) {
+        return userDao.updateUser(map);
+    }
+
+    public int updateUserPw(Map<String, String> map) throws NoSuchAlgorithmException {
+        map.put("pw", hashPassword((String) map.get("pw")));
+        return userDao.updateUserPW(map);
+    }
+
+    public int updateUser_s_cd(Map map) {
+        return userDao.updateUser_s_cd(map);
     }
 
     // *** 비밀번호 암호화 기능 ***
