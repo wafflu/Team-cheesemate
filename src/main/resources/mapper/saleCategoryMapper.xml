@@ -20,10 +20,10 @@
     </select>
 
     <!-- CRUD  -->
-    <!--
-    1. 카테고리를 보여주기 위한 작업.
-    2. select
-      -->
+<!--
+1. 카테고리를 보여주기 위한 작업.
+2. select
+  -->
     <select id="selectAll" resultType="SaleCategoryDto">
         <include refid="selectFromSaleCategory"/>
         WHERE
@@ -60,9 +60,9 @@
         SELECT name
         FROM sale_category
         WHERE
-            LENGTH(sal_cd) = #{length}
-          AND state='Y'
-          AND sal_cd = #{sal_cd}
+        LENGTH(sal_cd) = #{length}
+        AND state='Y'
+        AND sal_cd = #{sal_cd}
     </select>
 
 </mapper>

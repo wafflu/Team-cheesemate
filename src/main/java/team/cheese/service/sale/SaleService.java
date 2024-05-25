@@ -196,6 +196,13 @@ public class SaleService {
         return saleList;
     }
 
+    public List<SaleDto> getSelectSellerList(Map map) throws Exception {
+        List<SaleDto> saleList = saleDao.selectSeller(map);
+        System.out.println(saleList);
+
+        return saleList;
+    }
+
     // 페이징된 게시글 list를 가지고 올 때
     @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getPageList(Map map) throws Exception {
@@ -295,12 +302,6 @@ public class SaleService {
         saleDao.increaseViewCnt(no);
     }
 
-//    // 판매 게시글을 수정할 때
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public int update(SaleDto saleDto) throws Exception {
-//        // 판매글 내용을 받아서 수정하도록 처리
-//        return saleDao.update(saleDto);
-//    }
 
     // 판매 게시글을 수정할 때
     @Transactional(propagation = Propagation.REQUIRED)
@@ -323,6 +324,13 @@ public class SaleService {
     public int getCount(Map map) throws Exception {
 
         int totalCnt = saleDao.countSale(map);
+
+        return totalCnt;
+    }
+
+    public int getSelectSellerCount(Map map) throws Exception {
+
+        int totalCnt = saleDao.countSelectSeller(map);
 
         return totalCnt;
     }
@@ -375,4 +383,18 @@ public class SaleService {
         if(saleDao.buySale(saleDto)!=1)
             throw new Exception("구매/예약시 예외발생");
     }
+
+    // 상품관리 페이지에 들어간 경우
+//    public Map manage(String seller_id) throws Exception {
+        // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
+//        SaleDto saleDto = saleDao.selectSeller();
+//        Map map = new HashMap();
+//        map.put("saleDto", saleDto);
+//
+//        if(saleDto == null) {
+//            return map;
+//        }
+//
+//        return map;
+//    }
 }

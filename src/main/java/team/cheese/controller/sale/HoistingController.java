@@ -28,6 +28,7 @@ public class HoistingController {
     @RequestMapping("/hoisting")
     public String hoisting(Long no, HttpSession session, HttpServletRequest request) throws Exception {
         String user_id = (String) session.getAttribute("userId");
+        System.out.println("hoisting no : " + no);
 
         SaleDto saleDto = saleService.getSale(no);
         String seller_id = saleDto.getSeller_id();
