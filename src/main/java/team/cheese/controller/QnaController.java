@@ -35,6 +35,7 @@ public class QnaController {
         model.addAttribute("userId", userId);
         return "qnaForm"; // qnaForm.jsp로 이동
     }
+
     // faq에서 버튼 클릭시 로그인체크
     @GetMapping("/checkLogin")
     @ResponseBody
@@ -69,35 +70,39 @@ public class QnaController {
         완료되면 나의 문의목록으로 페이지를 이동시킨다.
      */
     @PostMapping("/send")
-    public String write(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
-        // 유효성 검사 실패 시 "QnaForm"로 리다이렉트
+    @ResponseBody
+    public Map<String, Object> write(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+
+        // 유효성 검사 실패 시 오류 메시지를 반환
         if (result.hasErrors()) {
-            System.out.println("유효성검사에 걸림");
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.qnaDto", result);
-            redirectAttributes.addFlashAttribute("qnaDto", qnaDto);
-            return "redirect:/qna/new";
+            response.put("success", false);
+            response.put("message", "유효성 검사에 실패했습니다.");
+            return response;
         }
+
         // 세션에서 사용자 ID를 가져와서 Dto에 설정
         String userId = (String) session.getAttribute("userId");
         qnaDto.setUr_id(userId);
         qnaService.write(qnaDto);
-        // 성공시 목록으로 리다이렉트
-        return "redirect:/qna/list";
-    }
 
+        response.put("success", true);
+        response.put("message", "문의글이 등록되었습니다.");
+        return response;
+    }
     // 예외 처리 핸들러
     @ExceptionHandler(Exception.class)
     public String handleException(Exception ex, RedirectAttributes redirectAttributes)  throws Exception{
         redirectAttributes.addFlashAttribute("errorMessage", "양식을 다시 작성해주세요. 오류: " + ex.getMessage());
         return "redirect:/qna/new"; // 예외 발생 시 에러페이지로 이동
     }
-
     // 나의 문의 내역 조회하기
     @GetMapping("/list")
     public String listUserQnas(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int pageSize, Model model, HttpSession session) throws Exception {
         String ur_id = (String) session.getAttribute("userId");
         int totalCnt = qnaService.countQnasByUserId(ur_id);
         PageHandler pageHandler = new PageHandler(totalCnt, page, pageSize);
+
         Map<String, Object> map = new HashMap<>();
         map.put("ur_id", ur_id);
         map.put("offset", pageHandler.getOffset());
@@ -130,11 +135,21 @@ public class QnaController {
             삭제 완료 후 /list로 이동한다.
      */
     @PostMapping("/delete")
-    public String deleteQna(@RequestParam("no") long no, HttpSession session) throws Exception {
+    @ResponseBody
+    public Map<String, Object> delete(@RequestParam("no") long no, HttpSession session) throws Exception {
+        Map<String, Object> response = new HashMap<>();
+
         // 세션에서 사용자 ID를 가져와서 삭제 요청
         String ur_id = (String) session.getAttribute("userId");
-        qnaService.remove(no, ur_id);
-        return "redirect:/qna/list";
+        int result = qnaService.remove(no, ur_id);
+        if (result == 1) {
+            response.put("success", true);
+            response.put("message", "삭제 완료하였습니다.");
+        } else {
+            response.put("success", false);
+            response.put("message", "삭제에 실패했습니다.");
+        }
+        return response;
     }
 
     /*
@@ -147,18 +162,29 @@ public class QnaController {
         현재 게시글 read 상태로 이동한다.
      */
     @PostMapping("/modify")
-    public String modify(@Valid @ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session, RedirectAttributes rattr) throws Exception {
-        // 세션에서 사용자 ID를 가져와서 Dto에 설정
+    @ResponseBody
+    public Map<String, Object> modify(@ModelAttribute QnaDto qnaDto, BindingResult result, HttpSession session) throws Exception {
+        Map<String, Object> response = new HashMap<>();
         String ur_id = (String) session.getAttribute("userId");
         qnaDto.setUr_id(ur_id);
         qnaDto.setLast_id(ur_id);
 
-        // 수정 요청을 서비스에 전달
+//        if (result.hasErrors()) {
+//            response.put("success", false);
+//            response.put("message", "유효성 검사에 실패했습니다.");
+//            return response;
+//        }
+
         int rowCnt = qnaService.modify(qnaDto);
         if (rowCnt == 1) {
-            rattr.addFlashAttribute("msg", "수정 완료하였습니다.");
-            return "redirect:/qna/read?no=" + qnaDto.getNo(); // 수정이 성공하면 다시 게시글 조회 페이지로 리다이렉트
+            response.put("success", true);
+            response.put("message", "수정 완료하였습니다.");
+            response.put("qnaNo", qnaDto.getNo());
+        } else {
+            response.put("success", false);
+            response.put("message", "수정에 실패했습니다.");
         }
-        return "redirect:/qna/read?no=" + qnaDto.getNo();
+        return response;
     }
 }
+

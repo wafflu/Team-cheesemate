@@ -1,47 +1,66 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ include file="fixed/header.jsp" %>
+<html>
+<head>
+    <title>치즈메이트</title>
 
-<title>문의 수정하기</title>
-<link rel="stylesheet" href="/css/qnaBoard.css"> <!-- qnaBoard.css 파일 포함 -->
+    <!-- 구글 폰트 영역 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <!-- 슬라이드 영역 -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <!-- 기본 리셋 영역 -->
+    <link rel="stylesheet" href="/css/reset.css">
+    <!-- 사용자 영역 -->
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <link rel="stylesheet" href="/css/mainslider.css">
+    <link rel="stylesheet" href="/css/qnaBoard.css"> <!-- qnaBoard.css 파일 포함 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="/js/qnaBoard.js"></script>
+</head>
 
+<body data-msg="${msg}">
+<div class="qnaBoard_head">
+    <button class="qnaBoard_backButton" onclick="loadQnaListModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.5 19.5L4.42491 11.6251L12.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+    <h2 class="qnaBoard_headTitle">문의 내역 상세</h2>
+</div>
 <div class="qnaBoard_container">
-    <aside class="qnaBoard_aside">
-        <h3>고객센터</h3>
-        <ul class="qnaBoard_QnaSide">
-            <li><a href="<c:url value='/faq/list'/>">FAQ</a></li>
-            <li><a href="<c:url value='/qna/new'/>">1:1 문의하기</a></li>
-            <li><a href="<c:url value='/qna/list'/>">나의 문의내역</a></li>
-        </ul>
-    </aside>
     <main class="qnaBoard_main">
         <form id="qnaBoard_modifyForm" action="/qna/modify" method="post" onsubmit="return qnaBoard_validateForm();">
             <input type="hidden" name="no" value="<c:out value='${qna.no}' />">
             <input type="hidden" id="qnaBoard_hiddenTitle" name="hiddenTitle" value="<c:out value='${qna.title}' />">
             <div class="qnaBoard_div">
-                <label for="qnaBoard_title">제목:</label>
+                <label for="qnaBoard_title">Q. 제목 :</label>
                 <input type="text" name="title" id="qnaBoard_title" value="<c:out value='${qna.title}' />" readonly>
-                <p><strong>작성일:</strong> <c:out value="${qna.r_date}"/></p>
             </div>
             <div class="qnaBoard_div">
-                <label for="qnaBoard_content">내용:</label>
-                <textarea name="contents" id="qnaBoard_content" rows="10" readonly><c:out value="${qna.contents}"/></textarea>
+                <label for="qnaBoard_content">내용 :</label>
+                <textarea name="contents" id="qnaBoard_content" rows="1" readonly oninput="autoResizeTextarea(this)"><c:out value="${qna.contents}"/></textarea>
+                <p class="date_p_tag"><strong>작성일 :</strong> <fmt:formatDate value="${qna.r_date}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+            </div>
+            <div class="deleteAndModifyBtn">
+            <div class="qnaBoard_buttonContainer">
+                <button type="button" onclick="qnaBoard_modify()" id="qnaBoard_editBtn" class="qnaBoard_submitButton">문의수정</button>
+                <button type="submit" id="qnaBoard_saveBtn" class="qnaBoard_submitButton" style="display:none;">저장하기</button>
             </div>
             <div class="qnaBoard_buttonContainer">
-                <button type="button" onclick="qnaBoard_modify()" id="qnaBoard_editBtn" class="qnaBoard_submitButton">수정</button>
-                <button type="submit" id="qnaBoard_saveBtn" class="qnaBoard_submitButton" style="display:none;">저장</button>
+                <c:if test="${qna.q_s_cd != 'Q001Y'}">
+                    <form action="/qna/delete" method="post" onsubmit="return qnaBoard_confirmDelete();" class="qnaBoard_deleteForm">
+                        <input type="hidden" name="no" value="<c:out value='${qna.no}' />" />
+                        <button type="submit" class="qnaBoard_deleteButton">문의삭제</button>
+                    </form>
+                </c:if>
+            </div>
             </div>
         </form>
-        <c:if test="${qna.q_s_cd != 'Q001Y'}">
-            <form action="/qna/delete" method="post" onsubmit="return qnaBoard_confirmDelete();" class="qnaBoard_deleteForm">
-                <input type="hidden" name="no" value="<c:out value='${qna.no}' />" />
-                <button type="submit" class="qnaBoard_deleteButton">삭제</button>
-            </form>
-        </c:if>
     </main>
+
 </div>
-
-<input type="hidden" id="flashMsg" value="${msg}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="/js/qnaBoard.js"></script>
-
-<%@ include file="fixed/footer.jsp" %>
+</body>
+</html>

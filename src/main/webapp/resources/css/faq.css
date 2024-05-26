@@ -146,6 +146,50 @@
     margin: 0 auto;
 }
 #questionWriteModal {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#questionWriteModal .modal-content {
+    background-color: #fefefe;
+    margin: 9% auto;
+    /*padding: 10px;*/
+    border: 1px solid #888;
+    width: 800px;
+    position: relative;
+    border-radius: 10px;
+}
+
+#questionWriteModal .modal-open {
+    overflow: hidden;
+}
+
+#questionWriteModal .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 20px;
+}
+
+#questionWriteModal .close:hover,
+#questionWriteModal .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#questionListModal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -158,27 +202,28 @@
     background-color: rgba(0,0,0,0.4);
 }
 
-#questionWriteModal .modal-content {
+#questionListModal .modal-content {
     background-color: #fefefe;
-    margin: 9% auto;
+    margin: 0 auto;
     padding: 10px;
     border: 1px solid #888;
-    width: 35%;
+    width: 50%; /* 모달 크기 조정 */
+    border-radius: 10px;
 }
 
-#questionWriteModal .modal-open {
+#questionListModal .modal-open {
     overflow: hidden;
 }
 
-#questionWriteModal .close {
+#questionListModal .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-#questionWriteModal .close:hover,
-#questionWriteModal .close:focus {
+#questionListModal .close:hover,
+#questionListModal .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;

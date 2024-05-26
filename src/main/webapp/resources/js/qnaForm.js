@@ -71,7 +71,6 @@ $(document).ready(function() {
             }
         });
     });
-
 });
 
 function qnaForm_submitCheck(e) {

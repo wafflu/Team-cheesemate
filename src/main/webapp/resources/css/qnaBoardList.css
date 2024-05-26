@@ -1,49 +1,13 @@
-.cs-center {
-    font-size: 1.5rem;
-    text-align: center;
-    margin-top: 55px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
-
-.qnaBoardList_container {
-    flex-direction: column;
-    align-items: center;
+#qnaBoardList_container {
+    display: flex;
+    flex: 1;
     max-width: 1200px;
     margin: 0 auto;
 }
-
-.btn-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 16px 0;
-    margin-left: -15px;
-    margin-bottom: -10px;
-}
-.questionWriteBtn, .faqListBtn {
-    border: 1px solid #000;
-    padding: 10px 140px;
-    background-color: #fff;
-    color: #000;
-    cursor: pointer;
-    border-radius: 5px;
-    margin: 0 10px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-}
-.divider {
-    width: 65%;
-    border: none;
-    border-top: 2px solid black;
-    margin: 20px auto;
-    margin-left: 225px;
-}
-.qnaList {
-    font-size: 1.2rem;
-    margin-left: 225px;
+#qnaBoardList_aside {
+    width: 200px;
+    background-color: #eee;
+    padding: 1rem;
 }
 #qnaBoardList_main {
     flex: 1;

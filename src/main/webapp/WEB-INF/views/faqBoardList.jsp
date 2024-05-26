@@ -40,7 +40,16 @@
 <div id="questionWriteModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <div id="modal-body"></div> <!-- 동적 콘텐츠가 삽입될 부분 -->
+        <div id="modal-body"></div>
+    </div>
+</div>
+
+<!-- 문의 내역 모달 -->
+<div id="questionListModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modal-body-list"></div>
+        <div id="modal-pagination"></div>
     </div>
 </div>
 

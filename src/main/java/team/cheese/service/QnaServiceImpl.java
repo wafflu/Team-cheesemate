@@ -77,7 +77,7 @@ public class QnaServiceImpl implements QnaService {
         if (cnt == 0) {
             throw new RuntimeException("나의 문의 내역 삭제 에러: 해당 문의 내역이 존재하지 않거나 삭제할 권한이 없습니다.");
         }
-            return qnaDao.delete(no, ur_id);
+        return cnt;
     }
 
     // 나의 문의 내역 수정
