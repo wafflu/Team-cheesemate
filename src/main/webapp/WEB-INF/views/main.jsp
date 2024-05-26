@@ -96,7 +96,6 @@
         str += "<div class='saleinfo-info home_sale'>";
         str += `<p class="home_sale_price">`+price+`원</p>`;
         str += `<p class="home_sale_h_date">`+time+`</p>`;
-        str += `<p class="home_sale_h_date">`+time+`</p>`;
         str += "</div>";
         str += `<p class="home_sale_addr_name home_sale">${sale.addr_name}</p>`;
         str += `</a>`;
