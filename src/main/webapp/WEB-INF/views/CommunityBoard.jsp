@@ -36,7 +36,7 @@
                         </div>
                         <div class="post-reaction-wrapper">
                         <div class="post-reaction">
-                            <p data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
+                            <p  class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
                             <p>  </p>
                             <input type="hidden" value="${communityBoardDto.no}">
                             <p>💬 ${communityBoardDto.comment_count}</p>
@@ -65,7 +65,7 @@
                 </div>
                 <%-- 반응--%>
                 <div class="post-reaction">
-                    <p id="heart" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
+                    <p id="heart" class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
                     <p>  </p>
                     <input type="hidden" id="postNo" value="${communityBoardDto.no}">
                     <p>💬 ${communityBoardDto.comment_count}</p>
@@ -119,28 +119,32 @@
         document.getElementById('alertDiv').style.display = 'none';
     }
 
-    function initComment(){
-        document.getElementById("content").value="";
+    function initComment() {
+        document.getElementById("content").value = "";
     }
 
+    document.getElementById('list').addEventListener('click', function() {
+        window.location.href = '${pageContext.request.contextPath}/community/list';
+    });
 
-    let uploadImage = (function() {
+
+    let uploadImage = (function () {
         let imginfo = [];
 
         <c:forEach items="${imglist}" var="img">
         <c:if test="${img.imgtype eq 'r'}">
         imginfo.push(
             {
-                "file_rt" : "${img.file_rt}",
-                "o_name" : "${img.o_name}",
-                "e_name" : "${img.e_name}"
+                "file_rt": "${img.file_rt}",
+                "o_name": "${img.o_name}",
+                "e_name": "${img.e_name}"
             }
         )
         </c:if>
         </c:forEach>
 
         return {
-            getImgInfo: function() {
+            getImgInfo: function () {
                 return imginfo;
             }
         };
@@ -180,16 +184,22 @@
                 type: 'PATCH',
                 data: JSON.stringify({
                     "no": postNo
-
                 }),
                 contentType: 'application/json',
-
+                dataType: 'json',
                 success: function (response) {
+                    console.log("리스폰스" + response);
+                    console.log("리스폰스2" + response.countLike);
+                    if (response && response.countLike !== undefined) {
 
-                    console.log("하트");
-                    console.log(response.totalLikeCount);
-                    $('#heart').text('❤️ ' + response.totalLikeCount); // HTML 요소에 좋아요 수를 업데이트
-                    $('#heart').data('count-like', response.totalLikeCount); // 데이터 속성도 업데이트
+                        console.log("하트" + response.countLike);
+                        console.log("하트 총합" + response.totalLike);
+                        $('#heart').text('❤️ ' + response.countLike); // HTML 요소에 좋아요 수를 업데이트
+                        $('.heartTotalCount').data('count-like', response.totalLike); // 데이터 속성도 업데이트
+                        $('.heartTotalCount').text('❤️' + response.countLike);
+                    } else {
+                        console.error("응답에 총 좋아요 수가 없습니다:", response);
+                    }
                 },
                 error: function (xhr, status, error) {
                     if (xhr.status === 401) {
@@ -237,8 +247,8 @@
                     initComment();
 
                 },
-                error: function (xhr,status,error) {
-                    if(xhr.status===200){
+                error: function (xhr, status, error) {
+                    if (xhr.status === 200) {
                         alert("로그인을 먼저 해주세요.");
                     } else if (xhr.status === 500) {
                         alert("서버 에러가 발생했습니다.");
@@ -266,14 +276,26 @@
                         console.log(
                             comment.contents
                         )
+
+
                         str += `<div class="comment">`;
-                        str += `<p>` + comment.nick + `</p>`;
+                        str += `<p class="comment-nick">` + comment.nick + `</p>`;
                         str += `<p class="comment-contents">` + comment.contents + `</></p>`;
-                        str+=   `<p>`+ remaindTime(new Date(comment.r_date))+`</p>`;
+                        str += `<p class="comment-r_date">` + remaindTime(new Date(comment.r_date)) + `</p>`;
+                        str += `<span data-no="${comment.no}"/>`;
                         str += `</div>`;
 
                     });
                     commentsContainer.append(str);
+                    console.log(comments[0]);
+                    const commentDivs = document.getElementsByClassName('comment');
+                    if (commentDivs.length > 0) {
+                        const commentDiv = commentDivs[0];
+                        let no1 = commentDiv.dataset.no;
+                        let no2 = commentDiv.getAttribute('data-no');
+                        console.log("no1: " + no1);
+                        console.log("no2: " + no2);
+                    }
 
 
                 },
@@ -283,8 +305,9 @@
             });
         }
 
-
     });
+
+
 </script>
 <%@ include file="fixed/footer.jsp" %>
 

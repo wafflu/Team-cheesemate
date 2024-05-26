@@ -25,7 +25,7 @@
 
 <!--    삭제-->
     <delete id="delete" parameterType="Integer">
-        delete from comment where no = #{no};
+        delete from comment where no = #{no} and post_no = #{pos_no};
     </delete>
 
 <!--    전체 삭제-->
@@ -37,7 +37,7 @@
 <!--    댓글 수정-->
     <update id = "update" parameterType="CommentDto">
         update comment set contents = #{contents},m_date = #{m_date}
-        where no = #{no};
+        where no = #{no} and post_no=#{post_no};
     </update>
 
 

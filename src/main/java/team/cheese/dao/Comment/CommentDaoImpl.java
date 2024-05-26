@@ -25,8 +25,8 @@ public class CommentDaoImpl implements CommentDao{
     }
 
     @Override
-    public CommentDto select(Integer no) throws Exception {
-        return session.selectOne(namespace + "select", no);
+    public CommentDto select(CommentDto commentDto) throws Exception {
+        return session.selectOne(namespace + "select", commentDto);
     }
 
     @Override
