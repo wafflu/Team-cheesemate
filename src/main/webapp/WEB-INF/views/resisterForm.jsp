@@ -6,9 +6,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/mystyle.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <style>
+
+        .totalBox {
+            height: 1520px;
+            margin: 50px;
+        }
+
         input:invalid {
             border: 2px solid red;
         }
@@ -241,24 +248,29 @@
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
             background-color: rgba(0, 0, 0, 0.4); /* 검은색 배경 */
         }
 
         .modal-content {
             background-color: white;
-            margin-top: 2%;
-            margin-left: 30%;
-            padding: 20px;
+            margin: 5% auto; /* 수직 및 수평 가운데 정렬 */
+            padding: 50px;
             border: 1px solid #888;
-            width: 40%; /* 모달 창 너비 */
+            width: 60%; /* 모달 창 너비 */
+            max-height: 80%; /* 모달 창 최대 높이 */
+            overflow-y: auto; /* 내부에 스크롤 추가 */
+            border-radius: 10px;
+            position: relative;
         }
 
+
         .close {
+            position: absolute;
             color: #aaa;
-            float: right;
-            font-size: 28px;
+            font-size: 35px;
             font-weight: bold;
+            top: -1px;
+            right: 10px;
         }
 
         .close:hover,
@@ -360,31 +372,53 @@
             /* 내부 여백 설정 */
             margin: 0 auto;
             /* 가운데 정렬 */
+            font-size: 16px;
         }
 
 
         #addrTable {
             width: 100%;
             /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
+            font-size: 20px;
+            margin-top: 10px;
         }
 
         #sale_search_addr {
             margin: 0;
+            font-size: 30px;
+            font-weight: 600;
         }
 
         .SaleHidden {
             display: none;
         }
+
+        .agree-div{
+            display: flex;
+            justify-content: center;
+        }
+
+        .agreeBtn {
+            color: white;
+            font-size: 30px;
+            width: 200px;
+            height: 60px;
+            margin-block: 30px;
+            border-radius: 10px;
+            border: 0;
+        }
+
     </style>
 
     <title>치즈메이트 - 회원가입</title>
 </head>
 <body>
+<div class="totalBox">
 <div id="openModal" class="SaleModal SaleHidden">
     <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
     <div class="sale_modal_content">
         <button id="closeModalBtn">x</button>
-        <p class="font30" id="sale_search_addr">주소 검색</p>
+        <p id="sale_search_addr">주소 검색</p>
         <input class="font16" id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요(enter).">
         <div class="sale-table-wrapper">
             <table id="addrTable" class="table text-center">
@@ -592,6 +626,9 @@
         <h3>제10조 (분쟁 해결)</h3>
         <p>회사는 이용자로부터 제출되는 불만사항 및 의견을 우선적으로 처리합니다. 신속한 처리가 곤란한 경우 그 사유와 처리 일정을 이용자에게 통지합니다.</p>
         <p>본 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 대한민국 법률에 따릅니다.</p>
+        <div class="agree-div">
+            <button class="maincolor agreeBtn" id="agreeToTermsBtn">약관 동의</button>
+        </div>
     </div>
 </div>
 
@@ -643,9 +680,12 @@
         <p>회사는 이용자로부터 제출되는 불만사항 및 의견을 우선적으로 처리합니다. 신속한 처리가 곤란한 경우 그 사유와 처리 일정을 이용자에게 통지합니다.</p>
         <p>본 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 대한민국 법률에 따릅니다.</p>
         <p>이 약관은 2024년 5월 24일부터 적용됩니다.</p>
+        <div class="agree-div">
+            <button class="maincolor agreeBtn" id="agreeCollectionBtn">약관 동의</button>
+        </div>
     </div>
 </div>
-
+</div>
 </body>
 </html>
 
@@ -661,12 +701,27 @@
 
         var closeButtons = document.getElementsByClassName("close");
 
-        btnAgreeToTerms.onclick = function () {
+        btnAgreeToTerms.onclick = function (event) {
             var agreeToTermsCheckbox = document.getElementById("agreeToTerms");
             if (!agreeToTermsCheckbox.checked) {
+                document.body.style.overflow = 'hidden';
                 modalAgreeToTerms.style.display = "block";
             }
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" || event.keyCode === 27) {
+                    modalAgreeToTerms.style.display = "none";
+                    checkboxAgreeToTerms.checked = false;
+                    document.body.style.overflow = '';
+                }
+            });
         }
+
+        $(document).on("click", "#agreeToTermsBtn", function() {
+            $("#agreeToTerms").checked = true;
+            modalAgreeToTerms.style.display = "none";
+            document.body.style.overflow = '';
+        });
 
         checkboxAgreeToTerms.onclick = function () {
             var agreeToTermsCheckbox = document.getElementById("agreeToTerms");
@@ -675,12 +730,27 @@
             }
         }
 
-        btnAgreeCollection.onclick = function () {
+        btnAgreeCollection.onclick = function (event) {
             var agreeCollectionCheckbox = document.getElementById("agreeCollection");
             if (!agreeCollectionCheckbox.checked) {
+                document.body.style.overflow = 'hidden';
                 modalAgreeCollection.style.display = "block";
             }
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" || event.keyCode === 27) {
+                    modalAgreeCollection.style.display = "none";
+                    checkboxAgreeCollection.checked = false;
+                    document.body.style.overflow = '';
+                }
+            });
         }
+
+        $(document).on("click", "#agreeCollectionBtn", function() {
+            $("#agreeCollection").checked = true;
+            modalAgreeCollection.style.display = "none";
+            document.body.style.overflow = '';
+        });
 
         checkboxAgreeCollection.onclick = function () {
             var agreeCollectionCheckbox = document.getElementById("agreeCollection");
@@ -693,15 +763,21 @@
             closeButtons[i].onclick = function () {
                 modalAgreeToTerms.style.display = "none";
                 modalAgreeCollection.style.display = "none";
+                document.body.style.overflow = '';
             }
         }
 
         window.onclick = function (event) {
             if (event.target == modalAgreeToTerms) {
+                checkboxAgreeToTerms.checked = false;
                 modalAgreeToTerms.style.display = "none";
+                document.body.style.overflow = '';
             }
-            else if (event.target == modalAgreeCollection) {
+
+            if (event.target == modalAgreeCollection) {
+                checkboxAgreeToTerms.checked = false;
                 modalAgreeCollection.style.display = "none";
+                document.body.style.overflow = '';
             }
         }
     });
@@ -714,10 +790,12 @@
     const openModal = (event) => {
         event.preventDefault(); // form의 기본 동작을 막음
         modal.classList.remove("SaleHidden");
+        document.body.style.overflow = 'hidden';
     }
     const closeModal = () => {
         event.preventDefault(); // form의 기본 동작을 막음
         modal.classList.add("SaleHidden");
+        document.body.style.overflow = '';
     }
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" || event.keyCode === 27) {
@@ -745,8 +823,8 @@
                     if (data.length > 0) {
                         data.forEach(function (addr) {
                             let row = $("<tr class='sale-addr-tr'>");
-                            row.append($("<td>").html("<p class='font20 marginTopFont10'>" + addr.addr_cd + "</p>")); // 행정구역 코드
-                            row.append($("<td>").html("<p class='font20 marginTopFont10'>" + addr.addr_name + "</p>")); // 주소명
+                            row.append($("<td style='text-align: center;'>").html("<p class='font20'>" + addr.addr_cd + "</p>")); // 행정구역 코드
+                            row.append($("<td style='text-align: center;'>").html("<p class='font20'>" + addr.addr_name + "</p>")); // 주소명
                             $("#addrList").append(row);
                         });
                     } else {
