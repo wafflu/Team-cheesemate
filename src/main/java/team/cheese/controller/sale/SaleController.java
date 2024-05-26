@@ -68,7 +68,6 @@ public class SaleController {
     public String read(Long no, Model model) throws Exception {
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
-        System.out.println(saleDto);
 
         if(saleDto == null) {
             return "/error/saleError";
@@ -80,17 +79,16 @@ public class SaleController {
         System.out.println(category1Name + " > " + category2Name + " > " + category3Name );
 
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
+        UserInfoDTO udto = userInfoService.read(saleDto.getSeller_id());
         List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
-        System.out.println("tag List : " + tagDto);
-        System.out.println("Img List : " + imglist);
 
         model.addAttribute("category1Name", category1Name); // 대분류 카테고리
         model.addAttribute("category2Name", category2Name); // 중분류 카테고리
         model.addAttribute("category3Name", category3Name); // 소분류 카테고리
-
         model.addAttribute("Sale", saleDto); // 판매글 리스트
         model.addAttribute("tagList", tagDto); // 태그 리스트
         model.addAttribute("imglist", imglist); // 이미지 리스트
+        model.addAttribute("user", udto); // 판매자 유정 인포정보
 
         return "/sale/saleBoard";
     }
