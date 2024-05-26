@@ -159,6 +159,7 @@
         $(".hearder-category-list").css("background-image", "url('/img/display?fileName=" + imgInfo['menu'] + "')");
         $(".chatsel-drop-down").css("background-image", "url('/img/display?fileName=" + imgInfo['drop_down'] + "')");
         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + imgInfo['Like1'] + "')");
+        $(".regimgbtn").css("background-image", "url('/img/display?fileName=" + imgInfo['addimg'] + "')");
     });
     $(document).ready(function() {
         let isMenuVisible = false;

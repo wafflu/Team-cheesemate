@@ -105,7 +105,6 @@ public class UserService {
         userInfoDTO.setContents("test");
         try {
             int rowCnt = userInfoDao.insert(userInfoDTO);
-            System.out.println("rowCnt"+rowCnt);
             if(rowCnt!=1)
                 throw new RuntimeException("소개글 작성 중 예외가 발생했습니다");
         } catch (Exception e) {
