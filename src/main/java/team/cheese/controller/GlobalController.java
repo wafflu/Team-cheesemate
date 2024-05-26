@@ -1,5 +1,6 @@
 package team.cheese.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,12 +11,10 @@ import team.cheese.service.ImgService;
 import team.cheese.service.event.EventService;
 import team.cheese.service.sale.SaleService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalController {
 
     @Autowired

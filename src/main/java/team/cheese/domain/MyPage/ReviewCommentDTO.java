@@ -6,6 +6,8 @@ import java.util.Objects;
 public class ReviewCommentDTO {
     private Integer no;
     private String sal_id;
+    private Long sal_no;
+    private String psn;
     private String buy_id;
     private String buy_nick;
     private String contents;
@@ -60,6 +62,22 @@ public class ReviewCommentDTO {
                 ", last_r_date=" + last_date +
                 ", last_idno='" + last_id + '\'' +
                 '}';
+    }
+
+    public Long getSal_no() {
+        return sal_no;
+    }
+
+    public void setSal_no(Long sal_no) {
+        this.sal_no = sal_no;
+    }
+
+    public String getPsn() {
+        return psn;
+    }
+
+    public void setPsn(String psn) {
+        this.psn = psn;
     }
 
     public Integer getNo() {

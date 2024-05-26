@@ -1,3 +1,17 @@
+
+// $(document).ready(function() {
+//     $(".contentsBox").each(function() {
+//         let $this = $(this);
+//         let sDate = new Date('<fmt:formatDate value="${event.s_date}" pattern="yyyy-MM-dd" />');
+//         let eDate = new Date('<fmt:formatDate value="${event.e_date}" pattern="yyyy-MM-dd" />');
+//         let now = new Date();
+//
+//         let remainingTime = eDate.getTime() - now.getTime();
+//         let remainingDays = Math.ceil(remainingTime / (1000 * 60 * 60 * 24));
+//         let remain_id=`#remainingDays-${event.evt_no}`
+//         $this.find(remain_id).text('이벤트 종료까지 ' + remainingDays + '일 남았습니다.');
+//     });
+// });
 function loadDocArr(){
     // 폼 데이터를 담을 객체 생성
     // 폼 안의 각 input 및 select 요소를 순회하면서 값을 읽어와서 formData 객체에 추가
@@ -35,6 +49,7 @@ $(document).ready(function() {
         loadDocArr();
     });
 });
+
 function showThumbnailImage(uploadResultArr){
 
     /* 전달받은 데이터 검증 */

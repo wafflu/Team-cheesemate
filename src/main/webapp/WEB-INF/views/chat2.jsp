@@ -2,56 +2,54 @@
 <%@include file="fixed/header.jsp"%>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-    <style>
-        #chatbox{
-            position: relative;
-            width: 800px;
-            margin: 50px auto 0;
-            height: 800px;
-        }
-        #chatlist{
-            position: absolute;
-            left: 0;
-            width: 400px;
-            border: 1px solid red;
-        }
-        #conversationDiv{
-            position: absolute;
-            right: 0;
-            width: 400px;
-            border: 1px solid red;
-        }
-        #response{
-            width: 100%;
-            height: 500px;
-            overflow-y: scroll;
-        }
-        .buyermsg{
-            text-align: right;
-        }
-        .sellermsg{
-            text-align: left;
-        }
-    </style>
-<div id="chatbox" class="maincontent">
+    <link rel="stylesheet" href="/css/chatting.css">
+<div class="maincontent">
+<div id="chatbox">
 
-    <div id = "chatlist">
+    <div id = "chatlist-box" class="chatbox-info">
+        <div class="chatlist-menu">
+            <ul class="chatlist-menu-nav">
+                <li class="chatlist-menu-active font14">
+                    <span>전체 대화</span>
+                    <span class="chatsel-drop-down"></span>
+                </li>
+                <li>
+                    <span>구매 대화</span>
+                    <div class="chatsel-drop-down"></div>
+                </li>
+                <li>
+                    <span>판매 대화</span>
+                    <div class="chatsel-drop-down"></div>
+                </li>
+            </ul>
+        </div>
 
-    </div>
-
-    <div id="conversationDiv">
-        <input type="hidden" id="nick" placeholder="Choose a nickname" value="${usernick}"/>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-        <div id="response">
+        <div id="chatlist">
 
         </div>
-        <div id="sendbox">
-            <input type="text" id="message" onkeydown="handleKeyPress(event)"/>
-            <button id="sendMessage" onclick="sendMessage();">Send</button>
+    </div>
+
+    <div id="conversationDiv" class="chatbox-info">
+        <input type="hidden" id="nick" placeholder="Choose a nickname" value=<c:out value='${usernick}'/>>
+        <button id="disconnect" disabled="disabled" onclick="disconnect();"></button>
+        <div class="chat-profile-box">
+            <div class="chat-profile-img">
+
+            </div>
+            <div class="chat-user-nick">
+
+            </div>
+        </div>
+        <div id="response" class="response-active"></div>
+        <div id="sendbox" disabled="disabled">
+            <div class="msg-text">
+                <textarea id="message" rows="6" cols="80" name="content" placeholder="메세지를 입력하세요." onkeydown="handleKeyPress(event)"></textarea>
+            </div>
+            <button id="sendMessage" onclick="sendMessage();"></button>
         </div>
     </div>
 </div>
-
+</div>
 <script type="text/javascript">
     let stompClient = null;
     let roomnum; // 채팅방 번호
@@ -68,7 +66,7 @@
     function setConnected(connected) {
         // document.getElementById('connect').disabled = connected;
         document.getElementById('disconnect').disabled = !connected;
-        document.getElementById('conversationDiv').style.visibility
+        document.getElementById('sendbox').style.visibility
             = connected ? 'visible' : 'hidden';
         document.getElementById('response').innerHTML = '';
     }
@@ -77,19 +75,28 @@
     function connect(roomid) {
         disconnect();
         roomnum = roomid;
-        console.log("roomid : "+roomid)
         let socket = new SockJS('/chat');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
             //여기서 메세지 로드시킴
             loadchatmsg();
             setConnected(true);
+            $("#response").removeClass("response-active");
+            $('#response').removeAttr('style');
             console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/messages/'+roomnum, function(messageOutput) {
                 showMessageOutput(JSON.parse(messageOutput.body), true);
             });
         });
     }
+
+    // $(document).ready(function() {
+    //     $(document).on('click', '.chatullist li', function() {
+    //         $(".chatullist li").removeClass("active-sel-chatroom");
+    //         $(this).addClass("active-sel-chatroom");
+    //     });
+    // });
+
 
     //채팅 연결 끊기
     function disconnect() {
@@ -101,9 +108,19 @@
         loadChatRoom();
     }
 
+    function resizeImage(img) {
+        let maxWidth = 50;
+        let maxHeight = 50;
+        let ratio = Math.min(maxWidth / img.width, maxHeight / img.height);
+        img.width = img.width * ratio;
+        img.height = img.height * ratio;
+    }
+
+
     // 채팅방 리스트 불러오기
     function loadChatRoom(){
         let chatlist = $("#chatlist");
+        let chatlist_box = $("#chatlist-box");
         $.ajax({
             url: '/loadchatroom',
             type : 'GET',
@@ -113,18 +130,28 @@
             success : function(result){
                 let str = "";
                 chatlist.children().remove();
-                str+="<ul>"
+                str+="<ul class='chatullist'>"
                 result.forEach((chat)=>{
-                    let crno = chat.no;
-                    str += '<li onclick="connect(\'' + crno + '\')"> 채팅방번호 : '+chat.no+' 닉네임 '+chat.seller_nk+'</li>';
+                    if(chat.id == roomnum){
+                        str += '<li onclick="connect(\'' + chat.id + '\')" class="chatroomsel active-sel-chatroom"> <img src="/img/display?fileName=' + chat.img_full_rt + '" class="r_chatprofileimg"> <span class="r_chatnick font14">' + chat.usernick + '</span></li>';
+                    } else {
+                        str += '<li onclick="connect(\'' + chat.id + '\')" class="chatroomsel"> <img src="/img/display?fileName=' + chat.img_full_rt + '" class="r_chatprofileimg"> <span class="r_chatnick font14">' + chat.usernick + '</span></li>';
+                    }
+
                 })
                 str+="</ul>"
                 chatlist.append(str);
+
+                if (chatlist.children().length === 0) {
+                    chatlist_box.addClass("chatlist-box");
+                } else {
+                    $("#chatlist-box").css("background-image", "none");
+                }
             },
             error : function(result){
                 alert("오류");
             }
-        });
+        })
     }
 
     //메세지전송
@@ -134,12 +161,15 @@
         saveMessagedb(roomnum, nick, message);
         stompClient.send("/app/chat/"+roomnum, {},
             JSON.stringify({'nick':nick, 'message':message}));
-        document.getElementById('message').value = "";
+        $('#message').val('');
+        // document.getElementById('message').value = "";
     }
     //Enter
     function handleKeyPress(event){
-        if(event.key === "Enter"){
+        if(event.keyCode === 13){
             sendMessage();
+            event.preventDefault();
+            return false;
         }
     }
 
@@ -193,9 +223,8 @@
 
     // 메세지 표기
     function showMessageOutput(messageOutput, load) {
-        let response = document.getElementById('response');
-        let p = document.createElement('p');
-        p.style.wordWrap = 'break-word';
+        let res = $("#response");
+
         // 현재 사용자의 닉네임 가져오기
         let currentNick = $("#nick").val();
 
@@ -208,14 +237,22 @@
         }
 
         // 닉네임과 메시지의 닉네임 비교 후 클래스 추가
+
+        let str="";
+        str += "<div class='msg-box'>"
+        str += "<p class='msg_nick'>"+messageOutput.nick+" : </p>";
+        str += "<p class='msg_msg'>" + messageOutput.message + "</p>";
+        str += "<p class='msg_date'>" + date + "</p>";
+        str += "</div>"
+
+        res.append(str);
+
         if (currentNick === messageOutput.nick) {
-            p.classList.add("buyermsg");
+            $(".msg-box").addClass("buyermsg")
         } else {
-            p.classList.add("sellermsg");
+            $(".msg-box").addClass("sellermsg")
         }
-        p.appendChild(document.createTextNode(messageOutput.nick + ": "
-            + messageOutput.message + " (" + date + ")"));
-        response.appendChild(p);
+
         scrollDown();
     }
 

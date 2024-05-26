@@ -127,7 +127,6 @@ public class ImgFactory {
                 img = setImginfo(img_name, fileName, imgtype, 78, 78, userid);
                 list.add(img);
             } catch (Exception e) {
-                System.out.println("fail");
                 e.printStackTrace();
             }
         }

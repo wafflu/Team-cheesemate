@@ -1,4 +1,115 @@
-/* 탭 스타일 */
+:root {
+    --bun-ui-sat: env(safe-area-inset-top);
+    --bun-ui-sar: env(safe-area-inset-right);
+    --bun-ui-sab: env(safe-area-inset-bottom);
+    --bun-ui-sal: env(safe-area-inset-left);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /*box-sizing: border-box;*/
+}
+
+body {
+    font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    word-break: keep-all;
+    -webkit-font-smoothing: inherit;
+}
+
+.sc-cPiKLX {
+    display: flex;
+    align-items: center;
+    width: 85%;
+}
+
+.sc-cPiKLX svg {
+    fill: #b2b2b2;
+    margin-top: 3px; /* SVG 아이콘의 상단 여백 조절 */
+}
+
+.bun-ui-search {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    width: 396px; /* 검색 입력 필드의 너비 */
+    height: 30px; /* 검색 입력 필드의 높이 */
+    margin: 3px;
+}
+
+.sc-57cf470b-1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 0px 8px;
+    position: relative;
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    box-sizing: border-box;
+    margin: 0px;
+    border: 0px;
+    vertical-align: baseline;
+    width: 99%;
+    margin-top: 5px;
+}
+
+.sc-57cf470b-3 {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.sc-57cf470b-3 svg {
+    fill: #1e1d29;
+}
+
+/* 중복되지 않는 다른 스타일들 */
+
+.article-container {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.content-section {
+    display: flex;
+    position: relative;
+}
+
+.text-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.footer-visible, .footer-hidden {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
+}
+
+.footer-hidden {
+    display: none;
+}
+
+footer button {
+    background-color: #D80C18;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 .bun-ui-tab {
     background-color: transparent;
     border: none;
@@ -9,16 +120,14 @@
 }
 
 .bun-ui-tab-selected {
-    border-bottom: 2px solid #D80C18;
-    color: #D80C18;
+    border-bottom: 2px solid #fbc02d;
+    color: #f57f17;
 }
 
-/* 수평선 스타일 */
 .bun-ui-divider {
-    border-top: 1px solid #ccc;
+    border-bottom: 2px solid #f9f9f9;
 }
 
-/* 기사 스타일 */
 article header {
     display: flex;
     justify-content: space-between;
@@ -31,83 +140,56 @@ article header h3 {
     color: #333;
 }
 
-article footer button {
-    background-color: #D80C18;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-/* article 요소의 크기 조정 */
 article {
-    margin-top: 10px; /* 기존 20px에서 10px로 줄임 */
-    margin-bottom: 10px; /* 기존 20px에서 10px로 줄임 */
-    padding: 5px; /* 기존 10px에서 5px로 줄임 */
+    margin-bottom: 19px;
+    padding: 5px;
     border: 1px solid #ccc;
-    width: 100%; /* 가로 길이는 원래대로 100%로 유지 */
-    margin-left: auto; /* 가운데 정렬을 위한 왼쪽 여백 자동 조절 */
-    margin-right: auto; /* 가운데 정렬을 위한 오른쪽 여백 자동 조절 */
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* article 안의 section 요소의 크기 조정 */
 article section {
-    padding: 2px; /* 기존 5px에서 2px로 줄임 */
+    padding: 2px;
 }
 
-/* article 안의 section 안의 section 요소의 크기 조정 */
 article section section {
-    padding: 2px 0; /* 기존 5px에서 2px로 줄임 */
+    padding: 2px 0;
 }
 
-
-
-/* 섹션 간격 */
 section {
     margin-bottom: 5px;
 }
+
 .mainContainer {
     width: 40%;
-    margin: 0 auto; /* 가로 중앙 정렬 */
+    margin: 0 auto;
     position: absolute;
-    top: 0;
+    top: 0px;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.bun-ui-divider {
-    display: flex; /* 내부 요소를 가로로 배치합니다. */
-    justify-content: center; /* 가로 방향으로 정중앙에 배치합니다. */
-}
-.sc-57cf470b-1.fFtTgD {
-    --bun-ui-sat: env(safe-area-inset-top);
-    --bun-ui-sar: env(safe-area-inset-right);
-    --bun-ui-sab: env(safe-area-inset-bottom);
-    --bun-ui-sal: env(safe-area-inset-left);
-    word-break: keep-all;
-    -webkit-font-smoothing: inherit;
-    font-size: 16px;
-    line-height: 1.5;
-    box-sizing: border-box;
-    font-family: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-    margin: 0px;
-    border: 0px;
-    vertical-align: baseline;
+.maincontent {
+    width: 1523px;
+    /* height: 100%; */
+    margin: 0 auto;
     position: relative;
-    display: flex;
-    flex-direction: row;
-    padding: 0px 20px 8px;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
 }
-/* 판매내역 및 구매내역 전용 CSS */
+
+.bun-ui-divider {
+    display: flex;
+    justify-content: center;
+}
+
 .purchase-info {
     /* 구매내역에 대한 CSS */
-    /* 필요한 스타일 추가 */
 }
+
 p {
     margin: 0;
 }
+
 .paging-active {
     background-color: rgb(216, 216, 216);
     border-radius: 5px;
@@ -117,27 +199,27 @@ p {
 .page-space {
     margin: 0 5px;
 }
+
 .modal {
     position: fixed;
+    z-index: 1000;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 103%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
-    align-items: center;
+    display: none;
     justify-content: center;
-    z-index: 1000;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: auto;
-    max-width: 600px;
-    margin: auto;
+    border-radius: 10px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
 }
 
 .close {
@@ -181,7 +263,7 @@ p {
 }
 
 #reviewContents {
-    width: calc(100% - 20px);
+    width: calc(100% - 0px);
     height: 150px;
     padding: 10px;
     box-sizing: border-box;
@@ -192,25 +274,24 @@ p {
     outline: none;
 }
 
-.commentBtn {
-    background-color: #007BFF;
-    color: white;
+button[type="button"] {
+    padding: 5px 10px;
+    background-color: #ffeb3b;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
+    color: #333;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    font-size: 14px;
 }
 
-.commentBtn:hover {
-    background-color: #0056b3;
+button[type="button"]:hover {
+    background-color: #fdd835;
+    color: #111;
 }
-
 
 .navigation {
-    background-color: #333;
-    color: white;
+    background-color: #f7d564;
+    color: #333;
     width: 200px;
     float: left;
 }
@@ -230,9 +311,32 @@ p {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    color: #333;
+}
+
+.navigation ul li.main-title a {
+    font-weight: bold;
+    font-size: 1.2em;
+    background-color: rgba(245, 157, 28, 1);
     color: white;
+    margin-bottom: 5px;
+}
+
+.navigation ul li.sub-title a {
+    font-weight: bold;
+    color: white;
+    background-color: rgba(245, 157, 28, 1);
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 .navigation ul li a:hover {
-    background-color: #111;
+    background-color: #e3c565;
 }
+
+.saleinfo-box {
+    height: 1400px;
+}
+
+
+

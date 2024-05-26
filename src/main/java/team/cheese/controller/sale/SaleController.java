@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.*;
 import team.cheese.dao.*;
+import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.service.ImgService;
+import team.cheese.service.MyPage.UserInfoService;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,16 +40,15 @@ public class SaleController {
     @Autowired
     ImgService imgService;
 
+    @Autowired
+    UserInfoService userInfoService;
+
     // 전체 게시글을 보는 경우
     @RequestMapping("/list")
     public String getList(Model model, HttpSession session, HttpServletRequest request) throws Exception {
-//        HttpSession session = request.getSession();
         String ur_id = (String) session.getAttribute("userId");
 
-        if(ur_id == null) {
-            List<AdministrativeDto> addrCdList = saleService.selectAddrCdList(ur_id);
-            model.addAttribute("addrCdList", addrCdList);
-        } else {
+        if (ur_id != null) {
             // 세션에서 주소값LIST를 가지고 옴
             List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
@@ -67,13 +68,29 @@ public class SaleController {
     public String read(Long no, Model model) throws Exception {
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
-        List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
-        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
-        System.out.println("read : " + imglist);
+        System.out.println(saleDto);
 
-        model.addAttribute("Sale", saleDto); // model로 값 전달
-        model.addAttribute("tagList", tagDto); // model로 값 전달
-        model.addAttribute("imglist", imglist); // model로 값 전달
+        if(saleDto == null) {
+            return "/error/saleError";
+        }
+
+        String category1Name = (String) map.get("category1Name");
+        String category2Name = (String) map.get("category2Name");
+        String category3Name = (String) map.get("category3Name");
+        System.out.println(category1Name + " > " + category2Name + " > " + category3Name );
+
+        List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
+        System.out.println("tag List : " + tagDto);
+        System.out.println("Img List : " + imglist);
+
+        model.addAttribute("category1Name", category1Name); // 대분류 카테고리
+        model.addAttribute("category2Name", category2Name); // 중분류 카테고리
+        model.addAttribute("category3Name", category3Name); // 소분류 카테고리
+
+        model.addAttribute("Sale", saleDto); // 판매글 리스트
+        model.addAttribute("tagList", tagDto); // 태그 리스트
+        model.addAttribute("imglist", imglist); // 이미지 리스트
 
         return "/sale/saleBoard";
     }
@@ -89,7 +106,6 @@ public class SaleController {
 
         List<AddrCdDto> addrCdDtoList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
 
-        System.out.println("addr_name" + addr_name);
 
         SaleDto saleDto = new SaleDto(addr_cd, addr_name);
         model.addAttribute("Sale", saleDto);
@@ -98,10 +114,17 @@ public class SaleController {
 
     }
 
+    // 게시글 리스트 중 하나를 클릭한 경우
+    @RequestMapping("/manage")
+    public String manage(Model model, HttpSession session, HttpServletRequest request) throws Exception {
+
+        return "/sale/saleManage";
+    }
+
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
     @PostMapping("/modify")
     public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-
+        System.out.println("수정하기 들어옴");
         Map map = saleService.modify(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         String tagContents = (String) map.get("tagContents");
@@ -112,8 +135,7 @@ public class SaleController {
         saleDto.setSeller_id(user_id);
         saleDto.setSeller_nick(user_nick);
 
-        List<ImgDto> imglist =  imgService.read(saleDto.getGroup_no());
-        System.out.println("imglist : "+ imglist);
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("Sale", saleDto);
         model.addAttribute("Tag", tagContents);
@@ -135,5 +157,10 @@ public class SaleController {
     @ExceptionHandler(IndexOutOfBoundsException.class)
     public ResponseEntity<List> handleSQLException(IndexOutOfBoundsException e) {
         return new ResponseEntity<>(Collections.emptyList(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public String handleNumberFormatException(NumberFormatException e) {
+        return "/error/saleError";
     }
 }

@@ -1,50 +1,144 @@
-.navigation {
-    background-color: #333;
-    color: white;
-    width: 200px;
-    float: left;
+.mypage-box {
+    display: flex;
+    justify-content: center;
+    background: #fff;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.navigation ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+.mypageinfobox {
+    width: 1024px;
 }
 
-.navigation ul li {
-    display: block;
+.info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
 }
 
-.navigation ul li a {
-    display: block;
+.info-container {
+    display: flex;
+    width: 100%;
+}
+
+#profileimg {
     text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    color: white;
 }
 
-.navigation ul li a:hover {
-    background-color: #111;
+.form_section_content {
+    margin-bottom: 10px;
+}
+
+#uploadResult,
+#profilesave_btn_area {
+    margin-top: 10px;
 }
 
 .container {
-    margin-left: 220px; /* 네비게이션 바 폭과 여백 고려하여 컨테이너 위치 조정 */
+    height: 256px;
+    flex: 1;
     padding: 20px;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    background: #fafafa;
 }
-.container h4 {
-    margin-bottom: 10px; /* 기존 h4의 하단 여백 조정 */
+
+.container-header {
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.container-name {
+    display: flex;
+    align-items: center;
+}
+
+.container-contents {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container-detail-c,
+.fZjeFM {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    color: #888;
+    margin-right: 30px;
+    margin-bottom: 10px;
+}
+
+.container-detail-c > img,
+.fZjeFM > img {
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.dNeqzX {
+    margin-left: 5px;
+    color: #212121;
+}
+
+.buyynq {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.fiWvqk {
+    height: 15px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.hZjTaB {
+    height: 20px;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    padding: 0px 5px;
+    color: rgb(136, 136, 136);
+    border: 1px solid rgb(238, 238, 238);
+    font-size: 11px;
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+}
+
+.hZjTaB:hover {
+    background: #e0e0e0;
+    color: #333;
 }
 
 .container p {
-    display: inline-block; /* 요소를 인라인 블록 요소로 변경하여 가로 정렬 */
-    margin-right: 20px; /* 각 정보 사이의 우측 여백 조정 */
+    display: inline-block;
+    margin-right: 180px;
 }
 
 .container textarea {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
     resize: none;
-    width: 500px;
-    height: 200px;
+    border: 1px solid rgb(238, 238, 238);
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
+    direction: ltr;
+    text-align: left;
+    color: rgb(33, 33, 33);
+    letter-spacing: -0.5px;
+    outline: 0px;
+    border: 0px;
 }
+
 
 #commentList {
     width: 100%;
@@ -60,19 +154,6 @@ input[type="text"] {
     box-sizing: border-box;
 }
 
-button[type="button"] {
-    padding: 10px 20px;
-    background-color: #2199e8;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button[type="button"]:hover {
-    background-color: #0c7dbd;
-}
-
 .modal {
     position: fixed;
     top: 0;
@@ -80,7 +161,7 @@ button[type="button"]:hover {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.6);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 1000;
@@ -147,21 +228,20 @@ button[type="button"]:hover {
     resize: none;
     outline: none;
 }
+/*button[type="button"] {*/
+/*    padding: 5px 10px;  !* 버튼 크기 줄이기 *!*/
+/*    background-color: #ffeb3b;  !* 노란색 배경 *!*/
+/*    border: none;*/
+/*    color: #333;  !* 어울리는 글자 색 *!*/
+/*    border-radius: 4px;*/
+/*    cursor: pointer;*/
+/*    font-size: 14px;  !* 글자 크기 조절 *!*/
+/*}*/
 
-.commentBtn {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.commentBtn:hover {
-    background-color: #0056b3;
-}
+/*button[type="button"]:hover {*/
+/*    background-color: #fdd835;  !* 호버 시 약간 어두운 노란색 *!*/
+/*    color: #111;  !* 호버 시 어울리는 글자 색 *!*/
+/*}*/
 
 .paging-active {
     background-color: rgb(216, 216, 216);
@@ -186,6 +266,10 @@ button[type="button"]:hover {
 .info-container p:last-child {
     margin-right: 0; /* 마지막 요소의 오른쪽 여백 제거 */
 }
+
+
+
+
 .profile {
     border-radius: 20%;
 }
@@ -197,17 +281,19 @@ div register_img{
 
 /* 이미지 영역	*/
 #profileimg{
-    width: 250px;
-    height: 250px;
-    margin-left: 220px;
+    width: 257px;
+    height: 283px;
+    border: 1px solid #eee;
+    padding-top: 15px;
+    padding-left: 5px;
     position: relative;
 }
 .form_section_content{
     position: absolute;
     width: 250px;
     height: 250px;
-    right: 0;
-    top: 0;
+    right: 6px;
+    top: 26px;
     z-index: 1;
 }
 
@@ -274,3 +360,518 @@ div register_img{
     cursor: pointer;
 }
 
+ .material-symbols-outlined {
+     font-variation-settings:
+             'FILL' 0,
+             'wght' 400,
+             'GRAD' 0,
+             'opsz' 48;
+     color: #F9DB78;
+ }
+
+ .sc-iBmynh {
+     margin-left: 10px;
+ }
+
+/* 서브 탭 css*/
+.subTab-main {
+    display: flex;
+    justify-content: center; /* 가운데 정렬 */
+}
+.subTab-container {
+    display: flex;
+    height: 50px;
+    width: 1024px;
+}
+.gnIlaT,
+.jqkJIn {
+    flex: 1 1 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-right: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(33, 33, 33);
+    background: rgb(250, 250, 250);
+    color: rgb(136, 136, 136);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+.gnIlaT:first-child,
+.jqkJIn:first-child {
+    border-left: 1px solid rgb(238, 238, 238);
+}
+.gnIlaT.active,
+.jqkJIn.active {
+    border-top: 1px solid rgb(33, 33, 33);
+    border-right: 1px solid rgb(33, 33, 33);
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: rgb(255, 255, 255);
+    color: rgb(33, 33, 33);
+    border-left: 1px solid rgb(33, 33, 33);
+}
+.review-box-main {
+    font-size: 18px;
+    padding: 50px 0px 20px;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: center;
+}
+
+.iCtbOc {
+    margin-left: 10px;
+}
+.ejYulE {
+    width: 1024px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+}
+.eERcxq {
+    color: rgb(247, 47, 51);
+    margin-left: 4px;
+}
+.reviewStar-main{
+    border: 1px solid rgb(229, 229, 229);
+    border-radius: 6px;
+    margin-top: 13px;
+    text-align: center;
+    padding: 16px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+.fWtYmf {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.fGpXKG {
+    margin-bottom: -7px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.star{
+    display: flex;
+}
+#averageStarRating{
+    vertical-align: bottom;
+    border-style: none;
+}
+.qEvCW {
+    width: 1px;
+    height: 40px;
+    background-color: rgb(229, 229, 229);
+    margin: 0px 120px;
+}
+.hlvDzf {
+    display: flex;
+    flex-direction: column;
+}
+.hSIAij {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 700;
+}
+.eyeUYg {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgb(127, 127, 127);
+}
+.hoyCQB {
+    margin-top: 16px;
+    position: relative;
+    margin-bottom: 44px;
+}
+.filled-star {
+    color: gold; /* 채워진 별의 색깔 */
+    font-size: 24px; /* 원하는 크기로 조정 가능 */
+}
+
+.empty-star {
+    color: lightgray; /* 빈 별의 색깔 */
+    font-size: 24px; /* 원하는 크기로 조정 가능 */
+}
+.review-content {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 가운데 정렬 */
+    width: 100%;
+}
+
+.review-content-main {
+    width: 1024px;
+    padding: 20px;
+    display: flex;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    margin-bottom: 20px; /* 리뷰 박스 간격 */
+}
+
+.kafLtc {
+    width: 60px;
+    margin-right: 15px;
+    display: block;
+    color: rgb(33, 33, 33);
+    text-decoration: none;
+    cursor: pointer;
+}
+.kafLtc img {
+    border-radius: 50%;
+}
+.isNONu {
+    flex: 1 1 0%;
+}
+.gITkRS {
+    display: flex;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    height: 60px;
+}
+.klTXgX {
+    display: flex;
+    margin-bottom: 10px;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    align-items: center;
+}
+.dHvBOk {
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    color: rgb(33, 33, 33);
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 17px;
+    margin-left: 2px;
+}
+.jiCdsX {
+    font-size: 13px;
+    color: rgb(204, 204, 204);
+}
+.kYkcZG {
+    display: block;
+}
+.hkIXgx {
+    margin-top: -18px;
+    display: flex;
+}
+.cDFhiy {
+    margin: 10px 0px;
+    color: rgb(33, 33, 33);
+    text-decoration: none;
+    cursor: pointer;
+}
+.llefdR {
+    padding: 0px 10px;
+    height: 30px;
+    border: 1px solid rgb(238, 238, 238);
+    display: inline-flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    font-size: 13px;
+    background: rgb(255, 255, 255);
+    color: rgb(102, 102, 102);
+}
+.ldWWHF {
+    margin: 20px 0px;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    font-size: 15px;
+    margin-left: 2px;
+}
+.glxCHJ {
+    display: flex;
+    flex-wrap: wrap;
+    cursor: pointer;
+    margin-bottom: 4px;
+}
+.bxbDWR {
+    display: flex;
+}
+.bWGJaI {
+    color: rgb(136, 136, 136);
+    font-size: 13px;
+    display: flex;
+    -webkit-box-align: unset;
+    align-items: unset;
+    margin-right: 25px;
+    position: relative;
+    text-decoration: none;
+    cursor: pointer;
+}
+.pageContainer {
+    text-align: center;
+}
+.saleList-main {
+    display: flex;
+    flex-direction: column; /* 컬럼 방향으로 변경 */
+    align-items: center;
+}
+
+.saleList-main-box {
+    width: 1024px;
+    font-size: 18px;
+    padding: 50px 0px 20px;
+    border-bottom: 1px solid rgb(238, 238, 238);
+    display: flex;
+    justify-content: space-between; /* 이 속성은 다시 사용 */
+}
+
+.cefQuP {
+    color: rgb(247, 47, 51);
+}
+
+.kFaLlW {
+    width: 1024px; /* 부모의 너비와 동일하게 설정 */
+    margin-top: 30px;
+}
+
+.gFaYhg {
+    margin-bottom: 25px;
+}
+
+.kVNVFk {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hkRXRT {
+    display: flex;
+    font-size: 16px;
+}
+
+.jHGVuH {
+    color: rgb(136, 136, 136);
+    margin-left: 20px;
+}
+
+.gnpSLd {
+    font-size: 13px;
+    display: flex;
+}
+
+.jVzTFl {
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: rgb(247, 47, 51);
+    color: rgb(33, 33, 33);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.jVzTFl::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    right: -10px;
+    width: 1px;
+    height: 12px;
+    border-right: 1px solid rgb(204, 204, 204);
+}
+
+.kFYwqy {
+    margin-right: 20px;
+    position: relative;
+    display: block;
+    color: rgb(33, 33, 33);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.kFYwqy::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    right: -10px;
+    width: 1px;
+    height: 12px;
+    border-right: 1px solid rgb(204, 204, 204);
+}
+.hdZbBo {
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+.cZDGoh {
+    width: 100%;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin: 40px 0px 100px;
+}
+.totalBox {
+    height: fit-content;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.saleListBox {
+    /*border: 1px solid red;*/
+    height: 80%;
+    width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.smallBox {
+    /*border: 1px solid darkgray;*/
+    width: 230px;
+    /*height: 300px;*/
+    margin-bottom: 10px;
+    background: white;
+    position: relative;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 1.5px solid #00000010;
+    border-top: 1.5px solid #00000010;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.img {
+    width: 230px;
+    height: 230px;
+    margin: 0 auto;
+    object-fit: cover;
+}
+
+#pageContainer {
+    position: absolute;
+    left: 50%;
+    bottom: -17px;
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.info {
+    padding: 0 10px;
+}
+
+/*#saleListBox {*/
+/*    margin: 0 auto; !* 수평 가운데 정렬 *!*/
+/*    width: 80%; !* 테이블의 너비 설정 *!*/
+/*    text-align: center; !* 텍스트 가운데 정렬 *!*/
+/*}*/
+
+.page-space {
+    margin: 0 5px; /* 공백 크기 조절 */
+}
+
+/* 임시로 style 추가 : css 수정 필요*/
+.imgClass {
+    width: 100px;
+    height: 100px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.saleBtn {
+    padding: 5px 20px;
+    background-color: rgba(245, 157, 28, 1);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#addr_cd {
+    margin-right: auto; /* Ensures the select is on the left */
+}
+
+.info-imgbox{
+    position: relative;
+}
+
+.active-nego{
+    position: absolute;
+    left: 5px;
+    bottom: 10px;
+    background-color: #ee8703;
+    border-radius:4px;
+    font-size: 10px;
+    padding: 2px 4px 0px;
+    color:#fff;
+}
+
+.info-sale{
+    display: flex;
+    justify-content: space-between;
+}
+
+.saleTitle{
+    display:inline-block;
+    font-size: 16px;
+    font-weight: inherit;
+    margin: 6px 0 0;
+}
+
+.saledate{
+    margin: 4px 0;
+    font-size: 14px;
+    color: #999;
+}
+
+.salePrice{
+    display:inline-block;
+    font-size: 18px;
+    font-weight: 600;
+    color: #141313;
+}
+
+.addr-box{
+    border-top: 1px solid #eee;
+}
+
+.saleaddr{
+    margin: 4px 0;
+    font-size: 14px;
+    color: #999;
+}
+
+.saleStatus-box{
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000050;
+}
+
+.saleStatusText{
+    display: grid;
+    place-items: center;
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    z-index: 1;
+    color:white;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    text-align: center;
+    /*line-height: 100px;*/
+    font-size: 20px;
+}
+#myHistoryButton {
+    color: black;
+}
+.gnpSLd a.active {
+    color: red;
+}

@@ -16,12 +16,15 @@ import team.cheese.domain.Comment.CommentDto;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.domain.ImgDto;
+import team.cheese.domain.ProfileimgDto;
+import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
 import team.cheese.service.Comment.CommentService;
 import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
 import team.cheese.service.ImgService;
+import team.cheese.service.MyPage.UserInfoService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -45,6 +48,8 @@ public  class CommunityBoardController {
     CommentService commentService;
     @Autowired
     ImgService imgService;
+    @Autowired
+    UserInfoService userInfoService;
 
     //community메인페이지
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -66,7 +71,7 @@ public  class CommunityBoardController {
         return "/CommunityList";
     }
 
-//    community세부 리스트 페이지ajax
+    //    community세부 리스트 페이지ajax
     @RequestMapping(value = "/home/story", method = RequestMethod.GET)
     @ResponseBody
     public List test(Character ur_state) throws Exception {
@@ -107,9 +112,9 @@ public  class CommunityBoardController {
 
 
     //세션값 필요
+
     @ResponseBody
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, Object> map,
+    @PostMapping("/register")public ResponseEntity<String> register(@RequestBody Map<String, Object> map,
                                            Model m,
                                            HttpServletRequest request) throws Exception {
 
@@ -167,7 +172,7 @@ public  class CommunityBoardController {
         communityBoardDto.setaddr_name(selectedAddr.getAddr_name());
 
         System.out.println(communityBoardDto);
-     //    유효성 검사 수행
+        //    유효성 검사 수행
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<CommunityBoardDto>> violations = validator.validate(communityBoardDto);
@@ -185,7 +190,7 @@ public  class CommunityBoardController {
 
 //         유효성 검사 결과 확인
         if (!violations.isEmpty()) {
-           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         try {
@@ -208,9 +213,12 @@ public  class CommunityBoardController {
             CommunityBoardDto communityBoardDto = communityBoardService.read(no);
             m.addAttribute("communityBoardDto", communityBoardDto);
 
-            //이미지 지움
-//            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
-//            m.addAttribute("imagePath", imagePath);
+            //프로필 가져옴
+            UserInfoDTO userinfo = userInfoService.read(communityBoardDto.getur_id());
+            Long num = Long.valueOf(no);
+            ProfileimgDto pdto = new ProfileimgDto(num, userinfo.getUr_id(), userinfo.getNick(), userinfo.getImg_full_rt());
+            m.addAttribute("profile", pdto);
+
             List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
             m.addAttribute("imglist", imglist);
 
@@ -218,19 +226,15 @@ public  class CommunityBoardController {
             String totalLikeCount = communityHeartService.countLike(no);
             m.addAttribute("totalLikeCount", totalLikeCount);
 
-
             //댓글수
             int totalCommentCount = communityBoardDto.getComment_count();
             m.addAttribute("totalCommentCount", totalCommentCount);
-
 
             return "/CommunityBoard";
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "/ErrorPage";
         }
-
-
     }
 
 
@@ -275,7 +279,7 @@ public  class CommunityBoardController {
             System.out.println("Root Bean: " + rootBean);
         }
 
-         // 유효성 검사 결과 확인
+        // 유효성 검사 결과 확인
         if (!violations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -287,7 +291,7 @@ public  class CommunityBoardController {
             return new ResponseEntity<>("/community/list",HttpStatus.OK);
 
         }catch (Exception e) {
-           return new ResponseEntity<>("죄송합니다.글 수정에 실패했습니다.",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("죄송합니다.글 수정에 실패했습니다.",HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -371,27 +375,27 @@ public  class CommunityBoardController {
         }
 
         try{
-        CommunityHeartDto communityHeartDto = new CommunityHeartDto();
-        communityHeartDto.setUr_id(userId);
-        communityHeartDto.setPost_no(postNo);
+            CommunityHeartDto communityHeartDto = new CommunityHeartDto();
+            communityHeartDto.setUr_id(userId);
+            communityHeartDto.setPost_no(postNo);
 
 
 
-        communityHeartService.doLike(communityHeartDto);
+            communityHeartService.doLike(communityHeartDto);
 
 
-        int totalLikeCount = communityBoardService.totalLike(postNo);
-        Map<String, Object> response = new HashMap<>();
-        response.put("totalLikeCount", totalLikeCount);
-        System.out.println(response);
+            int totalLikeCount = communityBoardService.totalLike(postNo);
+            Map<String, Object> response = new HashMap<>();
+            response.put("totalLikeCount", totalLikeCount);
+            System.out.println(response);
 
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
 
 
-    }catch (Exception e) {
-        e.printStackTrace();
-        return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "서버 에러가 발생했습니다."));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "서버 에러가 발생했습니다."));
         }
     }
 
@@ -450,9 +454,3 @@ public  class CommunityBoardController {
     }
 
 }
-
-
-
-
-
-
