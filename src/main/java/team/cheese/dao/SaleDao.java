@@ -16,6 +16,12 @@ public interface SaleDao {
     // 판매글 전부 가져오기
     List<SaleDto> selectAll() throws Exception;
 
+    // 판매자의 판매글 가져오기
+    List<SaleDto> selectSeller(Map map) throws Exception;
+
+    // 판매자의 판매글 개수 카운팅
+    int countSelectSeller(Map map) throws Exception;
+
     // 사용자가 속한 지역, 카테고리의 판매글 전부 가져오기
     List<SaleDto> selectSaleList(Map map) throws Exception;
 
@@ -67,4 +73,8 @@ public interface SaleDao {
 
     //구매자가 판매글 예약/구매시
     int buySale(SaleDto saleDto) throws Exception;
+
+    // 사용자 판매글 갯수
+    int userSaleCnt(String ur_id) throws Exception;
+
 }

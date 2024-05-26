@@ -4,84 +4,77 @@
 <c:set var="loginId" value="${sessionScope.userId}"/>
 <link rel="stylesheet" href="/css/saleInfo.css">
 <div class="maincontent saleinfo-box">
-<div class="navigation">
-	<ul>
-		<li><a href="/myPage/main">마이페이지</a></li>
-		<li><a href="/about">거래정보</a></li>
-		<li><a href="/myPage/saleInfo">판매/나눔/구매내역</a></li>
-		<li><a href="/contact">찜한 상품</a></li>
-		<li><a href="/contact">내 정보 관리</a></li>
-		<li><a href="/contact">개인 정보 수정</a></li>
-		<li><a href="/contact">비밀번호 변경</a></li>
-		<li><a href="/contact">회원 탈퇴</a></li>
-	</ul>
-</div>
-<div class="mainContainer">
-	<div class="bun-ui-divider">
-		<button class="bun-ui-tab bun-ui-tab-selected" id="seller">
-			<span class="bun-ui-tab-label">판매내역</span>
-		</button>
-		<button class="bun-ui-tab" id="buyer">
-			<span class="bun-ui-tab-label">구매내역</span>
-		</button>
-	</div>
-	<hr class="bun-ui-divider">
-	<section class="purchase-info">
-		<div>
-			<button class="bun-ui-tab bun-ui-tab-selected" id="A" data-label-seller="전체" data-label-buyer="전체">
-				<span class="bun-ui-tab-label">전체</span>
+	<div class="mainContainer">
+		<a class="sc-jxOSlx kDyrQm bun-ui-header-back-button"  onclick="window.history.back();">
+			<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img" style="position: relative; top: 37px;">
+				<path d="M14.265 19.537a.9.9 0 1 0 1.27-1.274l-8.362-8.34 8.365-8.387A.9.9 0 0 0 14.263.264l-9 9.024a.902.902 0 0 0 .002 1.273l9 8.976z" fill="#1e1d29" fill-rule="evenodd"></path>
+			</svg>
+		</a>
+		<div class="bun-ui-divider">
+			<button class="bun-ui-tab bun-ui-tab-selected" id="seller">
+				<span class="bun-ui-tab-label">판매내역</span>
 			</button>
-			<button class="bun-ui-tab" id="R" data-label-seller="예약중" data-label-buyer="예약중">
-				<span class="bun-ui-tab-label">예약중</span>
-			</button>
-			<button class="bun-ui-tab" id="S" data-label-seller="판매중" data-label-buyer="구매중">
-				<span class="bun-ui-tab-label">판매중</span>
-			</button>
-			<button class="bun-ui-tab" id="C" data-label-seller="거래완료" data-label-buyer="구매완료">
-				<span class="bun-ui-tab-label">거래완료</span>
+			<button class="bun-ui-tab" id="buyer">
+				<span class="bun-ui-tab-label">구매내역</span>
 			</button>
 		</div>
-		<div class="sc-57cf470b-1 fFtTgD">
-			<form id="searchForm">
-				<div class="sc-cPiKLX irylio bun-ui-search-container">
-					<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
-						<path d="M8.99 16.162c-3.955 0-7.172-3.218-7.172-7.172A7.18 7.18 0 0 1 8.99 1.818c3.954 0 7.171 3.217 7.171 7.172 0 3.954-3.217 7.172-7.171 7.172zm6.963-1.494A8.953 8.953 0 0 0 17.98 8.99C17.98 4.032 13.946 0 8.99 0 4.033 0 0 4.032 0 8.99c0 4.957 4.033 8.99 8.99 8.99a8.943 8.943 0 0 0 5.676-2.027l3.781 3.78a.908.908 0 0 0 1.287 0 .909.909 0 0 0 0-1.285l-3.78-3.78z" fill="#b2b2b2" fill-rule="evenodd"></path>
-					</svg>
-					<input id="searchInput" placeholder="상품명으로 검색해보세요" enterkeyhint="search" class="bun-ui-search" value="">
-				</div>
-			</form>
-			<button class="sc-57cf470b-3 ferXDa">
-				<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" role="img">
-					<path d="M6.6 11.3c1.562 0 2.866 1.063 3.265 2.5H19a.9.9 0 1 1 0 1.8H9.865c-.399 1.436-1.703 2.5-3.265 2.5s-2.866-1.064-3.265-2.5H1a.9.9 0 0 1 0-1.8h2.335c.4-1.437 1.703-2.5 3.265-2.5zm0 1.8c-.882 0-1.6.718-1.6 1.6 0 .882.718 1.6 1.6 1.6.882 0 1.6-.718 1.6-1.6 0-.882-.718-1.6-1.6-1.6zm6.801-11.2c1.562 0 2.866 1.063 3.265 2.5h2.335a.9.9 0 0 1 0 1.8h-2.335c-.399 1.436-1.703 2.5-3.265 2.5s-2.866-1.064-3.265-2.5H1.001a.9.9 0 1 1 0-1.8h9.135c.399-1.437 1.703-2.5 3.265-2.5zm0 1.8c-.882 0-1.6.718-1.6 1.6 0 .882.718 1.6 1.6 1.6.882 0 1.6-.718 1.6-1.6 0-.882-.718-1.6-1.6-1.6z" fill="#1e1d29" fill-rule="evenodd"></path>
-				</svg>
-			</button>
-		</div>
-	</section>
-	<section id="historyList">
-	</section>
-	<div id="myModal" class="modal" >
-		<div class="modal-content">
-			<!-- 후기글 작성 폼 -->
-			<form class="mb-3" name="myform" id="myform">
-				<fieldset>
-					<span class="text-bold">별점을 선택해주세요</span>
-					<div id="starRating">
-						<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
-						<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
-						<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
-						<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
-						<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
+		<hr class="bun-ui-divider">
+		<section class="purchase-info">
+			<div>
+				<button class="bun-ui-tab bun-ui-tab-selected" id="A" data-label-seller="전체" data-label-buyer="전체">
+					<span class="bun-ui-tab-label">전체</span>
+				</button>
+				<button class="bun-ui-tab" id="R" data-label-seller="예약중" data-label-buyer="예약중">
+					<span class="bun-ui-tab-label">예약중</span>
+				</button>
+				<button class="bun-ui-tab" id="S" data-label-seller="판매중" data-label-buyer="구매중">
+					<span class="bun-ui-tab-label">판매중</span>
+				</button>
+				<button class="bun-ui-tab" id="C" data-label-seller="거래완료" data-label-buyer="구매완료">
+					<span class="bun-ui-tab-label">거래완료</span>
+				</button>
+			</div>
+			<div class="sc-57cf470b-1 fFtTgD">
+				<form id="searchForm">
+					<div class="sc-cPiKLX irylio bun-ui-search-container">
+						<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" role="img">
+							<path d="M8.99 16.162c-3.955 0-7.172-3.218-7.172-7.172A7.18 7.18 0 0 1 8.99 1.818c3.954 0 7.171 3.217 7.171 7.172 0 3.954-3.217 7.172-7.171 7.172zm6.963-1.494A8.953 8.953 0 0 0 17.98 8.99C17.98 4.032 13.946 0 8.99 0 4.033 0 0 4.032 0 8.99c0 4.957 4.033 8.99 8.99 8.99a8.943 8.943 0 0 0 5.676-2.027l3.781 3.78a.908.908 0 0 0 1.287 0 .909.909 0 0 0 0-1.285l-3.78-3.78z" fill="#b2b2b2" fill-rule="evenodd"></path>
+						</svg>
+						<input id="searchInput" placeholder="상품명으로 검색해보세요" enterkeyhint="search" class="bun-ui-search" value="">
 					</div>
-				</fieldset>
-				<div>
-					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
-				</div>
-				<button class="commentBtn" id="comment-sendBtn" type="button">등록</button>
-				<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
-			</form>
+				</form>
+				<button class="sc-57cf470b-3 ferXDa">
+					<svg width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" role="img">
+						<path d="M6.6 11.3c1.562 0 2.866 1.063 3.265 2.5H19a.9.9 0 1 1 0 1.8H9.865c-.399 1.436-1.703 2.5-3.265 2.5s-2.866-1.064-3.265-2.5H1a.9.9 0 0 1 0-1.8h2.335c.4-1.437 1.703-2.5 3.265-2.5zm0 1.8c-.882 0-1.6.718-1.6 1.6 0 .882.718 1.6 1.6 1.6.882 0 1.6-.718 1.6-1.6 0-.882-.718-1.6-1.6-1.6zm6.801-11.2c1.562 0 2.866 1.063 3.265 2.5h2.335a.9.9 0 0 1 0 1.8h-2.335c-.399 1.436-1.703 2.5-3.265 2.5s-2.866-1.064-3.265-2.5H1.001a.9.9 0 1 1 0-1.8h9.135c.399-1.437 1.703-2.5 3.265-2.5zm0 1.8c-.882 0-1.6.718-1.6 1.6 0 .882.718 1.6 1.6 1.6.882 0 1.6-.718 1.6-1.6 0-.882-.718-1.6-1.6-1.6z" fill="#1e1d29" fill-rule="evenodd"></path>
+					</svg>
+				</button>
+			</div>
+		</section>
+		<section id="historyList">
+		</section>
+		<div id="myModal" class="modal" style="display: none;">
+			<div class="modal-content">
+				<!-- 후기글 작성 폼 -->
+				<form class="mb-3" name="myform" id="myform">
+					<fieldset>
+						<span class="text-bold">별점을 선택해주세요</span>
+						<div id="starRating">
+							<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
+							<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
+							<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
+							<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
+							<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
+						</div>
+					</fieldset>
+					<div>
+						<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+					</div>
+					<button class="commentBtn" id="comment-sendBtn" type="button">등록</button>
+					<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 </div>
 <script>
 	// 세션id 변수로 선언
@@ -126,6 +119,12 @@
 	function closeModal() {
 		modal.style.display = "none";
 	}
+	// esc누를시 모달 창을 닫는 함수
+	$(document).on('keydown', function(event) {
+		if (event.key === 'Escape') {
+			$('#myModal').hide();
+		}
+	});
 
 	// 취소 버튼 기능 추가
 	var cancelBtn = document.getElementById("cancelBtn");
@@ -197,35 +196,37 @@
 
 			// section 부분 생성
 			tmp += '<section>';
-			tmp += '<section style="display: flex;">';  // Flexbox 적용
+			tmp += '<section class="content-section" style="display: flex; position: relative;">';  // Flexbox 적용 및 position 설정
 			tmp += "<a href='/sale/read?no=" + item.no + "' style='flex-shrink: 0; margin-right: 10px;'>" + "<img class='imgClass' src='/img/display?fileName=" + item.img_full_rt + "' style='width: 150px; height: auto;'/>" + "</a>";  // 이미지 크기 조정
-			tmp += '<section>';
+			tmp += '<section class="text-section">';
 			if (option === 'seller') {
 				tmp += '<p>판매상태(R-예약중/S-판매중/C-거래완료) : ' + item.sal_s_cd + '</p>';
-			}else {
+			} else {
 				tmp += '<p>구매상태(R-예약중/C-구매완료) : ' + item.sal_s_cd + '</p>';
 			}
 			tmp += '<p>판매글번호 : ' + item.no + '</p>';
-			if ((option === 'seller'&& item.sal_s_cd == 'R')||(option === 'seller'&& item.sal_s_cd == 'C')) {
+			if ((option === 'seller' && item.sal_s_cd == 'R') || (option === 'seller' && item.sal_s_cd == 'C')) {
 				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_id + '</a></p>';
-			}else if(option === 'buyer'){
+			} else if (option === 'buyer') {
 				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_id + '</a></p>';
 			}
 			tmp += '<p>가격: ' + item.price + '</p>';
 			tmp += '<p>제목: ' + item.title + '</p>';
-			tmp += '<p>판매(S)/나눔(F) : '+item.tx_s_cd+' / 거래방법: ' + item.trade_s_cd_1 + '</p>';
-			tmp += '</section>';
-			tmp += '</section>';
+			tmp += '<p>판매(S)/나눔(F) : ' + item.tx_s_cd + ' / 거래방법: ' + item.trade_s_cd_1 + '</p>';
 			tmp += '</section>';
 
 			// footer 부분 생성
 			if (item.rv_state === 'Y' && option === 'buyer' && item.sal_s_cd === 'C') {
-				tmp += '<footer>'; // 구매내역 버튼이 클릭된 경우에만 hidden 속성 추가하지 않음
+				tmp += '<footer class="footer-visible">'; // 구매내역 버튼이 클릭된 경우에만 hidden 속성 추가하지 않음
 			} else {
-				tmp += '<footer hidden>'; // 그 외의 경우 hidden 속성 추가
+				tmp += '<footer class="footer-hidden">'; // 그 외의 경우 hidden 속성 추가
 			}
-			tmp += '<button class="writeBtn" type="button" data-id="' + item.seller_id + '"  data-no="' + item.no + '">후기 남기기</button>';
+			tmp += '<button class="writeBtn" type="button" data-id="' + item.seller_id + '" data-no="' + item.no + '">후기 남기기</button>';
 			tmp += '</footer>';
+
+			tmp += '</section>';
+			tmp += '</section>';
+			tmp += '</section>';
 
 			tmp += '</article>';
 		});
@@ -256,7 +257,6 @@
 
 	$(document).ready(function(){
 		showList();
-		modal.style.display = "none"; // 모달창 숨기기
 		let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
 		updateButtonLabels(option);
 
@@ -349,15 +349,41 @@
 			}
 		});
 
-		// 후기글 쓰기 버튼 클릭 이벤트 설정
-		$(document).on("click", ".writeBtn", function() {
+		$(document).on("click", ".writeBtn", function(event) {
 			seller_id = $(this).data("id");
 			no = $(this).data("no");
 			$('#reviewContents').val('');
 			$("input[name='reviewStar']").prop("checked", false);
 			selectedStar = undefined;
-			modal.style.display = "block";
+
+			// 모달 창을 화면의 좌상단에 고정
+			var modal = $('#myModal');
+
+			modal.css({
+				top: '0px',
+				left: '0px',
+				width: '103%',
+				display: 'flex'
+			});
+
+			// .modal-content로 스크롤
+			$('.modal-content')[0].scrollIntoView({
+				behavior: 'smooth',
+				block: 'center'
+			});
 		});
+
+		$(document).on("click", "#cancelBtn, .modal", function(event) {
+			if (event.target.className === 'modal' || event.target.id === 'cancelBtn') {
+				$('#myModal').css('display', 'none');
+			}
+		});
+
+		$(document).on("click", ".modal-content", function(event) {
+			event.stopPropagation();
+		});
+
+
 
 		// 후기글 전송 버튼
 		$(document).on("click", "#comment-sendBtn", function() {

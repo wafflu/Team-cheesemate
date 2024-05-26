@@ -1,8 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="fixed/header.jsp"%>
 
-<link rel="stylesheet" href="/css/reset.css">
-<link rel="stylesheet" href="/css/mystyle.css">
+
 <link rel="stylesheet" type="text/css" href="/css/communitylist.css">
 <div class="topic-container maincontent">
     <div class="topic-slide-container">
@@ -53,6 +52,7 @@
 
 
     $(document).ready(function () {
+
         const contextPath = "<c:out value='${pageContext.request.contextPath}' />";
 
         const loadArticles = function (category, page, pageSize = 6) {
@@ -105,9 +105,13 @@
                                             s += "<p class='article-addr_name'>" + item1.addr_name + "</p>";
                                         s+="</div>";
                                         s+="<div class='article-reaction'>";
-                                            s += "<p class='article-view_cnt'>😀" + item1.view_cnt + "</p>";
-                                            s += "<p class='article-comment_cnt'>💬" + item1.comment_count + "</p>";
-                                            s += "<p class='article-like_cnt'>❤️" + item1.like_cnt + "</p>";
+                                            // s += "<p class='article-view_cnt'>😀" + item1.view_cnt + "</p>";
+                                            // s += "<p class='article-comment_cnt'>💬" + item1.comment_count + "</p>";
+                                            // s += "<p class='article-like_cnt'>❤️" + item1.like_cnt + "</p>";
+
+                                            s += "<p class='article-view_cnt'><span class='icon'></span>" + item1.view_cnt + "</p>";
+                                            s += "<p class='article-comment_cnt'><span class='icon'></span>" + item1.comment_count + "</p>";
+                                            s += "<p class='article-like_cnt'><span class='icon'></span>" + item1.like_cnt + "</p>";
                                         s += "</div>";
                                         s+="</div>";
                                         s += "<div class='article-time'>";
@@ -140,9 +144,9 @@
                                                 s += "<p class='article-addr_name'>" + item2.addr_name + "</p>";
                                             s+="</div>";
                                             s+="<div class='article-reaction'>";
-                                                s += "<p class='article-view_cnt'>😀" + item2.view_cnt + "</p>";
-                                                s += "<p class='article-comment_cnt'>💬" + item2.comment_count + "</p>";
-                                                s += "<p class='article-like_cnt'>❤️" + item2.like_cnt + "</p>";
+                                                s += "<p class='article-view_cnt'><span class='icon'></span>" + item2.view_cnt + "</p>";
+                                                s += "<p class='article-comment_cnt'><span class='icon'></span>" + item2.comment_count + "</p>";
+                                                s += "<p class='article-like_cnt'><span class='icon'></span>" + item2.like_cnt + "</p>";
                                             s += "</div>";
                                             s+="</div>";
                                             s += "<div class='article-time'>";
@@ -167,6 +171,8 @@
 
 
                         $("#pagination").html(generatePagination(result.ph));
+
+                        setArticleIcons();
                     }
 
 
@@ -177,6 +183,30 @@
                 }
             });
         };
+
+        const setArticleIcons = function () {
+            let imgInfo = {
+                'Like2': 'img/Like2.png',
+                'chat': 'img/chat.png',
+                'person': 'img/person.png'
+            };
+
+            // 콘솔 로그로 imgInfo 객체와 URL 출력
+            console.log('imgInfo:', imgInfo);
+            console.log("URL Like2:", "/img/display?fileName=" + imgInfo['Like2']);
+            console.log("URL chat:", "/img/display?fileName=" + imgInfo['chat']);
+            console.log("URL person:", "/img/display?fileName=" + imgInfo['person']);
+
+            $(".article-like_cnt .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['Like2'] + "')");
+            $(".article-comment_cnt .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['chat'] + "')");
+            $(".article-view_cnt .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['person'] + "')");
+
+            // 각 요소의 CSS 배경 이미지가 올바르게 설정되었는지 확인하기 위해 추가
+            console.log("Like2 element background image:", $(".article-like_cnt .icon").css("background-image"));
+            console.log("Chat element background image:", $(".article-comment_cnt .icon").css("background-image"));
+            console.log("Person element background image:", $(".article-view_cnt .icon").css("background-image"));
+        };
+
 
         const generatePagination = function (pagination) {
             console.log(pagination);
@@ -269,6 +299,8 @@
             const category = $(".topic-slide.active").attr('id') || 'commu_A';
             loadArticles(category, page);
         });
+
+
 
     });
 

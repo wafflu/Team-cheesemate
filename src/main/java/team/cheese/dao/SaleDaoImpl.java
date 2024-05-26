@@ -38,6 +38,16 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
+    public List<SaleDto> selectSeller(Map map) throws Exception {
+        return session.selectList(namespace + "selectSeller", map);
+    }
+
+    @Override
+    public int countSelectSeller(Map map) throws Exception {
+        return session.selectOne(namespace + "selectSellerCount", map);
+    }
+
+    @Override
     public List<SaleDto> selectSaleList(Map map) throws Exception {
         return session.selectList(namespace + "selectSales", map);
     }
@@ -143,6 +153,11 @@ public class SaleDaoImpl implements SaleDao {
     @Override
     public int buySale(SaleDto saleDto) throws Exception {
         return session.update(namespace + "buySale", saleDto);
+    }
+
+    @Override
+    public int userSaleCnt(String ur_id) throws Exception {
+        return session.selectOne(namespace+"userSaleCnt",ur_id);
     }
 
 }

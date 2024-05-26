@@ -7,6 +7,16 @@
         SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state, rv_state
         FROM sale
     </sql>
+    <!-- 사용자 판매글 개수 확인    -->
+    <select id="userSaleCnt" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM sale
+        WHERE ur_state = 'Y'
+        and seller_id = #{ur_id}
+    </select>
+
+    <!-- 사용자 판매글 가져오기 -->
+
 
     <!--  데이터 개수 확인  -->
     <select id="count" resultType="int">
@@ -25,10 +35,10 @@
         SELECT count(*)
         FROM sale
         WHERE ur_state = 'Y'
-        <if test="addr_cd != null and addr_cd != ''">
+        <if test="addr_cd != null or addr_cd != ''">
             AND addr_cd = #{addr_cd}
         </if>
-        <if test="sal_i_cd != null and sal_i_cd != ''">
+        <if test="sal_i_cd != null or sal_i_cd != ''">
             AND sal_i_cd LIKE CONCAT(#{sal_i_cd}, '%')
         </if>
     </select>
@@ -75,13 +85,16 @@
     <select id="selectSales" parameterType="map" resultType="SaleDto">
         <include refid="selectFromSale"/>
         WHERE ur_state = 'Y'
-        <if test="addr_cd != null and addr_cd != ''">
+        <if test="addr_cd != null or addr_cd != ''">
             AND addr_cd = #{addr_cd}
         </if>
-        <if test="sal_i_cd != null and sal_i_cd != ''">
+        <if test="sal_i_cd != null or sal_i_cd != ''">
             AND sal_i_cd LIKE CONCAT(#{sal_i_cd}, '%')
         </if>
-        ORDER BY h_date DESC, no DESC
+        ORDER BY
+            FIELD(sal_s_cd, 'S', 'R', 'C'), -- 판매중, 예약중, 거래완료 순으로 조회
+            h_date DESC,
+            no DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -247,7 +260,7 @@
         SELECT no, addr_name, sal_name, title, contents
         FROM sale
         WHERE ur_state = 'Y'
-        <if test="text != null and text != ''">
+        <if test="text != null or text != ''">
             AND (
             addr_name LIKE CONCAT('%', #{text}, '%') OR
             sal_name LIKE CONCAT('%', #{text}, '%') OR
@@ -257,6 +270,55 @@
         </if>
         ORDER BY h_date DESC, no DESC
         LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="selectSeller" parameterType="map" resultType="SaleDto">
+        <include refid="selectFromSale"/>
+        WHERE ur_state = 'Y'
+        <if test="seller_id != null or seller_id != ''"> -- 판매자ID
+            AND seller_id = #{seller_id}
+        </if>
+        <if test="title != null or title != ''"> -- 판매글 제목
+            AND title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="sal_s_cd != null or sal_s_cd != ''"> -- 판매글 상태(판매중/예약중/거래완료)
+            AND sal_s_cd = #{sal_s_cd}
+        </if>
+        <if test="option != null or option != ''">
+        <choose>
+            <when test='option=="R"'>
+                ORDER BY h_date DESC
+            </when>
+            <when test='option=="P"'>
+                ORDER BY view_cnt DESC
+            </when>
+            <when test='option=="L"'>
+                ORDER BY price ASC
+            </when>
+            <when test='option=="H"'>
+                ORDER BY price DESC
+            </when>
+        </choose>
+        </if>
+        <if test="option == null or option == ''">
+            ORDER BY h_date DESC, no DESC
+        </if>
+        LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
+    <select id="selectSellerCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM sale
+        WHERE ur_state = 'Y'
+        <if test="seller_id != null or seller_id != ''"> -- 판매자ID
+            AND seller_id = #{seller_id}
+        </if>
+        <if test="title != null or title != ''"> -- 판매글 제목
+            AND title LIKE CONCAT('%', #{title}, '%')
+        </if>
+        <if test="sal_s_cd != null or sal_s_cd != ''"> -- 판매글 상태(판매중/예약중/거래완료)
+            AND sal_s_cd = #{sal_s_cd}
+        </if>
     </select>
 
 </mapper>

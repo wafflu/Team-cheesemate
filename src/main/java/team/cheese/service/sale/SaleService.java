@@ -52,6 +52,10 @@ public class SaleService {
         return saleDao.select(no);
     }
 
+    public int userSaleCnt(String ur_id) throws Exception{
+        return saleDao.userSaleCnt(ur_id);
+    }
+
     // 판매자가 자신의 게시글을 삭제할 때
     @Transactional(propagation = Propagation.REQUIRED)
     public int remove(Long no, String seller_id) throws Exception {
@@ -196,6 +200,13 @@ public class SaleService {
         return saleList;
     }
 
+    public List<SaleDto> getSelectSellerList(Map map) throws Exception {
+        List<SaleDto> saleList = saleDao.selectSeller(map);
+        System.out.println(saleList);
+
+        return saleList;
+    }
+
     // 페이징된 게시글 list를 가지고 올 때
     @Transactional(propagation = Propagation.REQUIRED)
     public List<SaleDto> getPageList(Map map) throws Exception {
@@ -217,10 +228,51 @@ public class SaleService {
             return map;
         }
 
+        String sal_cd = saleDto.getSal_i_cd();
+        System.out.println("sal_cd : " + sal_cd);
+
+        Map categoryMap = new HashMap();
+
+        String sal_name = "";
+        if(sal_cd.length() == 9) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            System.out.println("sal_cd 3 : " + sal_cd);
+
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category3Name", sal_name);
+
+            sal_cd = sal_cd.substring(0,6);
+        }
+
+        if(sal_cd.length() == 6) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            System.out.println("sal_cd 2 : " + sal_cd);
+
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category2Name", sal_name);
+
+            sal_cd = sal_cd.substring(0,3);
+        }
+
+        if(sal_cd.length() == 3) {
+            categoryMap.put("length", sal_cd.length());
+            categoryMap.put("sal_cd", sal_cd);
+            sal_name = saleCategoryDao.categoryName(categoryMap);
+            map.put("category1Name", sal_name);
+            System.out.println("sal_cd 1 : " + sal_cd);
+        }
+
         List<TagDto> tagDto = saleTagRead(no);
         map.put("tagDto", tagDto);
 
         return map;
+    }
+
+    public String category1Text(Map map) throws Exception {
+        String categoryName = saleCategoryDao.categoryName(map);
+        return categoryName;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -254,12 +306,6 @@ public class SaleService {
         saleDao.increaseViewCnt(no);
     }
 
-//    // 판매 게시글을 수정할 때
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public int update(SaleDto saleDto) throws Exception {
-//        // 판매글 내용을 받아서 수정하도록 처리
-//        return saleDao.update(saleDto);
-//    }
 
     // 판매 게시글을 수정할 때
     @Transactional(propagation = Propagation.REQUIRED)
@@ -282,6 +328,13 @@ public class SaleService {
     public int getCount(Map map) throws Exception {
 
         int totalCnt = saleDao.countSale(map);
+
+        return totalCnt;
+    }
+
+    public int getSelectSellerCount(Map map) throws Exception {
+
+        int totalCnt = saleDao.countSelectSeller(map);
 
         return totalCnt;
     }

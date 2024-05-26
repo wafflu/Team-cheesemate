@@ -117,7 +117,7 @@
 
 .post-user .post-reaction{
     position: relative;
-    margin-left: 850px;
+    margin-left: 830px;
     /*margin-top: 50px;*/
     /*margin-bottom: 10px;*/
     display: flex;
@@ -125,6 +125,55 @@
     font-size: 14px;
 
 }
+
+
+/*.post-reaction .heartTotalCount {*/
+/*    width: 14px;*/
+/*    height: 14px;*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*    margin-right: 5px; !* 숫자와 아이콘 사이의 간격을 위해 *!*/
+/*}*/
+
+
+/*.post-reaction .commentTotalCount {*/
+/*    width: 14px;*/
+/*    height: 14px;*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*    margin-right: 5px; !* 숫자와 아이콘 사이의 간격을 위해 *!*/
+/*}*/
+/*.post-reaction .viewTotalCount{*/
+/*    width: 14px;*/
+/*    height: 14px;*/
+/*    background-size: cover;*/
+/*    background-position: center;*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*    margin-right: 5px; !* 숫자와 아이콘 사이의 간격을 위해 *!*/
+/*}*/
+
+.post-reaction .heartTotalCount,
+.post-reaction .commentTotalCount,
+.post-reaction .viewTotalCount {
+    display: flex;
+    align-items: center;
+}
+
+.post-reaction .icon {
+    width: 14px;
+    height: 14px;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 3px; /* 숫자와 아이콘 사이의 간격을 위해 */
+}
+
 
 .post-user .post-reaction-wrapper {
     position: absolute;

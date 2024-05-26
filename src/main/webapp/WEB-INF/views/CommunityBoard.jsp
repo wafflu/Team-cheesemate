@@ -36,12 +36,23 @@
                         </div>
                         <div class="post-reaction-wrapper">
                         <div class="post-reaction">
-                            <p  class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
-                            <p>  </p>
-                            <input type="hidden" value="${communityBoardDto.no}">
-                            <p>💬 ${communityBoardDto.comment_count}</p>
-                            <p>  </p>
-                            <p>😀${communityBoardDto.view_cnt}</p>
+<%--                            <p  class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}" >️${communityBoardDto.like_cnt}</p>--%>
+<%--                            <p>  </p>--%>
+<%--                            <input type="hidden" value="${communityBoardDto.no}">--%>
+<%--                            <p class="commentTotalCount"> ${communityBoardDto.comment_count}</p>--%>
+<%--                            <p>  </p>--%>
+<%--                            <p class="viewTotalCount">${communityBoardDto.view_cnt}</p>--%>
+                                <p  class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}">
+                                    <span  class="icon"></span>${communityBoardDto.like_cnt}
+                                </p>
+                                <p></p>
+                                <input type="hidden" id="postNo" value="${communityBoardDto.no}">
+                                <p class="commentTotalCount">
+                                    <span class="icon"></span>${communityBoardDto.comment_count}
+                                </p>
+                                <p class="viewTotalCount">
+                                    <span class="icon"></span>${communityBoardDto.view_cnt}
+                                </p>
                         </div>
                         </div>
                     </div>
@@ -63,13 +74,17 @@
                         </c:if>
                     </c:forEach>
                 </div>
+
                 <%-- 반응--%>
                 <div class="post-reaction">
-                    <p id="heart" class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}" >❤️${communityBoardDto.like_cnt}</p>
-                    <p>  </p>
+                    <p id="heart" class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}">
+                        <span class="icon"></span>${communityBoardDto.like_cnt}
+                    </p>
+                    <p></p>
                     <input type="hidden" id="postNo" value="${communityBoardDto.no}">
-                    <p>💬 ${communityBoardDto.comment_count}</p>
-                    <p>  </p>
+                    <p class="commentTotalCount">
+                        <span class="icon"></span>${communityBoardDto.comment_count}
+                    </p>
 <%--                    <p>😀${communityBoardDto.view_cnt}</p>--%>
                 </div>
             </div>
@@ -152,6 +167,10 @@
     })();
 
     $(document).ready(function () {
+        let imgInfo = cssImage.getImgInfo();
+        $(".heartTotalCount .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['Like2'] + "')");
+        $(".commentTotalCount .icon").css("background-image","url('/img/display?fileName=" + imgInfo['chat'] + "')");
+        $(".viewTotalCount .icon").css("background-image","url('/img/display?fileName=" + imgInfo['person'] + "')");
         loadComments($('#post_no').val());
 
         $('#comment-container').on('click','.comment',function(){

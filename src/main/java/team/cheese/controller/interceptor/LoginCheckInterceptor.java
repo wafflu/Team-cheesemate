@@ -43,7 +43,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             return false;
         }
         else {
-            String userId = session.getAttribute("userId").toString();
             return true;
         }
     }
