@@ -7,173 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        .selectOptiondiv {
-            display: flex;
-            -webkit-box-align: center;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            gap:10px;
-        }
-
-        input[type="text"] {
-            width: 350px;
-            margin-right: 20px; /* 간격 조정 */
-            padding: 5px;
-            font-size: 18px;
-        }
-
-        select {
-            font-size: 16px;
-            padding: 5px;
-        }
-
-        .selectOptionTx{
-            display: flex;
-            column-gap: 24px;
-            font-size: 18px;
-        }
-
-        .optionTx {
-            font-weight: 500;
-            line-height: normal;
-            cursor: pointer;
-            color: rgb(216, 12, 24);
-        }
-
-        .totalBox {
-            width: 1200px;
-            height: 1900px;
-            margin: auto;
-        }
-
-        .totalBox table thead > tr {
-            height: 2.5rem;
-        }
-
-        .totalBox table tr > :nth-child(3) {
-            width: 218px;
-        }
-
-        .totalBox table thead > tr > th {
-            vertical-align: middle;
-        }
-        .totalBox table tr > * {
-            flex-shrink: 0;
-        }
-
-        .saleList {
-            border-bottom: 2px solid #eeeeee;
-            text-align: center;
-        }
-
-        .totalTable {
-            width: 100%;
-            border-top: 1px solid #787e89;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-
-        th, td {
-            border-bottom: 1px solid #787e89;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        .tableHead {
-            display: table-header-group;
-            vertical-align: middle;
-            unicode-bidi: isolate;
-            border-color: inherit;
-        }
-
-        .imgClass {
-            width: 152px;
-            height: 152px;
-            /*background-color: yellow;*/
-            margin: 0 auto;
-        }
-
-        .Thumbnail_ima {
-            width: 80px;
-            height: 80px;
-        }
-
-        /* 원하는 색상으로 선택된 옵션 변경 */
-        .optionTx.selected {
-            color: red; /* 빨간색 */
-            font-weight: 600;
-        }
-
-        /* 선택되지 않은 옵션 색상 변경 */
-        .optionTx:not(.selected) {
-            color: #7F7F7F; /* 회색 */
-            font-weight: 600;
-        }
-
-        .btnColorRed {
-            color: rgb(216, 12, 24);
-        }
-
-        .btnColorBlue {
-            color: rgb(2, 122, 255);
-        }
-
-        .Btn {
-            width: 4.875rem;
-            height: 2rem;
-            text-align: center;
-            border-radius: 2px;
-            border: 1px solid rgb(195, 194, 204);
-            background-color: white;
-            font-weight: 800;
-            line-height: normal;
-            margin: 2px;
-        }
-
-        .page-space {
-            margin: 0 5px; /* 공백 크기 조절 */
-        }
-
-        .saleStatus-box{
-            position: absolute;
-            left: 0;
-            top:0;
-            width: 100%;
-            height: 100%;
-            background-color: #00000050;
-        }
-
-        .saleStatusText{
-            display: grid;
-            place-items: center;
-            position: absolute;
-            left: 50%;
-            top:50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            z-index: 1;
-            color:white;
-            border: 2px solid #fff;
-            border-radius: 100%;
-            text-align: center;
-            /*line-height: 100px;*/
-            font-size: 20px;
-        }
-
-        #pageContainer {
-            display: flex;
-            position: absolute;
-            left: 50%;
-            /*bottom: 20px;*/
-            transform: translateX(-50%);
-            text-align: center;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/css/saleManage.css">
 </head>
 <body>
 <div class="totalBox">
@@ -212,10 +46,10 @@
 </html>
 <script>
     $(document).ready(function () {
-        window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10) {
+        window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = null) {
             $.ajax({
                 type: 'GET',       // 요청 메서드
-                url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize + "&title=" + title + "&sal_s_cd=" + sal_s_cd,  // 요청 URI
+                url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize + "&title=" + title + "&sal_s_cd=" + sal_s_cd + "&option=" + option,  // 요청 URI
                 headers: {"content-type": "application/json"}, // 요청 헤더
                 dataType: 'json',
                 success: function (data) {
@@ -237,7 +71,7 @@
         let sal_s_cd = null;
         let pre_sal_s_cd = null;
 
-        saleList(title, sal_s_cd);
+        saleList();
 
         // optionTx 클릭했을 경우 value 지정
         $('.optionTx').click(function() {

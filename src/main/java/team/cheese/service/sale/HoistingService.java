@@ -17,6 +17,7 @@ public class HoistingService {
     // 판매자가 자신의 게시글을 끌어올릴 때
     @Transactional(propagation = Propagation.REQUIRED)
     public void hoistingSale(SaleDto saleDto) throws Exception {
+        System.out.println("hoistingSale : " + saleDto);
 
         Long sal_no = saleDto.getNo();
         String addr_cd = saleDto.getAddr_cd();
@@ -27,15 +28,18 @@ public class HoistingService {
 
         HoistingDto hoistingDto = new HoistingDto(sal_no, addr_cd, addr_name, seller_id, sal_i_cd, sal_name);
 
-        hoistingDao.insert(hoistingDto);
-        hoistingSaleCount(sal_no);
+        System.out.println("hoitingDto 확인 : " + hoistingDto);
 
+        int result = hoistingDao.insert(hoistingDto);
+        System.out.println("hositngDao insert 성공? : " + result);
+        hoistingSaleCount(sal_no);
     }
 
     // 판매글 끌어올리기 횟수 증가
     @Transactional(propagation = Propagation.REQUIRED)
     public void hoistingSaleCount(Long no) throws Exception {
-        saleDao.increaseHoistingCnt(no);
+        int result = saleDao.increaseHoistingCnt(no);
+        System.out.println("increaseHoistingCnt 성공? : " + result);
     }
 }
 
