@@ -737,6 +737,7 @@
     window.onload = function () {
         $("#category1").on("change", function () {
             let category1Value = $('#category1').val();
+            console.log(category1Value);
             if (category1Value !== "") {
                 $.ajax({
                     type: "POST",
@@ -1185,11 +1186,22 @@
 
     function validationForm(title, category1Value, category2Check, category3Check,
                             contents, pro_s_cd, trade_s_cd, tx_s_cd, price, reg_price) {
-        if (!title || title.trim().length === 0) {
+        if (!title) {
             document.getElementsByName("title")[0].focus();
             document.getElementsByName("title")[0].style.borderColor = 'red';
             alert("제목을 입력하세요.");
             return false;
+        } else {
+            document.getElementsByName("title")[0].style.borderColor = '';
+        }
+
+        if(title.length < 2) {
+            document.getElementsByName("title")[0].focus();
+            document.getElementsByName("title")[0].style.borderColor = 'red';
+            alert("최소 두 글자 이상 작성하세요.");
+            return false;
+        } else {
+            document.getElementsByName("title")[0].style.borderColor = '';
         }
 
         if (!category1Value) {
@@ -1197,12 +1209,16 @@
             $("#categoryContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
             alert("대분류 상태를 선택하세요.");
             return false;
+        }else {
+            $("#categoryContainer").css("backgroundColor", '');
         }
         if (!category2Check) {
             $("#categoryContainer").attr('tabindex', 0).focus();
             $("#categoryContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
             alert("중분류 상태를 선택하세요.");
             return false;
+        } else {
+            $("#categoryContainer").css("backgroundColor", '');
         }
 
         if (!category3Check) {
@@ -1210,13 +1226,27 @@
             $("#categoryContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
             alert("소분류 상태를 선택하세요.");
             return false;
+        } else {
+            $("#categoryContainer").css("backgroundColor", '');
         }
+
 
         if (!contents || contents.trim().length === 0) {
             document.getElementsByName("contents")[0].focus();
             document.getElementsByName("contents")[0].style.borderColor = 'red';
             alert("내용을 입력하세요.");
             return false;
+        } else {
+            document.getElementsByName("contents")[0].style.borderColor = '';
+        }
+
+        if(contents.length < 4) {
+            document.getElementsByName("contents")[0].focus();
+            document.getElementsByName("contents")[0].style.borderColor = 'red';
+            alert("최소 네 글자 이상 작성하세요.");
+            return false;
+        } else {
+            document.getElementsByName("contents")[0].style.borderColor = '';
         }
 
         if (!pro_s_cd) {
@@ -1224,6 +1254,8 @@
             $("#pro_s_cdContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
             alert("상품 상태를 선택하세요.");
             return false;
+        } else {
+            $("#pro_s_cdContainer").css("backgroundColor", '');
         }
 
         if (!trade_s_cd) {
@@ -1231,6 +1263,8 @@
             $("#trade_s_cdContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
             alert("거래방법을 선택하세요.");
             return false;
+        } else {
+            $("#trade_s_cdContainer").css("backgroundColor", '');
         }
 
         if (!tx_s_cd) {
@@ -1238,6 +1272,8 @@
             $("#tx_s_cdContainer").css("backgroundColor", 'rgba(255, 0, 0, 0.1)');
             alert("판매/나눔 중 한 가지를 선택하세요.");
             return false;
+        } else {
+            $("#tx_s_cdContainer").css("backgroundColor", '');
         }
 
         if (tx_s_cd === 'S' && !price) {
@@ -1255,6 +1291,17 @@
             document.getElementsByName("price")[0].style.borderColor = 'red';
             alert("1원 이상의 가격을 입력하세요.");
             return false;
+        } else {
+            document.getElementsByName("price")[0].style.borderColor = '';
+        }
+
+        if(price > 2100000000) {
+            document.getElementsByName("price")[0].focus();
+            document.getElementsByName("price")[0].style.borderColor = 'red';
+            alert("21억 까지 입력할 수 있습니다.");
+            return false;
+        } else {
+            document.getElementsByName("price")[0].style.borderColor = '';
         }
 
         if (!!reg_price) {
@@ -1263,6 +1310,13 @@
                 document.getElementsByName("reg_price")[0].style.borderColor = 'red';
                 alert("음수를 제외한 정확한 가격을 입력하세요.");
                 return false;
+            } else if(reg_price > 2100000000) {
+                document.getElementsByName("reg_price")[0].focus();
+                document.getElementsByName("reg_price")[0].style.borderColor = 'red';
+                alert("21억 까지 입력할 수 있습니다.");
+                return false;
+            } else {
+                document.getElementsByName("reg_price")[0].style.borderColor = '';
             }
         }
 

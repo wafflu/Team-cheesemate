@@ -81,6 +81,8 @@ public class SaleController {
 
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
         List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
+        System.out.println("tag List : " + tagDto);
+        System.out.println("Img List : " + imglist);
 
         model.addAttribute("category1Name", category1Name); // 대분류 카테고리
         model.addAttribute("category2Name", category2Name); // 중분류 카테고리

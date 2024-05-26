@@ -45,6 +45,7 @@
 
         .totalBox {
             width: 1200px;
+            height: 1900px;
             margin: auto;
         }
 
@@ -134,6 +135,42 @@
 
         .page-space {
             margin: 0 5px; /* 공백 크기 조절 */
+        }
+
+        .saleStatus-box{
+            position: absolute;
+            left: 0;
+            top:0;
+            width: 100%;
+            height: 100%;
+            background-color: #00000050;
+        }
+
+        .saleStatusText{
+            display: grid;
+            place-items: center;
+            position: absolute;
+            left: 50%;
+            top:50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            z-index: 1;
+            color:white;
+            border: 2px solid #fff;
+            border-radius: 100%;
+            text-align: center;
+            /*line-height: 100px;*/
+            font-size: 20px;
+        }
+
+        #pageContainer {
+            display: flex;
+            position: absolute;
+            left: 50%;
+            /*bottom: 20px;*/
+            transform: translateX(-50%);
+            text-align: center;
         }
 
     </style>
@@ -252,8 +289,10 @@
                 // 판매 상태에 따라 텍스트 설정
                 saleList.forEach(function (sale) {
                     let optionText = $('.optionTx.selected').text();
-                    let sal_s_cd = optionTextSwitch(optionText);;
+                    let sal_s_cd = optionTextSwitch(optionText);
+                    // let saleStatusText = optionTextSwitchDiv(optionText);
                     let price = '';
+                    let tx_name = '';
                     if(sale.price > 0){
                         price = comma(sale.price);
                         price += "원";
@@ -284,12 +323,14 @@
                             bid_name = '';
                     }
 
-
                     let row = $("<tr>").addClass("sal_no_" + sale.no);
                     // 썸네일
                     row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
 
-                    // 판매상태
+                    // // 판매상태
+                    // if(saleStatusText !== "판매중"){
+                    //     row.append($("<td>").addClass("saleStatus-box").html("<div class='saleStatus-box'><span class='saleStatusText'>" + saleStatusText + "</span></div>"));
+                    // }
                     let statusSelect = createSaleStatusSelect(sale.sal_s_cd);
                     row.append($("<td>").append(statusSelect));
 
@@ -327,16 +368,16 @@
             if (ph.totalCnt != null && ph.totalCnt != 0) {
                 let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
                 if (ph.prevPage) {
-                    pageContainer.append('<a onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</a>');
+                    pageContainer.append('<button onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</button>');
                 }
                 for (let i = ph.beginPage; i <= ph.endPage; i++) {
                     // 페이지 번호 사이에 공백 추가
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + i + ', ' + ph.pageSize + ')">' + i + '</a>');
+                    pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + i + ', ' + ph.pageSize + ')">' + i + '</button>');
                 }
                 if (ph.nextPage) {
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<a onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</a>');
+                    pageContainer.append('<button onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</button>');
                 }
                 $("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
             }
@@ -525,6 +566,24 @@
             }
             return sal_s_cd;
         };
+
+        // function optionTextSwitchDiv(optionText) {
+        //     switch (optionText) {
+        //         case 'S':
+        //             saleStatusText = '판매중';
+        //             break;
+        //         case 'R':
+        //             saleStatusText = '예약중';
+        //             break;
+        //         case 'C':
+        //             saleStatusText = '판매<br>완료';
+        //
+        //             break;
+        //         default:
+        //             saleStatusText = '';
+        //     }
+        //     return sal_s_cd;
+        // };
 
         function createSaleStatusSelect(selectedValue) {
             const options = {

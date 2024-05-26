@@ -81,7 +81,10 @@
         <if test="sal_i_cd != null and sal_i_cd != ''">
             AND sal_i_cd LIKE CONCAT(#{sal_i_cd}, '%')
         </if>
-        ORDER BY h_date DESC, no DESC
+        ORDER BY
+            FIELD(sal_s_cd, 'S', 'R', 'C'), -- 판매중, 예약중, 거래완료 순으로 조회
+            h_date DESC,
+            no DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
