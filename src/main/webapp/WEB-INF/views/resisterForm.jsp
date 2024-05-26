@@ -746,7 +746,6 @@
             });
         }
 
-        
         $(document).on("click", "#agreeCollectionBtn", function() {
             $("#agreeCollection").checked = true;
             modalAgreeCollection.style.display = "none";
@@ -1153,7 +1152,6 @@
         } else {
             document.getElementById("phone_num").style.borderColor = '';
         }
-        console.log(check);
 
         if(!check) {
             alert("입력한 정보를 다시 확인해주세요.");
