@@ -1,320 +1,8 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="../fixed/header.jsp" %>
 
-<style>
+<link rel="stylesheet" href="/css/saleWrite.css">
 
-    .totalBox {
-        height: fit-content;
-        position: relative;
-        width: 1200px;
-        margin: auto;
-        margin-bottom: 20px;
-        /*margin-top: 20px;*/
-        /*background: rgba(255, 0, 0, 0.1);*/
-        padding: 20px;
-        box-sizing: border-box;
-        /*box-shadow:0px 0px 10px rgba(0, 0, 0, 0.2);*/
-        /*border-radius: 10px;*/
-    }
-
-    .liBox {
-        display: flex;
-        flex-direction: column;
-        border-bottom: 2px solid #f9f9f9;
-        /*border-bottom: 2px solid rgb(25, 25, 25);*/
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-    }
-
-    .liBox > * {
-        flex: 1;
-    }
-
-    #openModalBtn,#unCheckBtn {
-        all: unset;
-        color: white;
-        padding: 10px 30px;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #ee8703;
-        font-size: 16px;
-    }
-
-
-    .SaleModal {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 20;
-    }
-
-    .sale_modal_overlay {
-        background-color: rgba(0, 0, 0, 0.6);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-    }
-
-    .sale_modal_content {
-        background-color: white;
-        padding: 50px 100px;
-        text-align: center;
-        position: relative;
-        width: 50%;
-        top: 0px;
-        border-radius: 10px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-        overflow-y: auto;
-        /* 세로 스크롤이 필요한 경우 스크롤 허용 */
-        max-height: 70%;
-        /* 모달 창의 최대 높이 설정 */
-    }
-
-    #closeModalBtn {
-        position: absolute;
-        top: 10px;
-        /* 원하는 위치로 조정 */
-        right: 10px;
-        /* 원하는 위치로 조정 */
-        background-color: transparent;
-        /* 배경색 설정 */
-        border: none;
-        /* 테두리 제거 */
-        cursor: pointer;
-        /* 마우스 커서를 포인터로 변경 */
-    }
-
-    .sale-table-wrapper {
-        overflow-y: auto;
-        max-height: 200px;
-    }
-
-    .sale-addr-tr:hover {
-        background-color: rgba(245, 157, 28, 0.5);
-        cursor: pointer;
-    }
-
-
-    #saleSearchInput {
-        /* 모달 창의 너비에 맞게 조정 */
-        width: 100%;
-        padding: 10px;
-        /* 내부 여백 설정 */
-        margin: 0 auto;
-        /* 가운데 정렬 */
-    }
-
-
-    #addrTable {
-        width: 100%;
-        /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
-    }
-
-    #sale_search_addr {
-        margin: 0;
-    }
-
-    .SaleHidden {
-        display: none;
-    }
-
-    /* input text 및 textarea 너비 조절 */
-    input[type="text"], input[type="number"] {
-        /* 전체 너비에서 여백을 뺀 값으로 설정 */
-        /*width: calc(100% - 50px);*/
-        width: 100%;
-        margin: auto;
-        padding: 15px;
-        /* 내부 여백 설정 */
-        margin-top: 10px;
-        resize: none;
-    }
-
-
-    #contents {
-        width: 100%;
-        height: 40vh;
-        margin: auto;
-        padding: 20px;
-        /* 내부 여백 설정 */
-        margin-top: 10px;
-        resize: none;
-    }
-
-    select {
-        margin: auto;
-        padding: 5px;
-        margin-top: 10px;
-        resize: none;
-    }
-
-    #loadingOverlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.8);
-        z-index: 20;
-        display: none;
-    }
-
-    #loadingSpinner {
-        border: 5px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 5px solid #ee8703;
-        width: 50px;
-        height: 50px;
-        animation: spin 1s linear infinite;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -25px;
-        margin-left: -25px;
-    }
-
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-
-    #loadingMessage {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 20px;
-    }
-
-    #uploadResult {
-        display: flex;
-    }
-
-    #uploadResult > div {
-        flex: 0 0 auto; /* 자동 크기, 크기 조정 없음 */
-        margin-right: 10px; /* 간격 설정 */
-    }
-
-    .btnStyle {
-        cursor: pointer;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        padding: 7px 40px;
-    }
-
-    .saleTitleText {
-        height: 100px;
-        font-weight: 900;
-        display: flex;
-        -webkit-box-align: center;
-        align-items: center;
-        border-bottom: 2px solid rgb(25, 25, 25);
-        margin-block-end: 20px;
-    }
-
-    .rightlocate {
-        float: right;
-    }
-
-    .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 20;
-    }
-
-    .material-symbols-outlined {
-        font-variation-settings: 'FILL' 0,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 20
-    }
-
-    .font16 {
-        font-size: 16px;
-        margin-top: 10px;
-        margin-left: auto;
-    }
-
-    .font10 {
-        font-size: 10px;
-    }
-
-    .font20{
-        font-size: 20px;
-    }
-
-    .fontWeight {
-        font-weight: 600;
-    }
-
-    .font30{
-        font-weight: 600;
-    }
-
-    .marginTopFont10 {
-        margin-top: 10px;
-    }
-
-
-    .li-list {
-        display: flex;
-        margin-top: 5px;
-    }
-
-    .li-list::before {
-        content: "- ";
-    }
-
-    .fixed-submit {
-        width: 100%;
-        height: 5.5rem;
-        background: #eeeeee;
-        box-shadow: rgb(229, 229, 229) 0px -1px 0px 0px;
-        left: 0px;
-        bottom: 0px;
-        z-index:12;
-        position: sticky;
-    }
-
-    .div-submit {
-        display: flex;
-        height: 100%;
-        -webkit-box-pack: end;
-        justify-content: flex-end;
-        -webkit-box-align: center;
-        align-items: center;
-        gap: 14px;
-        width: 1159px;
-        margin: auto;
-    }
-
-    .div-line {
-        display: flex;
-        gap: 20px;
-        margin-top: 5px;
-    }
-
-    .dadRxL {
-        width: 1200px;
-        display: flex;
-        height: 100%;
-        font-size: 20px;
-    }
-
-
-</style>
 <div class="totalBox">
     <nav class="sc-krDsej dadRxL">
         <div class="sc-eMigcr glslOQ">
@@ -331,21 +19,23 @@
     <div>
         <form id="writeForm" name="writeForm" method="POST" enctype="multipart/form-data">
             <p class="saleTitleText font30">상품 정보</p>
-            <div class="form_section_content">
-                <label for="fileItem" class="">이미지 삽입</label>
-                <input type="file" id="fileItem" name="uploadFile" style="display: none;" multiple>
+            <div class="imgreg-box">
+                <div class="form_section_content">
+                    <label for="fileItem" class="regimgbtn"></label>
+                    <input type="file" id="fileItem" name="uploadFile" style="display: none;" multiple>
+                    <span class="imgcnt"></span>
+                </div>
+                <div id="uploadResult">
+                    <c:forEach items="${imglist}" var="img">
+                    <c:if test="${img.imgtype eq 'r'}">
+                    <div id='result_card'>
+                        <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
+                        <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+                    </div>
+                    </c:if>
+                    </c:forEach>
+                </div>
             </div>
-            <br>
-            <div id="uploadResult">
-                <c:forEach items="${imglist}" var="img">
-                <c:if test="${img.imgtype eq 'r'}">
-                <div id='result_card'>
-                    <img src="/img/display?fileName=" value="${img.img_full_rt}" id="resizable">
-                    <div class='imgDeleteBtn' data-file=" value="${img.img_full_rt}">x</div>
-            </div>
-            </c:if>
-            </c:forEach>
-    </div>
     <ul>
         <li class="liBox">
     <p class="font20 marginTopFont10">
@@ -355,26 +45,30 @@
     <span class="font16 rightlocate" id="titleCounter">(0/40)</span>
         </li>
         <li class="liBox">
-    <div id="categoryContainer">
-        <p class="font20 marginTopFont10 fontWeight">카테고리</p>
-        <select id="category1" class="font16">
-            <option value="" disabled selected>대분류</option>
-            <c:forEach var="category" items="${saleCategory1}">
-                <option value="<c:out value='${category.sal_cd}' />"><c:out value='${category.name}'/></option>
-            </c:forEach>
-        </select>
+            <div id="categoryContainer">
+                <p class="font20 marginTopFont10 fontWeight ctitle">카테고리</p>
+                <ul id="category1" class="font16 categorylist">
+        <%--            <li>대분류</li>--%>
+                    <c:forEach var="category" items="${saleCategory1}">
+                        <li class="category1-li">
+                                <input type="hidden" class="sel-cd1" value="<c:out value='${category.sal_cd}' />">
+                                ${category.name}
+                        </li>
+                    </c:forEach>
+                </ul>
 
-        <select id="category2" class="font16">
-            <option value="category2" disabled selected>중분류</option>
-        </select>
+                <ul id="category2" class="font16 categorylist">
+                    <li class="category1-li vertical">중분류 선택</li>
+                </ul>
 
-        <select id="category3" class="font16">
-            <option value="category3" disabled selected>소분류</option>
-        </select>
-
-        <p class="font16 marginTopFont10" style="color: orangered;" id="salecategoryMsg">대분류 > 중분류 > 소분류를 선택하세요.</p>
-        <span class="font16 marginTopFont10" style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;" id="sal_name"></p></b></span>
-    </div>
+                <ul id="category3" class="font16 categorylist">
+                    <li class="category1-li vertical">소분류 선택</li>
+                </ul>
+            </div>
+            <div class="category-sel-info">
+                <p class="font16 marginTopFont10" style="color: orangered;" id="salecategoryMsg">대분류 > 중분류 > 소분류를 선택하세요.</p>
+                <span class="font16 marginTopFont10" style="color: red;">선택한 카테고리 : <b><p style="display: inline; color: red;" id="sal_name"></p></b></span>
+            </div>
         </li>
         <li class="liBox">
     <div id="pro_s_cdContainer">
@@ -596,7 +290,7 @@
     }
 
     // modify인 경우(판매글 수정)
-    $(document).ready(async function () {
+    $(document).ready(function () {
         showLoading();
         // 현재 URL에서 "modify" 문자열이 포함되어 있는지 확인
         if (window.location.href.indexOf("modify") != -1) {
@@ -658,14 +352,16 @@
                 let category1Value = sal_i_cd.substring(0, 3);
                 let category2Value = sal_i_cd.substring(0, 6);
                 let category3Value = sal_i_cd;
-                await setCategory(category1Value, category2Value, category3Value);
-            } else if (sal_i_cd.length == 6) {
+                setCategory(category1Value, category2Value, category3Value);
+            }
+            if (sal_i_cd.length == 6) {
                 let category1Value = sal_i_cd.substring(0, 3);
                 let category2Value = sal_i_cd;
-                await setCategory(category1Value, category2Value);
-            } else {
+                setCategory(category1Value, category2Value);
+            }
+            if(sal_i_cd.length == 3){
                 let category1Value = sal_i_cd;
-                await setCategory(category1Value);
+                setCategory(category1Value);
             }
 
             // "modify" 문자열이 포함되어 있다면 버튼의 텍스트를 "수정하기"로 변경
@@ -677,7 +373,15 @@
     });
 
     async function setCategory(category1Value, category2Value = null, category3Value = null) {
-        $("#category1").val(category1Value).trigger("change");
+        // $("#category1").val(category1Value).trigger("change");
+        //첫번째값 입력
+        let catev1 = Number(category1Value) - 1;
+        $("#category1").children().eq(catev1).addClass("choicecategory");
+
+
+        // $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
+        // let category1text = $("#category1>.choicecategory").text();
+        // $("#sal_name").text(category1text);
 
         try {
             let data = await $.ajax({
@@ -687,30 +391,39 @@
                 data: {category1: category1Value}
             });
 
-            let category2Select = document.getElementById("category2");
-            category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-            let category3Select = document.getElementById("category3");
-            category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-            console.log("1번 : " + category1Value);
+            // let category2Select = document.getElementById("category2");
+            // category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
+            // let category3Select = document.getElementById("category3");
+            // category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+            // 2번째 값
             if (data.length > 0) {
                 category2Check = false;
-                category3Check = false;
+                let str = '';
+                $("#category2").children().remove();
                 data.forEach(function (category) {
                     if (category.sal_cd.startsWith(category1Value)) {
-                        let option = new Option(category.name, category.sal_cd);
-                        category2Select.add(option);
+                        str += `<li class="category2-li">`;
+                        str += '<input type="hidden" class="sel-cd1" value="' + category.sal_cd + '">';
+                        str += category.name;
+                        str += `</li>`;
                     }
                 });
+                $("#category2").append(str);
             } else {
                 category2Check = true;
                 category3Check = true;
                 $("#salecategoryMsg").text("");
+                let category1text = $("#category1>.choicecategory").text();
+                $("#sal_name").text(category1text);
             }
 
+            //3번
             if (category2Value) {
-                $("#category2").val(category2Value).trigger("change");
-                console.log("2번 리스트 : " + data);
-                console.log("2번 선택값 : " + $("#category2 option:checked").text());
+                // $("#category2").val(category2Value).trigger("change");
+
+                let catev2 = Number(category2Value.substring(3, 6)) - 1;
+                $("#category2").children().eq(catev2).addClass("choicecategory");
+
                 if (category3Value) {
                     let data = await $.ajax({
                         type: "POST",
@@ -720,31 +433,58 @@
                     });
 
                     if (data.length > 0) {
-                        category3Check = false;
+                        $("#category3").children().remove();
+                        let str = "";
                         data.forEach(function (category) {
                             if (category.sal_cd.startsWith(category2Value)) {
-                                let option = new Option(category.name, category.sal_cd);
-                                category3Select.add(option);
+                                // let option = new Option(category.name, category.sal_cd);
+                                str += `<li class="category3-li">`;
+                                str += '<input type="hidden" class="sel-cd1" value="' + category.sal_cd + '">';
+                                str += category.name;
+                                str += `</li>`;
+                                // category3Select.add(option);
                             }
                         });
+                        $("#category3").append(str);
+                        category2Check = true;
+                        category3Check = false;
                     } else {
                         category3Check = true;
                         $("#salecategoryMsg").text("");
+
+                        let category1text = $("#category1>.choicecategory").text();
+                        let category2text = $("#category2>.choicecategory").text();
+                        $("#sal_name").text(category1text+" > "+category2text);
                     }
-                    $("#category3").val(category3Value).trigger("change");
-                    console.log("3번 리스트 : " + data);
-                    console.log("3번 선택값 : " + $("#category3 option:checked").text());
+
+                    category3Check = true;
+                    let catev3 = Number(category3Value.substring(6, 9)) - 1;
+                    $("#category3").children().eq(catev3).addClass("choicecategory");
+                    $("#salecategoryMsg").text("");
                 }
             }
         } catch (error) {
             console.error("Category Error:", error);
         }
+
+        setTimeout(()=>{
+            let category1text = $("#category1>.choicecategory").text();
+            let category2text = $("#category2>.choicecategory").text();
+            let category3text = $("#category3>.choicecategory").text();
+            $("#sal_name").text(category1text+" > "+category2text+" > "+category3text);
+        }, 100);
+
     }
 
     // write인 경우(판매글 작성)
     window.onload = function () {
-        $("#category1").on("change", function () {
-            let category1Value = $('#category1').val();
+
+        $(".category1-li").on("click", function () {
+            category2Check = false;
+            category3Check = false;
+            let category1Value = $(this).find('.sel-cd1').val().trim();
+            let selindex = $(this).index();
+            $("#category1").children().removeClass("choicecategory")
             if (category1Value !== "") {
                 $.ajax({
                     type: "POST",
@@ -752,20 +492,33 @@
                     dataType: "json", // 받을 값
                     data: {category1: category1Value},
                     success: function (data) {
-                        let category2Select = document.getElementById("category2");
-                        category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-                        let category3Select = document.getElementById("category3");
-                        category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        // let category2Select = document.getElementById("category2");
+                        // category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
+                        // let category3Select = document.getElementById("category3");
+                        // category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        // 작성 중분류
+                        $("#category2").children().remove();
+                        $("#category3").children().remove();
                         if (data.length > 0) {
                             category2Check = false;
+                            let str = '';
                             data.forEach(function (category) {
                                 if (category.sal_cd.startsWith(category1Value)) {
-                                    let option = new Option(category.name, category.sal_cd);
-                                    category2Select.add(option);
+                                    str += `<li class="category2-li">`;
+                                    str += '<input type="hidden" class="sel-cd1" value="' + category.sal_cd + '">';
+                                    str += category.name;
+                                    str += `</li>`;
                                 }
                             });
+                            $("#category2").append(str);
+                            $("#category1").children().eq(selindex).addClass("choicecategory");
+                            $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
+                            let category1text = $("#category1>.choicecategory").text();
+                            $("#sal_name").text(category1text);
                         } else {
+                            $("#category1").children().eq(selindex).addClass("choicecategory");
                             $("#salecategoryMsg").text("");
+                            $("#sal_name").text("기타");
                             console.log("기타임");
                             category2Check = true;
                             category3Check = true;
@@ -778,8 +531,12 @@
             }
         });
 
-        $("#category2").on("change", function () {
-            let category2Value = $('#category2').val();
+
+        $(document).on("click", ".category2-li", function () {
+            // let category2Value = $('#category2').val();
+            let category2Value = $(this).find('.sel-cd1').val().trim();
+            let selindex = $(this).index();
+            $("#category2").children().removeClass("choicecategory")
             if (category2Value !== "") {
                 $.ajax({
                     type: "POST",
@@ -787,26 +544,56 @@
                     dataType: "json",
                     data: {category2: category2Value},
                     success: function (data) {
-                        let category3Select = document.getElementById("category3");
-                        category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        // let category3Select = document.getElementById("category3");
+                        // category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
+                        $("#category3").children().remove();
+                        let str = "";
                         if (data.length > 0) {
-                            category3Check = false;
+
                             data.forEach(function (category) {
                                 if (category.sal_cd.startsWith(category2Value)) {
-                                    let option = new Option(category.name, category.sal_cd);
-                                    category3Select.add(option);
+                                    // let option = new Option(category.name, category.sal_cd);
+                                    str += `<li class="category3-li">`;
+                                    str += '<input type="hidden" class="sel-cd1" value="' + category.sal_cd + '">';
+                                    str += category.name;
+                                    str += `</li>`;
+                                    // category3Select.add(option);
                                 }
                             });
+                            $("#category3").append(str);
+                            $("#category2").children().eq(selindex).addClass("choicecategory");
+                            $("#salecategoryMsg").text("소분류를 선택하세요.");
+                            category2Check = true;
+                            category3Check = false;
                         } else {
+                            $("#category2").children().eq(selindex).addClass("choicecategory");
                             $("#salecategoryMsg").text("");
+                            category2Check = true;
                             category3Check = true;
                         }
+                        let category1text = $("#category1>.choicecategory").text();
+                        let category2text = $("#category2>.choicecategory").text();
+                        $("#sal_name").text(category1text+" > "+category2text);
                     },
                     error: function (xhr, status, error) {
                         alert(xhr.responseText);
                     }
                 });
             }
+        });
+
+        $(document).on("click", ".category3-li", function () {
+            category3Check = true;
+            let selindex = $(this).index();
+            $("#category3").children().removeClass("choicecategory")
+            $("#category3").children().eq(selindex).addClass("choicecategory");
+            $("#salecategoryMsg").text("");
+
+            let category1text = $("#category1>.choicecategory").text();
+            let category2text = $("#category2>.choicecategory").text();
+            let category3text = $("#category3>.choicecategory").text();
+            $("#sal_name").text(category1text+" > "+category2text+" > "+category3text);
+            // $("#category3").children().remove();
         });
 
 
@@ -912,6 +699,7 @@
     }; // document.ready 종료 부분
 
     // 대분류 선택 시 선택된 카테고리의 이름을 sal_name에 업데이트
+    // 선탠선택2
     $("#category1").change(function () {
         $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
         $("#sal_name").text($("#category1 option:checked").text());
@@ -1031,7 +819,6 @@
             }
         });
 
-        console.log(t_contents); // 디버그를 위해 콘솔에 출력
     }
 
     // 해시태그 입력 필드에서 Enter 키를 눌렀을 때 해시태그 입력 생성 함수 호출
@@ -1093,12 +880,20 @@
         let group_no = "${Sale.group_no}"; // 이미지
 
         // category1, category2, category3의 값 추출
-        let category1Value = $("#category1").val();
-        let category2Value = $("#category2 option:checked").val();
-        let category3Value = $("#category3 option:checked").val();
-        let category1Text = $("#category1 option:checked").text();
-        let category2Text = $("#category2 option:checked").text();
-        let category3Text = $("#category3 option:checked").text();
+        // 카테고리 값
+        // let category1Value = $("#category1").val();
+        // let category2Value = $("#category2 option:checked").val();
+        // let category3Value = $("#category3 option:checked").val();
+        // let category1Text = $("#category1 option:checked").text();
+        // let category2Text = $("#category2 option:checked").text();
+        // let category3Text = $("#category3 option:checked").text();
+
+        let category1Value = $("#category1>.choicecategory>.sel-cd1").val();
+        let category2Value = $("#category2>.choicecategory>.sel-cd1").val();
+        let category3Value = $("#category3>.choicecategory>.sel-cd1").val();
+        let category1Text = $("#category1>.choicecategory").text();
+        let category2Text = $("#category2>.choicecategory").text();
+        let category3Text = $("#category3>.choicecategory").text();
 
         // 조건에 따라 sal_i_cd 값을 설정
         let sal_i_cd_value;
@@ -1113,6 +908,7 @@
             sal_i_cd_value = category3Value;
             sal_name_value = category3Text;
         }
+        //여기까지 카테고리 값
 
         // trade_s_cd 값 추출
         let trade_s_cd_values = [];
@@ -1123,7 +919,6 @@
         if (!validationForm(title, category1Value, category2Check, category3Check, contents, pro_s_cd, trade_s_cd_values[0], tx_s_cd, price, reg_price)) { // 유효성 검사 통과 못하면 함수 종료
             return false;
         }
-        ;
 
         let sale = {
             "no": no,

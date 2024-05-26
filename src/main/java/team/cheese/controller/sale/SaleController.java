@@ -76,9 +76,9 @@ public class SaleController {
         String category1Name = (String) map.get("category1Name");
         String category2Name = (String) map.get("category2Name");
         String category3Name = (String) map.get("category3Name");
-        System.out.println(category1Name + " > " + category2Name + " > " + category3Name );
 
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
+        UserInfoDTO udto = userInfoService.read(saleDto.getSeller_id());
         List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
 
         model.addAttribute("category1Name", category1Name); // 대분류 카테고리
@@ -87,6 +87,7 @@ public class SaleController {
         model.addAttribute("Sale", saleDto); // 판매글 리스트
         model.addAttribute("tagList", tagDto); // 태그 리스트
         model.addAttribute("imglist", imglist); // 이미지 리스트
+        model.addAttribute("user", udto); // 판매자 유정 인포정보
 
         return "/sale/saleBoard";
     }
@@ -118,28 +119,28 @@ public class SaleController {
     }
 
 //    // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
-//    @GetMapping("/modify")
-//    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-//
-//        Map map = saleService.modify(no);
-//        SaleDto saleDto = (SaleDto) map.get("saleDto");
-//        String tagContents = (String) map.get("tagContents");
-//        HttpSession session = request.getSession();
-//        String user_id = (String) session.getAttribute("userId");
-//        String user_nick = (String) session.getAttribute("userNick");
-//
-//        saleDto.setSeller_id(user_id);
-//        saleDto.setSeller_nick(user_nick);
-//
-//        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
-//
-//        model.addAttribute("Sale", saleDto);
-//        model.addAttribute("Tag", tagContents);
-//        model.addAttribute("imglist", imglist); // model로 값 전달
-//        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-//
-//        return "/sale/saleWrite";
-//    }
+    @PostMapping("/modify")
+    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
+
+        Map map = saleService.modify(no);
+        SaleDto saleDto = (SaleDto) map.get("saleDto");
+        String tagContents = (String) map.get("tagContents");
+        HttpSession session = request.getSession();
+        String user_id = (String) session.getAttribute("userId");
+        String user_nick = (String) session.getAttribute("userNick");
+
+        saleDto.setSeller_id(user_id);
+        saleDto.setSeller_nick(user_nick);
+
+        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
+
+        model.addAttribute("Sale", saleDto);
+        model.addAttribute("Tag", tagContents);
+        model.addAttribute("imglist", imglist); // model로 값 전달
+        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+
+        return "/sale/saleWrite";
+    }
 
     @RequestMapping("/remove")
     public String remove(@RequestParam Long no, Model model, HttpSession session) throws Exception {

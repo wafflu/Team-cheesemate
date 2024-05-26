@@ -165,6 +165,7 @@ public class SaleRestController {
     //  ajax 요청을 처리해주는 URL등
     @PostMapping("/saleCategory2")
     public ResponseEntity<List<SaleCategoryDto>> getSaleCategory2(@RequestParam String category1, Model model) throws Exception {
+//        System.out.println(category1);
         List<SaleCategoryDto> saleCategoryDto = saleService.selectCategory2(category1);
         return new ResponseEntity<>(saleCategoryDto, HttpStatus.OK);
     }
@@ -287,29 +288,29 @@ public class SaleRestController {
     }
 
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
-    @PostMapping("/modify")
-    @ResponseBody
-    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-
-        Map map = saleService.modify(no);
-        SaleDto saleDto = (SaleDto) map.get("saleDto");
-        String tagContents = (String) map.get("tagContents");
-        HttpSession session = request.getSession();
-        String user_id = (String) session.getAttribute("userId");
-        String user_nick = (String) session.getAttribute("userNick");
-
-        saleDto.setSeller_id(user_id);
-        saleDto.setSeller_nick(user_nick);
-
-        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
-
-        model.addAttribute("Sale", saleDto);
-        model.addAttribute("Tag", tagContents);
-        model.addAttribute("imglist", imglist); // model로 값 전달
-        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
-
-        return "/sale/saleWrite";
-    }
+//    @PostMapping("/modify")
+//    @ResponseBody
+//    public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
+//
+//        Map map = saleService.modify(no);
+//        SaleDto saleDto = (SaleDto) map.get("saleDto");
+//        String tagContents = (String) map.get("tagContents");
+//        HttpSession session = request.getSession();
+//        String user_id = (String) session.getAttribute("userId");
+//        String user_nick = (String) session.getAttribute("userNick");
+//
+//        saleDto.setSeller_id(user_id);
+//        saleDto.setSeller_nick(user_nick);
+//
+//        List<ImgDto> imglist = imgService.read(saleDto.getGroup_no());
+//
+//        model.addAttribute("Sale", saleDto);
+//        model.addAttribute("Tag", tagContents);
+//        model.addAttribute("imglist", imglist); // model로 값 전달
+//        model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
+//
+//        return "/sale/saleWrite";
+//    }
 
 
     public long getStartOfToday() {

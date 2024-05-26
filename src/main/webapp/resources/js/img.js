@@ -1,9 +1,11 @@
 const ImageUploader = (function() {
     let imginfo =  uploadImage.getImgInfo() || [];
-    let img_count = 0;
+    let img_count = imginfo.length;
     let max_images = 10;
 
     $(document).ready(function () {
+        $(".imgcnt").html(img_count+"/"+max_images);
+
         $("#fileItem").on("change", function (e) {
             let fileInput = $('input[name="uploadFile"]');
             let fileList = fileInput[0].files;
@@ -28,7 +30,7 @@ const ImageUploader = (function() {
                 contentType: false,
                 dataType: 'json',
                 success: function (result) {
-                    showUploadImage(result, 0, 0);
+                    showUploadImage(result, 0, 0, img_count);
                 },
                 error: function (result) {
                     alert("이미지 파일이 아닙니다.");
@@ -54,7 +56,7 @@ const ImageUploader = (function() {
                 contentType: false,
                 dataType: 'json',
                 success: function (result) {
-                    showUploadImage(result, 250, 250);
+                    showUploadImage(result, 250, 250, 0);
                 },
                 error: function (result) {
                     alert("이미지 파일이 아닙니다.");
@@ -63,7 +65,7 @@ const ImageUploader = (function() {
             e.target.value = "";
         });
 
-        function showUploadImage(uploadResultArr, width, height) {
+        function showUploadImage(uploadResultArr, width, height, imgcount) {
             if (!uploadResultArr || uploadResultArr.length == 0) {
                 return;
             }
@@ -89,6 +91,8 @@ const ImageUploader = (function() {
                 str += "</div>";
             }
             uploadResult.append(str);
+
+            $(".imgcnt").html(imgcount+"/"+max_images);
 
             let progilesavebtn = $("#profilesave_btn_area");
             let str2 = "";
