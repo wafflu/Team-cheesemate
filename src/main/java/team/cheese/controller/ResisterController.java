@@ -45,40 +45,22 @@ public class ResisterController {
 
     @PostMapping("/createAccount")
     @Validated
-    public String createAccount(@ModelAttribute @Valid UserDto inputUserDto, BindingResult result, String addr_cd) throws Exception {
+    public String createAccount(@ModelAttribute @Valid UserDto userDto, BindingResult result, String addr_cd, String addr_nm) throws Exception {
         if(result.hasErrors()) {
             return "resisterForm";
         }
 
-        UserDto userDto = new UserDto(inputUserDto.getId(),
-                inputUserDto.getPw(),
-                inputUserDto.getName(),
-                inputUserDto.getNick(),
-                inputUserDto.getBirth(),
-                inputUserDto.getGender(),
-                inputUserDto.getPhone_num(),
-                "",
-                inputUserDto.getForeigner(),
-                inputUserDto.getEmail(),
-                'O',
-                inputUserDto.getAddr_det(),
-                new Timestamp(System.currentTimeMillis()),
-                "",
-                new Timestamp(System.currentTimeMillis()),
-                ""
-        );
-        AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(addr_cd);
         AddrCdDto addrCdDto = new AddrCdDto();
 
-
         addrCdDto.setUr_id(userDto.getId());
-        addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
-        addrCdDto.setAddr_name(administrativeDto.getAddr_name());
+        addrCdDto.setAddr_cd(addr_cd);
+        addrCdDto.setAddr_name(addr_nm);
         addrCdDto.setState('Y');
         addrCdDto.setFirst_date(new Timestamp(System.currentTimeMillis()));
         addrCdDto.setFirst_id("admin");
         addrCdDto.setLast_date(new Timestamp(System.currentTimeMillis()));
         addrCdDto.setLast_id("admin");
+
         userService.insertNewUser(userDto, addrCdDto);
         return "loginForm";
 

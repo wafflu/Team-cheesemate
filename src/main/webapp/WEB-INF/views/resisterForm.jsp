@@ -441,14 +441,15 @@
             <div class="form-group">
                 <div class="form-title">주소</div>
 
-<%--      주소 모달 작성          --%>
+                <%--      주소 모달 작성          --%>
                 <div class="addr_class">
                     <div>
                         <button class="maincolor font30" id="openModalBtn">주소 검색</button>
                     </div>
                     <div>
                         <input class="font16" id="addr_cd" name="addr_cd" type="text" hidden>
-                        <input id="addr_name" name="addr_name" type="text" disabled >
+                        <input id="addr_nm" name="addr_nm" type="text" hidden>
+                        <input id="addr_name" name="addr_name" type="text" disabled>
                     </div>
 
                 </div>
@@ -769,6 +770,7 @@
         // pickup_addr input에 선택한 주소 정보를 추가
         $("#addr_cd").val(addrCode);
         $("#addr_name").val(addrName);
+        $("#addr_nm").val(addrName);
 
         // 모달 닫기
         closeModal();
