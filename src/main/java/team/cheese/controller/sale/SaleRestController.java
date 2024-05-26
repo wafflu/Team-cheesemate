@@ -16,6 +16,7 @@ import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
+import team.cheese.service.ImgService;
 import team.cheese.service.sale.SaleService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +43,8 @@ public class SaleRestController {
     TagDao tagDao;
     @Autowired
     AddrCdDao addrCdDao;
+    @Autowired
+    ImgService imgService;
 
     @Autowired
     SaleService saleService;

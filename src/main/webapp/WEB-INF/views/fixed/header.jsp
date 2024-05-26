@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="/css/reset.css">
     <!-- 사용자 영역 -->
     <link rel="stylesheet" href="/css/mystyle.css">
-    <link rel="stylesheet" href="/css/mainslider.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script>
@@ -59,6 +58,7 @@
 </head>
 <body>
 <header id="header_box">
+    <div id="header_subbox">
     <div id="herder_top">
         <div id="logobox">
             <a href="/" id="cheezmate"><img src="" alt="우리들의 팀메이트 치즈마켓" id="logoimg"></a>
@@ -110,12 +110,24 @@
         </div>
     </div>
     <div id="nav">
+        <div class="hearder-category-list">
+            <p class="hearder-category-title">카테고리</p>
+        </div>
         <ul id="navlist">
             <li class="navli">
                 <a href="/sale/list"><span class="navtext">판매/나눔</span></a>
             </li>
             <li class="navli">
+                <a href="#"><span class="navtext">사기조회</span></a>
+            </li>
+            <li class="navli">
                 <a href="/event"><span class="navtext">이벤트</span></a>
+            </li>
+            <li class="navli">
+                <a href="#"><span class="navtext">출석체크</span></a>
+            </li>
+            <li class="navli">
+                <a href="#"><span class="navtext">찜한상품</span></a>
             </li>
             <li class="navli">
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
@@ -124,6 +136,7 @@
                 <a href="/faq/list"><span class="navtext">고객센터</span></a>
             </li>
         </ul>
+    </div>
     </div>
 </header>
 
@@ -137,6 +150,15 @@
         $("#storeicon").attr("src", "/img/display?fileName=" + imgInfo['store']);
         $(".usericon").attr("src", "/img/display?fileName=" + imgInfo['person']);
         $("#search").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
+        $("#sendMessage").css("background-image", "url('/img/display?fileName=" + imgInfo['sendmsg'] + "')");
+        $(".response-active").css("background-image", "url('/img/display?fileName=" + imgInfo['chatmsgicon'] + "')");
+        $("#chatlist-box").css("background-image", "url('/img/display?fileName=" + imgInfo['chatmsgicon'] + "')");
+        $(".kakao-login-btn").css("background-image", "url('/img/display?fileName=" + imgInfo['kakao'] + "')");
+        $(".naver-login-btn").css("background-image", "url('/img/display?fileName=" + imgInfo['naver'] + "')");
+        $(".google-login-btn").css("background-image", "url('/img/display?fileName=" + imgInfo['google'] + "')");
+        $(".hearder-category-list").css("background-image", "url('/img/display?fileName=" + imgInfo['menu'] + "')");
+        $(".chatsel-drop-down").css("background-image", "url('/img/display?fileName=" + imgInfo['drop_down'] + "')");
+        $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + imgInfo['Like1'] + "')");
     });
     $(document).ready(function() {
         let isMenuVisible = false;
@@ -161,6 +183,16 @@
             }
         });
 
+        $(window).on('scroll', function() {
+            let scrollTop = $(window).scrollTop();
+            let triggerHeight = 10; // 스크롤 트리거 높이 설정
+
+            if (scrollTop > triggerHeight) {
+                $('#header_box').addClass('header-shadow');
+            } else {
+                $('#header_box').removeClass('header-shadow');
+            }
+        });
     });
 </script>
 <%----%>
