@@ -32,7 +32,6 @@ public class Testdb {
     public void jdbcConnectionTest() throws Exception {
 //        ApplicationContext ac = new GenericXmlApplicationContext("file:src/main/webapp/WEB-INF/spring/**/root-context.xml");
 //        DataSource ds = ac.getBean(DataSource.class);
-//        System.out.println(ac);
         System.out.println("ds = " + ds);
         System.out.println(sf);
         System.out.println(session);

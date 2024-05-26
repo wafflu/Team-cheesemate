@@ -76,6 +76,7 @@ public class SaleController {
         String category1Name = (String) map.get("category1Name");
         String category2Name = (String) map.get("category2Name");
         String category3Name = (String) map.get("category3Name");
+        System.out.println(category1Name + " > " + category2Name + " > " + category3Name );
 
         List<TagDto> tagDto = (List<TagDto>) map.get("tagDto");
         UserInfoDTO udto = userInfoService.read(saleDto.getSeller_id());
@@ -118,10 +119,10 @@ public class SaleController {
         return "/sale/saleManage";
     }
 
-//    // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
+    // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
     @PostMapping("/modify")
     public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-
+        System.out.println("수정하기 들어옴");
         Map map = saleService.modify(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         String tagContents = (String) map.get("tagContents");

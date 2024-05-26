@@ -52,6 +52,10 @@ public class SaleService {
         return saleDao.select(no);
     }
 
+    public int userSaleCnt(String ur_id) throws Exception{
+        return saleDao.userSaleCnt(ur_id);
+    }
+
     // 판매자가 자신의 게시글을 삭제할 때
     @Transactional(propagation = Propagation.REQUIRED)
     public int remove(Long no, String seller_id) throws Exception {
@@ -108,7 +112,7 @@ public class SaleService {
 
         return sal_no;
     }
-
+    
     // tag 데이터를 insert하는 트렌젝션 문
     @Transactional(propagation = Propagation.REQUIRED)
     public int insertTagTx(Long sal_no, String ur_id, List<String> tagList) throws Exception {
@@ -383,18 +387,5 @@ public class SaleService {
         if(saleDao.buySale(saleDto)!=1)
             throw new Exception("구매/예약시 예외발생");
     }
-
-    // 상품관리 페이지에 들어간 경우
-//    public Map manage(String seller_id) throws Exception {
-        // 판매글 번호를 넘겨 받아서 Dao에서 select로 처리
-//        SaleDto saleDto = saleDao.selectSeller();
-//        Map map = new HashMap();
-//        map.put("saleDto", saleDto);
-//
-//        if(saleDto == null) {
-//            return map;
-//        }
-//
-//        return map;
-//    }
 }
+

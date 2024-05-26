@@ -155,4 +155,9 @@ public class SaleDaoImpl implements SaleDao {
         return session.update(namespace + "buySale", saleDto);
     }
 
+    @Override
+    public int userSaleCnt(String ur_id) throws Exception {
+        return session.selectOne(namespace+"userSaleCnt",ur_id);
+    }
+
 }

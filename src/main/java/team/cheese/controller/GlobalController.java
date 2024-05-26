@@ -48,4 +48,5 @@ public class GlobalController {
         ArrayList<SaleDto> saleList = (ArrayList<SaleDto>) saleService.getList(map);
         return saleList;
     }
+
 }

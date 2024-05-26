@@ -27,7 +27,7 @@
 
     <div class="LoginFrom-box">
         <input class="inputBox" name="inputId" value="<c:out value='<%= cookieUserId %>' />" placeholder="아이디"/>
-        <br>
+
         <input class="inputBox" type="password" name="inputPw" value="<c:out value='<%= cookieUserPw %>' />" placeholder="비밀번호"/>
     </div>
 
