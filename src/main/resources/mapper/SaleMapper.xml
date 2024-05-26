@@ -7,6 +7,16 @@
         SELECT no, addr_cd, addr_name, seller_id, seller_nick, sal_i_cd, sal_name, group_no, img_full_rt, pro_s_cd, tx_s_cd, trade_s_cd_1, trade_s_cd_2, sal_s_cd, title, contents, price, bid_cd, pickup_addr_cd, pickup_addr_name, detail_addr, brand, reg_price, buyer_id, buyer_nick, like_cnt, view_cnt, r_date, m_date, hoist_cnt, h_date, bid_cnt, ur_state, ad_state, rv_state
         FROM sale
     </sql>
+    <!-- 사용자 판매글 개수 확인    -->
+    <select id="userSaleCnt" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM sale
+        WHERE ur_state = 'Y'
+        and seller_id = #{ur_id}
+    </select>
+
+    <!-- 사용자 판매글 가져오기 -->
+
 
     <!--  데이터 개수 확인  -->
     <select id="count" resultType="int">
@@ -229,7 +239,7 @@
         alter table sale auto_increment = 1
     </update>
 
-    <!--  U : 구매자가 판매글 구매시   -->
+<!--  U : 구매자가 판매글 구매시   -->
     <update id="buySale" parameterType="SaleDto">
         UPDATE sale
         SET sal_s_cd = #{sal_s_cd},
@@ -262,20 +272,34 @@
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
-<!-- R : 판매자가 자신의 글을 관리하는 페이지에 들어가는 경우  -->
     <select id="selectSeller" parameterType="map" resultType="SaleDto">
         <include refid="selectFromSale"/>
         WHERE ur_state = 'Y'
-<!--        <if test="seller_id != null and seller_id != ''"> &#45;&#45; 판매자ID-->
-        AND seller_id = #{seller_id}
-<!--        </if>-->
+        <if test="seller_id != null and seller_id != ''"> -- 판매자ID
+            AND seller_id = #{seller_id}
+        </if>
         <if test="title != null and title != ''"> -- 판매글 제목
             AND title LIKE CONCAT('%', #{title}, '%')
         </if>
-        <if test="sal_s_cd != null and sal_s_cd != ''"> -- 판매글 상태(판매중/예약중/거래완료)
-            AND sal_s_cd = #{sal_s_cd}
+        <if test="tx_s_cd != null and tx_s_cd != ''"> -- 판매글 상태(판매중/예약중/거래완료)
+            AND tx_s_cd = #{tx_s_cd}
         </if>
-        ORDER BY h_date DESC, no DESC
+        <if test="option != null and option != ''">
+        <choose>
+            <when test='option=="R"'>
+                ORDER BY h_date DESC
+            </when>
+            <when test='option=="P"'>
+                ORDER BY view_cnt DESC
+            </when>
+            <when test='option=="L"'>
+                ORDER BY price ASC
+            </when>
+            <when test='option=="H"'>
+                ORDER BY price DESC
+            </when>
+        </choose>
+        </if>
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 

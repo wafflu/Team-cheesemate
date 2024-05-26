@@ -231,13 +231,8 @@ public class SaleRestController {
                                                              @RequestParam(defaultValue = "10") int pageSize,
                                                              @RequestParam(required = false) String title,
                                                              @RequestParam(required = false) String sal_s_cd,
+                                                             @RequestParam(required = false) String option,
                                                              HttpSession session) throws Exception {
-
-        System.out.println("managePage 진입");
-        System.out.println("page" + page);
-        System.out.println("pageSize" + pageSize);
-        System.out.println("title" + title);
-        System.out.println("sal_s_cd" + sal_s_cd);
 
         if (title.equals("null") || title.equals("")) {
             title = null;
@@ -247,15 +242,17 @@ public class SaleRestController {
             sal_s_cd = null;
         }
 
+        if (option.equals("null") || option.equals("")) {
+            option = null;
+        }
+
         Map map = new HashMap();
         map.put("title", title);
         map.put("sal_s_cd", sal_s_cd);
+        map.put("option", option);
         map.put("seller_id", session.getAttribute("userId"));
 
         int totalCnt = saleService.getSelectSellerCount(map);
-
-        System.out.println("totalCnt : "+ totalCnt);
-
 
         PageHandler ph = new PageHandler(totalCnt, page, pageSize);
 
@@ -263,7 +260,6 @@ public class SaleRestController {
         map.put("pageSize", pageSize);
 
         List<SaleDto> saleList = saleService.getSelectSellerList(map);
-        System.out.println("list 확인" + saleList);
 
         Map result = new HashMap();
 

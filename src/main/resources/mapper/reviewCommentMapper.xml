@@ -7,6 +7,7 @@
         select
             no,
             sal_id,
+            sal_no,
             psn,
             buy_id,
             buy_nick,
@@ -43,8 +44,8 @@
         LIMIT #{offset},#{pageSize}
     </select>
     <insert id="insert" parameterType="ReviewCommentDto">
-        insert into review_comment (sal_id, buy_id, buy_nick, contents,reviewStar,first_date,first_id,last_date,last_id)
-        values (#{sal_id},#{buy_id},#{buy_nick},#{contents},#{reviewStar},now(),#{buy_id},now(),#{buy_id})
+        insert into review_comment (sal_id,sal_no,psn,buy_id, buy_nick, contents,reviewStar,first_date,first_id,last_date,last_id)
+        values (#{sal_id},#{sal_no},#{psn},#{buy_id},#{buy_nick},#{contents},#{reviewStar},now(),#{buy_id},now(),#{buy_id})
     </insert>
     <update id="update" parameterType="ReviewCommentDto">
         update review_comment
