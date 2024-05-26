@@ -128,6 +128,7 @@
     });
 
 
+
     let uploadImage = (function () {
         let imginfo = [];
 
@@ -153,8 +154,19 @@
     $(document).ready(function () {
         loadComments($('#post_no').val());
 
+        $('#comment-container').on('click','.comment',function(){
+            let commentNo = $(this).closest('.comment').find('p#no').text();
+            let postNo = $('#post_no').val();
+            let a = $(this).index();
+            console.log("a : "+a)
+            getComment(postNo,commentNo);
+        })
 
-        $('.detail-button').on("click", function () {
+
+
+
+
+    $('.detail-button').on("click", function () {
             $('#alertDiv').show();
 
         })
@@ -278,11 +290,11 @@
                         )
 
 
-                        str += `<div class="comment">`;
+                        str += `<div class="comment" >`;
                         str += `<p class="comment-nick">` + comment.nick + `</p>`;
                         str += `<p class="comment-contents">` + comment.contents + `</></p>`;
                         str += `<p class="comment-r_date">` + remaindTime(new Date(comment.r_date)) + `</p>`;
-                        str += `<span data-no="${comment.no}"/>`;
+                        str += `<p type="hidden" id="no" style="display: none">` +comment.no + `</p>`;
                         str += `</div>`;
 
                     });
@@ -304,6 +316,72 @@
                 }
             });
         }
+
+
+        //댓글 하나를 읽어오는 함수
+        function getComment(post_no,comment_no){
+
+            $.ajax({
+                url:'/community/getComment',
+                type:'GET',
+                data:{
+                    "post_no": post_no,
+                    "no": comment_no
+                },
+                dataType: 'json',
+                success: function (response) {
+                    console.log(response);
+
+                    let comment = response.comment;
+                    let sessionUserId = response.sessionUserId;
+
+                    // 동일 아이디일 때 수정/삭제
+                    if (comment.ur_id === sessionUserId) {
+                        if (confirm("편집하시겠습니까?")) {
+                            // 편집 가능하게 처리
+                            editComment(comment);
+                        }
+                    } else {
+                        // 다른 아이디일 때 대댓글 처리
+                        replyToComment(comment);
+                    }
+                },
+                error:function (xhr){
+                    if (xhr.status === 401) {
+                        alert("로그인 먼저 해주세요");
+                    } else if (xhr.status === 403) {
+                        alert("접근 권한이 없습니다.");
+                    } else {
+                        alert('댓글을 불러오는 데 실패했습니다.');
+                    }
+                }
+            });
+
+        }
+
+
+        function editComment(existingComment){
+            console.log("existingComment");
+            console.log(existingComment);
+            console.log("this");
+            // console.log("comment의 no" + commentDiv);
+            // $("#comment").children(this.index()).remove();
+            let a = $(this).index();
+            console.log(a)
+            $("#comment").children().eq(a).remove();
+
+            //
+            //
+            // let str = "";
+            //     str += `<p class="comment-nick">` + comment.nick + `</p>`;
+            //     str += `<textarea class="comment-edit-contents">` + comment.contents + `</textarea>`;
+            //     str += `<p class="comment-r_date">` + remaindTime(new Date(comment.m_date)) + `</p>`;
+            //     str += `<p type="hidden" id="no">` +comment.no + `</p>`;
+            //
+            // $(this).append(str);
+        }
+
+
 
     });
 

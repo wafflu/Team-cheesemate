@@ -19,13 +19,13 @@
 
 
 <!--    선택-->
-    <select id = "select" resultType="CommentDto" parameterType="Integer">
-        select * from comment where no = #{no};
+    <select id = "select" resultType="CommentDto" parameterType="CommentDto">
+        select * from comment where no = #{no} and post_no = #{post_no} ;
     </select>
 
 <!--    삭제-->
     <delete id="delete" parameterType="Integer">
-        delete from comment where no = #{no} and post_no = #{pos_no};
+        delete from comment where no = #{no} and post_no = #{post_no};
     </delete>
 
 <!--    전체 삭제-->
@@ -51,7 +51,7 @@
     <select id = "selectAll" parameterType="Integer" resultType="CommentDto">
         select * from comment
         where post_no = #{post_no}
-        order by r_date asc;
+        order by r_date desc;
     </select>
 
     <select id="findMaxByPostNo" resultType="Integer" parameterType="Integer">

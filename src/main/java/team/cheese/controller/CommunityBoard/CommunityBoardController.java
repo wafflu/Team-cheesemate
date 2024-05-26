@@ -35,6 +35,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.xml.stream.events.Comment;
 import java.util.*;
 
 
@@ -520,4 +521,56 @@ public  class CommunityBoardController {
 //        }
 //        return null;
 //    }
+
+
+    //댓글 선택
+    //댓글의 내용 콘텐츠를 클릭하면
+    //읽어온다...
+    //그 댓글의 dto
+    //상태
+    //세션이 일치하면
+    //수정/삭제
+
+    @GetMapping("/getComment")
+    public ResponseEntity<Object>getComment(@RequestParam Integer no, @RequestParam Integer post_no, HttpServletRequest request ) throws Exception {
+        try{
+            CommentDto commentDto = new CommentDto();
+            commentDto.setPost_no(post_no);
+            commentDto.setNo(no);
+
+
+
+            HttpSession session = request.getSession();
+            String userId = (String) session.getAttribute("userId");
+            String userNick = (String) session.getAttribute("userNick");
+
+
+            //no와 post_no값을 주고 모든 필드값을 받아옴
+            CommentDto comment = commentService.read(commentDto);
+            System.out.println("comment" + comment);
+            System.out.println("userId:(현재 로그인한 사람)" + userId);
+            System.out.println("commentDto.getUr_id:(댓글을 단 사람의 아이디) " + comment.getUr_id());
+
+            if (userId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+
+            if (!Objects.equals(userId, comment.getUr_id())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+            }
+
+            //모든 comment의 정보를 보낸다.
+            Map<String, Object> response = new HashMap<>();
+            response.put("comment", comment);
+            response.put("sessionUserId", userId);
+
+            return ResponseEntity.ok(response);
+
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
 }
