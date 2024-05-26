@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.HoistingMapper">
+    <sql id="selectFromHoisting">
+        SELECT no, sal_no, addr_cd, addr_name, seller_id, sal_i_cd, sal_name, h_date
+        FROM hoisting
+    </sql>
+
+    <!--  데이터의 개수 확인  -->
+    <select id="countAll" resultType="int">
+        SELECT count(*)
+        FROM hoisting
+    </select>
+
+    <select id="count" resultType="int" parameterType="Long">
+        SELECT count(*)
+        FROM hoisting
+        WHERE sal_no = #{sal_no}
+    </select>
+
+    <insert id="insert" parameterType="HoistingDto">
+        INSERT INTO hoisting(sal_no, addr_cd, addr_name, seller_id, sal_i_cd, sal_name, h_date,
+                             first_date, first_id, last_date, last_id)
+        values (#{sal_no}, #{addr_cd}, #{addr_name}, #{seller_id}, #{sal_i_cd}, #{sal_name}, now(),
+                now(), #{seller_id}, now(), #{seller_id})
+    </insert>
+
+    <!--  D : 전체 삭제   -->
+    <delete id="deleteAll">
+        DELETE
+        FROM hoisting
+    </delete>
+
+    <update id="resetAutoIncrement" parameterType="map">
+        alter table hoisting auto_increment = 1
+    </update>
+
+</mapper>

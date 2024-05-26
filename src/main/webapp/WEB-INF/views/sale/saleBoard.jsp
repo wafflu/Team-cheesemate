@@ -44,7 +44,7 @@
                 </c:if>
             </div>
 
-            
+
             <div class="titleinfo-box">
                 <c:if test="${Sale.tx_s_cd == 'F'}">
                     <span class="share-title"><c:when test="${Sale.tx_s_cd == 'F'}">나눔</c:when></span>

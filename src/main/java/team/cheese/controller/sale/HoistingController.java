@@ -32,6 +32,7 @@ public class HoistingController {
 
         SaleDto saleDto = saleService.getSale(no);
         String seller_id = saleDto.getSeller_id();
+        System.out.println(saleDto);
 
         if(user_id.equals(seller_id)) {
             hoistingService.hoistingSale(saleDto);
