@@ -113,13 +113,7 @@
     // 글자수 세기
 
     function countingCharacters(title,contents){
-        //만약
-        //제목의 글자수 100 이상
 
-        //만약
-        //내용의 글자수 300이상
-        //alert
-        //제출방지
 
         if(title.length>100){
             alert("제목의 글자수는 100이하만 가능합니다.")

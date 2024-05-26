@@ -36,23 +36,17 @@
                         </div>
                         <div class="post-reaction-wrapper">
                         <div class="post-reaction">
-<%--                            <p  class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}" >️${communityBoardDto.like_cnt}</p>--%>
-<%--                            <p>  </p>--%>
-<%--                            <input type="hidden" value="${communityBoardDto.no}">--%>
-<%--                            <p class="commentTotalCount"> ${communityBoardDto.comment_count}</p>--%>
-<%--                            <p>  </p>--%>
-<%--                            <p class="viewTotalCount">${communityBoardDto.view_cnt}</p>--%>
-                                <p  class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}">
-                                    <span  class="icon"></span>${communityBoardDto.like_cnt}
-                                </p>
-                                <p></p>
-                                <input type="hidden" id="postNo" value="${communityBoardDto.no}">
-                                <p class="commentTotalCount">
-                                    <span class="icon"></span>${communityBoardDto.comment_count}
-                                </p>
-                                <p class="viewTotalCount">
-                                    <span class="icon"></span>${communityBoardDto.view_cnt}
-                                </p>
+                            <p class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}">
+                                <span class="icon"></span><span class="count">${communityBoardDto.like_cnt}</span>
+                            </p>
+                            <p></p>
+                            <input type="hidden" id="postNo" value="${communityBoardDto.no}">
+                            <p class="commentTotalCount">
+                                <span class="icon"></span><span class="count">${communityBoardDto.comment_count}</span>
+                            </p>
+                            <p class="viewTotalCount">
+                                <span class="icon"></span><span class="count">${communityBoardDto.view_cnt}</span>
+                            </p>
                         </div>
                         </div>
                     </div>
@@ -78,19 +72,19 @@
                 <%-- 반응--%>
                 <div class="post-reaction">
                     <p id="heart" class="heartTotalCount" data-count-like="${communityBoardDto.like_cnt}">
-                        <span class="icon"></span>${communityBoardDto.like_cnt}
+                        <span class="icon"></span><span class="count">${communityBoardDto.like_cnt}</span>
                     </p>
                     <p></p>
-                    <input type="hidden" id="postNo" value="${communityBoardDto.no}">
+                    <input type="hidden" value="${communityBoardDto.no}">
                     <p class="commentTotalCount">
-                        <span class="icon"></span>${communityBoardDto.comment_count}
+                        <span class="icon"></span><span class="count">${communityBoardDto.comment_count}</span>
                     </p>
-<%--                    <p>😀${communityBoardDto.view_cnt}</p>--%>
+                    <p class="viewTotalCount">
+                        <span class="icon"></span><span class="count">${communityBoardDto.view_cnt}</span>
+                    </p>
+
                 </div>
             </div>
-
-
-
 
 
             <div id="alertDiv" class="popup">
@@ -101,9 +95,6 @@
                 </div>
             </div>
 
-            <%--    commmunityHeart--%>
-
-            <%--        <p id="heart" data-count-like="${communityHeartDto.countLike}">❤️</p>--%>
 
         </div>
     </form>
@@ -122,6 +113,10 @@
         <input type="hidden" id = "no" name="post_no" value="${commentDto.post_no}">
         <div id = comment-container></div>
     </div>
+
+
+
+
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="/js/Etc.js"></script>
@@ -167,6 +162,12 @@
     })();
 
     $(document).ready(function () {
+        // 에러 메시지가 있을 경우 alert로 출력
+        <c:if test="${not empty errorMessage}">
+        alert("${errorMessage}");
+        </c:if>
+
+
         let imgInfo = cssImage.getImgInfo();
         $(".heartTotalCount .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['Like2'] + "')");
         $(".commentTotalCount .icon").css("background-image","url('/img/display?fileName=" + imgInfo['chat'] + "')");
@@ -225,9 +226,13 @@
 
                         console.log("하트" + response.countLike);
                         console.log("하트 총합" + response.totalLike);
-                        $('#heart').text('❤️ ' + response.countLike); // HTML 요소에 좋아요 수를 업데이트
-                        $('.heartTotalCount').data('count-like', response.totalLike); // 데이터 속성도 업데이트
-                        $('.heartTotalCount').text('❤️' + response.countLike);
+                        // $('#heart').text('❤️ ' + response.countLike); // HTML 요소에 좋아요 수를 업데이트
+                        // $('.heartTotalCount').data('count-like', response.totalLike); // 데이터 속성도 업데이트
+                        // $('.heartTotalCount').text(response.countLike);
+                        // Update the like count
+                        let likeCountElement = $('.heartTotalCount');
+                        likeCountElement.data('count-like', response.totalLike);
+                        likeCountElement.find('.count').text(response.countLike);
                     } else {
                         console.error("응답에 총 좋아요 수가 없습니다:", response);
                     }

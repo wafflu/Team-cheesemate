@@ -105,10 +105,6 @@
                                             s += "<p class='article-addr_name'>" + item1.addr_name + "</p>";
                                         s+="</div>";
                                         s+="<div class='article-reaction'>";
-                                            // s += "<p class='article-view_cnt'>😀" + item1.view_cnt + "</p>";
-                                            // s += "<p class='article-comment_cnt'>💬" + item1.comment_count + "</p>";
-                                            // s += "<p class='article-like_cnt'>❤️" + item1.like_cnt + "</p>";
-
                                             s += "<p class='article-view_cnt'><span class='icon'></span>" + item1.view_cnt + "</p>";
                                             s += "<p class='article-comment_cnt'><span class='icon'></span>" + item1.comment_count + "</p>";
                                             s += "<p class='article-like_cnt'><span class='icon'></span>" + item1.like_cnt + "</p>";
@@ -156,19 +152,12 @@
                                         s+="</div>";
                                     s += "</div>";
                                 s+="</td>";
-
-                                // } else {
-                                //     s += "<td class='article-section'></td>"; // 두 번째 열이 없는 경우 빈 열 추가
                             }
-
                             s += "</tr>";
                         }
                         s += "</table>";
 
-
                         $('article').html(s);
-
-
 
                         $("#pagination").html(generatePagination(result.ph));
 
@@ -191,20 +180,12 @@
                 'person': 'img/person.png'
             };
 
-            // 콘솔 로그로 imgInfo 객체와 URL 출력
-            console.log('imgInfo:', imgInfo);
-            console.log("URL Like2:", "/img/display?fileName=" + imgInfo['Like2']);
-            console.log("URL chat:", "/img/display?fileName=" + imgInfo['chat']);
-            console.log("URL person:", "/img/display?fileName=" + imgInfo['person']);
 
             $(".article-like_cnt .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['Like2'] + "')");
             $(".article-comment_cnt .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['chat'] + "')");
             $(".article-view_cnt .icon").css("background-image", "url('/img/display?fileName=" + imgInfo['person'] + "')");
 
-            // 각 요소의 CSS 배경 이미지가 올바르게 설정되었는지 확인하기 위해 추가
-            console.log("Like2 element background image:", $(".article-like_cnt .icon").css("background-image"));
-            console.log("Chat element background image:", $(".article-comment_cnt .icon").css("background-image"));
-            console.log("Person element background image:", $(".article-view_cnt .icon").css("background-image"));
+
         };
 
 
@@ -213,21 +194,6 @@
             console.log(pagination.totalCnt);
 
             let paginationHtml = '';
-
-
-            <%--paginationHtml += '<span class="page-space">${pagenation.page}</span>';--%>
-            // for (let i = 1; i <= pagenation.totalPage; i++) {
-            //
-            // }
-
-            <%--if (pagination.nextPage) {--%>
-            <%--    paginationHtml += `<span class="page-link" data-page="${pagination.page + 1}">Next</span>`;--%>
-            <%--    paginationHtml += `<span class="page-link" data-page="${pagination.totalPage}">Last</span>`;--%>
-            <%--} else {--%>
-            <%--    paginationHtml += `<span class="page-link disabled">Next</span>`;--%>
-            <%--    paginationHtml += `<span class="page-link disabled">Last</span>`;--%>
-            <%--}--%>
-
 
             $("#pagination").empty(); // 기존에 있는 페이지 내용 비우기
 
@@ -258,25 +224,6 @@
 
         // Load initial data
         loadArticles('commu_A',1);
-
-        // Click events for category buttons
-        // $(".topic-slide").click(function () {
-        //
-        //     $(".topic-slide").removeClass('active');
-        //     const category = $(this).attr('id');
-        //     $(this).addClass('active');
-        //     loadArticles(category,1);
-        // });
-        //
-        // // Click events for pagination links
-        // $(document).on('click', '.page-link', function () {
-        //     let page = $(this).data('page');
-        //     console.log("Clicked page : " + page);
-        //     const category = $(".topic-slide.active").attr('id') || 'commu_A';
-        //     loadArticles(category, page);
-        // });
-
-
 
         $(document).on('click', '.topic-slide', function () {
             // Remove active class from all topic-slide elements

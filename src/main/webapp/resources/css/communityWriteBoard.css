@@ -4,38 +4,6 @@
     /*border: 1px solid #000;*/
 }
 
-
-
-/*.community-write-container{*/
-/*    margin:20px;*/
-/*    height:154px;*/
-/*    box-sizing: border-box;*/
-/*    padding:20px 28px;*/
-/*    border-radius: 12px;*/
-/*    border: 1px solid#cccccc;*/
-/*    background-color: #fff;*/
-/*}*/
-
-/*.community-write-container .community-write-category{*/
-/*    font-size: 14px;*/
-/*    display: block;*/
-/*}*/
-/*.community-write-category .row:nth-child(2) [class="commu-cd"]{*/
-/*    margin-top: 0;*/
-/*    padding-top:10px;*/
-/*    border:0;*/
-/*    border-bottom:1px solid #cccccc;*/
-/*    width:80%;*/
-/*    height: 48px;*/
-/*    font-size: 14px;*/
-/*}*/
-/*!*#top-row{*!*/
-/*!*    justify-content: space-between;*!*/
-/*!*    display: flex;*!*/
-
-/*!*    !*align-items: center;*!*!*/
-/*!*}*!*/
-
 .community-write-category .row [id="community-write-title"] {
     margin-top: 16px;
     width: 83%;
@@ -150,11 +118,7 @@
     display:flex;
 }
 
-/*.community-contents-container:hover,*/
-/*.community-contents-container:focus{*/
-/*    border:2px solid #ee8703;*/
 
-/*}*/
 
 #contents{
     padding-top: 20px;
