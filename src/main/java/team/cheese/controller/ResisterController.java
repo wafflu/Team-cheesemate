@@ -45,7 +45,7 @@ public class ResisterController {
 
     @PostMapping("/createAccount")
     @Validated
-    public String createAccount(@ModelAttribute @Valid UserDto inputUserDto, BindingResult result, String tradingPlace_A_small) throws Exception {
+    public String createAccount(@ModelAttribute @Valid UserDto inputUserDto, BindingResult result, String addr_cd) throws Exception {
         if(result.hasErrors()) {
             return "resisterForm";
         }
@@ -67,8 +67,9 @@ public class ResisterController {
                 new Timestamp(System.currentTimeMillis()),
                 ""
         );
-        AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(tradingPlace_A_small);
+        AdministrativeDto administrativeDto = (AdministrativeDto) administrativeDao.selectAddrCdByAddrCd(addr_cd);
         AddrCdDto addrCdDto = new AddrCdDto();
+
 
         addrCdDto.setUr_id(userDto.getId());
         addrCdDto.setAddr_cd(administrativeDto.getAddr_cd());
@@ -80,6 +81,7 @@ public class ResisterController {
         addrCdDto.setLast_id("admin");
         userService.insertNewUser(userDto, addrCdDto);
         return "loginForm";
+
     }
 
     @GetMapping(value = "/checkIdDuplication", produces = "text/plain;charset=UTF-8")
@@ -118,12 +120,6 @@ public class ResisterController {
     @ResponseBody
     public List<AdministrativeDto> mediumCategory(@RequestParam("tradingPlace_A_large") String largeCategory) throws Exception {
         return administrativeDao.selectMediumCategory(largeCategory);
-    }
-
-    @GetMapping(value = "/smallCategory", produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public List<AdministrativeDto> smallCategory(@RequestParam("tradingPlace_A_medium") String mediumCategory) throws Exception {
-        return administrativeDao.selectSmallCategory(mediumCategory);
     }
 
     public boolean hasMiddleSpace(String str) {

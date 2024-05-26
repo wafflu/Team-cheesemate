@@ -651,13 +651,16 @@
                 let category2Value = sal_i_cd.substring(0, 6);
                 let category3Value = sal_i_cd;
                 await setCategory(category1Value, category2Value, category3Value);
+                ///////
             } else if (sal_i_cd.length == 6) {
                 let category1Value = sal_i_cd.substring(0, 3);
                 let category2Value = sal_i_cd;
                 await setCategory(category1Value, category2Value);
+                /////
             } else {
                 let category1Value = sal_i_cd;
                 await setCategory(category1Value);
+                /////
             }
 
             // "modify" 문자열이 포함되어 있다면 버튼의 텍스트를 "수정하기"로 변경

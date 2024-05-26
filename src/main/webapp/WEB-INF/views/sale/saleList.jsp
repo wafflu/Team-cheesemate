@@ -131,15 +131,6 @@
             }); // $.ajax()
         }
 
-        // "전체" 옵션이 보이지 않도록 설정
-        // if (!!sessionId?.trim()) {
-        //     document.getElementById("selectAll").style.display = "none"; // "전체" 옵션 숨기기
-        //
-        //     // 첫 번째 옵션 선택
-        //     let addrCdSelect = document.getElementById("addr_cd");
-        //     addrCdSelect.selectedIndex = 1;
-        // }
-
         let addr_cd = $("#addr_cd").val();
         let sal_i_cd = $("#category1").val();
 

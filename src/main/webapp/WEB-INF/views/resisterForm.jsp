@@ -6,6 +6,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <style>
         input:invalid {
             border: 2px solid red;
@@ -272,11 +274,131 @@
             border: none;
             border-top: 1px solid rgb(218, 222, 229); /* 상단 테두리 추가 */
         }
+
+        .addr_class {
+            flex: 1;
+        }
+
+        #openModalBtn {
+            all: unset;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #ee8703;
+            font-size: 16px;
+            font-weight: 600;
+            height: 20px;
+            margin-left: 40px;
+            width: 280px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .SaleModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 30;
+        }
+
+        .sale_modal_overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        .sale_modal_content {
+            background-color: white;
+            padding: 50px 100px;
+            text-align: center;
+            position: relative;
+            width: 50%;
+            top: 0px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            overflow-y: auto;
+            /* 세로 스크롤이 필요한 경우 스크롤 허용 */
+            max-height: 70%;
+            /* 모달 창의 최대 높이 설정 */
+        }
+
+        #closeModalBtn {
+            position: absolute;
+            top: 10px;
+            /* 원하는 위치로 조정 */
+            right: 10px;
+            /* 원하는 위치로 조정 */
+            background-color: transparent;
+            /* 배경색 설정 */
+            border: none;
+            /* 테두리 제거 */
+            cursor: pointer;
+            /* 마우스 커서를 포인터로 변경 */
+        }
+
+        .sale-table-wrapper {
+            overflow-y: auto;
+            max-height: 200px;
+        }
+
+        .sale-addr-tr:hover {
+            background-color: rgba(245, 157, 28, 0.5);
+            cursor: pointer;
+        }
+
+        #saleSearchInput {
+            /* 모달 창의 너비에 맞게 조정 */
+            width: 100%;
+            padding: 10px;
+            /* 내부 여백 설정 */
+            margin: 0 auto;
+            /* 가운데 정렬 */
+        }
+
+
+        #addrTable {
+            width: 100%;
+            /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
+        }
+
+        #sale_search_addr {
+            margin: 0;
+        }
+
+        .SaleHidden {
+            display: none;
+        }
     </style>
 
     <title>치즈메이트 - 회원가입</title>
 </head>
 <body>
+<div id="openModal" class="SaleModal SaleHidden">
+    <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
+    <div class="sale_modal_content">
+        <button id="closeModalBtn">x</button>
+        <p class="font30" id="sale_search_addr">주소 검색</p>
+        <input class="font16" id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요(enter).">
+        <div class="sale-table-wrapper">
+            <table id="addrTable" class="table text-center">
+                <thead>
+                <tr>
+                    <th style="width:150px;"><p class="font20 marginTopFont10 fontWeight">행정동코드</p></th>
+                    <th style="width:600px;"><p class="font20 marginTopFont10 fontWeight">주소명</p></th>
+                </tr>
+                </thead>
+                <tbody id="addrList"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <form action="/createAccount" method="post" class="center" onsubmit="return submitCheck();">
 
@@ -317,21 +439,21 @@
                 </div>
             </div>
             <div class="form-group">
-                <span style="margin-left: 50px; margin-top: 13px; white-space: nowrap;">주소</span>
-                <select class="inputAdressBoxLarge" name="tradingPlace_A_large" id="tradingPlace_A_large" onchange="fetchMediumCategories()">
-                    <c:forEach var="category" items="${largeCategory}">
-                        <option value="${category.addr_cd}" <c:if test="${category.addr_name == '서울특별시'}">selected</c:if>>${category.addr_name}</option>
-                    </c:forEach>
-                </select>
-                <select class="inputAdressBoxMedium" name="tradingPlace_A_medium" id="tradingPlace_A_medium" onchange="fetchSmallCategories()">
-                    <!-- 중분류 옵션들이 여기에 동적으로 추가됩니다 -->
-                </select>
-                <select class="inputAdressBoxSmall" name="tradingPlace_A_small" id="tradingPlace_A_small">
-                    <!-- 소분류 옵션들이 여기에 동적으로 추가됩니다 -->
-                </select>
-                <br>
+                <div class="form-title">주소</div>
+
+<%--      주소 모달 작성          --%>
+                <div class="addr_class">
+                    <div>
+                        <button class="maincolor font30" id="openModalBtn">주소 검색</button>
+                    </div>
+                    <div>
+                        <input class="font16" id="addr_cd" name="addr_cd" type="text" hidden>
+                        <input id="addr_name" name="addr_name" type="text" disabled >
+                    </div>
+
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 50px">
                 <div class="form-title">상세주소</div>
                 <div>
                     <input type="text" class="inputBox" id="addr_det" name="addr_det" value="<c:out value='${userDto.addr_det}' />" pattern="^[가-힣a-zA-Z0-9\s]+$" minlength="6" maxlength="50" title="거주하고 있는 주소를 정확하게 입력해주세요." oninput="validateAddrDet()">
@@ -583,6 +705,85 @@
         }
     });
 
+
+    const openModalBtn = document.getElementById("openModalBtn");
+    const modal = document.querySelector(".SaleModal");
+    const overlay = modal.querySelector(".sale_modal_overlay");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const openModal = (event) => {
+        event.preventDefault(); // form의 기본 동작을 막음
+        modal.classList.remove("SaleHidden");
+    }
+    const closeModal = () => {
+        event.preventDefault(); // form의 기본 동작을 막음
+        modal.classList.add("SaleHidden");
+    }
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" || event.keyCode === 27) {
+            closeModal();
+        }
+    });
+    overlay.addEventListener("click", closeModal);
+    closeModalBtn.addEventListener("click", closeModal);
+    openModalBtn.addEventListener("click", openModal);
+
+    $("#saleSearchInput").on("keydown", function (event) {
+        // 엔터 키(키 코드 13)가 눌렸는지 확인
+        if (event.which === 13 || event.keycode === 13) {
+            event.preventDefault(); // 기본 엔터 동작(폼 제출 등)을 막기 위해 추가
+
+            let searchLetter = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "/sale/searchLetter",
+                data: {searchLetter: searchLetter},
+                dataType: "json",
+                success: function (data) {
+                    // 검색 결과를 처리하여 addrTable에 추가
+                    $("#addrList").empty(); // 기존 내용 초기화
+                    if (data.length > 0) {
+                        data.forEach(function (addr) {
+                            let row = $("<tr class='sale-addr-tr'>");
+                            row.append($("<td>").html("<p class='font20 marginTopFont10'>" + addr.addr_cd + "</p>")); // 행정구역 코드
+                            row.append($("<td>").html("<p class='font20 marginTopFont10'>" + addr.addr_name + "</p>")); // 주소명
+                            $("#addrList").append(row);
+                        });
+                    } else {
+                        $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                    alert("주소 검색에 실패하였습니다.");
+                }
+            });
+        }
+    });
+
+    // 주소를 클릭했을 때의 이벤트 핸들러
+    $("#addrList").on("click", "tr", function () {
+        // 클릭한 행에서 주소 코드와 주소명을 가져옴
+        let addrCode = $(this).find("td:eq(0)").text(); // 첫 번째 td 열의 텍스트 (주소 코드)
+        let addrName = $(this).find("td:eq(1)").text(); // 두 번째 td 열의 텍스트 (주소명)
+
+        // pickup_addr input에 선택한 주소 정보를 추가
+        $("#addr_cd").val(addrCode);
+        $("#addr_name").val(addrName);
+
+        // 모달 닫기
+        closeModal();
+    });
+
+    // input에서 Enter 키 입력 허용
+    $(document).on("keydown", "input", function (event) {
+        // 현재 포커스된 요소가 input인지 확인
+        if ($(this).is("input")) {
+            if (event.keyCode === 13) {
+                event.preventDefault(); // Enter 키의 기본 동작 막기
+            }
+        }
+    });
+
     let check = true;
 
     // *** 아이디 중복 확인(Ajax) ***
@@ -793,46 +994,6 @@
         });
     });
 
-    // 중분류를 동적으로 가져오는 함수
-    function fetchMediumCategories() {
-        let tradingPlace_A = document.getElementById("tradingPlace_A_large").value;
-        fetch('/mediumCategory?tradingPlace_A_large=' + encodeURIComponent(tradingPlace_A))
-            .then(response => response.json())
-            .then(data => {
-                let mediumCategorySelect = document.getElementById("tradingPlace_A_medium");
-                mediumCategorySelect.innerHTML = ""; // 기존 옵션들을 제거합니다.
-
-                data.forEach(function(category) {
-                    let option = document.createElement("option");
-                    option.value = category.addr_cd;
-                    option.text = category.addr_name;
-                    mediumCategorySelect.add(option);
-                });
-
-                // 첫 번째 중분류를 선택한 상태로 소분류를 가져옵니다.
-                if (data.length > 0) {
-                    fetchSmallCategories(data[0].addr_cd);
-                }
-            });
-    }
-
-    // 소분류를 동적으로 가져오는 함수
-    function fetchSmallCategories(mediumCategory = null) {
-        let tradingPlace_A = mediumCategory || document.getElementById("tradingPlace_A_medium").value;
-        fetch('/smallCategory?tradingPlace_A_medium=' + encodeURIComponent(tradingPlace_A))
-            .then(response => response.json())
-            .then(data => {
-                let smallCategorySelect = document.getElementById("tradingPlace_A_small");
-                smallCategorySelect.innerHTML = ""; // 기존 옵션들을 제거합니다.
-                data.forEach(function(category) {
-                    let option = document.createElement("option");
-                    option.value = category.addr_cd;
-                    option.text = category.addr_name;
-                    smallCategorySelect.add(option);
-                });
-            });
-    }
-
     // *** 확인 버튼 누를 시 부적합한 입력을 화면에 표시 ***
     function submitCheck() {
 
@@ -921,10 +1082,5 @@
 
         return check;
     }
-
-    // 페이지 로드 시 서울특별시 중분류와 소분류를 가져오기 위해 호출
-    document.addEventListener('DOMContentLoaded', function() {
-        fetchMediumCategories();
-    });
 
 </script>

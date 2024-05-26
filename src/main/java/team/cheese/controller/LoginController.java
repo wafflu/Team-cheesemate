@@ -99,6 +99,7 @@ public class LoginController {
     }
 
     private void sessionSetting(HttpSession session, UserDto loginUserDto) {
+        session.setMaxInactiveInterval(600);
         session.setAttribute("userId", loginUserDto.getId()); // -> 세션에 아이디 저장
         session.setAttribute("userNick", loginUserDto.getNick()); // -> 세션에 닉네임 저장
 
