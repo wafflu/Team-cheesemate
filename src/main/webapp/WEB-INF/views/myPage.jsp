@@ -550,7 +550,7 @@
 				let ph = data.ph;
 				let saleList = data.saleList;
 				let startOfToday = data.startOfToday;
-				$(".saleListBox").html(updateSaleList(saleList, startOfToday, ph,option));
+				$(".saleListBox").html(updateSaleList(saleList, startOfToday, ph,title,sal_s_cd,option));
 			},
 			error: function (result) {
 				alert("화면 로딩 중 오류 발생");
@@ -560,7 +560,7 @@
 	}
 
 	// 업데이트된 saleList를 화면에 출력하는 함수
-	function updateSaleList(saleList, startOfToday, ph,option) {
+	function updateSaleList(saleList, startOfToday, ph,title,sal_s_cd,option) {
 		// 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
 		$(".saleListBox").empty();
 
@@ -638,16 +638,16 @@
 		if (ph.totalCnt != null && ph.totalCnt != 0) {
 			let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
 			if (ph.prevPage) {
-				pageContainer.append('<a onclick="saleList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\')">&lt;</a>');
+				pageContainer.append('<a onclick="saleList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\')">&lt;</a>');
 			}
 			for (let i = ph.beginPage; i <= ph.endPage; i++) {
 				// 페이지 번호 사이에 공백 추가
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="saleList(' + i + ', ' + ph.pageSize + ', \'' + option + '\')">' + i + '</a>');
+				pageContainer.append('<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="saleList(' + i + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\')">' + i + '</a>');
 			}
 			if (ph.nextPage) {
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<a onclick="saleList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\')">&gt;</a>');
+				pageContainer.append('<a onclick="saleList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\')">&gt;</a>');
 			}
 			$("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
 		} else {
