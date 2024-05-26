@@ -746,6 +746,7 @@
             });
         }
 
+        
         $(document).on("click", "#agreeCollectionBtn", function() {
             $("#agreeCollection").checked = true;
             modalAgreeCollection.style.display = "none";
