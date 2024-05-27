@@ -111,6 +111,7 @@ const ImageUploader = (function() {
             targetDiv.children().get(index).remove();
             $("input[type='file']").val("");
             img_count--;
+            $(".imgcnt").html(img_count+"/"+max_images);
         });
     });
 
