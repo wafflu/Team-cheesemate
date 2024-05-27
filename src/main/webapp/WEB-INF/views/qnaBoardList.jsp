@@ -23,28 +23,35 @@
     <h1>나의 문의 목록</h1>
     <div id="qnaBoardList_content">
         <div id="qnaBoardList_list">
-            <c:forEach var="qna" items="${qnaList}">
-                <div class="qnaBoardList_item">
-                    <a href="/qna/read?no=${qna.no}" class="qnaBoardList_title">
-                        (<c:out value="${qna.categoryName}" />) ${qna.title}
-                    </a>
-                    <div class="qnaBoardList_meta">
-                            <span class="qnaBoardList_date">
-                                <fmt:formatDate value="${qna.r_date}" pattern="yyyy-MM-dd HH:mm:ss" var="formattedDate"/>
-                                ${formattedDate}
-                            </span>
-                        <span class="qnaBoardList_status">
-                                <c:choose>
-                                    <c:when test="${qna.q_s_cd eq 'Q001U'}">확인중</c:when>
-                                    <c:when test="${qna.q_s_cd eq 'Q001C'}">미확인</c:when>
-                                    <c:when test="${qna.q_s_cd eq 'Q001Y'}">답변완료</c:when>
-                                    <c:when test="${qna.q_s_cd eq 'Q001N'}">답변거절</c:when>
-                                    <c:otherwise>error</c:otherwise>
-                                </c:choose>
-                            </span>
-                    </div>
-                </div>
-            </c:forEach>
+            <c:choose>
+                <c:when test="${not empty qnaList}">
+                    <c:forEach var="qna" items="${qnaList}">
+                        <div class="qnaBoardList_item">
+                            <a href="/qna/read?no=${qna.no}" class="qnaBoardList_title">
+                                (<c:out value="${qna.categoryName}" />) ${qna.title}
+                            </a>
+                            <div class="qnaBoardList_meta">
+                                <span class="qnaBoardList_date">
+                                    <fmt:formatDate value="${qna.r_date}" pattern="yyyy-MM-dd HH:mm:ss" var="formattedDate"/>
+                                    ${formattedDate}
+                                </span>
+                                <span class="qnaBoardList_status <c:if test="${qna.q_s_cd eq 'Q001Y'}">qnaBoardList_status_complete</c:if>">
+                                    <c:choose>
+                                        <c:when test="${qna.q_s_cd eq 'Q001U'}">미답변</c:when>
+                                        <c:when test="${qna.q_s_cd eq 'Q001C'}">미확인</c:when>
+                                        <c:when test="${qna.q_s_cd eq 'Q001Y'}">답변완료</c:when>
+                                        <c:when test="${qna.q_s_cd eq 'Q001N'}">답변거절</c:when>
+                                        <c:otherwise>error</c:otherwise>
+                                    </c:choose>
+                                </span>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <p id="emptyList">문의내역이 없습니다.</p>
+                </c:otherwise>
+            </c:choose>
         </div>
 
         <div id="qnaBoardList_pagination">

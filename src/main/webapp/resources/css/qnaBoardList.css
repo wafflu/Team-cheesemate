@@ -57,3 +57,18 @@
     background-color: #f9f9f9;
     color: #333;
 }
+/* 문의내역이 없습니다. */
+#emptyList{
+    font-size: 20px;
+    margin-top: 285px;
+    margin-left: 310px;
+}
+/* 모달 고정된 높이 설정 */
+#qnaBoardList_list {
+    height: 640px;
+    overflow-y: auto;
+}
+/* 답변 완료 시 글자 색상을 초록색으로 변경 */
+.qnaBoardList_status_complete {
+    color: #52df52;
+}
