@@ -77,4 +77,6 @@ public interface SaleDao {
     // 사용자 판매글 갯수
     int userSaleCnt(String ur_id) throws Exception;
 
+    int updateLikeCnt(Long no,int cnt) throws Exception;
+
 }

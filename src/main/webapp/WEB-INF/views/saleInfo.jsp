@@ -108,9 +108,9 @@
 			// 선택되지 않은 경우는 0점으로 설정
 			selectedStar = 0;
 		}
-		// 선택된 별점 값을 콘솔에 출력하여 확인
-		alert("선택된 별점 값: " + selectedStar);
 	});
+
+	let selectedIndex;
 
 	// 모달 창
 	var modal = document.getElementById("myModal");
@@ -177,10 +177,35 @@
 		}); // $.ajax()
 	}
 
-	let toHtml = function (list,ph,option,sal_s_cd,keyword) {
+	let toHtml = function (list, ph, option, sal_s_cd, keyword) {
 		let tmp = "";
 
-		list.forEach(function (item) {
+		list.forEach(function (item, index) { // 인덱스를 추가합니다.
+			let saleStatusText = ""; // saleStatusText를 초기화합니다.
+
+			switch (item.sal_s_cd) {
+				case 'S':
+					saleStatusText = '판매중';
+					break;
+				case 'R':
+					saleStatusText = '예약중';
+					break;
+				case 'C':
+					if (option === 'buyer') {
+						saleStatusText = '구매완료';
+					} else {
+						saleStatusText = '거래완료';
+					}
+					break;
+				default:
+					saleStatusText = '';
+			}
+
+			let saleTitle = item.title;
+			if (saleTitle.length > 12) {
+				saleTitle = saleTitle.substring(0, 12) + '...';
+			}
+
 			tmp += '<article>';
 
 			// header 부분 생성
@@ -200,18 +225,18 @@
 			tmp += "<a href='/sale/read?no=" + item.no + "' style='flex-shrink: 0; margin-right: 10px;'>" + "<img class='imgClass' src='/img/display?fileName=" + item.img_full_rt + "' style='width: 150px; height: auto;'/>" + "</a>";  // 이미지 크기 조정
 			tmp += '<section class="text-section">';
 			if (option === 'seller') {
-				tmp += '<p>판매상태(R-예약중/S-판매중/C-거래완료) : ' + item.sal_s_cd + '</p>';
+				tmp += '<p>' + saleStatusText + '</p>';
 			} else {
-				tmp += '<p>구매상태(R-예약중/C-구매완료) : ' + item.sal_s_cd + '</p>';
+				tmp += '<p>' + saleStatusText + '</p>';
 			}
 			tmp += '<p>판매글번호 : ' + item.no + '</p>';
 			if ((option === 'seller' && item.sal_s_cd == 'R') || (option === 'seller' && item.sal_s_cd == 'C')) {
-				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_id + '</a></p>';
+				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
 			} else if (option === 'buyer') {
-				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_id + '</a></p>';
+				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_nick + '</a></p>';
 			}
 			tmp += '<p>가격: ' + item.price + '</p>';
-			tmp += '<p>제목: ' + item.title + '</p>';
+			tmp += '<p>제목: ' + saleTitle + '</p>';
 			tmp += '<p>판매(S)/나눔(F) : ' + item.tx_s_cd + ' / 거래방법: ' + item.trade_s_cd_1 + '</p>';
 			tmp += '</section>';
 
@@ -221,7 +246,7 @@
 			} else {
 				tmp += '<footer class="footer-hidden">'; // 그 외의 경우 hidden 속성 추가
 			}
-			tmp += '<button class="writeBtn" type="button" data-id="' + item.seller_id + '" data-no="' + item.no + '">후기 남기기</button>';
+			tmp += '<button class="writeBtn" type="button" data-id="' + item.seller_id + '" data-no="' + item.no + '" data-index="' + index + '">후기 남기기</button>';
 			tmp += '</footer>';
 
 			tmp += '</section>';
@@ -238,16 +263,16 @@
 			}
 			if (ph.totalCnt != null && ph.totalCnt != 0) {
 				if (ph.prevPage) {
-					tmp += '<a href="#" onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\')">&lt;</a>';
+					tmp += '<button onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&lt;</button>';
 				}
 				for (let i = ph.beginPage; i <= ph.endPage; i++) {
 					// 페이지 번호 사이에 공백 추가
 					tmp += '<span class="page-space"></span>';
-					tmp += '<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="showList(' + i + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\')">' + i + '</a>';
+					tmp += '<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="showList(' + i + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">' + i + '</button>';
 				}
 				if (ph.nextPage) {
 					tmp += '<span class="page-space"></span>';
-					tmp += '<a href="#" onclick="showList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\')">&gt;</a>';
+					tmp += '<button onclick="showList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&gt;</button>';
 				}
 			}
 			tmp += '</div>';
@@ -352,6 +377,8 @@
 		$(document).on("click", ".writeBtn", function(event) {
 			seller_id = $(this).data("id");
 			no = $(this).data("no");
+			selectedIndex = $(this).data("index"); // 인덱스 값 읽기
+
 			$('#reviewContents').val('');
 			$("input[name='reviewStar']").prop("checked", false);
 			selectedStar = undefined;
@@ -371,7 +398,10 @@
 				behavior: 'smooth',
 				block: 'center'
 			});
+
+			modal.data('index', selectedIndex); // 모달 창에 인덱스 값을 저장
 		});
+
 
 		$(document).on("click", "#cancelBtn, .modal", function(event) {
 			if (event.target.className === 'modal' || event.target.id === 'cancelBtn') {
@@ -388,10 +418,10 @@
 		// 후기글 전송 버튼
 		$(document).on("click", "#comment-sendBtn", function() {
 			let contents = $("#reviewContents").val();
-
-			if(contents.trim()==''){
+			selectedIndex = $('#myModal').data('index')
+			if (contents.trim() == '') {
 				alert("글을 작성해주세요");
-				$("#reviewContents").focus()
+				$("#reviewContents").focus();
 				return;
 			}
 
@@ -401,9 +431,21 @@
 				headers: { "content-type": "application/json" },
 				data: JSON.stringify({ sal_id: seller_id, contents: contents, reviewStar: selectedStar }),
 				success: function(result) {
-					alert(result);
-					const url = "/myPage/main?ur_id=" + encodeURIComponent(seller_id);
-					window.location.href = url;
+					// 후기가 성공적으로 작성되었음을 알리는 메시지
+					alert('후기가 성공적으로 작성되었습니다.');
+
+					// confirm 창을 사용하여 사용자에게 확인 요청
+					if (confirm('판매자의 상점을 방문하시겠습니까?')) {
+						const url = "/myPage/main?ur_id=" + encodeURIComponent(seller_id);
+						window.location.href = url;
+					} else {
+						// 사용자가 취소를 선택한 경우, 추가 동작이 필요하면 여기에 추가
+						console.log('상점 방문이 취소되었습니다.');
+						closeModal();
+						// 선택한 후기 남기기 버튼을 삭제시켜야함
+						// 선택한 후기 남기기 버튼을 삭제
+						$('.writeBtn[data-index="' + selectedIndex + '"]').remove();
+					}
 				},
 				error: function(result) {
 					alert(result.responseText);

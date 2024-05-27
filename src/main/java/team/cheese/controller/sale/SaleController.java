@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.cheese.domain.*;
 import team.cheese.dao.*;
+import team.cheese.domain.MyPage.JjimDTO;
 import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.service.ImgService;
 import team.cheese.service.MyPage.UserInfoService;
@@ -65,7 +66,8 @@ public class SaleController {
 
     // 게시글 리스트 중 하나를 클릭한 경우
     @RequestMapping("/read")
-    public String read(Long no, Model model) throws Exception {
+    public String read(Long no, Model model,HttpSession session) throws Exception {
+        String ur_id = (String) session.getAttribute("userId");
         Map map = saleService.read(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
 
@@ -90,6 +92,21 @@ public class SaleController {
         model.addAttribute("imglist", imglist); // 이미지 리스트
         model.addAttribute("user", udto); // 판매자 유정 인포정보
 
+
+        JjimDTO jjimDTO = new JjimDTO();
+        jjimDTO.setSal_no(no);
+        jjimDTO.setBuyer_id(ur_id);
+
+        JjimDTO like = saleService.bringLike(jjimDTO);
+
+        if(like != null) {
+        }else {
+            like = new JjimDTO();
+            like.setCheck_like(0);
+            System.out.println(like);
+        }
+        model.addAttribute("result",like);
+
         return "/sale/saleBoard";
     }
 
@@ -109,7 +126,6 @@ public class SaleController {
         model.addAttribute("Sale", saleDto);
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
         return "/sale/saleWrite";
-
     }
 
     // 게시글 리스트 중 하나를 클릭한 경우
