@@ -44,20 +44,30 @@
                 <textarea name="contents" id="qnaBoard_content" rows="1" readonly oninput="autoResizeTextarea(this)"><c:out value="${qna.contents}"/></textarea>
                 <p class="date_p_tag"><strong>작성일 :</strong> <fmt:formatDate value="${qna.r_date}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
             </div>
-            <div class="deleteAndModifyBtn">
-            <div class="qnaBoard_buttonContainer">
-                <button type="button" onclick="qnaBoard_modify()" id="qnaBoard_editBtn" class="qnaBoard_submitButton">문의수정</button>
-                <button type="submit" id="qnaBoard_saveBtn" class="qnaBoard_submitButton" style="display:none;">저장하기</button>
-            </div>
-            <div class="qnaBoard_buttonContainer">
-                <c:if test="${qna.q_s_cd != 'Q001Y'}">
-                    <form action="/qna/delete" method="post" onsubmit="return qnaBoard_confirmDelete();" class="qnaBoard_deleteForm">
-                        <input type="hidden" name="no" value="<c:out value='${qna.no}' />" />
-                        <button type="submit" class="qnaBoard_deleteButton">문의삭제</button>
-                    </form>
-                </c:if>
-            </div>
-            </div>
+
+            <c:if test="${qna.q_s_cd != 'Q001Y'}">
+                <div class="deleteAndModifyBtn">
+                    <div class="qnaBoard_buttonContainer">
+                        <button type="button" onclick="qnaBoard_modify()" id="qnaBoard_editBtn" class="qnaBoard_submitButton">문의수정</button>
+                        <button type="submit" id="qnaBoard_saveBtn" class="qnaBoard_submitButton" style="display:none;">저장하기</button>
+                    </div>
+                    <div class="qnaBoard_buttonContainer">
+                        <form action="/qna/delete" method="post" onsubmit="return qnaBoard_confirmDelete();" class="qnaBoard_deleteForm">
+                            <input type="hidden" name="no" value="<c:out value='${qna.no}' />" />
+                            <button type="submit" class="qnaBoard_deleteButton">문의삭제</button>
+                        </form>
+                    </div>
+                </div>
+            </c:if>
+
+            <c:if test="${qna.q_s_cd == 'Q001Y'}">
+                <hr class="ans_divider">
+                <div class="qnaBoard_div">
+                    <label class="qnaBoard_titleAns">A. 답변 :</label>
+                    <input type="text" name="title" id="qnaBoard_contentAns" value="<c:out value='${qna.ans_contents}' />" readonly>
+                    <p class="dateAnd_p_tag"><strong>답변일 :</strong> <fmt:formatDate value="${qna.ans_p_date}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+                </div>
+            </c:if>
         </form>
     </main>
 

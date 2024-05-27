@@ -1,18 +1,23 @@
+.faq-header{
+    max-width: 1200px;
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    text-align: center;
+}
+.cs-center {
+    font-size: 26px;
+    margin-top: 55px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
 .faq-container {
     flex-direction: column;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
 }
-.cs-center {
-    font-size: 1.5rem;
-    text-align: center;
-    margin-top: 55px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-}
 .divider {
-    width: 65%;
+    width: 780px;
     border: none;
     border-top: 2px solid black;
     margin: 20px auto;
@@ -23,17 +28,18 @@
     margin-left: 225px;
 }
 .faq-main {
-    width: 100%;
+    width: 797px;
     padding: 1rem;
-    justify-content: center;
+    margin-left: 205px;
+    margin-bottom: 40px;
 }
 .btn-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 805px;
     padding: 16px 0;
-    margin-left: 15px;
+    margin-left: 213px;
     margin-bottom: -10px;
 }
 .questionWriteBtn, .questionListBtn {
@@ -54,6 +60,7 @@
     font-weight: bold;
     margin-right: 10px;
 }
+
 .faq-prefix-answer {
     color: #ee8703;
     font-weight: bold;
@@ -117,7 +124,7 @@
     margin-right: 5px;
 }
 #faq-searchInput {
-    width: 65%;
+    width: 785px;
     padding: 10px;
     border: 1px solid #5a616b;
     outline: none;

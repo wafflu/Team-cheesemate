@@ -19,6 +19,7 @@
 .qnaBoard_main {
     flex: 1;
     padding: 1rem;
+    margin-top: -35px;
 }
 
 .qnaBoard_div {
@@ -41,10 +42,6 @@
     font-size: 14px;
     resize: none; /* 사용자가 크기를 조절하지 못하도록 설정 */
     margin-bottom: 10px;
-}
-
-/* content 부분의 스크롤바를 없애기 위해 추가된 스타일 */
-.qnaBoard_div textarea {
     overflow: hidden; /* 스크롤바 숨기기 */
 }
 
@@ -111,6 +108,22 @@
     margin-right: 34px; /* 뒤로 가기 버튼의 공간을 확보하기 위해 마진 추가 */
 }
 
-.date_p_tag {
+.date_p_tag, .dateAnd_p_tag {
     font-size: 12px;
+}
+
+.ans_divider {
+    width: 800px;
+    border: none;
+    border-top: 2px solid black;
+    margin: 20px auto;
+    margin-left: -17px;
+}
+
+input[type="text"]{
+    outline:none;
+}
+
+textarea{
+    outline:none;
 }

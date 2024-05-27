@@ -2,9 +2,12 @@
 <%@include file="fixed/header.jsp"%>
 
 <link rel="stylesheet" href="/css/faq.css">
-<h2 class="cs-center">고객센터</h2>
+
 
 <div class="faq-container">
+    <div class="faq-header">
+        <h2 class="cs-center">고객센터</h2>
+    </div>
     <div class="btn-container">
         <button class="questionWriteBtn">1:1 문의</button>
         <button class="questionListBtn">문의 내역</button>

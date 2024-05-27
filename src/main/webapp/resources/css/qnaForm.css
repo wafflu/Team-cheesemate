@@ -33,13 +33,16 @@
 .qnaForm_div select,
 .qnaForm_div input[type="text"],
 .qnaForm_div textarea {
-    width: 100%;
+    width: 767px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+    resize: none;
 }
+#qnaForm_content{
 
+}
 .qnaForm_buttonContainer {
     text-align: center;
     margin-top: 20px;
