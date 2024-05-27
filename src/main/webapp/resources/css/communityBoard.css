@@ -6,6 +6,7 @@
     border:1px solid #cccccc;
     border-radius: 12px;
     overflow: hidden;
+    margin-bottom: 100px;
 }
 .post-content + .post-image{
     position: relative;
@@ -221,6 +222,9 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
+
+
+
 
 
 

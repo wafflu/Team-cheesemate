@@ -76,12 +76,12 @@
     background-color: rgba(238,135,3,0.2);
     color: #ee8703;
     font-size: 14px;
-    padding: 0 17px;
+    padding: 0 15px;
     border: 0;
     box-sizing: border-box;
     border-radius: 10px;
     cursor: pointer;
-    /*margin-left:20px;*/
+
 }
 
 .community-write-category #alter {
@@ -91,12 +91,13 @@
     background-color: rgb(228, 229, 231);
     color: #706f6e;
     font-size: 14px;
-    padding: 0 17px;
+    padding: 0 15px;
     border: 0;
     box-sizing: border-box;
     border-radius: 10px;
     cursor: pointer;
     margin-left:10px;
+    justify-content: center;
 }
 
 .community-contents-container{
