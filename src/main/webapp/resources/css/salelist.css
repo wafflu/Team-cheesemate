@@ -1,7 +1,7 @@
 .totalBox {
     height: fit-content;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 }
 
 .saleListBox {
@@ -42,6 +42,7 @@
     /*bottom: 20px;*/
     transform: translateX(-50%);
     text-align: center;
+    margin: 10px 0;
 }
 
 .info {
@@ -68,7 +69,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 10px;
+    padding: 20px 0;
 }
 
 .saleBtn {
@@ -81,7 +82,23 @@
 }
 
 #addr_cd {
-    margin-right: auto; /* Ensures the select is on the left */
+    display: block;
+    width: 340px;
+    height: 20px;
+    text-align: center;
+}
+
+.style-sel-category{
+    width: 100px;
+    height: 20px;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+}
+
+.rarrow{
+    display: inline-block;
+    padding: 0 4px;
 }
 
 .info-imgbox{
@@ -159,4 +176,10 @@
     text-align: center;
     /*line-height: 100px;*/
     font-size: 20px;
+}
+.page{
+    font-size: 16px;
+}
+.paging-active{
+    color: #ee8703;
 }

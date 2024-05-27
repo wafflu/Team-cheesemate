@@ -6,409 +6,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/reset.css">
     <link rel="stylesheet" href="/css/mystyle.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <style>
-
-        .totalBox {
-            height: 1520px;
-            margin: 50px;
-        }
-
-        input:invalid {
-            border: 2px solid red;
-        }
-
-        hr {
-            width: 40%;
-        }
-
-        form {
-            border: 1px solid rgb(218, 222, 229);
-            width: 1200px;
-            height: 90%;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .reg_btn {
-            display: inline-block;
-            width: 95%;
-            height: 80px;
-            font-weight: 500;
-            font-size: 25px;
-            border: 1px solid #ee8703;
-            border-radius: 5px;
-            color: white;
-            background-color: #ee8703;
-            padding: 3px;
-            margin-bottom: 10px;
-        }
-
-        label {
-            display: inline;
-            text-align: left;
-            margin: 10px 0;
-        }
-
-        .inputBox {
-            width: 100%;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputAdressBoxLarge {
-            width: 110px;
-            height: 40px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-left: 100px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputAdressBoxMedium {
-            width: 150px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputAdressBoxSmall {
-            width: 30%;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputBirthBox {
-            width: 85%;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .center {
-            max-width: 630px;
-            height: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .form-group {
-            height: 70px;
-            margin-bottom: 5px;
-            padding: 5px;
-            display: flex;
-        }
-
-        .form-title {
-            margin-top: 15px;
-            margin-left: 50px;
-            font-size: 14px;
-        }
-
-        .form-group div {
-            width: 120px; /* 레이블의 너비를 지정 */
-            text-align: left; /* 텍스트를 왼쪽 정렬 */
-            margin-right: 10px;
-        }
-
-        .form-group input {
-            width: 300px;
-            height: 45px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-left: 40px;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            font-weight: bold;
-            margin-top: 5px;
-            margin-left: 50px;
-            white-space: nowrap;
-        }
-
-        /* Hide the default calendar icon */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            display: none;
-        }
-
-        /* 성별 선택을 가로로 정렬 */
-        .gender-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .gender-option {
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-            padding-left: 30px; /* 충분히 넓게 설정하여 커스텀 라디오 버튼을 위한 공간 확보 */
-            cursor: pointer;
-            font-size: 18px; /* 텍스트 크기 조정 */
-            white-space: nowrap;
-        }
-
-        .gender-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .gender-option .custom-radio {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            height: 25px; /* 커스텀 라디오 버튼의 높이 */
-            width: 25px; /* 커스텀 라디오 버튼의 너비 */
-            background-color: #eee;
-            border-radius: 50%;
-            transform: translateY(-50%);
-        }
-
-        .gender-option input[type="radio"]:checked ~ .custom-radio {
-            background-color: #ee8703;
-        }
-
-        .gender-option .custom-radio:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-
-        .gender-option input[type="radio"]:checked ~ .custom-radio:after {
-            display: block;
-        }
-
-        .gender-option .custom-radio:after {
-            top: 50%;
-            left: 50%;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: white;
-            transform: translate(-50%, -50%);
-        }
-
-        .agree-container {
-            display: flex;
-            flex-direction: column; /* 세로로 정렬 */
-            align-items: flex-start;
-        }
-
-        .agree-option {
-            display: flex; /* 플렉스 박스 사용 */
-            align-items: center; /* 세로 중앙 정렬 */
-            margin-bottom: 10px;
-            position: relative;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 14px;
-        }
-
-        .agree-option input[type="checkbox"] {
-            margin-right: 10px; /* 체크박스와 텍스트 간의 간격 조정 */
-            width: 18px;
-            height: 18px;
-            accent-color: #ee8703;
-        }
-
-        .agreeCheck {
-            color: darkgrey;
-        }
-
-        /* 모달 스타일링 */
-        .modal {
-            display: none; /* 기본적으로 모달을 숨김 */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.4); /* 검은색 배경 */
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto; /* 수직 및 수평 가운데 정렬 */
-            padding: 50px;
-            border: 1px solid #888;
-            width: 60%; /* 모달 창 너비 */
-            max-height: 80%; /* 모달 창 최대 높이 */
-            overflow-y: auto; /* 내부에 스크롤 추가 */
-            border-radius: 10px;
-            position: relative;
-        }
-
-
-        .close {
-            position: absolute;
-            color: #aaa;
-            font-size: 35px;
-            font-weight: bold;
-            top: -1px;
-            right: 10px;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .hr {
-            width: 100%; /* 너비를 100%로 설정하여 가로 전체를 차지하도록 변경 */
-            height: 1px; /* 선의 높이를 설정하여 선이 보이도록 변경 */
-            border: none;
-            border-top: 1px solid rgb(218, 222, 229); /* 상단 테두리 추가 */
-        }
-
-        .addr_class {
-            flex: 1;
-        }
-
-        #openModalBtn {
-            all: unset;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #ee8703;
-            font-size: 16px;
-            font-weight: 600;
-            height: 20px;
-            margin-left: 40px;
-            width: 280px;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .SaleModal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 30;
-        }
-
-        .sale_modal_overlay {
-            background-color: rgba(0, 0, 0, 0.6);
-            width: 100%;
-            height: 100%;
-            position: absolute;
-        }
-
-        .sale_modal_content {
-            background-color: white;
-            padding: 50px 100px;
-            text-align: center;
-            position: relative;
-            width: 50%;
-            top: 0px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
-            overflow-y: auto;
-            /* 세로 스크롤이 필요한 경우 스크롤 허용 */
-            max-height: 70%;
-            /* 모달 창의 최대 높이 설정 */
-        }
-
-        #closeModalBtn {
-            position: absolute;
-            top: 10px;
-            /* 원하는 위치로 조정 */
-            right: 10px;
-            /* 원하는 위치로 조정 */
-            background-color: transparent;
-            /* 배경색 설정 */
-            border: none;
-            /* 테두리 제거 */
-            cursor: pointer;
-            /* 마우스 커서를 포인터로 변경 */
-        }
-
-        .sale-table-wrapper {
-            overflow-y: auto;
-            max-height: 200px;
-        }
-
-        .sale-addr-tr:hover {
-            background-color: rgba(245, 157, 28, 0.5);
-            cursor: pointer;
-        }
-
-        #saleSearchInput {
-            /* 모달 창의 너비에 맞게 조정 */
-            width: 100%;
-            padding: 10px;
-            /* 내부 여백 설정 */
-            margin: 0 auto;
-            /* 가운데 정렬 */
-            font-size: 16px;
-        }
-
-
-        #addrTable {
-            width: 100%;
-            /* addrTable의 너비를 100%로 설정하여 모달 창에 맞춤 */
-            font-size: 20px;
-            margin-top: 10px;
-        }
-
-        #sale_search_addr {
-            margin: 0;
-            font-size: 30px;
-            font-weight: 600;
-        }
-
-        .SaleHidden {
-            display: none;
-        }
-
-        .agree-div{
-            display: flex;
-            justify-content: center;
-        }
-
-        .agreeBtn {
-            color: white;
-            font-size: 30px;
-            width: 200px;
-            height: 60px;
-            margin-block: 30px;
-            border-radius: 10px;
-            border: 0;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/css/resisterform.css">
 
     <title>치즈메이트 - 회원가입</title>
 </head>
@@ -510,9 +112,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <span style="margin-left: 50px; margin-top: 15px; white-space: nowrap;">생년월일</span>
-                <input placeholder="생년월일" class="inputBirthBox" type="date" id="birth" name="birth" value="<c:out value='${userDto.birth}' />" title="생년월일을 입력해주세요" style="margin-left: 105px">
-                <br>
+                <div class="form-title">생년월일</div>
+                <div>
+                    <input placeholder="생년월일" class="inputBirthBox" type="date" id="birth" name="birth" value="<c:out value='${userDto.birth}' />" title="생년월일을 입력해주세요">
+                </div>
             </div>
             <div class="form-group">
                 <div class="form-title">휴대전화번호</div>
@@ -562,10 +165,10 @@
                     <input type="checkbox" id="agreeToTerms" name="agreeToTerms" value="Y" required>
                     <span id="openAgreeToTerms">이용약관동의 </span><span class="agreeCheck"> (필수)</span>
                 </label>
-                <label class="agree-option">
-                    <input type="checkbox" id="agreeCollection" name="agreeCollection" value="Y" required>
-                    <span id="openAgreeCollection">개인정보 수집 및 이용 동의 </span><span class="agreeCheck"> (필수)</span>
-                </label>
+<%--                <label class="agree-option">--%>
+<%--                    <input type="checkbox" id="agreeCollection" name="agreeCollection" value="Y" required>--%>
+<%--                    <span id="openAgreeCollection">개인정보 수집 및 이용 동의 </span><span class="agreeCheck"> (필수)</span>--%>
+<%--                </label>--%>
                 <label class="agree-option">
                     <input type="checkbox" id="agreeBenefits" name="agreeBenefits" value="Y">
                     <span>무료배송 및 할인쿠폰 등 혜택/정보 수신 동의 </span><span class="agreeCheck"> (선택)</span>
@@ -696,8 +299,8 @@
         var btnAgreeToTerms = document.getElementById("openAgreeToTerms");
 
         var modalAgreeCollection = document.getElementById("agreeCollectionView");
-        var checkboxAgreeCollection = document.getElementById("agreeCollection");
-        var btnAgreeCollection = document.getElementById("openAgreeCollection");
+        // var checkboxAgreeCollection = document.getElementById("agreeCollection");
+        // var btnAgreeCollection = document.getElementById("openAgreeCollection");
 
         var closeButtons = document.getElementsByClassName("close");
 
@@ -705,7 +308,7 @@
             var agreeToTermsCheckbox = document.getElementById("agreeToTerms");
             if (!agreeToTermsCheckbox.checked) {
                 document.body.style.overflow = 'hidden';
-                modalAgreeToTerms.style.display = "block";
+                modalAgreeToTerms.style.display = "flex";
             }
 
             document.addEventListener('keydown', function(event) {
@@ -726,25 +329,25 @@
         checkboxAgreeToTerms.onclick = function () {
             var agreeToTermsCheckbox = document.getElementById("agreeToTerms");
             if (agreeToTermsCheckbox.checked) {
-                modalAgreeToTerms.style.display = "block";
+                modalAgreeToTerms.style.display = "flex";
             }
         }
 
-        btnAgreeCollection.onclick = function (event) {
-            var agreeCollectionCheckbox = document.getElementById("agreeCollection");
-            if (!agreeCollectionCheckbox.checked) {
-                document.body.style.overflow = 'hidden';
-                modalAgreeCollection.style.display = "block";
-            }
-
-            document.addEventListener('keydown', function(event) {
-                if (event.key === "Escape" || event.keyCode === 27) {
-                    modalAgreeCollection.style.display = "none";
-                    checkboxAgreeCollection.checked = false;
-                    document.body.style.overflow = '';
-                }
-            });
-        }
+        // btnAgreeCollection.onclick = function (event) {
+        //     var agreeCollectionCheckbox = document.getElementById("agreeCollection");
+        //     if (!agreeCollectionCheckbox.checked) {
+        //         document.body.style.overflow = 'hidden';
+        //         modalAgreeCollection.style.display = "block";
+        //     }
+        //
+        //     document.addEventListener('keydown', function(event) {
+        //         if (event.key === "Escape" || event.keyCode === 27) {
+        //             modalAgreeCollection.style.display = "none";
+        //             checkboxAgreeCollection.checked = false;
+        //             document.body.style.overflow = '';
+        //         }
+        //     });
+        // }
 
         $(document).on("click", "#agreeCollectionBtn", function() {
             $("#agreeCollection").checked = true;
@@ -752,12 +355,12 @@
             document.body.style.overflow = '';
         });
 
-        checkboxAgreeCollection.onclick = function () {
-            var agreeCollectionCheckbox = document.getElementById("agreeCollection");
-            if (agreeCollectionCheckbox.checked) {
-                modalAgreeCollection.style.display = "block";
-            }
-        }
+        // checkboxAgreeCollection.onclick = function () {
+        //     var agreeCollectionCheckbox = document.getElementById("agreeCollection");
+        //     if (agreeCollectionCheckbox.checked) {
+        //         modalAgreeCollection.style.display = "block";
+        //     }
+        // }
 
         for (var i = 0; i < closeButtons.length; i++) {
             closeButtons[i].onclick = function () {

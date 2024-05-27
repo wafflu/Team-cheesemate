@@ -4,54 +4,56 @@
 <link rel="stylesheet" href="/css/salelist.css">
 <div class="maincontent totalBox">
     <div class="header-actions">
+        <div class="categorymenu">
+        <c:choose>
+            <c:when test="${empty sessionScope.userId}">
+                <select id="addr_cd" style="display: none;" hidden>
+                    <option id="selectAll" value="null" selected>주소</option>
+                    <c:forEach var="AddrCd" items="${addrCdList}">
+                        <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                    </c:forEach>
+                </select>
+            </c:when>
+            <c:otherwise>
+                <select id="addr_cd">
+                    <option id="selectAll" value="null" selected>주소</option>
+                    <c:forEach var="AddrCd" items="${addrCdList}">
+                        <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                    </c:forEach>
+                </select>
+            </c:otherwise>
+        </c:choose>
+
+        <select id="category1" onchange="loadCategory2()" class="style-sel-category">
+            <option value="null" selected>대분류(전체)</option>
+            <c:forEach var="category" items="${saleCategory1}">
+                <option value="<c:out value='${category.sal_cd}'/>"><c:out value='${category.name}'/></option>
+            </c:forEach>
+        </select>
+
+            <span class="rarrow"> > </span>
+
+        <select id="category2" onchange="loadCategory3()" class="style-sel-category">
+            <option value="" disabled selected>중분류</option>
+        </select>
+            <span class="rarrow"> > </span>
+        <select id="category3" class="style-sel-category">
+            <option value="" disabled selected>소분류</option>
+        </select>
+<%--        <p style="color: orangered;" id="salecategoryMsg"></p>--%>
+<%--        <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>--%>
+        </div>
+
         <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매/나눔 글작성하기</button>
+
     </div>
 
-    <c:choose>
-        <c:when test="${empty sessionScope.userId}">
-            <select id="addr_cd" style="display: none;" hidden>
-                <option id="selectAll" value="null" selected>전체</option>
-                <c:forEach var="AddrCd" items="${addrCdList}">
-                    <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
-                </c:forEach>
-            </select>
-        </c:when>
-        <c:otherwise>
-            <select id="addr_cd">
-                <option id="selectAll" value="null" selected>전체</option>
-                <c:forEach var="AddrCd" items="${addrCdList}">
-                    <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
-                </c:forEach>
-            </select>
-        </c:otherwise>
-    </c:choose>
-    <br>
-    <select id="category1" onchange="loadCategory2()">
-        <option value="null" selected>대분류(전체)</option>
-        <c:forEach var="category" items="${saleCategory1}">
-            <option value="<c:out value='${category.sal_cd}'/>"><c:out value='${category.name}'/></option>
-        </c:forEach>
-    </select>
-
-    <select id="category2" onchange="loadCategory3()">
-        <option value="" disabled selected>중분류</option>
-    </select>
-
-    <select id="category3">
-        <option value="" disabled selected>소분류</option>
-    </select>
-    <p style="color: orangered;" id="salecategoryMsg"></p>
-    <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
-    <br><br>
     <div class="saleListBox"></div>
-
-    <br>
-    <div id="pageContainer">
-    </div>
-    <br>
+    <div id="pageContainer"></div>
 </div>
 <script>
     $(document).ready(function () {
+
         let sessionId = "${sessionScope.userId}";
         let saleStatusText;
         let sal_name = "";
@@ -290,7 +292,7 @@
             $("#pageContainer").empty(); // 기존에 있는 페이지 내용 비우기
 
             if (ph.totalCnt != null && ph.totalCnt != 0) {
-                let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
+                let pageContainer = $('<div>').attr('id', 'pageContainer2').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
                 if (ph.prevPage) {
                     pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</button>');
                 }
