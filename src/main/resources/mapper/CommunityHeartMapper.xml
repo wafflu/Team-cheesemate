@@ -6,8 +6,8 @@
 
 <!--    좋아요-->
     <insert id = "doLike" parameterType="CommunityHeartDto" useGeneratedKeys="true" keyProperty="like_no">
-        insert into community_heart(ur_id,post_no)
-        values(#{ur_id},#{post_no})
+        insert into community_heart(ur_id,post_no,first_id, last_id)
+        values(#{ur_id},#{post_no},#{first_id},#{last_id})
         ON DUPLICATE KEY UPDATE ur_state = IF(ur_state = 'y', 'n', 'y');
     </insert>
 

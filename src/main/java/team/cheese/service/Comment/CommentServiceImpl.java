@@ -36,8 +36,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto read(Integer no) throws Exception {
-        return commentDao.select(no);
+    public CommentDto read(CommentDto commentDto) throws Exception {
+        return commentDao.select(commentDto);
     }
 
     @Override

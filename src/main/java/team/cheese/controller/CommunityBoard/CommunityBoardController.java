@@ -2,6 +2,7 @@ package team.cheese.controller.CommunityBoard;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,8 @@ import team.cheese.domain.Comment.CommentDto;
 import team.cheese.domain.CommunityBoard.CommunityBoardDto;
 import team.cheese.domain.CommunityHeart.CommunityHeartDto;
 import team.cheese.domain.ImgDto;
-import team.cheese.domain.ProfileimgDto;
 import team.cheese.domain.MyPage.UserInfoDTO;
+import team.cheese.domain.ProfileimgDto;
 import team.cheese.entity.ImgFactory;
 import team.cheese.entity.PageHandler;
 import team.cheese.service.Comment.CommentService;
@@ -25,13 +26,16 @@ import team.cheese.service.CommunityBoard.CommunityBoardService;
 import team.cheese.service.CommunityHeart.CommunityHeartService;
 import team.cheese.service.ImgService;
 import team.cheese.service.MyPage.UserInfoService;
+import team.cheese.service.UserService;
 
+import javax.annotation.RegEx;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import javax.xml.stream.events.Comment;
 import java.util.*;
 
 
@@ -48,6 +52,7 @@ public  class CommunityBoardController {
     CommentService commentService;
     @Autowired
     ImgService imgService;
+
     @Autowired
     UserInfoService userInfoService;
 
@@ -92,7 +97,7 @@ public  class CommunityBoardController {
 
 
         List<CommunityBoardDto> list = communityBoardService.getPageByCategory(category, ph.getOffset(), pageSize);
-        System.out.println("Page: " +  ph.getOffset() + ", PageSize: " + pageSize + ", Category: " + category);
+        System.out.println("Page: " + ph.getOffset() + ", PageSize: " + pageSize + ", Category: " + category);
         System.out.println(ph);
 //        System.out.println(list);
         Map<String, Object> response = new HashMap<>();
@@ -114,7 +119,8 @@ public  class CommunityBoardController {
     //세션값 필요
 
     @ResponseBody
-    @PostMapping("/register")public ResponseEntity<String> register(@RequestBody Map<String, Object> map,
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody Map<String, Object> map,
                                            Model m,
                                            HttpServletRequest request) throws Exception {
 
@@ -123,11 +129,8 @@ public  class CommunityBoardController {
         String userNick = (String) session.getAttribute("userNick");
 
 
-
         List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
-        System.out.println("addr : "+addrCdList);
-
-
+        System.out.println("addr : " + addrCdList);
 
 
         if (userId == null || userNick == null) {
@@ -151,9 +154,10 @@ public  class CommunityBoardController {
         ObjectMapper objectMapper = new ObjectMapper();
         CommunityBoardDto communityBoardDto = objectMapper.convertValue(map.get("communityBoardDto"), CommunityBoardDto.class);
 
-        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("imgList"), new TypeReference<ArrayList<ImgDto>>() {});
+        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("imgList"), new TypeReference<ArrayList<ImgDto>>() {
+        });
 
-        if(imgList.size() != 0){
+        if (imgList.size() != 0) {
             //이미지영역
             ImgFactory ifc = new ImgFactory();
             //이미지 유효성검사 하는곳
@@ -198,13 +202,45 @@ public  class CommunityBoardController {
             mapDto.put("communityBoardDto", communityBoardDto);
             mapDto.put("imgList", imgList);
             communityBoardService.write(mapDto);
-            return new ResponseEntity<>("/community/list",HttpStatus.OK);
+            return new ResponseEntity<>("/community/list", HttpStatus.OK);
 
         } catch (Exception e) {
 
-            return new ResponseEntity<>("필수값을 입력해주세요",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("필수값을 입력해주세요", HttpStatus.BAD_REQUEST);
         }
     }
+
+//
+//    @RequestMapping(value = "/read", method = RequestMethod.GET)
+//    public String read(Integer no, Model m, RedirectAttributes redirectAttributes) throws Exception {
+//        try {
+//            CommunityBoardDto communityBoardDto = communityBoardService.read(no);
+//            m.addAttribute("communityBoardDto", communityBoardDto);
+//
+//            //이미지 지움
+////            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
+////            m.addAttribute("imagePath", imagePath);
+//            List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
+//            m.addAttribute("imglist", imglist);
+//
+//            //하트수
+//            String totalLikeCount = communityHeartService.countLike(no);
+//            m.addAttribute("totalLikeCount", totalLikeCount);
+//
+//
+//            //댓글수
+//            int totalCommentCount = communityBoardDto.getComment_count();
+//            m.addAttribute("totalCommentCount", totalCommentCount);
+//
+//
+//            return "/CommunityBoard";
+//        } catch (IllegalArgumentException e) {
+//            redirectAttributes.addFlashAttribute("message", e.getMessage());
+//            return "/ErrorPage";
+//        }
+//
+//
+//    }
 
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
@@ -219,7 +255,7 @@ public  class CommunityBoardController {
             ProfileimgDto pdto = new ProfileimgDto(num, userinfo.getUr_id(), userinfo.getNick(), userinfo.getImg_full_rt());
             m.addAttribute("profile", pdto);
 
-            List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
+            List<ImgDto> imglist = imgService.read(communityBoardDto.getGroup_no());
             m.addAttribute("imglist", imglist);
 
             //하트수
@@ -238,13 +274,10 @@ public  class CommunityBoardController {
     }
 
 
-
-
-
     //세션값 필요
     @ResponseBody
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public ResponseEntity<String> update(@RequestBody Map<String,Object>map, Model m, HttpServletRequest request) throws Exception {
+    public ResponseEntity<String> update(@RequestBody Map<String, Object> map, Model m, HttpServletRequest request) throws Exception {
 
         //Interceptor 사전에 들림
         // ObjectMapper : JSON 형태를 JAVA 객체로 변환
@@ -252,9 +285,10 @@ public  class CommunityBoardController {
         ObjectMapper objectMapper = new ObjectMapper();
         CommunityBoardDto communityBoardDto = objectMapper.convertValue(map.get("communityBoardDto"), CommunityBoardDto.class);
 
-        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("imgList"), new TypeReference<ArrayList<ImgDto>>() {});
+        ArrayList<ImgDto> imgList = objectMapper.convertValue(map.get("imgList"), new TypeReference<ArrayList<ImgDto>>() {
+        });
 
-        if(imgList.size() != 0){
+        if (imgList.size() != 0) {
             //이미지영역
             ImgFactory ifc = new ImgFactory();
             //이미지 유효성검사 하는곳
@@ -283,15 +317,15 @@ public  class CommunityBoardController {
         if (!violations.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        try{
+        try {
             Map mapDto = new HashMap();
             mapDto.put("communityBoardDto", communityBoardDto);
             mapDto.put("imgList", imgList);
             communityBoardService.modify(mapDto);
-            return new ResponseEntity<>("/community/list",HttpStatus.OK);
+            return new ResponseEntity<>("/community/list", HttpStatus.OK);
 
-        }catch (Exception e) {
-            return new ResponseEntity<>("죄송합니다.글 수정에 실패했습니다.",HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("죄송합니다.글 수정에 실패했습니다.", HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -329,7 +363,7 @@ public  class CommunityBoardController {
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String Edit(Integer no, Model m, HttpServletRequest request, RedirectAttributes redirectAttributes)throws Exception {
+    public String Edit(Integer no, Model m, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
 
         CommunityBoardDto communityBoardDto = communityBoardService.findCommunityBoardById(no);
 
@@ -344,17 +378,17 @@ public  class CommunityBoardController {
 
         }
 
-        if(!Objects.equals(userId, communityBoardDto.getur_id())) {
+        if (!Objects.equals(userId, communityBoardDto.getur_id())) {
             redirectAttributes.addFlashAttribute("errorMessage", "사용자 정보가 일치하지 않습니다.");
             return "redirect:/community/read?no=" + no;
-        }else {
+        } else {
             m.addAttribute("communityBoardDto", communityBoardDto);
         }
 
 
         m.addAttribute("communityBoardDto", communityBoardDto);
 
-        List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
+        List<ImgDto> imglist = imgService.read(communityBoardDto.getGroup_no());
         m.addAttribute("imglist", imglist);
 
         return "CommunityWriteBoard";
@@ -362,9 +396,9 @@ public  class CommunityBoardController {
 
 
     //하트 누를때 상태
-
+    @ResponseBody
     @RequestMapping(value = "/doLike", method = RequestMethod.PATCH)
-    public ResponseEntity<Map<String, Object>> doLike(@RequestBody Map<String, Integer> requestBody,HttpServletRequest request) throws Exception {
+    public ResponseEntity<Map<String, Object>> doLike(@RequestBody Map<String, Integer> requestBody, HttpServletRequest request) throws Exception {
 
         HttpSession session = request.getSession();
         String userId = (String) session.getAttribute("userId");
@@ -374,38 +408,40 @@ public  class CommunityBoardController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "로그인 먼저 해주세요"));
         }
 
-        try{
+        try {
             CommunityHeartDto communityHeartDto = new CommunityHeartDto();
             communityHeartDto.setUr_id(userId);
             communityHeartDto.setPost_no(postNo);
-
+            //필수
+            communityHeartDto.setFirst_id(userId);
+            communityHeartDto.setLast_id(userId);
 
 
             communityHeartService.doLike(communityHeartDto);
 
 
-            int totalLikeCount = communityBoardService.totalLike(postNo);
+            Integer countLike = Integer.valueOf(communityHeartService.countLike(postNo));
+            Integer totalLike = communityBoardService.totalLike(postNo);
             Map<String, Object> response = new HashMap<>();
-            response.put("totalLikeCount", totalLikeCount);
+            response.put("countLike", countLike);
+            response.put("totalLike", totalLike);
             System.out.println(response);
 
 
             return ResponseEntity.ok(response);
 
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "서버 에러가 발생했습니다."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "서버 에러가 발생했습니다."));
         }
     }
-
-
 
 
     //댓글쓰기
     @PostMapping("/writeComment")
     @ResponseBody
-    public ResponseEntity<List<CommentDto>> write(@RequestBody CommentDto commentDto,HttpServletRequest request) throws Exception {
+    public ResponseEntity<List<CommentDto>> write(@RequestBody CommentDto commentDto, HttpServletRequest request) throws Exception {
         try {
             // 세션에서 ur_id와 nick 가져오기, 기본값 설정
             HttpSession session = request.getSession();
@@ -430,6 +466,10 @@ public  class CommunityBoardController {
             // 댓글 작성
             commentService.write(commentDto);
 
+
+            //프로필 가져옴
+
+
             // 댓글 목록 읽기
             List<CommentDto> comments = commentService.readAll(commentDto.getPost_no());
             return ResponseEntity.ok(comments);
@@ -445,12 +485,92 @@ public  class CommunityBoardController {
     //댓글 읽어오기
     @GetMapping("/comments")
     public ResponseEntity<List<CommentDto>> readComments(@RequestParam int postId) throws Exception {
-        try{
+        try {
+
+
             List<CommentDto> comments = commentService.readAll(postId);
             return ResponseEntity.ok(comments);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+//
+//    //댓글 수정
+//    @PatchMapping("/modifyComment")
+//    @ResponseBody
+//    public ResponseEntity<List<CommentDto>> modifyComment(@RequestBody CommentDto commentDto, HttpServletRequest request) throws Exception {
+//        try {
+//            HttpSession session = request.getSession();
+//            String userId = (String) session.getAttribute("userId");
+//
+//            if (userId == null) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+//            }
+//
+//            if (!Objects.equals(userId, commentDto.getUr_id())) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+//            }
+//
+//            commentService.read(commentDto);
+//
+//            commentService.update(commentDto);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//        return null;
+//    }
+
+
+    //댓글 선택
+    //댓글의 내용 콘텐츠를 클릭하면
+    //읽어온다...
+    //그 댓글의 dto
+    //상태
+    //세션이 일치하면
+    //수정/삭제
+
+    @GetMapping("/getComment")
+    public ResponseEntity<Object>getComment(@RequestParam Integer no, @RequestParam Integer post_no, HttpServletRequest request ) throws Exception {
+        try{
+            CommentDto commentDto = new CommentDto();
+            commentDto.setPost_no(post_no);
+            commentDto.setNo(no);
+
+
+
+            HttpSession session = request.getSession();
+            String userId = (String) session.getAttribute("userId");
+            String userNick = (String) session.getAttribute("userNick");
+
+
+            //no와 post_no값을 주고 모든 필드값을 받아옴
+            CommentDto comment = commentService.read(commentDto);
+            System.out.println("comment" + comment);
+            System.out.println("userId:(현재 로그인한 사람)" + userId);
+            System.out.println("commentDto.getUr_id:(댓글을 단 사람의 아이디) " + comment.getUr_id());
+
+            if (userId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+
+            if (!Objects.equals(userId, comment.getUr_id())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+            }
+
+            //모든 comment의 정보를 보낸다.
+            Map<String, Object> response = new HashMap<>();
+            response.put("comment", comment);
+            response.put("sessionUserId", userId);
+
+            return ResponseEntity.ok(response);
+
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
 
 }
