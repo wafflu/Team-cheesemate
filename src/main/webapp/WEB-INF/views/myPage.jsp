@@ -31,11 +31,13 @@
 									<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
 										<span class="myempty-star">☆</span>
 									</c:forEach>
-								</span>
+							 </span>
 							</div>
 						</div>
 					</div>
+					<c:if test="${userInfoDTO.ur_id eq loginId}">
 					<button type="button" class="myshop-btn">내 상점 관리</button>
+					</c:if>
 				</div>
 				<div class="container">
 					<div class="container-header">
@@ -106,10 +108,10 @@
 				<span class="iCtbOc">${userInfoDTO.rv_cmt_cnt}</span>
 			</a>
 			<c:if test="${userInfoDTO.ur_id eq loginId}">
-			<a class="subTab-link jqkJIn" data-target="wishList" onclick="showBox(event, 'wishList')">
-				찜
-				<span class="iCtbOc">0</span>
-			</a>
+				<a class="subTab-link jqkJIn" data-target="wishList" onclick="showBox(event, 'wishList')">
+					찜
+					<span class="iCtbOc">${jjimCnt}</span>
+				</a>
 			</c:if>
 		</div>
 	</div>
@@ -130,11 +132,11 @@
 									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
 										<span class="filled-star">★</span>
 									</c:forEach>
-																 <!-- 빈 별표(☆) 표시 -->
+								 <!-- 빈 별표(☆) 표시 -->
 									<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
 										<span class="empty-star">☆</span>
 									</c:forEach>
-								</span>
+							 </span>
 						</div>
 					</div>
 					<div class="qEvCW"></div>
@@ -157,8 +159,8 @@
 				상품
 				<span class="cefQuP">${saleCnt}</span>
 			</div>
-			<div class="gnpSLd">
-				<a class="jVzTFl" onclick="updateOption('R', this)">최신순</a>
+			<div class="gnpSLd1">
+				<a class="jVzTFl active" onclick="updateOption('R', this)">최신순</a>
 				<a class="kFYwqy" onclick="updateOption('P', this)">인기순</a>
 				<a class="kFYwqy" onclick="updateOption('L', this)">저가순</a>
 				<a class="kFYwqy" onclick="updateOption('H', this)">고가순</a>
@@ -179,42 +181,88 @@
 	</div>
 </div>
 <div class="wishList" id="wishList" style="display: none;">
-	<!-- Wishlist content -->
+	<div class="wishList-main">
+		<div class="wishList-main-box">
+			<div>
+				찜
+				<span class="cefQuP">${jjimCnt}</span>
+			</div>
+			<div class="gnpSLd2">
+				<a class="jVzTFl active" onclick="updateFavoriteOption('R', this)">최신순</a>
+				<a class="kFYwqy" onclick="updateFavoriteOption('P', this)">인기순</a>
+				<a class="kFYwqy" onclick="updateFavoriteOption('L', this)">저가순</a>
+				<a class="kFYwqy" onclick="updateFavoriteOption('H', this)">고가순</a>
+			</div>
+		</div>
+		<div class="kFaLlW">
+			<div class="diVvUr">
+				<div class="iYSObn">
+					<div class="gegELw" id="selectAll"></div>
+					<button class="idWKoG">선택삭제</button>
+				</div>
+			</div>
+			<div class="dNPRTr">
+
+			</div>
+			<div id="favoritepageContainer"></div>
+		</div>
+	</div>
+	<div class="xDUxA"></div>
 </div>
 
 
 
-	<!-- 모달 창 -->
-	<div id="myModal" class="modal" >
-		<div class="modal-content">
-			<span class="close">&times;</span>
-			<!-- 후기글 작성 폼 -->
-			<form class="mb-3" name="myform" id="myform">
-				<fieldset>
-					<span class="text-bold">별점을 선택해주세요</span>
-					<div id="starRating">
-						<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
-						<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
-						<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
-						<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
-						<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
-					</div>
-				</fieldset>
-				<div>
-					<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+<!-- 모달 창 -->
+<div id="myModal" class="modal" >
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<!-- 후기글 작성 폼 -->
+		<form class="mb-3" name="myform" id="myform">
+			<fieldset>
+				<span class="text-bold">별점을 선택해주세요</span>
+				<div id="starRating">
+					<input type="radio" name="reviewStar" value="5" id="rate1"><label for="rate1">★</label>
+					<input type="radio" name="reviewStar" value="4" id="rate2"><label for="rate2">★</label>
+					<input type="radio" name="reviewStar" value="3" id="rate3"><label for="rate3">★</label>
+					<input type="radio" name="reviewStar" value="2" id="rate4"><label for="rate4">★</label>
+					<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
 				</div>
-				<button class="commentBtn" id="" type="button"></button>
-				<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
-			</form>
-		</div>
+			</fieldset>
+			<div>
+				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
+			</div>
+			<button class="commentBtn" id="" type="button"></button>
+			<button class="cancelBtn" id="cancelBtn" type="button">취소</button>
+		</form>
 	</div>
+</div>
 <script>
-	document.addEventListener("DOMContentLoaded", function() {
-		var myHistoryButton = document.getElementById("myHistoryButton");
-
-		myHistoryButton.addEventListener("click", function() {
-			window.location.href = "/myPage/saleInfo";
+	// 선택된 sale.no 값을 저장할 배열
+	let selectedSales = [];
+	// "전체 선택" 체크박스를 클릭했을 때, 모든 개별 체크박스의 상태를 변경합니다.
+	$(document).on('click', '#selectAll', function() {
+		var isChecked = $(this).hasClass('gUnQrM');
+		// 전체 선택 체크박스의 상태를 토글
+		$(this).toggleClass('gUnQrM');
+		// 모든 개별 체크박스의 상태를 전체 선택 체크박스의 상태와 동일하게 설정
+		$('.gegELw').not('#selectAll').each(function() {
+			if (isChecked) {
+				$(this).removeClass('gUnQrM');
+				let saleNo = $(this).data('no');
+				selectedSales = selectedSales.filter(function(no) {
+					return no !== saleNo;
+				});
+			} else {
+				$(this).addClass('gUnQrM');
+				let saleNo = $(this).data('no');
+				if (!selectedSales.includes(saleNo)) {
+					selectedSales.push(saleNo);
+				}
+			}
 		});
+
+		// 선택된 sale.no 값을 출력 (디버깅용)
+		console.log(selectedSales);
 	});
 
 	function showBox(event, boxId) {
@@ -466,22 +514,22 @@
 				tmp += '<div>후기가 없습니다.</div>';
 			}
 			if (ph.totalCnt != null && ph.totalCnt != 0) {
+				let scrollPosition = window.innerHeight / 2; // 화면 높이의 절반으로 스크롤
 				if (ph.prevPage) {
-					tmp += '<a href="#" onclick="showList(\'' + sal_id + '\', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</a>';
+					tmp += '<button onclick="showList(\'' + sal_id + '\', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + '); window.scrollTo(0, ' + scrollPosition + ');">&lt;</button>';
 				}
 				for (let i = ph.beginPage; i <= ph.endPage; i++) {
 					// 페이지 번호 사이에 공백 추가
 					tmp += '<span class="page-space"></span>';
-					tmp += '<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="showList(\'' + sal_id + '\', ' + i + ', ' + ph.pageSize + ')">' + i + '</a>';
+					tmp += '<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="showList(\'' + sal_id + '\', ' + i + ', ' + ph.pageSize + '); window.scrollTo(0, ' + scrollPosition + ');">' + i + '</button>';
 				}
 				if (ph.nextPage) {
 					tmp += '<span class="page-space"></span>';
-					tmp += '<a href="#" onclick="showList(\'' + sal_id + '\', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</a>';
+					tmp += '<button onclick="showList(\'' + sal_id + '\', ' + (ph.endPage + 1) + ', ' + ph.pageSize + '); window.scrollTo(0, ' + scrollPosition + ');">&gt;</button>';
 				}
 			}
 			tmp += '</div>';
 		}
-
 		tmp += "</div>"; // 전체 리뷰 컨테이너 종료
 		return tmp;
 	}
@@ -544,9 +592,21 @@
 	}
 
 	// 정렬 옵션에 따라 saleList 함수를 호출하고 클릭된 a 태그에 active 클래스를 추가하는 함수
+	function updateFavoriteOption(option, element) {
+		// 모든 a 태그의 active 클래스를 제거
+		document.querySelectorAll('.gnpSLd2 a').forEach(function(a) {
+			a.classList.remove('active');
+		});
+		// 클릭된 a 태그에 active 클래스를 추가
+		element.classList.add('active');
+		// saleList 함수 호출
+		window.favoriteList(1, 10,option);
+	}
+
+	// 정렬 옵션에 따라 saleList 함수를 호출하고 클릭된 a 태그에 active 클래스를 추가하는 함수
 	function updateOption(option, element) {
 		// 모든 a 태그의 active 클래스를 제거
-		document.querySelectorAll('.gnpSLd a').forEach(function(a) {
+		document.querySelectorAll('.gnpSLd1 a').forEach(function(a) {
 			a.classList.remove('active');
 		});
 		// 클릭된 a 태그에 active 클래스를 추가
@@ -555,7 +615,218 @@
 		window.saleList(1, 20, 'null', 'null', option);
 	}
 
-	window.saleList = function (page = 1, pageSize = 20,title='null',sal_s_cd='null',option='null') {
+	window.favoriteList = function (page = 1, pageSize = 10, option='R') {
+		$.ajax({
+			type: 'GET',       // 요청 메서드
+			url: "/myPage/favorites?page=" + page + "&pageSize=" + pageSize  + "&option=" + option,  // 요청 URI
+			headers: {"content-type": "application/json"}, // 요청 헤더
+			dataType: 'json',
+			success: function (data) {
+				let ph = data.ph;
+				let favoriteList = data.favoriteList;
+				let startOfToday = data.startOfToday;
+				$(".dNPRTr").html(updateFavoriteList(favoriteList, startOfToday, ph,option));
+			},
+			error: function (result) {
+				alert("화면 로딩 중 오류 발생");
+				// alert(result.responseText)
+			} // 에러가 발생했을 때, 호출될 함수
+		}); // $.ajax()
+	}
+
+	// 업데이트된 updateFavoriteList 화면에 출력하는 함수
+	function updateFavoriteList(favoriteList, startOfToday, ph,option) {
+		$(".dNPRTr").empty();
+
+		if (favoriteList.length > 0) {
+			let str = "";
+			// 판매 상태에 따라 텍스트 설정
+			favoriteList.forEach(function (sale) {
+				switch (sale.sal_s_cd) {
+					case 'S':
+						saleStatusText = '판매중';
+						break;
+					case 'R':
+						saleStatusText = '예약중';
+						break;
+					case 'C':
+						saleStatusText = '판매<br>완료';
+
+						break;
+					default:
+						saleStatusText = '';
+				}
+
+				let saleTitle = sale.title;
+				if (saleTitle.length > 12) {
+					saleTitle = saleTitle.substring(0, 12) + '...';
+				}
+
+				let salePrice = sale.price;
+				let saleTxSCd = sale.tx_s_cd;
+				if (saleTxSCd === "S") {
+					salePrice = comma(salePrice);
+				} else {
+					salePrice = "나눔";
+				}
+
+				let saleDate = new Date(sale.h_date);
+				str += "<div class='cRKeje'>";
+				str += "<div class='berHi' href='/sale/read?no=" + sale.no + "'>";
+				str += "<div class='kXUqUO'>";
+				str += "<div class='gegELw' data-no='"+sale.no+"'></div>"; //체크박스
+				str += "</div>";
+				str += "<a class='boxboxboxbox'href='/sale/read?no=" + sale.no + "'>";
+				str += "<div class='hnpKEA'>";
+
+				str += "<div class='info-imgbox'>";
+
+				str += "<img src='/img/display?fileName=" + sale.img_full_rt + "'/>";
+
+				if(saleStatusText !== "판매중"){
+					str += "<div class='saleStatus-box'>";
+					str += "<span class='saleStatusText'>" + saleStatusText + "</span>";
+					str += "</div>";
+				}
+				let saleBidCd = sale.bid_cd;
+				if (saleBidCd === "P") {
+					str += "<p class='active-nego'>" + "가격제시" + "</p>";
+				} else if (saleBidCd === "T") {
+					str += "<p class='active-nego'>" + "나눔신청" + "</p>";
+				}
+				str += "</div>";
+
+				str += "<div class='lkuWrh'></div>";
+				str += "</div>";
+				str += "<div class='yedAx'>";
+				str += "<div class='JwXwZ'>";
+				str += "<div class='jjyhOI'>" + saleTitle + "</div>";
+				str += "<div class='gWyqBS'>";
+				str += "<div>" + salePrice + "</div>";
+				str += "</div>";
+				str += "<div class='bUhgFE'>" + dateToString2(sale.h_date, startOfToday)  + "</div>";
+				str += "</div>";
+				str += "<div class='eKxBlP'>" + sale.addr_name + "</div>";
+				str += "</div>";
+				str += "</a>";
+				str += "</div>";
+				str += "</div>";
+
+
+				$(".dNPRTr").html(str);
+			});
+		} else {
+			$(".dNPRTr").html("<p style='font-size: 20px; text-align: center;'>찜한 상품이 없습니다.</p>");
+		}
+
+		// 기존 페이지 내용을 비우기
+		$("#favoritepageContainer").empty();
+
+		if (ph.totalCnt != null && ph.totalCnt != 0) {
+			let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
+			let scrollPosition = window.innerHeight / 2; // 화면 높이의 절반으로 스크롤
+
+			// 이전 페이지 버튼
+			if (ph.prevPage) {
+				pageContainer.append('<button onclick="saleList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&lt;</button>');
+			}
+
+			// 페이지 번호 버튼
+			for (let i = ph.beginPage; i <= ph.endPage; i++) {
+				pageContainer.append('<span class="page-space"></span>');
+				pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(' + i + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">' + i + '</button>');
+			}
+
+			// 다음 페이지 버튼
+			if (ph.nextPage) {
+				pageContainer.append('<span class="page-space"></span>');
+				pageContainer.append('<button onclick="saleList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&gt;</button>');
+			}
+
+			// 새로 생성한 페이지 컨테이너를 추가
+			$("#favoritepageContainer").html(pageContainer);
+		} else {
+			// 찜한 상품이 없는 경우
+			let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center');
+			pageContainer.append('<div>찜한 상품이 없습니다.</div>');
+			$("#favoritepageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
+		}
+	}
+
+	// 개별 체크박스를 클릭했을 때, "전체 선택" 체크박스의 상태를 업데이트합니다.
+	$(document).on('click', '.gegELw', function() {
+		// 전체 선택 체크박스를 클릭한 경우는 제외
+		if ($(this).attr('id') === 'selectAll') return;
+
+		// 개별 체크박스 상태를 토글
+		$(this).toggleClass('gUnQrM');
+
+		// sale.no 값을 가져오기
+		let saleNo = $(this).data('no');
+
+		// 체크박스가 선택되었는지 여부 확인
+		if ($(this).hasClass('gUnQrM')) {
+			// 선택되었다면 배열에 추가
+			if (!selectedSales.includes(saleNo)) {
+				selectedSales.push(saleNo);
+			}
+		} else {
+			// 선택 해제되었다면 배열에서 제거
+			selectedSales = selectedSales.filter(function(no) {
+				return no !== saleNo;
+			});
+		}
+
+		// 모든 개별 체크박스의 상태를 확인하여 "전체 선택" 체크박스의 상태를 업데이트
+		var allChecked = $('.gegELw').not('#selectAll').length === $('.gegELw.gUnQrM').not('#selectAll').length;
+		if (allChecked) {
+			$('#selectAll').addClass('gUnQrM');
+		} else {
+			$('#selectAll').removeClass('gUnQrM');
+		}
+
+		// 선택된 sale.no 값을 출력 (디버깅용)
+		console.log(selectedSales);
+	});
+
+	$(document).on('click', '.idWKoG', function() {
+		if (selectedSales.length === 0) {
+			alert('삭제할 상품을 선택해주세요.');
+			return;
+		}
+
+		// 삭제 확인을 위한 confirm 창
+		if (!confirm('선택한 상품을 삭제하시겠습니까?')) {
+			return; // 사용자가 취소를 선택하면 함수 종료
+		}
+
+		// AJAX 요청을 사용하여 DELETE 메서드로 서버에 데이터 전송
+		$.ajax({
+			url: '/myPage/favorites',
+			type: 'DELETE',
+			contentType: 'application/json', // JSON 형식으로 데이터 전송
+			data: JSON.stringify(selectedSales), // 배열을 JSON 문자열로 변환
+			success: function(response) {
+				// 요청이 성공했을 때 수행할 작업
+				console.log('삭제 성공:', response);
+				// 삭제된 항목을 UI에서 제거하거나, 페이지를 새로고침하는 등의 작업 수행
+				selectedSales.forEach(function(no) {
+					$('.gegELw[data-no="' + no + '"]').closest('.cRKeje').remove();
+				});
+				favoriteList(); // 삭제 후 리스트를 새로고침
+				// 선택된 항목 배열 초기화
+				selectedSales = [];
+			},
+			error: function(error) {
+				// 요청이 실패했을 때 수행할 작업
+				console.error('삭제 실패:', error);
+				alert('삭제에 실패했습니다. 다시 시도하세요.');
+			}
+		});
+	});
+
+
+	window.saleList = function (page = 1, pageSize = 20,title='null',sal_s_cd='null',option='R') {
 		$.ajax({
 			type: 'GET',       // 요청 메서드
 			url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize +  "&title=" + title+ "&sal_s_cd=" + sal_s_cd + "&option=" + option,  // 요청 URI
@@ -654,17 +925,18 @@
 
 		if (ph.totalCnt != null && ph.totalCnt != 0) {
 			let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
+			let scrollPosition = window.innerHeight / 2; // 화면 높이의 절반으로 스크롤
 			if (ph.prevPage) {
-				pageContainer.append('<a onclick="saleList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\')">&lt;</a>');
+				pageContainer.append('<button onclick="saleList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&lt;</button>');
 			}
 			for (let i = ph.beginPage; i <= ph.endPage; i++) {
 				// 페이지 번호 사이에 공백 추가
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<a class="page ' + (i == ph.page ? "paging-active" : "") + '" href="#" onclick="saleList(' + i + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\')">' + i + '</a>');
+				pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(' + i + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">' + i + '</button>');
 			}
 			if (ph.nextPage) {
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<a onclick="saleList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\')">&gt;</a>');
+				pageContainer.append('<button onclick="saleList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + title + '\', \'' + sal_s_cd + '\', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&gt;</button>');
 			}
 			$("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
 		} else {
@@ -675,11 +947,42 @@
 
 	$(document).ready(function() {
 		saleList();
+		favoriteList();
 		showList(ur_id); // 후기글 목록 읽어오기
 		modal.style.display = "none"; // 모달창 숨기기
 
 		// 모달 창 닫기 버튼 클릭 시 모달 창 닫기
 		closeBtn.onclick = closeModal;
+
+		let myHistoryButton = document.getElementById("myHistoryButton");
+
+		// myHistoryButton이 존재하는지 확인
+		if (myHistoryButton) {
+			myHistoryButton.addEventListener("click", function() {
+				window.location.href = "/myPage/saleInfo";
+			});
+		}
+
+		let accountSettingsButton = document.getElementById("accountSettingsButton");
+
+		if (accountSettingsButton) {
+			accountSettingsButton.addEventListener("click", function() {
+				window.location.href = '/myPage/editMyInfo';
+			});
+		}
+
+		// let button = document.querySelector('.myshop-btn');
+		//
+		// if (button) {
+		// 	button.addEventListener("click", function() {
+		// 		window.location.href = '/sale/managePage';
+		// 	});
+		// }
+
+		$(document).on("click", ".myshop-btn", function (){
+			window.location.href = '/sale/managePage?title=null&sal_s_cd=null&option=null';
+		})
+
 
 		// 후기글 수정
 		$(document).on("click", "#comment-modBtn", function() {

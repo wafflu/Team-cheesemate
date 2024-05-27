@@ -160,4 +160,11 @@ public class SaleDaoImpl implements SaleDao {
         return session.selectOne(namespace+"userSaleCnt",ur_id);
     }
 
+    @Override
+    public int updateLikeCnt(Long no,int cnt) throws Exception {
+        Map map = new HashMap();
+        map.put("no",no);
+        map.put("cnt",cnt);
+        return session.update(namespace+"updateLikeCnt",map);
+    }
 }
