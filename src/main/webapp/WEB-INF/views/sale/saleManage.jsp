@@ -1,19 +1,11 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="../fixed/header.jsp" %>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/css/saleManage.css">
-    <link rel="stylesheet" href="/css/mystyle.css">
-</head>
-<body>
+<link rel="stylesheet" href="/css/saleManage.css">
+<link rel="stylesheet" href="/css/mystyle.css">
 <div class="totalBox">
     <div class="selectOptiondiv font14">
-        <input class="" name="searchTitle" type="text" placeholder="상품명을 입력해주세요." value="">
+        <input class="searchbar" name="searchTitle" type="text" placeholder="상품명을 입력해주세요." value="">
         <div class="selectOptionTx">
             <div class="optionTx selected" data-selected="true">전체</div>
             <div class="optionTx" data-selected="false">판매중</div>
@@ -43,12 +35,12 @@
     <br>
 </div>
 
-</body>
-</html>
 <script>
     $(document).ready(function () {
-        window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = "R") {
 
+        let imgInfo = cssImage.getImgInfo();
+        $(".searchbar").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
+        window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = "R") {
             $.ajax({
                 type: 'GET',       // 요청 메서드
                 url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize + "&title=" + title + "&sal_s_cd=" + sal_s_cd + "&option=" + option,  // 요청 URI
@@ -66,9 +58,6 @@
             });
         }
 
-        // URL에서 페이지 번호 읽기
-        const urlParams = new URLSearchParams(window.location.search);
-        const page = urlParams.get('page') || 1;
 
         let title = $('input[name="searchTitle"]').val(); // 판매글 제목 검색
         let sal_s_cd = null;
@@ -85,10 +74,8 @@
             sal_s_cd = optionTextSwitch(optionText);
             pre_sal_s_cd = sal_s_cd;
 
-            // 모든 optionTx에 #7F7F7F 색상 적용
-            $('.optionTx').css('color', '#7F7F7F');
-            // 클릭된 요소만 빨간색으로 변경
-            $(this).css('color', 'red');
+            $('.optionTx').removeClass("selected");
+            $(this).addClass("selected");
 
             saleList(title, sal_s_cd);
         });

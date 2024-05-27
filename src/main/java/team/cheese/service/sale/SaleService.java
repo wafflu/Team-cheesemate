@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import team.cheese.dao.MyPage.JjimDao;
 import team.cheese.domain.*;
+import team.cheese.domain.MyPage.JjimDTO;
 import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
 import team.cheese.dao.MyPage.UserInfoDao;
@@ -37,6 +39,8 @@ public class SaleService {
 
     @Autowired
     ImgService imgService;
+    @Autowired
+    JjimDao jjimDao;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -383,6 +387,10 @@ public class SaleService {
     public void buySale(SaleDto saleDto) throws Exception {
         if(saleDao.buySale(saleDto)!=1)
             throw new Exception("구매/예약시 예외발생");
+    }
+    // 상세 판매글페이지에 찜 버튼 눌렀는지
+    public JjimDTO bringLike(JjimDTO jjimDTO) throws Exception {
+        return jjimDao.findLike(jjimDTO);
     }
 }
 

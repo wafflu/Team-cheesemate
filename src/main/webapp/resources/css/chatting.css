@@ -326,6 +326,7 @@
     overflow-y: scroll;
     box-sizing: border-box;
     border-top: 1px solid #33333350;
+    padding: 0px 4px 10px 4px;
 }
 
 .response-active{
@@ -477,4 +478,89 @@
     top : 50%;
     left : 70px;
     transform: translateY(-50%);
+}
+
+.c_chatprofileimg{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.msg-box{
+    padding: 0 10px;
+}
+
+.msg-nick-box{
+    height: 38px;
+    position: relative;
+}
+.msg_nick{
+    position: absolute;
+    top : 0;
+    font-size: 14px;
+    padding-left: 4px;
+}
+
+.buyer-msg{
+    margin-right: 20px;
+    background-color: #F9EB54;
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 70px);
+    padding: 10px;
+    margin-top: 7px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.buyer-msg::after{
+    position: absolute;
+    display: block;
+    top: 2px;
+    right: -8px;
+    content: "▶";
+    color: #F9EB54;
+}
+
+
+.buyer-msg-date{
+    position: absolute;
+    left: -36px;
+    bottom: 0;
+    font-size: 12px;
+}
+
+.buyer-msg{
+    text-align: left;
+}
+
+.seller-msg{
+    margin-left: 44px;
+    background-color: #ddd;
+    position: relative;
+    display: inline-block;
+    max-width: calc(100% - 100px);
+    padding: 10px;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    border-radius: 10px;
+}
+
+.seller-msg::before{
+    left: -10px;
+    content: "◀";
+    color: #ddd;
+    position: absolute;
+    display: block;
+    top: 6px;
+}
+
+.seller-msg-date{
+    position: absolute;
+    right: -36px;
+    bottom: 0;
+    font-size: 12px;
 }

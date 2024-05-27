@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.MyPage.JjimDao">
+    <!-- 좋아요 저장 -->
+    <insert id="insertLike" parameterType="JjimDto">
+        insert into jjim (sal_no, buyer_id, check_like, first_id, last_id)
+        values(#{sal_no},#{buyer_id},1,#{buyer_id},#{buyer_id})
+    </insert>
+
+    <!-- 좋아요 확인 -->
+    <select id="findLike" parameterType="JjimDto" resultType="JjimDto">
+        select * from jjim where sal_no=#{sal_no} and buyer_id=#{buyer_id}
+    </select>
+
+    <!-- 좋아요 삭제 -->
+    <delete id="deleteLike" parameterType="JjimDto">
+        delete from jjim where sal_no=#{sal_no} and buyer_id=#{buyer_id}
+    </delete>
+
+    <select id="countAll" parameterType="String" resultType="int">
+        select count(*)
+        from jjim
+        where buyer_id = #{buyer_id}
+    </select>
+
+    <!-- 찜 목록 갯수    -->
+    <select id="countLikes" parameterType="map" resultType="int">
+        SELECT count(*)
+        FROM sale s
+        INNER JOIN jjim j
+        ON s.no = j.sal_no
+        WHERE j.buyer_id = #{buyer_id}
+        <if test="option != null and option != ''">
+            <choose>
+                <when test='option=="R"'>
+                    ORDER BY s.h_date DESC
+                </when>
+                <when test='option=="P"'>
+                    ORDER BY s.view_cnt DESC
+                </when>
+                <when test='option=="L"'>
+                    and s.tx_s_cd = 'S'
+                    ORDER BY s.price ASC
+                </when>
+                <when test='option=="H"'>
+                    and s.tx_s_cd = 'S'
+                    ORDER BY s.price DESC
+                </when>
+            </choose>
+        </if>
+    </select>
+
+    <!-- 찜 목록 가져오기  -->
+    <select id="selectAll" parameterType="map" resultType="SaleDto">
+        SELECT s.*
+        FROM sale s
+        INNER JOIN jjim j
+        ON s.no = j.sal_no
+        WHERE j.buyer_id = #{buyer_id}
+        <if test="option != null and option != ''">
+            <choose>
+                <when test='option=="R"'>
+                    ORDER BY s.h_date DESC
+                </when>
+                <when test='option=="P"'>
+                    ORDER BY s.view_cnt DESC
+                </when>
+                <when test='option=="L"'>
+                    and s.tx_s_cd = 'S'
+                    ORDER BY s.price ASC
+                </when>
+                <when test='option=="H"'>
+                    and s.tx_s_cd = 'S'
+                    ORDER BY s.price DESC
+                </when>
+            </choose>
+        </if>
+        LIMIT #{offset},#{pageSize}
+    </select>
+
+    <!-- 전체 삭제   -->
+    <delete id="deleteAll" parameterType="String">
+        delete
+        from jjim
+        where buyer_id=#{buyer_id}
+    </delete>
+
+    <!-- 선택 삭제    -->
+    <delete id="deleteSelectedSales" parameterType="map">
+        DELETE FROM jjim
+        WHERE buyer_id=#{buyer_id}
+        AND sal_no IN
+        <foreach item="salNo" collection="salNos" open="(" separator="," close=")">
+            #{salNo}
+        </foreach>
+    </delete>
+
+
+</mapper>

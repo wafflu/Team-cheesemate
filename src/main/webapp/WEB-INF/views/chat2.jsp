@@ -53,6 +53,7 @@
 <script type="text/javascript">
     let stompClient = null;
     let roomnum; // 채팅방 번호
+    const userid = "${sessionScope.userId}";
 
     $(document).ready(function (){
         let roomnum = ${roomid};
@@ -79,11 +80,12 @@
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
             //여기서 메세지 로드시킴
+            //if(get)
             loadchatmsg();
             setConnected(true);
             $("#response").removeClass("response-active");
             $('#response').removeAttr('style');
-            console.log('Connected: ' + frame);
+            // console.log('Connected: ' + frame);
             stompClient.subscribe('/topic/messages/'+roomnum, function(messageOutput) {
                 showMessageOutput(JSON.parse(messageOutput.body), true);
             });
@@ -156,14 +158,19 @@
 
     //메세지전송
     function sendMessage() {
+        if($("#message").val().length === 0 || $("#message").val().includes(" ")){
+            $('#message').val('');
+            return;
+        }
         let nick = document.getElementById('nick').value;
         let message = document.getElementById('message').value;
         saveMessagedb(roomnum, nick, message);
         stompClient.send("/app/chat/"+roomnum, {},
-            JSON.stringify({'nick':nick, 'message':message}));
+            JSON.stringify({'nick':nick, 'message':message, 'acid':userid}));
         $('#message').val('');
         // document.getElementById('message').value = "";
     }
+
     //Enter
     function handleKeyPress(event){
         if(event.keyCode === 13){
@@ -193,11 +200,11 @@
         });
     }
 
-
-    function loadsendMessage(roomnum, nick, message) {
-        stompClient.send("/app/chat/"+roomnum, {},
-            JSON.stringify({'nick':nick, 'message':message}));
-    }
+    //
+    // function loadsendMessage(roomnum, nick, message) {
+    //     stompClient.send("/app/chat/"+roomnum, {},
+    //         JSON.stringify({'nick':nick, 'message':message, 'acid':userid}));
+    // }
 
     function loadchatmsg(){
         $.ajax({
@@ -213,10 +220,11 @@
                 result.forEach((chat)=>{
                     showMessageOutput(chat, false);
                 });
-                console.log(result)
             },
             error : function(result){
-                alert("메세지 로딩 오류");
+                // 이거 나중에 봐야함
+                // 채팅로그가 없으면그냥 오류뜸
+                // alert("메세지 로딩 오류");
             }
         });
     }
@@ -237,20 +245,35 @@
         }
 
         // 닉네임과 메시지의 닉네임 비교 후 클래스 추가
-
+        // let srcValue = $(".r_chatprofileimg").attr("src");
+        // console.log(messageOutput.img_full_rt)
         let str="";
         str += "<div class='msg-box'>"
-        str += "<p class='msg_nick'>"+messageOutput.nick+" : </p>";
-        str += "<p class='msg_msg'>" + messageOutput.message + "</p>";
-        str += "<p class='msg_date'>" + date + "</p>";
+        const usernick = "${sessionScope.userNick}";
+        if(messageOutput.nick !== usernick){
+            str += "<div class='msg-nick-box'>"
+            str += '<img src="/img/display?fileName=' + messageOutput.img_full_rt + '" class="c_chatprofileimg">';
+            str += "<span class='msg_nick'>"+messageOutput.nick+"</span>";
+            str += "</div>"
+        }
+        str += "<div class='msg-msg-box'>"
+        str += "<div class='msg_msg'>" + messageOutput.message + "</div>";
+        str += "<div class='msg_date'>" + date + "</div>";
+        str += "</div>"
         str += "</div>"
 
         res.append(str);
 
+        let num = $("#response").children().length-1;
+        // console.log(num);
         if (currentNick === messageOutput.nick) {
-            $(".msg-box").addClass("buyermsg")
+            $(".msg-box").eq(num).addClass("buyermsg")
+            $(".msg-msg-box").eq(num).addClass("buyer-msg")
+            $(".msg_date").eq(num).addClass("buyer-msg-date")
         } else {
-            $(".msg-box").addClass("sellermsg")
+            $(".msg-box").eq(num).addClass("sellermsg")
+            $(".msg-msg-box").eq(num).addClass("seller-msg")
+            $(".msg_date").eq(num).addClass("seller-msg-date")
         }
 
         scrollDown();

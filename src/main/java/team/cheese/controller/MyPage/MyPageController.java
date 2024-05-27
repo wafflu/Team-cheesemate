@@ -8,7 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import team.cheese.domain.MyPage.JjimDTO;
 import team.cheese.domain.UserDto;
+import team.cheese.service.MyPage.JjimService;
 import team.cheese.service.UserService;
 import team.cheese.service.sale.SaleService;
 import team.cheese.entity.PageHandler;
@@ -32,18 +34,17 @@ import java.util.Map;
 @RequestMapping("/myPage")
 public class MyPageController {
 
-    @Autowired
     UserInfoService userInfoService;
-    @Autowired
     SaleService saleService;
-
-    @Autowired
     UserService userService;
+    JjimService jjimService;
 
     @Autowired
-    public MyPageController(UserInfoService userInfoService, SaleService saleService){
+    public MyPageController(UserInfoService userInfoService, SaleService saleService,UserService userService,JjimService jjimService){
         this.userInfoService = userInfoService;
         this.saleService = saleService;
+        this.userService = userService;
+        this.jjimService = jjimService;
     }
 
     @ExceptionHandler(Exception.class)
@@ -78,6 +79,9 @@ public class MyPageController {
                 rowCnt = saleService.userSaleCnt(ur_id);
                 model.addAttribute("saleCnt",rowCnt);
             }
+            // 찜 갯수 모델에 담기
+            int cnt = jjimService.countAll(session_id);
+            model.addAttribute("jjimCnt",cnt);
             // 소개글 읽어오기
             userInfoDTO = userInfoService.read(ur_id,session_id,session);
             model.addAttribute("userInfoDTO",userInfoDTO);
@@ -121,6 +125,68 @@ public class MyPageController {
         response.put("ph", ph);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+
+    @GetMapping("/like")
+    @ResponseBody
+    public ResponseEntity<Map<String,Integer>> likePOST(Long sal_no,@RequestParam(required = false)String ur_id) throws Exception{
+        //비회원인 사용자일 경우
+        int row=-1;
+
+        Map<String, Integer> response = new HashMap<>();
+
+        if(ur_id == null || ur_id.equals("")) {
+            response.put("row",row);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        // JjimDTO객체 생성하여 값 세팅
+        JjimDTO jjimDTO = new JjimDTO();
+        jjimDTO.setSal_no(sal_no); // 판매글 번호 초기화
+        jjimDTO.setBuyer_id(ur_id); // 구매자 아이디 초기화
+        row = jjimService.checkLike(jjimDTO);
+        SaleDto saleDto = saleService.getSale(sal_no); // 해당번호 판매글 가져오기
+        int likeCnt = saleDto.getLike_cnt();
+        response.put("row",row);
+        response.put("likeCnt",likeCnt);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    // 찜 목록 불러오기
+    // option 값에 맞춰서 최신순 / 인기순 / 저가순 / 고가순 으로 정렬
+   @GetMapping("/favorites")
+   @ResponseBody
+   public ResponseEntity<Map<String, Object>> list(@RequestParam(defaultValue = "1") int page,
+                                             @RequestParam(defaultValue = "10") int pageSize,
+                                             @RequestParam(required = false) String option,
+                                             HttpSession session) throws Exception {
+
+       if (option.equals("null") || option.equals("")) {
+           option = null;
+       }
+
+       int totalCnt =  jjimService.countLikes(session.getAttribute("userId").toString(),option);
+       PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+       List<SaleDto> list = jjimService.selectAllLike(session.getAttribute("userId").toString(),page,pageSize,option);
+
+       Map response = new HashMap();
+       long startOfToday = getStartOfToday();
+
+       response.put("ph", ph);
+       response.put("favoriteList", list);
+       response.put("startOfToday", startOfToday);
+
+       return new ResponseEntity<>(response, HttpStatus.OK);
+   }
+
+   // 전체 삭제 또는 선택 삭제
+   @DeleteMapping("/favorites")
+   @ResponseBody
+   public ResponseEntity<String> removeAll(@RequestBody List<Long> salNos, HttpSession session) throws Exception {
+       jjimService.deleteSelectedSales(session.getAttribute("userId").toString(),salNos);
+       return new ResponseEntity<>("Delete_OK",HttpStatus.OK);
+   }
+
 
     // *** 내 정보 수정 페이지로 이동 ***
     @GetMapping("/editMyInfo")
@@ -215,6 +281,11 @@ public class MyPageController {
         session.invalidate();
 
         return "redirect:/";
+    }
+
+    public long getStartOfToday() {
+        Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        return startOfToday.toEpochMilli();
     }
 
     private boolean loginCheck(HttpSession session) {

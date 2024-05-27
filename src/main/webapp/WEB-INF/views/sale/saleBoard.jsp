@@ -1,6 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="../fixed/header.jsp"%>
 <link rel="stylesheet" href="/css/saleBoard.css">
+<c:set var="userId" value="${sessionScope.userId != null ? sessionScope.userId : ''}" />
 <div class="maincontent saleboardarea">
     <div class="saleboard-top-box">
 
@@ -163,6 +164,7 @@
                     </c:when>
                     <c:otherwise>
                         <button type="button" id="saleboard-jjimbtn"></button>
+                        <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
                         <form id="form">
                             <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
                         </form>
@@ -240,6 +242,11 @@
 
 <script>
     $(document).ready(function () {
+        // 판매글 번호
+        let sal_no = "${Sale.no}";
+        // 세션 아이디
+        let ur_id = "${userId}";
+
         let time, price, oriprice, text;
 
         time = remaindTime(new Date("${Sale.h_date}"));
@@ -255,15 +262,70 @@
         $(".saleboard-uptime").text(time);
         $(".saletitle").text(text);
 
-        $("#saleboard-jjimbtn").on("click", function (){
-            if($("#saleboard-jjimbtn").hasClass("saleboard-jjimbtn")){
-                $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn");
-                $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+        let checkhart = ${result.check_like};
 
-            } else {
-                $("#saleboard-jjimbtn").addClass("saleboard-jjimbtn");
-                $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
-            }
+        if(checkhart===1) {
+            $("#saleboard-jjimbtn").addClass("saleboard-jjimbtn"); // 찬 하트로
+            $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
+        }else {
+            $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
+            $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+        }
+
+        // $("#saleboard-jjimbtn").on("click", function (){     // 클릭했을떄
+        //     if($("#saleboard-jjimbtn").hasClass("saleboard-jjimbtn")){ // 색깔이 채워져있으면
+        //         $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
+        //         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+        //
+        //     } else { // 안채워져있으면
+        //         $("#saleboard-jjimbtn").addClass("saleboard-jjimbtn"); // 찬 하트로
+        //         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
+        //     }
+        // });
+        $("#saleboard-jjimbtn").on("click", function(){
+
+            $.ajax({
+                type:'GET',       // 요청 메서드
+                url : "/myPage/like?sal_no="+sal_no+ "&ur_id="+ur_id,
+                headers: {"content-type": "application/json"}, // 요청 헤더
+                dataType : 'json',
+                success:function(data){
+                    let row = data.row;
+                    let likeCnt = data.likeCnt;
+                    if(row==1){
+                        $("#saleboard-jjimbtn").addClass("saleboard-jjimbtn"); // 찬 하트로
+                        $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
+
+                        alert("상품을 찜 하셨습니다.");
+                        var result = confirm('찜목록으로 이동하시겠습니까?');
+                        if (result) {
+                            //yes
+                            //찜 리스트 페이지 생성 후 -> 찜리스트 페이지 이동으로 변경
+                            location.href='/myPage/main';
+
+                        }
+                        // like_cnt 업데이트
+                        $("#likeCount").text(likeCnt);
+
+                    }
+                    else if(row == -1){
+                        alert("로그인이 필요한 서비스입니다. ");
+
+
+                    }
+                    else {
+                        alert("상품을 찜 취소하셨습니다. ");
+                        $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
+                        $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+                        // like_cnt 업데이트
+                        $("#likeCount").text(likeCnt);
+                    }
+
+                },
+                error:function(error){
+                    console.log(error);
+                }
+            });
         });
 
         $(".userinfo").on("click", function (){

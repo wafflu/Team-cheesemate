@@ -163,6 +163,12 @@
                         $("#pagination").html(generatePagination(result.ph));
 
                         setArticleIcons();
+                        // 페이지 링크 클릭 시 active 클래스 추가
+                        $('#pagination').find('.page-link').each(function() {
+                            if ($(this).data('page') == page) {
+                                $(this).addClass('active');
+                            }
+                        });
                     }
 
 
@@ -195,26 +201,25 @@
             console.log(pagination.totalCnt);
 
             let paginationHtml = '';
-
-            $("#pagination").empty(); // 기존에 있는 페이지 내용 비우기
-
+            $("#pagination").empty();
 
             if (pagination.totalCnt != null && pagination.totalCnt != 0) {
                 let pageContainer = $('<div>').attr('id', 'pageNumber').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
                 if (pagination.prevPage) {
-                    // pageContainer.append('<a href="#" class="page-link">&lt;</a>');
-                    pageContainer.append('<a href="#" class="page-link" data-page="' + (pagination.beginPage - 1) + '">&lt;</a>');
+                    pageContainer.append('<button class="page-link" data-page="' + (pagination.beginPage - 1) + '">&lt;</button>');
                 }
                 for (let i = pagination.beginPage; i <= pagination.endPage; i++) {
                     // 페이지 번호 사이에 공백 추가
                     pageContainer.append('<span class="page-space"></span>');
-                    // pageContainer.append('<a href="#" class="page-link">' + i + '</a>');
-                    pageContainer.append('<a href="#" class="page-link" data-page="' + i + '">' + i + '</a>');
+
+                    // pageContainer.append('<a href="#" class="page-link" data-page="' + i + '">' + i + '</a>');
+                    // pageContainer.append('<button class="' + (i == pagination.page ? "page-link" : "") + '" data-page="' + i + '">' + i + '</button>');
+                    pageContainer.append('<button class="' + (i == pagination.page ? "page-link active" : "page-link") + '" data-page="' + i + '">' + i + '</button>');
+
                 }
                 if (pagination.nextPage) {
                     pageContainer.append('<span class="page-space"></span>');
-                    // pageContainer.append('<a href="#" class="page-link">&gt;</a>');
-                    pageContainer.append('<a href="#" class="page-link" data-page="' + (pagination.endPage + 1) + '">&gt;</a>');
+                    pageContainer.append('<button class="page-link" data-page="' + (pagination.endPage + 1) + '">&gt;</button>');
                 }
                 $("#pagination").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
             }
@@ -243,7 +248,17 @@
         // Click events for pagination links
         $(document).on('click', '.page-link', function () {
             let page = $(this).data('page');
-            console.log("Clicked page : " + page);
+            const category = $(".topic-slide.active").attr('id') || 'commu_A';
+            loadArticles(category, page);
+        });
+
+        // 추가된 버튼 클릭 이벤트 핸들러
+        $(document).on('click', 'button.page-link', function (event) {
+            event.preventDefault(); // 기본 동작 방지
+            $('.page-link').removeClass('active'); // 기존 active 클래스 제거
+            console.log($(this));
+            $(this).addClass('active'); // 클릭한 페이지 링크에 active 클래스 추가
+            let page = $(this).data('page');
             const category = $(".topic-slide.active").attr('id') || 'commu_A';
             loadArticles(category, page);
         });
