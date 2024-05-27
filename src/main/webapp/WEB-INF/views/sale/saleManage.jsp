@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/saleManage.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
 </head>
 <body>
 <div class="totalBox">
@@ -46,7 +47,7 @@
 </html>
 <script>
     $(document).ready(function () {
-        window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = null) {
+        window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = "R") {
             $.ajax({
                 type: 'GET',       // 요청 메서드
                 url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize + "&title=" + title + "&sal_s_cd=" + sal_s_cd + "&option=" + option,  // 요청 URI

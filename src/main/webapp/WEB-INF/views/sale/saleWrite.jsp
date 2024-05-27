@@ -2,6 +2,7 @@
 <%@include file="../fixed/header.jsp" %>
 
 <link rel="stylesheet" href="/css/saleWrite.css">
+<link rel="stylesheet" href="/css/mystyle.css">
 
 <div class="totalBox">
     <nav class="sc-krDsej dadRxL">
@@ -662,8 +663,8 @@
                         if (data.length > 0) {
                             data.forEach(function (addr) {
                                 let row = $("<tr class='sale-addr-tr'>");
-                                row.append($("<td>").html("<p class='font20 marginTopFont10'>" + addr.addr_cd + "</p>")); // 행정구역 코드
-                                row.append($("<td>").html("<p class='font20 marginTopFont10'>" + addr.addr_name + "</p>")); // 주소명
+                                row.append($("<td style='text-align: center;'>").html("<p class='font20'>" + addr.addr_cd + "</p>")); // 행정구역 코드
+                                row.append($("<td style='text-align: center;'>").html("<p class='font20'>" + addr.addr_name + "</p>")); // 주소명
                                 $("#addrList").append(row);
                             });
                         } else {
@@ -841,10 +842,12 @@
     const openModal = (event) => {
         event.preventDefault(); // form의 기본 동작을 막음
         modal.classList.remove("SaleHidden");
+        document.body.style.overflow = 'hidden';
     }
     const closeModal = () => {
         event.preventDefault(); // form의 기본 동작을 막음
         modal.classList.add("SaleHidden");
+        document.body.style.overflow = '';
     }
     document.addEventListener("keydown", (event) => {
         if (event.key === "Escape" || event.keyCode === 27) {
