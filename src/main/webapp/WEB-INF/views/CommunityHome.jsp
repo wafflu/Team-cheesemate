@@ -36,7 +36,7 @@
                 setArticleIcons();
             },
             error: function() {
-                console.log("error");
+
             }
         });
 

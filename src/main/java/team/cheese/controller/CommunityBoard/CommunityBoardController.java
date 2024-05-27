@@ -97,9 +97,7 @@ public  class CommunityBoardController {
 
 
         List<CommunityBoardDto> list = communityBoardService.getPageByCategory(category, ph.getOffset(), pageSize);
-        System.out.println("Page: " + ph.getOffset() + ", PageSize: " + pageSize + ", Category: " + category);
-        System.out.println(ph);
-//        System.out.println(list);
+
         Map<String, Object> response = new HashMap<>();
         response.put("content", list);
         response.put("ph", ph);
@@ -130,7 +128,7 @@ public  class CommunityBoardController {
 
 
         List<AddrCdDto> addrCdList = (List<AddrCdDto>) session.getAttribute("userAddrCdDtoList");
-        System.out.println("addr : " + addrCdList);
+
 
 
         if (userId == null || userNick == null) {
@@ -187,9 +185,6 @@ public  class CommunityBoardController {
             Object invalidValue = violation.getInvalidValue();
             CommunityBoardDto rootBean = violation.getRootBean();
 
-            System.out.println("Field: " + propertyPath + " - Error: " + message);
-            System.out.println("Invalid Value: " + invalidValue);
-            System.out.println("Root Bean: " + rootBean);
         }
 
 //         유효성 검사 결과 확인
@@ -210,37 +205,6 @@ public  class CommunityBoardController {
         }
     }
 
-//
-//    @RequestMapping(value = "/read", method = RequestMethod.GET)
-//    public String read(Integer no, Model m, RedirectAttributes redirectAttributes) throws Exception {
-//        try {
-//            CommunityBoardDto communityBoardDto = communityBoardService.read(no);
-//            m.addAttribute("communityBoardDto", communityBoardDto);
-//
-//            //이미지 지움
-////            String imagePath = loadImagePath(communityBoardDto.getImg_full_rt());
-////            m.addAttribute("imagePath", imagePath);
-//            List<ImgDto> imglist =  imgService.read(communityBoardDto.getGroup_no());
-//            m.addAttribute("imglist", imglist);
-//
-//            //하트수
-//            String totalLikeCount = communityHeartService.countLike(no);
-//            m.addAttribute("totalLikeCount", totalLikeCount);
-//
-//
-//            //댓글수
-//            int totalCommentCount = communityBoardDto.getComment_count();
-//            m.addAttribute("totalCommentCount", totalCommentCount);
-//
-//
-//            return "/CommunityBoard";
-//        } catch (IllegalArgumentException e) {
-//            redirectAttributes.addFlashAttribute("message", e.getMessage());
-//            return "/ErrorPage";
-//        }
-//
-//
-//    }
 
 
     @RequestMapping(value = "/read", method = RequestMethod.GET)
@@ -308,9 +272,6 @@ public  class CommunityBoardController {
             Object invalidValue = violation.getInvalidValue();
             CommunityBoardDto rootBean = violation.getRootBean();
 
-            System.out.println("Field: " + propertyPath + " - Error: " + message);
-            System.out.println("Invalid Value: " + invalidValue);
-            System.out.println("Root Bean: " + rootBean);
         }
 
         // 유효성 검사 결과 확인
@@ -354,12 +315,6 @@ public  class CommunityBoardController {
         }
     }
 
-//    private String loadImagePath(String imgPath) {
-//        if (imgPath == null || imgPath.isEmpty()) {
-//            return "";
-//        }
-//        return imgPath;
-//    }
 
 
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
@@ -425,7 +380,7 @@ public  class CommunityBoardController {
             Map<String, Object> response = new HashMap<>();
             response.put("countLike", countLike);
             response.put("totalLike", totalLike);
-            System.out.println(response);
+
 
 
             return ResponseEntity.ok(response);
@@ -487,7 +442,6 @@ public  class CommunityBoardController {
     public ResponseEntity<List<CommentDto>> readComments(@RequestParam int postId) throws Exception {
         try {
 
-
             List<CommentDto> comments = commentService.readAll(postId);
             return ResponseEntity.ok(comments);
         } catch (Exception e) {
@@ -495,41 +449,6 @@ public  class CommunityBoardController {
         }
     }
 
-//
-//    //댓글 수정
-//    @PatchMapping("/modifyComment")
-//    @ResponseBody
-//    public ResponseEntity<List<CommentDto>> modifyComment(@RequestBody CommentDto commentDto, HttpServletRequest request) throws Exception {
-//        try {
-//            HttpSession session = request.getSession();
-//            String userId = (String) session.getAttribute("userId");
-//
-//            if (userId == null) {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-//            }
-//
-//            if (!Objects.equals(userId, commentDto.getUr_id())) {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-//            }
-//
-//            commentService.read(commentDto);
-//
-//            commentService.update(commentDto);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-//        }
-//        return null;
-//    }
-
-
-    //댓글 선택
-    //댓글의 내용 콘텐츠를 클릭하면
-    //읽어온다...
-    //그 댓글의 dto
-    //상태
-    //세션이 일치하면
-    //수정/삭제
 
     @GetMapping("/getComment")
     public ResponseEntity<Object>getComment(@RequestParam Integer no, @RequestParam Integer post_no, HttpServletRequest request ) throws Exception {
@@ -547,9 +466,7 @@ public  class CommunityBoardController {
 
             //no와 post_no값을 주고 모든 필드값을 받아옴
             CommentDto comment = commentService.read(commentDto);
-            System.out.println("comment" + comment);
-            System.out.println("userId:(현재 로그인한 사람)" + userId);
-            System.out.println("commentDto.getUr_id:(댓글을 단 사람의 아이디) " + comment.getUr_id());
+
 
             if (userId == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

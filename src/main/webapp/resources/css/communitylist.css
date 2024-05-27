@@ -88,7 +88,7 @@
 }
 .article-row .article-section{
     border: 1px solid #cccccc;
-    width:400px;
+    width:497px;
     height:250px;
     box-sizing: border-box;
     font-size: 14px;
@@ -203,11 +203,18 @@
     justify-content: center; /* 중앙 정렬을 위해 추가 */
 }
 
+ .page-link.active{
+    /*color: #ee8703 !important; !* 원하는 색상으로 변경 *!*/
+    font-weight: bold; /* 추가 스타일링 */
+     background-color: rgb(216, 216, 216);
+     border-radius: 5px;
+     color: rgb(24, 24, 24);
+}
 
 .page-link {
-    margin: 0 3px; /* 각 페이지 링크에 간격을 추가 */
+    margin: 0 5px; /* 각 페이지 링크에 간격을 추가 */
     text-decoration: none; /* 링크 밑줄 제거 */
-    color: inherit; /* 링크 색상 상속 */
+
 }
 
 .page-space {
@@ -220,4 +227,5 @@
     padding:300px 500px 300px 500px;
     font-size: 18px;
 }
+
 

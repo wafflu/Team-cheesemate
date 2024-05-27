@@ -250,12 +250,10 @@
                 data: jsonString,
                 dataType: 'text',
                 success: function (data) {
-                    console.log(data);
                     alert("글을 수정하였습니다.");
                     window.location.replace(data);
                 },
                 error: function (xhr, status, error) {
-                    console.log(xhr.responseText);
                     alert("에러 : " + xhr.responseText);
                 }
             });
@@ -268,8 +266,6 @@
 
             let no = $(this).data('no');
             let ur_state = $(this).data('ur_state');
-            console.log(no);
-            console.log(ur_state);
 
             let data = {
                 no: no,
@@ -282,13 +278,11 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
-                    console.log('성공적으로 처리되었습니다.');
-                    console.log(response.message);
                     $('#userStateChange').data('ur_state', response.newState);
                     window.location.href = '/community/list';
                 },
                 error: function(xhr, status, error) {
-                    console.error('에러가 발생했습니다:', error);
+
                 }
             });
             alert("삭제되었습니다");
