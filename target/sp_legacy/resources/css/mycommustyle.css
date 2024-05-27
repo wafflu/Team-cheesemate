@@ -1,0 +1,55 @@
+
+.community-home-box {
+    margin: 100px auto;
+}
+
+.topic-name {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.topic-best-h2 {
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.tobic-commuhome {
+    position: relative;
+}
+
+.commuhome-btn-more {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.community-title,
+.community-contents,
+.community-nick,
+.community-date {
+    font-size: 14px;
+    margin: 0;
+}
+
+.community-icons {
+    display: flex;
+    align-items: center;
+    gap: 3px; /* 아이콘과 텍스트 사이의 간격을 설정 */
+}
+
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 3px; /* 아이콘과 숫자 사이의 간격을 설정 */
+    width: 35px; /* 고정 너비를 설정하여 간격을 일정하게 유지 */
+    justify-content: space-between; /* 아이콘과 숫자를 양 끝으로 배치 */
+}
+
+.icon {
+    width: 14px;
+    height: 14px;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    vertical-align: middle; /* 아이콘을 텍스트 중간에 정렬 */
+}

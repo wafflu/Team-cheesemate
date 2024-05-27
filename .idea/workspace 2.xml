@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="sp_legacy:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="cf3a9cb8-6169-4b19-8c0e-325469b027b4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit3 Test Class" />
+        <option value="JUnit4 Test Class" />
+        <option value="Interface" />
+        <option value="CSS File" />
+        <option value="Class" />
+        <option value="Jsp File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2fRp22CL2tzUxU4cpWhZUJ6Hi9v" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;JUnit.CommentDaoImplTest.community.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.count.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.delete.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.findMaxNoByPostNo.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.getComment.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.insert.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.insertComment.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.updateComment.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentDaoImplTest.userChangeState.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.read.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.readAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.remove.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.userStateChange.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommentServiceImplTest.write.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.commentCount.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.count.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.delete.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.deleteAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.increaseViewCnt.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.insert.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.pageNation.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.select.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.selectAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.testSelectCountByCategory.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.testSelectPageByCategory.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.totalLkeCount.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.update.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.userChangeState.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardDaoImplTest.userDelete.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.findCommunityBoardById.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.modify.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.read.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.readAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.remove.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.selectAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.totalLikeCount.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.userStateChange.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.userStateChange2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityBoardServiceImplTest.write.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.changeHeartStatus.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.countAllLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.countAllLikes.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.countLikeStatus.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.deleteLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.deleteLike2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.findByUserId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.insertLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.selectUser.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.testCountLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartDaoImplTest.testDoLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartServiceImplTest.community.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartServiceImplTest.countLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartServiceImplTest.doLike.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartServiceImplTest.doLike2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartServiceImplTest.doLike3.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CommunityHeartServiceImplTest.findByUserId.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DBConnectionTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.countAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.delete.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.deleteAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.getTopTen.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.increaseViewCnt.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.insert.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.insertAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.select.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.selectAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.testCountAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostDaoImplTest.update.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceImplTest.getTopTen.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceImplTest.insert.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceImplTest.modify.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceImplTest.read.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceImplTest.remove.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceImplTest.selectAll.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PostServiceImplTest.write.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.Testdb.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.commuDaoTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.commuDaoTest.testCount.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.commuDaoTest.testDelete.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.commuDaoTest.testInsert.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.commuDaoTest.testSelect.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.commuDaoTest.testUpdate.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.commuDaoTest.testUpdate2.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.testdb.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.testdb.jdbcConnectionTest.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.PostHome.jsp.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.Tomcat 9.0.86.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit3&quot;: &quot;junit.framework.TestCase&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;SQL Inserts&quot;,
+    &quot;ignore_missing_gitignore&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;/Users/gominjeong/Desktop/cheese/TeamProject/src/test/java/team/cheese/domain&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/gominjeong/Desktop/cheese/TeamProject&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.43678162&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
+    ]
+  }
+}</component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+      <recent name="junit.framework.TestCase" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/resources/css" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/resources" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/views" />
+      <recent name="$PROJECT_DIR$/src/main/webapp" />
+      <recent name="$PROJECT_DIR$/src/main/resources/img" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="team.cheese.Controller.CommunityBoard" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="team.cheese.dao" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="team.cheese.service.Post" />
+      <recent name="team.cheese.dao.Post" />
+      <recent name="team.cheese.dao" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.86">
+    <configuration name="CommunityBoardDaoImplTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.dao" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommunityBoardDaoImplTest.pageNation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.dao" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
+      <option name="METHOD_NAME" value="pageNation" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommunityBoardDaoImplTest.testSelectCountByCategory" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.dao" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
+      <option name="METHOD_NAME" value="testSelectCountByCategory" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CommunityBoardDaoImplTest.testSelectPageByCategory" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.dao.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.dao" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.dao.CommunityBoardDaoImplTest" />
+      <option name="METHOD_NAME" value="testSelectPageByCategory" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Testdb" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sp_legacy" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="team.cheese.domain.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="team.cheese.domain" />
+      <option name="MAIN_CLASS_NAME" value="team.cheese.domain.Testdb" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 9.0.86" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.86" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="UPDATING_POLICY" value="restart-server" />
+      <deployment>
+        <artifact name="sp_legacy:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="9ee814a6-b510-4ea0-b218-1fa16406c4ae" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="59848" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="sp_legacy:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest" />
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest.pageNation" />
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectCountByCategory" />
+      <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectPageByCategory" />
+      <item itemvalue="JUnit.Testdb" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.86" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest.pageNation" />
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest" />
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectCountByCategory" />
+        <item itemvalue="JUnit.CommunityBoardDaoImplTest.testSelectPageByCategory" />
+        <item itemvalue="JUnit.Testdb" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cf3a9cb8-6169-4b19-8c0e-325469b027b4" name="Changes" comment="" />
+      <created>1713773533363</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713773533363</updated>
+      <workItem from="1713773534380" duration="3815000" />
+      <workItem from="1713831168469" duration="6324000" />
+      <workItem from="1713837527849" duration="1522000" />
+      <workItem from="1713839226991" duration="16746000" />
+      <workItem from="1713863181437" duration="288000" />
+      <workItem from="1713920230745" duration="18174000" />
+      <workItem from="1713943425199" duration="1384000" />
+      <workItem from="1713949712542" duration="993000" />
+      <workItem from="1714002291175" duration="18547000" />
+      <workItem from="1714025691360" duration="3655000" />
+      <workItem from="1714083619995" duration="1743000" />
+      <workItem from="1714085666200" duration="18965000" />
+      <workItem from="1714188444213" duration="133000" />
+      <workItem from="1714192457684" duration="981000" />
+      <workItem from="1714199777217" duration="1731000" />
+      <workItem from="1714201929892" duration="1998000" />
+      <workItem from="1714204157471" duration="84000" />
+      <workItem from="1714204504276" duration="1357000" />
+      <workItem from="1714218181860" duration="917000" />
+      <workItem from="1714264071322" duration="9000" />
+      <workItem from="1714273514896" duration="4632000" />
+      <workItem from="1714279388834" duration="1823000" />
+      <workItem from="1714281626324" duration="748000" />
+      <workItem from="1714286139737" duration="2701000" />
+      <workItem from="1714347768913" duration="1430000" />
+      <workItem from="1714352939908" duration="11062000" />
+      <workItem from="1714367164935" duration="2449000" />
+      <workItem from="1714370277784" duration="456000" />
+      <workItem from="1714371239178" duration="6399000" />
+      <workItem from="1714431140583" duration="1295000" />
+      <workItem from="1714435548819" duration="516000" />
+      <workItem from="1714436372735" duration="18000" />
+      <workItem from="1714436622115" duration="547000" />
+      <workItem from="1714437249199" duration="617000" />
+      <workItem from="1714439173519" duration="1187000" />
+      <workItem from="1714441300442" duration="15965000" />
+      <workItem from="1714470982970" duration="1549000" />
+      <workItem from="1714519361283" duration="4587000" />
+      <workItem from="1714524211400" duration="18864000" />
+      <workItem from="1714560938640" duration="3422000" />
+      <workItem from="1714599788037" duration="44000" />
+      <workItem from="1714605076093" duration="21001000" />
+      <workItem from="1714633982285" duration="819000" />
+      <workItem from="1714638606491" duration="595000" />
+      <workItem from="1714640481617" duration="1081000" />
+      <workItem from="1714642248472" duration="30000" />
+      <workItem from="1714690228805" duration="23949000" />
+      <workItem from="1714727310770" duration="3274000" />
+      <workItem from="1714784684918" duration="432000" />
+      <workItem from="1714785122972" duration="12577000" />
+      <workItem from="1714798387834" duration="6559000" />
+      <workItem from="1714815664592" duration="1184000" />
+      <workItem from="1714817912950" duration="132000" />
+      <workItem from="1714873651174" duration="484000" />
+      <workItem from="1714889948263" duration="284000" />
+      <workItem from="1714902266816" duration="2839000" />
+      <workItem from="1714954353023" duration="5440000" />
+      <workItem from="1714965634164" duration="14926000" />
+      <workItem from="1714985236192" duration="1380000" />
+      <workItem from="1715032582405" duration="26000" />
+      <workItem from="1715034392724" duration="4981000" />
+      <workItem from="1715042884915" duration="11581000" />
+      <workItem from="1715063335876" duration="4696000" />
+      <workItem from="1715085907686" duration="1528000" />
+      <workItem from="1715127769895" duration="15834000" />
+      <workItem from="1715148266353" duration="9146000" />
+      <workItem from="1715205199377" duration="4000" />
+      <workItem from="1715208944211" duration="15448000" />
+      <workItem from="1715224925085" duration="5169000" />
+      <workItem from="1715292553636" duration="13000" />
+      <workItem from="1715386324784" duration="5439000" />
+      <workItem from="1715398899200" duration="12414000" />
+      <workItem from="1715418592112" duration="4036000" />
+      <workItem from="1715472374444" duration="9245000" />
+      <workItem from="1715490814369" duration="2928000" />
+      <workItem from="1715510441176" duration="612000" />
+      <workItem from="1715560010965" duration="19521000" />
+      <workItem from="1715584647048" duration="8319000" />
+      <workItem from="1715599050922" duration="1371000" />
+      <workItem from="1715601531168" duration="2385000" />
+      <workItem from="1715634164680" duration="18000" />
+      <workItem from="1715640727611" duration="18291000" />
+      <workItem from="1715667405566" duration="3208000" />
+      <workItem from="1715754785881" duration="4401000" />
+      <workItem from="1715761729005" duration="756000" />
+      <workItem from="1715767948433" duration="4133000" />
+      <workItem from="1715814921722" duration="9173000" />
+      <workItem from="1715824973117" duration="162000" />
+      <workItem from="1715825781286" duration="19636000" />
+      <workItem from="1715850952066" duration="49000" />
+      <workItem from="1715854454142" duration="748000" />
+      <workItem from="1715856522377" duration="5277000" />
+      <workItem from="1715899202343" duration="188000" />
+      <workItem from="1715901461288" duration="13939000" />
+      <workItem from="1715918093988" duration="8675000" />
+      <workItem from="1715931340879" duration="9000" />
+      <workItem from="1715931419108" duration="14000" />
+      <workItem from="1715931445065" duration="15000" />
+      <workItem from="1715931534067" duration="1608000" />
+      <workItem from="1715992368597" duration="152000" />
+      <workItem from="1715992978727" duration="10596000" />
+      <workItem from="1716003983769" duration="49000" />
+      <workItem from="1716004079709" duration="38000" />
+      <workItem from="1716004167934" duration="2585000" />
+      <workItem from="1716006766737" duration="1167000" />
+      <workItem from="1716008143200" duration="7927000" />
+      <workItem from="1716020158622" duration="3112000" />
+      <workItem from="1716077686182" duration="13399000" />
+      <workItem from="1716092288156" duration="77000" />
+      <workItem from="1716092829193" duration="1147000" />
+      <workItem from="1716103610795" duration="3191000" />
+      <workItem from="1716109017179" duration="2214000" />
+      <workItem from="1716111401632" duration="5529000" />
+      <workItem from="1716165238943" duration="407000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/team/cheese/dao/CommunityBoard/PostDaoImpl.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

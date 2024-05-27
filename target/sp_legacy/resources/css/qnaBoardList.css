@@ -1,0 +1,18 @@
+#qnaBoardList_container {
+    display: flex;
+    flex: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+#qnaBoardList_aside {
+    width: 200px;
+    background-color: #eee;
+    padding: 1rem;
+}
+#qnaBoardList_main {
+    flex: 1;
+    padding: 1rem;
+}
+#qnaBoardList_table {
+    margin-top: 20px;
+}

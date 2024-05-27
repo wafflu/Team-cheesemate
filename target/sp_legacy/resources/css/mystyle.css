@@ -1,0 +1,347 @@
+#header_box{
+    width: 100%;
+    height: 150px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #fff;
+    border-bottom: 2px solid #dadee5;
+
+}
+
+.header-shadow{
+    transition: box-shadow 0.3s ease;
+    box-shadow: 0 8px 8px -8px rgba(0, 0, 0, 0.2);
+}
+
+#header_subbox{
+    width: 1200px;
+    height: 150px;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+#herder_top{
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+    justify-content: space-between;
+    display: flex;
+}
+
+#logobox{
+    width: 200px;
+    height: 100%;
+    position: relative;
+}
+#cheezmate{
+    display: block;
+    width: 100%;
+    height:100%;
+}
+#logoimg{
+    width: 100px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#searchbox{
+    width: 700px;
+    position: relative;
+}
+
+#search{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    width: 600px;
+    height: 40px;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    background-repeat: no-repeat;
+    background-size: 24px;
+    background-position: 10px 50%;
+    padding-left: 50px;
+}
+
+#search:focus{
+    outline: none;
+}
+
+#subnavbox{
+    position: relative;
+    width: 280px;
+}
+
+#subnavinnerbox{
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+}
+
+.subnavspan {
+    display: inline-block;
+    vertical-align: middle;
+    height: 30px;
+    position: relative;
+}
+
+.subnavspan::after{
+    content: '';
+    width: 1.5px;
+    height: 65%;
+    color: #9ca3af;
+    position: absolute;
+    top: 50%;
+    right: -20%;
+    transform: translateY(-50%);
+    background-color: rgb(230 230 230);
+}
+
+.subnavspan:last-child::after{
+    display: none;
+}
+
+.subnavlink {
+    display: inline-block;
+    height: 30px;
+    vertical-align: middle;
+}
+
+.subnavicon {
+    vertical-align: middle;
+    width: 30px;
+}
+
+.subnavtext {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-size: 14px;
+    font-style: normal;
+}
+
+/* 네비영역 */
+
+#nav{
+    width: 1200px;
+    height: 50px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.hearder-category-list{
+    width: 100px;
+    height: 44px;
+    background-color: #ee8703;
+    border-radius: 5px;
+}
+
+.hearder-category-title{
+    font-size: 16px;
+    font-weight: 600;
+    color:#fff;
+    text-align: center;
+    line-height: 44px;
+}
+
+.hearder-category-list{
+    background-repeat: no-repeat;
+    background-size: 25px;
+    background-position: 10px 44%;
+    padding-left: 20px;
+}
+
+#navlist{
+    height: 44px;
+    display: flex;
+    justify-content: start;
+    padding-left: 10px;
+}
+
+.navli>a{
+    display: inline-block;
+}
+
+.navli {
+    display: inline-block;
+    position: relative;
+    width: 100px;
+    text-align: center;
+}
+
+.navli::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: black;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease; /* 애니메이션 설정 */
+    position: absolute;
+    bottom: -8px; /* 텍스트 바로 아래에 위치하도록 설정 */
+    left: 0;
+}
+.navli:hover::after {
+    transform: scaleX(1);
+}
+
+/* 메뉴바 선 */
+
+.navtext{
+    font-family: 'Noto Sans KR', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-size: 16px;
+    text-align: center;
+    line-height: 44px;
+}
+
+#headerspace{
+    width: 100%;
+    height: 150px;
+}
+
+
+#footer{
+    width: 100%;
+    background-color: rgb(247 249 250);
+    position: relative;
+}
+
+#footersub{
+    width: 1200px;
+    margin: 0 auto;
+    padding: 50px 0;
+    background-color: rgb(247 249 250);
+}
+
+#footersub>ul>li{
+    font-size: 12px;
+    padding-bottom: 8px;
+    color:#787e89;
+}
+
+.cheesecompany>b{
+    font-size: 13px;
+    padding-bottom: 12px;
+    color:#191c21;
+}
+
+.footerulflex{
+    display: flex;
+}
+
+.footerulflex>li{
+    position: relative;
+    margin-right: 12px;
+}
+
+.footerulflex>li::after{
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: -7px;
+    width: 1px;
+    height: 8px;
+    background-color: #E0E0E0;
+}
+
+
+.footerulflex>li:last-child::after {
+    content: none; /* 마지막 요소의 선을 숨김 */
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+}
+
+#footergflexgroup1{
+    margin: 10px 0;
+}
+
+#footergflexgroup1>ul>li{
+    color:#191c21;
+}
+
+.footermsg{
+    width: 460px;
+    color:#787e89;
+}
+
+.maincontent{
+    width: 1200px;
+    /*height: 100%;*/
+    margin: 0 auto;
+    position: relative;
+}
+
+.mylogin-box{
+    cursor: pointer;
+}
+
+#loginmenu{
+    display: inline-block;
+    position: absolute;
+    top: 30px;
+    left: -8px;
+    z-index: 3;
+    border: 1px solid rgb(218 222 229);
+    border-radius: 5px;
+    width: 100px;
+    height: 80px;
+    background-color: #fff;
+}
+
+#loginmenu>li{
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+}
+
+#loginmenu>li:first-child::after{
+    content: '';
+    width: 70px;
+    height: 1px;
+    position: absolute;
+    background-color: rgb(218 222 229);
+    bottom : 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.homemylink{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 아래 공용 */
+
+.maincolor{
+    background-color: #ee8703;
+}
+
+.fontgraycolor{
+    color:#999;
+}
+.backgraycolor{
+    color:#999;
+}
+
+.font14{
+    font-size: 14px;
+}
+.font18{
+    font-size: 18px;
+}
+.font30{
+    font-size: 30px;
+}

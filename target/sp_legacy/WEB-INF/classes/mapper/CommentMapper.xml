@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="team.cheese.dao.Comment.CommentMapper">
+
+<!--    한 게시글당 전체 댓글-->
+<select id = "count" parameterType="Integer" resultType="Integer">
+    select count(*) from comment where no = #{no};
+
+</select>
+
+
+<!--    댓글-->
+<insert id = "insert" parameterType="CommentDto" useGeneratedKeys="true" keyProperty="no">
+    insert into comment(post_no,no,psn,nick,ur_id,contents, first_id, last_id)
+    values (#{post_no},#{no},#{psn},#{nick},#{ur_id},#{contents},#{first_id},#{last_id});
+</insert>
+
+
+<!--    선택-->
+    <select id = "select" resultType="CommentDto" parameterType="CommentDto">
+        select * from comment where no = #{no} and post_no = #{post_no} ;
+    </select>
+
+<!--    삭제-->
+    <delete id="delete" parameterType="Integer">
+        delete from comment where no = #{no} and post_no = #{post_no};
+    </delete>
+
+<!--    전체 삭제-->
+    <delete id = "deleteAll" parameterType="Integer">
+        delete from comment;
+    </delete>
+
+
+<!--    댓글 수정-->
+    <update id = "update" parameterType="CommentDto">
+        update comment set contents = #{contents},m_date = #{m_date}
+        where no = #{no} and post_no=#{post_no};
+    </update>
+
+
+<!--    유저 스테이트체인지-->
+    <update id = "userChangeState" parameterType="CommentDto">
+        update comment
+        set ur_state = #{ur_state}
+        where no = #{no};
+    </update>
+
+    <select id = "selectAll" parameterType="Integer" resultType="CommentDto">
+        select * from comment
+        where post_no = #{post_no}
+        order by r_date desc;
+    </select>
+
+    <select id="findMaxByPostNo" resultType="Integer" parameterType="Integer">
+        SELECT COALESCE(MAX(no), 0) AS maxNo FROM comment WHERE post_no = #{post_no}
+    </select>
+</mapper>

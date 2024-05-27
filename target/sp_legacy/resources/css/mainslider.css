@@ -1,0 +1,155 @@
+.slick-slide{
+    margin: 0 10px;
+}
+
+.slick-list{
+    margin: 30px -10px 0px;
+}
+
+
+.slider-div{
+    width: 1200px;
+    height: 330px;
+}
+
+
+.slick-btn{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    background-repeat: no-repeat;
+    background-size: 32px;
+    background-position: 8px 50%;
+    background-color: #ffffff40;
+}
+
+.slick-btn:hover{
+    background-color: #757575;
+}
+
+.slick-prev{
+    left: 0px;
+}
+
+.slick-next{
+    right: 0px;
+}
+
+.slick-dots{
+    position: absolute;
+    left: 50%;
+    bottom: -40px;
+    transform: translateX(-50%);
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+}
+
+.slick-dots>li{
+    display: inline-block;
+
+}
+
+.slick-dots>li>button{
+    font-size: 0;
+    width: 8px;
+    height: 8px;
+    background-color: hsla(0,4%,5%,.16);
+    margin: 0 5px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.slick-dots>.slick-active>button{
+    font-size: 0;
+    width: 30px;
+    height: 8px;
+    background-color: #000;
+    margin: 0 5px;
+    border-radius: 25%;
+    cursor: pointer;
+}
+
+.slick-slide{
+    margin: 0 10px;
+}
+
+.eventsliderimg{
+    border-radius: 12px;
+}
+
+.eventImg{
+    border-radius: 12px;
+}
+
+#sale_slider_box{
+    position: relative;
+    margin-top: 160px;
+}
+#home_sale_title{
+    position: absolute;
+    left: 0;
+    top:-50px;
+    font-size: 26px;
+    font-weight: 900;
+}
+
+#home_sale_more{
+    position: absolute;
+    right: 0;
+    top:-50px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.saleImg{
+    margin-bottom: 10px;
+    border-radius: 6px;
+}
+.home_sale_title{
+    font-size:16px;
+    font-weight: inherit;
+    margin: 6px 0 0;
+}
+
+.saleinfo-info{
+    margin: 10px 0 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.home_sale_price{
+    font-size: 18px;
+    font-weight: 600;
+    color:#141313;
+    /*padding-top:*/
+}
+
+#sale-slider-div{
+    /*height: 350px;*/
+}
+
+.home_sale_h_date{
+    margin: 4px 0;
+    font-size: 14px;
+    color:#999;
+}
+
+.home_sale_addr_name{
+    margin: 4px 0;
+    font-size: 14px;
+    color:#999;
+}
+
+.salesliderimg{
+    /*border: 1px solid red;*/
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 1.5px solid #00000010;
+    border-top: 1.5px solid #00000010;
+    border-radius: 12px;
+}
+
+.home_sale{
+    padding: 0 10px;
+}
