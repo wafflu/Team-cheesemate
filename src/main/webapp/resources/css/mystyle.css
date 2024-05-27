@@ -6,7 +6,6 @@
     z-index: 10;
     background-color: #fff;
     border-bottom: 2px solid #dadee5;
-
 }
 
 .header-shadow{
@@ -19,6 +18,7 @@
     height: 150px;
     background-color: #fff;
     margin: 0 auto;
+    border-bottom: 2px solid #dadee5;
 }
 
 #herder_top{
