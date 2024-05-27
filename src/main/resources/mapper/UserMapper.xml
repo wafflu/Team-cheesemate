@@ -32,8 +32,8 @@
 
 <!--    새로운 유저를 추가한다-->
     <insert id="insertNewUser" parameterType="UserDto">
-        INSERT INTO user (id, pw, name, nick, birth, gender, phone_num, safe_num, foreigner, email, s_cd, addr_det, first_date, first_id, last_date, last_id)
-        VALUES (#{id}, #{pw}, #{name}, #{nick}, #{birth}, #{gender}, #{phone_num}, #{safe_num}, #{foreigner}, #{email}, #{s_cd}, #{addr_det}, #{first_date}, #{first_id}, #{last_date}, #{last_id})
+        INSERT INTO user (id, pw, name, nick, birth, gender, phone_num, safe_num, foreigner, email, s_cd, addr_det, first_id, last_id)
+        VALUES (#{id}, #{pw}, #{name}, #{nick}, #{birth}, #{gender}, #{phone_num}, #{safe_num}, #{foreigner}, #{email}, #{s_cd}, #{addr_det}, #{id}, #{id})
     </insert>
     
 <!--    모든 유저의 아이디만 읽어온다-->

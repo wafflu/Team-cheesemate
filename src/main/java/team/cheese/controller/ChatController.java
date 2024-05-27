@@ -23,13 +23,20 @@ import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Queue;
 
 @Controller
 @Slf4j
 public class ChatController {
     @Autowired
     ChatService chatService;
-    
+    @Autowired
+    UserInfoService userInfoService;
+    private static final int MAX_MESSAGES = 5;
+    private static final long TIME_WINDOW_MS = 5000; // 5초
+    private final Queue<Long> timestamps = new LinkedList<>();
+
     @GetMapping("/chat2")
     public String chat(Model model, HttpSession session,@RequestParam(defaultValue = "0") int no) throws Exception {
         //임시 테스트용
@@ -84,7 +91,7 @@ public class ChatController {
 
     @RequestMapping(value = "/loadchatmsg", produces = "application/json; charset=UTF-8")
     @ResponseBody
-    public ResponseEntity<ArrayList<ChatMessageDto>> loadchatmsg(@RequestParam("roomnum") int roomnum, HttpSession session) {
+    public ResponseEntity<ArrayList<ChatMessageDto>> loadchatmsg(@RequestParam("roomnum") int roomnum) throws Exception {
 //        log.info("번호 체크 : "+roomnum);
         ArrayList<ChatMessageDto> msglist = chatService.loadMessage(roomnum);
         log.info("로그 사이즈 : "+msglist.size());
@@ -94,8 +101,25 @@ public class ChatController {
     @MessageMapping("/chat/{roomid}")
     @SendTo("/topic/messages/{roomid}")
     public ChatMessageDto send(ChatMessageDto cmdt, @DestinationVariable int roomid) throws Exception {
+        long currentTime = System.currentTimeMillis();
+        synchronized (timestamps) {
+            // 오래된 타임스탬프 제거
+            while (!timestamps.isEmpty() && currentTime - timestamps.peek() > TIME_WINDOW_MS) {
+                timestamps.poll();
+            }
+
+            if (timestamps.size() >= MAX_MESSAGES) {
+//                log.warn("Rate limit exceeded for room: " + roomid);
+                throw new Exception("Rate limit exceeded. Please try again later.");
+            }
+
+            // 새로운 타임스탬프 추가
+            timestamps.add(currentTime);
+        }
+
         log.info("채팅방 번호 : "+roomid);
+        UserInfoDTO udto = userInfoService.read(cmdt.getAcid());
         String time = new SimpleDateFormat("HH:mm").format(new Date());
-        return new ChatMessageDto(cmdt.getNick(), cmdt.getMessage(), time);
+        return new ChatMessageDto(cmdt.getNick(), cmdt.getMessage(), time, udto.getImg_full_rt());
     }
 }

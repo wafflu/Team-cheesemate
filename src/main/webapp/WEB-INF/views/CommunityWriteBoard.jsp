@@ -10,23 +10,30 @@
         <div class="community-write-category">
             <input type="hidden" name="no" value="${communityBoardDto.no}">
             <%--            카테고리, 등록,수정,삭제 버튼--%>
-            <div class="row">
-                <select class="commu-cd" name="commu_cd" label="카테고리를 선택해주세요">
-                    <option value="commu_B">블라블라</option>
-                    <option value="commu_W">고민/상담</option>
-                    <option value="commu_L">연애/썸</option>
-                </select>
-                <input type="hidden" name="commu_name" id="commu_name" value="">
+            <div class="row" id="top-row">
+                <div class="row-category">
+                    <div class="category-wrapper">
+                        <select class="commu-cd" name="commu_cd" label="카테고리를 선택해주세요">
+                            <option value="commu_B">블라블라</option>
+                            <option value="commu_W">고민/상담</option>
+                            <option value="commu_L">연애/썸</option>
+                        </select>
+                        <input type="hidden" name="commu_name" id="commu_name" value="">
+                    </div>
+                </div>
 
-
+                <div class="row-button">
                 <c:if test="${empty communityBoardDto.no}">
+                    <input type="button" value="임시등록" id="alter" class="commu-button">
                     <input type="submit" value="등록" id="register" class="commu-button">
+
                 </c:if>
 
                 <c:if test="${not empty communityBoardDto.no}">
                     <input type="button" value="수정" id="modify" class="commu-button">
                     <input type="button" value="삭제" id="userStateChange" class="commu-button"  data-no="<c:out value='${communityBoardDto.no}'/>" data-ur_state="<c:out value='${communityBoardDto.ur_state}'/>">
                 </c:if>
+                </div>
             </div>
 
             <%--             재목 입력 공간--%>
@@ -38,25 +45,28 @@
 
 
     </div>
-    <%--    이미지 보이는 영역--%>
 
-    <div class="form_section_content">
-        <input type="file" id="fileItem" name="uploadFile" style="height: 30px;" multiple>
-    </div>
+    <div class = "community-contents-container">
+        <%--    이미지 보이는 영역--%>
+        <div class="form_section_content">
+            <input type="file" id="fileItem" name="uploadFile" style="height: 30px;" multiple>
+        </div>
 
-    <div id="uploadResult">
-        <c:forEach items="${imglist}" var="img">
-            <c:if test="${img.imgtype eq 'r'}">
-                <div id="result_card">
-                    <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
-                    <div class="imgDeleteBtn" data-file="${img.img_full_rt}">x</div>
-                </div>
-            </c:if>
-        </c:forEach>
-    </div>
-    <%--    내용입력 공간--%>
-    <div class="community-contents-container">
-        <textarea name="contents" id="contents" placeholder="내용을 입력하세요."><c:out value='${communityBoardDto.contents}'/></textarea>
+
+        <div id="uploadResult">
+            <c:forEach items="${imglist}" var="img">
+                <c:if test="${img.imgtype eq 'r'}">
+                    <div id="result_card">
+                        <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
+                        <div class="imgDeleteBtn" data-file="${img.img_full_rt}">x</div>
+                    </div>
+                </c:if>
+            </c:forEach>
+        </div>
+        <%--    내용입력 공간--%>
+        <div class="community-contents-text">
+            <textarea name="contents" id="contents" placeholder="내용을 입력하세요."><c:out value='${communityBoardDto.contents}'/></textarea>
+        </div>
     </div>
     <div class="footer"></div>
 </form>
@@ -103,13 +113,7 @@
     // 글자수 세기
 
     function countingCharacters(title,contents){
-        //만약
-        //제목의 글자수 100 이상
 
-        //만약
-        //내용의 글자수 300이상
-        //alert
-        //제출방지
 
         if(title.length>100){
             alert("제목의 글자수는 100이하만 가능합니다.")
@@ -246,12 +250,10 @@
                 data: jsonString,
                 dataType: 'text',
                 success: function (data) {
-                    console.log(data);
                     alert("글을 수정하였습니다.");
                     window.location.replace(data);
                 },
                 error: function (xhr, status, error) {
-                    console.log(xhr.responseText);
                     alert("에러 : " + xhr.responseText);
                 }
             });
@@ -264,8 +266,6 @@
 
             let no = $(this).data('no');
             let ur_state = $(this).data('ur_state');
-            console.log(no);
-            console.log(ur_state);
 
             let data = {
                 no: no,
@@ -278,13 +278,11 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function(response) {
-                    console.log('성공적으로 처리되었습니다.');
-                    console.log(response.message);
                     $('#userStateChange').data('ur_state', response.newState);
                     window.location.href = '/community/list';
                 },
                 error: function(xhr, status, error) {
-                    console.error('에러가 발생했습니다:', error);
+
                 }
             });
             alert("삭제되었습니다");

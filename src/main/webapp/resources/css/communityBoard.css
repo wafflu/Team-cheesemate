@@ -1,12 +1,19 @@
 .maincontent{
     width: 1200px;
-    margin: 0 auto;
+    margin-top: 20px;
     /*border: 1px solid #000;*/
+    box-sizing: border-box;
+    border:1px solid #cccccc;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 100px;
 }
 .post-content + .post-image{
     position: relative;
     margin:20px 28px;
-    font-size: 15px;
+    font-size: 18px;
+    /*width:1160px;*/
+    /*border:1px solid #cccccc;*/
 
 }
 .post-top-container{
@@ -19,86 +26,274 @@
 }
 
 
+
 .post-title {
     flex-grow: 1; /* 제목 영역이 가로 공간을 최대한 차지하게 만듭니다 */
     display: flex;
-
+    /*font-size: 30px;*/
+    justify-content: space-between; /* space-between을 사용하여 버튼을 오른쪽 끝으로 이동 */
+    flex-wrap: wrap;
 }
 
-.detail-button {
+.post-title #title {
+    max-width: 950px;
+    font-size: 30px;
+    flex-grow: 1; /* 제목 영역이 가능한 가로 공간을 차지하게 만듭니다 */
+    margin-right: 20px; /* 버튼과 제목 사이에 간격을 줍니다 */
+}
+
+.list-button, .detail-button {
     margin-top: 0;
-    width:55.09px;
-    height:30px;
+    width: 56px;
+    height: 30px;
     background-size: 50px 30px;
     background-color: rgba(238,135,3,0.2);
     color: #ee8703;
     border: 0;
     box-sizing: border-box;
     border-radius: 10px;
-    position:relative;
-    right:-950px;
-
-
+    z-index: 1000;
 }
 
+.detail-button {
+    margin-right: 10px; /* 두 버튼 사이에 간격을 줍니다 */
+}
+.post-reaction p {
+    display: flex;
+    align-items: center;
+}
 .post-top-container .post-user{
-
     margin-right: auto;
+    display: flex;
+    margin-top: 2px;
+
 }
+.post-user .post-top{
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+
+}
+
+.post-user .post-user-nonImage{
+    position: relative;
+    left: 5px;
+    color: #94969b;
+    font-size: 14px;
+}
+
+.post-user .post-reaction{
+    position: relative;
+    margin-left: 830px;
+
+    display: flex;
+    color: #94969b;
+    font-size: 14px;
+
+}
+
+
+.post-reaction .heartTotalCount,
+.post-reaction .commentTotalCount,
+.post-reaction .viewTotalCount {
+    display: flex;
+    align-items: center;
+}
+
+.post-reaction .icon {
+    width: 14px;
+    height: 14px;
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 3px; /* 숫자와 아이콘 사이의 간격을 위해 */
+}
+
+
+.post-user .post-reaction-wrapper {
+    position: absolute;
+    top: 80px; /* post-reaction을 원하는 위치로 조정 */
+    right: 30px; /* 오른쪽 끝에 배치 */
+}
+
 .post-reaction{
     display: flex;
+    margin-left: 15px;
+    padding-top: 30px;
+    margin-bottom: 0;
 }
 .post-bottom-container{
     padding:20px 28px;
+    padding-bottom: 0;
     border:0;
     background-color: #fff;
 }
+
+
 .post-comment-container{
-    padding:20px 38px;
+    padding-bottom:20px;
+    padding-right:38px;
+    padding-left: 38px;
     border:0;
     background-color: #fff;
 }
-.comment-content{
-    width: 1100px;
-    margin:12px 0 12px;
-    padding:16px 10px 10px 18px;
-    border: 2px solid #cccccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    background-color: #fff;
-    resize: none;
-}
-#input_comment{
-        width:56px;
-        height:30px;
-         margin-bottom: 10px;;
-        background-size: 50px 30px;
-        background-color: rgba(238,135,3,0.2);
-        color: #ee8703;
-        border: 0;
-        box-sizing: border-box;
-        border-radius: 10px;
-        position:relative;
-
-
-}
-#comment-container .comment{
-    border-bottom:1px solid #cccccc;
-    position: relative;
-
-
-}
-#comment-container .comment .comment-contents{
-    font-weight: bold;
-    font-size: 15px;
+.post-bottom-container .post-content{
+    /*font-weight: bold;*/
+    font-size: 18px;
     max-width:800px;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
+.comment-content{
+    font-size:14px;
+    width: 1000px;
+    height: 80px;
+    margin:12px 25px 12px 0;
+    padding:5px 10px 10px 18px;
+    border: 0;
+    /*border-radius: 6px;*/
+    /*box-sizing: border-box;*/
+    /*background-color: #fff;*/
+    resize: none;
+    outline: none;
+
+}
+#comment{
+    width:1110px;
+    height:110px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    border:1px solid #cccccc;
+    justify-content: space-between;
+}
+#input_comment{
+        width:56px;
+        height:30px;
+         margin-bottom: -60px;
+        right: 0;
+        background-size: 50px 30px;
+        background-color: #ffffff;
+        color: #cccccc;
+
+        border: 0;
+        box-sizing: border-box;
+        border-radius: 10px;
+        position:relative;
+        outline:none;
+
+}
+
+
+#input_comment:hover{
+    background-color: rgba(238,135,3,0.2);
+    color: #ee8703;
+}
+#comment-container{
+    margin-top: 10px;
+    width: 1110px;
+    background-color: #f2f2f3;
+    box-sizing: border-box;
+    border-radius: 3px;
+
+
+}
+/*#comment .comment-content{*/
+/*    padding: 5px;*/
+/*    border: 0;*/
+
+/*}*/
+
+
+#comment-container .comment{
+    padding-left: 5px;
+    border-bottom:1px solid #cccccc;
+    position: relative;
+    font-size: 14px;
+    /*padding-left: 5px;*/
+    /*padding-right: 10px;*/
+
+
+}
+#comment-container .comment .comment-contents{
+    /*font-weight: bold;*/
+    font-size: 18px;
+    max-width:800px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+
+
+
+
+
+/*추가*/
+/* 팝업 배경 */
+.popup {
+    display: none; /* 기본적으로 숨김 */
+    position: fixed; /* 화면에 고정 */
+    z-index: 1000; /* 다른 요소 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* 스크롤 가능 */
+    background-color: rgba(0, 0, 0, 0.4); /* 반투명 검은색 배경 */
+}
+
+/* 팝업 내용 */
+.popup-content {
+    position: absolute;
+    background-color: #fff;
+    margin: 15% auto; /* 상단에서 15% 아래에 배치, 중앙 정렬 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* 팝업 창의 너비 */
+    top: 25%; /* 세로 중앙 정렬 */
+    left: 50%; /* 가로 중앙 정렬 */
+    transform: translate(-50%, -50%); /* 중앙 정렬 보정 */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* 닫기 버튼 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
 
 .profileimg{
     width: 50px;
     height: 50px;
     object-fit: cover;
     border-radius: 100%;
+}
+
+
+.popup-container {
+    position: absolute;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    display: none;
+}
+.popup-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.popup-container li {
+    margin: 5px 0;
+    cursor: pointer;
 }

@@ -184,11 +184,16 @@ public class SaleDaoImplTest {
         String sal_i_cd = null;
         map.put("addr_cd", addr_cd);
         map.put("sal_i_cd", sal_i_cd);
+        map.put("offset", 1);
+        map.put("pageSize", 100);
 
         // 1. 전체 글을 불러온다
         List<SaleDto> list = saleDao.selectSaleList(map);
         // 2. count를 한다
         int cnt = saleDao.countUse();
+        System.out.println(list);
+        System.out.println(list.size());
+        System.out.println(cnt);
 
         // 3. 두 값을 비교 한다
         assertTrue(list.size() == cnt);

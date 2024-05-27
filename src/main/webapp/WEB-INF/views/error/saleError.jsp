@@ -6,93 +6,45 @@
         height: fit-content;
         position: relative;
         margin-bottom: 20px;
-    }
-
-    .saleListBox {
-        /*border: 1px solid red;*/
-        height: 80%;
         width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-        gap: 10px;
-    }
-
-    .smallBox {
-        border: 1px solid darkgray;
-        /*background-color: pink;*/
-        width: 210px;
-        height: 300px;
-        margin-bottom: 10px;
-        background: white;
-    }
-
-    .img {
-        width: 210px;
-        height: 210px;
-        margin: 0 auto;
-    }
-
-    #pageContainer {
-        position: absolute;
-        left: 50%;
-        /*bottom: 20px;*/
-        transform: translateX(-50%);
-        text-align: center;
-    }
-
-    .info {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-    }
-
-    .division-line {
-        border-top: 1px solid darkgray;
+        height: 500px;
         margin: auto;
+        text-align: center;
+        /*top: 250px;*/
     }
 
-    /*#saleListBox {*/
-    /*    margin: 0 auto; !* 수평 가운데 정렬 *!*/
-    /*    width: 80%; !* 테이블의 너비 설정 *!*/
-    /*    text-align: center; !* 텍스트 가운데 정렬 *!*/
-    /*}*/
-
-    .page-space {
-        margin: 0 5px; /* 공백 크기 조절 */
+    .warning {
+        position: absolute;
+        width: 100%;
+        top: 200px; /* totalBox의 중간쯤에 위치하도록 설정 */
+        z-index: 10;
+        font-size: 30px; /* font30 클래스를 CSS로 직접 정의 */
     }
 
-    /* 임시로 style 추가 : css 수정 필요*/
-    .imgClass {
-        width: 100px;
-        height: 100px;
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0,
+        'wght' 1000,
+        'GRAD' 0,
+        'opsz' 48;
+        color: rgba(238,135,8,0.4);
+        font-size: 300px !important;
+        margin-top: 70px;
     }
 
-    .header-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-
-    .saleBtn {
-        padding: 5px 20px;
-        background-color: rgba(245, 157, 28, 1);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    #addr_cd {
-        margin-right: auto; /* Ensures the select is on the left */
+    .font30 {
+        font-weight: 800;
     }
 
 
 </style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+<%--<link rel="stylesheet"--%>
+<%--      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>--%>
+<div class="totalBox">
+    <p class="warning font30">존재하지 않는 판매글입니다</p>
+    <span class="material-symbols-outlined">
+block
+</span>
 
-<div class="maincontent totalBox">
-    <p>없는 판매글 번호입니다.<p>
 </div>
 <%@include file="../fixed/footer.jsp" %>

@@ -127,9 +127,6 @@
                 <a href="#"><span class="navtext">출석체크</span></a>
             </li>
             <li class="navli">
-                <a href="#"><span class="navtext">찜한상품</span></a>
-            </li>
-            <li class="navli">
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
             </li>
             <li class="navli">
@@ -159,6 +156,7 @@
         $(".hearder-category-list").css("background-image", "url('/img/display?fileName=" + imgInfo['menu'] + "')");
         $(".chatsel-drop-down").css("background-image", "url('/img/display?fileName=" + imgInfo['drop_down'] + "')");
         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + imgInfo['Like1'] + "')");
+        $(".regimgbtn").css("background-image", "url('/img/display?fileName=" + imgInfo['addimg'] + "')");
     });
     $(document).ready(function() {
         let isMenuVisible = false;
@@ -166,7 +164,7 @@
             e.stopPropagation(); // 이벤트 버블링 방지
             if (!isMenuVisible) {
                 let str = '<ul id="loginmenu">';
-                str += '<li><a href="/myPage/main" className="subnavlink homemylink">마이페이지</a></li>';
+                str += '<li><a href="/myPage/main" className="subnavlink homemylink">마이스토어</a></li>';
                 str += '<li><a href="/logout" className="subnavlink homemylink">로그아웃</a></li>';
                 str += '</ul>';
                 $(".mylogin-box").append(str);

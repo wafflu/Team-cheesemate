@@ -1,34 +1,129 @@
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
-}
-header, footer {
-    background-color: #f8f9fa;
-    padding: 1rem;
-}
 .qnaBoard_container {
     display: flex;
+    flex-direction: column; /* flex 방향을 column으로 변경 */
     flex: 1;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 40px auto;
+    background-color: #ffffff; /* 흰색 배경으로 변경 */
+    border-radius: 8px;
+    border: 1px solid #ffffff; /* 테두리를 흰색으로 변경 */
+    box-shadow: none; /* 그림자 제거 */
 }
+
 .qnaBoard_aside {
     width: 200px;
-    background-color: #eee;
+    background-color: #ffffff; /* 흰색 배경으로 변경 */
     padding: 1rem;
 }
+
 .qnaBoard_main {
     flex: 1;
     padding: 1rem;
+    margin-top: -35px;
 }
-.qnaBoard_header {
-    margin-bottom: 20px;
+
+.qnaBoard_div {
+    margin-bottom: 0px;
+    font-size: 16px;
 }
-.qnaBoard_contents {
-    margin-bottom: 20px;
+
+.qnaBoard_div label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
-.qnaBoard_buttons {
-    margin-bottom: 20px;
+
+.qnaBoard_div input[type="text"],
+.qnaBoard_div textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ffffff; /* 테두리 색을 화이트로 변경 */
+    border-radius: 4px;
+    font-size: 14px;
+    resize: none; /* 사용자가 크기를 조절하지 못하도록 설정 */
+    margin-bottom: 10px;
+    overflow: hidden; /* 스크롤바 숨기기 */
+}
+
+.qnaBoard_buttonContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이의 간격 */
+    margin-top: 20px;
+}
+
+.qnaBoard_buttonContainer button {
+    display: inline-block;
+}
+.deleteAndModifyBtn{
+    display: flex;
+    justify-content: center;
+
+}
+/* 문의 수정, 문의 삭제 버튼 스타일을 FAQ 버튼 스타일과 동일하게 적용 */
+.qnaBoard_submitButton, .qnaBoard_deleteButton {
+    border: 1px solid #000;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.qnaBoard_submitButton:hover, .qnaBoard_deleteButton:hover {
+    background-color: #ee8703;
+    color: white;
+}
+
+.qnaBoard_inlineForm {
+    display: inline;
+}
+
+.qnaBoard_head {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.qnaBoard_backButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-right: 10px;
+}
+
+.qnaBoard_headTitle {
+    font-size: 24px;
+    font-weight: bold;
+    flex-grow: 1; /* Flexbox 내에서 제목이 가로로 확장되도록 설정 */
+    text-align: center; /* 제목을 가운데 정렬 */
+    margin-right: 34px; /* 뒤로 가기 버튼의 공간을 확보하기 위해 마진 추가 */
+}
+
+.date_p_tag, .dateAnd_p_tag {
+    font-size: 12px;
+}
+
+.ans_divider {
+    width: 800px;
+    border: none;
+    border-top: 2px solid black;
+    margin: 20px auto;
+    margin-left: -17px;
+}
+
+input[type="text"]{
+    outline:none;
+}
+
+textarea{
+    outline:none;
 }
