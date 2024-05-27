@@ -290,9 +290,11 @@
                 ORDER BY view_cnt DESC
             </when>
             <when test='option=="L"'>
+                and tx_s_cd = 'S'
                 ORDER BY price ASC
             </when>
             <when test='option=="H"'>
+                and tx_s_cd = 'S'
                 ORDER BY price DESC
             </when>
         </choose>
@@ -313,6 +315,31 @@
         <if test="sal_s_cd != null and sal_s_cd != ''"> -- 판매글 상태(판매중/예약중/거래완료)
             AND sal_s_cd = #{sal_s_cd}
         </if>
+        <if test="option != null and option != ''">
+            <choose>
+                <when test='option=="R"'>
+                    ORDER BY h_date DESC
+                </when>
+                <when test='option=="P"'>
+                    ORDER BY view_cnt DESC
+                </when>
+                <when test='option=="L"'>
+                    and tx_s_cd = 'S'
+                    ORDER BY price ASC
+                </when>
+                <when test='option=="H"'>
+                    and tx_s_cd = 'S'
+                    ORDER BY price DESC
+                </when>
+            </choose>
+        </if>
     </select>
+
+    <!-- 판매글 찜 횟수 카운트 -->
+    <update id="updateLikeCnt" parameterType="map">
+        update sale
+        set like_cnt = like_cnt+ #{cnt}
+        where no = #{no}
+    </update>
 
 </mapper>
