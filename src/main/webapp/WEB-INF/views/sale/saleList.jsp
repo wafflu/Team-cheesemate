@@ -44,6 +44,7 @@
     <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>
     <br><br>
     <div class="saleListBox"></div>
+
     <br>
     <div id="pageContainer">
     </div>

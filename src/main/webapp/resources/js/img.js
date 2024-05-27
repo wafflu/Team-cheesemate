@@ -94,10 +94,12 @@ const ImageUploader = (function() {
 
             $(".imgcnt").html(imgcount+"/"+max_images);
 
-            let progilesavebtn = $("#profilesave_btn_area");
+            let progilesavebtn = $("#profileimg");
             let str2 = "";
-            if (progilesavebtn.children().length === 0) {
-                str2 += "<button id='profilesave_btn'>프로필 저장</button>";
+            if (progilesavebtn.children("#profilesave_btn").length === 0) {
+                // str2 += "<button id='profilesave_btn'>프로필 저장</button>";
+                str2 += '<button type="button" id="profilesave_btn"><span class="material-symbols-outlined" style="color:#fff">save</span></button>';
+
                 progilesavebtn.append(str2);
             }
         }
