@@ -1,0 +1,146 @@
+.topnav{
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    justify-content: space-between;
+}
+#titlebox{
+    padding-top: 20px;
+    box-sizing: border-box;
+    align-items: center;
+    font-weight: bold;
+    width: 100%;
+    height: 100px;
+}
+.search-container{
+    align-items: center;
+}
+.search-container>form>input{
+    width: 200px;
+    height: 30px;
+    font-size: 16px;
+}
+
+.bun-ui a{
+    background-color: lightgrey;
+    width: calc(1200px/5);
+    height: 45px;
+}
+
+.menu>ul{
+    display:flex;
+    background-color: #fafafc;
+}
+.menu>ul>li>a {
+    box-sizing: border-box;
+    padding-top: 10px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/*.menu>a:hover {*/
+/*    background-color: #ee8703;*/
+/*    color: white;*/
+/*}*/
+/*.bun-ui-selected::after{*/
+/*    content:'';*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    position: absolute;*/
+/*    top:0;*/
+/*    left: 0;*/
+/*    box-sizing: border-box;*/
+/*    border-top: 5px solid black;*/
+/*    border-left: 3px solid #888888;*/
+/*    border-right: 3px solid #888888;*/
+/*    border-bottom: none;*/
+/*}*/
+.bun-ui-selected a{
+    border-top: 1px solid lightgrey;
+    border-left: 1px solid lightgrey;
+    border-right: 1px solid lightgrey;
+    border-bottom: none;
+    background-color: white;
+    position: relative;
+
+}
+
+/* 이미지  */
+
+.imgbox {
+    width: 100%;
+    overflow: hidden;
+    height: 200px;
+    border-radius: 10px;
+}
+.eventimg {
+    bottom: 15%;
+    box-sizing: border-box;
+    width: 100%;
+    position: relative;
+    object-fit:cover;
+}
+.topnav{
+    margin-left: 10px;
+}
+.maincontents {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(9, 1fr);
+    gap: 10px;
+    padding: 20px;
+}
+.contentsBox {
+    grid-column: span 3;
+    grid-row: span 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    position: relative;
+    padding: 10px;
+}
+.no-results {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #666;
+}
+/* Clearfix (clear floats) */
+.maincontents::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.Pagecontroller{
+    text-align:center;
+    margin: 30px;
+}
+
+.title {
+    margin-top: 10px;
+    font-weight:bold;
+}
+.date{
+    font-size: 16px;
+    color: grey;
+}
+/* 메인 컬러 */
+.maincolor{
+    background-color: #ee8703;
+}
+.font14{
+    font-size: 14px;
+}
+.font18{
+    font-size: 18px;
+}
+.font30{
+    font-size: 30px;
+}

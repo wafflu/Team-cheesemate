@@ -8,9 +8,9 @@
         <div id="sale-slider-div" class="sale-img-box">
             <c:forEach items="${imglist}" var="img">
                 <c:if test="${img.imgtype eq 'w'}">
-                <div class="sale-img">
-                    <img src="/img/display?fileName=${img.img_full_rt}" class="saleboardimg">
-                </div>
+                    <div class="sale-img">
+                        <img src="/img/display?fileName=${img.img_full_rt}" class="saleboardimg">
+                    </div>
                 </c:if>
             </c:forEach>
         </div>
@@ -46,10 +46,13 @@
 
 
             <div class="titleinfo-box">
-                <c:if test="${Sale.tx_s_cd == 'F'}">
-                    <span class="share-title"><c:when test="${Sale.tx_s_cd == 'F'}">나눔</c:when></span>
-                </c:if>
-                <p class="saletitle">${Sale.title}</p>
+                <div class="title-info">
+                    <c:if test="${Sale.tx_s_cd == 'F'}">
+                        <span class="share-title">[나눔]</span>
+                    </c:if>
+                    <p class="saletitle">${Sale.title}</p>
+                </div>
+
                 <p class="saleprice">${Sale.price}원</p>
             </div>
 
@@ -99,14 +102,14 @@
                 <div class="tr-li">
                     <p class="tr-title tr-title2">희망주소명 : </p>
                     <p class="tr-subtitle tr-subtitle2">
-                    <c:choose>
-                        <c:when test="${not empty Sale.pickup_addr_name}">
-                            ${Sale.pickup_addr_name}
-                        </c:when>
-                        <c:otherwise>
-                            -
-                        </c:otherwise>
-                    </c:choose>
+                        <c:choose>
+                            <c:when test="${not empty Sale.pickup_addr_name}">
+                                ${Sale.pickup_addr_name}
+                            </c:when>
+                            <c:otherwise>
+                                -
+                            </c:otherwise>
+                        </c:choose>
                     </p>
                 </div>
 
@@ -161,114 +164,78 @@
                     <c:otherwise>
                         <button type="button" id="saleboard-jjimbtn"></button>
                         <form id="form">
-                        <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
+                            <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
                         </form>
                         <button type="button" id="payment-btn" class="btn-salestyle">안전결제</button>
                     </c:otherwise>
                 </c:choose>
 
-<%--                <c:choose>--%>
-<%--                    <c:when test="${Sale.bid_cd == 'P'}">--%>
-<%--                        <button type="button" id="pricehaggle" class="btn-salestyle">가격제시</button>--%>
-<%--                    </c:when>--%>
-<%--                    <c:when test="${Sale.bid_cd == 'T'}">--%>
-<%--                        <button type="button" id="sharerequest" class="btn-salestyle">나눔신청</button>--%>
-<%--                    </c:when>--%>
-<%--                </c:choose>--%>
+                <%--                <c:choose>--%>
+                <%--                    <c:when test="${Sale.bid_cd == 'P'}">--%>
+                <%--                        <button type="button" id="pricehaggle" class="btn-salestyle">가격제시</button>--%>
+                <%--                    </c:when>--%>
+                <%--                    <c:when test="${Sale.bid_cd == 'T'}">--%>
+                <%--                        <button type="button" id="sharerequest" class="btn-salestyle">나눔신청</button>--%>
+                <%--                    </c:when>--%>
+                <%--                </c:choose>--%>
 
             </div>
         </div>
     </div>
-        <div class="Productsinfobox">
-            <div class="Productinfo">
-                <div class="producttitle">
-                    <p>상품 정보</p>
-                </div>
-                <div class="productcontent">
-                    <p class="productcontent-title">${Sale.contents}</p>
-                </div>
+    <div class="Productsinfobox">
+        <div class="Productinfo">
+            <div class="producttitle">
+                <p>상품 정보</p>
+            </div>
+            <div class="productcontent">
+                <p class="productcontent-content">${Sale.contents}</p>
+            </div>
 
-                <div class="htrade-box">
-                    <div class="tr-li2">
-                        <p class="tr-title">희망지역</p>
-                        <p class="tr-subtitle">${Sale.pickup_addr_name}</p>
-                    </div>
-
-                    <div class="tr-li2">
-                        <p class="tr-title">희망거래장소</p>
-                        <p class="tr-subtitle">${Sale.detail_addr}</p>
-                    </div>
+            <div class="htrade-box">
+                <div class="tr-li2">
+                    <p class="tr-title">희망지역</p>
+                    <p class="tr-subtitle">${Sale.pickup_addr_name}</p>
                 </div>
 
-                <div id="tagDiv">
-                    <c:forEach var="Tag" items="${tagList}">
-                        <span class="tag-name" value="${Tag.no}">#${Tag.contents}</span>
-                    </c:forEach>
+                <div class="tr-li2">
+                    <p class="tr-title">희망거래장소</p>
+                    <p class="tr-subtitle">${Sale.detail_addr}</p>
                 </div>
             </div>
-            <div class="sallerinfo">
-                <div class="producttitle">
-                    <p>가게 정보</p>
-                </div>
-                <div class="userinfo-box">
-                    <div class="userinfo">
-                        <p class="seller_nick"><a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
-                        <div class="userprofile-box">
-                            <img src="/img/display?fileName=${user.img_full_rt}" alt="${Sale.seller_nick}" id="userprofile">
-                        </div>
-                    </div>
 
-                    <div id="userinfo-score-box">
-                        <div class="sb-p-state">
-                            <p class="tr-title">판매자 후기</p>
-                            <p class="tr-subtitle">${user.rv_cmt_cnt}</p>
-                        </div>
-                        <div class="sb-p-state">
-                            <p class="tr-title">판매자 평점</p>
-                            <p class="tr-subtitle">${user.star_avg}</p>
-                        </div>
-                    </div>
-
-                </div>
+            <div id="tagDiv">
+                <c:forEach var="Tag" items="${tagList}">
+                    <span class="tag-name" value="${Tag.no}">#${Tag.contents}</span>
+                </c:forEach>
             </div>
         </div>
+        <div class="sallerinfo">
+            <div class="producttitle">
+                <p>가게 정보</p>
+            </div>
+            <div class="userinfo-box">
+                <div class="userinfo">
+                    <p class="seller_nick"><a href="/myPage/main?ur_id=${Sale.seller_id}">${Sale.seller_nick}</a></p>
+                    <div class="userprofile-box">
+                        <img src="/img/display?fileName=${user.img_full_rt}" alt="${Sale.seller_nick}" id="userprofile">
+                    </div>
+                </div>
 
+                <div id="userinfo-score-box">
+                    <div class="sb-p-state">
+                        <p class="tr-title">판매자 후기</p>
+                        <p class="tr-subtitle">${user.rv_cmt_cnt}</p>
+                    </div>
+                    <div class="sb-p-state">
+                        <p class="tr-title">판매자 평점</p>
+                        <p class="tr-subtitle">${user.star_avg}</p>
+                    </div>
+                </div>
 
-<%--    <form id="form" action="" method="post">--%>
-<%--        <c:choose>--%>
-<%--            <c:when test="${sessionScope.userId == Sale.seller_id}">--%>
-<%--                <select id="sal_s_cd">--%>
-<%--                    <option value="S" ${Sale.sal_s_cd == 'S' ? 'selected' : ''}>판매중</option>--%>
-<%--                    <option value="R" ${Sale.sal_s_cd == 'R' ? 'selected' : ''}>예약중</option>--%>
-<%--                    <option value="C" ${Sale.sal_s_cd == 'C' ? 'selected' : ''}>거래완료</option>--%>
-<%--                </select>--%>
-<%--            </c:when>--%>
-<%--            <c:otherwise>--%>
-<%--                <p> 거래상태 :--%>
-<%--                    <c:choose>--%>
-<%--                        <c:when test="${Sale.sal_s_cd == 'S'}">판매중</c:when>--%>
-<%--                        <c:when test="${Sale.sal_s_cd == 'R'}">예약중</c:when>--%>
-<%--                        <c:when test="${Sale.sal_s_cd == 'C'}">거래완료</c:when>--%>
-<%--                    </c:choose>--%>
-<%--                </p>--%>
-<%--            </c:otherwise>--%>
-<%--        </c:choose>--%>
-<%--    </form>--%>
-<%--        <!-- <p>sale : ${Sale.no}</p>--%>
-<%--        <p>행정동 코드 : ${Sale.addr_cd}</p>--%>
-<%--        <p>판매 카테고리명 : ${Sale.sal_name}</p>--%>
-<%--        <p>희망행성구역코드 : ${Sale.pickup_addr_cd}</p>--%>
-<%--        <p>끌올횟수 : ${Sale.hoist_cnt}</p>--%>
-<%--        <p>가격제안/나눔신청 인원수 : ${Sale.bid_cnt}</p>--%>
-<%--        <c:if test="${(Sale.seller_id == sessionScope.userId) && Sale.hoist_cnt != 3}">--%>
-<%--            <button type="button" id="hoistingBtn">끌어올리기</button>--%>
-<%--        </c:if>--%>
+            </div>
+        </div>
+    </div>
 
-<%--        <c:if test="${Sale.seller_id == sessionScope.userId}">--%>
-<%--            <button type="button" id="removeBtn">삭제하기</button>--%>
-<%--            <button type="button" id="modifyBtn">수정하기</button>--%>
-<%--        </c:if>--%>
-<%--        <button type="button" id="returnBtn">목록</button>--%>
 </div>
 
 <script>
@@ -304,79 +271,10 @@
             window.location.href = "/myPage/main?ur_id=${Sale.seller_id}"
         });
 
-        // $(".prev").on("click", function() {
-        //     plusSlides(-1);
-        // });
-        //
-        // $(".next").on("click", function() {
-        //     plusSlides(1);
-        // });
-        //
-        // let slideIndex = 1;
-        // showSlides(slideIndex);
-        //
-        // function plusSlides(n) {
-        //     showSlides(slideIndex += n);
-        // }
-        //
-        // function currentSlide(n) {
-        //     showSlides(slideIndex = n);
-        // }
-        //
-        // function showSlides(n) {
-        //     let i;
-        //     let slides = document.getElementsByClassName("mySlides");
-        //     let dots = document.getElementsByClassName("dot");
-        //     if (n > slides.length) {slideIndex = 1}
-        //     if (n < 1) {slideIndex = slides.length}
-        //     for (i = 0; i < slides.length; i++) {
-        //         slides[i].style.display = "none";
-        //     }
-        //     for (i = 0; i < dots.length; i++) {
-        //         dots[i].className = dots[i].className.replace(" active", "");
-        //     }
-        //     slides[slideIndex-1].style.display = "block";
-        //     dots[slideIndex-1].className += " active";
-        // }
-
-        $("#hoistingBtn").on("click", function () {
-            if (confirm("끌어올리겠습니까?")) {
-                let saleNo = "${Sale.no}";
-                $("<input>").attr({
-                    type: "hidden",
-                    name: "no",
-                    value: saleNo
-                }).appendTo("#form");
-                $("#form").attr("action", "/hoisting");
-                $("#form").submit();
-            }
+        $("#saleboard-myshop").on("click", function (){
+            window.location.href = "/sale/manage"
         });
 
-        $("#removeBtn").on("click", function () {
-            if (confirm("삭제 하시겠습니까?")) {
-                $("#form").attr("action", "/sale/remove?no=${Sale.no}");
-                $("#form").submit();
-            }
-        });
-
-        $("#modifyBtn").on("click", function () {
-            if (confirm("수정 하시겠습니까?")) {
-                let saleNo = "${Sale.no}";
-                $("<input>").attr({
-                    type: "hidden",
-                    name: "no",
-                    value: saleNo
-                }).appendTo("#form");
-                $("#form").attr("action", "/sale/modify");
-                $("#form").submit();
-            }
-        });
-
-        $("#returnBtn").on("click", function () {
-            if (confirm("목록으로 돌아가시겠습니까?")) {
-                window.location.href = "<c:url value='/sale/list'/>";
-            }
-        });
 
         $("#sal_s_cd").on("change", function () {
             let selectedValue = $(this).val();

@@ -87,6 +87,7 @@
         <c:forEach items="${salelist}" var="sale">
         time = remaindTime(new Date("${sale.h_date}"));
         price = comma("${sale.price}");
+
         text = textlengover("${sale.title}", 15);
         str += "<div class='salesliderimg'>";
         str += `<a href="/sale/read?no=${sale.no}">`;

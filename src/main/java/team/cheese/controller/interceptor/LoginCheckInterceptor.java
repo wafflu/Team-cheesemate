@@ -39,6 +39,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             if(request.getRequestURI().equals("/sale/write")) {
                 redirectUri = "/login?from=/sale/list";
             }
+            if(request.getRequestURI().equals("/sale/modify")) {
+                redirectUri = "/login?from=/sale/manage";
+            }
             response.sendRedirect(redirectUri);
             return false;
         }

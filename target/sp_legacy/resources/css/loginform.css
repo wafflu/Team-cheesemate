@@ -160,13 +160,12 @@ label{
 
 /* 체크마크 아이콘 모양 */
 .checkbox-container .checkmark:after {
-    left: 8px;
-    top: 3px;
-    width: 8px;
-    height: 15px;
-    border: solid #333;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
+    left: 4px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    background-color: #ed9523;
+    border-radius: 100%;
 }
 
 .find-box{
@@ -186,8 +185,8 @@ label{
     height: 30%;
     color: #9ca3af;
     position: absolute;
-    top: 46%;
-    right: -12px;
+    top: 50%;
+    right: -6px;
     transform: translateY(-50%);
     background-color: rgb(230 230 230);
 }

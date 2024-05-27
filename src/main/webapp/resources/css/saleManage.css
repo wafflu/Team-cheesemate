@@ -8,11 +8,14 @@
     gap:10px;
 }
 
-input[type="text"] {
-    width: 350px;
-    margin-right: 20px; /* 간격 조정 */
-    padding: 5px;
-    font-size: 18px;
+.searchbar{
+    width: 300px;
+    padding: 5px 5px 5px 30px;
+    font-size: 14px;
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    outline: none;
 }
 
 select {
@@ -27,10 +30,8 @@ select {
 }
 
 .optionTx {
-    font-weight: 500;
     line-height: normal;
     cursor: pointer;
-    color: rgb(216, 12, 24);
 }
 
 .totalBox {
@@ -93,7 +94,7 @@ th, td {
 
 /* 원하는 색상으로 선택된 옵션 변경 */
 .optionTx.selected {
-    color: red; /* 빨간색 */
+    color: #ee8703; /* 빨간색 */
     font-weight: 600;
 }
 

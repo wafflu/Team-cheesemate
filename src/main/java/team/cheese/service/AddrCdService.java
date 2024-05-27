@@ -3,6 +3,8 @@ package team.cheese.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import team.cheese.dao.AddrCdDao;
 import team.cheese.domain.AddrCdDto;
 
@@ -39,6 +41,7 @@ public class AddrCdService {
     }
 
     // *** 유저의 주소코드 추가 ***
+    @Transactional(propagation = Propagation.REQUIRED)
     public int insertAddrCd(AddrCdDto addrCdDto) {
         return addrCdDao.insertAddrCd(addrCdDto);
     }

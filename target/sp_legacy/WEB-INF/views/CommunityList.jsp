@@ -7,6 +7,7 @@
     <div class="topic-slide-container">
 
         <div id="commu_A" class="topic-slide active">전체</div>
+        <%--<h3 id="commu_H" class="topic-slide">인기글</h3>--%>
         <div id="commu_B" class="topic-slide">블라블라</div>
         <div id="commu_L" class="topic-slide">연애/썸</div>
         <div id="commu_W" class="topic-slide">고민/상담</div>
@@ -21,7 +22,9 @@
         <p>아직 작성된 글이 없습니다.</p>
     </div>
 
-
+<%--    <div class="hidden-removeByAdmin">--%>
+<%--        <p>운영진에 의해 삭제된 글입니다.</p>--%>
+<%--    </div>--%>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 <script src="/js/Etc.js"></script>
@@ -64,11 +67,12 @@
                 },
                 dataType: "json",
                 success: function (result) {
-
+                    console.log(result.length);
 
 
                     if (!result.content || result.content.length === 0) { // 결과가 없을 경우
                         let e = "<div id='nonPost'>해당 게시판의 게시글이 없습니다.</div>"
+                        console.log(e);
                         $('article').html(e);
                     }else{
                         let s = "";
@@ -83,7 +87,7 @@
                             console.log("i1 : "+(item1!== undefined))
                             s += "<tr class='article-row'>";
                             s += "<td class='article-section'>";
-
+                            // s += "<p class='article-no'>" + item1.no + "</p>";
                                 s+="<div class='article-imgPart'>";
                                     if(item1.img_full_rt !== ""){
                                         s += "<p class='article-img'> <img src='/img/display?fileName="+ item1.img_full_rt +  "' alt='이미지'/></p>";
@@ -92,7 +96,7 @@
                                 s+="<div class='article-postPart'>";
                                     s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + truncateString(item1.title,8) + "</a></p>";
                                     s += "<div class = 'contents-wrapper'>";
-                                    s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + truncateString(item1.contents,30) + "</a></p>";
+                                    s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + truncateString(item1.contents,50) + "</a></p>";
                                     s += "</div>";
 
                                     s += "<div class='article-etcPart'>";
@@ -117,7 +121,7 @@
 
                             if (item2 !== undefined) {
                                 s += "<td class='article-section'>";
-
+                                // s += "<p class='article-no'>" + item2.no + "</p>";
                                     s+="<div class='article-imgPart'>";
                                     if(item2.img_full_rt !== ""){
                                         s += "<p class='article-img'> <img src='/img/display?fileName="+ item2.img_full_rt +  "' alt='이미지'/></p>";
@@ -127,7 +131,7 @@
                                     s+="<div class='article-postPart'>";
                                         s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + truncateString(item2.title,8) + "</a></p>";
                                         s += "<div class = 'contents-wrapper'>";
-                                        s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + truncateString(item2.contents,30) + "</a></p>";
+                                        s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + truncateString(item2.contents,50) + "</a></p>";
                                         s += "</div>";
 
                                         s += "<div class='article-etcPart'>";
@@ -192,17 +196,12 @@
         };
 
 
-        // const generatePagination = function (pagination) {
-        //     let paginationHtml = '';
-        //
-        //     $("#pagination").empty(); // 기존에 있는 페이지 내용 비우기
-
         const generatePagination = function (pagination) {
             console.log(pagination);
             console.log(pagination.totalCnt);
 
             let paginationHtml = '';
-
+            $("#pagination").empty();
 
             if (pagination.totalCnt != null && pagination.totalCnt != 0) {
                 let pageContainer = $('<div>').attr('id', 'pageNumber').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
@@ -233,42 +232,21 @@
         loadArticles('commu_A',1);
 
         $(document).on('click', '.topic-slide', function () {
-
+            // Remove active class from all topic-slide elements
             $('.topic-slide').removeClass('active');
 
+            // Add active class to the clicked topic-slide element
             $(this).addClass('active');
 
-
+            // Get the category from the clicked element
             const category = $(this).attr('id') || 'commu_A';
 
-
+            // Load articles for the selected category
             loadArticles(category, 1); // Load the first page of articles
         });
 
-        // // Click events for pagination links
-        // $(document).on('click', '.page-link', function () {
-        //     $('.page-link').removeClass('active'); // 기존 active 클래스 제거
-        //     $(this).addClass('active'); // 클릭한 페이지 링크에 active 클래스 추가
-        //     let page = $(this).data('page');
-        //     const category = $(".topic-slide.active").attr('id') || 'commu_A';
-        //     loadArticles(category, page);
-        // });
-
-        // $(document).on('click', '.page-link', function () {
-        //     $('.page-link').removeClass('active'); // 기존 active 클래스 제거
-        //     $(this).addClass('active'); // 클릭한 페이지 링크에 active 클래스 추가
-        //     let page = $(this).data('page');
-        //
-        //     const category = $(".topic-slide.active").attr('id') || 'commu_A';
-        //     loadArticles(category, page);
-        // });
-
-
-        $(document).on('click', '.page-link', function (event) {
-            event.preventDefault(); // 기본 동작 방지
-            $('.page-link').removeClass('active'); // 기존 active 클래스 제거
-            console.log($(this));
-            $(this).addClass('active'); // 클릭한 페이지 링크에 active 클래스 추가
+        // Click events for pagination links
+        $(document).on('click', '.page-link', function () {
             let page = $(this).data('page');
             const category = $(".topic-slide.active").attr('id') || 'commu_A';
             loadArticles(category, page);
@@ -284,6 +262,8 @@
             const category = $(".topic-slide.active").attr('id') || 'commu_A';
             loadArticles(category, page);
         });
+
+
 
     });
 

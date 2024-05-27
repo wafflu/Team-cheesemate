@@ -1,9 +1,11 @@
 const ImageUploader = (function() {
     let imginfo =  uploadImage.getImgInfo() || [];
-    let img_count = 0;
+    let img_count = imginfo.length;
     let max_images = 10;
 
     $(document).ready(function () {
+        $(".imgcnt").html(img_count+"/"+max_images);
+
         $("#fileItem").on("change", function (e) {
             let fileInput = $('input[name="uploadFile"]');
             let fileList = fileInput[0].files;
@@ -28,7 +30,7 @@ const ImageUploader = (function() {
                 contentType: false,
                 dataType: 'json',
                 success: function (result) {
-                    showUploadImage(result, 0, 0);
+                    showUploadImage(result, 0, 0, img_count);
                 },
                 error: function (result) {
                     alert("이미지 파일이 아닙니다.");
@@ -54,7 +56,7 @@ const ImageUploader = (function() {
                 contentType: false,
                 dataType: 'json',
                 success: function (result) {
-                    showUploadImage(result, 250, 250);
+                    showUploadImage(result, 250, 250, 0);
                 },
                 error: function (result) {
                     alert("이미지 파일이 아닙니다.");
@@ -63,7 +65,7 @@ const ImageUploader = (function() {
             e.target.value = "";
         });
 
-        function showUploadImage(uploadResultArr, width, height) {
+        function showUploadImage(uploadResultArr, width, height, imgcount) {
             if (!uploadResultArr || uploadResultArr.length == 0) {
                 return;
             }
@@ -90,10 +92,14 @@ const ImageUploader = (function() {
             }
             uploadResult.append(str);
 
-            let progilesavebtn = $("#profilesave_btn_area");
+            $(".imgcnt").html(imgcount+"/"+max_images);
+
+            let progilesavebtn = $("#profileimg");
             let str2 = "";
-            if (progilesavebtn.children().length === 0) {
-                str2 += "<button id='profilesave_btn'>프로필 저장</button>";
+            if (progilesavebtn.children("#profilesave_btn").length === 0) {
+                // str2 += "<button id='profilesave_btn'>프로필 저장</button>";
+                str2 += '<button type="button" id="profilesave_btn"><span class="material-symbols-outlined" style="color:#fff">save</span></button>';
+
                 progilesavebtn.append(str2);
             }
         }

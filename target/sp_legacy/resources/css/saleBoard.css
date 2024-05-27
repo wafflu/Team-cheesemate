@@ -312,3 +312,20 @@
 .slick-dots>.slick-active {
     opacity: 1;
 }
+
+.productcontent-content{
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+.title-info{
+    display: flex;
+}
+
+.share-title{
+    width: 94px;
+    display: inline-block;
+    font-size: 28px;
+    color: #141313;
+    font-weight: 600;
+}

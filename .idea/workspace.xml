@@ -10,13 +10,559 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf3a9cb8-6169-4b19-8c0e-325469b027b4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/CommunityBoard/CommunityBoardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityBoard.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityHome.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/event_styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/resisterform.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name 2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c/storage_v2/_src_/schema/TeamCheese.tNWvAQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a0691f35-5462-4db7-a934-b8fd5d4abb5c/storage_v2/_src_/schema/TeamCheese.tNWvAQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sqldialects 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace 2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/FaqController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/FaqController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/GlobalController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/GlobalController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/QnaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/QnaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/ResisterController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/ResisterController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/interceptor/LoginCheckInterceptor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/interceptor/LoginCheckInterceptor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/controller/sale/SaleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/controller/sale/SaleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/entity/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/entity/WebSocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/AddrCdService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/AddrCdService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/FaqService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/FaqService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/FaqServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/FaqServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/QnaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/QnaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/QnaServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/QnaServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/team/cheese/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/team/cheese/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/SaleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/SaleMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityList.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityWriteBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/CommunityWriteBoard.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/communityBoard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communityBoard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/communitylist.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/event/event.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/event/event.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/faqBoardList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/faqBoardList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/header.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/fixed/header.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/main.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/myPage.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/myPage.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoardList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaBoardList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaForm.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/qnaForm.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/resisterForm.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/resisterForm.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleBoard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleBoard.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleList.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleList.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleManage.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleManage.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleWrite.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/sale/saleWrite.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/faq.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/faq.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/loginform.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/loginform.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/myPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/myPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/mystyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/mystyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoardList.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaBoardList.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaForm.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/qnaForm.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/reset.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/reset.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/saleBoard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/saleBoard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/saleManage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/saleManage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/saleWrite.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/saleWrite.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/css/salelist.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/css/salelist.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/Etc.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/Etc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/event.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/event.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/faq.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/faq.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/img.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/img.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaBoard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaBoard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaBoardList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaBoardList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/resources/js/qnaForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/dao/SaleDaoImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/dao/SaleDaoImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/team/cheese/service/FaqServiceImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/team/cheese/service/FaqServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/log4j.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/AddrCdMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/AdminMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/ChatMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/CommentMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/CommuMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/CommunityBoardMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/CommunityHeartMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/EventMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/FaqMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/HoistingMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/ImgMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/PublicMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/QnaCategoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/QnaMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/RoomMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/SaleMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/administrativeMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/bidingMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/reviewCommentMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/saleCategoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/saleHistoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/saleImgMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/saleTagMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/tagMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/userInfoMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mybatis-config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/ChatController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/CommunityBoard/CommunityBoardController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/CommunityBoard/CommunityBoardController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/CommunityBoard/CommunityBoardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/Event/EventController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/Event/ManageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/FaqController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/GlobalController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/HomeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/KakaoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/MyPageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/ReviewCommentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/MyPage/UserInfoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/QnaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/ResisterController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/img/ImgController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/interceptor/LoginCheckInterceptor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/HoistingController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/SaleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/controller/sale/SaleRestController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AddrCdDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AddrCdDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdminDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdminImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdministrativeDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/AdministrativeDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/BidingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/ChatDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/ChatDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Chat_msgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Comment/CommentDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Comment/CommentDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Commu/CommuDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/Commu/CommuDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityBoard/CommunityBoardDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityBoard/CommunityBoardDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityHeart/CommunityHeartDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/CommunityHeart/CommunityHeartDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/DeleteDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/FaqDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/FaqDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/HoistingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/ImgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/ImgDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/ReviewCommentDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/ReviewCommentDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/UserInfoDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/MyPage/UserInfoDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/PublicDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaCategoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaCategoryDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/QnaDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleCategoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleCategoryDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleHistoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleImgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleTagDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/SaleTagDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/TagDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/TagDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/TestSession.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/UserDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/event/EventDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/dao/event/EventDaoImp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/AddrCdDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/AdminDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/AdministrativeDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/BidingDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatMessageDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ChatRoomDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/Comment/CommentDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/Commu/CommuDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityBoard/CommunityBoardDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityBoardDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/CommunityHeart/CommunityHeartDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/FaqDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/HoistingDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ImgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/ReviewCommentDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/SearchCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/MyPage/UserInfoDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/ProfileimgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/QnaCategoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/QnaDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/RoomDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleCategoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleHistoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleImgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SaleTagDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/SearchDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/TagDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/UserDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/domain/event/EventDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/entity/CustomWebSocketHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/entity/ImgFactory$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/entity/ImgFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/entity/PageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/entity/WebSocketConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/exception/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/AddrCdService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/AdminService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/ChatService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/ChatServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/Comment/CommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/Comment/CommentServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityBoard/CommunityBoardService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityHeart/CommunityHeartService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/CommunityHeart/CommunityHeartServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/FaqService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/FaqServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/ImgService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/ImgServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/KakaoService$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/KakaoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/ReviewCommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/ReviewCommentServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/UserInfoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/MyPage/UserInfoServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/QnaService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/QnaServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/event/EventService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/event/EventServiceImp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/sale/HoistingService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/team/cheese/service/sale/SaleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/log4j.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/AddrCdMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/AdminMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/ChatMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/CommentMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/CommuMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/CommunityBoardMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/CommunityHeartMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/EventMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/FaqMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/HoistingMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/ImgMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/PublicMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/QnaCategoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/QnaMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/RoomMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/SaleMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/UserMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/administrativeMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/bidingMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/reviewCommentMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/saleCategoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/saleHistoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/saleImgMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/saleTagMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/tagMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mapper/userInfoMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/mybatis-config.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/ChatController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/CommunityBoard/CommunityBoardController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/CommunityBoard/CommunityBoardController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/CommunityBoard/CommunityBoardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/Event/EventController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/Event/ManageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/FaqController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/GlobalController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/HomeController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/KakaoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/MyPage/MyPageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/MyPage/ReviewCommentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/MyPage/UserInfoController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/QnaController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/ResisterController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/img/ImgController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/interceptor/LoginCheckInterceptor.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/sale/HoistingController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/sale/SaleController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/controller/sale/SaleRestController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/AddrCdDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/AddrCdDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/AdminDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/AdminImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/AdministrativeDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/AdministrativeDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/BidingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/ChatDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/ChatDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/Chat_msgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/Comment/CommentDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/Comment/CommentDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/Commu/CommuDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/Commu/CommuDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/CommunityBoard/CommunityBoardDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/CommunityBoard/CommunityBoardDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/CommunityHeart/CommunityHeartDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/CommunityHeart/CommunityHeartDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/DeleteDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/FaqDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/FaqDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/HoistingDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/ImgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/ImgDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/MyPage/ReviewCommentDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/MyPage/ReviewCommentDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/MyPage/UserInfoDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/MyPage/UserInfoDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/PublicDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/QnaCategoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/QnaCategoryDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/QnaDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/QnaDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleCategoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleCategoryDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleHistoryDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleImgDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleTagDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/SaleTagDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/TagDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/TagDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/TestSession.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/UserDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/UserDaoImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/event/EventDao.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/dao/event/EventDaoImp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/AddrCdDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/AdminDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/AdministrativeDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/BidingDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/ChatDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/ChatMessageDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/ChatRoomDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/Comment/CommentDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/Commu/CommuDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/CommunityBoard/CommunityBoardDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/CommunityBoardDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/CommunityHeart/CommunityHeartDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/FaqDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/HoistingDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/ImgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/MyPage/ReviewCommentDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/MyPage/SearchCondition.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/MyPage/UserInfoDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/ProfileimgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/QnaCategoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/QnaDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/RoomDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/SaleCategoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/SaleDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/SaleHistoryDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/SaleImgDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/SaleTagDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/SearchDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/TagDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/UserDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/domain/event/EventDto.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/entity/CustomWebSocketHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/entity/ImgFactory$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/entity/ImgFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/entity/PageHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/entity/WebSocketConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/exception/GlobalExceptionHandler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/AddrCdService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/AdminService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/ChatService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/ChatServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/Comment/CommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/Comment/CommentServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/CommunityBoard/CommunityBoardService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/CommunityBoard/CommunityBoardServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/CommunityHeart/CommunityHeartService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/CommunityHeart/CommunityHeartServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/FaqService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/FaqServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/ImgService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/ImgServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/KakaoService$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/KakaoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/MyPage/ReviewCommentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/MyPage/ReviewCommentServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/MyPage/UserInfoService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/MyPage/UserInfoServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/QnaService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/QnaServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/event/EventService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/event/EventServiceImp.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/sale/HoistingService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/classes/team/cheese/service/sale/SaleService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/aspectjrt-1.6.10.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/aspectjweaver-1.9.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/byte-buddy-1.14.12.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/checker-qual-3.12.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/classmate-1.5.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/commons-fileupload-1.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/commons-io-2.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/error_prone_annotations-2.7.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/failureaccess-1.0.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/guava-31.0.1-jre.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/hibernate-validator-6.2.0.Final.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/j2objc-annotations-1.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jackson-annotations-2.17.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jackson-core-2.17.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jackson-databind-2.17.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jackson-dataformat-xml-2.12.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jackson-module-jaxb-annotations-2.12.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jakarta.activation-api-1.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jakarta.annotation-api-2.1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jakarta.validation-api-2.0.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jakarta.xml.bind-api-2.3.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/javax.inject-1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jboss-logging-3.4.1.Final.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jcl-over-slf4j-1.6.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jsr305-3.0.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/jstl-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/log4j-1.2.15.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/log4jdbc-remix-0.2.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/lombok-1.18.24.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/mybatis-3.5.9.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/mybatis-spring-2.0.7.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/mysql-connector-java-8.0.30.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/protobuf-java-3.19.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/reactive-streams-1.0.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/reactor-core-3.3.8.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/slf4j-api-1.6.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/slf4j-log4j12-1.6.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-aop-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-beans-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-context-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-core-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-expression-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-integration-core-5.3.2.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-integration-stomp-5.3.2.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-jcl-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-jdbc-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-messaging-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-retry-1.2.5.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-security-crypto-5.7.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-tx-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-web-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-webmvc-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/spring-websocket-5.0.7.RELEASE.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/stax2-api-4.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/thumbnailator-0.4.13.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/validation-api-2.0.1.Final.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/lib/woodstox-core-6.2.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/spring/appServlet/servlet-context.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/spring/root-context.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/CommunityBoard.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/CommunityHome.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/CommunityList.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/CommunityWriteBoard.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/FaqAdmin.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/changeMyPw.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/chat2.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/editMyInfo.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/error/ErrorPage.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/error/saleError.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/event/event.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/event/manageEvent.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/event/manageEventWrite.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/event/read.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/faqBoardList.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/fixed/footer.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/fixed/header.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/home.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/img/modifyimg.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/img/test.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/img/testdetail.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/img/testview.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/leaveAccount.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/loginForm.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/main.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/myPage.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/qnaBoard.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/qnaBoardList.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/qnaForm.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/read.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/resisterForm.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/sale/saleBoard.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/sale/saleList.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/sale/saleManage.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/sale/saleWrite.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/saleInfo.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/views/write.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/chatting.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/communityBoard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/communityWriteBoard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/communityhome.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/communitylist.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/event.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/faq.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/googleicon.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/loginform.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/mainslider.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/myPage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/mycommustyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/mystyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/qnaBoard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/qnaBoardList.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/qnaForm.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/reset.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/saleBoard.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/saleInfo.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/saleManage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/saleWrite.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/css/salelist.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/Etc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/app.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/chatting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/event.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/faq.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/img.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/qnaBoard.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/qnaBoardList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/sp_legacy/resources/js/qnaForm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/DBConnectionTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/EventServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ImgDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/dbtest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/dumptest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/makeimgtest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AddrCdDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AdminDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/AdministrativeDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommuDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommunityBoardDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/CommunityHeartDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/FaqDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/MyPage/ReviewCommentDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/MyPage/UserInfoDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/QnaCategoryDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/QnaDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleCategoryDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/SaleTagDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/TagDaoImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/dao/UserDaoTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/domain/Testdb.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/AddrCdServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/AdminServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/FaqServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/MyPage/UserInfoServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/SaleServiceImplTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/UserServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/cheese/service/sale/SaleServiceTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/team/userinfo_dao_test.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
