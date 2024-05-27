@@ -81,7 +81,8 @@
                             let item1 = result.content[i];
                             let item2 = result.content[i + 1];
                             let time1 = item1.r_date;
-                            let time2 = item2.r_date;
+                            let time2 = item2 ? item2.r_date : null;
+
 
                             console.log("i1 : "+(item1!== undefined))
                             s += "<tr class='article-row'>";

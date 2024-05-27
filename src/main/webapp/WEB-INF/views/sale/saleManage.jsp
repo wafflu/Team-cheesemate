@@ -74,11 +74,12 @@
 
         saleList();
 
+        let optionText;
         // optionTx 클릭했을 경우 value 지정
         $('.optionTx').click(function() {
             // 클릭된 optionTx 요소의 텍스트 값을 가져와서 상태에 따라 sal_s_cd 값을 할당
             let title = $('input[name="searchTitle"]').val();
-            let optionText = $(this).text();
+            optionText = $(this).text();
             sal_s_cd = optionTextSwitch(optionText);
             pre_sal_s_cd = sal_s_cd;
 
@@ -105,7 +106,7 @@
         // 검색을 수행하는 함수
         function performSearch() {
             let title = $('input[name="searchTitle"]').val();
-            let optionText = $('.optionTx.selected').text();
+            console.log(optionText);
             let sal_s_cd = optionTextSwitch(optionText);
             saleList(title, sal_s_cd);
         }
@@ -202,17 +203,18 @@
 
             if (ph.totalCnt != null && ph.totalCnt != 0) {
                 let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
+                let scrollPosition = window.innerHeight;
                 if (ph.prevPage) {
-                    pageContainer.append('<button onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</button>');
+                    pageContainer.append('<button onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + '); window.scrollTo(0, 0);">&lt;</button>');
                 }
                 for (let i = ph.beginPage; i <= ph.endPage; i++) {
                     // 페이지 번호 사이에 공백 추가
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + i + ', ' + ph.pageSize + ')">' + i + '</button>');
+                    pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + i + ', ' + ph.pageSize + '); window.scrollTo(0, 0);">' + i + '</button>');
                 }
                 if (ph.nextPage) {
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<button onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</button>');
+                    pageContainer.append('<button onclick="saleList(\'' + title + '\', ' + sal_s_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + '); window.scrollTo(0, 0);">&gt;</button>');
                 }
                 $("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
             }
@@ -401,24 +403,6 @@
             }
             return sal_s_cd;
         };
-
-        // function optionTextSwitchDiv(optionText) {
-        //     switch (optionText) {
-        //         case 'S':
-        //             saleStatusText = '판매중';
-        //             break;
-        //         case 'R':
-        //             saleStatusText = '예약중';
-        //             break;
-        //         case 'C':
-        //             saleStatusText = '판매<br>완료';
-        //
-        //             break;
-        //         default:
-        //             saleStatusText = '';
-        //     }
-        //     return sal_s_cd;
-        // };
 
         function createSaleStatusSelect(selectedValue) {
             const options = {
