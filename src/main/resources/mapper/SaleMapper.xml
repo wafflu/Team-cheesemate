@@ -287,7 +287,7 @@
         <if test="option != null and option != ''">
         <choose>
             <when test='option=="R"'>
-                ORDER BY h_date DESC
+                ORDER BY h_date DESC, no DESC
             </when>
             <when test='option=="P"'>
                 ORDER BY view_cnt DESC

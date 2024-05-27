@@ -109,7 +109,6 @@ public class SaleController {
         model.addAttribute("Sale", saleDto);
         model.addAttribute("saleCategory1", saleCategoryDao.selectCategory1());
         return "/sale/saleWrite";
-
     }
 
     // 게시글 리스트 중 하나를 클릭한 경우

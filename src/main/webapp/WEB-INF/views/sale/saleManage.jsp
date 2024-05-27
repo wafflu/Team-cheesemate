@@ -48,13 +48,13 @@
 <script>
     $(document).ready(function () {
         window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = "R") {
+
             $.ajax({
                 type: 'GET',       // 요청 메서드
                 url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize + "&title=" + title + "&sal_s_cd=" + sal_s_cd + "&option=" + option,  // 요청 URI
                 headers: {"content-type": "application/json"}, // 요청 헤더
                 dataType: 'json',
                 success: function (data) {
-                    console.log(data);
                     let ph = data.ph;
                     let saleList = data.saleList;
                     let startOfToday = data.startOfToday;
@@ -66,8 +66,10 @@
             });
         }
 
+        // URL에서 페이지 번호 읽기
+        const urlParams = new URLSearchParams(window.location.search);
+        const page = urlParams.get('page') || 1;
 
-        <%--let seller_id = "${sessionScope.userId}";--%>
         let title = $('input[name="searchTitle"]').val(); // 판매글 제목 검색
         let sal_s_cd = null;
         let pre_sal_s_cd = null;
@@ -106,7 +108,6 @@
         // 검색을 수행하는 함수
         function performSearch() {
             let title = $('input[name="searchTitle"]').val();
-            console.log(optionText);
             let sal_s_cd = optionTextSwitch(optionText);
             saleList(title, sal_s_cd);
         }
@@ -126,7 +127,6 @@
                 saleList.forEach(function (sale) {
                     let optionText = $('.optionTx.selected').text();
                     let sal_s_cd = optionTextSwitch(optionText);
-                    // let saleStatusText = optionTextSwitchDiv(optionText);
                     let price = '';
                     let tx_name = '';
                     if(sale.price > 0){
@@ -163,10 +163,6 @@
                     // 썸네일
                     row.append($("<td>").addClass("Thumbnail_ima").html("<a href='/sale/read?no=" + sale.no + "'>" + "<img class='imgClass' src='/img/display?fileName=" + sale.img_full_rt + "'/>" + "</a>")); // 이미지
 
-                    // // 판매상태
-                    // if(saleStatusText !== "판매중"){
-                    //     row.append($("<td>").addClass("saleStatus-box").html("<div class='saleStatus-box'><span class='saleStatusText'>" + saleStatusText + "</span></div>"));
-                    // }
                     let statusSelect = createSaleStatusSelect(sale.sal_s_cd);
                     row.append($("<td>").append(statusSelect));
 
@@ -309,8 +305,6 @@
             let sal_s_cd = $(this).val();
             let sal_s_name = $(this).find("option:checked").text(); // 선택된 옵션의 텍스트 가져오기
             let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
-            console.log("이전값 : " + pre_sal_s_cd);
-            console.log("선택값 : " + sal_s_cd);
 
             $.ajax({
                 type: "POST",
@@ -353,7 +347,6 @@
         }
 
         function dateToString(ms = 0, startOfToday) {
-            console.log(startOfToday);
             let date = new Date(ms);
 
             let yyyy = date.getFullYear();

@@ -214,6 +214,7 @@
 
         // 업데이트된 saleList를 화면에 출력하는 함수
         function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
+
             // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
             $(".saleListBox").empty();
 
@@ -283,29 +284,27 @@
                     $(".saleListBox").html(str);
                 });
             } else {
-                $(".saleListBox").html("<p style='font-size: 20px; text-align: center;'>데이터가 없습니다.</p>");
+                $(".saleListBox").html("<p class='center-content'>판매글이 존재하지 않습니다.</p>");
             }
 
             $("#pageContainer").empty(); // 기존에 있는 페이지 내용 비우기
 
             if (ph.totalCnt != null && ph.totalCnt != 0) {
                 let pageContainer = $('<div>').attr('id', 'pageContainer').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
-                let scrollPosition = window.innerHeight;
                 if (ph.prevPage) {
-                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + '); window.scrollTo(0, 0);">&lt;</button>');
+                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</button>');
                 }
                 for (let i = ph.beginPage; i <= ph.endPage; i++) {
                     // 페이지 번호 사이에 공백 추가
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + i + ', ' + ph.pageSize + '); window.scrollTo(0, 0);">' + i + '</button>');
+                    pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + i + ', ' + ph.pageSize + ')">' + i + '</button>');
                 }
                 if (ph.nextPage) {
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + '); window.scrollTo(0, 0);">&gt;</button>');
+                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</button>');
                 }
                 $("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
             }
-
         }
 
         function addZero(value = 1) {
