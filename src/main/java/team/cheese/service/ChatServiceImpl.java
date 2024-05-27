@@ -35,7 +35,16 @@ public class ChatServiceImpl implements ChatService {
 
         while (it.hasNext()){
             ChatRoomDto room = (ChatRoomDto) it.next();
-            UserInfoDTO user = userInfoService.read(room.getSeller_id());
+            UserInfoDTO user = null;
+            System.out.println("acid : "+acid+"/ rb : ("+room.getBuyer_id() +" | "+room.getBuyer_nk()+")/ sr : "+room.getSeller_id()+" | "+room.getSeller_nk());
+            if(acid.equals(room.getSeller_id())){
+                user = userInfoService.read(room.getBuyer_id());
+            } else {
+                user = userInfoService.read(room.getSeller_id());
+            }
+
+            //profile.add(new ProfileimgDto(room.getNo(), user.getUr_id(), user.getNick(), user.getImg_full_rt()));
+
             profile.add(new ProfileimgDto(room.getNo(), user.getUr_id(), user.getNick(), user.getImg_full_rt()));
         }
 
@@ -70,11 +79,20 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public ArrayList<ChatMessageDto> loadMessage(int no){
+    public ArrayList<ChatMessageDto> loadMessage(int no) throws Exception {
         ArrayList<ChatMessageDto> msglist = (ArrayList<ChatMessageDto>) chatDao.select(no);
         if(msglist.size() == 0){
             msglist.add(null);
         }
+        //반복문을 통해서 유저의 이미지를 가져와야함(유저가 프로필 업데이트 하면 바뀐거 가져와야해서)
+        Iterator it = msglist.iterator();
+
+        while (it.hasNext()){
+            ChatMessageDto cmto = (ChatMessageDto) it.next();
+            UserInfoDTO udto = userInfoService.read(cmto.getAcid());
+            cmto.setImg_full_rt(udto.getImg_full_rt());
+        }
+
         return msglist;
     }
 

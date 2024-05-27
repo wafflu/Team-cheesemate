@@ -15,5 +15,5 @@ public interface ChatService {
 
     ResponseEntity<String> savemessage(ChatMessageDto cmto);
 
-    ArrayList<ChatMessageDto> loadMessage(int no);
+    ArrayList<ChatMessageDto> loadMessage(int no) throws Exception;
 }

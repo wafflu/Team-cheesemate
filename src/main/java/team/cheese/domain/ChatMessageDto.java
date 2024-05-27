@@ -14,12 +14,15 @@ public class ChatMessageDto {
     private String last_date;
     private String last_id;
 
+    private String img_full_rt;
+
     public ChatMessageDto(){}
 
-    public ChatMessageDto(final String nick, final String message, final String r_date) {
+    public ChatMessageDto(final String nick, final String message, final String r_date, final String img) {
         this.nick = nick;
         this.message = message;
         this.r_date = r_date;
+        this.img_full_rt = img;
     }
 
     @Override
@@ -130,5 +133,13 @@ public class ChatMessageDto {
 
     public void setLast_id(String last_id) {
         this.last_id = last_id;
+    }
+
+    public String getImg_full_rt() {
+        return img_full_rt;
+    }
+
+    public void setImg_full_rt(String img_full_rt) {
+        this.img_full_rt = img_full_rt;
     }
 }
