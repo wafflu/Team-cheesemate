@@ -217,6 +217,7 @@
 
         // 업데이트된 saleList를 화면에 출력하는 함수
         function updateSaleList(saleList, startOfToday, ph, addr_cd, sal_i_cd) {
+
             // 기존 saleList 테이블의 tbody를 선택하여 내용을 비웁니다.
             $(".saleListBox").empty();
 
@@ -286,7 +287,7 @@
                     $(".saleListBox").html(str);
                 });
             } else {
-                $(".saleListBox").html("<p style='font-size: 20px; text-align: center;'>데이터가 없습니다.</p>");
+                $(".saleListBox").html("<p class='center-content'>판매글이 존재하지 않습니다.</p>");
             }
 
             $("#pageContainer").empty(); // 기존에 있는 페이지 내용 비우기

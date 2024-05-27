@@ -566,16 +566,16 @@ public class SaleDaoImplTest {
 
     @Test
     public void testUpdateSaleSCdRandomCCode() throws Exception {
-        for (int i=0; i<25; i++) {
-            Long no = (long) (Math.random() * saleDao.count() + 106);
+        for (int i=0; i<3; i++) {
+            Long no = (long) (Math.random() * saleDao.count() +1);
             System.out.println(no);
             SaleDto saleDto = saleDao.select(no);
 
             String sal_s_cd = "C";
             Map<String, Object> map = new HashMap<>();
             if(!saleDto.getSeller_id().equals("asdf")) {
-                saleDto.setBuyer_id("asdf");
-                saleDto.setBuyer_nick("asdf");
+                saleDto.setBuyer_id("rudtlr");
+                saleDto.setBuyer_nick("으르렁");
                 saleDto.setSal_s_cd(sal_s_cd);
                 assertTrue(saleDao.buySale(saleDto) == 1);
 
@@ -586,7 +586,7 @@ public class SaleDaoImplTest {
     @Test
     public void testUpdateSaleSCdRandomRCode() throws Exception {
         for (int i=0; i<25; i++) {
-            Long no = (long) (Math.random() * saleDao.count() + 106);
+            Long no = (long) (Math.random() * saleDao.count() + 1);
             System.out.println(no);
             SaleDto saleDto = saleDao.select(no);
 

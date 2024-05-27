@@ -33,6 +33,19 @@
     cursor: pointer;
     background-color: #ee8703;
     font-size: 16px;
+    margin: 0 auto;
+}
+
+#removeBtn {
+    all: unset;
+    color: #ee8703;
+    padding: 10px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: white;
+    font-size: 16px;
+    border: 1px solid #ee8703;
+    margin: 0 20px;
 }
 
 

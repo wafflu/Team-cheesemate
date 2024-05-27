@@ -39,7 +39,7 @@
             </div>
     <ul>
         <li class="liBox">
-    <p class="font20 marginTopFont10">
+    <p class="font20 marginTopFont10 fontWeight">
         제목</p> <input class="font16" id="title" name="title" type="text" placeholder="판매/나눔글 제목을 입력하세요"
                       value="<c:out value='${Sale.title}' />"
                       minlength="1" maxlength="40"/>
@@ -132,8 +132,8 @@
         </li>
         <li class="liBox">
             <p class="font20 marginTopFont10 fontWeight">해시태그<span class="fontgraycolor">(선택)</span></p>
-    <input class="font16" type="text" id="hashtagInput" name="tag" value="<c:out value='${Tag}' />"
-           placeholder="해시태그를 입력하세요."/>
+                <input class="font16" type="text" id="hashtagInput" name="tag" value="<c:out value='${Tag}' />"
+                    placeholder="해시태그를 입력하세요."/>
     <div id="hashtagContainer"></div>
     <ul>
     <li class="li-list font16 marginTopFont10 fontgraycolor">
@@ -194,6 +194,7 @@
 
     <p class="saleTitleText font30">기타</p>
         <button class="maincolor" id="openModalBtn">거래희망 주소 검색</button>
+        <button class="maincolor" id="removeBtn">삭제</button>
     <li class="liBox">
         <div id="openModal" class="SaleModal SaleHidden">
             <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
@@ -221,7 +222,7 @@
             <input class="font16" id="pickup_addr_cd" name="pickup_addr_cd" type="text"
                    value="<c:out value='${Sale.pickup_addr_cd}' />"
                    hidden>
-            <input id="pickup_addr_name" name="pickup_addr_name" type="text"
+            <input class="font16" id="pickup_addr_name" name="pickup_addr_name" type="text"
                    value="<c:out value='${Sale.pickup_addr_name}' />" disabled>
     </li>
     <li class="liBox">
@@ -318,7 +319,7 @@
 
             // Tag 처리
             let tagValue = "${Tag}";
-            createHashtagInput();
+            // createHashtagInput();
             document.getElementById("hashtagInput").addEventListener("input", createHashtagInput);
 
             // Sale의 tx_s_cd값 : 판매/나눔
@@ -326,16 +327,19 @@
             if (tx_s_cd === "S") {
                 $("#txMsg").text(""); // 메시지 제거
                 $("input[name='tx_s_cd'][value='" + tx_s_cd + "']").prop("checked", true);
+                $(".proposal").show();
             } else {
                 $("#txMsg").text(""); // 메시지 제거
                 $("input[name='tx_s_cd'][value='" + tx_s_cd + "']").prop("checked", true);
                 $("input[name='price']").val("");
                 $("input[name='price']").attr("placeholder", "나눔글입니다.");
                 $("input[name='price']").prop("disabled", true); // 상품 가격 입력란 비활성화
+                $(".trade").show();
             }
 
             // Sale의 bid_cd 값 : 가격제시/나눔신청
             let bid_cd = "${Sale.bid_cd}";
+
             if (bid_cd === "P") {
                 $("input[name='bid_cd'][value='" + bid_cd + "']").prop("checked", true);
             } else if (bid_cd === "T") {
@@ -374,15 +378,8 @@
     });
 
     async function setCategory(category1Value, category2Value = null, category3Value = null) {
-        // $("#category1").val(category1Value).trigger("change");
-        //첫번째값 입력
         let catev1 = Number(category1Value) - 1;
         $("#category1").children().eq(catev1).addClass("choicecategory");
-
-
-        // $("#salecategoryMsg").text("중분류 > 소분류를 선택하세요.");
-        // let category1text = $("#category1>.choicecategory").text();
-        // $("#sal_name").text(category1text);
 
         try {
             let data = await $.ajax({
@@ -392,11 +389,6 @@
                 data: {category1: category1Value}
             });
 
-            // let category2Select = document.getElementById("category2");
-            // category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-            // let category3Select = document.getElementById("category3");
-            // category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-            // 2번째 값
             if (data.length > 0) {
                 category2Check = false;
                 let str = '';
@@ -420,8 +412,6 @@
 
             //3번
             if (category2Value) {
-                // $("#category2").val(category2Value).trigger("change");
-
                 let catev2 = Number(category2Value.substring(3, 6)) - 1;
                 $("#category2").children().eq(catev2).addClass("choicecategory");
 
@@ -493,11 +483,6 @@
                     dataType: "json", // 받을 값
                     data: {category1: category1Value},
                     success: function (data) {
-                        // let category2Select = document.getElementById("category2");
-                        // category2Select.innerHTML = "<option value='' disabled selected>중분류</option>";
-                        // let category3Select = document.getElementById("category3");
-                        // category3Select.innerHTML = "<option value='' disabled selected>소분류</option>";
-                        // 작성 중분류
                         $("#category2").children().remove();
                         $("#category3").children().remove();
                         if (data.length > 0) {
@@ -693,6 +678,11 @@
             closeModal();
         });
 
+        $("#removeBtn").on("click", function (event) {
+            event.preventDefault();
+            $("input[name=pickup_addr_name]").val("");
+        })
+
         // 신청을 취소할 때 N 옵션을 선택하도록 설정
         unCheckBidCd = function () {
             $("input[name='bid_cd'][value='N']").prop("checked", true);
@@ -794,7 +784,7 @@
         container.innerHTML = "";
 
         // 배열 초기화
-        let t_contents = [];
+        t_contents = [];
 
         // 각 해시태그를 별도의 input 요소에 추가하여 표시
         hashtags.forEach(function (tag) {
@@ -812,14 +802,18 @@
                 // 해시태그의 글자 수에 따라 너비 동적 조절
                 input.style.width = (trimmedTag.length + 3) * 1.5 + "vw";
 
+                console.log("확인 1 : " + trimmedTag);
                 // 해시태그를 배열에 추가
+
                 t_contents.push("#" + trimmedTag);
+                console.log("확인 2 : " + t_contents);
+
 
                 container.appendChild(input);
                 container.appendChild(document.createTextNode(" ")); // 각 해시태그 뒤에 공백 추가
             }
         });
-
+        return t_contents;
     }
 
     // 해시태그 입력 필드에서 Enter 키를 눌렀을 때 해시태그 입력 생성 함수 호출
@@ -882,15 +876,6 @@
         let addr_name = "${Sale.addr_name}"; // 주소명
         let group_no = "${Sale.group_no}"; // 이미지
 
-        // category1, category2, category3의 값 추출
-        // 카테고리 값
-        // let category1Value = $("#category1").val();
-        // let category2Value = $("#category2 option:checked").val();
-        // let category3Value = $("#category3 option:checked").val();
-        // let category1Text = $("#category1 option:checked").text();
-        // let category2Text = $("#category2 option:checked").text();
-        // let category3Text = $("#category3 option:checked").text();
-
         let category1Value = $("#category1>.choicecategory>.sel-cd1").val();
         let category2Value = $("#category2>.choicecategory>.sel-cd1").val();
         let category3Value = $("#category3>.choicecategory>.sel-cd1").val();
@@ -950,6 +935,13 @@
             sale["trade_s_cd_1"] = trade_s_cd_values[0];
             sale["trade_s_cd_2"] = trade_s_cd_values[1];
         }
+
+        // t_contents가 onload 내부에 있어서 전역으로 받아 올 수 없으므로
+        // element name 요소를 뽑아서 배열로 값을 변환
+        let tContentsElements = document.getElementsByName("t_contents");
+        tContentsElements.forEach(element => {
+            t_contents.push(element.value); // 배열에 다시 담기
+        });
 
         let tagSet = new Set(t_contents);
         let tagList = Array.from(tagSet);
