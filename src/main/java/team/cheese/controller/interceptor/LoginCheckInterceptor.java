@@ -33,6 +33,8 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        String snoParam = request.getParameter("sno");
+
         if(session.getAttribute("userId") == null) {
             String redirectUri = "";
             redirectUri = "/login?from=" + request.getRequestURI();
@@ -41,6 +43,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             }
             if(request.getRequestURI().equals("/sale/modify")) {
                 redirectUri = "/login?from=/sale/manage";
+            }
+            if(request.getRequestURI().equals("/callchat")) {
+                if (snoParam != null && !snoParam.isEmpty()) {
+                    Long sno = Long.parseLong(snoParam);
+                    redirectUri = "/login?from=/sale/read?no=" + sno;
+                }
             }
             response.sendRedirect(redirectUri);
             return false;
