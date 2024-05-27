@@ -12,7 +12,7 @@
         SELECT count(*)
         FROM sale
         WHERE ur_state = 'Y'
-          and seller_id = #{ur_id}
+        and seller_id = #{ur_id}
     </select>
 
     <!-- 사용자 판매글 가져오기 -->
@@ -92,9 +92,9 @@
             AND sal_i_cd LIKE CONCAT(#{sal_i_cd}, '%')
         </if>
         ORDER BY
-        FIELD(sal_s_cd, 'S', 'R', 'C'), -- 판매중, 예약중, 거래완료 순으로 조회
-        h_date DESC,
-        no DESC
+            FIELD(sal_s_cd, 'S', 'R', 'C'), -- 판매중, 예약중, 거래완료 순으로 조회
+            h_date DESC,
+            no DESC
         LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
@@ -239,7 +239,7 @@
         alter table sale auto_increment = 1
     </update>
 
-    <!--  U : 구매자가 판매글 구매시   -->
+<!--  U : 구매자가 판매글 구매시   -->
     <update id="buySale" parameterType="SaleDto">
         UPDATE sale
         SET sal_s_cd = #{sal_s_cd},
@@ -285,20 +285,20 @@
             AND sal_s_cd = #{sal_s_cd}
         </if>
         <if test="option != null and option != ''">
-            <choose>
-                <when test='option=="R"'>
-                    ORDER BY h_date DESC
-                </when>
-                <when test='option=="P"'>
-                    ORDER BY view_cnt DESC
-                </when>
-                <when test='option=="L"'>
-                    ORDER BY price ASC
-                </when>
-                <when test='option=="H"'>
-                    ORDER BY price DESC
-                </when>
-            </choose>
+        <choose>
+            <when test='option=="R"'>
+                ORDER BY h_date DESC
+            </when>
+            <when test='option=="P"'>
+                ORDER BY view_cnt DESC
+            </when>
+            <when test='option=="L"'>
+                ORDER BY price ASC
+            </when>
+            <when test='option=="H"'>
+                ORDER BY price DESC
+            </when>
+        </choose>
         </if>
         LIMIT #{pageSize} OFFSET #{offset}
     </select>

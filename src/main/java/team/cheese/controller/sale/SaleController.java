@@ -122,7 +122,6 @@ public class SaleController {
     // 수정하기 버튼을 눌렀을 때 글을 받아서 jsp로 전달
     @PostMapping("/modify")
     public String modify(@RequestParam Long no, Model model, HttpServletRequest request) throws Exception {
-        System.out.println("수정하기 들어옴");
         Map map = saleService.modify(no);
         SaleDto saleDto = (SaleDto) map.get("saleDto");
         String tagContents = (String) map.get("tagContents");
