@@ -2,6 +2,7 @@ package team.cheese.domain.Comment;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Objects;
 
@@ -21,6 +22,7 @@ public class CommentDto {
     private String ur_id;
     @NotNull
     @NotEmpty
+    @Size(max = 300, message = "Contents must be at most 300 characters long")
     private String contents;
     private Timestamp r_date;
     private Timestamp m_date;

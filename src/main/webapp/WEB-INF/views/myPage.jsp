@@ -13,12 +13,29 @@
 		<div class="info">
 			<div class="info-container">
 				<div id="profileimg">
+					<div class="backimg"></div>
 					<div class="form_section_content">
 						<label for="profile" class="btn-upload"></label>
 						<input type="file" id="profile" name='uploadFile'>
 					</div>
 					<div id="uploadResult"></div>
-					<div id="profilesave_btn_area"></div>
+					<div id="profilesave_btn_area">
+						<div class="mystar">
+							<div class="mystarnic"><span class="usernick">${userInfoDTO.nick}</span></div>
+							<div class="star">
+							 <span class="averageStarRating">
+									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
+										<span class="mtfill-star">★</span>
+									</c:forEach>
+								 <!-- 빈 별표(☆) 표시 -->
+									<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
+										<span class="myempty-star">☆</span>
+									</c:forEach>
+								</span>
+							</div>
+						</div>
+					</div>
+					<button type="button" class="myshop-btn">내 상점 관리</button>
 				</div>
 				<div class="container">
 					<div class="container-header">
@@ -109,7 +126,7 @@
 					<div class="fWtYmf">
 						<div class="fGpXKG">${userInfoDTO.star_avg}</div>
 						<div class="star">
-							 <span id="averageStarRating">
+							 <span class="averageStarRating">
 									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
 										<span class="filled-star">★</span>
 									</c:forEach>
@@ -510,7 +527,7 @@
 
 		// HTML을 동적으로 삽입
 		let averageStarRatingSpan = document.getElementById('averageStarRating');
-		averageStarRatingSpan.innerHTML = '<span>' + starHtml + '</span><span>' + emptyStarHtml + '</span>';
+		$(".averageStarRating").text = '<span>' + starHtml + '</span><span>' + emptyStarHtml + '</span>';
 
 		// text박스의 readonly 속성 읽어오기
 		let isReadonly =$("textarea[name=contents]").attr('readonly');
@@ -584,8 +601,8 @@
 				}
 
 				let saleTitle = sale.title;
-				if (saleTitle.length > 13) {
-					saleTitle = saleTitle.substring(0, 13) + '...';
+				if (saleTitle.length > 12) {
+					saleTitle = saleTitle.substring(0, 12) + '...';
 				}
 
 				let salePrice = sale.price;
@@ -792,14 +809,17 @@
 		let userprofile = "${userInfoDTO.img_full_rt}";
 		let uploadResult = $("#uploadResult");
 
-
 		uploadResult.children().remove();
 		let str = "";
 		if(!userprofile){
 			str += "<img src='/img/display?fileName=Noneprofile.png' class='profileimg'>";
+			$(".backimg").css("background-image", "");
+			$(".backimg").css("background-color", "#00000050");
 			// alert("1")
 		} else {
 			str += "<img src='/img/display?fileName=" + userprofile + "' class='profileimg'>";
+			$(".backimg").css("background-image", "url('/img/display?fileName=" + userprofile + "')");
+			$(".backimg").css("background-color", "transparent");
 			// alert("2")
 		}
 		uploadResult.append(str);

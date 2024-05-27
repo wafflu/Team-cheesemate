@@ -6,277 +6,35 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <style>
-        input:invalid {
-            border: 2px solid red;
-        }
-
-        hr {
-            width: 40%;
-        }
-
-        form {
-            border: 1px solid rgb(218, 222, 229);
-            width: 1200px;
-            height: 90%;
-            margin: 0 auto;
-            display: block;
-        }
-
-        .reg_btn {
-            display: inline-block;
-            width: 95%;
-            height: 80px;
-            font-weight: 500;
-            font-size: 25px;
-            border: 1px solid #ee8703;
-            border-radius: 5px;
-            color: white;
-            background-color: #ee8703;
-            padding: 3px;
-            margin-bottom: 10px;
-        }
-
-        label {
-            display: inline;
-            text-align: left;
-            margin: 10px 0;
-        }
-
-        .inputBox {
-            width: 100%;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputAdressBoxLarge {
-            width: 110px;
-            height: 40px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-left: 100px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputAdressBoxMedium {
-            width: 150px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputAdressBoxSmall {
-            width: 30%;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .inputBirthBox {
-            width: 85%;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-left: 10px;
-            margin-top: 3px;
-            margin-bottom: 3px;
-            border: 1px solid rgb(218 222 229);
-        }
-
-        .center {
-            max-width: 630px;
-            height: auto;
-            background-color: #fff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .form-group {
-            height: 70px;
-            margin-bottom: 5px;
-            padding: 5px;
-            display: flex;
-        }
-
-        .form-title {
-            margin-top: 15px;
-            margin-left: 50px;
-            font-size: 14px;
-        }
-
-        .form-group div {
-            width: 120px; /* 레이블의 너비를 지정 */
-            text-align: left; /* 텍스트를 왼쪽 정렬 */
-            margin-right: 10px;
-        }
-
-        .form-group input {
-            width: 300px;
-            height: 45px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-left: 40px;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 0.9em;
-            font-weight: bold;
-            margin-top: 5px;
-            margin-left: 50px;
-            white-space: nowrap;
-        }
-
-        /* Hide the default calendar icon */
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            display: none;
-        }
-
-        /* 성별 선택을 가로로 정렬 */
-        .gender-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .gender-option {
-            display: inline-block;
-            margin-right: 10px;
-            position: relative;
-            padding-left: 30px; /* 충분히 넓게 설정하여 커스텀 라디오 버튼을 위한 공간 확보 */
-            cursor: pointer;
-            font-size: 18px; /* 텍스트 크기 조정 */
-            white-space: nowrap;
-        }
-
-        .gender-option input[type="radio"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .gender-option .custom-radio {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            height: 25px; /* 커스텀 라디오 버튼의 높이 */
-            width: 25px; /* 커스텀 라디오 버튼의 너비 */
-            background-color: #eee;
-            border-radius: 50%;
-            transform: translateY(-50%);
-        }
-
-        .gender-option input[type="radio"]:checked ~ .custom-radio {
-            background-color: #ee8703;
-        }
-
-        .gender-option .custom-radio:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-
-        .gender-option input[type="radio"]:checked ~ .custom-radio:after {
-            display: block;
-        }
-
-        .gender-option .custom-radio:after {
-            top: 50%;
-            left: 50%;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: white;
-            transform: translate(-50%, -50%);
-        }
-
-        .agree-container {
-            display: flex;
-            flex-direction: column; /* 세로로 정렬 */
-            align-items: flex-start;
-        }
-
-        .agree-option {
-            display: flex; /* 플렉스 박스 사용 */
-            align-items: center; /* 세로 중앙 정렬 */
-            margin-bottom: 10px;
-            position: relative;
-            cursor: pointer;
-            white-space: nowrap;
-            font-size: 14px;
-        }
-
-        .agree-option input[type="checkbox"] {
-            margin-right: 10px; /* 체크박스와 텍스트 간의 간격 조정 */
-            width: 18px;
-            height: 18px;
-            accent-color: #ee8703;
-        }
-
-        .agreeCheck {
-            color: darkgrey;
-        }
-
-        /* 모달 스타일링 */
-        .modal {
-            display: none; /* 기본적으로 모달을 숨김 */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4); /* 검은색 배경 */
-        }
-
-        .modal-content {
-            background-color: white;
-            margin-top: 2%;
-            margin-left: 30%;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 40%; /* 모달 창 너비 */
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .hr {
-            width: 100%; /* 너비를 100%로 설정하여 가로 전체를 차지하도록 변경 */
-            height: 1px; /* 선의 높이를 설정하여 선이 보이도록 변경 */
-            border: none;
-            border-top: 1px solid rgb(218, 222, 229); /* 상단 테두리 추가 */
-        }
-    </style>
+    <link rel="stylesheet" href="/css/reset.css">
+    <link rel="stylesheet" href="/css/mystyle.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <link rel="stylesheet" href="/css/resisterform.css">
 
     <title>치즈메이트 - 회원가입</title>
 </head>
 <body>
+<div class="totalBox">
+<div id="openModal" class="SaleModal SaleHidden">
+    <div class="sale_modal_overlay"> <!--모달창의 배경색--></div>
+    <div class="sale_modal_content">
+        <button id="closeModalBtn">x</button>
+        <p id="sale_search_addr">주소 검색</p>
+        <input class="font16" id="saleSearchInput" type="text" placeholder="동(읍/면/리)을 입력해주세요(enter).">
+        <div class="sale-table-wrapper">
+            <table id="addrTable" class="table text-center">
+                <thead>
+                <tr>
+                    <th style="width:150px;"><p class="font20 marginTopFont10 fontWeight">행정동코드</p></th>
+                    <th style="width:600px;"><p class="font20 marginTopFont10 fontWeight">주소명</p></th>
+                </tr>
+                </thead>
+                <tbody id="addrList"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <form action="/createAccount" method="post" class="center" onsubmit="return submitCheck();">
 
@@ -317,21 +75,22 @@
                 </div>
             </div>
             <div class="form-group">
-                <span style="margin-left: 50px; margin-top: 13px; white-space: nowrap;">주소</span>
-                <select class="inputAdressBoxLarge" name="tradingPlace_A_large" id="tradingPlace_A_large" onchange="fetchMediumCategories()">
-                    <c:forEach var="category" items="${largeCategory}">
-                        <option value="${category.addr_cd}" <c:if test="${category.addr_name == '서울특별시'}">selected</c:if>>${category.addr_name}</option>
-                    </c:forEach>
-                </select>
-                <select class="inputAdressBoxMedium" name="tradingPlace_A_medium" id="tradingPlace_A_medium" onchange="fetchSmallCategories()">
-                    <!-- 중분류 옵션들이 여기에 동적으로 추가됩니다 -->
-                </select>
-                <select class="inputAdressBoxSmall" name="tradingPlace_A_small" id="tradingPlace_A_small">
-                    <!-- 소분류 옵션들이 여기에 동적으로 추가됩니다 -->
-                </select>
-                <br>
+                <div class="form-title">주소</div>
+
+                <%--      주소 모달 작성          --%>
+                <div class="addr_class">
+                    <div>
+                        <button class="maincolor font30" id="openModalBtn">주소 검색</button>
+                    </div>
+                    <div>
+                        <input class="font16" id="addr_cd" name="addr_cd" type="text" hidden>
+                        <input id="addr_nm" name="addr_nm" type="text" hidden>
+                        <input id="addr_name" name="addr_name" type="text" disabled>
+                    </div>
+
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 50px">
                 <div class="form-title">상세주소</div>
                 <div>
                     <input type="text" class="inputBox" id="addr_det" name="addr_det" value="<c:out value='${userDto.addr_det}' />" pattern="^[가-힣a-zA-Z0-9\s]+$" minlength="6" maxlength="50" title="거주하고 있는 주소를 정확하게 입력해주세요." oninput="validateAddrDet()">
@@ -353,9 +112,10 @@
                 </div>
             </div>
             <div class="form-group">
-                <span style="margin-left: 50px; margin-top: 15px; white-space: nowrap;">생년월일</span>
-                <input placeholder="생년월일" class="inputBirthBox" type="date" id="birth" name="birth" value="<c:out value='${userDto.birth}' />" title="생년월일을 입력해주세요" style="margin-left: 105px">
-                <br>
+                <div class="form-title">생년월일</div>
+                <div>
+                    <input placeholder="생년월일" class="inputBirthBox" type="date" id="birth" name="birth" value="<c:out value='${userDto.birth}' />" title="생년월일을 입력해주세요">
+                </div>
             </div>
             <div class="form-group">
                 <div class="form-title">휴대전화번호</div>
@@ -405,10 +165,10 @@
                     <input type="checkbox" id="agreeToTerms" name="agreeToTerms" value="Y" required>
                     <span id="openAgreeToTerms">이용약관동의 </span><span class="agreeCheck"> (필수)</span>
                 </label>
-                <label class="agree-option">
-                    <input type="checkbox" id="agreeCollection" name="agreeCollection" value="Y" required>
-                    <span id="openAgreeCollection">개인정보 수집 및 이용 동의 </span><span class="agreeCheck"> (필수)</span>
-                </label>
+<%--                <label class="agree-option">--%>
+<%--                    <input type="checkbox" id="agreeCollection" name="agreeCollection" value="Y" required>--%>
+<%--                    <span id="openAgreeCollection">개인정보 수집 및 이용 동의 </span><span class="agreeCheck"> (필수)</span>--%>
+<%--                </label>--%>
                 <label class="agree-option">
                     <input type="checkbox" id="agreeBenefits" name="agreeBenefits" value="Y">
                     <span>무료배송 및 할인쿠폰 등 혜택/정보 수신 동의 </span><span class="agreeCheck"> (선택)</span>
@@ -469,6 +229,9 @@
         <h3>제10조 (분쟁 해결)</h3>
         <p>회사는 이용자로부터 제출되는 불만사항 및 의견을 우선적으로 처리합니다. 신속한 처리가 곤란한 경우 그 사유와 처리 일정을 이용자에게 통지합니다.</p>
         <p>본 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 대한민국 법률에 따릅니다.</p>
+        <div class="agree-div">
+            <button class="maincolor agreeBtn" id="agreeToTermsBtn">약관 동의</button>
+        </div>
     </div>
 </div>
 
@@ -520,9 +283,12 @@
         <p>회사는 이용자로부터 제출되는 불만사항 및 의견을 우선적으로 처리합니다. 신속한 처리가 곤란한 경우 그 사유와 처리 일정을 이용자에게 통지합니다.</p>
         <p>본 약관에서 정하지 아니한 사항과 이 약관의 해석에 관하여는 대한민국 법률에 따릅니다.</p>
         <p>이 약관은 2024년 5월 24일부터 적용됩니다.</p>
+        <div class="agree-div">
+            <button class="maincolor agreeBtn" id="agreeCollectionBtn">약관 동의</button>
+        </div>
     </div>
 </div>
-
+</div>
 </body>
 </html>
 
@@ -533,52 +299,170 @@
         var btnAgreeToTerms = document.getElementById("openAgreeToTerms");
 
         var modalAgreeCollection = document.getElementById("agreeCollectionView");
-        var checkboxAgreeCollection = document.getElementById("agreeCollection");
-        var btnAgreeCollection = document.getElementById("openAgreeCollection");
+        // var checkboxAgreeCollection = document.getElementById("agreeCollection");
+        // var btnAgreeCollection = document.getElementById("openAgreeCollection");
 
         var closeButtons = document.getElementsByClassName("close");
 
-        btnAgreeToTerms.onclick = function () {
+        btnAgreeToTerms.onclick = function (event) {
             var agreeToTermsCheckbox = document.getElementById("agreeToTerms");
             if (!agreeToTermsCheckbox.checked) {
-                modalAgreeToTerms.style.display = "block";
+                document.body.style.overflow = 'hidden';
+                modalAgreeToTerms.style.display = "flex";
             }
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === "Escape" || event.keyCode === 27) {
+                    modalAgreeToTerms.style.display = "none";
+                    checkboxAgreeToTerms.checked = false;
+                    document.body.style.overflow = '';
+                }
+            });
         }
+
+        $(document).on("click", "#agreeToTermsBtn", function() {
+            $("#agreeToTerms").checked = true;
+            modalAgreeToTerms.style.display = "none";
+            document.body.style.overflow = '';
+        });
 
         checkboxAgreeToTerms.onclick = function () {
             var agreeToTermsCheckbox = document.getElementById("agreeToTerms");
             if (agreeToTermsCheckbox.checked) {
-                modalAgreeToTerms.style.display = "block";
+                modalAgreeToTerms.style.display = "flex";
             }
         }
 
-        btnAgreeCollection.onclick = function () {
-            var agreeCollectionCheckbox = document.getElementById("agreeCollection");
-            if (!agreeCollectionCheckbox.checked) {
-                modalAgreeCollection.style.display = "block";
-            }
-        }
+        // btnAgreeCollection.onclick = function (event) {
+        //     var agreeCollectionCheckbox = document.getElementById("agreeCollection");
+        //     if (!agreeCollectionCheckbox.checked) {
+        //         document.body.style.overflow = 'hidden';
+        //         modalAgreeCollection.style.display = "block";
+        //     }
+        //
+        //     document.addEventListener('keydown', function(event) {
+        //         if (event.key === "Escape" || event.keyCode === 27) {
+        //             modalAgreeCollection.style.display = "none";
+        //             checkboxAgreeCollection.checked = false;
+        //             document.body.style.overflow = '';
+        //         }
+        //     });
+        // }
 
-        checkboxAgreeCollection.onclick = function () {
-            var agreeCollectionCheckbox = document.getElementById("agreeCollection");
-            if (agreeCollectionCheckbox.checked) {
-                modalAgreeCollection.style.display = "block";
-            }
-        }
+        $(document).on("click", "#agreeCollectionBtn", function() {
+            $("#agreeCollection").checked = true;
+            modalAgreeCollection.style.display = "none";
+            document.body.style.overflow = '';
+        });
+
+        // checkboxAgreeCollection.onclick = function () {
+        //     var agreeCollectionCheckbox = document.getElementById("agreeCollection");
+        //     if (agreeCollectionCheckbox.checked) {
+        //         modalAgreeCollection.style.display = "block";
+        //     }
+        // }
 
         for (var i = 0; i < closeButtons.length; i++) {
             closeButtons[i].onclick = function () {
                 modalAgreeToTerms.style.display = "none";
                 modalAgreeCollection.style.display = "none";
+                document.body.style.overflow = '';
             }
         }
 
         window.onclick = function (event) {
             if (event.target == modalAgreeToTerms) {
+                checkboxAgreeToTerms.checked = false;
                 modalAgreeToTerms.style.display = "none";
+                document.body.style.overflow = '';
             }
-            else if (event.target == modalAgreeCollection) {
+
+            if (event.target == modalAgreeCollection) {
+                checkboxAgreeToTerms.checked = false;
                 modalAgreeCollection.style.display = "none";
+                document.body.style.overflow = '';
+            }
+        }
+    });
+
+
+    const openModalBtn = document.getElementById("openModalBtn");
+    const modal = document.querySelector(".SaleModal");
+    const overlay = modal.querySelector(".sale_modal_overlay");
+    const closeModalBtn = document.getElementById("closeModalBtn");
+    const openModal = (event) => {
+        event.preventDefault(); // form의 기본 동작을 막음
+        modal.classList.remove("SaleHidden");
+        document.body.style.overflow = 'hidden';
+    }
+    const closeModal = () => {
+        event.preventDefault(); // form의 기본 동작을 막음
+        modal.classList.add("SaleHidden");
+        document.body.style.overflow = '';
+    }
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" || event.keyCode === 27) {
+            closeModal();
+        }
+    });
+    overlay.addEventListener("click", closeModal);
+    closeModalBtn.addEventListener("click", closeModal);
+    openModalBtn.addEventListener("click", openModal);
+
+    $("#saleSearchInput").on("keydown", function (event) {
+        // 엔터 키(키 코드 13)가 눌렸는지 확인
+        if (event.which === 13 || event.keycode === 13) {
+            event.preventDefault(); // 기본 엔터 동작(폼 제출 등)을 막기 위해 추가
+
+            let searchLetter = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: "/sale/searchLetter",
+                data: {searchLetter: searchLetter},
+                dataType: "json",
+                success: function (data) {
+                    // 검색 결과를 처리하여 addrTable에 추가
+                    $("#addrList").empty(); // 기존 내용 초기화
+                    if (data.length > 0) {
+                        data.forEach(function (addr) {
+                            let row = $("<tr class='sale-addr-tr'>");
+                            row.append($("<td style='text-align: center;'>").html("<p class='font20'>" + addr.addr_cd + "</p>")); // 행정구역 코드
+                            row.append($("<td style='text-align: center;'>").html("<p class='font20'>" + addr.addr_name + "</p>")); // 주소명
+                            $("#addrList").append(row);
+                        });
+                    } else {
+                        $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    $("#addrTable").append("<tr><td colspan='2'>검색 결과가 없습니다.</td></tr>");
+                    alert("주소 검색에 실패하였습니다.");
+                }
+            });
+        }
+    });
+
+    // 주소를 클릭했을 때의 이벤트 핸들러
+    $("#addrList").on("click", "tr", function () {
+        // 클릭한 행에서 주소 코드와 주소명을 가져옴
+        let addrCode = $(this).find("td:eq(0)").text(); // 첫 번째 td 열의 텍스트 (주소 코드)
+        let addrName = $(this).find("td:eq(1)").text(); // 두 번째 td 열의 텍스트 (주소명)
+
+        // pickup_addr input에 선택한 주소 정보를 추가
+        $("#addr_cd").val(addrCode);
+        $("#addr_name").val(addrName);
+        $("#addr_nm").val(addrName);
+
+        // 모달 닫기
+        closeModal();
+    });
+
+    // input에서 Enter 키 입력 허용
+    $(document).on("keydown", "input", function (event) {
+        // 현재 포커스된 요소가 input인지 확인
+        if ($(this).is("input")) {
+            if (event.keyCode === 13) {
+                event.preventDefault(); // Enter 키의 기본 동작 막기
             }
         }
     });
@@ -793,46 +677,6 @@
         });
     });
 
-    // 중분류를 동적으로 가져오는 함수
-    function fetchMediumCategories() {
-        let tradingPlace_A = document.getElementById("tradingPlace_A_large").value;
-        fetch('/mediumCategory?tradingPlace_A_large=' + encodeURIComponent(tradingPlace_A))
-            .then(response => response.json())
-            .then(data => {
-                let mediumCategorySelect = document.getElementById("tradingPlace_A_medium");
-                mediumCategorySelect.innerHTML = ""; // 기존 옵션들을 제거합니다.
-
-                data.forEach(function(category) {
-                    let option = document.createElement("option");
-                    option.value = category.addr_cd;
-                    option.text = category.addr_name;
-                    mediumCategorySelect.add(option);
-                });
-
-                // 첫 번째 중분류를 선택한 상태로 소분류를 가져옵니다.
-                if (data.length > 0) {
-                    fetchSmallCategories(data[0].addr_cd);
-                }
-            });
-    }
-
-    // 소분류를 동적으로 가져오는 함수
-    function fetchSmallCategories(mediumCategory = null) {
-        let tradingPlace_A = mediumCategory || document.getElementById("tradingPlace_A_medium").value;
-        fetch('/smallCategory?tradingPlace_A_medium=' + encodeURIComponent(tradingPlace_A))
-            .then(response => response.json())
-            .then(data => {
-                let smallCategorySelect = document.getElementById("tradingPlace_A_small");
-                smallCategorySelect.innerHTML = ""; // 기존 옵션들을 제거합니다.
-                data.forEach(function(category) {
-                    let option = document.createElement("option");
-                    option.value = category.addr_cd;
-                    option.text = category.addr_name;
-                    smallCategorySelect.add(option);
-                });
-            });
-    }
-
     // *** 확인 버튼 누를 시 부적합한 입력을 화면에 표시 ***
     function submitCheck() {
 
@@ -911,7 +755,6 @@
         } else {
             document.getElementById("phone_num").style.borderColor = '';
         }
-        console.log(check);
 
         if(!check) {
             alert("입력한 정보를 다시 확인해주세요.");
@@ -921,10 +764,5 @@
 
         return check;
     }
-
-    // 페이지 로드 시 서울특별시 중분류와 소분류를 가져오기 위해 호출
-    document.addEventListener('DOMContentLoaded', function() {
-        fetchMediumCategories();
-    });
 
 </script>

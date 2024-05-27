@@ -13,7 +13,7 @@
 .info {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 .info-container {
@@ -25,19 +25,18 @@
     text-align: center;
 }
 
-.form_section_content {
-    margin-bottom: 10px;
-}
 
-#uploadResult,
 #profilesave_btn_area {
-    margin-top: 10px;
+    position: absolute;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
 }
 
 .container {
-    height: 256px;
+    height: 260px;
     flex: 1;
-    padding: 20px;
+    padding: 17px;
     border: 1px solid #eee;
     display: flex;
     flex-direction: column;
@@ -90,6 +89,10 @@
     overflow-y: auto;
     margin-bottom: 20px;
     display: flex;
+}
+
+.buyynq>textarea{
+    padding: 10px;
 }
 
 .fiWvqk {
@@ -281,55 +284,71 @@ div register_img{
 
 /* 이미지 영역	*/
 #profileimg{
-    width: 257px;
-    height: 283px;
+    width: 260px;
+    height: 296px;
     border: 1px solid #eee;
-    padding-top: 15px;
-    padding-left: 5px;
     position: relative;
+    box-sizing: border-box;
 }
+
 .form_section_content{
-    position: absolute;
-    width: 250px;
-    height: 250px;
-    right: 6px;
-    top: 26px;
+    position: relative;
+    width: 100%;
+    height: 100%;
     z-index: 1;
+}
+
+.backimg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    opacity: 0.5;
 }
 
 #uploadResult{
     position: absolute;
-    width: 250px;
-    height: 250px;
+    left: 50%;
+    top: 24px;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
     border-radius: 100%;
     border: 1px solid #000;
     overflow: hidden;
-
+    box-sizing: border-box;
 }
 .profileimg{
     /*추후 js로 수정*/
-    width: 250px;
-    height: 250px;
+    width: 150px;
+    height: 150px;
 }
 
 .btn-upload {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 250px;
-    height: 250px;
+    left: 50%;
+    top: 24px;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 150px;
     background: transparent;
     border-radius: 100%;
     cursor: pointer;
-
 }
 
 .btn-upload::before{
     content: '프로필 수정';
     display: block;
-    width: 250px;
+    width: 150px;
     text-align: center;
-    line-height: 250px;
+    line-height: 150px;
     border-radius: 100%;
     transition: all 0.2s ease-out;
     opacity: 0;
@@ -349,15 +368,19 @@ div register_img{
 
 #profilesave_btn{
     position: absolute;
-    bottom: -34px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 112px;
+    right: 70px;
     z-index: 3;
     background-color: transparent;
-    border: 1px solid #FFA500;
-    border-radius: 5px;
+    /*border: 1px solid #FFA500;*/
+    border-radius: 100%;
+    background-color: #ee8703;
     padding: 5px;
     cursor: pointer;
+}
+
+.material-symbols-outlined{
+    color:#000;
 }
 
  .material-symbols-outlined {
@@ -725,7 +748,7 @@ div register_img{
 
 .smallBox {
     /*border: 1px solid darkgray;*/
-    width: 230px;
+    width: 196px;
     /*height: 300px;*/
     margin-bottom: 10px;
     background: white;
@@ -739,8 +762,8 @@ div register_img{
 }
 
 .img {
-    width: 230px;
-    height: 230px;
+    width: 200px;
+    height: 200px;
     margin: 0 auto;
     object-fit: cover;
 }
@@ -874,4 +897,31 @@ div register_img{
 }
 .gnpSLd a.active {
     color: red;
+}
+
+.usernick{
+    font-size: 16px;
+    color:#fff;
+    text-shadow: 0px 0px 5px #00000080;
+}
+
+.myempty-star{
+    font-size: 15px;
+    color:#fff;
+    text-shadow: 0px 0px 5px #00000080;
+}
+
+.myshop-btn{
+    position: absolute;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 30px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color:#fff;
+    font-size: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-shadow: 0px 0px 5px #00000080;
 }

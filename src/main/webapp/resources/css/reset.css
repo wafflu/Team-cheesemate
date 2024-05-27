@@ -8,9 +8,9 @@ input,select,textarea,button {vertical-align:middle}
 button {border:0 none;background-color:transparent;cursor:pointer}
 body {background:#fff}
 /* MAC */
-body,th,td,input,select,textarea,button{font-family:'apple sd gothic neo', sans-serif}
+body,th,td,input,select,textarea,button{font-family:'Noto Sans KR', sans-serif}
 /* window */
-body,th,td,input,select,textarea,button{font-family:'Malgun Gothic', sans-serif}
+body,th,td,input,select,textarea,button{font-family:'Noto Sans KR', sans-serif}
 body,th,td,input,select,textarea,button {font-size:12px;line-height:1.5;color:#333}
 a {color:#333;text-decoration:none;}
 address,caption,cite,code,dfn,em,var {font-style:normal;font-weight:normal}

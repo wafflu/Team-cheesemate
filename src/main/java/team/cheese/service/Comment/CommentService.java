@@ -12,7 +12,7 @@ public interface CommentService {
 
     int update(CommentDto commentDto) throws Exception;
 
-    CommentDto read(Integer no) throws Exception;
+    CommentDto read(CommentDto commentDto) throws Exception;
 
     List<CommentDto> readAll(Integer post_no) throws Exception;
 
