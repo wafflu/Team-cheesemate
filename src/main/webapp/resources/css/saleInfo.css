@@ -163,7 +163,7 @@ section {
 }
 
 .mainContainer {
-    width: 40%;
+    width: 76%;
     margin: 0 auto;
     position: absolute;
     top: 0px;
@@ -376,5 +376,4 @@ button[type="button"]:hover {
     /*line-height: 100px;*/
     font-size: 20px;
 }
-
 

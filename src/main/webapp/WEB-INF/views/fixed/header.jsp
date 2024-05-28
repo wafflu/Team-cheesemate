@@ -164,8 +164,8 @@
             e.stopPropagation(); // 이벤트 버블링 방지
             if (!isMenuVisible) {
                 let str = '<ul id="loginmenu">';
-                str += '<li><a href="/myPage/main" className="subnavlink homemylink">마이스토어</a></li>';
-                str += '<li><a href="/logout" className="subnavlink homemylink">로그아웃</a></li>';
+                str += '<li><a href="/myPage/main" class="subnavlink homemylink">마이스토어</a></li>';
+                str += '<li><a href="/logout" class="subnavlink homemylink">로그아웃</a></li>';
                 str += '</ul>';
                 $(".mylogin-box").append(str);
             } else {
