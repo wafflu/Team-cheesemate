@@ -62,7 +62,7 @@
                 <p>·</p>
                 <p>조회 : ${Sale.view_cnt}</p>
                 <p>·</p>
-                <p>찜 : ${Sale.like_cnt}</p>
+                찜 : <p id="jjimCnt">${Sale.like_cnt}</p>
             </div>
 
             <div id="tradeinfo-box">
@@ -163,9 +163,9 @@
                         <button type="button" id="saleboard-myshop">내 상점 관리</button>
                     </c:when>
                     <c:otherwise>
-                        <button type="button" id="saleboard-jjimbtn"></button>
-<%--<p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>--%>
-
+                        <button type="button" id="saleboard-jjimbtn">
+                        <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
+                        </button>
                         <form id="form">
                             <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
                         </form>
@@ -304,9 +304,11 @@
                             //찜 리스트 페이지 생성 후 -> 찜리스트 페이지 이동으로 변경
                             setCookie("JJIM", true, 1);
                             location.href='/myPage/main';
+
                         }
                         // like_cnt 업데이트
-                        // $("#likeCount").text(likeCnt);
+                        $("#likeCount").text(likeCnt);
+                        $("#jjimCnt").text(likeCnt);
 
                     } else if(row == -1){
                         alert("로그인이 필요한 서비스입니다.");
@@ -317,6 +319,7 @@
                         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
                         // like_cnt 업데이트
                         $("#likeCount").text(likeCnt);
+                        $("#jjimCnt").text(likeCnt);
                     }
 
                 },
