@@ -1,7 +1,7 @@
 .totalBox {
     height: fit-content;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
 }
 
 .center-content {
@@ -80,7 +80,7 @@
 
 .saleBtn {
     padding: 5px 20px;
-    background-color: rgba(245, 157, 28, 1);
+    background-color: #ee8703;
     color: white;
     border: none;
     border-radius: 5px;

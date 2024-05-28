@@ -18,7 +18,6 @@
 				<span class="bun-ui-tab-label">구매내역</span>
 			</button>
 		</div>
-		<hr class="bun-ui-divider">
 		<section class="purchase-info">
 			<div>
 				<button class="bun-ui-tab bun-ui-tab-selected" id="A" data-label-seller="전체" data-label-buyer="전체">
@@ -222,22 +221,44 @@
 			// section 부분 생성
 			tmp += '<section>';
 			tmp += '<section class="content-section" style="display: flex; position: relative;">';  // Flexbox 적용 및 position 설정
-			tmp += "<a href='/sale/read?no=" + item.no + "' style='flex-shrink: 0; margin-right: 10px;'>" + "<img class='imgClass' src='/img/display?fileName=" + item.img_full_rt + "' style='width: 150px; height: auto;'/>" + "</a>";  // 이미지 크기 조정
+			tmp += "<a href='/sale/read?no=" + item.no + "' class='imgboxlink'>"
+			tmp += "<img class='imgClass' src='/img/display?fileName=" + item.img_full_rt + "' style='width: 150px; height: auto;'/>";  // 이미지 크기 조정
+			if(saleStatusText !== "판매중"){
+				tmp += "<div class='saleStatus-box'>";
+				tmp += "<span class='saleStatusText'>" + saleStatusText + "</span>";
+				tmp += "</div>";
+			}
+			tmp += '</a>';
 			tmp += '<section class="text-section">';
+			tmp += '<p>판매글번호 : ' + item.no + '</p>';
 			if (option === 'seller') {
 				tmp += '<p>' + saleStatusText + '</p>';
 			} else {
 				tmp += '<p>' + saleStatusText + '</p>';
 			}
-			tmp += '<p>판매글번호 : ' + item.no + '</p>';
+			if(item.tx_s_cd === 'F'){
+				tmp += '<p>[나눔]</p>';
+			}
 			if ((option === 'seller' && item.sal_s_cd == 'R') || (option === 'seller' && item.sal_s_cd == 'C')) {
 				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
 			} else if (option === 'buyer') {
 				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_nick + '</a></p>';
 			}
-			tmp += '<p>가격: ' + item.price + '</p>';
 			tmp += '<p>제목: ' + saleTitle + '</p>';
-			tmp += '<p>판매(S)/나눔(F) : ' + item.tx_s_cd + ' / 거래방법: ' + item.trade_s_cd_1 + '</p>';
+			let salePrice = item.price;
+			tmp += '<p>가격: ' + comma(salePrice) + '원</p>';
+
+
+			let trade = "";
+			if(item.trade_s_cd_1 === "O"){
+				trade = "온라인";
+			} else if(item.trade_s_cd_1 === "F" || item.trade_s_cd_2 === "F" ) {
+				trade = "직거래";
+			} else if(item.trade_s_cd_1 === "D" || item.trade_s_cd_2 === "F" ) {
+				trade = "택배거래";
+
+			}
+			tmp += '<p>거래방법: ' + trade + '</p>';
 			tmp += '</section>';
 
 			// footer 부분 생성
@@ -454,6 +475,6 @@
 		});
 	});
 </script>
-
+<script src="/js/Etc.js"></script>
 <script src="/js/img.js"></script>
 <%@ include file="fixed/footer.jsp" %>

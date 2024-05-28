@@ -14,6 +14,7 @@
 			<div class="info-container">
 				<div id="profileimg">
 					<div class="backimg"></div>
+					<div class="backimg2"></div>
 					<div class="form_section_content">
 						<label for="profile" class="btn-upload"></label>
 						<input type="file" id="profile" name='uploadFile'>
@@ -236,6 +237,7 @@
 		</form>
 	</div>
 </div>
+<script src="/js/jjim.js"></script>
 <script>
 	// 선택된 sale.no 값을 저장할 배열
 	let selectedSales = [];
@@ -946,6 +948,14 @@
 	}
 
 	$(document).ready(function() {
+
+		if(getCookie("JJIM")){
+			$(".subTab-link").removeClass('active');
+			$(".subTab-link").eq(2).addClass('active');
+			deleteCookie("JJIM")
+			return;
+		}
+
 		saleList();
 		favoriteList();
 		showList(ur_id); // 후기글 목록 읽어오기

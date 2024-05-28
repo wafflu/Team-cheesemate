@@ -137,6 +137,7 @@
     height: 32px;
     background-repeat: no-repeat;
     background-size: 32px;
+    position: relative;
 }
 
 #saleboard-charbtn{
@@ -328,4 +329,12 @@
     font-size: 28px;
     color: #141313;
     font-weight: 600;
+}
+
+.like_cnt{
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

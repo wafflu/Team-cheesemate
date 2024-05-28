@@ -164,7 +164,8 @@
                     </c:when>
                     <c:otherwise>
                         <button type="button" id="saleboard-jjimbtn"></button>
-                        <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
+<%--<p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>--%>
+
                         <form id="form">
                             <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
                         </form>
@@ -239,7 +240,7 @@
     </div>
 
 </div>
-
+<script src="/js/jjim.js"></script>
 <script>
     $(document).ready(function () {
         // 판매글 번호
@@ -296,25 +297,22 @@
                         $("#saleboard-jjimbtn").addClass("saleboard-jjimbtn"); // 찬 하트로
                         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
 
-                        alert("상품을 찜 하셨습니다.");
-                        var result = confirm('찜목록으로 이동하시겠습니까?');
+                        // alert("상품을 찜 하셨습니다.");
+                        let result = confirm('찜목록으로 이동하시겠습니까?');
                         if (result) {
                             //yes
                             //찜 리스트 페이지 생성 후 -> 찜리스트 페이지 이동으로 변경
+                            setCookie("JJIM", true, 1);
                             location.href='/myPage/main';
-
                         }
                         // like_cnt 업데이트
-                        $("#likeCount").text(likeCnt);
+                        // $("#likeCount").text(likeCnt);
 
-                    }
-                    else if(row == -1){
-                        alert("로그인이 필요한 서비스입니다. ");
-
-
+                    } else if(row == -1){
+                        alert("로그인이 필요한 서비스입니다.");
                     }
                     else {
-                        alert("상품을 찜 취소하셨습니다. ");
+                        // alert("상품을 찜 취소하셨습니다. ");
                         $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
                         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
                         // like_cnt 업데이트

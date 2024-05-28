@@ -48,21 +48,26 @@
 
     <div class = "community-contents-container">
         <%--    이미지 보이는 영역--%>
-        <div class="form_section_content">
-            <input type="file" id="fileItem" name="uploadFile" style="height: 30px;" multiple>
-        </div>
 
 
-        <div id="uploadResult">
-            <c:forEach items="${imglist}" var="img">
-                <c:if test="${img.imgtype eq 'r'}">
-                    <div id="result_card">
-                        <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
-                        <div class="imgDeleteBtn" data-file="${img.img_full_rt}">x</div>
-                    </div>
-                </c:if>
-            </c:forEach>
+        <div class="imgreg-box">
+            <div class="form_section_content">
+                <label for="fileItem" class="regimgbtn"></label>
+                <input type="file" id="fileItem" name="uploadFile" style="display: none;" multiple>
+                <span class="imgcnt"></span>
+            </div>
+            <div id="uploadResult">
+                <c:forEach items="${imglist}" var="img">
+                    <c:if test="${img.imgtype eq 'r'}">
+                        <div id='result_card'>
+                            <img src="/img/display?fileName=${img.img_full_rt}" id="resizable">
+                            <div class='imgDeleteBtn' data-file="${img.img_full_rt}">x</div>
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </div>
         </div>
+
         <%--    내용입력 공간--%>
         <div class="community-contents-text">
             <textarea name="contents" id="contents" placeholder="내용을 입력하세요."><c:out value='${communityBoardDto.contents}'/></textarea>
