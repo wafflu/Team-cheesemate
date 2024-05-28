@@ -76,6 +76,10 @@ public class JjimServiceImpl implements JjimService {
     @Override
     public int deleteSelectedSales(String buyer_id, List<Long> salNos) throws Exception {
 
+        for(int i=0; i<salNos.size(); i++) {
+            saleDao.updateLikeCnt(salNos.get(i), -1);
+        }
+
         Map map = new HashMap();
         map.put("buyer_id",buyer_id);
         map.put("salNos",salNos);

@@ -109,7 +109,7 @@
 				<span class="iCtbOc" id="rv_cmt_cnt">${userInfoDTO.rv_cmt_cnt}</span>
 			</a>
 			<c:if test="${userInfoDTO.ur_id eq loginId}">
-				<a class="subTab-link jqkJIn" data-target="wishList" onclick="showBox(event, 'wishList')">
+				<a id="wish" class="subTab-link jqkJIn" data-target="wishList" onclick="showBox(event, 'wishList')">
 					찜
 					<span class="iCtbOc" id="jjimCnt">${jjimCnt}</span>
 				</a>
@@ -779,12 +779,13 @@
 
 			// 새로 생성한 페이지 컨테이너를 추가
 			$("#favoritepageContainer").html(pageContainer);
-		} else {
-			// 찜한 상품이 없는 경우
-			let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center');
-			pageContainer.append('<div>찜한 상품이 없습니다.</div>');
-			$("#favoritepageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
 		}
+		// else {
+		// 	// 찜한 상품이 없는 경우
+		// 	let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center');
+		// 	pageContainer.append('<div>찜한 상품이 없습니다.</div>');
+		// 	$("#favoritepageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
+		// }
 	}
 
 	// 개별 체크박스를 클릭했을 때, "전체 선택" 체크박스의 상태를 업데이트합니다.
