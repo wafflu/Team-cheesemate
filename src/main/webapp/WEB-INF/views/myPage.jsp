@@ -24,7 +24,7 @@
 						<div class="mystar">
 							<div class="mystarnic"><span class="usernick">${userInfoDTO.nick}</span></div>
 							<div class="star">
-							 <span class="averageStarRating">
+							 <span class="averageStarRating2">
 									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
 										<span class="mtfill-star">★</span>
 									</c:forEach>
@@ -106,12 +106,12 @@
 			</a>
 			<a class="subTab-link jqkJIn" data-target="reviewBox" onclick="showBox(event, 'reviewBox')">
 				상점후기
-				<span class="iCtbOc">${userInfoDTO.rv_cmt_cnt}</span>
+				<span class="iCtbOc" id="rv_cmt_cnt">${userInfoDTO.rv_cmt_cnt}</span>
 			</a>
 			<c:if test="${userInfoDTO.ur_id eq loginId}">
 				<a class="subTab-link jqkJIn" data-target="wishList" onclick="showBox(event, 'wishList')">
 					찜
-					<span class="iCtbOc">${jjimCnt}</span>
+					<span class="iCtbOc" id="jjimCnt">${jjimCnt}</span>
 				</a>
 			</c:if>
 		</div>
@@ -122,12 +122,12 @@
 		<div class="ejYulE">
 			<div>
 				상점후기
-				<span class="eERcxq">${userInfoDTO.rv_cmt_cnt}</span>
+				<span class="eERcxq" id="rv_cmt_cnt2">${userInfoDTO.rv_cmt_cnt}</span>
 			</div>
 			<div class="reviewStar">
 				<div class="reviewStar-main">
 					<div class="fWtYmf">
-						<div class="fGpXKG">${userInfoDTO.star_avg}</div>
+						<div class="fGpXKG" id="star_avg">${userInfoDTO.star_avg}</div>
 						<div class="star">
 							 <span class="averageStarRating">
 									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
@@ -186,7 +186,7 @@
 		<div class="wishList-main-box">
 			<div>
 				찜
-				<span class="cefQuP">${jjimCnt}</span>
+				<span class="cefQuP" id="jjimCnt2">${jjimCnt}</span>
 			</div>
 			<div class="gnpSLd2">
 				<a class="jVzTFl active" onclick="updateFavoriteOption('R', this)">최신순</a>
@@ -557,6 +557,7 @@
 		$("textarea[name=contents]").val(newValue);
 		// rv_cmt_cnt와 star_avg 값을 가져와서 HTML 요소에 넣어줌
 		$("#rv_cmt_cnt").text(userInfoDTO.rv_cmt_cnt);
+		$("#rv_cmt_cnt2").text(userInfoDTO.rv_cmt_cnt);
 		$("#star_avg").text(userInfoDTO.star_avg);
 
 		// begin과 end 값 변수로 선언
@@ -571,13 +572,31 @@
 
 		// 빈 별표(☆) 표시하는 HTML 생성
 		let emptyStarHtml = '';
-		for (let i = endValue; i <5; i++) {
+		for (let i = endValue; i < 5; i++) {
 			emptyStarHtml += '<span class="empty-star">☆</span>';
 		}
 
 		// HTML을 동적으로 삽입
-		let averageStarRatingSpan = document.getElementById('averageStarRating');
-		$(".averageStarRating").text = '<span>' + starHtml + '</span><span>' + emptyStarHtml + '</span>';
+		// let averageStarRatingSpan = document.getElementById('averageStarRating');
+		$(".averageStarRating").html('<span>' + starHtml + '</span><span>' + emptyStarHtml + '</span>');
+
+		// 별표(★) 표시하는 HTML 생성
+		let starHtml2 = '';
+		for (let i = beginValue; i <= endValue; i++) {
+			starHtml2 += '<span class="mtfill-star">★</span>';
+		}
+
+		// 빈 별표(☆) 표시하는 HTML 생성
+		let emptyStarHtml2 = '';
+		for (let i = endValue; i < 5; i++) {
+			emptyStarHtml2 += '<span class="myempty-star">☆</span>';
+		}
+
+		// HTML을 동적으로 삽입
+		// let averageStarRatingSpan2 = document.getElementById('averageStarRating2');
+		$(".averageStarRating2").html('<span>' + starHtml2 + '</span><span>' + emptyStarHtml2 + '</span>');
+
+
 
 		// text박스의 readonly 속성 읽어오기
 		let isReadonly =$("textarea[name=contents]").attr('readonly');
@@ -624,10 +643,12 @@
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType: 'json',
 			success: function (data) {
+				let jjimCnt = data.jjimCnt;
 				let ph = data.ph;
 				let favoriteList = data.favoriteList;
 				let startOfToday = data.startOfToday;
 				$(".dNPRTr").html(updateFavoriteList(favoriteList, startOfToday, ph,option));
+				toChangeCnt(jjimCnt);
 			},
 			error: function (result) {
 				alert("화면 로딩 중 오류 발생");
@@ -635,6 +656,15 @@
 			} // 에러가 발생했을 때, 호출될 함수
 		}); // $.ajax()
 	}
+
+	function toChangeCnt(jjimCnt) {
+		// 첫 번째 요소를 업데이트
+		$("#jjimCnt").text(jjimCnt);
+
+		// 두 번째 요소를 업데이트
+		$("#jjimCnt2").text(jjimCnt);
+	}
+
 
 	// 업데이트된 updateFavoriteList 화면에 출력하는 함수
 	function updateFavoriteList(favoriteList, startOfToday, ph,option) {
@@ -730,19 +760,19 @@
 
 			// 이전 페이지 버튼
 			if (ph.prevPage) {
-				pageContainer.append('<button onclick="saleList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&lt;</button>');
+				pageContainer.append('<button onclick="favoriteList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&lt;</button>');
 			}
 
 			// 페이지 번호 버튼
 			for (let i = ph.beginPage; i <= ph.endPage; i++) {
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(' + i + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">' + i + '</button>');
+				pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="favoriteList(' + i + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">' + i + '</button>');
 			}
 
 			// 다음 페이지 버튼
 			if (ph.nextPage) {
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<button onclick="saleList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&gt;</button>');
+				pageContainer.append('<button onclick="favoriteList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&gt;</button>');
 			}
 
 			// 새로 생성한 페이지 컨테이너를 추가
@@ -815,9 +845,9 @@
 				selectedSales.forEach(function(no) {
 					$('.gegELw[data-no="' + no + '"]').closest('.cRKeje').remove();
 				});
-				favoriteList(); // 삭제 후 리스트를 새로고침
 				// 선택된 항목 배열 초기화
 				selectedSales = [];
+				favoriteList(); // 삭제 후 리스트를 새로고침
 			},
 			error: function(error) {
 				// 요청이 실패했을 때 수행할 작업

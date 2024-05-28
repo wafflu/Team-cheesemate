@@ -24,7 +24,6 @@
                 </c:forEach>
             </div>
 
-
         <div class="saleinfobox">
             <div class="categorybox">
                 <c:choose>
@@ -71,7 +70,7 @@
                 <p>·</p>
                 <p>조회 : ${Sale.view_cnt}</p>
                 <p>·</p>
-                <p>찜 : ${Sale.like_cnt}</p>
+                찜 : <p id="jjimCnt">${Sale.like_cnt}</p>
             </div>
 
             <div id="tradeinfo-box">
@@ -173,9 +172,8 @@
                     </c:when>
                     <c:otherwise>
                         <button type="button" id="saleboard-jjimbtn">
-                            <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
+                        <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
                         </button>
-
                         <form id="form">
                             <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
                         </form>
@@ -316,7 +314,8 @@
                             location.href='/myPage/main';
                         }
                         // like_cnt 업데이트
-                        // $("#likeCount").text(likeCnt);
+                        $("#likeCount").text(likeCnt);
+                        $("#jjimCnt").text(likeCnt);
 
                     } else if(row == -1){
                         alert("로그인이 필요한 서비스입니다.");
@@ -327,6 +326,7 @@
                         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
                         // like_cnt 업데이트
                         $("#likeCount").text(likeCnt);
+                        $("#jjimCnt").text(likeCnt);
                     }
 
                 },
