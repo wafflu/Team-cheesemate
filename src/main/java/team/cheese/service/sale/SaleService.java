@@ -112,6 +112,7 @@ public class SaleService {
         Long sal_no = saleDto.getNo();
 
         List<String> tagList = (List<String>) map.get("tagList");
+        System.out.println(tagList);
         int insertTagTx = insertTagTx(sal_no, ur_id, tagList);
 
         return sal_no;
@@ -206,7 +207,6 @@ public class SaleService {
 
     public List<SaleDto> getSelectSellerList(Map map) throws Exception {
         List<SaleDto> saleList = saleDao.selectSeller(map);
-        System.out.println(saleList);
 
         return saleList;
     }
@@ -233,7 +233,6 @@ public class SaleService {
         }
 
         String sal_cd = saleDto.getSal_i_cd();
-        System.out.println("sal_cd : " + sal_cd);
 
         Map categoryMap = new HashMap();
 
@@ -241,7 +240,6 @@ public class SaleService {
         if(sal_cd.length() == 9) {
             categoryMap.put("length", sal_cd.length());
             categoryMap.put("sal_cd", sal_cd);
-            System.out.println("sal_cd 3 : " + sal_cd);
 
             sal_name = saleCategoryDao.categoryName(categoryMap);
             map.put("category3Name", sal_name);
@@ -252,7 +250,6 @@ public class SaleService {
         if(sal_cd.length() == 6) {
             categoryMap.put("length", sal_cd.length());
             categoryMap.put("sal_cd", sal_cd);
-            System.out.println("sal_cd 2 : " + sal_cd);
 
             sal_name = saleCategoryDao.categoryName(categoryMap);
             map.put("category2Name", sal_name);
@@ -265,7 +262,6 @@ public class SaleService {
             categoryMap.put("sal_cd", sal_cd);
             sal_name = saleCategoryDao.categoryName(categoryMap);
             map.put("category1Name", sal_name);
-            System.out.println("sal_cd 1 : " + sal_cd);
         }
 
         List<TagDto> tagDto = saleTagRead(no);
@@ -322,6 +318,7 @@ public class SaleService {
         for(TagDto tagDto : tagList) {
             tagContents += "#" + tagDto.getContents();
         }
+
         Map map = new HashMap();
         map.put("saleDto", saleDto);
         map.put("tagContents", tagContents);

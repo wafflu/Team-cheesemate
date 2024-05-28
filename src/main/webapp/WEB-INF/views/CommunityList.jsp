@@ -6,7 +6,7 @@
 <div class="topic-container maincontent">
     <div class="topic-slide-container">
 
-        <div id="commu_A" class="topic-slide active">전체</div>
+        <div id="commu_A" class="topic-slide topic-active">전체</div>
         <%--<h3 id="commu_H" class="topic-slide">인기글</h3>--%>
         <div id="commu_B" class="topic-slide">블라블라</div>
         <div id="commu_L" class="topic-slide">연애/썸</div>
@@ -233,10 +233,10 @@
 
         $(document).on('click', '.topic-slide', function () {
             // Remove active class from all topic-slide elements
-            $('.topic-slide').removeClass('active');
+            $('.topic-slide').removeClass('topic-active');
 
             // Add active class to the clicked topic-slide element
-            $(this).addClass('active');
+            $(this).addClass('topic-active');
 
             // Get the category from the clicked element
             const category = $(this).attr('id') || 'commu_A';

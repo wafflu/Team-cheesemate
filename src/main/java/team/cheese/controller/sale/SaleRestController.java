@@ -147,6 +147,8 @@ public class SaleRestController {
             tagList.add(tagContent);
         }
 
+        System.out.println(tagList);
+
         Map mapDto = new HashMap();
         mapDto.put("saleDto", saleDto);
         mapDto.put("tagList", tagList);

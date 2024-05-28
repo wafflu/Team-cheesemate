@@ -102,7 +102,7 @@ public class UserService {
 
         // 소개글 작성 (insert)
         UserInfoDTO userInfoDTO = new UserInfoDTO(dto.getId(),dto.getNick(),"");
-        userInfoDTO.setContents("test");
+        userInfoDTO.setContents("");
         try {
             int rowCnt = userInfoDao.insert(userInfoDTO);
             if(rowCnt!=1)

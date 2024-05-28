@@ -8,7 +8,7 @@
 #write-btn{
     flex-shrink: 0;
     position: relative;
-    left:650px;
+    left:634px;
     width: auto !important;
     display: inline-block;
     height: 40px;
@@ -42,9 +42,9 @@
 
 }
 .topic-slide{
-    position: relative;
-    width: calc(100% - 40px);
-    /*padding: 0 20px;*/
+    /*position: relative;*/
+    /*width: calc(100% - 40px);*/
+    /*!*padding: 0 20px;*!*/
     border-bottom: 8px solid #f2f2f3;
     padding-right: 5px;
     padding-left: 35px;
@@ -73,7 +73,7 @@
     color: #333; /* 마우스 호버 시 글자색 */
 }
 
-.active {
+.topic-active {
     background-color: #ccc; /* 마우스 호버 시 배경색 */
     color: #181818; /* 마우스 호버 시 글자색 */
 }
@@ -204,17 +204,11 @@
 }
 
  .page-link.active{
-    /*color: #ee8703 !important; !* 원하는 색상으로 변경 *!*/
-    font-weight: bold; /* 추가 스타일링 */
-     background-color: rgb(216, 216, 216);
-     border-radius: 5px;
-     color: rgb(24, 24, 24);
+     color: #ee8703;
 }
 
 .page-link {
-    margin: 0 5px; /* 각 페이지 링크에 간격을 추가 */
-    text-decoration: none; /* 링크 밑줄 제거 */
-
+    font-size: 16px;
 }
 
 .page-space {
@@ -222,10 +216,11 @@
 }
 
 #nonPost{
-    width:1000px;
+    width:1200px;
     height:600px;
-    padding:300px 500px 300px 500px;
     font-size: 18px;
+    text-align: center;
+    line-height: 600px;
 }
 
 
