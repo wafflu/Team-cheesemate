@@ -108,10 +108,10 @@
     display: flex;
     -webkit-box-align: center;
     align-items: center;
-    padding: 0px 5px;
+    padding: 15px;
     color: rgb(136, 136, 136);
     border: 1px solid rgb(238, 238, 238);
-    font-size: 11px;
+    font-size: 12px;
     background-color: transparent;
     cursor: pointer;
     outline: none;
@@ -330,7 +330,7 @@ div register_img{
     width: 150px;
     height: 150px;
     border-radius: 100%;
-    border: 1px solid #000;
+    background-color: #fff;
     overflow: hidden;
     box-sizing: border-box;
 }
@@ -419,6 +419,7 @@ div register_img{
     display: flex;
     height: 50px;
     width: 1024px;
+    box-sizing: border-box;
 }
 .gnIlaT,
 .jqkJIn {
@@ -678,12 +679,9 @@ div register_img{
 
 .kFaLlW {
     width: 1024px; /* 부모의 너비와 동일하게 설정 */
-    margin-top: 5px;
+    margin-top: 20px;
 }
 
-.gFaYhg {
-    margin-bottom: 25px;
-}
 
 .kVNVFk {
     display: flex;
@@ -1147,4 +1145,13 @@ div register_img{
 
 .boxboxboxbox{
     display: flex;
+}
+
+.my-sale-cnt{
+    display: flex;
+    justify-content: space-between;
+}
+
+.gFaYhg{
+    margin-left: 10px;
 }

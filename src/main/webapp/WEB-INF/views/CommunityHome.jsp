@@ -3,21 +3,21 @@
 <article class="maincontent community-home-box">
     <div class="topic-best tobic-commuhome">
         <h2 class="topic-name topic-best-h2">실시간 우리 지역 인기글</h2>
-        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list">더보기></a></p>
+        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list" class="commulistlink">더보기 ></a></p>
         <hr id="topic-best-horizon"/>
     </div>
-    <div class="topic-bla tobic-commuhome">
-        <h3 class="topic-name">블라블라</h3>
-        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list">더보기></a></p>
-    </div>
-    <div class="topic-worry tobic-commuhome">
-        <h3 class="topic-name">고민/상담</h3>
-        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list">더보기></a></p>
-    </div>
-    <div class="topic-love tobic-commuhome">
-        <h3 class="topic-name">연애/썸</h3>
-        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list">더보기></a></p>
-    </div>
+<%--    <div class="topic-bla tobic-commuhome">--%>
+<%--        <h3 class="topic-name">블라블라</h3>--%>
+<%--        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list">더보기></a></p>--%>
+<%--    </div>--%>
+<%--    <div class="topic-worry tobic-commuhome">--%>
+<%--        <h3 class="topic-name">고민/상담</h3>--%>
+<%--        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list">더보기></a></p>--%>
+<%--    </div>--%>
+<%--    <div class="topic-love tobic-commuhome">--%>
+<%--        <h3 class="topic-name">연애/썸</h3>--%>
+<%--        <p class="commuhome-btn-more"><a href="${pageContext.request.contextPath}/community/list">더보기></a></p>--%>
+<%--    </div>--%>
 </article>
 
 <script>
@@ -44,10 +44,10 @@
             let getTopTen = data.sort(function(a, b) {
                 return b.view_cnt - a.view_cnt;
             }).slice(0, 10);
-            let s = "<table>";
+            let s = "<table id='community-top'>";
             getTopTen.forEach((item, index) => {
                 s += "<tr>";
-                s += "<td>" + index + "</td>";
+                s += "<td class='community-rank'>" + (index+1) + "</td>";
                 s += "<td class='community-name'>" + item.commu_name + "</td>";
                 s += "<td class='community-title'><a href='/community/read?no=" + item.no + "'>" + item.title + "</a></td>";
                 s += "<td class='community-contents'>" + truncateString(item.contents, 5) + "</td>";
@@ -138,9 +138,6 @@
             $(".like-icon").css("background-image", "url('/img/display?fileName=" + imgInfo['Like2'] + "')");
             $(".comment-icon").css("background-image", "url('/img/display?fileName=" + imgInfo['chat'] + "')");
             $(".view-icon").css("background-image", "url('/img/display?fileName=" + imgInfo['person'] + "')");
-
-
-
         }
     });
 </script>
