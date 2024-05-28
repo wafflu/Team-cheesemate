@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/css/myPage.css">
 <div class="mypage-box">
 	<div class="mypageinfobox">
-		<div class="info">
+		<div class="mypageinfosubbox">
 			<div class="info-container">
 				<div id="profileimg">
 					<div class="backimg"></div>
@@ -156,10 +156,17 @@
 <div class="saleList" id="saleList">
 	<div class="saleList-main">
 		<div class="saleList-main-box">
-			<div>
+			<div class="my-sale-cnt">
 				상품
 				<span class="cefQuP">${saleCnt}</span>
+
+				<div class="gFaYhg">
+					<c:if test="${userInfoDTO.ur_id eq loginId}">
+						<button class="hZjTaB" type="button" id="myHistoryButton">나의 내역보기</button>
+					</c:if>
+				</div>
 			</div>
+
 			<div class="gnpSLd1">
 				<a class="jVzTFl active" onclick="updateOption('R', this)">최신순</a>
 				<a class="kFYwqy" onclick="updateOption('P', this)">인기순</a>
@@ -168,11 +175,6 @@
 			</div>
 		</div>
 		<div class="kFaLlW">
-			<div class="gFaYhg">
-				<c:if test="${userInfoDTO.ur_id eq loginId}">
-					<button class="hZjTaB" type="button" id="myHistoryButton">나의 내역보기</button>
-				</c:if>
-			</div>
 			<div class="hdZbBo">
 				<div class="saleListBox"></div>
 				<div id="pageContainer"></div>
@@ -861,7 +863,7 @@
 
 	window.saleList = function (page = 1, pageSize = 20,title='null',sal_s_cd='null',option='R') {
 		$.ajax({
-			type: 'GET',       // 요청 메서드
+			type: 'POST',       // 요청 메서드
 			url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize +  "&title=" + title+ "&sal_s_cd=" + sal_s_cd + "&option=" + option,  // 요청 URI
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType: 'json',
@@ -986,6 +988,15 @@
 
 		// 모달 창 닫기 버튼 클릭 시 모달 창 닫기
 		closeBtn.onclick = closeModal;
+
+		if(getCookie("JJIM")){
+			$(".subTab-link").removeClass('active');
+			$(".subTab-link").eq(2).addClass('active');
+			deleteCookie("JJIM")
+			document.getElementById("reviewBox").style.display = 'none';
+			document.getElementById("saleList").style.display = 'none';
+			document.getElementById("wishList").style.display = 'block';
+		}
 
 		let myHistoryButton = document.getElementById("myHistoryButton");
 
@@ -1139,7 +1150,6 @@
 				} // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
 		});
-
 
 
 		let userprofile = "${userInfoDTO.img_full_rt}";

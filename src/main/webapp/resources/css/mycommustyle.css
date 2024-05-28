@@ -10,7 +10,12 @@
 
 .topic-best-h2 {
     font-size: 26px;
-    font-weight: 900;
+    font-weight: 600;
+}
+
+.commulistlink{
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .tobic-commuhome {
@@ -23,6 +28,7 @@
     top: 0;
 }
 
+.community-name,
 .community-title,
 .community-contents,
 .community-nick,
@@ -35,13 +41,14 @@
     display: flex;
     align-items: center;
     gap: 3px; /* 아이콘과 텍스트 사이의 간격을 설정 */
+    width: 36px;
 }
 
 .icon-wrapper {
     display: flex;
     align-items: center;
     gap: 3px; /* 아이콘과 숫자 사이의 간격을 설정 */
-    width: 35px; /* 고정 너비를 설정하여 간격을 일정하게 유지 */
+    min-width: 28px; /* 고정 너비를 설정하여 간격을 일정하게 유지 */
     justify-content: space-between; /* 아이콘과 숫자를 양 끝으로 배치 */
 }
 
@@ -52,4 +59,12 @@
     background-position: center;
     display: inline-block;
     vertical-align: middle; /* 아이콘을 텍스트 중간에 정렬 */
+}
+
+#community-top{
+    width: 100%;
+}
+
+.community-rank{
+    text-align: center;
 }

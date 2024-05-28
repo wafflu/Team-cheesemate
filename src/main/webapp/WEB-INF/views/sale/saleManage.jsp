@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="/css/saleManage.css">
 <link rel="stylesheet" href="/css/mystyle.css">
 <div class="totalBox">
+<%--    <div class="btn-sel-box">--%>
+<%--        <a href="/sale/manage" class="sel-manage sel-manage-active">상품관리</a>--%>
+<%--        <a href="/myPage/saleInfo" class="sel-manage" target="_blank">구매/판매 내역</a>--%>
+<%--    </div>--%>
     <div class="selectOptiondiv font14">
         <input class="searchbar" name="searchTitle" type="text" placeholder="상품명을 입력해주세요." value="">
         <div class="selectOptionTx">
