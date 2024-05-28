@@ -329,6 +329,7 @@ public class SaleService {
     public int getCount(Map map) throws Exception {
 
         int totalCnt = saleDao.countSale(map);
+        System.out.println("service total CNT: " + totalCnt);
 
         return totalCnt;
     }
@@ -336,6 +337,7 @@ public class SaleService {
     public int getSelectSellerCount(Map map) throws Exception {
 
         int totalCnt = saleDao.countSelectSeller(map);
+        System.out.println("service totalCnt : " + totalCnt);
 
         return totalCnt;
     }

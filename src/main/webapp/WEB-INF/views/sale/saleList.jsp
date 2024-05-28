@@ -295,16 +295,16 @@
             if (ph.totalCnt != null && ph.totalCnt != 0) {
                 let pageContainer = $('<div>').attr('id', 'pageContainer2').css('text-align', 'center'); // 새로운 div 엘리먼트 생성
                 if (ph.prevPage) {
-                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</button>');
+                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', \'' + sal_i_cd + '\', ' + (ph.beginPage - 1) + ', ' + ph.pageSize + ')">&lt;</button>');
                 }
                 for (let i = ph.beginPage; i <= ph.endPage; i++) {
                     // 페이지 번호 사이에 공백 추가
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + i + ', ' + ph.pageSize + ')">' + i + '</button>');
+                    pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(\'' + addr_cd + '\', \'' + sal_i_cd + '\', ' + i + ', ' + ph.pageSize + ')">' + i + '</button>');
                 }
                 if (ph.nextPage) {
                     pageContainer.append('<span class="page-space"></span>');
-                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', ' + sal_i_cd + ', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</button>');
+                    pageContainer.append('<button onclick="saleList(\'' + addr_cd + '\', \'' + sal_i_cd + '\', ' + (ph.endPage + 1) + ', ' + ph.pageSize + ')">&gt;</button>');
                 }
                 $("#pageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
             }
