@@ -81,6 +81,30 @@
         };
     })();
 
+    function truncateText(element) {
+        const $element = $(element);
+        const originalText = $element.text();
+        const width = $element.width();
+        let text = originalText;
+        let truncated = false;
+
+        while ($element[0].scrollWidth > width) {
+            text = text.slice(0, -1);
+            $element.text(text + "...");
+            truncated = true;
+        }
+
+        if (!truncated) {
+            $element.text(originalText);
+        }
+    }
+
+    function truncateAllText(selector) {
+        $(selector).each(function() {
+            truncateText(this);
+        });
+    }
+
     const saleImage = (function() {
         let str = "";
         let time, price, text;
@@ -88,7 +112,7 @@
         time = remaindTime(new Date("${sale.h_date}"));
         price = comma("${sale.price}");
 
-        text = textlengover("${sale.title}", 15);
+        text = textlengover("${sale.title}", 13);
         str += "<div class='salesliderimg'>";
         str += `<a href="/sale/read?no=${sale.no}">`;
         str += `<img src="/img/display?fileName=${sale.img_full_rt}" alt="${sale.img_full_rt}" class="saleImg">`;
@@ -103,6 +127,7 @@
         </c:forEach>
 
         $("#sale-slider-div").html(str);
+
 
         return {
             getSaleInfo: function() {

@@ -87,13 +87,15 @@ public class CommunityBoardServiceImpl implements CommunityBoardService {
             throw new IllegalArgumentException("내용을입력하지않았습니다");
         }
 
-        if(imgList != null){
+//        System.out.println(imgList+"/"+imgList.size());
+
+        if(imgList.size() != 0){
             int gno = imgService.getGno()+1;
             String img_full_rt = imgService.reg_img(imgList, gno, communityBoardDto.getur_id());
             communityBoardDto.setImg_full_rt(img_full_rt);
             communityBoardDto.setGroup_no(gno);
         } else {
-            communityBoardDto.setImg_full_rt("0");
+//            communityBoardDto.setImg_full_rt("0");
             communityBoardDto.setGroup_no(0);
         }
 
