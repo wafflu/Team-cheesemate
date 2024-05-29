@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <!-- 슬라이드 영역 -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <!-- 기본 리셋 영역 -->
@@ -110,9 +112,7 @@
         </div>
     </div>
     <div id="nav">
-        <div class="hearder-category-list">
-            <p class="hearder-category-title">카테고리</p>
-        </div>
+        <div class="hearder-category-list"></div>
         <ul id="navlist">
             <li class="navli">
                 <a href="/sale/list"><span class="navtext">판매/나눔</span></a>
@@ -164,7 +164,7 @@
             e.stopPropagation(); // 이벤트 버블링 방지
             if (!isMenuVisible) {
                 let str = '<ul id="loginmenu">';
-                str += '<li><a href="/myPage/main" class="subnavlink homemylink">마이스토어</a></li>';
+                str += '<li><a href="/myPage/main" class="subnavlink homemylink">내 상점</a></li>';
                 str += '<li><a href="/logout" class="subnavlink homemylink">로그아웃</a></li>';
                 str += '</ul>';
                 $(".mylogin-box").append(str);

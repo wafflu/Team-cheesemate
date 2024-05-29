@@ -231,7 +231,7 @@
 					<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
 				</div>
 			</fieldset>
-			<div>
+			<div class="comment-text-box">
 				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
 			</div>
 			<button class="commentBtn" id="" type="button"></button>
@@ -605,6 +605,7 @@
 
 		// 수정버튼으로 바꿈 & text박스를 readonly로
 		if(isReadonly!='readonly') {
+			$("#modBtn").removeClass("h-modify-btn");
 			$("#modBtn").html("소개글 수정");
 			$("textarea[name=contents]").attr('readonly', true);
 		}
@@ -1133,6 +1134,7 @@
 			let isReadonly =$("textarea[name=contents]").attr('readonly');
 
 			if(isReadonly=='readonly') {
+				$("#modBtn").addClass("h-modify-btn");
 				$("#modBtn").html("소개글 등록");
 				$("textarea").attr('readonly', false);
 				return;

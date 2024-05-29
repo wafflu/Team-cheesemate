@@ -19,7 +19,7 @@
 			</button>
 		</div>
 		<section class="purchase-info">
-			<div>
+			<div class="bun-ui-tab-list">
 				<button class="bun-ui-tab bun-ui-tab-selected" id="A" data-label-seller="전체" data-label-buyer="전체">
 					<span class="bun-ui-tab-label">전체</span>
 				</button>
@@ -29,8 +29,8 @@
 				<button class="bun-ui-tab" id="S" data-label-seller="판매중" data-label-buyer="구매중">
 					<span class="bun-ui-tab-label">판매중</span>
 				</button>
-				<button class="bun-ui-tab" id="C" data-label-seller="거래완료" data-label-buyer="구매완료">
-					<span class="bun-ui-tab-label">거래완료</span>
+				<button class="bun-ui-tab" id="C" data-label-seller="판매완료" data-label-buyer="구매완료">
+					<span class="bun-ui-tab-label">판매완료</span>
 				</button>
 			</div>
 			<div class="sc-57cf470b-1 fFtTgD">
@@ -204,7 +204,7 @@
 					if (option === 'buyer') {
 						saleStatusText = '구매완료';
 					} else {
-						saleStatusText = '거래완료';
+						saleStatusText = '판매완료';
 					}
 					break;
 				default:
