@@ -6,7 +6,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testng.annotations.Test;
 import team.cheese.dao.ImgDao;
+import team.cheese.dao.SaleDao;
 import team.cheese.domain.ImgDto;
+import team.cheese.domain.SaleDto;
 import team.cheese.entity.ImgFactory;
 import team.cheese.service.ImgService;
 
@@ -20,7 +22,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
+import static junit.framework.TestCase.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/root-context.xml"})
@@ -30,6 +36,9 @@ public class makeimgtest {
 
     @Autowired
     ImgDao imgDao;
+
+    @Autowired
+    SaleDao saleDao;
 
     //아래 이미지 만들기용도
     @Test
@@ -82,6 +91,26 @@ public class makeimgtest {
         img.setFirst_id(userid);
         img.setLast_id(userid);
         return img;
+    }
+
+
+    @Test
+    public void testUpdateSaleSCdRandomRCode() throws Exception {
+        for (int i=0; i<25; i++) {
+            Long no = (long) (Math.random() * saleDao.count() + 1);
+            System.out.println(no);
+            SaleDto saleDto = saleDao.select(no);
+
+            String sal_s_cd = "R";
+            Map<String, Object> map = new HashMap<>();
+            if(!saleDto.getSeller_id().equals("i1234")) {
+                saleDto.setBuyer_id("asdf");
+                saleDto.setBuyer_nick("asdf");
+                saleDto.setSal_s_cd(sal_s_cd);
+                assertTrue(saleDao.buySale(saleDto) == 1);
+
+            }
+        }
     }
 
 }

@@ -170,6 +170,9 @@
                     <c:when test="${Sale.seller_id eq sessionScope.userId}">
                         <button type="button" id="saleboard-myshop">내 상점 관리</button>
                     </c:when>
+                    <c:when test="${Sale.sal_s_cd eq 'C'}">
+                        <p class="salecomple-msg">이미 거래 완료된 상품입니다.</p>
+                    </c:when>
                     <c:otherwise>
                         <button type="button" id="saleboard-jjimbtn">
                         <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>

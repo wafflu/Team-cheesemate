@@ -24,20 +24,20 @@
 						<div class="mystar">
 							<div class="mystarnic"><span class="usernick">${userInfoDTO.nick}</span></div>
 							<div class="star">
-							 <span class="averageStarRating2">
-									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
-										<span class="mtfill-star">★</span>
-									</c:forEach>
-								 <!-- 빈 별표(☆) 표시 -->
-									<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
-										<span class="myempty-star">☆</span>
-									</c:forEach>
-							 </span>
+                      <span class="averageStarRating2">
+                           <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
+							   <span class="mtfill-star">★</span>
+						   </c:forEach>
+						  <!-- 빈 별표(☆) 표시 -->
+                           <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
+							   <span class="myempty-star">☆</span>
+						   </c:forEach>
+                      </span>
 							</div>
 						</div>
 					</div>
 					<c:if test="${userInfoDTO.ur_id eq loginId}">
-					<button type="button" class="myshop-btn">내 상점 관리</button>
+						<button type="button" class="myshop-btn">내 상점 관리</button>
 					</c:if>
 				</div>
 				<div class="container">
@@ -65,16 +65,16 @@
 							</div>
 						</div>
 						<div class="fZjeFM">
-							<span class="material-symbols-outlined" style="color: #789DE5">
-							accessibility_new
-							</span>
+                     <span class="material-symbols-outlined" style="color: #789DE5">
+                     accessibility_new
+                     </span>
 							상점방문수
 							<div class="dNeqzX">${userInfoDTO.view_cnt}</div>
 						</div>
 						<div class="fZjeFM">
-							<span class="material-symbols-outlined" style="color: #78A75A">
-							shopping_bag
-							</span>
+                     <span class="material-symbols-outlined" style="color: #78A75A">
+                     shopping_bag
+                     </span>
 							상품판매
 							<div class="dNeqzX">${userInfoDTO.complete_cnt} 회</div>
 						</div>
@@ -129,15 +129,15 @@
 					<div class="fWtYmf">
 						<div class="fGpXKG" id="star_avg">${userInfoDTO.star_avg}</div>
 						<div class="star">
-							 <span class="averageStarRating">
-									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
-										<span class="filled-star">★</span>
-									</c:forEach>
-								 <!-- 빈 별표(☆) 표시 -->
-									<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
-										<span class="empty-star">☆</span>
-									</c:forEach>
-							 </span>
+                      <span class="averageStarRating">
+                           <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
+							   <span class="filled-star">★</span>
+						   </c:forEach>
+						  <!-- 빈 별표(☆) 표시 -->
+                           <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
+							   <span class="empty-star">☆</span>
+						   </c:forEach>
+                      </span>
 						</div>
 					</div>
 					<div class="qEvCW"></div>
@@ -781,10 +781,10 @@
 			$("#favoritepageContainer").html(pageContainer);
 		}
 		// else {
-		// 	// 찜한 상품이 없는 경우
-		// 	let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center');
-		// 	pageContainer.append('<div>찜한 상품이 없습니다.</div>');
-		// 	$("#favoritepageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
+		//    // 찜한 상품이 없는 경우
+		//    let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center');
+		//    pageContainer.append('<div>찜한 상품이 없습니다.</div>');
+		//    $("#favoritepageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
 		// }
 	}
 
@@ -850,6 +850,8 @@
 				});
 				// 선택된 항목 배열 초기화
 				selectedSales = [];
+				// 전체 선택 체크박스의 gUnQrM 클래스 제거
+				$('#selectAll').removeClass('gUnQrM');
 				favoriteList(); // 삭제 후 리스트를 새로고침
 			},
 			error: function(error) {
@@ -1018,9 +1020,9 @@
 		// let button = document.querySelector('.myshop-btn');
 		//
 		// if (button) {
-		// 	button.addEventListener("click", function() {
-		// 		window.location.href = '/sale/managePage';
-		// 	});
+		//    button.addEventListener("click", function() {
+		//       window.location.href = '/sale/managePage';
+		//    });
 		// }
 
 		$(document).on("click", ".myshop-btn", function (){

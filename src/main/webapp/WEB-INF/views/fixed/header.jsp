@@ -118,7 +118,7 @@
                 <a href="/sale/list"><span class="navtext">판매/나눔</span></a>
             </li>
             <li class="navli">
-                <a href="#"><span class="navtext">사기조회</span></a>
+                <a href="/fraud"><span class="navtext">사기조회</span></a>
             </li>
             <li class="navli">
                 <a href="/event"><span class="navtext">이벤트</span></a>

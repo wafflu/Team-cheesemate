@@ -1,0 +1,155 @@
+.headertitle{
+    width: 100%;
+    padding: 78px 0;
+    border-bottom: 1.5px solid rgb(20 19 19);
+}
+
+.header-title{
+    font-size: 36px;
+    color:#141313;
+    font-weight: 500;
+}
+
+.sub-header-title{
+    font-size: 20px;
+    color:#787e89;
+    font-weight: 400;
+}
+
+.search-title{
+    font-size: 24px;
+    color:#141313;
+    font-weight: 500;
+    padding-top: 14px;
+    margin-bottom: 6px;
+}
+
+.sub-search-title{
+    font-size: 16px;
+    color: #363c45;
+    padding-bottom: 22px;
+}
+
+.fraud-s-box{
+    display: flex;
+    justify-content: space-between;
+}
+.fraud-search{
+    width: 90%;
+    padding: 20px;
+    font-size: 14px;
+    outline: none;
+    color: rgb(29 30 31);
+    border: 1px solid rgb(218 222 229);
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.fraud-search-btn{
+    width: 112px;
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+    padding: 16px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+}
+
+.search-m-p{
+    color: #787e89;
+    font-size: 12px;
+    margin-top: 10px;
+    margin-bottom: 24px;
+}
+.channel{
+    margin-left: 5px;
+    border-bottom: 1px solid #909090;
+    text-decoration: inherit;
+}
+
+.stats-box{
+    display: flex;
+    justify-content: space-between;
+}
+
+.todaycnt-title{
+    width: 320px;
+    padding: 14px 26px;
+    border-radius: 8px;
+    background-color: #f1f4f6;
+    font-size: 14px;
+    color: #141313;
+    line-height: 24px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.today-cnt{
+    font-size: 32px;
+    color: #0cb650;
+    font-weight: 700;
+    padding: 0 5px 0 20px;
+}
+
+.ad-img{
+    margin: 20px 0;
+}
+
+.maincontent2{
+    width: 100%;
+    background-color: #f7f9fa;
+}
+
+.m-c-t1{
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 80px;
+    position: relative;
+}
+
+.m-c1{
+    font-size: 36px;
+    color: #141313;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.m-c-tt1{
+    width: 1200px;
+    margin: 0 auto;
+    padding-top: 80px;
+    position: relative;
+    display: flex;
+}
+
+.m-c2{
+    font-size: 20px;
+    color:#787e89;
+    font-weight: 500;
+}
+
+.m-c-t1s{
+    padding: 144px 96px;
+    width: 336px;
+}
+
+.fraud-img-box{
+    padding: 100px 96px;
+    width: 336px;
+}
+
+.fraud-Img{
+    width: 300px;
+    height: 300px;
+
+}
+
+.fraud-pay-Img{
+    width: 336px;
+}
+
+.m-c-t2{
+    width: 1200px;
+    margin: 0 auto;
+}
