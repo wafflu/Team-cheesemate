@@ -30,4 +30,11 @@
         from chat_msg
         where cr_no = #{cr_no}
     </select>
+
+    <select id="select_salelist" parameterType="long" resultType="ChatRoomDto">
+        select *
+        from chat_room
+        where sale_no = #{sale_no} and seller_state = 'Y' and buyer_state = 'Y'
+    </select>
+
 </mapper>

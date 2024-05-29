@@ -192,3 +192,54 @@ th, td {
     border-bottom: none;
     color: #ee8703;
 }
+
+#buyerlist-modal{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 400px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 11;
+    padding: 10px;
+}
+
+#buyerForm{
+    position: relative;
+    height: 372px;
+    margin-top: 24px;
+}
+
+.buyerlist-item{
+    display: flex;
+}
+
+.buyer-profile-img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.p-buyer-nick{
+    font-size: 14px;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 0 0 10px;
+}
+
+.choicebtn{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.buylist-close-btn{
+    position: absolute;
+    right: 14px;
+}

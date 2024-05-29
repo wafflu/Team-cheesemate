@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import team.cheese.dao.*;
 import team.cheese.domain.AdministrativeDto;
 import team.cheese.domain.ImgDto;
+import team.cheese.domain.MyPage.UserInfoDTO;
 import team.cheese.domain.SaleCategoryDto;
 import team.cheese.domain.SaleDto;
 import team.cheese.entity.ImgFactory;
@@ -276,12 +277,22 @@ public class SaleRestController {
 
     // ajax 주소 검색
     @RequestMapping("/updateSaleSCd")
-    public ResponseEntity<String> updateSaleSCd(@RequestParam Long no,
-                                                @RequestParam String sal_s_cd,
-                                                @RequestParam String seller_id) throws Exception {
+    public ResponseEntity<ArrayList<UserInfoDTO>> updateSaleSCd(@RequestParam Long no,
+                                                                @RequestParam String sal_s_cd,
+                                                                @RequestParam String seller_id) throws Exception {
         // 검색어를 이용하여 주소를 검색
-        saleService.updateSaleSCd(no, sal_s_cd, seller_id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ArrayList<UserInfoDTO> userlist = saleService.updateSaleSCd(no, sal_s_cd, seller_id);
+        return new ResponseEntity<>(userlist, HttpStatus.OK);
+    }
+
+    //판매완료 업데이트 유저
+    @RequestMapping(value = "/updateSalebuyer", method = RequestMethod.POST)
+    public ResponseEntity<String> updateBuyer(@RequestBody Map<String, List<SaleDto>> selectedBuyers) throws Exception {
+        List<SaleDto> buyersList = selectedBuyers.get("selectedBuyers");
+        for (SaleDto buyer : buyersList) {
+            saleService.buySale(buyer);
+        }
+        return new ResponseEntity<>("", HttpStatus.OK);
     }
 
 

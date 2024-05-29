@@ -5,25 +5,6 @@
 <div class="maincontent totalBox">
     <div class="header-actions">
         <div class="categorymenu">
-            <c:choose>
-                <c:when test="${empty sessionScope.userId}">
-                    <select id="addr_cd" style="display: none;" hidden>
-                        <option id="selectAll" value="null" selected>주소</option>
-                        <c:forEach var="AddrCd" items="${addrCdList}">
-                            <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
-                        </c:forEach>
-                    </select>
-                </c:when>
-                <c:otherwise>
-                    <select id="addr_cd">
-                        <option id="selectAll" value="null" selected>주소</option>
-                        <c:forEach var="AddrCd" items="${addrCdList}">
-                            <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
-                        </c:forEach>
-                    </select>
-                </c:otherwise>
-            </c:choose>
-
             <select id="category1" onchange="loadCategory2()" class="style-sel-category">
                 <option value="null" selected>대분류(전체)</option>
                 <c:forEach var="category" items="${saleCategory1}">
@@ -44,7 +25,27 @@
             <%--        <span><b><p style="display: inline; color: red" id="sal_name"></p></b> 상품</span>--%>
         </div>
 
-        <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매/나눔 글작성하기</button>
+        <div class="h-location">
+            <c:choose>
+                <c:when test="${empty sessionScope.userId}">
+                    <select id="addr_cd" style="display: none;" hidden>
+                        <option id="selectAll" value="null" selected>희망 거래지역을 선택해주세요.</option>
+                        <c:forEach var="AddrCd" items="${addrCdList}">
+                            <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                        </c:forEach>
+                    </select>
+                </c:when>
+                <c:otherwise>
+                    <select id="addr_cd">
+                        <option id="selectAll" value="null" selected>희망 거래지역을 선택해주세요.</option>
+                        <c:forEach var="AddrCd" items="${addrCdList}">
+                            <option value="<c:out value='${AddrCd.addr_cd}'/>"><c:out value='${AddrCd.addr_name}'/></option>
+                        </c:forEach>
+                    </select>
+                </c:otherwise>
+            </c:choose>
+        </div>
+<%--        <button class="saleBtn right-align" type="button" onclick="writeBtn()">판매하기</button>--%>
 
     </div>
 

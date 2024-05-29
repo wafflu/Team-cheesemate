@@ -144,9 +144,7 @@ article {
     margin-bottom: 19px;
     padding: 5px;
     border: 1px solid #ccc;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 440px;
     box-sizing: border-box;
 }
 
@@ -341,7 +339,8 @@ button[type="button"]:hover {
 }
 
 .saleinfo-box {
-    height: 1500px;
+    /*height: 1360px;*/
+    display: inline-block;
 }
 
 .imgboxlink{
@@ -377,3 +376,34 @@ button[type="button"]:hover {
     font-size: 20px;
 }
 
+#historyList{
+    display: flex;
+    width: 912px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.mp-saleStatusText{
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.mp-saleTitle{
+    font-size:18px;
+    font-weight: 500;
+}
+
+.mp-price,
+.mp-trade,
+.mp-seller-link
+{
+    font-size: 16px;
+}
+
+.pageContainer{
+   text-align: center;
+}
+
+.nopage{
+    padding: 100px;
+}

@@ -17,7 +17,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 12.5px;
 }
 
 .smallBox {
@@ -88,15 +88,23 @@
 }
 
 #addr_cd {
-    display: block;
-    width: 340px;
-    height: 20px;
+    /*display: block;*/
+    width: 200px;
+    height: 28px;
     text-align: center;
+    margin-right: 5px;
+    outline: none;
+}
+
+#addr_cd>option {
+    background: black;
+    color: #fff;
+    padding: 3px 0;
 }
 
 .style-sel-category{
     width: 100px;
-    height: 20px;
+    height: 28px;
     box-sizing: border-box;
     display: inline-block;
     position: relative;

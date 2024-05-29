@@ -38,5 +38,8 @@ public class ChatDaoImpl implements ChatDao {
     public ChatRoomDto select(SaleDto sdto){
         return session.selectOne(namespace+"select_buyer", sdto);
     }
-
+    @Override
+    public List<ChatRoomDto> select(long saleno){
+        return session.selectList(namespace+"select_salelist", saleno);
+    }
 }

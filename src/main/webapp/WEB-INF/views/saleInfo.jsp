@@ -49,8 +49,10 @@
 				</button>
 			</div>
 		</section>
-		<section id="historyList">
-		</section>
+		<section id="historyList"></section>
+
+		<div class="pageContainer"></div>
+
 		<div id="myModal" class="modal" style="display: none;">
 			<div class="modal-content">
 				<!-- 후기글 작성 폼 -->
@@ -150,7 +152,7 @@
 	}
 
 	// 내역 목록 보여주기
-	let showList = function (page = 1, pageSize = 5, option = 'seller', sal_s_cd = '',keyword= '') {
+	let showList = function (page = 1, pageSize = 10, option = 'seller', sal_s_cd = '',keyword= '') {
 		$.ajax({
 			type: 'POST',       // 요청 메서드
 			url: "/myPage/saleHistorys",  // 요청 URI
@@ -169,6 +171,15 @@
 				let list = result.list;
 				let ph = result.ph;
 				$("#historyList").html(toHtml(list, ph,option,sal_s_cd,keyword));
+				let mainContainerH = $(".mainContainer").outerHeight();
+				// console.log(mainContainerH)
+				if(mainContainerH >= 1000){
+					mainContainerH = $(".mainContainer").outerHeight()+200;
+				} else {
+					mainContainerH = $(".mainContainer").outerHeight()+50;
+				}
+				$('.saleinfo-box').css('height', mainContainerH + 'px');
+				// console.log(mainContainerH)
 			},
 			error: function (result) {
 				alert(result.responseText);
@@ -230,23 +241,26 @@
 			}
 			tmp += '</a>';
 			tmp += '<section class="text-section">';
-			tmp += '<p>판매글번호 : ' + item.no + '</p>';
 			if (option === 'seller') {
-				tmp += '<p>' + saleStatusText + '</p>';
+				tmp += '<p class="mp-saleStatusText">' + saleStatusText + '</p>';
 			} else {
-				tmp += '<p>' + saleStatusText + '</p>';
+				tmp += '<p class="mp-saleStatusText">' + saleStatusText + '</p>';
 			}
 			if(item.tx_s_cd === 'F'){
-				tmp += '<p>[나눔]</p>';
+				tmp += '<p class="mp-tx_s_cd">[나눔]</p>';
 			}
+			tmp += '<p class="mp-saleTitle">제목: ' + saleTitle + '</p>';
 			if ((option === 'seller' && item.sal_s_cd == 'R') || (option === 'seller' && item.sal_s_cd == 'C')) {
-				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
-			} else if (option === 'buyer') {
-				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_nick + '</a></p>';
+				// item.buyer_id가 null이 아닌 경우에만 태그 추가
+				if (item.buyer_id !== null) {
+					tmp += '<p class="mp-buyer_id">구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
+				}
 			}
-			tmp += '<p>제목: ' + saleTitle + '</p>';
+			else if (option === 'buyer') {
+				tmp += '<p class="mp-seller-link">판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_nick + '</a></p>';
+			}
 			let salePrice = item.price;
-			tmp += '<p>가격: ' + comma(salePrice) + '원</p>';
+			tmp += '<p class="mp-price">가격: ' + comma(salePrice) + '원</p>';
 
 
 			let trade = "";
@@ -258,7 +272,7 @@
 				trade = "택배거래";
 
 			}
-			tmp += '<p>거래방법: ' + trade + '</p>';
+			tmp += '<p class="mp-trade">거래방법: ' + trade + '</p>';
 			tmp += '</section>';
 
 			// footer 부분 생성
@@ -276,32 +290,33 @@
 
 			tmp += '</article>';
 		});
+		let str = "";
 		// 페이지 링크 추가
 		if (ph) {
-			tmp += '<div class="pageContainer" style="text-align:center">';
 			if (ph.totalCnt == null || ph.totalCnt == 0) {
-				tmp += '<div>내역이 없습니다.</div>';
+				str += '<div class="nopage">내역이 없습니다.</div>';
 			}
 			if (ph.totalCnt != null && ph.totalCnt != 0) {
 				if (ph.prevPage) {
-					tmp += '<button onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&lt;</button>';
+					str += '<button onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&lt;</button>';
 				}
 				for (let i = ph.beginPage; i <= ph.endPage; i++) {
 					// 페이지 번호 사이에 공백 추가
-					tmp += '<span class="page-space"></span>';
-					tmp += '<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="showList(' + i + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">' + i + '</button>';
+					str += '<span class="page-space"></span>';
+					str += '<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="showList(' + i + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">' + i + '</button>';
 				}
 				if (ph.nextPage) {
-					tmp += '<span class="page-space"></span>';
-					tmp += '<button onclick="showList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&gt;</button>';
+					str += '<span class="page-space"></span>';
+					str += '<button onclick="showList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&gt;</button>';
 				}
 			}
-			tmp += '</div>';
+			$(".pageContainer").html(str);
 		}
 		return tmp;
 	}
 
 	$(document).ready(function(){
+
 		showList();
 		let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
 		updateButtonLabels(option);
@@ -324,7 +339,7 @@
 
 			// 내역 목록 업데이트
 			let option = $(this).attr('id');
-			showList(1, 5, option);
+			showList(1, 10, option);
 
 			// 버튼 레이블 업데이트
 			updateButtonLabels(option);
@@ -344,13 +359,13 @@
 			updateButtonLabels(option);
 
 			if (id === 'R') {
-				showList(1, 5, option, 'R', searchValue);
+				showList(1, 10, option, 'R', searchValue);
 			} else if (id === 'S') {
-				showList(1, 5, option, 'S', searchValue);
+				showList(1, 10, option, 'S', searchValue);
 			} else if (id === 'C') {
-				showList(1, 5, option, 'C', searchValue);
+				showList(1, 10, option, 'C', searchValue);
 			} else {
-				showList(1, 5, option, '', searchValue);
+				showList(1, 10, option, '', searchValue);
 			}
 		});
 
@@ -389,9 +404,9 @@
 			let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
 			let sal_s_cd = $(".purchase-info .bun-ui-tab.bun-ui-tab-selected").attr('id');
 			if (sal_s_cd === 'A') {
-				showList(1, 5, option, '', searchValue);
+				showList(1, 10, option, '', searchValue);
 			} else {
-				showList(1, 5, option, sal_s_cd, searchValue);
+				showList(1, 10, option, sal_s_cd, searchValue);
 			}
 		});
 

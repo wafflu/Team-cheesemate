@@ -8,6 +8,7 @@
 <%--        <a href="/sale/manage" class="sel-manage sel-manage-active">상품관리</a>--%>
 <%--        <a href="/myPage/saleInfo" class="sel-manage" target="_blank">구매/판매 내역</a>--%>
 <%--    </div>--%>
+    <div id="buyerlist-modal-box"></div>
     <div class="selectOptiondiv font14">
         <input class="searchbar" name="searchTitle" type="text" placeholder="상품명을 입력해주세요." value="">
         <div class="selectOptionTx">
@@ -291,6 +292,45 @@
             }
         });
 
+        $(document).on("click", ".buylist-close-btn", function(event) {
+            event.preventDefault();
+            $("#buyerlist-modal-box").children().remove();
+        });
+
+        $(document).on("click", ".choicebtn", function(event) {
+            event.preventDefault();
+
+            let selectedBuyers = [];
+            $("input[name='selectedBuyers']:checked").each(function() {
+                let buyerInfo = {
+                    buyer_id: $(this).val(),
+                    no: $(this).siblings(".buyer-id").val(),
+                    buyer_nick: $(this).siblings(".buyer-nick").val(),
+                    sal_s_cd: "C"
+                };
+                selectedBuyers.push(buyerInfo);
+            });
+
+            if (selectedBuyers.length > 0) {
+                console.log(selectedBuyers);
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/updateSalebuyer", // your endpoint to handle the selected buyers
+                    data: JSON.stringify({ selectedBuyers: selectedBuyers }),
+                    contentType: "application/json",
+                    success: function(response) {
+                        $("#buyerlist-modal-box").children().remove();
+                    },
+                    error: function(xhr, status, error) {
+                        alert("전송 실패: " + error);
+                    }
+                });
+                alert("성공");
+            } else {
+                alert("하나 이상의 구매자를 선택해주세요.");
+            }
+        });
+
 
         $(document).on("change", ".sal_s_cd", function() {
             let sal_s_cd = $(this).val();
@@ -301,8 +341,32 @@
                 type: "POST",
                 url: "/sale/updateSaleSCd",
                 data: {no: sal_no, sal_s_cd: sal_s_cd, seller_id: "${sessionScope.userId}"},
+                dataType: 'json',
                 success: function (data) {
                     alert("판매글 상태가 " + sal_s_name + "(으)로 변경되었습니다.");
+
+                    if(sal_s_name === "거래완료" && data !== null){
+                        let str = "";
+                        str += '<div id="buyerlist-modal">';
+                        str += '<button class="buylist-close-btn">X</button>';
+                        str += '<form id="buyerForm" class="buyerlist">';
+                        data.forEach(user => {
+                            str += `<div class="buyerlist-item">`
+                            str += '<img src="/img/display?fileName=' + user.img_full_rt + '" class="buyer-profile-img"/>';
+                            str += '<input type="hidden" name="no" class="buyer-id" value="' + sal_no + '">';
+                            str += '<input type="hidden" name="buyer_id" class="buyer-id" value="' + user.ur_id + '">';
+                            str += '<input type="hidden" name="buyer_nick" class="buyer-nick" value="' + user.nick + '">';
+                            str += '<p class="p-buyer-nick">' + user.nick + '</p>'
+                            str += '<input type="checkbox" name="selectedBuyers" class="buyer-checkbox" value="'+user.ur_id+'">'
+                            str += `</div>`
+                        });
+
+                        str += `<input type="button" class="choicebtn" value="Submit Selected Buyers"/>`;
+                        str += '</form>';
+                        str += '</div>';
+
+                        $("#buyerlist-modal-box").html(str);
+                    }
                     saleList(title, pre_sal_s_cd);
                 },
                 error: function (xhr, status, error) {

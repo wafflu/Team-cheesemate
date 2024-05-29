@@ -5,14 +5,7 @@
 <link rel="stylesheet" href="/css/mystyle.css">
 
 <div class="totalBox">
-    <nav class="sc-krDsej dadRxL">
-        <div class="sc-eMigcr glslOQ">
-            <a class="sc-dTdPqK ldZEBw" href="/sale/write">상품등록</a>
-        </div>
-        <div class="sc-eMigcr hdRMxq">
-            <a class="sc-dTdPqK ldZEBw" href="/sale/manage">상품관리</a>
-        </div>
-    </nav>
+
     <div id="loadingOverlay">
         <div id="loadingSpinner"></div>
         <div id="loadingMessage">로딩 중...</div>
