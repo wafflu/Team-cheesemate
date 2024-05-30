@@ -338,10 +338,6 @@ button[type="button"]:hover {
     background-color: #e3c565;
 }
 
-.saleinfo-box {
-    /*height: 1360px;*/
-    display: inline-block;
-}
 
 .imgboxlink{
     flex-shrink: 0;
@@ -406,4 +402,8 @@ button[type="button"]:hover {
 
 .nopage{
     padding: 100px;
+}
+
+.bun-ui-tab-list{
+    text-align: center;
 }

@@ -360,12 +360,11 @@ public class SaleService {
         map.put("sal_s_cd", sal_s_cd);
         map.put("seller_id", seller_id);
 
-        int result = saleDao.updateSaleSCd(map);
+        saleDao.updateSaleSCd(map);
 
         if(sal_s_cd.equals("C")) {
             increamentCompleteCnt(seller_id);
         }
-
         ArrayList<UserInfoDTO> list = chatService.loadChatlist(no);
         return list;
         //loadChatlist

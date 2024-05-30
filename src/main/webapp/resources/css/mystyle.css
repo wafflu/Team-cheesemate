@@ -30,7 +30,7 @@
 }
 
 #logobox{
-    width: 200px;
+    width: 100px;
     height: 100%;
     position: relative;
 }
@@ -58,7 +58,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     border: none;
-    width: 600px;
+    width: 650px;
     height: 40px;
     background-color: #eeeeee;
     border-radius: 5px;
@@ -140,10 +140,11 @@
 }
 
 .hearder-category-list{
-    width: 100px;
+    width: 30px;
     height: 44px;
-    background-color: #ee8703;
-    border-radius: 5px;
+    background-repeat: no-repeat;
+    background-size: 30px;
+    background-position: 0 56%;
 }
 
 .hearder-category-title{
@@ -152,13 +153,6 @@
     color:#fff;
     text-align: center;
     line-height: 40px;
-}
-
-.hearder-category-list{
-    background-repeat: no-repeat;
-    background-size: 25px;
-    background-position: 10px 44%;
-    padding-left: 20px;
 }
 
 #navlist{
@@ -348,4 +342,26 @@
 }
 .font30{
     font-size: 30px;
+}
+
+.font16 {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: auto;
+}
+
+.font10 {
+    font-size: 10px;
+}
+
+.font20{
+    font-size: 20px;
+}
+
+.fontWeight {
+    font-weight: 600;
+}
+
+.marginTopFont10 {
+    margin-top: 10px;
 }

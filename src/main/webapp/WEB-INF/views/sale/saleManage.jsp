@@ -15,7 +15,7 @@
             <div class="optionTx selected" data-selected="true">전체</div>
             <div class="optionTx" data-selected="false">판매중</div>
             <div class="optionTx" data-selected="false">예약중</div>
-            <div class="optionTx" data-selected="false">거래완료</div>
+            <div class="optionTx" data-selected="false">판매완료</div>
         </div>
     </div>
     <table class="totalTable">
@@ -219,9 +219,6 @@
             let hoistCntClass = $(this).closest("tr").find("td[class*='hoist_cnt_']").attr("class").split(" ").find(c => c.startsWith("hoist_cnt_"));
             let hoist_cnt = hoistCntClass.replace("hoist_cnt_", "");
 
-            // 추출된 값을 알림창으로 출력
-            alert(sal_no + " " + hoist_cnt);
-
             // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
             if (confirm("끌어올리겠습니까? 끌어올리기 한도가 " + (max_hoist_cnt - hoist_cnt) + "번 남았습니다.")) {
                 // AJAX 요청을 사용하여 폼 데이터를 서버로 전송
@@ -269,7 +266,7 @@
         $(document).on("click", ".removeBtn", function() {
             // sal_no 값을 추출
             let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
-            alert(sal_no);
+
             // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
             if (confirm("삭제 하시겠습니까?")) {
                 // AJAX 요청을 사용하여 폼 데이터를 서버로 전송
@@ -312,7 +309,6 @@
             });
 
             if (selectedBuyers.length > 0) {
-                console.log(selectedBuyers);
                 $.ajax({
                     type: "POST",
                     url: "/sale/updateSalebuyer", // your endpoint to handle the selected buyers
@@ -325,9 +321,8 @@
                         alert("전송 실패: " + error);
                     }
                 });
-                alert("성공");
             } else {
-                alert("하나 이상의 구매자를 선택해주세요.");
+                alert("한 명 이상의 구매자를 선택해주세요.");
             }
         });
 
@@ -345,7 +340,7 @@
                 success: function (data) {
                     alert("판매글 상태가 " + sal_s_name + "(으)로 변경되었습니다.");
 
-                    if(sal_s_name === "거래완료" && data !== null){
+                    if(sal_s_name === "판매완료" && data.length !== 0){
                         let str = "";
                         str += '<div id="buyerlist-modal">';
                         str += '<button class="buylist-close-btn">X</button>';
@@ -443,7 +438,7 @@
                 case '예약중':
                     sal_s_cd = 'R';
                     break;
-                case '거래완료':
+                case '판매완':
                     sal_s_cd = 'C';
                     break;
                 default:
@@ -456,7 +451,7 @@
             const options = {
                 'S': '판매중',
                 'R': '예약중',
-                'C': '거래완료'
+                'C': '판매완료'
             };
 
             let select = $('<select>').addClass('sal_s_cd');

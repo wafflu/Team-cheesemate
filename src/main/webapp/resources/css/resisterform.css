@@ -338,7 +338,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     position: absolute;
     top: 10px;
     /* 원하는 위치로 조정 */
-    right: 10px;
+    right: 30px;
     /* 원하는 위치로 조정 */
     background-color: transparent;
     /* 배경색 설정 */
@@ -346,6 +346,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     /* 테두리 제거 */
     cursor: pointer;
     /* 마우스 커서를 포인터로 변경 */
+    font-size: 30px;
 }
 
 .sale-table-wrapper {

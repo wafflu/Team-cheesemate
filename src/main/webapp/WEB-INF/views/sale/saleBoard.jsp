@@ -1,8 +1,10 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="../fixed/header.jsp"%>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="/css/saleBoard.css">
 <c:set var="userId" value="${sessionScope.userId != null ? sessionScope.userId : ''}" />
 <div class="maincontent saleboardarea">
+    <div class="jjim-area"></div>
     <div class="saleboard-top-box">
             <div id="sale-slider-div" class="sale-img-box">
                 <c:forEach items="${imglist}" var="img">
@@ -174,9 +176,11 @@
                         <p class="salecomple-msg">이미 거래 완료된 상품입니다.</p>
                     </c:when>
                     <c:otherwise>
+                        <div class="jjim-btn">
                         <button type="button" id="saleboard-jjimbtn">
                         <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
                         </button>
+                        </div>
                         <form id="form">
                             <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
                         </form>
@@ -281,7 +285,7 @@
             $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
         }else {
             $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
-            $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+            $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like3'] + "')");
         }
 
         // $("#saleboard-jjimbtn").on("click", function (){     // 클릭했을떄
@@ -294,6 +298,22 @@
         //         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
         //     }
         // });
+
+        $(document).on("click", ".j-p-close", function(){
+            $(".jjim-area").children().remove();
+        });
+
+        $(document).on("click", ".j-p-dayclose", function(){
+            $(".jjim-area").children().remove();
+        });
+
+        $(document).on("click", ".j-p-jjim", function(){
+            $(".jjim-area").children().remove();
+            setCookie("JJIM", true, 1);
+            location.href='/myPage/main';
+        });
+
+
         $("#saleboard-jjimbtn").on("click", function(){
 
             $.ajax({
@@ -309,13 +329,31 @@
                         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
 
                         // alert("상품을 찜 하셨습니다.");
+                        /*
                         let result = confirm('찜목록으로 이동하시겠습니까?');
                         if (result) {
                             //yes
                             //찜 리스트 페이지 생성 후 -> 찜리스트 페이지 이동으로 변경
                             setCookie("JJIM", true, 1);
                             location.href='/myPage/main';
-                        }
+                        }찜
+                        */
+                        let str = "";
+                        str= `<div class="jjim-popup">
+                                <div class="jjim-box">
+                                    <button type="button" class="j-p-close">
+                                        <span class="material-symbols-outlined">close</span>
+                                    </button>
+                                    <div class="jjimimg-box">
+                                        <img src="/img/display?fileName=img/jjim.png" alt=""/>
+                                    </div>
+                                    <p class="p-j-title">찜 상품 알림</p>
+                                    <p class="p-j-content">찜 상품 목록을 확인해보세요!</p>
+                                    <button type="button" class="j-p-jjim">보러가기</button>
+                                    <button type="button" class="j-p-dayclose">하루동안 보지 않기</button>
+                                </div>
+                            </div>`
+                        $(".jjim-area").html(str);
                         // like_cnt 업데이트
                         $("#likeCount").text(likeCnt);
                         $("#jjimCnt").text(likeCnt);
@@ -326,7 +364,7 @@
                     else {
                         // alert("상품을 찜 취소하셨습니다. ");
                         $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
-                        $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+                        $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like3'] + "')");
                         // like_cnt 업데이트
                         $("#likeCount").text(likeCnt);
                         $("#jjimCnt").text(likeCnt);

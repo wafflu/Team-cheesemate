@@ -118,8 +118,8 @@
 }
 
 .hZjTaB:hover {
-    background: #e0e0e0;
-    color: #333;
+    /*background: #e0e0e0;*/
+    /*color: #333;*/
 }
 
 .container p {
@@ -178,6 +178,7 @@ input[type="text"] {
     width: auto;
     max-width: 600px;
     margin: auto;
+    position: relative;
 }
 
 .close {
@@ -221,7 +222,7 @@ input[type="text"] {
 }
 
 #reviewContents {
-    width: calc(100% - 20px);
+    width: calc(100%);
     height: 150px;
     padding: 10px;
     box-sizing: border-box;
@@ -1154,4 +1155,32 @@ div register_img{
 
 .gFaYhg{
     margin-left: 10px;
+}
+
+.commentBtn, .cancelBtn{
+    font-size: 14px;
+    background-color: #ee8703;
+    color: #fff;
+    width: 50px;
+    height: 30px;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 12px;
+}
+
+.comment-text-box{
+    margin-bottom: 34px;
+}
+
+#comment-modBtn{
+    right: 80px;
+}
+
+#cancelBtn{
+    right: 20px;
+}
+
+.h-modify-btn{
+    background-color: #ee8703;
+    color:#fff;
 }
