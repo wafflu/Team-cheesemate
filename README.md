@@ -19,47 +19,11 @@
 
 
 <div align="center">
-  <table>
-    <tr>
-      <th>이제현</th>
-      <th>김경식</th>
-      <th>안정훈</th>
-      <th>고민정</th>
-      <th>황정하</th>
-      <th>안재헌</th>
-      <th>진정훈</th>
-    </tr>
-    <tr>
-      <td>
-        <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/26c4d5ba-616e-41f8-ac82-4d5ba59c774a" width="120" height="120" alt="이제현"><br/>
-        <a href="https://github.com/yeon1615">@yeon1615</a>
-      </td>
-      <td>
-        <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/b8ef4344-209e-43f9-a76e-2fc7df38077f" width="120" height="120" alt="김경식"><br/>
-        <a href="https://github.com/Cheorizzang">@Cheorizzang</a>
-      </td>
-      <td>
-        <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/df6fb7a0-f6db-4bc4-8e70-78002375b89d" width="120" height="120" alt="안정훈"><br/>
-        <a href="https://github.com/heejiyang">@heejiyang</a>
-      </td>
-      <td>
-        <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/5745a55d-97e2-4a99-a07d-1d132f28b211" width="120" height="120" alt="고민정"><br/>
-        <a href="https://github.com/journey-ji">@journey-ji</a>
-      </td>
-      <td>
-        <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/cd3f9aec-0b7a-4028-9409-251f0b090479" width="120" height="120" alt="황정하"><br/>
-        <a href="https://github.com/journey-ji">@journey-ji</a>
-      </td>
-      <td>
-        <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/c55b5869-efbb-4233-bd98-0600df02d4c2" width="120" height="120" alt="안재헌"><br/>
-        <a href="https://github.com/journey-ji">@journey-ji</a>
-      </td>
-      <td>
-        <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/1cdccb8a-12ab-454a-82e9-4c90f37617b5" width="120" height="120" alt="진정훈"><br/>
-        <a href="https://github.com/journey-ji">@journey-ji</a>
-      </td>
-    </tr>
-  </table>
+
+| **이제현** | **김경식** | **안정훈** | **고민정** | **황정하** | **안재헌** | **진정훈** |
+| :------: |  :------: | :------: | :------: | :------: | :------: | :------: |
+| [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/26c4d5ba-616e-41f8-ac82-4d5ba59c774a" height=80 width=80> <br/> @yeon1615](https://github.com/yeon1615) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/b8ef4344-209e-43f9-a76e-2fc7df38077f" height=80 width=80> <br/> @Cheorizzang](https://github.com/Cheorizzang) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/df6fb7a0-f6db-4bc4-8e70-78002375b89d" height=80 width=80> <br/> @heejiyang](https://github.com/heejiyang) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/5745a55d-97e2-4a99-a07d-1d132f28b211" height=80 width=80> <br/> @journey-ji](https://github.com/journey-ji) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/cd3f9aec-0b7a-4028-9409-251f0b090479" height=80 width=80> <br/> @journey-ji](https://github.com/journey-ji) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/c55b5869-efbb-4233-bd98-0600df02d4c2" height=80 width=80> <br/> @journey-ji](https://github.com/journey-ji) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/1cdccb8a-12ab-454a-82e9-4c90f37617b5" height=80 width=80> <br/> @journey-ji](https://github.com/journey-ji) |
+
 </div>
 
 <br>
