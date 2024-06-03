@@ -17,11 +17,12 @@
 
 ## 팀원 구성
 
+
 <div align="center">
 
 | **이제현** | **김경식** | **안정훈** | **고민정** | **황정하** | **안재헌** | **진정훈** |
-| :------: |  :------: | :------: | :------: | :------: | :------: | :------: |
-| [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/26c4d5ba-616e-41f8-ac82-4d5ba59c774a" height=120 width=120> <br/> @yeon1615](https://github.com/yeon1615) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/b8ef4344-209e-43f9-a76e-2fc7df38077f" height=120 width=120> <br/> @Cheorizzang](https://github.com/Cheorizzang) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/df6fb7a0-f6db-4bc4-8e70-78002375b89d" height=120 width=120> <br/> @heejiyang](https://github.com/heejiyang) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/5745a55d-97e2-4a99-a07d-1d132f28b211" height=120 width=120> <br/> @journey-ji](https://github.com/journey-ji) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/cd3f9aec-0b7a-4028-9409-251f0b090479" height=120 width=120> <br/> @journey-ji](https://github.com/journey-ji) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/c55b5869-efbb-4233-bd98-0600df02d4c2" height=120 width=120> <br/> @journey-ji](https://github.com/journey-ji) | [<img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/1cdccb8a-12ab-454a-82e9-4c90f37617b5" height=120 width=120> <br/> @journey-ji](https://github.com/journey-ji) |
+|:------:|:------:|:------:|:------:|:------:|:------:|:------:|
+| <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/26c4d5ba-616e-41f8-ac82-4d5ba59c774a" width="120" height="120"><br/>[@yeon1615](https://github.com/yeon1615) | <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/b8ef4344-209e-43f9-a76e-2fc7df38077f" width="120" height="120"><br/>[@Cheorizzang](https://github.com/Cheorizzang) | <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/df6fb7a0-f6db-4bc4-8e70-78002375b89d" width="120" height="120"><br/>[@heejiyang](https://github.com/heejiyang) | <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/5745a55d-97e2-4a99-a07d-1d132f28b211" width="120" height="120"><br/>[@journey-ji](https://github.com/journey-ji) | <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/cd3f9aec-0b7a-4028-9409-251f0b090479" width="120" height="120"><br/>[@journey-ji](https://github.com/journey-ji) | <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/c55b5869-efbb-4233-bd98-0600df02d4c2" width="120" height="120"><br/>[@journey-ji](https://github.com/journey-ji) | <img src="https://github.com/wafflu/Team-cheesemate/assets/25775671/1cdccb8a-12ab-454a-82e9-4c90f37617b5" width="120" height="120"><br/>[@journey-ji](https://github.com/journey-ji) |
 
 </div>
 
@@ -32,7 +33,7 @@
 - Front : HTML5/css, JavaScript, Jquery, JSP
 - Back-end : SpringFrame Work, My-sql, Mybatis, Tomcat9
 - 버전 및 이슈관리 : Github, Github Issues, Github Project
-- 협업 툴 : Notion, IntelliJ
+- 협업 툴 : Notion, IntelliJ IDEA
 
 - 아이콘 및 기본폰트 : [Google Font] (https://fonts.google.com/icons?subset=korean&noto.script=Kore)
 - [커밋 컨벤션](https://github.com/likelion-project-README/README/wiki/%EC%BB%A4%EB%B0%8B-%EC%BB%A8%EB%B2%A4%EC%85%98)
