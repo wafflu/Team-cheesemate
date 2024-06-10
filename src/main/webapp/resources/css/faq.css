@@ -2,18 +2,17 @@
     max-width: 1200px;
     /*align-items: center;*/
     /*justify-content: center;*/
+    display: flex;
     text-align: center;
 }
 .cs-center {
     font-size: 26px;
-    margin-top: 55px;
-    margin-left: 20px;
-    margin-bottom: 20px;
+    margin: 55px auto 20px;
 }
 .faq-container {
     flex-direction: column;
     align-items: center;
-    max-width: 1200px;
+    width: 1200px;
     margin: 0 auto;
 }
 .divider {
@@ -110,7 +109,7 @@
 .faq-category-container {
     margin-bottom: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 .faq-search-container {

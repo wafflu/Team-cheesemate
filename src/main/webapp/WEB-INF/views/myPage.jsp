@@ -10,10 +10,11 @@
 <link rel="stylesheet" href="/css/myPage.css">
 <div class="mypage-box">
 	<div class="mypageinfobox">
-		<div class="info">
+		<div class="mypageinfosubbox">
 			<div class="info-container">
 				<div id="profileimg">
 					<div class="backimg"></div>
+					<div class="backimg2"></div>
 					<div class="form_section_content">
 						<label for="profile" class="btn-upload"></label>
 						<input type="file" id="profile" name='uploadFile'>
@@ -23,20 +24,20 @@
 						<div class="mystar">
 							<div class="mystarnic"><span class="usernick">${userInfoDTO.nick}</span></div>
 							<div class="star">
-							 <span class="averageStarRating">
-									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
-										<span class="mtfill-star">★</span>
-									</c:forEach>
-								 <!-- 빈 별표(☆) 표시 -->
-									<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
-										<span class="myempty-star">☆</span>
-									</c:forEach>
-							 </span>
+                      <span class="averageStarRating2">
+                           <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
+							   <span class="mtfill-star">★</span>
+						   </c:forEach>
+						  <!-- 빈 별표(☆) 표시 -->
+                           <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
+							   <span class="myempty-star">☆</span>
+						   </c:forEach>
+                      </span>
 							</div>
 						</div>
 					</div>
 					<c:if test="${userInfoDTO.ur_id eq loginId}">
-					<button type="button" class="myshop-btn">내 상점 관리</button>
+						<button type="button" class="myshop-btn">내 상점 관리</button>
 					</c:if>
 				</div>
 				<div class="container">
@@ -64,16 +65,16 @@
 							</div>
 						</div>
 						<div class="fZjeFM">
-							<span class="material-symbols-outlined" style="color: #789DE5">
-							accessibility_new
-							</span>
+                     <span class="material-symbols-outlined" style="color: #789DE5">
+                     accessibility_new
+                     </span>
 							상점방문수
 							<div class="dNeqzX">${userInfoDTO.view_cnt}</div>
 						</div>
 						<div class="fZjeFM">
-							<span class="material-symbols-outlined" style="color: #78A75A">
-							shopping_bag
-							</span>
+                     <span class="material-symbols-outlined" style="color: #78A75A">
+                     shopping_bag
+                     </span>
 							상품판매
 							<div class="dNeqzX">${userInfoDTO.complete_cnt} 회</div>
 						</div>
@@ -105,12 +106,12 @@
 			</a>
 			<a class="subTab-link jqkJIn" data-target="reviewBox" onclick="showBox(event, 'reviewBox')">
 				상점후기
-				<span class="iCtbOc">${userInfoDTO.rv_cmt_cnt}</span>
+				<span class="iCtbOc" id="rv_cmt_cnt">${userInfoDTO.rv_cmt_cnt}</span>
 			</a>
 			<c:if test="${userInfoDTO.ur_id eq loginId}">
-				<a class="subTab-link jqkJIn" data-target="wishList" onclick="showBox(event, 'wishList')">
+				<a id="wish" class="subTab-link jqkJIn" data-target="wishList" onclick="showBox(event, 'wishList')">
 					찜
-					<span class="iCtbOc">${jjimCnt}</span>
+					<span class="iCtbOc" id="jjimCnt">${jjimCnt}</span>
 				</a>
 			</c:if>
 		</div>
@@ -121,22 +122,22 @@
 		<div class="ejYulE">
 			<div>
 				상점후기
-				<span class="eERcxq">${userInfoDTO.rv_cmt_cnt}</span>
+				<span class="eERcxq" id="rv_cmt_cnt2">${userInfoDTO.rv_cmt_cnt}</span>
 			</div>
 			<div class="reviewStar">
 				<div class="reviewStar-main">
 					<div class="fWtYmf">
-						<div class="fGpXKG">${userInfoDTO.star_avg}</div>
+						<div class="fGpXKG" id="star_avg">${userInfoDTO.star_avg}</div>
 						<div class="star">
-							 <span class="averageStarRating">
-									<c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
-										<span class="filled-star">★</span>
-									</c:forEach>
-								 <!-- 빈 별표(☆) 표시 -->
-									<c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
-										<span class="empty-star">☆</span>
-									</c:forEach>
-							 </span>
+                      <span class="averageStarRating">
+                           <c:forEach begin="1" end="${userInfoDTO.star_avg}" var="i">
+							   <span class="filled-star">★</span>
+						   </c:forEach>
+						  <!-- 빈 별표(☆) 표시 -->
+                           <c:forEach begin="${userInfoDTO.star_avg + 1}" end="5" var="i">
+							   <span class="empty-star">☆</span>
+						   </c:forEach>
+                      </span>
 						</div>
 					</div>
 					<div class="qEvCW"></div>
@@ -155,10 +156,17 @@
 <div class="saleList" id="saleList">
 	<div class="saleList-main">
 		<div class="saleList-main-box">
-			<div>
+			<div class="my-sale-cnt">
 				상품
 				<span class="cefQuP">${saleCnt}</span>
+
+				<div class="gFaYhg">
+					<c:if test="${userInfoDTO.ur_id eq loginId}">
+						<button class="hZjTaB" type="button" id="myHistoryButton">나의 내역보기</button>
+					</c:if>
+				</div>
 			</div>
+
 			<div class="gnpSLd1">
 				<a class="jVzTFl active" onclick="updateOption('R', this)">최신순</a>
 				<a class="kFYwqy" onclick="updateOption('P', this)">인기순</a>
@@ -167,11 +175,6 @@
 			</div>
 		</div>
 		<div class="kFaLlW">
-			<div class="gFaYhg">
-				<c:if test="${userInfoDTO.ur_id eq loginId}">
-					<button class="hZjTaB" type="button" id="myHistoryButton">나의 내역보기</button>
-				</c:if>
-			</div>
 			<div class="hdZbBo">
 				<div class="saleListBox"></div>
 				<div id="pageContainer"></div>
@@ -185,7 +188,7 @@
 		<div class="wishList-main-box">
 			<div>
 				찜
-				<span class="cefQuP">${jjimCnt}</span>
+				<span class="cefQuP" id="jjimCnt2">${jjimCnt}</span>
 			</div>
 			<div class="gnpSLd2">
 				<a class="jVzTFl active" onclick="updateFavoriteOption('R', this)">최신순</a>
@@ -228,7 +231,7 @@
 					<input type="radio" name="reviewStar" value="1" id="rate5"><label for="rate5">★</label>
 				</div>
 			</fieldset>
-			<div>
+			<div class="comment-text-box">
 				<textarea type="text" id="reviewContents" name="comment" placeholder="리뷰를 남겨주세요!!"></textarea>
 			</div>
 			<button class="commentBtn" id="" type="button"></button>
@@ -236,6 +239,7 @@
 		</form>
 	</div>
 </div>
+<script src="/js/jjim.js"></script>
 <script>
 	// 선택된 sale.no 값을 저장할 배열
 	let selectedSales = [];
@@ -550,12 +554,20 @@
 	}
 
 	// 소개글 수정
+	// 소개글 수정
 	let toChange = function (userInfoDTO) {
 		let newValue = userInfoDTO.contents;
 		$("textarea[name=contents]").val(newValue);
 		// rv_cmt_cnt와 star_avg 값을 가져와서 HTML 요소에 넣어줌
 		$("#rv_cmt_cnt").text(userInfoDTO.rv_cmt_cnt);
+		$("#rv_cmt_cnt2").text(userInfoDTO.rv_cmt_cnt);
 		$("#star_avg").text(userInfoDTO.star_avg);
+
+		// floorPercentage 값 계산
+		let percentage = userInfoDTO.star_avg * 20;
+		let floorPercentage = Math.floor(percentage);
+
+		$(".hSIAij").text(floorPercentage + "%"); // 만족후기 값을 동적으로 업데이트
 
 		// begin과 end 값 변수로 선언
 		let beginValue = 1;
@@ -569,19 +581,33 @@
 
 		// 빈 별표(☆) 표시하는 HTML 생성
 		let emptyStarHtml = '';
-		for (let i = endValue; i <5; i++) {
+		for (let i = endValue; i < 5; i++) {
 			emptyStarHtml += '<span class="empty-star">☆</span>';
 		}
 
 		// HTML을 동적으로 삽입
-		let averageStarRatingSpan = document.getElementById('averageStarRating');
-		$(".averageStarRating").text = '<span>' + starHtml + '</span><span>' + emptyStarHtml + '</span>';
+		$(".averageStarRating").html(starHtml + emptyStarHtml);
+
+		// 별표(★) 표시하는 HTML 생성 (다른 스타일)
+		let starHtml2 = '';
+		for (let i = beginValue; i <= endValue; i++) {
+			starHtml2 += '<span class="mtfill-star">★</span>';
+		}
+
+		// 빈 별표(☆) 표시하는 HTML 생성 (다른 스타일)
+		let emptyStarHtml2 = '';
+		for (let i = endValue; i < 5; i++) {
+			emptyStarHtml2 += '<span class="myempty-star">☆</span>';
+		}
+
+		// HTML을 동적으로 삽입
+		$(".averageStarRating2").html(starHtml2 + emptyStarHtml2);
 
 		// text박스의 readonly 속성 읽어오기
-		let isReadonly =$("textarea[name=contents]").attr('readonly');
+		let isReadonly = $("textarea[name=contents]").attr('readonly');
 
 		// 수정버튼으로 바꿈 & text박스를 readonly로
-		if(isReadonly!='readonly') {
+		if (isReadonly !== 'readonly') {
 			$("#modBtn").html("소개글 수정");
 			$("textarea[name=contents]").attr('readonly', true);
 		}
@@ -622,10 +648,12 @@
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType: 'json',
 			success: function (data) {
+				let jjimCnt = data.jjimCnt;
 				let ph = data.ph;
 				let favoriteList = data.favoriteList;
 				let startOfToday = data.startOfToday;
 				$(".dNPRTr").html(updateFavoriteList(favoriteList, startOfToday, ph,option));
+				toChangeCnt(jjimCnt);
 			},
 			error: function (result) {
 				alert("화면 로딩 중 오류 발생");
@@ -633,6 +661,15 @@
 			} // 에러가 발생했을 때, 호출될 함수
 		}); // $.ajax()
 	}
+
+	function toChangeCnt(jjimCnt) {
+		// 첫 번째 요소를 업데이트
+		$("#jjimCnt").text(jjimCnt);
+
+		// 두 번째 요소를 업데이트
+		$("#jjimCnt2").text(jjimCnt);
+	}
+
 
 	// 업데이트된 updateFavoriteList 화면에 출력하는 함수
 	function updateFavoriteList(favoriteList, startOfToday, ph,option) {
@@ -728,29 +765,30 @@
 
 			// 이전 페이지 버튼
 			if (ph.prevPage) {
-				pageContainer.append('<button onclick="saleList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&lt;</button>');
+				pageContainer.append('<button onclick="favoriteList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&lt;</button>');
 			}
 
 			// 페이지 번호 버튼
 			for (let i = ph.beginPage; i <= ph.endPage; i++) {
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="saleList(' + i + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">' + i + '</button>');
+				pageContainer.append('<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="favoriteList(' + i + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">' + i + '</button>');
 			}
 
 			// 다음 페이지 버튼
 			if (ph.nextPage) {
 				pageContainer.append('<span class="page-space"></span>');
-				pageContainer.append('<button onclick="saleList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&gt;</button>');
+				pageContainer.append('<button onclick="favoriteList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\'); window.scrollTo(0, ' + scrollPosition + ');">&gt;</button>');
 			}
 
 			// 새로 생성한 페이지 컨테이너를 추가
 			$("#favoritepageContainer").html(pageContainer);
-		} else {
-			// 찜한 상품이 없는 경우
-			let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center');
-			pageContainer.append('<div>찜한 상품이 없습니다.</div>');
-			$("#favoritepageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
 		}
+		// else {
+		//    // 찜한 상품이 없는 경우
+		//    let pageContainer = $('<div>').attr('id', 'favoritepageContainer').css('text-align', 'center');
+		//    pageContainer.append('<div>찜한 상품이 없습니다.</div>');
+		//    $("#favoritepageContainer").html(pageContainer); // 새로 생성한 페이지 컨테이너를 추가
+		// }
 	}
 
 	// 개별 체크박스를 클릭했을 때, "전체 선택" 체크박스의 상태를 업데이트합니다.
@@ -813,9 +851,11 @@
 				selectedSales.forEach(function(no) {
 					$('.gegELw[data-no="' + no + '"]').closest('.cRKeje').remove();
 				});
-				favoriteList(); // 삭제 후 리스트를 새로고침
 				// 선택된 항목 배열 초기화
 				selectedSales = [];
+				// 전체 선택 체크박스의 gUnQrM 클래스 제거
+				$('#selectAll').removeClass('gUnQrM');
+				favoriteList(); // 삭제 후 리스트를 새로고침
 			},
 			error: function(error) {
 				// 요청이 실패했을 때 수행할 작업
@@ -828,7 +868,7 @@
 
 	window.saleList = function (page = 1, pageSize = 20,title='null',sal_s_cd='null',option='R') {
 		$.ajax({
-			type: 'GET',       // 요청 메서드
+			type: 'POST',       // 요청 메서드
 			url: "/sale/managePage?page=" + page + "&pageSize=" + pageSize +  "&title=" + title+ "&sal_s_cd=" + sal_s_cd + "&option=" + option,  // 요청 URI
 			headers: {"content-type": "application/json"}, // 요청 헤더
 			dataType: 'json',
@@ -954,6 +994,15 @@
 		// 모달 창 닫기 버튼 클릭 시 모달 창 닫기
 		closeBtn.onclick = closeModal;
 
+		if(getCookie("JJIM")){
+			$(".subTab-link").removeClass('active');
+			$(".subTab-link").eq(2).addClass('active');
+			deleteCookie("JJIM")
+			document.getElementById("reviewBox").style.display = 'none';
+			document.getElementById("saleList").style.display = 'none';
+			document.getElementById("wishList").style.display = 'block';
+		}
+
 		let myHistoryButton = document.getElementById("myHistoryButton");
 
 		// myHistoryButton이 존재하는지 확인
@@ -974,13 +1023,13 @@
 		// let button = document.querySelector('.myshop-btn');
 		//
 		// if (button) {
-		// 	button.addEventListener("click", function() {
-		// 		window.location.href = '/sale/managePage';
-		// 	});
+		//    button.addEventListener("click", function() {
+		//       window.location.href = '/sale/managePage';
+		//    });
 		// }
 
 		$(document).on("click", ".myshop-btn", function (){
-			window.location.href = '/sale/managePage?title=null&sal_s_cd=null&option=null';
+			window.location.href = '/sale/manage';
 		})
 
 
@@ -1087,6 +1136,7 @@
 			let isReadonly =$("textarea[name=contents]").attr('readonly');
 
 			if(isReadonly=='readonly') {
+				$("#modBtn").addClass("h-modify-btn");
 				$("#modBtn").html("소개글 등록");
 				$("textarea").attr('readonly', false);
 				return;
@@ -1106,7 +1156,6 @@
 				} // 에러가 발생했을 때, 호출될 함수
 			}); // $.ajax()
 		});
-
 
 
 		let userprofile = "${userInfoDTO.img_full_rt}";

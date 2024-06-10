@@ -180,6 +180,8 @@
     <update id="updateSaleSCd" parameterType="map">
         UPDATE sale
         SET sal_s_cd  = #{sal_s_cd},
+            buyer_id  = null,
+            buyer_nick  = null,
             last_id   = #{seller_id},
             last_date = now()
         WHERE

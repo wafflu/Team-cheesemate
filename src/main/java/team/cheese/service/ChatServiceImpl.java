@@ -96,4 +96,26 @@ public class ChatServiceImpl implements ChatService {
         return msglist;
     }
 
+    @Override
+    public ArrayList<UserInfoDTO> loadChatlist(Long saleno) throws Exception {
+        ArrayList<ChatRoomDto> chatlist = (ArrayList<ChatRoomDto>) chatDao.select(saleno);
+
+        //반복문을 통해서 유저의 이미지를 가져와야함(유저가 프로필 업데이트 하면 바뀐거 가져와야해서)
+        Iterator it = chatlist.iterator();
+
+        ArrayList<UserInfoDTO> userlist = new ArrayList<>();
+
+        if(chatlist.size() == 0){
+            return userlist;
+        }
+
+        while (it.hasNext()){
+            ChatRoomDto crto = (ChatRoomDto) it.next();
+            UserInfoDTO udto = userInfoService.read(crto.getBuyer_id());
+            userlist.add(udto);
+        }
+
+        return userlist;
+    }
+
 }

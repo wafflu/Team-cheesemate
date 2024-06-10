@@ -1,7 +1,7 @@
 .totalBox {
     height: fit-content;
     position: relative;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
 }
 
 .center-content {
@@ -17,7 +17,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 12.5px;
 }
 
 .smallBox {
@@ -80,7 +80,7 @@
 
 .saleBtn {
     padding: 5px 20px;
-    background-color: rgba(245, 157, 28, 1);
+    background-color: #ee8703;
     color: white;
     border: none;
     border-radius: 5px;
@@ -88,15 +88,23 @@
 }
 
 #addr_cd {
-    display: block;
-    width: 340px;
-    height: 20px;
+    /*display: block;*/
+    width: 200px;
+    height: 28px;
     text-align: center;
+    margin-right: 5px;
+    outline: none;
+}
+
+#addr_cd>option {
+    background: black;
+    color: #fff;
+    padding: 3px 0;
 }
 
 .style-sel-category{
     width: 100px;
-    height: 20px;
+    height: 28px;
     box-sizing: border-box;
     display: inline-block;
     position: relative;

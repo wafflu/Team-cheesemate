@@ -18,9 +18,8 @@
 				<span class="bun-ui-tab-label">구매내역</span>
 			</button>
 		</div>
-		<hr class="bun-ui-divider">
 		<section class="purchase-info">
-			<div>
+			<div class="bun-ui-tab-list">
 				<button class="bun-ui-tab bun-ui-tab-selected" id="A" data-label-seller="전체" data-label-buyer="전체">
 					<span class="bun-ui-tab-label">전체</span>
 				</button>
@@ -30,8 +29,8 @@
 				<button class="bun-ui-tab" id="S" data-label-seller="판매중" data-label-buyer="구매중">
 					<span class="bun-ui-tab-label">판매중</span>
 				</button>
-				<button class="bun-ui-tab" id="C" data-label-seller="거래완료" data-label-buyer="구매완료">
-					<span class="bun-ui-tab-label">거래완료</span>
+				<button class="bun-ui-tab" id="C" data-label-seller="판매완료" data-label-buyer="구매완료">
+					<span class="bun-ui-tab-label">판매완료</span>
 				</button>
 			</div>
 			<div class="sc-57cf470b-1 fFtTgD">
@@ -50,8 +49,10 @@
 				</button>
 			</div>
 		</section>
-		<section id="historyList">
-		</section>
+		<section id="historyList"></section>
+
+		<div class="pageContainer"></div>
+
 		<div id="myModal" class="modal" style="display: none;">
 			<div class="modal-content">
 				<!-- 후기글 작성 폼 -->
@@ -151,7 +152,7 @@
 	}
 
 	// 내역 목록 보여주기
-	let showList = function (page = 1, pageSize = 5, option = 'seller', sal_s_cd = '',keyword= '') {
+	let showList = function (page = 1, pageSize = 10, option = 'seller', sal_s_cd = '',keyword= '') {
 		$.ajax({
 			type: 'POST',       // 요청 메서드
 			url: "/myPage/saleHistorys",  // 요청 URI
@@ -170,6 +171,15 @@
 				let list = result.list;
 				let ph = result.ph;
 				$("#historyList").html(toHtml(list, ph,option,sal_s_cd,keyword));
+				let mainContainerH = $(".mainContainer").outerHeight();
+				// console.log(mainContainerH)
+				if(mainContainerH >= 1000){
+					mainContainerH = $(".mainContainer").outerHeight()+200;
+				} else {
+					mainContainerH = $(".mainContainer").outerHeight()+50;
+				}
+				$('.saleinfo-box').css('height', mainContainerH + 'px');
+				// console.log(mainContainerH)
 			},
 			error: function (result) {
 				alert(result.responseText);
@@ -194,7 +204,7 @@
 					if (option === 'buyer') {
 						saleStatusText = '구매완료';
 					} else {
-						saleStatusText = '거래완료';
+						saleStatusText = '판매완료';
 					}
 					break;
 				default:
@@ -222,22 +232,47 @@
 			// section 부분 생성
 			tmp += '<section>';
 			tmp += '<section class="content-section" style="display: flex; position: relative;">';  // Flexbox 적용 및 position 설정
-			tmp += "<a href='/sale/read?no=" + item.no + "' style='flex-shrink: 0; margin-right: 10px;'>" + "<img class='imgClass' src='/img/display?fileName=" + item.img_full_rt + "' style='width: 150px; height: auto;'/>" + "</a>";  // 이미지 크기 조정
+			tmp += "<a href='/sale/read?no=" + item.no + "' class='imgboxlink'>"
+			tmp += "<img class='imgClass' src='/img/display?fileName=" + item.img_full_rt + "' style='width: 150px; height: auto;'/>";  // 이미지 크기 조정
+			if(saleStatusText !== "판매중"){
+				tmp += "<div class='saleStatus-box'>";
+				tmp += "<span class='saleStatusText'>" + saleStatusText + "</span>";
+				tmp += "</div>";
+			}
+			tmp += '</a>';
 			tmp += '<section class="text-section">';
 			if (option === 'seller') {
-				tmp += '<p>' + saleStatusText + '</p>';
+				tmp += '<p class="mp-saleStatusText">' + saleStatusText + '</p>';
 			} else {
-				tmp += '<p>' + saleStatusText + '</p>';
+				tmp += '<p class="mp-saleStatusText">' + saleStatusText + '</p>';
 			}
-			tmp += '<p>판매글번호 : ' + item.no + '</p>';
+			if(item.tx_s_cd === 'F'){
+				tmp += '<p class="mp-tx_s_cd">[나눔]</p>';
+			}
+			tmp += '<p class="mp-saleTitle">제목: ' + saleTitle + '</p>';
 			if ((option === 'seller' && item.sal_s_cd == 'R') || (option === 'seller' && item.sal_s_cd == 'C')) {
-				tmp += '<p>구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
-			} else if (option === 'buyer') {
-				tmp += '<p>판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_nick + '</a></p>';
+				// item.buyer_id가 null이 아닌 경우에만 태그 추가
+				if (item.buyer_id !== null) {
+					tmp += '<p class="mp-buyer_id">구매자: <a href="#" class="seller-link" data-seller-id="' + item.buyer_id + '">' + item.buyer_nick + '</a></p>';
+				}
 			}
-			tmp += '<p>가격: ' + item.price + '</p>';
-			tmp += '<p>제목: ' + saleTitle + '</p>';
-			tmp += '<p>판매(S)/나눔(F) : ' + item.tx_s_cd + ' / 거래방법: ' + item.trade_s_cd_1 + '</p>';
+			else if (option === 'buyer') {
+				tmp += '<p class="mp-seller-link">판매자: <a href="#" class="seller-link" data-seller-id="' + item.seller_id + '">' + item.seller_nick + '</a></p>';
+			}
+			let salePrice = item.price;
+			tmp += '<p class="mp-price">가격: ' + comma(salePrice) + '원</p>';
+
+
+			let trade = "";
+			if(item.trade_s_cd_1 === "O"){
+				trade = "온라인";
+			} else if(item.trade_s_cd_1 === "F" || item.trade_s_cd_2 === "F" ) {
+				trade = "직거래";
+			} else if(item.trade_s_cd_1 === "D" || item.trade_s_cd_2 === "F" ) {
+				trade = "택배거래";
+
+			}
+			tmp += '<p class="mp-trade">거래방법: ' + trade + '</p>';
 			tmp += '</section>';
 
 			// footer 부분 생성
@@ -255,32 +290,33 @@
 
 			tmp += '</article>';
 		});
+		let str = "";
 		// 페이지 링크 추가
 		if (ph) {
-			tmp += '<div class="pageContainer" style="text-align:center">';
 			if (ph.totalCnt == null || ph.totalCnt == 0) {
-				tmp += '<div>내역이 없습니다.</div>';
+				str += '<div class="nopage">내역이 없습니다.</div>';
 			}
 			if (ph.totalCnt != null && ph.totalCnt != 0) {
 				if (ph.prevPage) {
-					tmp += '<button onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&lt;</button>';
+					str += '<button onclick="showList(' + (ph.beginPage - 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&lt;</button>';
 				}
 				for (let i = ph.beginPage; i <= ph.endPage; i++) {
 					// 페이지 번호 사이에 공백 추가
-					tmp += '<span class="page-space"></span>';
-					tmp += '<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="showList(' + i + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">' + i + '</button>';
+					str += '<span class="page-space"></span>';
+					str += '<button class="page ' + (i == ph.page ? "paging-active" : "") + '" onclick="showList(' + i + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">' + i + '</button>';
 				}
 				if (ph.nextPage) {
-					tmp += '<span class="page-space"></span>';
-					tmp += '<button onclick="showList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&gt;</button>';
+					str += '<span class="page-space"></span>';
+					str += '<button onclick="showList(' + (ph.endPage + 1) + ', ' + ph.pageSize + ', \'' + option + '\', \'' + sal_s_cd + '\', \'' + keyword + '\'); window.scrollTo(0, 0);">&gt;</button>';
 				}
 			}
-			tmp += '</div>';
+			$(".pageContainer").html(str);
 		}
 		return tmp;
 	}
 
 	$(document).ready(function(){
+
 		showList();
 		let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
 		updateButtonLabels(option);
@@ -303,7 +339,7 @@
 
 			// 내역 목록 업데이트
 			let option = $(this).attr('id');
-			showList(1, 5, option);
+			showList(1, 10, option);
 
 			// 버튼 레이블 업데이트
 			updateButtonLabels(option);
@@ -323,13 +359,13 @@
 			updateButtonLabels(option);
 
 			if (id === 'R') {
-				showList(1, 5, option, 'R', searchValue);
+				showList(1, 10, option, 'R', searchValue);
 			} else if (id === 'S') {
-				showList(1, 5, option, 'S', searchValue);
+				showList(1, 10, option, 'S', searchValue);
 			} else if (id === 'C') {
-				showList(1, 5, option, 'C', searchValue);
+				showList(1, 10, option, 'C', searchValue);
 			} else {
-				showList(1, 5, option, '', searchValue);
+				showList(1, 10, option, '', searchValue);
 			}
 		});
 
@@ -368,9 +404,9 @@
 			let option = $('#seller').hasClass('bun-ui-tab-selected') ? 'seller' : 'buyer';
 			let sal_s_cd = $(".purchase-info .bun-ui-tab.bun-ui-tab-selected").attr('id');
 			if (sal_s_cd === 'A') {
-				showList(1, 5, option, '', searchValue);
+				showList(1, 10, option, '', searchValue);
 			} else {
-				showList(1, 5, option, sal_s_cd, searchValue);
+				showList(1, 10, option, sal_s_cd, searchValue);
 			}
 		});
 
@@ -454,6 +490,6 @@
 		});
 	});
 </script>
-
+<script src="/js/Etc.js"></script>
 <script src="/js/img.js"></script>
 <%@ include file="fixed/footer.jsp" %>

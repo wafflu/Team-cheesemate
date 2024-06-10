@@ -6,7 +6,7 @@
 <div class="topic-container maincontent">
     <div class="topic-slide-container">
 
-        <div id="commu_A" class="topic-slide active">전체</div>
+        <div id="commu_A" class="topic-slide topic-active">전체</div>
         <%--<h3 id="commu_H" class="topic-slide">인기글</h3>--%>
         <div id="commu_B" class="topic-slide">블라블라</div>
         <div id="commu_L" class="topic-slide">연애/썸</div>
@@ -67,9 +67,6 @@
                 },
                 dataType: "json",
                 success: function (result) {
-                    console.log(result.length);
-
-
                     if (!result.content || result.content.length === 0) { // 결과가 없을 경우
                         let e = "<div id='nonPost'>해당 게시판의 게시글이 없습니다.</div>"
                         console.log(e);
@@ -83,20 +80,18 @@
                             let time1 = item1.r_date;
                             let time2 = item2 ? item2.r_date : null;
 
-
-                            console.log("i1 : "+(item1!== undefined))
                             s += "<tr class='article-row'>";
                             s += "<td class='article-section'>";
                             // s += "<p class='article-no'>" + item1.no + "</p>";
                                 s+="<div class='article-imgPart'>";
-                                    if(item1.img_full_rt !== ""){
+                                    if(item1.img_full_rt !== null){
                                         s += "<p class='article-img'> <img src='/img/display?fileName="+ item1.img_full_rt +  "' alt='이미지'/></p>";
                                     }
                                 s+="</div>";
                                 s+="<div class='article-postPart'>";
                                     s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + truncateString(item1.title,8) + "</a></p>";
                                     s += "<div class = 'contents-wrapper'>";
-                                    s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + truncateString(item1.contents,50) + "</a></p>";
+                                    s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item1.no + "'>" + truncateString(item1.contents,30) + "</a></p>";
                                     s += "</div>";
 
                                     s += "<div class='article-etcPart'>";
@@ -123,7 +118,7 @@
                                 s += "<td class='article-section'>";
                                 // s += "<p class='article-no'>" + item2.no + "</p>";
                                     s+="<div class='article-imgPart'>";
-                                    if(item2.img_full_rt !== ""){
+                                    if(item2.img_full_rt !== null){
                                         s += "<p class='article-img'> <img src='/img/display?fileName="+ item2.img_full_rt +  "' alt='이미지'/></p>";
                                     }
 
@@ -131,7 +126,7 @@
                                     s+="<div class='article-postPart'>";
                                         s += "<p class='article-title'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + truncateString(item2.title,8) + "</a></p>";
                                         s += "<div class = 'contents-wrapper'>";
-                                        s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + truncateString(item2.contents,50) + "</a></p>";
+                                        s += "<p class='article-contents'><a href='" + contextPath + "/community/read?no=" + item2.no + "'>" + truncateString(item2.contents,30) + "</a></p>";
                                         s += "</div>";
 
                                         s += "<div class='article-etcPart'>";
@@ -233,10 +228,10 @@
 
         $(document).on('click', '.topic-slide', function () {
             // Remove active class from all topic-slide elements
-            $('.topic-slide').removeClass('active');
+            $('.topic-slide').removeClass('topic-active');
 
             // Add active class to the clicked topic-slide element
-            $(this).addClass('active');
+            $(this).addClass('topic-active');
 
             // Get the category from the clicked element
             const category = $(this).attr('id') || 'commu_A';

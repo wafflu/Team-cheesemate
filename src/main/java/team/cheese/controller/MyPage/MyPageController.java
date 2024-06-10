@@ -165,16 +165,21 @@ public class MyPageController {
            option = null;
        }
 
+       // 페이징 객체 생성
        int totalCnt =  jjimService.countLikes(session.getAttribute("userId").toString(),option);
        PageHandler ph = new PageHandler(totalCnt, page, pageSize);
+       // 찜한 상품 불러오기
        List<SaleDto> list = jjimService.selectAllLike(session.getAttribute("userId").toString(),page,pageSize,option);
-
+       // 찜한 갯수 불러오기
+       int jjimCnt = jjimService.countAll(session.getAttribute("userId").toString());
        Map response = new HashMap();
        long startOfToday = getStartOfToday();
 
+       // map에 담아서 전달
        response.put("ph", ph);
        response.put("favoriteList", list);
        response.put("startOfToday", startOfToday);
+       response.put("jjimCnt",jjimCnt);
 
        return new ResponseEntity<>(response, HttpStatus.OK);
    }

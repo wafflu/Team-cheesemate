@@ -80,4 +80,10 @@ public class HomeController {
         List<AddrCdDto> userAddrCdDtoList = addrCdService.getAddrCdByUserId(loginUserDto.getId());
         session.setAttribute("userAddrCdDtoList", userAddrCdDtoList); // -> 세션에 유저 주소 저장
     }
+
+    //기타페이지용도 여기다가 둠
+    @GetMapping("/fraud")
+    public String frqud() {
+        return "/Fraud/Fraud";
+    }
 }

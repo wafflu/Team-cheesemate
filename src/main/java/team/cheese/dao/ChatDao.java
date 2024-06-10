@@ -16,4 +16,6 @@ public interface ChatDao {
     List<ChatMessageDto> select(int no);
 
     ChatRoomDto select(SaleDto sdto);
+
+    List<ChatRoomDto> select(long saleno);
 }

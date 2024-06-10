@@ -130,6 +130,14 @@
     display: flex;
     justify-content: space-between;
 }
+.jjim-btn {
+    width: 50px;
+    padding-top: 1px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 7px;
+    background-color: #ee8703;
+}
 
 #saleboard-jjimbtn{
     margin-top: 8px;
@@ -137,6 +145,7 @@
     height: 32px;
     background-repeat: no-repeat;
     background-size: 32px;
+    position: relative;
 }
 
 #saleboard-charbtn{
@@ -217,6 +226,7 @@
     width: 100%;
     height: 80px;
     padding: 20px 0;
+    cursor: pointer;
 }
 
 .seller_nick{
@@ -236,12 +246,15 @@
     transform: translateY(-50%);
     width: 68px;
     height: 68px;
+    border: 1px solid #000;
+    border-radius: 100%;
 }
 
 #userprofile{
     width: 68px;
     height: 68px;
     border-radius: 100%;
+    object-fit: cover;
 }
 
 #userinfo-score-box{
@@ -328,4 +341,130 @@
     font-size: 28px;
     color: #141313;
     font-weight: 600;
+}
+
+.like_cnt{
+    font-size: 19px;
+    position: absolute;
+    top: 40%;
+    right: -48%;
+    transform: translateY(-50%);
+    color: #fff;
+}
+
+.sale-state-box{
+    position: relative;
+    z-index: 3;
+}
+
+.saleStatus-box{
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background-color: #00000050;
+}
+
+.saleStatusText{
+    display: grid;
+    place-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    z-index: 1;
+    color: white;
+    border: 4px solid #fff;
+    border-radius: 100%;
+    text-align: center;
+    /* line-height: 100px; */
+    font-size: 30px;
+}
+
+.slick-slide{
+    position: relative;
+}
+
+.salecomple-msg{
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 50px;
+    background-color: #ee8703;
+    color: #fff;
+}
+
+.jjim-popup{
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.jjimimg-box{
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.p-j-title{
+    font-size: 24px;
+    color:#131414;
+    text-align: center;
+    font-weight: 500;
+}
+
+.p-j-content{
+    font-size: 16px;
+    color:#c5c5c5;
+    text-align: center;
+    font-weight: 400;
+    padding-top: 10px;
+}
+
+.jjim-box{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.j-p-dayclose{
+    width: 100%;
+    height: 30px;
+    background-color: #f9f9f9;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+}
+
+.j-p-close{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+
+.j-p-jjim{
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 30px;
+    margin: 0 auto;
+    background-color: #ee8703;
+    border-radius: 5px;
+    color:#fff;
 }

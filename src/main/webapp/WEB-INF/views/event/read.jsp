@@ -47,7 +47,13 @@
 <main>
     <h3 class="eventTitle">제목 : ${dto.title}</h3>
     <p class="eventContents">내용 : ${dto.contents}</p>
-    <img src="/img/display?fileName=${dto.img_full_rt}" alt="이벤트 이미지" class="read_eventimg">
+    <c:if test="${dto.group_no == 42}">
+        <img src="/img/display?fileName=event/event.png" alt="이벤트 이미지" class="read_eventimg">
+    </c:if>
+    <c:if test="${dto.group_no != 42}">
+        <img src="/img/display?fileName=${dto.img_full_rt}" alt="이벤트 이미지" class="read_eventimg">
+    </c:if>
+
     <h5>날짜</h5>
     <p class="date"><fmt:formatDate value="${dto.s_date}" pattern="yyyy-MM-dd" /> ~ <fmt:formatDate value="${dto.e_date}" pattern="yyyy-MM-dd" /></p>
     <h5>경품</h5>

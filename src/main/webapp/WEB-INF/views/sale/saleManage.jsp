@@ -4,13 +4,18 @@
 <link rel="stylesheet" href="/css/saleManage.css">
 <link rel="stylesheet" href="/css/mystyle.css">
 <div class="totalBox">
+<%--    <div class="btn-sel-box">--%>
+<%--        <a href="/sale/manage" class="sel-manage sel-manage-active">상품관리</a>--%>
+<%--        <a href="/myPage/saleInfo" class="sel-manage" target="_blank">구매/판매 내역</a>--%>
+<%--    </div>--%>
+    <div id="buyerlist-modal-box"></div>
     <div class="selectOptiondiv font14">
         <input class="searchbar" name="searchTitle" type="text" placeholder="상품명을 입력해주세요." value="">
         <div class="selectOptionTx">
             <div class="optionTx selected" data-selected="true">전체</div>
             <div class="optionTx" data-selected="false">판매중</div>
             <div class="optionTx" data-selected="false">예약중</div>
-            <div class="optionTx" data-selected="false">거래완료</div>
+            <div class="optionTx" data-selected="false">판매완료</div>
         </div>
     </div>
     <table class="totalTable">
@@ -40,6 +45,7 @@
 
         let imgInfo = cssImage.getImgInfo();
         $(".searchbar").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
+
         window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = "R") {
             $.ajax({
                 type: 'GET',       // 요청 메서드
@@ -214,9 +220,6 @@
             let hoistCntClass = $(this).closest("tr").find("td[class*='hoist_cnt_']").attr("class").split(" ").find(c => c.startsWith("hoist_cnt_"));
             let hoist_cnt = hoistCntClass.replace("hoist_cnt_", "");
 
-            // 추출된 값을 알림창으로 출력
-            alert(sal_no + " " + hoist_cnt);
-
             // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
             if (confirm("끌어올리겠습니까? 끌어올리기 한도가 " + (max_hoist_cnt - hoist_cnt) + "번 남았습니다.")) {
                 // AJAX 요청을 사용하여 폼 데이터를 서버로 전송
@@ -264,7 +267,7 @@
         $(document).on("click", ".removeBtn", function() {
             // sal_no 값을 추출
             let sal_no = $(this).closest("tr").attr("class").split(" ").find(c => c.startsWith("sal_no_")).replace("sal_no_", "");
-            alert(sal_no);
+
             // 끌어올리기 확인 창을 표시하고 사용자의 응답을 처리
             if (confirm("삭제 하시겠습니까?")) {
                 // AJAX 요청을 사용하여 폼 데이터를 서버로 전송
@@ -287,6 +290,43 @@
             }
         });
 
+        $(document).on("click", ".buylist-close-btn", function(event) {
+            event.preventDefault();
+            $("#buyerlist-modal-box").children().remove();
+        });
+
+        $(document).on("click", ".choicebtn", function(event) {
+            event.preventDefault();
+
+            let selectedBuyers = [];
+            $("input[name='selectedBuyers']:checked").each(function() {
+                let buyerInfo = {
+                    buyer_id: $(this).val(),
+                    no: $(this).siblings(".buyer-id").val(),
+                    buyer_nick: $(this).siblings(".buyer-nick").val(),
+                    sal_s_cd: "C"
+                };
+                selectedBuyers.push(buyerInfo);
+            });
+
+            if (selectedBuyers.length > 0) {
+                $.ajax({
+                    type: "POST",
+                    url: "/sale/updateSalebuyer", // your endpoint to handle the selected buyers
+                    data: JSON.stringify({ selectedBuyers: selectedBuyers }),
+                    contentType: "application/json",
+                    success: function(response) {
+                        $("#buyerlist-modal-box").children().remove();
+                    },
+                    error: function(xhr, status, error) {
+                        alert("전송 실패: " + error);
+                    }
+                });
+            } else {
+                alert("한 명 이상의 구매자를 선택해주세요.");
+            }
+        });
+
 
         $(document).on("change", ".sal_s_cd", function() {
             let sal_s_cd = $(this).val();
@@ -297,8 +337,32 @@
                 type: "POST",
                 url: "/sale/updateSaleSCd",
                 data: {no: sal_no, sal_s_cd: sal_s_cd, seller_id: "${sessionScope.userId}"},
+                dataType: 'json',
                 success: function (data) {
                     alert("판매글 상태가 " + sal_s_name + "(으)로 변경되었습니다.");
+
+                    if(sal_s_name === "판매완료" && data.length !== 0){
+                        let str = "";
+                        str += '<div id="buyerlist-modal">';
+                        str += '<button class="buylist-close-btn"><span class="material-symbols-outlined" style="color:#333">close</span></button>';
+                        str += '<form id="buyerForm" class="buyerlist">';
+                        data.forEach(user => {
+                            str += `<div class="buyerlist-item">`
+                            str += '<img src="/img/display?fileName=' + user.img_full_rt + '" class="buyer-profile-img"/>';
+                            str += '<input type="hidden" name="no" class="buyer-id" value="' + sal_no + '">';
+                            str += '<input type="hidden" name="buyer_id" class="buyer-id" value="' + user.ur_id + '">';
+                            str += '<input type="hidden" name="buyer_nick" class="buyer-nick" value="' + user.nick + '">';
+                            str += '<p class="p-buyer-nick">' + user.nick + '</p>'
+                            str += '<input type="checkbox" name="selectedBuyers" class="buyer-checkbox" value="'+user.ur_id+'">'
+                            str += `</div>`
+                        });
+
+                        str += `<input type="button" class="choicebtn" value="구매자 등록"/>`;
+                        str += '</form>';
+                        str += '</div>';
+
+                        $("#buyerlist-modal-box").html(str);
+                    }
                     saleList(title, pre_sal_s_cd);
                 },
                 error: function (xhr, status, error) {
@@ -375,7 +439,7 @@
                 case '예약중':
                     sal_s_cd = 'R';
                     break;
-                case '거래완료':
+                case '판매완':
                     sal_s_cd = 'C';
                     break;
                 default:
@@ -388,7 +452,7 @@
             const options = {
                 'S': '판매중',
                 'R': '예약중',
-                'C': '거래완료'
+                'C': '판매완료'
             };
 
             let select = $('<select>').addClass('sal_s_cd');

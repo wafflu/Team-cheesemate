@@ -10,6 +10,8 @@ import team.cheese.domain.MyPage.JjimDTO;
 import team.cheese.domain.MyPage.SearchCondition;
 import team.cheese.dao.*;
 import team.cheese.dao.MyPage.UserInfoDao;
+import team.cheese.domain.MyPage.UserInfoDTO;
+import team.cheese.service.ChatService;
 import team.cheese.service.ImgService;
 import team.cheese.service.ImgServiceImpl;
 
@@ -41,6 +43,9 @@ public class SaleService {
     ImgService imgService;
     @Autowired
     JjimDao jjimDao;
+
+    @Autowired
+    ChatService chatService;
 
     // 전체 게시글 수 count
     public int getCount() throws Exception {
@@ -349,18 +354,22 @@ public class SaleService {
         return saleDao.selectSearchCount(sc);
     }
 
+    //이놈이 판매상태
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateSaleSCd(Long no, String sal_s_cd, String seller_id) throws Exception {
+    public ArrayList<UserInfoDTO> updateSaleSCd(Long no, String sal_s_cd, String seller_id) throws Exception {
         Map map = new HashMap();
         map.put("no", no);
         map.put("sal_s_cd", sal_s_cd);
         map.put("seller_id", seller_id);
 
-        int result = saleDao.updateSaleSCd(map);
+        saleDao.updateSaleSCd(map);
 
         if(sal_s_cd.equals("C")) {
             increamentCompleteCnt(seller_id);
         }
+        ArrayList<UserInfoDTO> list = chatService.loadChatlist(no);
+        return list;
+        //loadChatlist
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

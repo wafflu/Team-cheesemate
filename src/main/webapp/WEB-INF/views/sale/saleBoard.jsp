@@ -1,20 +1,30 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@include file="../fixed/header.jsp"%>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 <link rel="stylesheet" href="/css/saleBoard.css">
 <c:set var="userId" value="${sessionScope.userId != null ? sessionScope.userId : ''}" />
 <div class="maincontent saleboardarea">
+    <div class="jjim-area"></div>
     <div class="saleboard-top-box">
-
-
-        <div id="sale-slider-div" class="sale-img-box">
-            <c:forEach items="${imglist}" var="img">
-                <c:if test="${img.imgtype eq 'w'}">
-                    <div class="sale-img">
-                        <img src="/img/display?fileName=${img.img_full_rt}" class="saleboardimg">
-                    </div>
-                </c:if>
-            </c:forEach>
-        </div>
+            <div id="sale-slider-div" class="sale-img-box">
+                <c:forEach items="${imglist}" var="img">
+                    <c:if test="${img.imgtype eq 'w'}">
+                        <div class="sale-img">
+                            <c:if test="${Sale.sal_s_cd eq 'R'}">
+                                <div class='saleStatus-box'>
+                                    <span class='saleStatusText'>예약중</span>
+                                </div>
+                            </c:if>
+                            <c:if test="${Sale.sal_s_cd eq 'C'}">
+                                <div class='saleStatus-box'>
+                                    <span class='saleStatusText'>판매완료</span>
+                                </div>
+                            </c:if>
+                            <img src="/img/display?fileName=${img.img_full_rt}" class="saleboardimg">
+                        </div>
+                    </c:if>
+                </c:forEach>
+            </div>
 
         <div class="saleinfobox">
             <div class="categorybox">
@@ -62,7 +72,7 @@
                 <p>·</p>
                 <p>조회 : ${Sale.view_cnt}</p>
                 <p>·</p>
-                <p>찜 : ${Sale.like_cnt}</p>
+                찜 : <p id="jjimCnt">${Sale.like_cnt}</p>
             </div>
 
             <div id="tradeinfo-box">
@@ -162,9 +172,15 @@
                     <c:when test="${Sale.seller_id eq sessionScope.userId}">
                         <button type="button" id="saleboard-myshop">내 상점 관리</button>
                     </c:when>
+                    <c:when test="${Sale.sal_s_cd eq 'C'}">
+                        <p class="salecomple-msg">이미 거래 완료된 상품입니다.</p>
+                    </c:when>
                     <c:otherwise>
-                        <button type="button" id="saleboard-jjimbtn"></button>
+                        <div class="jjim-btn">
+                        <button type="button" id="saleboard-jjimbtn">
                         <p class="like_cnt" id="likeCount">${Sale.like_cnt}</p>
+                        </button>
+                        </div>
                         <form id="form">
                             <button type="button" id="saleboard-charbtn" class="btn-salestyle">채팅하기</button>
                         </form>
@@ -239,7 +255,7 @@
     </div>
 
 </div>
-
+<script src="/js/jjim.js"></script>
 <script>
     $(document).ready(function () {
         // 판매글 번호
@@ -269,7 +285,7 @@
             $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
         }else {
             $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
-            $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+            $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like3'] + "')");
         }
 
         // $("#saleboard-jjimbtn").on("click", function (){     // 클릭했을떄
@@ -282,6 +298,22 @@
         //         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
         //     }
         // });
+
+        $(document).on("click", ".j-p-close", function(){
+            $(".jjim-area").children().remove();
+        });
+
+        $(document).on("click", ".j-p-dayclose", function(){
+            $(".jjim-area").children().remove();
+        });
+
+        $(document).on("click", ".j-p-jjim", function(){
+            $(".jjim-area").children().remove();
+            setCookie("JJIM", true, 1);
+            location.href='/myPage/main';
+        });
+
+
         $("#saleboard-jjimbtn").on("click", function(){
 
             $.ajax({
@@ -296,29 +328,46 @@
                         $("#saleboard-jjimbtn").addClass("saleboard-jjimbtn"); // 찬 하트로
                         $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like2'] + "')");
 
-                        alert("상품을 찜 하셨습니다.");
-                        var result = confirm('찜목록으로 이동하시겠습니까?');
+                        // alert("상품을 찜 하셨습니다.");
+                        /*
+                        let result = confirm('찜목록으로 이동하시겠습니까?');
                         if (result) {
                             //yes
                             //찜 리스트 페이지 생성 후 -> 찜리스트 페이지 이동으로 변경
+                            setCookie("JJIM", true, 1);
                             location.href='/myPage/main';
-
-                        }
+                        }찜
+                        */
+                        let str = "";
+                        str= `<div class="jjim-popup">
+                                <div class="jjim-box">
+                                    <button type="button" class="j-p-close">
+                                        <span class="material-symbols-outlined">close</span>
+                                    </button>
+                                    <div class="jjimimg-box">
+                                        <img src="/img/display?fileName=img/jjim.png" alt=""/>
+                                    </div>
+                                    <p class="p-j-title">찜 상품 알림</p>
+                                    <p class="p-j-content">찜 상품 목록을 확인해보세요!</p>
+                                    <button type="button" class="j-p-jjim">보러가기</button>
+                                    <button type="button" class="j-p-dayclose">하루동안 보지 않기</button>
+                                </div>
+                            </div>`
+                        $(".jjim-area").html(str);
                         // like_cnt 업데이트
                         $("#likeCount").text(likeCnt);
+                        $("#jjimCnt").text(likeCnt);
 
-                    }
-                    else if(row == -1){
-                        alert("로그인이 필요한 서비스입니다. ");
-
-
+                    } else if(row == -1){
+                        alert("로그인이 필요한 서비스입니다.");
                     }
                     else {
-                        alert("상품을 찜 취소하셨습니다. ");
+                        // alert("상품을 찜 취소하셨습니다. ");
                         $("#saleboard-jjimbtn").removeClass("saleboard-jjimbtn"); // 빈 하트로
-                        $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like1'] + "')");
+                        $("#saleboard-jjimbtn").css("background-image", "url('/img/display?fileName=" + cssImage.getImgInfo()['Like3'] + "')");
                         // like_cnt 업데이트
                         $("#likeCount").text(likeCnt);
+                        $("#jjimCnt").text(likeCnt);
                     }
 
                 },
