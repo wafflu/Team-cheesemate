@@ -21,20 +21,6 @@ public class ImgDto {
     private String last_date;
     private String last_id;
 
-    public ImgDto(){}
-
-    //이미지 작성시 아래 사용
-    public ImgDto(String tb_name, int tb_no, String imgtype, String file_rt, String u_name, String o_name, String e_name, int w_size, int h_size, String img_full_rt){
-        this.imgtype = imgtype;
-        this.file_rt = file_rt;
-        this.u_name = u_name;
-        this.o_name = o_name;
-        this.e_name = e_name;
-        this.w_size = w_size;
-        this.h_size = h_size;
-        this.img_full_rt = img_full_rt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

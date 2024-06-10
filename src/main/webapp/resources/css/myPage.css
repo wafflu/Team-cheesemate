@@ -1092,6 +1092,7 @@ div register_img{
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    padding-bottom: 2px;
 }
 .gWyqBS {
     font-size: 16px;

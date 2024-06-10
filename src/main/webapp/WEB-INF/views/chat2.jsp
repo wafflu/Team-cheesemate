@@ -158,7 +158,7 @@
 
     //메세지전송
     function sendMessage() {
-        if($("#message").val().length === 0 || $("#message").val().includes(" ")){
+        if($("#message").val().length === 0){
             $('#message').val('');
             return;
         }
