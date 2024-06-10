@@ -45,6 +45,7 @@
 
         let imgInfo = cssImage.getImgInfo();
         $(".searchbar").css("background-image", "url('/img/display?fileName=" + imgInfo['search'] + "')");
+
         window.saleList = function(title = null, sal_s_cd = null, page = 1, pageSize = 10, option = "R") {
             $.ajax({
                 type: 'GET',       // 요청 메서드
@@ -343,7 +344,7 @@
                     if(sal_s_name === "판매완료" && data.length !== 0){
                         let str = "";
                         str += '<div id="buyerlist-modal">';
-                        str += '<button class="buylist-close-btn">X</button>';
+                        str += '<button class="buylist-close-btn"><span class="material-symbols-outlined" style="color:#333">close</span></button>';
                         str += '<form id="buyerForm" class="buyerlist">';
                         data.forEach(user => {
                             str += `<div class="buyerlist-item">`
@@ -356,7 +357,7 @@
                             str += `</div>`
                         });
 
-                        str += `<input type="button" class="choicebtn" value="Submit Selected Buyers"/>`;
+                        str += `<input type="button" class="choicebtn" value="구매자 등록"/>`;
                         str += '</form>';
                         str += '</div>';
 

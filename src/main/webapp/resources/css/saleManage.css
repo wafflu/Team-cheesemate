@@ -201,7 +201,7 @@ th, td {
     width: 300px;
     height: 400px;
     background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     z-index: 11;
     padding: 10px;
@@ -222,6 +222,7 @@ th, td {
     height: 50px;
     object-fit: cover;
     border-radius: 100%;
+    object-fit: cover;
 }
 
 .p-buyer-nick{
@@ -237,9 +238,14 @@ th, td {
     bottom: 0px;
     left: 50%;
     transform: translateX(-50%);
+    background-color: #ee8703;
+    border-radius: 5px;
+    padding: 10px;
+    border: none;
+    color:#fff;
 }
 
 .buylist-close-btn{
     position: absolute;
-    right: 14px;
+    right: 3px;
 }

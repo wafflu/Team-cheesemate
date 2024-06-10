@@ -22,7 +22,7 @@
     <select id="select_chatlist" parameterType="string" resultType="ChatRoomDto">
         select *
         from chat_room
-        where (seller_id = #{acid} or buyer_id = #{acid}) and seller_state = 'Y' and buyer_state = 'Y'
+        where (seller_id = #{acid} or buyer_id = #{acid}) and seller_state = 'Y' and buyer_state = 'Y' order by r_date desc
     </select>
 
     <select id="select_chatmsglog" parameterType="int" resultType="ChatMessageDto">
@@ -34,7 +34,7 @@
     <select id="select_salelist" parameterType="long" resultType="ChatRoomDto">
         select *
         from chat_room
-        where sale_no = #{sale_no} and seller_state = 'Y' and buyer_state = 'Y'
+        where sale_no = #{sale_no} and seller_state = 'Y' and buyer_state = 'Y' order by r_date desc
     </select>
 
 </mapper>

@@ -64,7 +64,7 @@
                 <div class="post-image">
                     <c:forEach items="${imglist}" var="img">
                         <c:if test="${img.imgtype eq 'w'}">
-                            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 148px; height: 148px;">
+                            <img src="/img/display?fileName=${img.img_full_rt}" style="width: 456px; height: 456px;">
                         </c:if>
 <%--                        <c:forEach items="${imglist}" var="img">--%>
 <%--                            <c:if test="${img.post_no eq communityBoardDto.no}"> <!-- 특정 글에 대한 이미지만 출력 -->--%>

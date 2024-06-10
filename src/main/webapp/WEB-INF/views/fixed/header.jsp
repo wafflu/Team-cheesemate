@@ -123,9 +123,9 @@
             <li class="navli">
                 <a href="/event"><span class="navtext">이벤트</span></a>
             </li>
-            <li class="navli">
-                <a href="#"><span class="navtext">출석체크</span></a>
-            </li>
+<%--            <li class="navli">--%>
+<%--                <a href="#"><span class="navtext">출석체크</span></a>--%>
+<%--            </li>--%>
             <li class="navli">
                 <a href="/community/list"><span class="navtext">커뮤니티</span></a>
             </li>
