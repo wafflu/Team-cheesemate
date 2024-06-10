@@ -597,7 +597,6 @@ public class SaleDaoImplTest {
                 saleDto.setBuyer_nick("asdf");
                 saleDto.setSal_s_cd(sal_s_cd);
                 assertTrue(saleDao.buySale(saleDto) == 1);
-
             }
         }
     }
