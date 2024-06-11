@@ -36,7 +36,6 @@ public class ChatServiceImpl implements ChatService {
         while (it.hasNext()){
             ChatRoomDto room = (ChatRoomDto) it.next();
             UserInfoDTO user = null;
-            System.out.println("acid : "+acid+"/ rb : ("+room.getBuyer_id() +" | "+room.getBuyer_nk()+")/ sr : "+room.getSeller_id()+" | "+room.getSeller_nk());
             if(acid.equals(room.getSeller_id())){
                 user = userInfoService.read(room.getBuyer_id());
             } else {

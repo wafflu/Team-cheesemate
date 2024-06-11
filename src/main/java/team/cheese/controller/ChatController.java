@@ -102,6 +102,7 @@ public class ChatController {
     @SendTo("/topic/messages/{roomid}")
     public ChatMessageDto send(ChatMessageDto cmdt, @DestinationVariable int roomid) throws Exception {
         long currentTime = System.currentTimeMillis();
+        //동기화 하면서 채팅관련 부분 확인해봐야함 멀티적으로
         synchronized (timestamps) {
             // 오래된 타임스탬프 제거
             while (!timestamps.isEmpty() && currentTime - timestamps.peek() > TIME_WINDOW_MS) {
@@ -109,7 +110,6 @@ public class ChatController {
             }
 
             if (timestamps.size() >= MAX_MESSAGES) {
-//                log.warn("Rate limit exceeded for room: " + roomid);
                 throw new Exception("Rate limit exceeded. Please try again later.");
             }
 

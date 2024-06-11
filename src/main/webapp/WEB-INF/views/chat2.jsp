@@ -162,6 +162,11 @@
             $('#message').val('');
             return;
         }
+
+        let msg = $("#message").val();
+        if(msg.trim().length === 0){
+            return;
+        }
         let nick = document.getElementById('nick').value;
         let message = document.getElementById('message').value;
         saveMessagedb(roomnum, nick, message);
@@ -246,7 +251,7 @@
 
         // 닉네임과 메시지의 닉네임 비교 후 클래스 추가
         // let srcValue = $(".r_chatprofileimg").attr("src");
-        // console.log(messageOutput.img_full_rt)
+        console.log(messageOutput.message)
         let str="";
         str += "<div class='msg-box'>"
         const usernick = "${sessionScope.userNick}";

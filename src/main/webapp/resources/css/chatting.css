@@ -564,3 +564,7 @@
     bottom: 0;
     font-size: 12px;
 }
+
+.msg_msg{
+    white-space: break-spaces;
+}
