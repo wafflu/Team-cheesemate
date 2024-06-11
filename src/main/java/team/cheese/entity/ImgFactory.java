@@ -194,17 +194,17 @@ public class ImgFactory {
     // 이미지 파일체크
     public boolean CheckImg(MultipartFile[] uploadFiles){
         /* 이미지 파일 체크 */
-        for(MultipartFile multipartFile: uploadFiles) {
+        final String[] PERMISSION_FILE_MIME_TYPE = {"image/gif", "image/jpeg", "image/png"};
 
+        for(MultipartFile multipartFile: uploadFiles) {
             File checkfile = new File(multipartFile.getOriginalFilename());
             String type = null;
-
             try {
                 type = Files.probeContentType(checkfile.toPath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            if(!type.startsWith("image")) {
+            if(!type.startsWith("image/gif") && !type.startsWith("image/jpeg") && !type.startsWith("image/png") && !type.startsWith("image/jpg")) {
                 return false;
             }
         }
