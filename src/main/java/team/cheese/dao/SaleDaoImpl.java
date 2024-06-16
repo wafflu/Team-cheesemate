@@ -146,8 +146,8 @@ public class SaleDaoImpl implements SaleDao {
     }
 
     @Override
-    public List<SaleDto> searchText(String text) throws Exception {
-        return session.selectList(namespace + "searchSale", text);
+    public List<SaleDto> searchSale(Map map) throws Exception {
+        return session.selectList(namespace + "searchSale", map);
     }
 
     @Override

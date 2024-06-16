@@ -636,4 +636,17 @@ public class SaleDaoImplTest {
             assertTrue(salDto.getSal_s_cd().equals("S"));
         }
     }
+
+    @Test
+    public void testSearchSale() throws Exception {
+        String text = "굿즈";
+        Map map = new HashMap();
+        map.put("text", text);
+        map.put("offset", 1);
+        map.put("pageSize", 10);
+        List<SaleDto> saleList = saleDao.searchSale(map);
+        System.out.println(saleList.size());
+        System.out.println(saleList);
+        assertNotNull(saleList);
+    }
 }
