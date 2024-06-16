@@ -72,9 +72,8 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public ResponseEntity<String> savemessage(ChatMessageDto cmto){
+    public void savemessage(ChatMessageDto cmto){
         chatDao.insert(cmto);
-        return new ResponseEntity<>("성공", HttpStatus.OK);
     }
 
     @Override
@@ -90,6 +89,7 @@ public class ChatServiceImpl implements ChatService {
             ChatMessageDto cmto = (ChatMessageDto) it.next();
             UserInfoDTO udto = userInfoService.read(cmto.getAcid());
             cmto.setImg_full_rt(udto.getImg_full_rt());
+            cmto.setNick(udto.getNick());
         }
 
         return msglist;
