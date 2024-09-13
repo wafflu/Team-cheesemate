@@ -12,14 +12,13 @@ const ImageUploader = (function() {
             let formData = new FormData();
 
             if (img_count + fileList.length > max_images) {
-                alert("최대 " + max_images + "개의 이미지까지만 등록할 수 있습니다.");
+                alert(img_count+"최대 " + max_images + "개의 이미지까지만 등록할 수 있습니다.");
                 e.target.value = "";
                 return;
             }
 
             for (let i = 0; i < fileList.length; i++) {
                 formData.append("uploadFile", fileList[i]);
-                img_count++;
             }
 
             $.ajax({
@@ -30,7 +29,7 @@ const ImageUploader = (function() {
                 contentType: false,
                 dataType: 'json',
                 success: function (result) {
-                    showUploadImage(result, 0, 0, img_count);
+                    showUploadImage(result, 0, 0);
                 },
                 error: function (result) {
                     alert("이미지 파일이 아닙니다.");
@@ -56,7 +55,7 @@ const ImageUploader = (function() {
                 contentType: false,
                 dataType: 'json',
                 success: function (result) {
-                    showUploadImage(result, 250, 250, 0);
+                    showUploadImage(result, 250, 250);
                 },
                 error: function (result) {
                     alert("이미지 파일이 아닙니다.");
@@ -65,7 +64,7 @@ const ImageUploader = (function() {
             e.target.value = "";
         });
 
-        function showUploadImage(uploadResultArr, width, height, imgcount) {
+        function showUploadImage(uploadResultArr, width, height) {
             if (!uploadResultArr || uploadResultArr.length == 0) {
                 return;
             }
@@ -79,6 +78,7 @@ const ImageUploader = (function() {
             for (let i = 0; i < uploadResultArr.length; i++) {
                 let obj = uploadResultArr[i];
                 imginfo.push(obj);
+                img_count++;
                 let fileCallPath = encodeURIComponent(obj.img_full_rt);
 
                 str += "<div id='result_card'>";
@@ -90,9 +90,10 @@ const ImageUploader = (function() {
                 }
                 str += "</div>";
             }
+            console.log("img_count : "+img_count)
             uploadResult.append(str);
 
-            $(".imgcnt").html(imgcount+"/"+max_images);
+            $(".imgcnt").html(img_count+"/"+max_images);
 
             let progilesavebtn = $("#profileimg");
             let str2 = "";

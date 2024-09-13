@@ -14,7 +14,7 @@ public interface ChatService {
 
     Long checkChat(SaleDto sdto);
 
-    ResponseEntity<String> savemessage(ChatMessageDto cmto);
+    void savemessage(ChatMessageDto cmto);
 
     ArrayList<ChatMessageDto> loadMessage(int no) throws Exception;
 

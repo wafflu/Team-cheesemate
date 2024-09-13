@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,8 @@ public class ChatController {
     ChatService chatService;
     @Autowired
     UserInfoService userInfoService;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
     private static final int MAX_MESSAGES = 5;
     private static final long TIME_WINDOW_MS = 5000; // 5초
     private final Queue<Long> timestamps = new LinkedList<>();
@@ -79,15 +82,15 @@ public class ChatController {
         return chatService.loadChatroom(userid);
     }
 
-    @RequestMapping(value = "/savemessage", produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public ResponseEntity<String> savemessage(@RequestBody ChatMessageDto cmto, HttpSession session) {
-        String userid = (String) session.getAttribute("userId");
-        cmto.setAcid(userid);
-        cmto.setFirst_id(userid);
-        cmto.setLast_id(userid);
-        return chatService.savemessage(cmto);
-    }
+//    @RequestMapping(value = "/savemessage", produces = "application/json; charset=UTF-8")
+//    @ResponseBody
+//    public ResponseEntity<String> savemessage(@RequestBody ChatMessageDto cmto, HttpSession session) {
+//        String userid = (String) session.getAttribute("userId");
+//        cmto.setAcid(userid);
+//        cmto.setFirst_id(userid);
+//        cmto.setLast_id(userid);
+//        return chatService.savemessage(cmto);
+//    }
 
     @RequestMapping(value = "/loadchatmsg", produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -100,8 +103,9 @@ public class ChatController {
 
     @MessageMapping("/chat/{roomid}")
     @SendTo("/topic/messages/{roomid}")
-    public ChatMessageDto send(ChatMessageDto cmdt, @DestinationVariable int roomid) throws Exception {
+    public ChatMessageDto send(ChatMessageDto cmdt, @DestinationVariable Long roomid) throws Exception {
         long currentTime = System.currentTimeMillis();
+        //동기화 하면서 채팅관련 부분 확인해봐야함 멀티적으로
         synchronized (timestamps) {
             // 오래된 타임스탬프 제거
             while (!timestamps.isEmpty() && currentTime - timestamps.peek() > TIME_WINDOW_MS) {
@@ -109,7 +113,6 @@ public class ChatController {
             }
 
             if (timestamps.size() >= MAX_MESSAGES) {
-//                log.warn("Rate limit exceeded for room: " + roomid);
                 throw new Exception("Rate limit exceeded. Please try again later.");
             }
 
@@ -117,8 +120,14 @@ public class ChatController {
             timestamps.add(currentTime);
         }
 
+        //메세지 저장
+        cmdt.setCr_no(roomid);
+        cmdt.setFirst_id(cmdt.getAcid());
+        cmdt.setLast_id(cmdt.getAcid());
+        chatService.savemessage(cmdt);
         log.info("채팅방 번호 : "+roomid);
         UserInfoDTO udto = userInfoService.read(cmdt.getAcid());
+        cmdt.setNick(udto.getNick());
         String time = new SimpleDateFormat("HH:mm").format(new Date());
         return new ChatMessageDto(cmdt.getNick(), cmdt.getMessage(), time, udto.getImg_full_rt());
     }

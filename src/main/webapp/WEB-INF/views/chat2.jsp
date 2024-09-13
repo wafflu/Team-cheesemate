@@ -162,9 +162,14 @@
             $('#message').val('');
             return;
         }
+
+        let msg = $("#message").val();
+        if(msg.trim().length === 0){
+            return;
+        }
         let nick = document.getElementById('nick').value;
         let message = document.getElementById('message').value;
-        saveMessagedb(roomnum, nick, message);
+        // saveMessagedb(roomnum, nick, message);
         stompClient.send("/app/chat/"+roomnum, {},
             JSON.stringify({'nick':nick, 'message':message, 'acid':userid}));
         $('#message').val('');
@@ -246,7 +251,7 @@
 
         // 닉네임과 메시지의 닉네임 비교 후 클래스 추가
         // let srcValue = $(".r_chatprofileimg").attr("src");
-        // console.log(messageOutput.img_full_rt)
+        // console.log(messageOutput.nick)
         let str="";
         str += "<div class='msg-box'>"
         const usernick = "${sessionScope.userNick}";
@@ -284,6 +289,27 @@
         let chatUl = document.getElementById('response');
         chatUl.scrollTop = chatUl.scrollHeight;
     }
+
+    $(document).ready(function() {
+        let $scrollBox = $('#response');
+
+        // 스크롤 이벤트 리스너 추가
+        $scrollBox.on('scroll', function() {
+            // 스크롤 Y 값을 콘솔에 출력
+            if($scrollBox.scrollTop() <= 0){
+                console.log("Scroll H:");
+            }
+            // console.log('Scroll Y:', $scrollBox.scrollTop());
+        });
+
+        // 스크롤 Y 값을 얻는 함수
+        function getScrollY() {
+            return $scrollBox.scrollTop();
+        }
+
+        // 초기 스크롤 Y 값 출력
+        console.log('Initial Scroll Y:', getScrollY());
+    });
 </script>
 
 <%@include file="fixed/footer.jsp"%>
