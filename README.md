@@ -165,7 +165,7 @@
 > 세련된 UI와 빠른 거래 흐름, 이미지 중심의 상품 나열 방식을 벤치마킹하여, 시각적인 몰입감과 접근성을 고려한 메인 페이지를 설계했습니다.
 >
 
-## 4. 트러블 슈팅
+## 6. 트러블 슈팅
 <img width="1373" alt="Image" src="https://github.com/user-attachments/assets/39ede499-78b6-4f44-adbc-10a1f2972571" />
 
 Servlet-context에서 Service를 중복 스캔
